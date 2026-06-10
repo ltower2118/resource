@@ -104,6 +104,18 @@
             flex-basis: 100%;
         }
 
+        .file-action-buttons {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .file-action-buttons.show {
+            display: flex;
+        }
+
         .upload-status {
             width: 100%;
             margin-top: 15px;
@@ -299,6 +311,14 @@
             .action-buttons .btn {
                 width: 100%;
             }
+
+            .file-action-buttons {
+                flex-direction: column;
+            }
+
+            .file-action-buttons .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -315,6 +335,14 @@
                     <span>📁 파일 선택</span>
                 </label>
                 <span id="fileName" class="file-info">파일을 선택하세요</span>
+                <div class="file-action-buttons" id="fileActionButtons">
+                    <button class="btn btn-primary" onclick="uploadFile()">
+                        📤 업로드
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearFile()">
+                        🗑️ 취소
+                    </button>
+                </div>
                 <div id="uploadStatus" class="upload-status"></div>
             </div>
             <input type="file" id="fileInput" />
@@ -380,18 +408,25 @@
             const file = e.target.files[0];
             if (!file) {
                 document.getElementById('fileName').textContent = '파일을 선택하세요';
+                document.getElementById('fileActionButtons').classList.remove('show');
                 return;
             }
 
             // 파일 정보 표시
             document.getElementById('fileName').textContent = file.name;
-
-            // 파일 업로드 시뮬레이션 (실제 서버 업로드는 백엔드 필요)
-            uploadFile(file);
+            
+            // 업로드, 취소 버튼 표시
+            document.getElementById('fileActionButtons').classList.add('show');
         });
 
         // 파일 업로드 함수
-        function uploadFile(file) {
+        function uploadFile() {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                showError('파일을 선택하세요');
+                return;
+            }
+
             const uploadStatus = document.getElementById('uploadStatus');
             uploadStatus.textContent = '⏳ 파일 업로드 중...';
             uploadStatus.className = 'upload-status uploading';
@@ -411,15 +446,10 @@
                     dataUrl: event.target.result
                 };
 
-                // 업로드 성공
+                // 업로드 성공 (2초 후)
                 setTimeout(() => {
                     uploadStatus.textContent = `✅ "${file.name}" 파일이 업로드되었습니다!`;
                     uploadStatus.className = 'upload-status success';
-                    
-                    // 2초 후 메시지 숨김
-                    setTimeout(() => {
-                        uploadStatus.style.display = 'none';
-                    }, 2000);
                 }, 500);
             };
 
@@ -448,6 +478,16 @@
                 console.error('Upload error:', error);
             });
             */
+        }
+
+        // 파일 취소 함수
+        function clearFile() {
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileName').textContent = '파일을 선택하세요';
+            document.getElementById('fileActionButtons').classList.remove('show');
+            document.getElementById('uploadStatus').textContent = '';
+            document.getElementById('uploadStatus').className = 'upload-status';
+            uploadedFileData = null;
         }
 
         // QR 코드 생성 함수
@@ -550,7 +590,9 @@
             document.getElementById('qrDisplay').classList.remove('active');
             document.getElementById('errorMessage').classList.remove('show');
             document.getElementById('successMessage').classList.remove('show');
-            document.getElementById('uploadStatus').style.display = 'none';
+            document.getElementById('uploadStatus').textContent = '';
+            document.getElementById('uploadStatus').className = 'upload-status';
+            document.getElementById('fileActionButtons').classList.remove('show');
             currentQRUrl = '';
             uploadedFileData = null;
         }
