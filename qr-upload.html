@@ -144,6 +144,33 @@
             color: #c62828;
         }
 
+        .github-token-section {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .github-token-section input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .github-token-section input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .github-token-section p {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+
         .url-section {
             display: flex;
             gap: 10px;
@@ -327,6 +354,20 @@
         <h1>📱 QR 코드 생성기</h1>
         <p class="subtitle">파일을 업로드하고 QR 코드 및 공유 링크를 생성하세요</p>
 
+        <!-- GitHub Token 설정 -->
+        <div class="section">
+            <div class="github-token-section">
+                <div class="section-title">🔐 GitHub 설정</div>
+                <input 
+                    type="password" 
+                    id="githubToken" 
+                    placeholder="GitHub Personal Access Token 입력"
+                    value=""
+                />
+                <p>💡 <a href="https://github.com/settings/tokens" target="_blank" style="color: #667eea;">토큰 생성하기</a> (repo 권한 필요)</p>
+            </div>
+        </div>
+
         <!-- 파일 업로드 섹션 -->
         <div class="section">
             <div class="section-title">1단계: 파일 업로드</div>
@@ -403,6 +444,9 @@
         let currentQRUrl = '';
         let uploadedFileData = null;
         const BASE_URL = 'https://ltower2118.github.io/resource/';
+        const OWNER = 'ltower2118';
+        const REPO = 'resource';
+        const UPLOAD_FOLDER = 'uploaded-files/';
 
         // 파일 선택 이벤트
         document.getElementById('fileInput').addEventListener('change', function(e) {
@@ -413,64 +457,98 @@
                 return;
             }
 
-            // 파일 정보 표시
             document.getElementById('fileName').textContent = file.name;
-            
-            // 업로드, 취소 버튼 표시
             document.getElementById('fileActionButtons').classList.add('show');
         });
 
-        // 파일 업로드 함수
-        function uploadFile() {
+        // GitHub API를 통한 파일 업로드
+        async function uploadFile() {
             const file = document.getElementById('fileInput').files[0];
+            const token = document.getElementById('githubToken').value.trim();
+
             if (!file) {
                 showError('파일을 선택하세요');
                 return;
             }
 
+            if (!token) {
+                showError('GitHub Personal Access Token을 입력하세요');
+                return;
+            }
+
             const uploadStatus = document.getElementById('uploadStatus');
-            uploadStatus.textContent = '⏳ 파일 업로드 중...';
+            uploadStatus.textContent = '⏳ GitHub에 파일 업로드 중...';
             uploadStatus.className = 'upload-status uploading';
 
-            // 실제 업로드 (FormData로 백엔드에 전송 가능)
-            const formData = new FormData();
-            formData.append('file', file);
+            try {
+                // 파일을 Base64로 인코딩
+                const reader = new FileReader();
+                reader.onload = async function(event) {
+                    const fileContent = event.target.result.split(',')[1];
+                    const filePath = UPLOAD_FOLDER + file.name;
+                    const timestamp = new Date().toISOString();
 
-            // 로컬 테스트: 파일 데이터를 메모리에 저장
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                uploadedFileData = {
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
-                    lastModified: file.lastModified,
-                    dataUrl: event.target.result
+                    try {
+                        // GitHub API로 파일 커밋
+                        const response = await fetch(
+                            `https://api.github.com/repos/${OWNER}/${REPO}/contents/${filePath}`,
+                            {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `token ${token}`,
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    message: `📤 파일 업로드: ${file.name} (${timestamp})`,
+                                    content: fileContent,
+                                    branch: 'main'
+                                })
+                            }
+                        );
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.message || '파일 업로드 실패');
+                        }
+
+                        const result = await response.json();
+                        uploadedFileData = {
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                            path: filePath,
+                            htmlUrl: result.content.html_url,
+                            downloadUrl: result.content.download_url
+                        };
+
+                        uploadStatus.textContent = `✅ "${file.name}" 파일이 GitHub에 업로드되었습니다!`;
+                        uploadStatus.className = 'upload-status success';
+
+                        // URL 업데이트: 원본 파일 다운로드 URL 사용
+                        const fileUrl = result.content.download_url;
+                        updateUrlWithFileName(file.name, fileUrl);
+
+                    } catch (error) {
+                        console.error('GitHub API Error:', error);
+                        uploadStatus.textContent = `❌ 오류: ${error.message}`;
+                        uploadStatus.className = 'upload-status error';
+                        showError(`업로드 실패: ${error.message}`);
+                    }
                 };
+                reader.readAsDataURL(file);
 
-                // 업로드 성공 (500ms 후)
-                setTimeout(() => {
-                    uploadStatus.textContent = `✅ "${file.name}" 파일이 업로드되었습니다!`;
-                    uploadStatus.className = 'upload-status success';
-                    
-                    // 파일명을 URL에 자동으로 붙이기
-                    updateUrlWithFileName(file.name);
-                }, 500);
-            };
-
-            reader.onerror = function() {
-                uploadStatus.textContent = '❌ 파일 읽기 실패';
+            } catch (error) {
+                uploadStatus.textContent = '❌ 파일 처리 실패';
                 uploadStatus.className = 'upload-status error';
-            };
-
-            reader.readAsDataURL(file);
+                showError(error.message);
+            }
         }
 
-        // URL에 파일명 붙이는 함수
-        function updateUrlWithFileName(fileName) {
+        // URL 업데이트 함수
+        function updateUrlWithFileName(fileName, fileUrl) {
             const urlInput = document.getElementById('urlInput');
-            // BASE_URL 뒤에 파일명 붙이기
-            urlInput.value = BASE_URL + fileName;
-            showSuccess(`URL이 자동으로 업데이트되었습니다: ${BASE_URL + fileName}`);
+            urlInput.value = fileUrl;
+            showSuccess(`URL이 자동으로 업데이트되었습니다!`);
         }
 
         // 파일 취소 함수
@@ -481,7 +559,6 @@
             document.getElementById('uploadStatus').textContent = '';
             document.getElementById('uploadStatus').className = 'upload-status';
             uploadedFileData = null;
-            // URL을 기본값으로 초기화
             document.getElementById('urlInput').value = BASE_URL;
         }
 
@@ -491,7 +568,6 @@
             const errorMessage = document.getElementById('errorMessage');
             const qrDisplay = document.getElementById('qrDisplay');
 
-            // URL 유효성 검사
             if (!urlInput.trim()) {
                 showError('URL을 입력하세요');
                 return;
@@ -504,11 +580,9 @@
                 return;
             }
 
-            // 이전 QR 코드 제거
             document.getElementById('qrcode').innerHTML = '';
             currentQRUrl = urlInput;
 
-            // 새 QR 코드 생성 (검정색)
             new QRCode(document.getElementById('qrcode'), {
                 text: urlInput,
                 width: 300,
@@ -518,14 +592,12 @@
                 correctLevel: QRCode.CorrectLevel.H
             });
 
-            // 결과 정보 업데이트
             document.getElementById('generatedUrl').textContent = urlInput;
             document.getElementById('generatedFileName').textContent = 
                 document.getElementById('fileInput').files[0]?.name || '선택되지 않음';
             document.getElementById('generatedTime').textContent = 
                 new Date().toLocaleString('ko-KR');
 
-            // QR 코드 표시
             qrDisplay.classList.add('active');
             errorMessage.classList.remove('show');
         }
@@ -562,7 +634,7 @@
             }
 
             navigator.clipboard.writeText(currentQRUrl).then(() => {
-                showSuccess('링크가 복사되었습니다: ' + currentQRUrl);
+                showSuccess('링크가 복사되었습니다!');
             }).catch(() => {
                 showError('복사 실패');
             });
