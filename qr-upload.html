@@ -371,12 +371,12 @@
             document.getElementById('qrcode').innerHTML = '';
             currentQRUrl = urlInput;
 
-            // 새 QR 코드 생성
+            // 새 QR 코드 생성 (검정색)
             new QRCode(document.getElementById('qrcode'), {
                 text: urlInput,
                 width: 300,
                 height: 300,
-                colorDark: '#667eea',
+                colorDark: '#000000',
                 colorLight: '#ffffff',
                 correctLevel: QRCode.CorrectLevel.H
             });
