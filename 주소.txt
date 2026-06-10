@@ -12,3 +12,7 @@ https://docs.google.com/gview?embedded=true&url=https://ltower2118.github.io/res
 한글안됨
 https://docs.google.com/gview?embedded=true&url=https://ltower2118.github.io/resource/01.전기전체도면.pdf
 
+
+qr파일업로드 사이트
+https://ltower2118.github.io/resource/qr-upload.html
+
