@@ -72,6 +72,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .file-input-label {
@@ -100,6 +101,35 @@
             color: #666;
             font-size: 14px;
             margin-top: 10px;
+            flex-basis: 100%;
+        }
+
+        .upload-status {
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .upload-status.uploading {
+            display: block;
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .upload-status.success {
+            display: block;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .upload-status.error {
+            display: block;
+            background: #ffebee;
+            color: #c62828;
         }
 
         .url-section {
@@ -194,6 +224,7 @@
             color: #333;
             font-size: 14px;
             margin: 8px 0;
+            word-break: break-all;
         }
 
         .qr-result-info strong {
@@ -284,6 +315,7 @@
                     <span>📁 파일 선택</span>
                 </label>
                 <span id="fileName" class="file-info">파일을 선택하세요</span>
+                <div id="uploadStatus" class="upload-status"></div>
             </div>
             <input type="file" id="fileInput" />
         </div>
@@ -341,12 +373,82 @@
 
     <script>
         let currentQRUrl = '';
+        let uploadedFileData = null;
 
         // 파일 선택 이벤트
         document.getElementById('fileInput').addEventListener('change', function(e) {
-            const fileName = e.target.files[0]?.name || '파일을 선택하세요';
-            document.getElementById('fileName').textContent = fileName;
+            const file = e.target.files[0];
+            if (!file) {
+                document.getElementById('fileName').textContent = '파일을 선택하세요';
+                return;
+            }
+
+            // 파일 정보 표시
+            document.getElementById('fileName').textContent = file.name;
+
+            // 파일 업로드 시뮬레이션 (실제 서버 업로드는 백엔드 필요)
+            uploadFile(file);
         });
+
+        // 파일 업로드 함수
+        function uploadFile(file) {
+            const uploadStatus = document.getElementById('uploadStatus');
+            uploadStatus.textContent = '⏳ 파일 업로드 중...';
+            uploadStatus.className = 'upload-status uploading';
+
+            // 실제 업로드 (FormData로 백엔드에 전송 가능)
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // 로컬 테스트: 파일 데이터를 메모리에 저장
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                uploadedFileData = {
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    lastModified: file.lastModified,
+                    dataUrl: event.target.result
+                };
+
+                // 업로드 성공
+                setTimeout(() => {
+                    uploadStatus.textContent = `✅ "${file.name}" 파일이 업로드되었습니다!`;
+                    uploadStatus.className = 'upload-status success';
+                    
+                    // 2초 후 메시지 숨김
+                    setTimeout(() => {
+                        uploadStatus.style.display = 'none';
+                    }, 2000);
+                }, 500);
+            };
+
+            reader.onerror = function() {
+                uploadStatus.textContent = '❌ 파일 읽기 실패';
+                uploadStatus.className = 'upload-status error';
+            };
+
+            reader.readAsDataURL(file);
+
+            // 주석: 실제 서버 업로드 코드
+            /*
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                uploadedFileData = data;
+                uploadStatus.textContent = `✅ "${file.name}" 파일이 업로드되었습니다!`;
+                uploadStatus.className = 'upload-status success';
+            })
+            .catch(error => {
+                uploadStatus.textContent = '❌ 파일 업로드 실패';
+                uploadStatus.className = 'upload-status error';
+                console.error('Upload error:', error);
+            });
+            */
+        }
 
         // QR 코드 생성 함수
         function generateQR() {
@@ -448,7 +550,9 @@
             document.getElementById('qrDisplay').classList.remove('active');
             document.getElementById('errorMessage').classList.remove('show');
             document.getElementById('successMessage').classList.remove('show');
+            document.getElementById('uploadStatus').style.display = 'none';
             currentQRUrl = '';
+            uploadedFileData = null;
         }
 
         // Enter 키로 QR 코드 생성
