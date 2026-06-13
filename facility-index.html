@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전기설비 시설대장</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f5f3;
+    --card: #ffffff;
+    --border: rgba(0,0,0,0.10);
+    --border2: rgba(0,0,0,0.18);
+    --text: #1a1a18;
+    --text2: #5f5e5a;
+    --text3: #888780;
+    --blue-bg: #e6f1fb;
+    --blue-text: #0c447c;
+    --blue-border: #85b7eb;
+    --green-bg: #eaf3de;
+    --green-text: #27500a;
+    --green-border: #97c459;
+    --amber-bg: #faeeda;
+    --amber-text: #633806;
+    --amber-border: #ef9f27;
+    --red-bg: #fcebeb;
+    --red-text: #791f1f;
+    --red-border: #f09595;
+    --gray-bg: #f1efe8;
+    --gray-text: #444441;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --card: #242422;
+      --border: rgba(255,255,255,0.10);
+      --border2: rgba(255,255,255,0.18);
+      --text: #e8e6de;
+      --text2: #b4b2a9;
+      --text3: #888780;
+      --blue-bg: #0c447c;
+      --blue-text: #b5d4f4;
+      --blue-border: #185fa5;
+      --green-bg: #27500a;
+      --green-text: #c0dd97;
+      --green-border: #3b6d11;
+      --amber-bg: #633806;
+      --amber-text: #fac775;
+      --amber-border: #854f0b;
+      --red-bg: #791f1f;
+      --red-text: #f7c1c1;
+      --red-border: #a32d2d;
+      --gray-bg: #444441;
+      --gray-text: #d3d1c7;
+    }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* 헤더 */
+  .header {
+    background: var(--card);
+    border-bottom: 0.5px solid var(--border);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .header-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--blue-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .header-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .header-sub { font-size: 12px; color: var(--text2); margin-top: 1px; }
+
+  /* 설정 패널 */
+  .config-panel {
+    background: var(--card);
+    border-bottom: 0.5px solid var(--border);
+    padding: 14px 16px;
+  }
+  .config-title {
+    font-size: 11px; font-weight: 600;
+    color: var(--text3); text-transform: uppercase;
+    letter-spacing: .05em; margin-bottom: 10px;
+  }
+  .config-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .config-label { font-size: 12px; color: var(--text2); min-width: 72px; flex-shrink: 0; }
+  .config-input {
+    flex: 1; padding: 7px 10px;
+    border: 0.5px solid var(--border2);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+  }
+  .config-input:focus { border-color: var(--blue-border); }
+  .btn-load {
+    width: 100%; padding: 10px;
+    background: var(--blue-bg);
+    color: var(--blue-text);
+    border: 0.5px solid var(--blue-border);
+    border-radius: 9px;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; margin-top: 4px;
+  }
+  .btn-load:active { opacity: 0.85; }
+
+  /* 필터 바 */
+  .filter-bar {
+    padding: 10px 16px;
+    display: flex; gap: 6px; overflow-x: auto;
+    background: var(--card);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    padding: 5px 12px; border-radius: 99px;
+    border: 0.5px solid var(--border2);
+    background: var(--bg); color: var(--text2);
+    font-size: 12px; cursor: pointer; white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .filter-btn.active {
+    background: var(--blue-bg);
+    color: var(--blue-text);
+    border-color: var(--blue-border);
+    font-weight: 600;
+  }
+
+  /* 통계 카드 */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 12px 16px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 10px 8px;
+  }
+  .stat-num { font-size: 20px; font-weight: 600; color: var(--text); }
+  .stat-lbl { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+  /* 이력 리스트 */
+  .list-wrap { padding: 0 16px 80px; }
+  .list-group-label {
+    font-size: 11px; font-weight: 600;
+    color: var(--text3); text-transform: uppercase;
+    letter-spacing: .05em;
+    padding: 12px 0 6px;
+  }
+
+  .history-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex; gap: 12px; align-items: flex-start;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .history-card:active { opacity: 0.85; }
+
+  .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    margin-top: 5px; flex-shrink: 0;
+  }
+  .dot-green { background: #639922; }
+  .dot-amber { background: #ba7517; }
+  .dot-red   { background: #e24b4a; }
+  .dot-gray  { background: #888780; }
+
+  .card-body { flex: 1; min-width: 0; }
+  .card-title {
+    font-size: 14px; font-weight: 600;
+    color: var(--text); margin-bottom: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .card-meta { font-size: 12px; color: var(--text2); }
+  .card-worker { font-size: 11px; color: var(--text3); margin-top: 3px; }
+
+  .badge {
+    font-size: 11px; font-weight: 600;
+    padding: 3px 8px; border-radius: 99px;
+    flex-shrink: 0; align-self: flex-start;
+    margin-top: 1px;
+  }
+  .badge-green { background: var(--green-bg); color: var(--green-text); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber-text); }
+  .badge-red   { background: var(--red-bg);   color: var(--red-text); }
+  .badge-gray  { background: var(--gray-bg);  color: var(--gray-text); }
+
+  /* 상태 메시지 */
+  .status-msg {
+    text-align: center; padding: 48px 24px;
+    color: var(--text2); font-size: 14px; line-height: 1.8;
+  }
+  .status-msg .icon { font-size: 40px; margin-bottom: 12px; }
+  .status-msg .title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+
+  /* 모달 */
+  .modal-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 100;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--card);
+    border-radius: 20px 20px 0 0;
+    padding: 20px 20px 40px;
+    width: 100%; max-width: 560px;
+    max-height: 85vh; overflow-y: auto;
+  }
+  .modal-handle {
+    width: 36px; height: 4px;
+    background: var(--border2); border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+  .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; }
+  .modal-row {
+    display: flex; justify-content: space-between;
+    padding: 9px 0; border-bottom: 0.5px solid var(--border);
+    font-size: 14px; gap: 12px;
+  }
+  .modal-row:last-child { border-bottom: none; }
+  .modal-key { color: var(--text2); flex-shrink: 0; }
+  .modal-val { color: var(--text); text-align: right; font-weight: 500; word-break: keep-all; }
+  .modal-close {
+    width: 100%; padding: 12px;
+    background: var(--bg); border: 0.5px solid var(--border2);
+    border-radius: 10px; color: var(--text);
+    font-size: 15px; font-weight: 600;
+    cursor: pointer; margin-top: 16px;
+  }
+
+  /* 검색창 */
+  .search-wrap { padding: 10px 16px; }
+  .search-input {
+    width: 100%; padding: 9px 14px;
+    border: 0.5px solid var(--border2);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--text); font-size: 14px; outline: none;
+  }
+  .search-input:focus { border-color: var(--blue-border); }
+
+  /* 입력폼 FAB */
+  .fab {
+    position: fixed; bottom: 24px; right: 20px;
+    background: var(--blue-bg); color: var(--blue-text);
+    border: 0.5px solid var(--blue-border);
+    border-radius: 99px;
+    padding: 12px 20px;
+    font-size: 14px; font-weight: 700;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  }
+  .fab:active { opacity: 0.85; }
+
+  .spinner {
+    display: inline-block; width: 18px; height: 18px;
+    border: 2px solid var(--border2);
+    border-top-color: var(--blue-text);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <div class="header-icon">⚡</div>
+  <div>
+    <div class="header-title">전기설비 시설대장</div>
+    <div class="header-sub" id="header-sub">구글 시트와 연동된 이력 조회</div>
+  </div>
+</div>
+
+<!-- 설정 패널 -->
+<div class="config-panel" id="config-panel">
+  <div class="config-title">구글 시트 연결 설정</div>
+
+  <div class="config-row">
+    <span class="config-label">시트 ID</span>
+    <input class="config-input" id="input-sheet-id"
+      placeholder="스프레드시트 URL의 /d/…/edit 사이 값"
+      value="">
+  </div>
+  <div class="config-row">
+    <span class="config-label">시트 탭명</span>
+    <input class="config-input" id="input-sheet-name"
+      placeholder="예: 응답 1  (기본값: Sheet1)"
+      value="응답 1">
+  </div>
+  <div class="config-row">
+    <span class="config-label">구글폼 URL</span>
+    <input class="config-input" id="input-form-url"
+      placeholder="작업이력 입력 구글폼 주소"
+      value="">
+  </div>
+  <button class="btn-load" onclick="loadData()">
+    ⬇ 이력 불러오기
+  </button>
+
+  <div style="margin-top:10px; font-size:11px; color:var(--text3); line-height:1.7;">
+    ① 스프레드시트 공유 → 링크 있는 모든 사용자 → 뷰어<br>
+    ② 시트 ID = URL에서 /d/ 뒤~  /edit 앞 긴 문자열<br>
+    ③ 시트 탭 이름을 정확히 입력 (구글폼 응답은 보통 "응답 1")
+  </div>
+</div>
+
+<!-- 검색 -->
+<div class="search-wrap" id="search-wrap" style="display:none">
+  <input class="search-input" id="search-input"
+    placeholder="설비 ID, 작업내용, 담당자 검색..."
+    oninput="applyFilter()">
+</div>
+
+<!-- 필터 -->
+<div class="filter-bar" id="filter-bar" style="display:none">
+  <button class="filter-btn active" onclick="setFilter('전체',this)">전체</button>
+  <button class="filter-btn" onclick="setFilter('정상',this)">✅ 정상</button>
+  <button class="filter-btn" onclick="setFilter('요주의',this)">⚠️ 요주의</button>
+  <button class="filter-btn" onclick="setFilter('고장',this)">🔴 고장</button>
+  <button class="filter-btn" onclick="setFilter('정기점검',this)">📋 정기점검</button>
+  <button class="filter-btn" onclick="setFilter('긴급',this)">⚡ 긴급</button>
+</div>
+
+<!-- 통계 -->
+<div class="stats-row" id="stats-row" style="display:none">
+  <div class="stat-card">
+    <div class="stat-num" id="stat-total">0</div>
+    <div class="stat-lbl">전체 건수</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" id="stat-normal" style="color:#639922">0</div>
+    <div class="stat-lbl">정상</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" id="stat-warn" style="color:#ba7517">0</div>
+    <div class="stat-lbl">요주의</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" id="stat-fault" style="color:#e24b4a">0</div>
+    <div class="stat-lbl">고장</div>
+  </div>
+</div>
+
+<!-- 이력 리스트 -->
+<div class="list-wrap" id="list-wrap">
+  <div class="status-msg" id="status-msg">
+    <div class="icon">📋</div>
+    <div class="title">구글 시트를 연결하세요</div>
+    위 설정에서 스프레드시트 ID를 입력하고<br>
+    <strong>이력 불러오기</strong> 버튼을 누르면<br>
+    작업이력이 여기에 표시됩니다.
+  </div>
+</div>
+
+<!-- 상세 모달 -->
+<div class="modal-backdrop" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-inner">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div id="modal-body"></div>
+    <button class="modal-close" onclick="closeModal()">닫기</button>
+  </div>
+</div>
+
+<!-- 입력 FAB -->
+<a class="fab" id="fab-form" href="#" target="_blank" style="display:none">
+  ✏️ 작업이력 입력
+</a>
+
+<script>
+let allRows = [];
+let currentFilter = '전체';
+let columnMap = {};
+
+// ── 컬럼 자동 매핑 (구글폼 응답 헤더 기준) ──────────────────────
+const KEY_PATTERNS = {
+  timestamp:  ['타임스탬프','timestamp','제출시간','날짜','일시'],
+  facilityId: ['설비id','설비 id','설비아이디','장비id','기기id','id'],
+  workType:   ['작업유형','작업 유형','점검유형','점검종류','유형','종류'],
+  workContent:['작업내용','작업 내용','점검내용','내용','작업'],
+  result:     ['결과','점검결과','처리결과','상태'],
+  worker:     ['담당자','작업자','점검자','처리자','이름'],
+  company:    ['협력업체','업체','회사','협력사'],
+  note:       ['비고','메모','특이사항','기타'],
+};
+
+function detectColumns(headers) {
+  const map = {};
+  headers.forEach((h, i) => {
+    const lower = h.toLowerCase().replace(/\s/g,'');
+    for (const [key, patterns] of Object.entries(KEY_PATTERNS)) {
+      if (!map[key] && patterns.some(p => lower.includes(p.toLowerCase().replace(/\s/g,'')))) {
+        map[key] = i;
+      }
+    }
+  });
+  return map;
+}
+
+// ── 데이터 로드 ──────────────────────────────────────────────────
+async function loadData() {
+  const sheetId   = document.getElementById('input-sheet-id').value.trim();
+  const sheetName = document.getElementById('input-sheet-name').value.trim() || 'Sheet1';
+  const formUrl   = document.getElementById('input-form-url').value.trim();
+
+  if (!sheetId) {
+    showMsg('⚠️', '시트 ID를 입력해주세요', '스프레드시트 URL에서 /d/ 뒤의 긴 문자열을 복사하세요.');
+    return;
+  }
+
+  showMsg('', '불러오는 중...', '<span class="spinner"></span>');
+
+  // FAB 설정
+  if (formUrl) {
+    const fab = document.getElementById('fab-form');
+    fab.href = formUrl;
+    fab.style.display = 'flex';
+  }
+
+  localStorage.setItem('fac_sheet_id', sheetId);
+  localStorage.setItem('fac_sheet_name', sheetName);
+  localStorage.setItem('fac_form_url', formUrl);
+
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('네트워크 오류');
+    const text = await res.text();
+
+    // 구글이 앞에 붙이는 래퍼 제거
+    const jsonStart = text.indexOf('{');
+    const jsonEnd   = text.lastIndexOf('}');
+    if (jsonStart === -1) throw new Error('데이터 파싱 실패 — 시트 ID 또는 공유 설정을 확인하세요.');
+    const data = JSON.parse(text.slice(jsonStart, jsonEnd + 1));
+
+    if (!data.table || !data.table.rows || data.table.rows.length === 0) {
+      showMsg('📭', '데이터 없음', '시트에 응답이 아직 없거나,\n탭 이름이 다릅니다.');
+      return;
+    }
+
+    // 헤더 추출
+    const headers = data.table.cols.map(c => c.label || '');
+    columnMap = detectColumns(headers);
+
+    // 행 파싱
+    allRows = data.table.rows.map((row, idx) => {
+      const get = (key) => {
+        const i = columnMap[key];
+        if (i === undefined) return '';
+        const cell = row.c?.[i];
+        if (!cell || cell.v === null) return '';
+        // 날짜 포맷
+        if (typeof cell.v === 'string' && cell.v.startsWith('Date(')) {
+          const parts = cell.v.slice(5,-1).split(',').map(Number);
+          const d = new Date(parts[0], parts[1], parts[2]);
+          return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+        return String(cell.f || cell.v);
+      };
+
+      return {
+        idx,
+        timestamp:   get('timestamp'),
+        facilityId:  get('facilityId'),
+        workType:    get('workType'),
+        workContent: get('workContent'),
+        result:      get('result'),
+        worker:      get('worker'),
+        company:     get('company'),
+        note:        get('note'),
+        rawHeaders:  headers,
+        rawValues:   row.c?.map(c => c ? String(c.f || c.v || '') : '') || [],
+      };
+    }).filter(r => r.workContent || r.facilityId);
+
+    // 최신순 정렬
+    allRows.sort((a, b) => b.idx - a.idx);
+
+    document.getElementById('header-sub').textContent =
+      `${allRows.length}건 · 최근 업데이트`;
+    document.getElementById('config-panel').style.display = 'none';
+    document.getElementById('search-wrap').style.display = 'block';
+    document.getElementById('filter-bar').style.display = 'flex';
+    document.getElementById('stats-row').style.display = 'grid';
+
+    updateStats(allRows);
+    renderList(allRows);
+
+  } catch (e) {
+    showMsg('❌', '불러오기 실패', e.message + '<br><br>• 스프레드시트 공유 설정 확인<br>• 시트 ID 재확인<br>• 탭 이름 확인');
+  }
+}
+
+// ── 통계 업데이트 ────────────────────────────────────────────────
+function updateStats(rows) {
+  document.getElementById('stat-total').textContent  = rows.length;
+  document.getElementById('stat-normal').textContent = rows.filter(r => isResult(r,'정상')).length;
+  document.getElementById('stat-warn').textContent   = rows.filter(r => isResult(r,'요주의')).length;
+  document.getElementById('stat-fault').textContent  = rows.filter(r => isResult(r,'고장')).length;
+}
+
+function isResult(r, type) {
+  const v = (r.result || r.workContent || '').toLowerCase();
+  if (type === '정상')  return v.includes('정상') || v.includes('완료');
+  if (type === '요주의') return v.includes('요주의') || v.includes('주의') || v.includes('경고');
+  if (type === '고장')  return v.includes('고장') || v.includes('트립') || v.includes('이상') || v.includes('불량');
+  return false;
+}
+
+// ── 렌더링 ────────────────────────────────────────────────────────
+function getStatus(r) {
+  const v = (r.result || r.workContent || '');
+  if (v.includes('고장') || v.includes('트립') || v.includes('이상') || v.includes('불량'))
+    return { dot: 'dot-red', badge: 'badge-red', label: '고장' };
+  if (v.includes('요주의') || v.includes('주의') || v.includes('경고'))
+    return { dot: 'dot-amber', badge: 'badge-amber', label: '요주의' };
+  if (v.includes('정상') || v.includes('완료') || v.includes('양호'))
+    return { dot: 'dot-green', badge: 'badge-green', label: '정상' };
+  return { dot: 'dot-gray', badge: 'badge-gray', label: r.workType || '기록' };
+}
+
+function renderList(rows) {
+  const wrap = document.getElementById('list-wrap');
+
+  if (rows.length === 0) {
+    wrap.innerHTML = '<div class="status-msg"><div class="icon">🔍</div><div class="title">검색 결과 없음</div>다른 키워드로 검색해보세요.</div>';
+    return;
+  }
+
+  // 날짜별 그룹핑
+  const groups = {};
+  rows.forEach(r => {
+    const date = r.timestamp ? r.timestamp.slice(0,7) : '날짜 미상'; // YYYY-MM
+    if (!groups[date]) groups[date] = [];
+    groups[date].push(r);
+  });
+
+  let html = '';
+  Object.keys(groups).sort().reverse().forEach(month => {
+    const label = month === '날짜 미상' ? month :
+      `${month.slice(0,4)}년 ${parseInt(month.slice(5))}월`;
+    html += `<div class="list-group-label">${label} · ${groups[month].length}건</div>`;
+    groups[month].forEach(r => {
+      const st = getStatus(r);
+      const title = r.workContent || r.workType || '작업이력';
+      const shortTitle = title.length > 28 ? title.slice(0,28) + '…' : title;
+      const meta = [r.timestamp, r.facilityId].filter(Boolean).join(' · ');
+      html += `
+        <div class="history-card" onclick="showDetail(${r.idx})">
+          <div class="dot ${st.dot}"></div>
+          <div class="card-body">
+            <div class="card-title">${escHtml(shortTitle)}</div>
+            <div class="card-meta">${escHtml(meta)}</div>
+            ${r.worker ? `<div class="card-worker">담당: ${escHtml(r.worker)}${r.company ? ' / ' + escHtml(r.company) : ''}</div>` : ''}
+          </div>
+          <span class="badge ${st.badge}">${escHtml(st.label)}</span>
+        </div>`;
+    });
+  });
+
+  wrap.innerHTML = html;
+}
+
+// ── 필터 & 검색 ──────────────────────────────────────────────────
+function setFilter(filter, el) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  applyFilter();
+}
+
+function applyFilter() {
+  const keyword = (document.getElementById('search-input')?.value || '').toLowerCase();
+  let rows = allRows;
+
+  if (currentFilter !== '전체') {
+    rows = rows.filter(r => {
+      const v = (r.result || r.workContent || r.workType || '');
+      if (currentFilter === '정상')   return v.includes('정상') || v.includes('완료');
+      if (currentFilter === '요주의') return v.includes('요주의') || v.includes('주의');
+      if (currentFilter === '고장')   return v.includes('고장') || v.includes('이상') || v.includes('트립');
+      if (currentFilter === '정기점검') return v.includes('정기') || (r.workType||'').includes('정기');
+      if (currentFilter === '긴급')   return v.includes('긴급') || v.includes('비상');
+      return true;
+    });
+  }
+
+  if (keyword) {
+    rows = rows.filter(r =>
+      [r.facilityId, r.workContent, r.workType, r.worker, r.company, r.note]
+        .some(v => (v||'').toLowerCase().includes(keyword))
+    );
+  }
+
+  updateStats(rows);
+  renderList(rows);
+}
+
+// ── 상세 모달 ────────────────────────────────────────────────────
+function showDetail(idx) {
+  const r = allRows.find(x => x.idx === idx);
+  if (!r) return;
+
+  const st = getStatus(r);
+  document.getElementById('modal-title').innerHTML =
+    `<span class="badge ${st.badge}" style="margin-right:8px">${st.label}</span>${escHtml(r.workContent || '작업이력')}`;
+
+  const fields = [
+    ['날짜',     r.timestamp],
+    ['설비 ID',  r.facilityId],
+    ['작업 유형', r.workType],
+    ['담당자',   r.worker],
+    ['협력업체', r.company],
+    ['비고',     r.note],
+  ];
+
+  // 매핑 안 된 컬럼도 표시
+  let extra = '';
+  r.rawHeaders?.forEach((h, i) => {
+    if (!h) return;
+    const alreadyMapped = Object.values(columnMap).includes(i);
+    if (!alreadyMapped && r.rawValues?.[i]) {
+      extra += `<div class="modal-row"><span class="modal-key">${escHtml(h)}</span><span class="modal-val">${escHtml(r.rawValues[i])}</span></div>`;
+    }
+  });
+
+  document.getElementById('modal-body').innerHTML =
+    fields.filter(([,v]) => v).map(([k,v]) =>
+      `<div class="modal-row"><span class="modal-key">${k}</span><span class="modal-val">${escHtml(v)}</span></div>`
+    ).join('') + extra;
+
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+}
+
+// ── 유틸 ──────────────────────────────────────────────────────────
+function showMsg(icon, title, body) {
+  document.getElementById('list-wrap').innerHTML =
+    `<div class="status-msg"><div class="icon">${icon}</div><div class="title">${title}</div>${body}</div>`;
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── 저장된 설정 복원 ─────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const id   = localStorage.getItem('fac_sheet_id');
+  const name = localStorage.getItem('fac_sheet_name');
+  const form = localStorage.getItem('fac_form_url');
+  if (id)   document.getElementById('input-sheet-id').value = id;
+  if (name) document.getElementById('input-sheet-name').value = name;
+  if (form) document.getElementById('input-form-url').value = form;
+
+  // URL 파라미터로 자동 로드 지원: ?sid=XXX&sn=YYY
+  const params = new URLSearchParams(location.search);
+  if (params.get('sid')) {
+    document.getElementById('input-sheet-id').value = params.get('sid');
+    if (params.get('sn')) document.getElementById('input-sheet-name').value = params.get('sn');
+    if (params.get('form')) document.getElementById('input-form-url').value = params.get('form');
+    loadData();
+  }
+});
+</script>
+</body>
+</html>
