@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <!-- 📱 스마트폰 화면 크기에 맞춰 글자 및 버튼 크기를 자동으로 조절 (가변형 핵심) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 VCB반 설비 종합 가이드</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f5f7fa; color: #333; }
+        .header { background-color: #0056b3; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 1.5rem; }
+        .header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
+        
+        .section-title { font-size: 1.2rem; font-weight: bold; margin: 25px 0 10px 0; color: #111; }
+        
+        /* 📱 스마트폰에서 누르기 편한 대형 버튼 스타일 */
+        .btn { display: flex; align-items: center; justify-content: center; background-color: white; color: #333; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: background 0.2s; }
+        .btn:active { background-color: #f0f0f0; }
+        .btn-pdf { border-left: 6px solid #dc3545; }    /* PDF는 빨간색 선 */
+        .btn-history { border-left: 6px solid #28a745; } /* 이력은 초록색 선 */
+        .btn-video { border-left: 6px solid #ff0000; }   /* 유튜브는 유튜브 레드 */
+        
+        .btn span { margin-right: 10px; font-size: 1.3rem; }
+    </style>
+</head>
+<body>
+
+    <!-- 설비 기본 정보 -->
+    <div class="header">
+        <h1>⚡ 서울숲엘타워</h1>
+        <p>작업사항을 입력해주세요</p>
+    </div>
+
+    <div class="section-title">📋 설비</div>
+
+    <!-- 1. PDF 매뉴얼 링크 -->
+    <a href="manual.pdf" class="btn btn-pdf">
+        <span>📕</span>고장이력입력</a>
+
+    <!-- 2. 고장 이력 보기 (내부 HTML 문서나 구글시트 연결 가능) -->
+    <a href="history.html" class="btn btn-history">
+        <span>🟢</span> 과거 고장 및 조치 이력 확인
+    </a>
+
+    <div class="section-title">🎥 비상조치 가이드 동영상</div>
+
+    <!-- 3. 유튜브 동영상 링크 (실제 유튜브 주소로 대체 가능) -->
+    <a href="https://www.youtube.com/watch?v=내동영상주소" target="_blank" class="btn btn-video">
+        <span>▶️</span> VCB 수동 투입 및 복귀 방법 (영상)
+    </a>
+
+</body>
+</html>
