@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <title>시설 이력 조회</title>
+  <style>
+    :root {
+      --border: #e5e7eb;
+      --muted: #6b7280;
+      --bg: #f9fafb;
+      --text: #111827;
+      --primary: #2563eb;
+      --danger: #dc2626;
+      --ok: #047857;
+      --warn: #b45309;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      margin-bottom: 14px;
+    }
+
+    .facility-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .field {
+      padding: 10px;
+      background: #f8fafc;
+      border: 1px solid #edf2f7;
+      border-radius: 12px;
+    }
+
+    .label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .value {
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .button {
+      appearance: none;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      font-size: 14px;
+    }
+
+    .primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .secondary {
+      background: #fff;
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .disabled {
+      background: #e5e7eb;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .notice {
+      border-radius: 12px;
+      padding: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      margin-bottom: 12px;
+    }
+
+    .error {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #991b1b;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .status {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #f3f4f6;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .status.ok {
+      background: #ecfdf5;
+      color: var(--ok);
+    }
+
+    .status.warn {
+      background: #fffbeb;
+      color: var(--warn);
+    }
+
+    .status.bad {
+      background: #fef2f2;
+      color: var(--danger);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f3f4f6;
+      color: #374151;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .history-cards {
+      display: none;
+    }
+
+    .history-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+
+    .history-card .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .small {
+      font-size: 13px;
+    }
+
+    a {
+      color: var(--primary);
+    }
+
+    @media (max-width: 760px) {
+      .wrap {
+        padding: 12px;
+      }
+
+      .header {
+        display: block;
+      }
+
+      .facility-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .table-wrap {
+        display: none;
+      }
+
+      .history-cards {
+        display: block;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .facility-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .actions {
+        display: none;
+      }
+
+      .card {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <h1>시설 이력 조회</h1>
+        <div class="sub">QR 코드로 시설별 점검, 수리, 조치 이력을 확인합니다.</div>
+      </div>
+      <div class="sub" id="updatedAt"></div>
+    </div>
+
+    <div id="message" class="notice">데이터를 불러오는 중입니다.</div>
+
+    <section class="card">
+      <h2>시설 정보</h2>
+      <div class="facility-grid">
+        <div class="field">
+          <span class="label">시설ID</span>
+          <span class="value" id="facilityId">-</span>
+        </div>
+        <div class="field">
+          <span class="label">시설명</span>
+          <span class="value" id="facilityName">-</span>
+        </div>
+        <div class="field">
+          <span class="label">위치</span>
+          <span class="value" id="facilityLocation">-</span>
+        </div>
+        <div class="field">
+          <span class="label">관리부서</span>
+          <span class="value" id="facilityDept">-</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a id="formButton" class="button disabled" href="#" target="_blank" rel="noopener">새 이력 입력</a>
+        <button class="button secondary" type="button" onclick="loadData()">새로고침</button>
+        <button class="button secondary" type="button" onclick="window.print()">인쇄</button>
+      </div>
+
+      <div class="sub" id="formHelp"></div>
+    </section>
+
+    <section class="card">
+      <h2>이력 목록 <span class="muted small" id="historyCount"></span></h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>작업일자</th>
+              <th>구분</th>
+              <th>상태</th>
+              <th>업체/작업자</th>
+              <th>내용</th>
+              <th>사진</th>
+              <th>비고</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody">
+            <tr>
+              <td colspan="7" class="muted">불러오는 중입니다.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="history-cards" id="historyCards"></div>
+    </section>
+  </div>
+
+  <script>
+    const INITIAL_FACILITY_ID = <?!= JSON.stringify(facilityId) ?>;
+
+    document.getElementById('facilityId').textContent = INITIAL_FACILITY_ID || '-';
+
+    window.addEventListener('load', loadData);
+
+    function loadData() {
+      clearMessage();
+
+      if (!INITIAL_FACILITY_ID) {
+        showError('URL에 시설ID가 없습니다. QR 주소가 ?id=FAC-001 형식인지 확인하세요.');
+        setEmptyHistory('시설ID가 없어 이력을 조회할 수 없습니다.');
+        return;
+      }
+
+      showInfo('데이터를 불러오는 중입니다.');
+
+      google.script.run
+        .withSuccessHandler(renderData)
+        .withFailureHandler(function(error) {
+          showError(error && error.message ? error.message : String(error));
+          setEmptyHistory('조회 중 오류가 발생했습니다.');
+        })
+        .getPageData(INITIAL_FACILITY_ID);
+    }
+
+    function renderData(data) {
+      clearMessage();
+
+      const facility = data.facility || {};
+
+      setText('facilityId', facility['시설ID'] || INITIAL_FACILITY_ID || '-');
+      setText('facilityName', facility['시설명'] || '-');
+      setText('facilityLocation', facility['위치'] || '-');
+      setText('facilityDept', facility['관리부서'] || '-');
+
+      setText('updatedAt', data.updatedAt ? '조회: ' + data.updatedAt : '');
+      setText('historyCount', '(' + (data.count || 0) + '건)');
+
+      setupFormButton(data.formUrl);
+
+      const histories = data.histories || [];
+
+      if (histories.length === 0) {
+        setEmptyHistory('등록된 이력이 없습니다.');
+        return;
+      }
+
+      renderHistoryTable(histories);
+      renderHistoryCards(histories);
+    }
+
+    function setupFormButton(formUrl) {
+      const button = document.getElementById('formButton');
+      const help = document.getElementById('formHelp');
+
+      if (!formUrl) {
+        button.className = 'button disabled';
+        button.href = '#';
+        button.onclick = function(event) {
+          event.preventDefault();
+          alert('Code.gs 상단의 FORM_PREFILLED_URL_TEMPLATE 또는 FORM_BASE_URL 설정이 필요합니다.');
+        };
+        help.textContent = '입력폼 연결 전입니다. Code.gs에서 구글폼 URL을 설정하면 버튼이 활성화됩니다.';
+        return;
+      }
+
+      button.className = 'button primary';
+      button.href = formUrl;
+      button.onclick = null;
+      help.textContent = '새 이력을 입력하면 구글시트 응답 시트에 자동 저장됩니다.';
+    }
+
+    function renderHistoryTable(histories) {
+      const body = document.getElementById('historyBody');
+
+      body.innerHTML = histories.map(function(item) {
+        return [
+          '<tr>',
+          '<td>' + escapeHtml(item.workDate || item.timestamp || '') + '</td>',
+          '<td>' + escapeHtml(item.workType || '') + '</td>',
+          '<td>' + renderStatus(item.status || '') + '</td>',
+          '<td>' + escapeHtml(joinNonEmpty([item.company, item.worker], ' / ')) + '</td>',
+          '<td>' + nl2br(escapeHtml(item.contents || '')) + '</td>',
+          '<td>' + renderLink(item.photoUrl || '') + '</td>',
+          '<td>' + nl2br(escapeHtml(item.notes || '')) + '</td>',
+          '</tr>'
+        ].join('');
+      }).join('');
+    }
+
+    function renderHistoryCards(histories) {
+      const area = document.getElementById('historyCards');
+
+      area.innerHTML = histories.map(function(item) {
+        return [
+          '<div class="history-card">',
+          '  <div class="top">',
+          '    <strong>' + escapeHtml(item.workDate || item.timestamp || '일자 없음') + '</strong>',
+          '    ' + renderStatus(item.status || ''),
+          '  </div>',
+          '  <div class="small muted">구분: ' + escapeHtml(item.workType || '-') + '</div>',
+          '  <div class="small muted">업체/작업자: ' + escapeHtml(joinNonEmpty([item.company, item.worker], ' / ') || '-') + '</div>',
+          '  <div style="margin-top:8px;">' + nl2br(escapeHtml(item.contents || '')) + '</div>',
+          item.photoUrl ? '<div style="margin-top:8px;">사진: ' + renderLink(item.photoUrl) + '</div>' : '',
+          item.notes ? '<div class="small muted" style="margin-top:8px;">비고: ' + nl2br(escapeHtml(item.notes)) + '</div>' : '',
+          '</div>'
+        ].join('');
+      }).join('');
+    }
+
+    function setEmptyHistory(message) {
+      document.getElementById('historyBody').innerHTML =
+        '<tr><td colspan="7" class="muted">' + escapeHtml(message) + '</td></tr>';
+
+      document.getElementById('historyCards').innerHTML =
+        '<div class="history-card muted">' + escapeHtml(message) + '</div>';
+
+      setText('historyCount', '(0건)');
+    }
+
+    function renderStatus(status) {
+      const text = String(status || '').trim();
+
+      if (!text) {
+        return '';
+      }
+
+      let className = 'status';
+
+      if (text.indexOf('완료') !== -1 || text.indexOf('정상') !== -1 || text.indexOf('양호') !== -1) {
+        className += ' ok';
+      } else if (text.indexOf('주의') !== -1 || text.indexOf('확인') !== -1) {
+        className += ' warn';
+      } else if (text.indexOf('고장') !== -1 || text.indexOf('불량') !== -1 || text.indexOf('긴급') !== -1) {
+        className += ' bad';
+      }
+
+      return '<span class="' + className + '">' + escapeHtml(text) + '</span>';
+    }
+
+    function renderLink(value) {
+      const text = String(value || '').trim();
+
+      if (!text) {
+        return '';
+      }
+
+      const url = findFirstUrl(text);
+
+      if (!url) {
+        return escapeHtml(text);
+      }
+
+      return '<a href="' + escapeAttr(url) + '" target="_blank" rel="noopener">보기</a>';
+    }
+
+    function findFirstUrl(text) {
+      const match = String(text).match(/https?:\/\/[^\s,]+/);
+
+      return match ? match[0] : '';
+    }
+
+    function joinNonEmpty(values, separator) {
+      return values
+        .map(function(value) {
+          return String(value || '').trim();
+        })
+        .filter(Boolean)
+        .join(separator);
+    }
+
+    function nl2br(value) {
+      return String(value).replace(/\n/g, '<br>');
+    }
+
+    function setText(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
+    function showInfo(message) {
+      const box = document.getElementById('message');
+      box.className = 'notice';
+      box.textContent = message;
+      box.style.display = 'block';
+    }
+
+    function showError(message) {
+      const box = document.getElementById('message');
+      box.className = 'notice error';
+      box.textContent = message;
+      box.style.display = 'block';
+    }
+
+    function clearMessage() {
+      const box = document.getElementById('message');
+      box.style.display = 'none';
+      box.textContent = '';
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+  </script>
+</body>
+</html>
