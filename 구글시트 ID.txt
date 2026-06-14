@@ -1,0 +1,71 @@
+#구글시트 ID
+https://docs.google.com/spreadsheets/d/1aBCDeDXXXXXXXX/edit
+ID는 1aBCDeDXXXXXXXX
+
+https://docs.google.com/spreadsheets/d/1no2V-3SwX7nn4KiaQC1fn0KCiekXxhEjj6tO38VCfzM/edit?usp=sharing
+#Apps Script
+
+https://script.google.com/macros/s/AKfycbyEjObWqqwxDkwmsi6rI_0ay7yujhmDpsTA8KxjQgowx8gjSlbHtcGetEWyAXKCzKZ3/exec
+
+<시설QR생성기>
+https://ltower2118.github.io/resource/
+
+<시설이력조회일반 안나옴>
+https://script.google.com/macros/s/AKfycbyQQzLan_Whx8lRJbtl8bqyaFyHpJI3tJc6QZfFqlalvmgttU29QdJaBtXhhUS2weBd/exec
+
+<시설이력조회시 표출되는 주소      exec?id=FAC-001>
+https://script.google.com/macros/s/AKfycbyQQzLan_Whx8lRJbtl8bqyaFyHpJI3tJc6QZfFqlalvmgttU29QdJaBtXhhUS2weBd/exec?id=FAC-001
+
+
+
+새 이력 입력->https://docs.google.com/forms/d/e/1FAIpQLScecCTzxSUz-IzUq5Y-RC0p1R1qKwkdF1tdN5wgu_HTlcr3Rg/viewform
+->새로 입력할수 있다
+
+구글폼에서 파일
+이력관리(응답)
+https://docs.google.com/spreadsheets/d/1a6gDqaO9Vk5d0L0Xej78deRnhvQ7yha705hpYbxJehk/edit?gid=749754778#gid=749754778
+이쪽으로 대이터가 들어감
+
+
+
+
+Spreadsheet_ID=구글시트_ID
+Response_sheet=설문지 응답시트1
+
+
+
+
+
+
+
+
+#응답부분
+응답열부분
+
+타임스탬프
+시설ID
+시설명
+작업일자
+작업구분
+작업생타
+업체
+작업내용
+사진URL
+비고
+
+#구글폼 이름
+시설이력 입력폼
+
+#구글시트 파일명
+시설목록(응답)
+그대로사용
+
+응답시트 탭 이름
+설문지 응답 시트1
+
+Apps Script
+응답열
+
+
+시설이력조회페이지
+https://script.google.com/macros/s/AKfycbyMrbozLdejEtHs3jtwU9FMdx425jOXqEQmPciX_mXeYnbs3EDw1WTdopw-3NJIjJEs/exec?id=FAC-001
