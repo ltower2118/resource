@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>시설 QR 코드 생성기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+  <style>
+    :root {
+      --border: #d1d5db;
+      --text: #111827;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --bg: #f9fafb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+    }
+
+    .sub {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 800;
+      margin: 10px 0 6px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font: inherit;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .label-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .facility-id {
+      font-weight: 900;
+      font-size: 18px;
+      margin-bottom: 4px;
+      word-break: break-all;
+    }
+
+    .facility-name {
+      color: var(--muted);
+      font-size: 14px;
+      min-height: 20px;
+      margin-bottom: 10px;
+      word-break: keep-all;
+    }
+
+    .url {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      word-break: break-all;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 10px;
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        padding: 12px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .wrap {
+        width: 100%;
+        padding: 0;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .label-card {
+        border: 1px solid #000;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .url {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="no-print">
+      <h1>시설 QR 코드 생성기</h1>
+      <p class="sub">시설ID별 QR을 생성해서 인쇄합니다. QR을 스캔하면 Apps Script 시설 이력 조회 페이지가 열립니다.</p>
+
+      <div class="panel">
+        <label for="webAppUrl">Apps Script 웹앱 URL</label>
+        <input id="webAppUrl" type="url" placeholder="https://script.google.com/macros/s/AKfycbyMrbozLdejEtHs3jtwU9FMdx425jOXqEQmPciX_mXeYnbs3EDw1WTdopw-3NJIjJEs/exec">
+        <div class="hint">Apps Script 배포 후 받은 웹앱 URL을 넣으세요. 코드는 자동으로 ?id=시설ID 를 붙입니다.</div>
+
+        <label for="facilityText">시설 목록</label>
+        <textarea id="facilityText">FAC-001	1층 소화전	본관 1층
+FAC-002	2층 소화전	본관 2층
+FAC-003	옥상 배수펌프	본관 옥상</textarea>
+        <div class="hint">한 줄에 하나씩 입력합니다. 형식: 시설ID 탭 시설명 탭 위치. 구글시트에서 그대로 복사해서 붙여넣어도 됩니다.</div>
+
+        <div class="actions">
+          <button class="primary" type="button" onclick="generate()">QR 생성</button>
+          <button class="secondary" type="button" onclick="window.print()">인쇄</button>
+          <button class="secondary" type="button" onclick="clearSavedUrl()">저장된 URL 삭제</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="count" id="count"></p>
+    <div id="result" class="grid"></div>
+  </div>
+
+  <script>
+    // GitHub에 올리기 전에 여기에 웹앱 URL을 미리 넣어도 됩니다.
+    const WEB_APP_URL_DEFAULT = '여기에_Apps_Script_웹앱_URL을_넣으세요';
+
+    const webAppInput = document.getElementById('webAppUrl');
+    const savedUrl = localStorage.getItem('facility_web_app_url') || '';
+
+    webAppInput.value = savedUrl || (WEB_APP_URL_DEFAULT.indexOf('여기에_') === 0 ? '' : WEB_APP_URL_DEFAULT);
+
+    window.addEventListener('load', generate);
+
+    function generate() {
+      const webAppUrl = webAppInput.value.trim();
+      const result = document.getElementById('result');
+      const count = document.getElementById('count');
+
+      result.innerHTML = '';
+      count.textContent = '';
+
+      if (!webAppUrl) {
+        count.textContent = 'Apps Script 웹앱 URL을 입력하세요.';
+        return;
+      }
+
+      localStorage.setItem('facility_web_app_url', webAppUrl);
+
+      const facilities = parseFacilities(document.getElementById('facilityText').value);
+
+      if (facilities.length === 0) {
+        count.textContent = '시설 목록을 입력하세요.';
+        return;
+      }
+
+      count.textContent = '생성된 QR: ' + facilities.length + '개';
+
+      facilities.forEach(function(item) {
+        const url = buildUrl(webAppUrl, item.id);
+
+        const box = document.createElement('div');
+        box.className = 'label-card';
+
+        const idEl = document.createElement('div');
+        idEl.className = 'facility-id';
+        idEl.textContent = item.id;
+
+        const nameEl = document.createElement('div');
+        nameEl.className = 'facility-name';
+        nameEl.textContent = joinNonEmpty([item.name, item.location], ' / ');
+
+        const canvas = document.createElement('canvas');
+
+        const urlEl = document.createElement('div');
+        urlEl.className = 'url';
+        urlEl.textContent = url;
+
+        box.appendChild(idEl);
+        box.appendChild(nameEl);
+        box.appendChild(canvas);
+        box.appendChild(urlEl);
+        result.appendChild(box);
+
+        QRCode.toCanvas(canvas, url, {
+          width: 180,
+          margin: 2,
+          errorCorrectionLevel: 'M'
+        }, function(error) {
+          if (error) {
+            console.error(error);
+            urlEl.textContent = 'QR 생성 오류: ' + error.message;
+          }
+        });
+      });
+    }
+
+    function buildUrl(baseUrl, facilityId) {
+      const separator = baseUrl.indexOf('?') === -1 ? '?' : '&';
+      return baseUrl + separator + 'id=' + encodeURIComponent(facilityId);
+    }
+
+    function parseFacilities(text) {
+      return String(text || '')
+        .split(/\r?\n/)
+        .map(function(line) {
+          return line.trim();
+        })
+        .filter(Boolean)
+        .map(function(line) {
+          const parts = line.split(/\t|,/).map(function(part) {
+            return part.trim();
+          });
+
+          return {
+            id: parts[0] || '',
+            name: parts[1] || '',
+            location: parts[2] || ''
+          };
+        })
+        .filter(function(item) {
+          const normalized = item.id.replace(/\s+/g, '').toLowerCase();
+          return item.id && normalized !== '시설id' && normalized !== 'facilityid';
+        });
+    }
+
+    function joinNonEmpty(values, separator) {
+      return values
+        .map(function(value) {
+          return String(value || '').trim();
+        })
+        .filter(Boolean)
+        .join(separator);
+    }
+
+    function clearSavedUrl() {
+      localStorage.removeItem('facility_web_app_url');
+      webAppInput.value = WEB_APP_URL_DEFAULT.indexOf('여기에_') === 0 ? '' : WEB_APP_URL_DEFAULT;
+      generate();
+    }
+  </script>
+</body>
+</html>
