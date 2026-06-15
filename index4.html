@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚡ 서울숲엘타워 정전대응 매뉴얼</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f8fafc; padding: 12px; margin: 0; color: #1e293b; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .header-title { background: #0f172a; color: #f8fafc; padding: 14px; border-radius: 10px; text-align: center; font-size: 1.1rem; font-weight: bold; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .tab-menu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 15px; }
+        .tab-btn { background: #e2e8f0; border: 1px solid #cbd5e1; padding: 12px 2px; text-align: center; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: #475569; transition: all 0.15s; }
+        .tab-input { display: none; }
+        #tab1:checked ~ .tab-menu label[for="tab1"],
+        #tab2:checked ~ .tab-menu label[for="tab2"],
+        #tab3:checked ~ .tab-menu label[for="tab3"],
+        #tab4:checked ~ .tab-menu label[for="tab4"] { background: #1e3a8a; color: white; border-color: #1e3a8a; box-shadow: 0 3px 6px rgba(30,58,138,0.2); }
+        .content-card { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: none; margin-bottom: 15px; }
+        #tab1:checked ~ #content1, #tab2:checked ~ #content2, #tab3:checked ~ #content3, #tab4:checked ~ #content4 { display: block; }
+        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+        .step-box { background: #f1f5f9; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; font-size: 0.88rem; line-height: 1.45; color: #334155; border-left: 4px solid #64748b; }
+        .step-box.alert { border-left-color: #ef4444; background: #fef2f2; }
+        .step-box.success { border-left-color: #10b981; background: #f0fdf4; }
+        .step-num { font-weight: bold; color: #0f172a; margin-bottom: 2px; display: block; }
+        .contact-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 5px; }
+        .contact-table th, .contact-table td { border: 1px solid #e2e8f0; padding: 10px 8px; text-align: left; }
+        .contact-table th { background: #f8fafc; color: #475569; font-weight: bold; }
+        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-title">🏢 서울숲엘타워 정전대응 시스템</div>
+    <input type="radio" id="tab1" name="menu" class="tab-input" checked>
+    <input type="radio" id="tab2" name="menu" class="tab-input">
+    <input type="radio" id="tab3" name="menu" class="tab-input">
+    <input type="radio" id="tab4" name="menu" class="tab-input">
+    <div class="tab-menu">
+        <label for="tab1" class="tab-btn">🚨 사고정전</label>
+        <label for="tab2" class="tab-btn">📅 계획정전</label>
+        <label for="tab3" class="tab-btn">🛠️ 안전수칙</label>
+        <label for="tab4" class="tab-btn">📞 비상연락</label>
+    </div>
+    <div class="content-card" id="content1">
+        <h3>🚨 돌발 사고정전 시 복전 순서</h3>
+        <div class="step-box alert"><span class="step-num">1. 정전 상황 인지</span>내부 전체 소등 후 비상등 즉시 가동 상태 확인. 관리동 내 비상전원 절체상태 점검.</div>
+        <div class="step-box"><span class="step-num">2. 비상발전기 및 ATS 확인</span>전기실 내 발전기 자동 기동 여부 확인. 저압반 ATS가 한전에서 발전측으로 자동 절체되었는지 표시등 확인.<br><strong>⚠️ 미기동 시 즉시 수동조작 절체 감행!</strong></div>
+        <div class="step-box"><span class="step-num">3. 특고압반 부저 정지 및 확인</span>부저 정지 후 LBS 판넬 녹색등 전환 및 MOF 계량기 소등/점등 상태 체크. 한전(123)에 원인 문의 후 보고.</div>
+        <div class="step-box success"><span class="step-num">4. 한전 복전 시 (UVR 리셋 및 VCB 투입)</span>DC등 소등 및 LBS 적색등 복귀 확인 후, <strong>특고압반 VCB의 UVR 빨간 램프 리셋 후 CLOSE(투입)</strong> 실시.</div>
+        <div class="step-box success"><span class="step-num">5. 시스템 원복 및 설비 이상유무 점검</span>발전기 정지 및 ATS/ACB 자동 및 한전측 복귀 검증. 승강기, 방재실 수신반, 방송, 주차, 기계실 펌프류 정상가동 전수 조사.</div>
+    </div>
+    <div class="content-card" id="content2">
+        <h3>📅 정기검사/계획정전 작업 순서</h3>
+        <div class="step-box"><span class="step-num">1. 사전 공지 및 방재실 차단</span>통신사/보안업체 사전 통보. 검사 10분 전 작업자 공유. 승강기 1층 정지 확인 및 방재실 제어 PC/수신반 전원 사전 오프(OFF).</div>
+        <div class="step-box alert"><span class="step-num">2. 부하 차단 (순서 엄수!)</span>세대부하 MCCB 차단 ➡️ 공용부하 MCCB 차단 ➡️ 세대 ACB 차단 ➡️ 공용 ACB 차단.</div>
+        <div class="step-box"><span class="step-num">3. 고압반 개방 및 비상전원 공급</span>발전기 가동 및 ATS 절체 확인 후 비상동력 전원공급 확인. 이후 <strong>VCB 개방 ➡️ LBS 개방 ➡️ TR 보호용 PF 개방 ➡️ 한전 책임분계점 개방</strong> 수행.</div>
+        <div class="step-box success"><span class="step-num">4. 복전 실시 (차단 순서의 역순!)</span>종합 검사 종료 후, <strong>한전 책임분계점 투입 ➡️ PF 투입 ➡️ LBS 투입 ➡️ VCB 투입 ➡️ ACB 투입 ➡️ MCCB 순차 투입</strong> (서지소멸시간 확보).</div>
+    </div>
+    <div class="content-card" id="content3">
+        <h3>🛠️ 수변전실 안전작업 수칙</h3>
+        <div class="step-box alert"><span class="step-num">🚨 PTT / CTT 조작 절대 금지</span>PTT 및 CTT는 한국전기안전공사 시험자 외 절대 사용금지입니다.</div>
+        <div class="step-box"><span class="step-num">🔒 임의 조작 금지 및 정전 원칙</span>고압반 계기 수리 시 전체 계획 정전 후 작업이 원칙이며, 임의 조작 시 무한 책임이 따릅니다.</div>
+        <div class="step-box"><span class="step-num">🔌 정전 후 방전 절차 (30분 법칙)</span>차단기 개방 후 <strong>30분 이상 자연방전</strong> 시행, 접지단자반 이용해 접지방전 후 안전구 착용 필수. (부스바 직방전 절대 금지)</div>
+    </div>
+    <div class="content-card" id="content4">
+        <h3>📞 내부 비상 연락망</h3>
+        <table class="contact-table">
+            <tr><th>직책/이름</th><th>연락처</th></tr>
+            <tr><td>최경식 소장 (책임자)</td><td>010-2271-5101 <a href="tel:01022715101" class="contact-call">전화</a></td></tr>
+            <tr style="background:#fef2f2; font-weight:bold;"><td>하유신 과장</td><td>010-6318-7516 <a href="tel:01063187516" class="contact-call">전화</a></td></tr>
+            <tr><td>박기환 과장</td><td>010-2323-0197 <a href="tel:01023230197" class="contact-call">전화</a></td></tr>
+            <tr><td>L타워 로비 경비</td><td>02-2118-1377 <a href="tel:0221181377" class="contact-call">전화</a></td></tr>
+        </table>
+        <h3 style="margin-top:15px;">🏢 외주 유관기관 및 협력사</h3>
+        <table class="contact-table">
+            <tr><th>기관/업체명</th><th>연락처</th></tr>
+            <tr><td>한전 광진성동지사 (긴급)</td><td>02-2290-5261 <a href="tel:0222905261" class="contact-call">전화</a></td></tr>
+            <tr><td>한전 고장장애 신고</td><td>국번없이 123 <a href="tel:123" class="contact-call">전화</a></td></tr>
+            <tr><td>전
