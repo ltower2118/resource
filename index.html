@@ -1,296 +1,55 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>시설 QR 코드 생성기</title>
-  <style>
-    :root { --border:#d1d5db; --text:#111827; --muted:#6b7280; --blue:#2563eb; --bg:#f9fafb; }
-    * { box-sizing: border-box; }
-    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 24px; color: var(--text); background: var(--bg); }
-    h1 { margin: 0 0 12px; font-size: 28px; }
-    .desc { margin: 0 0 18px; color: var(--muted); }
-    .panel { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 16px; max-width: 1060px; }
-    label { display: block; font-weight: 700; margin: 12px 0 8px; }
-    input, textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-size: 16px; background:#fff; }
-    textarea { min-height: 160px; line-height: 1.55; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .help { margin-top: 6px; color: var(--muted); font-size: 13px; }
-    .buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    button { border: 1px solid var(--border); border-radius: 9px; padding: 11px 16px; font-size: 15px; font-weight: 700; cursor: pointer; background: #fff; }
-    button.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
-    #status { margin: 18px 0 12px; color: var(--muted); }
-    #result { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; max-width: 1120px; }
-    .label-card { background:#fff; border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; page-break-inside: avoid; overflow: hidden; }
-    .facility-id { font-size: 19px; font-weight: 800; margin-bottom: 6px; }
-    .facility-sub { min-height: 22px; color: var(--muted); margin-bottom: 10px; }
-    .qrwrap svg { width: 190px; max-width: 100%; height: auto; display: inline-block; }
-    .url { margin-top: 10px; word-break: break-all; color: var(--muted); font-size: 11px; line-height: 1.35; }
-    .error { color:#b91c1c; text-align:left; font-size:13px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:10px; }
-    .version { margin-top: 18px; color: var(--muted); font-size: 12px; }
-    @media print {
-      body { margin: 8mm; background:#fff; }
-      .panel, h1, .desc, #status, .version { display:none !important; }
-      #result { display:grid; grid-template-columns: repeat(3, 1fr); gap: 8mm; }
-      .label-card { border: 1px solid #000; border-radius: 6px; padding: 8mm 4mm; }
-      .url { display:none; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <!-- 📱 스마트폰 화면 크기에 맞춰 글자 및 버튼 크기를 자동으로 조절 (가변형 핵심) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 VCB반 설비 종합 가이드</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f5f7fa; color: #333; }
+        .header { background-color: #0056b3; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 1.5rem; }
+        .header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
+        
+        .section-title { font-size: 1.2rem; font-weight: bold; margin: 25px 0 10px 0; color: #111; }
+        
+        /* 📱 스마트폰에서 누르기 편한 대형 버튼 스타일 */
+        .btn { display: flex; align-items: center; justify-content: center; background-color: white; color: #333; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: background 0.2s; }
+        .btn:active { background-color: #f0f0f0; }
+        .btn-pdf { border-left: 6px solid #dc3545; }    /* PDF는 빨간색 선 */
+        .btn-history { border-left: 6px solid #28a745; } /* 이력은 초록색 선 */
+        .btn-video { border-left: 6px solid #ff0000; }   /* 유튜브는 유튜브 레드 */
+        
+        .btn span { margin-right: 10px; font-size: 1.3rem; }
+    </style>
 </head>
 <body>
-  <h1>시설 QR 코드 생성기</h1>
-  <p class="desc">외부 QR 라이브러리 없이 이 파일 안에서 QR을 직접 생성합니다.</p>
 
-  <div class="panel">
-    <label for="webAppUrl">Apps Script 웹앱 URL</label>
-    <input id="webAppUrl" placeholder="https://script.google.com/macros/s/배포ID/exec
-">
-    <div class="help">Apps Script 배포 후 받은 웹앱 URL을 넣으세요. QR에는 자동으로 <b>?id=시설ID</b>가 붙습니다.</div>
-
-    <label for="facilityList">시설 목록</label>
-    <textarea id="facilityList">FAC-001	1층 소화전	본관 1층
-FAC-002	2층 소화전	본관 2층
-FAC-003	옥상 배수펌프	본관 옥상</textarea>
-    <div class="help">한 줄에 하나씩 입력합니다. 형식: <b>시설ID 탭 시설명 탭 위치</b>. 구글시트에서 그대로 복사해서 붙여넣어도 됩니다.</div>
-
-    <div class="buttons">
-      <button class="primary" onclick="generateQRCards()">QR 생성</button>
-      <button onclick="window.print()">인쇄</button>
-      <button onclick="saveSettings()">URL 저장</button>
-      <button onclick="clearSavedSettings()">저장된 URL 삭제</button>
+    <!-- 설비 기본 정보 -->
+    <div class="header">
+        <h1>서울숲엘타워 시설물 </h1>
+        <p>QR코드를 링크 메뉴얼볼수 있음</p>
     </div>
-  </div>
 
-  <div id="status"></div>
-  <div id="result"></div>
-  <div class="version">버전: final-offline-svg-v1 / 이 문구가 안 보이면 새 파일이 적용되지 않은 것입니다.</div>
+    <div class="section-title">📋 설비 자료실</div>
 
-<script>
-const QR10L = (function(){
-  const VERSION = 10;
-  const SIZE = VERSION * 4 + 17;
-  const DATA_CODEWORDS = 274;
-  const EC_CODEWORDS = 18;
-  const BLOCKS = [68, 68, 69, 69];
-  const ALIGN = [6, 28, 50];
-  const PAD0 = 0xEC, PAD1 = 0x11;
-  const EXP = new Array(512), LOG = new Array(256);
-  (function initGf(){
-    let x = 1;
-    for (let i = 0; i < 255; i++) {
-      EXP[i] = x;
-      LOG[x] = i;
-      x <<= 1;
-      if (x & 0x100) x ^= 0x11d;
-    }
-    for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
-  })();
-  function gfMul(a, b) { if (a === 0 || b === 0) return 0; return EXP[LOG[a] + LOG[b]]; }
-  function polyMultiply(a, b) {
-    const out = new Array(a.length + b.length - 1).fill(0);
-    for (let i = 0; i < a.length; i++) for (let j = 0; j < b.length; j++) out[i+j] ^= gfMul(a[i], b[j]);
-    return out;
-  }
-  function generatorPoly(ecCount) { let g = [1]; for (let i = 0; i < ecCount; i++) g = polyMultiply(g, [1, EXP[i]]); return g; }
-  const RS_GEN = generatorPoly(EC_CODEWORDS);
-  function reedSolomon(data) {
-    const res = new Array(EC_CODEWORDS).fill(0);
-    for (const byte of data) {
-      const factor = byte ^ res[0];
-      for (let i = 0; i < EC_CODEWORDS - 1; i++) res[i] = res[i + 1];
-      res[EC_CODEWORDS - 1] = 0;
-      if (factor !== 0) for (let i = 0; i < EC_CODEWORDS; i++) res[i] ^= gfMul(RS_GEN[i + 1], factor);
-    }
-    return res;
-  }
-  function BitBuffer(){ this.bytes = []; this.bitLength = 0; }
-  BitBuffer.prototype.put = function(num, length){ for (let i = length - 1; i >= 0; i--) this.putBit(((num >>> i) & 1) === 1); };
-  BitBuffer.prototype.putBit = function(bit){
-    const index = Math.floor(this.bitLength / 8);
-    if (this.bytes.length <= index) this.bytes.push(0);
-    if (bit) this.bytes[index] |= 0x80 >>> (this.bitLength % 8);
-    this.bitLength++;
-  };
-  function makeDataCodewords(text) {
-    const data = Array.from(new TextEncoder().encode(text));
-    if (data.length > 271) throw new Error('QR에 넣을 URL이 너무 깁니다. 현재 ' + data.length + '바이트, 최대 약 271바이트입니다.');
-    const buf = new BitBuffer();
-    buf.put(0x4, 4);
-    buf.put(data.length, 16);
-    data.forEach(b => buf.put(b, 8));
-    const totalBits = DATA_CODEWORDS * 8;
-    if (buf.bitLength + 4 <= totalBits) buf.put(0, 4);
-    while (buf.bitLength % 8 !== 0) buf.putBit(false);
-    let pad = true;
-    while (buf.bytes.length < DATA_CODEWORDS) { buf.bytes.push(pad ? PAD0 : PAD1); pad = !pad; }
-    return buf.bytes;
-  }
-  function createCodewords(text) {
-    const dc = makeDataCodewords(text);
-    const dataBlocks = [];
-    let offset = 0;
-    for (const len of BLOCKS) { dataBlocks.push(dc.slice(offset, offset + len)); offset += len; }
-    const ecBlocks = dataBlocks.map(reedSolomon);
-    const out = [];
-    const maxDc = Math.max.apply(null, BLOCKS);
-    for (let i = 0; i < maxDc; i++) for (let b = 0; b < dataBlocks.length; b++) if (i < dataBlocks[b].length) out.push(dataBlocks[b][i]);
-    for (let i = 0; i < EC_CODEWORDS; i++) for (let b = 0; b < ecBlocks.length; b++) out.push(ecBlocks[b][i]);
-    return out;
-  }
-  function blankMatrix(){ return Array.from({length: SIZE}, () => Array(SIZE).fill(null)); }
-  function setupFinder(m, row, col){
-    for (let r = -1; r <= 7; r++) {
-      if (row + r < 0 || row + r >= SIZE) continue;
-      for (let c = -1; c <= 7; c++) {
-        if (col + c < 0 || col + c >= SIZE) continue;
-        const dark = (r >= 0 && r <= 6 && c >= 0 && c <= 6 && (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)));
-        m[row + r][col + c] = dark;
-      }
-    }
-  }
-  function setupAlignment(m){
-    for (const row of ALIGN) for (const col of ALIGN) {
-      if (m[row][col] !== null) continue;
-      for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) m[row+r][col+c] = (Math.max(Math.abs(r), Math.abs(c)) !== 1);
-    }
-  }
-  function setupTiming(m){
-    for (let i = 8; i < SIZE - 8; i++) {
-      if (m[i][6] === null) m[i][6] = (i % 2 === 0);
-      if (m[6][i] === null) m[6][i] = (i % 2 === 0);
-    }
-  }
-  function bchDigit(data){ let digit = 0; while (data !== 0) { digit++; data >>>= 1; } return digit; }
-  function bchTypeInfo(data){
-    const G15 = (1<<10)|(1<<8)|(1<<5)|(1<<4)|(1<<2)|(1<<1)|(1<<0);
-    const G15_MASK = (1<<14)|(1<<12)|(1<<10)|(1<<4)|(1<<1);
-    let d = data << 10;
-    while (bchDigit(d) - bchDigit(G15) >= 0) d ^= G15 << (bchDigit(d) - bchDigit(G15));
-    return ((data << 10) | d) ^ G15_MASK;
-  }
-  function bchTypeNumber(data){
-    const G18 = (1<<12)|(1<<11)|(1<<10)|(1<<9)|(1<<8)|(1<<5)|(1<<2)|(1<<0);
-    let d = data << 12;
-    while (bchDigit(d) - bchDigit(G18) >= 0) d ^= G18 << (bchDigit(d) - bchDigit(G18));
-    return (data << 12) | d;
-  }
-  function setupFormatInfo(m){
-    const bits = bchTypeInfo((1 << 3) | 0);
-    for (let i = 0; i < 15; i++) {
-      const mod = ((bits >> i) & 1) === 1;
-      if (i < 6) m[i][8] = mod; else if (i < 8) m[i+1][8] = mod; else m[SIZE - 15 + i][8] = mod;
-    }
-    for (let i = 0; i < 15; i++) {
-      const mod = ((bits >> i) & 1) === 1;
-      if (i < 8) m[8][SIZE - i - 1] = mod; else if (i < 9) m[8][15 - i - 1 + 1] = mod; else m[8][15 - i - 1] = mod;
-    }
-    m[SIZE - 8][8] = true;
-  }
-  function setupVersionInfo(m){
-    const bits = bchTypeNumber(VERSION);
-    for (let i = 0; i < 18; i++) {
-      const mod = ((bits >> i) & 1) === 1;
-      m[Math.floor(i / 3)][i % 3 + SIZE - 11] = mod;
-      m[i % 3 + SIZE - 11][Math.floor(i / 3)] = mod;
-    }
-  }
-  function mask(row, col){ return ((row + col) % 2) === 0; }
-  function mapData(m, codewords){
-    let inc = -1, row = SIZE - 1, bitIndex = 7, byteIndex = 0;
-    for (let col = SIZE - 1; col > 0; col -= 2) {
-      if (col === 6) col--;
-      while (true) {
-        for (let c = 0; c < 2; c++) if (m[row][col - c] === null) {
-          let dark = false;
-          if (byteIndex < codewords.length) dark = (((codewords[byteIndex] >>> bitIndex) & 1) === 1);
-          if (mask(row, col - c)) dark = !dark;
-          m[row][col - c] = dark;
-          bitIndex--;
-          if (bitIndex === -1) { byteIndex++; bitIndex = 7; }
-        }
-        row += inc;
-        if (row < 0 || row >= SIZE) { row -= inc; inc = -inc; break; }
-      }
-    }
-  }
-  function makeMatrix(text){
-    const m = blankMatrix();
-    setupFinder(m, 0, 0);
-    setupFinder(m, SIZE - 7, 0);
-    setupFinder(m, 0, SIZE - 7);
-    setupAlignment(m);
-    setupTiming(m);
-    setupFormatInfo(m);
-    setupVersionInfo(m);
-    mapData(m, createCodewords(text));
-    return m;
-  }
-  function toSvg(text, scale){
-    const m = makeMatrix(text);
-    const quiet = 4;
-    const n = SIZE + quiet * 2;
-    let path = '';
-    for (let r = 0; r < SIZE; r++) for (let c = 0; c < SIZE; c++) if (m[r][c]) path += 'M' + (c + quiet) + ',' + (r + quiet) + 'h1v1h-1z';
-    const px = n * (scale || 4);
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + px + '" height="' + px + '" viewBox="0 0 ' + n + ' ' + n + '" role="img" aria-label="QR code"><rect width="100%" height="100%" fill="#fff"/><path d="' + path + '" fill="#000"/></svg>';
-  }
-  return { toSvg };
-})();
+    <!-- 1. PDF 매뉴얼 링크 -->
+    <a href="manual.pdf" class="btn btn-pdf">
+        <!--<span>📕</span>-->  설비 운전/조치 매뉴얼 (PDF)
+    </a>
 
-function initPage(){
-  const savedUrl = localStorage.getItem('facilityQrWebAppUrl') || '';
-  if (savedUrl) document.getElementById('webAppUrl').value = savedUrl;
-  generateQRCards();
-}
-function saveSettings(){
-  const url = document.getElementById('webAppUrl').value.trim();
-  if (!url) { alert('Apps Script 웹앱 URL을 먼저 입력하세요.'); return; }
-  localStorage.setItem('facilityQrWebAppUrl', url);
-  alert('저장했습니다.');
-}
-function clearSavedSettings(){
-  localStorage.removeItem('facilityQrWebAppUrl');
-  alert('저장된 URL을 삭제했습니다.');
-}
-function normalizeWebAppUrl(url){
-  url = String(url || '').trim().replace(/\s+/g, '');
-  if (url.indexOf('?') >= 0) url = url.split('?')[0];
-  return url;
-}
-function parseFacilityLines(text){
-  return String(text || '').split(/\r?\n/).map(line => line.trim()).filter(Boolean).map(line => {
-    let parts = line.split(/\t+| {2,}/).map(v => v.trim()).filter(Boolean);
-    if (parts.length === 1) parts = line.split(/\s+/).map(v => v.trim()).filter(Boolean);
-    return { id: parts[0] || '', name: parts[1] || '', location: parts.slice(2).join(' ') || '' };
-  }).filter(item => item.id);
-}
-function escapeHtml(value){
-  return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
-}
-function generateQRCards(){
-  const webAppUrl = normalizeWebAppUrl(document.getElementById('webAppUrl').value);
-  const facilities = parseFacilityLines(document.getElementById('facilityList').value);
-  const result = document.getElementById('result');
-  const status = document.getElementById('status');
-  result.innerHTML = '';
-  if (!webAppUrl) { status.textContent = 'Apps Script 웹앱 URL을 입력하세요.'; return; }
-  if (!facilities.length) { status.textContent = '시설 목록을 입력하세요.'; return; }
-  status.textContent = '생성된 QR: ' + facilities.length + '개';
-  facilities.forEach(item => {
-    const targetUrl = webAppUrl + '?id=' + encodeURIComponent(item.id);
-    const card = document.createElement('div');
-    card.className = 'label-card';
-    let qrHtml = '';
-    try { qrHtml = QR10L.toSvg(targetUrl, 4); }
-    catch (err) { qrHtml = '<div class="error"><b>QR 생성 오류</b><br>' + escapeHtml(err.message || err) + '</div>'; }
-    const sub = [item.name, item.location].filter(Boolean).join(' / ');
-    card.innerHTML = '<div class="facility-id">' + escapeHtml(item.id) + '</div>' +
-      '<div class="facility-sub">' + escapeHtml(sub) + '</div>' +
-      '<div class="qrwrap">' + qrHtml + '</div>' +
-      '<div class="url">' + escapeHtml(targetUrl) + '</div>';
-    result.appendChild(card);
-  });
-}
-initPage();
-</script>
+    <!-- 2. 고장 이력 보기 (내부 HTML 문서나 구글시트 연결 가능) -->
+    <a href="history.html" class="btn btn-history">
+        <!--<span>🟢</span>-->  과거 고장 및 조치 이력 확인
+    </a>
+
+    <div class="section-title">🎥 비상조치 가이드 동영상</div>
+
+    <!-- 3. 유튜브 동영상 링크 (실제 유튜브 주소로 대체 가능) -->
+    <a href="https://www.youtube.com/watch?v=내동영상주소" target="_blank" class="btn btn-video">
+        <!--<span>▶️</span>--> VCB 수동 투입 및 복귀 방법 (영상)
+    </a>
+
 </body>
 </html>
+
