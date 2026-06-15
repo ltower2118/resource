@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏢 서울숲엘타워 전기실 통합 리소스 허브</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f1f5f9; padding: 12px; margin: 0; color: #1e293b; }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        /* 메인 타이틀 */
+        .main-header { background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; padding: 20px 15px; border-radius: 12px; text-align: center; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); }
+        .main-header h1 { margin: 0; font-size: 1.3rem; font-weight: bold; }
+        .main-header p { margin: 5px 0 0 0; font-size: 0.85rem; color: #93c5fd; }
+
+        /* 🚨 최상단 긴급 정전대응 버튼 (시인성 극대화) */
+        .emergency-shortcut { display: block; background: #dc2626; color: white; text-align: center; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.05rem; margin-bottom: 15px; animation: blink 2s infinite; box-shadow: 0 4px 10px rgba(220,38,38,0.3); }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
+
+        /* 섹션 타이틀 */
+        .section-title { font-size: 0.95rem; font-weight: bold; color: #475569; margin: 15px 0 8px 5px; display: flex; align-items: center; gap: 5px; }
+
+        /* 메뉴 카드 그리드 */
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .menu-card { background: white; padding: 14px; border-radius: 10px; text-decoration: none; color: #334155; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .menu-card:active { background: #f8fafc; transform: scale(0.98); }
+        .card-icon { font-size: 1.5rem; margin-bottom: 6px; }
+        .card-title { font-weight: bold; font-size: 0.9rem; color: #0f172a; }
+        .card-desc { font-size: 0.75rem; color: #64748b; margin-top: 4px; line-height: 1.3; }
+
+        /* 한 줄짜리 와이드 카드 */
+        .wide-card { grid-column: span 2; display: flex; flex-direction: row; align-items: center; gap: 12px; justify-content: flex-start; }
+
+        /* 하단 고정 알림판 */
+        .footer-notice { background: #e2e8f0; padding: 10px; border-radius: 8px; font-size: 0.75rem; color: #475569; margin-top: 20px; line-height: 1.4; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-header">
+        <h1>🏢 서울숲엘타워 수변전 관리시스템</h1>
+        <p>현장 근무자 전용 디지털 리소스 가이드</p>
+    </div>
+
+    <a href="index5.html" class="emergency-shortcut">🚨 돌발/계획 정전대응 매뉴얼 (클릭)</a>
+
+    <div class="section-title">📄 수변전실 주요 결선도 및 시퀀스 도면</div>
+    <div class="menu-grid">
+        <a href="resource/vcb_diagram.pdf" target="_blank" class="menu-card">
+            <span class="card-icon">⚡</span>
+            <span class="card-title">특고압 VCB 결선도</span>
+            <span class="card-desc">진공차단기 인터록 및 계전기 조작 도면</span>
+        </a>
+        <a href="resource/ats_diagram.pdf" target="_blank" class="menu-card">
+            <span class="card-icon">🔄</span>
+            <span class="card-title">저압반 ATS 시퀀스</span>
+            <span class="card-desc">한전-발전 자동 절체 제어 시퀀스 회로도</span>
+        </a>
+        <a href="resource/rectifier_diagram.pdf" target="_blank" class="menu-card">
+            <span class="card-icon">🔋</span>
+            <span class="card-title">정류기반 회로도</span>
+            <span class="card-desc">DC 110V 제어전원 및 배터리 결선 사양서</span>
+        </a>
+        <a href="resource/transformer_spec.pdf" target="_blank" class="menu-card">
+            <span class="card-icon">📐</span>
+            <span class="card-title">변압기(TR) 결선 및 사양</span>
+            <span class="card-desc">동별 변압기 용량 및 고·저압 부싱 도면</span>
+        </a>
+    </div>
+
+    <div class="section-title">📖 설비별 수동 조작 및 유지보수 가이드</div>
+    <div class="menu-grid">
+        <a href="index5.html" class="menu-card wide-card">
+            <span class="card-icon" style="font-size: 1.8rem;">🛠️</span>
+            <div>
+                <span class="card-title">수변전실 안전관리 및 교육 수칙</span>
+                <span class="card-desc">PTT/CTT 조작 금지 규정, 30분 자연방전 및 접지방전 생명 수칙</span>
+            </div>
+        </a>
+        <a href="resource/generator_guide.pdf" target="_blank" class="menu-card">
+            <span class="card-icon">🏭</span>
+            <span class="card-title">비상발전기 사용법</span>
+            <span class="card-desc">수동 기동 펌핑 요령 및 실부하 데이터 기록법</span>
+        </a>
+        <a href="resource/pump_mcc_guide.pdf" target="_blank" class="menu-card">
+            <span class="card-icon">🚰</span>
+            <span class="card-title">기계실 MCC/펌프 가이드</span>
+            <span class="card-desc">지하4층 급수·배수 펌프 및 졸라펌프 복구 조작</span>
+        </a>
+    </div>
+
+    <div class="section-title">📞 긴급 상황 외주 협력사 핫라인</div>
+    <div class="menu-grid">
+        <a href="tel:123" class="menu-card" style="background: #fef2f2; border-color: #fca5a5;">
+            <span class="card-icon">🚨</span>
+            <span class="card-title" style="color: #991b1b;">한전 고장신고</span>
+            <span class="card-desc" style="color: #991b1b; font-weight: bold;">국번없이 123 (즉시 연결)</span>
+        </a>
+        <a href="tel:0264886400" class="menu-card">
+            <span class="card-icon">🏢</span>
+            <span class="card-title">전기안전공사</span>
+            <span class="card-desc">서울동부지사 종합상황실</span>
+        </a>
+    </div>
+
+    <div class="footer-notice">
+        <strong>💡 현장 근무자 안내사항</strong><br>
+        도면이나 매뉴얼이 정상적으로 열리지 않거나 구버전이 노출될 경우, 브라우저 우측 상단의 새로고침(🔄) 버튼을 3초간 길게 눌러 캐시를 비워주십시오.
+    </div>
+</div>
+
+</body>
+</html>
