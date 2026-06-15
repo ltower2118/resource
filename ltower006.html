@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏢 지식산업센터 현장 맞춤형 통합 제어 허브</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #0f172a; padding: 12px; margin: 0; color: #f8fafc; }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        /* 다크모드 기반의 세련된 헤더 */
+        .hub-header { text-align: center; padding: 15px 0; border-bottom: 1px solid #334155; margin-bottom: 20px; }
+        .hub-header h1 { margin: 0; font-size: 1.25rem; color: #38bdf8; font-weight: bold; }
+        .hub-header p { margin: 4px 0 0 0; font-size: 0.8rem; color: #94a3b8; }
+
+        /* 대분류 타이틀 */
+        .group-title { font-size: 0.9rem; font-weight: bold; color: #94a3b8; margin: 20px 0 10px 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        /* 형태 1: 🚨 상황 맞춤형 시나리오 버튼 (세로 가득 차는 리스트 형태) */
+        .scenario-container { display: flex; flex-direction: column; gap: 8px; }
+        .scenario-card { display: flex; align-items: center; background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 14px 12px; text-decoration: none; color: #f8fafc; transition: all 0.15s; }
+        .scenario-card:active { background: #334155; transform: scale(0.99); }
+        .scenario-badge { width: 45px; height: 45px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-right: 12px; flex-shrink: 0; }
+        .scenario-info { display: flex; flex-direction: column; }
+        .scenario-question { font-size: 0.92rem; font-weight: bold; color: #f1f5f9; }
+        .scenario-action { font-size: 0.76rem; color: #38bdf8; margin-top: 3px; font-weight: 500; }
+
+        /* 비상 상황 전용 강조 색상 */
+        .bg-danger { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4) !important; }
+        .bg-danger .scenario-badge { background: #ef4444; }
+        .bg-danger .scenario-action { color: #fca5a5; }
+
+        .bg-warning { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4) !important; }
+        .bg-warning .scenario-badge { background: #f59e0b; }
+        .bg-warning .scenario-action { color: #fde047; }
+
+        .bg-normal { background: #1e293b; }
+        .bg-normal .scenario-badge { background: #0284c7; }
+
+        /* 형태 2: 🗺️ 건물 층별 맵 구조 (아래에서 위로 올라가는 세로 적층형 디자인) */
+        .building-map { display: flex; flex-direction: column; gap: 6px; background: #1e293b; padding: 8px; border-radius: 12px; border: 1px solid #334155; }
+        .floor-row { display: grid; grid-template-columns: 60px 1fr; gap: 8px; align-items: center; padding: 10px 6px; border-radius: 8px; background: #0f172a; border: 1px solid #1e293b; text-decoration: none; color: #f8fafc; }
+        .floor-row:active { background: #1e293b; }
+        .floor-label { font-weight: bold; font-size: 1rem; color: #38bdf8; text-align: center; border-right: 2px solid #334155; padding-right: 4px; }
+        .floor-content { padding-left: 4px; }
+        .floor-title { font-size: 0.88rem; font-weight: bold; color: #e2e8f0; }
+        .floor-facilities { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
+
+        /* 퀵 핫라인 하단 고정 바 */
+        .quick-hotline { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
+        .hotline-btn { display: flex; align-items: center; justify-content: center; gap: 6px; background: #334155; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: 1px solid #475569; }
+        .hotline-btn:active { background: #475569; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="hub-header">
+        <h1>🏢 서울숲엘타워 시설종합 제어반</h1>
+        <p>현장 기사 스마트폰 전용 맞춤 시퀀스 맵</p>
+    </div>
+
+    <div class="group-title">🚨 현재 현장 상황별 즉시 대응</div>
+    <div class="scenario-container">
+        
+        <a href="index5.html" class="scenario-card bg-danger">
+            <div class="scenario-badge">⚡</div>
+            <div class="scenario-info">
+                <span class="scenario-question">건물 전체 불이 꺼지고 정전이 되었습니까?</span>
+                <span class="scenario-action">➡️ 즉시 돌발정전 복전/발전기 조작 시퀀스 개시</span>
+            </div>
+        </a>
+
+        <a href="resource/fire_alarm_guide.pdf" target="_blank" class="scenario-card bg-warning">
+            <div class="scenario-badge">🔔</div>
+            <div class="scenario-info">
+                <span class="scenario-question">방재실 경보 부저가 울리며 화재 오보입니까?</span>
+                <span class="scenario-action">➡️ 주경종·지구경종 정지 및 수신반 복구법 확인</span>
+            </div>
+        </a>
+
+        <a href="resource/parking_system.pdf" target="_blank" class="scenario-card bg-normal">
+            <div class="scenario-badge">🚗</div>
+            <div class="scenario-info">
+                <span class="scenario-question">입출차 차단기가 안 열려 민원이 터졌습니까?</span>
+                <span class="scenario-action">➡️ LPR 카메라 먹통 시 수동 강제 개방 요령</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="group-title">🗺️ 시설 공간별 도면 및 매뉴얼 창고</div>
+    <div class="building-map">
+        
+        <a href="resource/building_maintenance.pdf" target="_blank" class="floor-row">
+            <div class="floor-label">지상부</div>
+            <div class="floor-content">
+                <div class="floor-title">공용부 영선 및 민원 처리</div>
+                <div class="floor-facilities">층별 소화전 위치 · 누수 차단 밸브 · 도어록 가이드</div>
+            </div>
+        </a>
+
+        <a href="resource/cctv_security.pdf" target="_blank" class="floor-row">
+            <div class="floor-label">B1~B3</div>
+            <div class="floor-content">
+                <div class="floor-title">방재실 · CCTV 보안 제어실</div>
+                <div class="floor-facilities">R형 소방 수신반 · 원격 제어 PC · DVR 백업 가이드</div>
+            </div>
+        </a>
+
+        <a href="resource/electrical_diagram.pdf" target="_blank" class="floor-row" style="background: rgba(56, 189, 248, 0.05); border-color: rgba(56, 189, 248, 0.2);">
+            <div class="floor-label" style="color: #38bdf8;">B4층</div>
+            <div class="floor-content">
+                <div class="floor-title" style="color: #38bdf8;">수변전실 · 발전기실 · 기계실</div>
+                <div class="floor-facilities">특고압 결선도 · ATS 시퀀스 · 급배수 졸라펌프 매뉴얼</div>
+            </div>
+        </a>
+    </div>
+
+    <div class="group-title">📞 긴급 비상연락 스위치</div>
+    <div class="quick-hotline">
+        <a href="tel:123" class="hotline-btn" style="color: #fca5a5; border-color: #ef4444;">
+            📞 한전 고장 (123)
+        </a>
+        <a href="tel:0222420110" class="hotline-btn">
+            🛗 승강기 고장 (AS)
+        </a>
+    </div>
+
+</div>
+</body>
+</html>
