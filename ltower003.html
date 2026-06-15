@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏢 지식산업센터 종합 시설관리 시스템</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f8fafc; padding: 12px; margin: 0; color: #1e293b; }
+        .container { max-width: 540px; margin: 0 auto; }
+        
+        /* 메인 상단 배너 */
+        .main-header { background: linear-gradient(135deg, #0f172a, #1e3a8a); color: white; padding: 22px 16px; border-radius: 14px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(15,23,42,0.15); }
+        .main-header h1 { margin: 0; font-size: 1.35rem; font-weight: bold; letter-spacing: -0.5px; }
+        .main-header p { margin: 6px 0 0 0; font-size: 0.85rem; color: #93c5fd; font-weight: 500; }
+
+        /* 🚨 긴급 비상대응 단축 버튼 */
+        .emergency-bar { display: flex; align-items: center; justify-content: center; background: #dc2626; color: white; padding: 14px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 0.98rem; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(220,38,38,0.25); gap: 8px; }
+        .emergency-bar:active { transform: scale(0.98); background: #b91c1c; }
+
+        /* 대분류 섹션 타이틀 */
+        .section-title { font-size: 1rem; font-weight: bold; color: #334155; margin: 20px 0 10px 4px; border-left: 4px solid #2563eb; padding-left: 8px; }
+
+        /* 시설관리 6대 분야 그리드 */
+        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .grid-card { background: white; padding: 14px; border-radius: 12px; text-decoration: none; color: #334155; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; display: flex; flex-direction: column; transition: all 0.15s ease-in-out; }
+        .grid-card:active { background: #f1f5f9; transform: scale(0.97); border-color: #cbd5e1; }
+        
+        .card-icon { font-size: 1.6rem; margin-bottom: 6px; }
+        .card-title { font-weight: bold; font-size: 0.92rem; color: #0f172a; }
+        .card-desc { font-size: 0.76rem; color: #64748b; margin-top: 5px; line-height: 1.35; }
+
+        /* 가로형 와이드 카드 (공통/종합 자료용) */
+        .wide-card { grid-column: span 2; flex-direction: row; align-items: center; gap: 14px; }
+        .wide-card .card-icon { margin-bottom: 0; font-size: 2rem; }
+
+        /* 📞 긴급 연락처 퀵링크 버튼 */
+        .contact-box { background: #edd8d8; border: 1px solid #fca5a5; padding: 12px; border-radius: 10px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .contact-info { font-size: 0.85rem; color: #991b1b; font-weight: bold; }
+        .contact-btn { background: #991b1b; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
+
+        /* 하단 카피라이트 및 안내 */
+        .footer { text-align: center; font-size: 0.75rem; color: #94a3b8; margin-top: 25px; padding: 10px 0; border-top: 1px solid #e2e8f0; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-header">
+        <h1>🏢 지식산업센터 시설관리 HUB</h1>
+        <p>전체 공용부 인프라·설비 디지털 매뉴얼 시스템</p>
+    </div>
+
+    <a href="index5.html" class="emergency-bar">
+        <span>⚡</span> 돌발/계획 정전대응 가변 매뉴얼 바로가기 <span>➡️</span>
+    </a>
+
+    <div class="section-title">⚡ 전기 및 소방 방재 관리</div>
+    <div class="grid-container">
+        <a href="index5.html" class="grid-card">
+            <span class="card-icon">🔌</span>
+            <span class="card-title">수변전/발전기 매뉴얼</span>
+            <span class="card-desc">VCB 리셋, ATS 절체, 수변전실 안전 수칙 통합본</span>
+        </a>
+        <a href="resource/fire_alarm_guide.pdf" target="_blank" class="grid-card">
+            <span class="card-icon">🚨</span>
+            <span class="card-title">소방 수신반/방재실</span>
+            <span class="card-desc">R형 수신기 화재 오보 조작, 방송 연동 및 슈트 밸브 복구</span>
+        </a>
+        <a href="resource/electrical_diagram.pdf" target="_blank" class="grid-card">
+            <span class="card-icon">📐</span>
+            <span class="card-title">특고압/저압 도면 창고</span>
+            <span class="card-desc">단선결선도, 시퀀스 회로도, PDF 도면 모음</span>
+        </a>
+        <a href="resource/fire_pump_guide.pdf" target="_blank" class="grid-card">
+            <span class="card-icon">🚒</span>
+            <span class="card-title">소화 펌프 관리</span>
+            <span class="card-desc">주펌프·충압펌프 압력챔버 세팅 및 기동점검</span>
+        </a>
+    </div>
+
+    <div class="section-title">🛠️ 기계 설비 및 영선 관리</div>
+    <div class="grid-container">
+        <a href="resource/water_pump_guide.pdf" target="_blank" class="grid-card">
+            <span class="card-icon">🚰</span>
+            <span class="card-title">급수/배수 펌프 계통</span>
+            <span class="card-desc">지하 기계실 MCC반 조작 및 졸라펌프 고장 대처법</span>
+        </a>
+        <a href="resource/hvac_ahu_guide.pdf" target="_blank" class="grid-card">
+            <span class="card-icon">🏭</span>
+            <span class="card-title">공조(AHU)/FCU 관리</span>
+            <span class="card-desc">공용부 환기 시퀀스 및 층별 팬코일유닛 제어법</span>
+        </a>
+        <a href="resource/building_maintenance.pdf" target="_blank" class="grid-card wide-card">
+            <span class="card-icon">🧱</span>
+            <div>
+                <span class="card-title">영선 및 공용부 시설 점검</span>
+                <span class="card-desc">건물 내부 누수 1차 조치 밸브 위치, 공용부 출입통제 도어록 및 코어 시설물 유지보수 가이드</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="section-title">🚗 주차 제어 및 외부 보안</div>
+    <div class="grid-container">
+        <a href="resource/parking_system.pdf" target="_blank" class="grid-card">
+            <span class="card-icon">💳</span>
+            <span class="card-title">주차 차단기/LPR 시스템</span>
+            <span class="card-desc">차량번호인식 오류, 정산기 다운 시 수동 개방 요령</span>
+        </a>
+        <a href="resource/cctv_security.pdf" target="_blank" class="grid-card">
+            <span class="card-icon">🔒</span>
+            <span class="card-title">CCTV 및종합 보안</span>
+            <span class="card-desc">DVR 백업 방법, 초소 경비실 연동 및 비상벨 해제</span>
+        </a>
+    </div>
+
+    <div class="section-title">📞 시설관리 긴급 핫라인</div>
+    <div class="contact-box">
+        <div class="contact-info">⚡ 한국전력공사 고장장애 종합신고</div>
+        <a href="tel:123" class="contact-btn">즉시 통화 (123)</a>
+    </div>
+    <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
+        <div class="contact-info" style="color:#0369a1;">🛗 승강기 유지보수 (성우/티센)</div>
+        <a href="tel:0222420110" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
+    </div>
+
+    <div class="footer">
+        <strong>💡 현장 기사님 참고사항</strong><br>
+        도면이나 가이드북을 업데이트한 후 스마트폰 브라우저에 구버전이 나타나면, <br>
+        화면 우측 상단의 새로고침(🔄) 버튼을 3초간 길게 눌러주십시오.
+    </div>
+</div>
+
+</body>
+</html>
