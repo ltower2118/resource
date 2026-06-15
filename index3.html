@@ -1,1 +1,105 @@
 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🚨 현장 설비 비상 조치 매뉴얼</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f8fafc; padding: 12px; margin: 0; color: #1e293b; }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        /* 설비 선택 탭 스타일 */
+        .tab-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 15px; }
+        .tab-btn { background: #e2e8f0; border: 1px solid #cbd5e1; padding: 12px 6px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: bold; color: #475569; transition: all 0.15s; }
+        
+        /* 라디오 버튼 체크 시 탭 색상 변경 */
+        .tab-input { display: none; }
+        #tab1:checked ~ .tab-menu label[for="tab1"],
+        #tab2:checked ~ .tab-menu label[for="tab2"],
+        #tab3:checked ~ .tab-menu label[for="tab3"] {
+            background: #1e3a8a; color: white; border-color: #1e3a8a; box-shadow: 0 3px 6px rgba(30,58,138,0.2);
+        }
+
+        /* 탭별 콘텐츠 가변 노출 원리 */
+        .content-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: none; }
+        #tab1:checked ~ #content1,
+        #tab2:checked ~ #content2,
+        #tab3:checked ~ #content3 { display: block; }
+
+        /* 매뉴얼 본문 텍스트 스타일 */
+        h2 { font-size: 1.2rem; margin: 0 0 15px 0; color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; }
+        .step-title { font-weight: bold; color: #b91c1c; margin-top: 15px; font-size: 0.95rem; display: flex; align-items: center; gap: 4px; }
+        .step-desc { background: #f1f5f9; padding: 10px; border-radius: 6px; margin: 5px 0 12px 0; font-size: 0.9rem; line-height: 1.5; font-weight: 500; }
+        
+        /* 도면 링크 버튼 */
+        .doc-btn { display: inline-block; width: 100%; background: #475569; color: white; text-align: center; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: 15px; }
+        .doc-btn:active { background: #334155; }
+        
+        .emergency-call { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.9rem; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="emergency-call">🚨 정전 등 비상상황 한전 신고: 국번없이 123</div>
+
+    <input type="radio" id="tab1" name="menu" class="tab-input" checked>
+    <input type="radio" id="tab2" name="menu" class="tab-input">
+    <input type="radio" id="tab3" name="menu" class="tab-input">
+
+    <div class="tab-menu">
+        <label for="tab1" class="tab-btn">⚡ 메인 VCB</label>
+        <label for="tab2" class="tab-btn">🔄 ATS반</label>
+        <label for="tab3" class="tab-btn">🔋 정류기반</label>
+    </div>
+
+    <div class="content-card" id="content1">
+        <h2>⚡ VCB(진공차단기) 정전 시 복구 지침</h2>
+        
+        <div class="step-title">1단계. 사고 원인 및 보호계전기 확인</div>
+        <div class="step-desc">정전 발생 시 무작정 투입하지 말고, 수전반의 OCR(과전류), UVR(부족전압) 등 어떤 계전기가 동작했는지 타겟을 먼저 확인하고 기록하십시오.</div>
+        
+        <div class="step-title">2단계. VCB 차단 확인 및 레버 차징</div>
+        <div class="step-desc">VCB가 확실히 차단(OFF) 상태인지 눈으로 보고, 스프링이 지시계에 'CHARGED'로 되어있는지 확인하십시오. 만약 DISCHARGED인 경우 수동 핸들을 꼽고 7~8회 펌핑하여 차징하십시오.</div>
+        
+        <div class="step-title">3단계. 안전 확인 후 수동 투입</div>
+        <div class="step-desc">부하측 단로 상태 및 안전이 확보되면, VCB 전면의 'ON' 기계식 버튼을 강하게 눌러 투입하십시오.</div>
+        
+        <a href="resource/vcb_diagram.pdf" target="_blank" class="doc-btn">📄 VCB 결선도 PDF 보기 (초고화질)</a>
+    </div>
+
+    <div class="content-card" id="content2">
+        <h2>🔄 ATS(자동절체개폐기) 수동 절체 요령</h2>
+        
+        <div class="step-title">1단계. 비상발전기 전원 확인</div>
+        <div class="step-desc">한전 전원 정전 후 비상발전기가 정상 가동되어 발전 전압(380V/220V)이 발전측 라인까지 정상 인입되었는지 전압계를 확인하십시오.</div>
+        
+        <div class="step-title">2단계. 자동/수동 셀렉터 스위치 전환</div>
+        <div class="step-desc">ATS반 전면에 있는 제어 스위치를 [자동(AUTO)]에서 [수동(MANUAL)]으로 전환하십시오.</div>
+        
+        <div class="step-title">3단계. 수동 절체 핸들 조작</div>
+        <div class="step-desc">안전을 위해 메인 차단기를 내린 후, ATS 전용 수동 조작 핸들을 홈에 끼우고 [발전측(ALT)] 방향으로 힘주어 밀어 절체하십시오.</div>
+        
+        <a href="resource/ats_manual.pdf" target="_blank" class="doc-btn">📄 ATS 시퀀스 도면 보기</a>
+    </div>
+
+    <div class="content-card" id="content3">
+        <h2>🔋 정류기반 다운 시 비상 조치</h2>
+        
+        <div class="step-title">1단계. DC 제어 전압 확인</div>
+        <div class="step-desc">방재실 및 변전실 제어용 DC 110V 전압 지침이 깨졌거나 떨어졌는지 확인하십시오. 메인 차단기들이 트립되지 않도록 하는 생명줄입니다.</div>
+        
+        <div class="step-title">2단계. 배터리 차단기(NFB) 재투입</div>
+        <div class="step-desc">정류기반 내부의 배터리 입력 메인 배선차단기가 떨어져 있다면, 배터리 외관(부풀어 오름, 누액)을 육안 검사한 뒤 이상이 없을 시 재투입하십시오.</div>
+        
+        <div class="step-title">3단계. 수동 충전 전압 세팅</div>
+        <div class="step-desc">충전기 모듈 스위치를 이용해 부동충전 전압(약 118V~120V) 시스템이 유지되는지 디지털 메타기를 상시 감시하십시오.</div>
+        
+        <a href="resource/rectifier_spec.pdf" target="_blank" class="doc-btn">📄 정류기반 결선 및 사양서 보기</a>
+    </div>
+</div>
+
+</body>
+</html>
