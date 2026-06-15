@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚡ 서울숲엘타워 종합 정전대응 매뉴얼</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f1f5f9; padding: 10px; margin: 0; color: #1e293b; }
+        .container { max-width: 540px; margin: 0 auto; }
+        
+        /* 헤더 섹션 */
+        .header-title { background: #0f172a; color: #f8fafc; padding: 14px 10px; border-radius: 8px; text-align: center; font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .emergency-banner { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.88rem; margin-bottom: 12px; }
+        
+        /* 5단 터치 메뉴 탭 구조 */
+        .tab-menu { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 12px; }
+        .tab-btn { background: #e2e8f0; border: 1px solid #cbd5e1; padding: 12px 2px; text-align: center; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: bold; color: #475569; transition: all 0.15s; }
+        
+        .tab-input { display: none; }
+        #tab1:checked ~ .tab-menu label[for="tab1"],
+        #tab2:checked ~ .tab-menu label[for="tab2"],
+        #tab3:checked ~ .tab-menu label[for="tab3"],
+        #tab4:checked ~ .tab-menu label[for="tab4"],
+        #tab5:checked ~ .tab-menu label[for="tab5"] {
+            background: #1e3a8a; color: white; border-color: #1e3a8a; box-shadow: 0 3px 6px rgba(30,58,138,0.25);
+        }
+
+        /* 콘텐츠 카드 제어 */
+        .content-card { background: white; padding: 16px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: none; margin-bottom: 15px; }
+        #tab1:checked ~ #content1,
+        #tab2:checked ~ #content2,
+        #tab3:checked ~ #content3,
+        #tab4:checked ~ #content4,
+        #tab5:checked ~ #content5 { display: block; }
+
+        /* 내부 타이틀 및 박스 스타일 */
+        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
+        
+        .step-box { background: #f8fafc; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; font-size: 0.85rem; line-height: 1.5; color: #334155; border-left: 4px solid #94a3b8; }
+        .step-box.alert { border-left-color: #ef4444; background: #fef2f2; }
+        .step-box.success { border-left-color: #10b981; background: #f0fdf4; }
+        .step-box.warning { border-left-color: #f59e0b; background: #fffbeb; }
+        .step-num { font-weight: bold; color: #0f172a; margin-bottom: 2px; display: block; }
+        
+        .info-list { padding-left: 16px; margin: 5px 0; font-size: 0.85rem; line-height: 1.5; color: #475569; }
+        .info-list li { margin-bottom: 4px; }
+
+        /* 연락처 테이블 스타일 */
+        .contact-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 5px; }
+        .contact-table th, .contact-table td { border: 1px solid #e2e8f0; padding: 8px 6px; text-align: left; }
+        .contact-table th { background: #f8fafc; color: #475569; font-weight: bold; text-align: center; }
+        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-title">🏢 서울숲엘타워 수변전 정전대응 시스템</div>
+    <div class="emergency-banner">🚨 한국전력공사 광진성동지사 고장장애 신고: 국번없이 123</div>
+
+    <input type="radio" id="tab1" name="menu" class="tab-input" checked>
+    <input type="radio" id="tab2" name="menu" class="tab-input">
+    <input type="radio" id="tab3" name="menu" class="tab-input">
+    <input type="radio" id="tab4" name="menu" class="tab-input">
+    <input type="radio" id="tab5" name="menu" class="tab-input">
+
+    <div class="tab-menu">
+        <label for="tab1" class="tab-btn">🚨 돌발정전</label>
+        <label for="tab2" class="tab-btn">📅 계획정전</label>
+        <label for="tab3" class="tab-btn">🔄 복전절차</label>
+        <label for="tab4" class="tab-btn">🛠️ 작업안전</label>
+        <label for="tab5" class="tab-btn">📞 비상연락</label>
+    </div>
+
+    <div class="content-card" id="content1">
+        <h3>🚨 돌발 사고정전 발생 시 대응순서</h3>
+        
+        <h4>1. 초기 상황 인지 및 안내</h4>
+        <div class="step-box alert">
+            <span class="step-num">① 정전 상황 인지 및 비상등 확인</span>
+            정전 즉시 내부 전체 소등 발생 및 비상등(유도등, 비상조명등, DC등)만 켜진 상태 인지. 관리동 내 비상전원 절체상태(소방, 통신, 승강기 설비 등) 즉시 점검.
+        </div>
+        <div class="step-box">
+            <span class="step-num">② 입주민 사전 안내 방송</span>
+            정전 원인을 정밀 파악하기 전, 입주민들이 동요하지 않도록 안내 방송을 우선 시행.
+        </div>
+
+        <h4>2. 전기실 수변전 및 발전기 가동상태 확인</h4>
+        <div class="step-box warning">
+            <span class="step-num">③ 비상발전기 자동 기동 검증</span>
+            전기실 내 굉장한 소음과 함께 발전기가 자동 기동되는지 확인.
+            <br><strong>⚠️ 만일 발전기 자동운전 불가 시:</strong> 즉시 발전기반으로 가 수동 조작 가동 처리. 발전기반 ACB 자동 투입 실패 시 중요부하부터 차례로 수동조작 투입.
+        </div>
+        <div class="step-box">
+            <span class="step-num">④ 저압반 ATS 절체 지시등 확인</span>
+            저압반 ATS가 한전측에서 발전측으로 자동 절체되었는지 [한전 ➡️ 발전] 표시등 전수 조사. 자동 절체 실패 시 수동 핸들을 장착해 수동 절체 감행.
+        </div>
+        <div class="step-box alert">
+            <span class="step-num">⑤ 특고압반 부저 정지 및 계통 점검</span>
+            특고압반 VCB 정전 경보 부저 즉시 정지. 정전 발생 시 전기실에는 DC등만 점등되며, MOF 계량기는 소등됨. LBS(부하개폐기) 표시 램프가 적색(ON)에서 녹색(OFF)으로 전환되거나 소등되었는지 확인.
+        </div>
+
+        <h4>3. 원인 파악 및 부하 개방 절차</h4>
+        <div class="step-box">
+            <span class="step-num">⑥ 한전 상황실 연계 및 내부 전파</span>
+            한전 사령실에 연락하여 정전 원인 및 복전 예정시간 확인. 최경식 소장(책임자) 및 관리소에 내용을 즉시 통보하고 세대에 원인, 조치요령, 소요시간, 입주민 협조 사항을 재고지.
+        </div>
+        <div class="step-box warning">
+            <span class="step-num">⑦ 고장 복전 대비 부하 차단 (원칙)</span>
+            정전 원인이 파악되면 복전 시 유입될 서지 방지 및 계통 보호를 위해 아래 순서로 부하를 사전에 차단 조치함:
+            <ul class="info-list">
+                <li>세대부하 MCCB 차단 (세대 분전함 차단 원칙 고지)</li>
+                <li>세대 ACB 차단</li>
+                <li>공용부하 MCCB 차단 (비상용 부하 제외)</li>
+                <li>공용 ACB 차단</li>
+                <li>VCB 개방(트립)상태 재확인 및 LBS 개방(원칙) 후 복전 대기</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-card" id="content2">
+        <h3>📅 정기검사 및 계획정전 작업 매뉴얼</h3>
+        
+        <h4>1. 정전 30분 전 사전 작업 단계</h4>
+        <div class="step-box">
+            <span class="step-num">가. 유관기관 통신 및 보안업체 사전 통보</span>
+            계획 정전 시작 전 통신사 및 외부 보안업체에 정전 일시 통보.
+        </div>
+        <div class="step-box alert">
+            <span class="step-num">나. 방재실 주요 제어 전원 오프(OFF)</span>
+            정전 시 전기적 충격 방지를 위해 방재실 내의 <strong>원격검침 시스템, 조명설비 제어반, CCTV DVR 시스템, 방송설비, 주차차량인식시스템, 소방수신반(R형 수신기 포함) 전원을 사전 개방.</strong> 단, 방송 시스템 및 수신반의 비상대비 배터리 가동 유지 유무를 사전에 철저히 검증할 것.
+        </div>
+        <div class="step-box warning">
+            <span class="step-num">다. 승강기 사전 가동 정지 조치</span>
+            엘리베이터 내부 갇힘 사고 예방을 위해 <strong>승강기 1, 2, 3호기 및 화물 엘리베이터 4대 전체를 1층으로 하강 유도 후 로비 경비 협조 하에 가동 정지(잡아놓기)</strong> 처리.
+        </div>
+        <div class="step-box">
+            <span class="step-num">라. 정전 10분 전 최종 공유 및 UPS 확인</span>
+            작업자 및 로비 경비원 간 최종 정전 준비 상태 공유. 신세계 UPS 가동시간(30분 이내)을 감안하여 시간 내 정전 및 복구 작업 범위를 상호 재확인.
+        </div>
+
+        <h4>2. 계획정전 부하 차단 및 개방 시퀀스 (순서 엄수)</h4>
+        <div class="step-box alert">
+            <span class="step-num">1) 저압반 비상동력 및 각 층 차단기 개방</span>
+            저압반 비상동력 MCCB(소방, 승강기, 방재실 전원)의 OFF 상태를 확인하고, 각 동별/층별 저압반 MCCB 차단기를 전수 OFF 처리.
+        </div>
+        <div class="step-box warning">
+            <span class="step-num">2) 저압 메인 ACB 차단기 개방</span>
+            <strong>공용 ACB(5SS ➡️ 4SS ➡️ 3SS 순서대로) 및 세대 ACB 차단기를 차례로 OFF</strong>함. 판넬 전면의 풀턴 스위치(Pull-Turn) 또는 조작용 물리 버튼을 조작하여 확실히 개방할 것. (※ 3SS 비상 및 동력 개방 여부 현장 확인 필수)
+        </div>
+        <div class="step-box success">
+            <span class="step-num">3) 발전기 가동 및 비상전원 인입 확인</span>
+            메인 부하 개방 후 ATS 자동절체 및 비상발전기 자동 기동 여부를 전기실에서 확인. 발전 전원이 <strong>승강기, 정화조, 소방설비, 수전 주요 전등, 조작판넬, 정류기반</strong>에상상 비상동력으로 완벽히 전원공급 되는지 메타기 확인.
+        </div>
+        <div class="step-box alert">
+            <span class="step-num">4) 특고압 계통 개방 조치 (2차사고 예방)</span>
+            특고압반 <strong>VCB(진공차단기, 2SS) 및 LBS(부하개폐기, 1SS)를 차단</strong>(풀턴 스위치 또는 조작 버튼 이용). 이어서 MOF반 및 TR(변압기)반 등의 <strong>보호용 퓨즈(PF, Power Fuse)를 안전하게 개방</strong> 처리.
+        </div>
+        <div class="step-box alert">
+            <span class="step-num">5) 책임분계점 개방 및 검사 착수</span>
+            최종 한전 책임분계점(COS 등)을 개방하여 완전 무전압 상태 확보. 이후 한국전기안전공사 주관 하에 수변전설비 정밀 점검(고압절연내압시험, 보호계전기 연동시험, 절연저항 및 기타 항목 측정) 실시.
+        </div>
+    </div>
+
+    <div class="content-card" id="content3">
+        <h3>🔄 복전(계획정전 종료 및 사고정전 복구) 시퀀스</h3>
+        
+        <h4>1. 특고압 계통 및 변압기 가전(加電) 단계</h4>
+        <div class="step-box warning">
+            <span class="step-num">① 큐비클 내부 점검 및 퓨즈 투입</span>
+            수변전실 내부의 작업자 잔류 여부, 작업 공기구 회수 상태, 기기 주변 이물질, 퓨즈 고정 상태 및 안전 도어 잠금 상태를 전수 확인한 뒤 <strong>TR보호용 PF(파워퓨즈)를 먼저 투입</strong>함.
+        </div>
+        <div class="step-box">
+            <span class="step-num">② 책임분계점 및 LBS 투입</span>
+            한전 책임분계점 차단기를 투입한 후 <strong>LBS(부하개폐기)를 투입</strong>함. 조작 전 VCB와의 인터록 관계 및 조작 키 위치/조작법을 사전 재확인할 것.
+        </div>
+        <div class="step-box alert">
+            <span class="step-num">③ [★핵심] UVR 계전기 리셋 및 VCB 투입</span>
+            정전 시 부족전압계전기(UVR)가 동작하여 빨간색 타겟 램프가 점등되어 있음. <strong>반드시 UVR 리셋 버튼을 눌러 램프를 소멸시킨 후 VCB 투입 스위치를 CLOSE 조작</strong>해야 차단기가 투입됨. 
+            <br>※ 투입 후 LA/SA 시간 활용, DM 단자반 표시 LED 상태, VCB반 전압/전류 계기값을 철저히 확인 및 기록할 것. (고장정전 복구 시에도 VCB 트립 후 LBS 차단 원칙 준수 및 한전 사령실 내용 최종 확인 후 진행)
+        </div>
+
+        <h4>2. 서지 소멸시간 확보 및 저압반 순차 투입</h4>
+        <div class="step-box success">
+            <span class="step-num">④ 변압기 무부하 가전 및 계기록 (★서지소멸 시간 확보)</span>
+            VCB 투입 후 <strong>변압기만 연결된 무부하 상태로 일정 시간 시스템을 그대로 유지(서지 소멸시간 확보)</strong>하며 TR 무부하 전류, 무부하 1차 전압, 역률 등 계기값을 데이터 기록(향후 유지관리 적용 목적).
+        </div>
+        <div class="step-box warning">
+            <span class="step-num">⑤ 저압 메인 ACB 차단기 투입</span>
+            <strong>공용 ACB(3SS ➡️ 4SS ➡️ 5SS 차례대로 역순 투입) 및 세대 ACB를 투입</strong>함. 투입 직후 분리가 불가능한 잔여 부하에 대한 무부하 계기값을 정밀 기록하고 수변전실 전등 및 DC 부하 계통을 주의 깊게 감시할 것.
+        </div>
+        <div class="step-box">
+            <span class="step-num">⑥ 발전기 자동 정지 및 ATS 원복 확인</span>
+            한전 전원 유입에 따라 ATS가 발전측에서 한전측으로 자동 절체되는지 확인하고, 비상발전기가 시퀀스에 따라 자동 정지(Cooling 후 정지)하는지 검증. 수동 절체 상태였던 경우 수동 원복 후 발전기 수동 정지 유도 및 ACB 투입개방 동작 재점검.
+        </div>
+        <div class="step-box success">
+            <span class="step-num">⑦ 하위 부하 분전반 투입 (★서지소멸 시간 최종 확보)</span>
+            차단 전 촬영해 둔 사진 자료 및 부하 기록표를 기준으로 <strong>공용 부하별 MCCB를 순차 투입하며, 세대 ACB 투입 후 서지소멸시간을 최종 확보해 가며 동별 MCCB를 순차적으로 투입</strong>함. 불평형 부하 적출을 위해 투입 시 변동되는 계기값을 밀도 있게 기록할 것. 세대 내 분전함 메인 차단기 최종 투입 유도.
+        </div>
+
+        <h4>3. 복전 후 전 설비 정상화 점검 및 보고</h4>
+        <div class="step-box">
+            <span class="step-num">⑧ 건물 인프라 전수 가동점검</span>
+            복전 완료 즉시 비상연락망을 통해 전 직원 및 관리소에 복전 상황 전파. 아래 시설물들에 대한 전수 이상 유무 점검 착수:
+            <ul class="info-list">
+                <li>승강기 1~4호기 가동 상태 확인 (로비 경비원 연계)</li>
+                <li>방재실: 소방수신반, 방송시스템, 자동제어 PC, CCTV 모니터링반</li>
+                <li>기계실 및 펌프류: 지하4층 기계실 MCC반, 수전/배수 펌프, 분리수거장 및 B2F 졸라펌프</li>
+                <li>인프라: 주차차량인식시스템(정산소 작동 여부 확인), 정화조 설비, 원격검침 시스템, 공용 조명설비</li>
+            </ul>
+        </div>
+        <div class="step-box success">
+            <span class="step-num">⑨ 이력 보관 및 보고서 작성</span>
+            한전 표시등, 최종 부하 지침, 보호계전기 상태 최종 점검 후 전기설비 검사 종료 선언 및 정전 관련 세부 보고서 작성 후 영구 보관.
+        </div>
+    </div>
+
+    <div class="content-card" id="content4">
+        <h3>🛠️ 전기설비 안전관리 교육 및 작업 수칙</h3>
+        
+        <h4>1. 계전기 및 기구 임의 조작 절대 금지 원칙</h4>
+        <div class="step-box alert">
+            <span class="step-num">🚨 PTT / CTT 조작 절대 금지</span>
+            PTT(계기용변압기 시험단자) 및 CTT(변류기 시험단자)는 <strong>한국전기안전공사 정밀 시험자 외에는 현장 근무자라도 절대 사용을 금지</strong>함. 평상시에는 오조작 및 사고 예방을 위해 단자 숏트바 등을 분리 제거 후 이물질이 투입되지 않도록 별도 밀폐 보관할 것. (계기 교체 등의 사유로 임의 조작 불가 고유 목적 필수 준수 판례 적용)
+        </div>
+        <div class="step-box alert">
+            <span class="step-num">⚠️ 고압반 기구 수리 시 계획정전 필수</span>
+            고압반 내부의 계기, 계전기, 소자류 및 기구의 수리·교체 작업 시에는 <strong>반드시 시스템 전체를 계획 정전시켜 완벽한 무전압 상태를 확보한 후 작업하는 것이 대원칙</strong>임. 계전기 및 보호 장치를 안전성 확보 없이 고의 또는 임의 조작하여 발생하는 계통 사고 시 작업자 및 관리자에게 무한 법적 책임 사유가 됨.
+        </div>
+
+        <h4>2. 정전 후 잔류 전하 방전 수칙 (★ 생명 수칙)</h4>
+        <div class="step-box warning">
+            <span class="step-num">⚡ 자연방전 30분 엄수</span>
+            특고압 계통 차단기를 개방한 직후, 큐비클 내부 버스바 및 케이블, 고압 콘덴서에는 엄청난 양의 잔류 전하(정전용량)가 남아있어 감전사 위험이 매우 높음. <strong>차단 후 반드시 최소 30분 이상 자연방전</strong> 상태로 대기할 것.
+        </div>
+        <div class="step-box warning">
+            <span class="step-num">⚡ 접지단자반을 이용한 잔류 전하 방전</span>
+            자연방전 대기 후 작업 착수 전, 반드시 큐비클 내부의 정식 <strong>접지단자반을 이용하여 확실하게 전기적 접지방전 작업을 시행</strong>해야 함. 
+            <br><strong>❌ 절대 금지 조항:</strong> 큐비클 외함 접지선 사용금지(함접지 사용 불가), 메인 모선부(부스바)에 스크루드라이버 등을 직접 대어 직방전 시키는 행위 절대 금지. 반드시 기기 볼트부 유격 등을 이용해 안전하게 방전할 것.
+        </div>
+
+        <h4>3. 현장 작업 안전 무장 및 데이터 관리</h4>
+        <div class="step-box success">
+            <span class="step-num">💡 안전 보호구 착용 및 사진 대장화</span>
+            큐비클 내부 진입 및 작업 중에는 명판, 안전 표지판 등을 철저히 부착하고 <strong>절연모(안전모), 절연장갑, 절연장화 등 정격 안전용구를 필수 착용</strong>할 것. 전 과정은 안전작업 지시 지침에 따라 사진 촬영 자료를 명확하게 확보해 둘 것.
+        </div>
+        <div class="step-box font-size:0.85rem;">
+            <span class="step-num">💡 변전실 큐비클 내부 육안 점검 항목</span>
+            <ul class="info-list">
+                <li>LBS 부하측 접촉날(나이프 스위치 접점) 변형, 격벽 파손 여부 정밀 확인</li>
+                <li>LBS 한류형 퓨즈(PF) 외관 상태 및 가열 변색 유무, 정격 명판 일치 확인</li>
+                <li>특고압 판넬 내부 각종 지지애자(Insulator) 크랙, 고정 볼트 풀림 상태 점검</li>
+                <li>각종 고압 기기류(TR, CT, PT, 정류기) 부싱(Bushing)부 오염도 측정 및 고정 볼트 조임 상태 수선</li>
+                <li>디지털 지시계기 지침 정상 범위 확인 및 판넬 내부 조명기구 전수 점검 및 수선</li>
+            </ul>
+        </div>
+        <div class="step-box alert">
+            <span class="step-num">🔋 비상발전기 시퀀스 제한 사항 및 데이터 관리</span>
+            공용 ACB 2차측 비상용 부하 계통에 단락/지락 등 대형 사고 발생 시, 시퀀스 연동에 의해 비상발전기의 자동 운전이 제한될 수 있음을 상시 인지할 것. 정전 가동 시에는 <strong>비상용 발전기 실부하 가동 데이터(전압, 전류, 주파수, 온도) 및 실부하 가동 시 연료 소비량(L/h)을 빠짐없이 대장에 기록</strong> 보관하여야 함.
+        </div>
+    </div>
+
+    <div class="content-card" id="content4">
+        <h3>📞 내부 관리소 비상 연락망</h3>
+        <table class="contact-table">
+            <thead>
+                <tr><th>직책 / 성명</th><th>개인 연락처</th><th>다이렉트 연결</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>최경식 소장 (총괄책임자)</td><td>010-2271-5101</td><td><a href="tel:01022715101" class="contact-call">전화연결</a></td></tr>
+                <tr style="background:#fffbeb; font-weight:bold; color:#1e3a8a;"><td>하유신 과장 (전기실)</td><td>010-6318-7516</td><td><a href="tel:01063187516" class="contact-call">전화연결</a></td></tr>
+                <tr><td>박기환 과장 (전기실)</td><td>010-2323-0197</td><td><a href="tel:01023230197" class="contact-call">전화연결</a></td></tr>
+                <tr><td>서울숲엘타워 로비 경비실</td><td>02-2118-1377</td><td><a href="tel:0221181377" class="contact-call">전화연결</a></td></tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top:18px;">🏢 외주 관공서 및 시설 협력사 명단</h3>
+        <table class="contact-table">
+            <thead>
+                <tr><th>기관 및 업체명</th><th>고객 센터 번호</th><th>다이렉트 연결</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>한국전력공사 광진성동지사 (긴급)</td><td>02-2290-5261</td><td><a href="tel:0222905261" class="contact-call">전화연결</a></td></tr>
+                <tr><td>한전 광진변전소 직통 라인</td><td>02-2290-5268</td><td><a href="tel:0222905268" class="contact-call">전화연결</a></td></tr>
+                <tr><td>한국전력공사 고장장애 종합신고</td><td>국번없이 123</td><td><a href="tel:123" class="contact-call">전화연결</a></td></tr>
+                <tr><td>한국전기안전공사 서울동부지사</td><td>02-6488-6400</td><td><a href="tel:0264886400" class="contact-call">전화연결</a></td></tr>
+                <tr><td>삼원전기 (상시 전기안전관리 협력)</td><td>010-5223-6789</td><td><a href="tel:01052236789" class="contact-call">전화연결</a></td></tr>
+                <tr><td>이스타파워 (비상발전기 전문 AS)</td><td>02-3472-6971</td><td><a href="tel:0234726971" class="contact-call">전화연결</a></td></tr>
+                <tr><td>성우 E/V (승강기 유지보수 팀)</td><td>010-3495-0508</td><td><a href="tel:01034950508" class="contact-call">전화연결</a></td></tr>
+                <tr><td>티센 엘리베이터 종합 AS 센터</td><td>02-2242-0110</td><td><a href="tel:0222420110" class="contact-call">전화연결</a></td></tr>
+            </tbody>
+        </table>
+        
+        <div style="margin-top:12px; font-size:0.75rem; color:#64748b; font-weight:500; line-height:1.4;">
+            ※ 평상시 정전대비 준비사항:<br>
+            1. ATS, VCB 등 각 차단기 수동 투입방법을 현장에서 사전 전수 확인하십시오.<br>
+            2. 전기실 전 근무자가 실무 조작 가능하도록 비상 대응 훈련 및 평상시 교육을 철저히 이행하십시오.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
