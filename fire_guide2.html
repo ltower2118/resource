@@ -54,4 +54,240 @@
         .contact-card:active { background: #e2e8f0; }
         .contact-name { font-weight: bold; color: #0f172a; margin-bottom: 2px; font-size: 0.82rem; }
 
-        .btn-back { display: block; text-align: center; background: #475569; color: white; padding: 12px; border-radius: 8px; text-decoration
+        .btn-back { display: block; text-align: center; background: #475569; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="main-header">
+        <h1>🏢 서울숲엘타워 현장 비상대응 시스템</h1>
+        <p>방재실 소방 수신반 및 정전 복전 매뉴얼</p>
+    </div>
+
+    <div class="tab-menu">
+        <button id="btn-fire" class="tab-btn active" onclick="openTab('fire')">🚨 소방 수신반 요령</button>
+        <button id="btn-blackout" class="tab-btn" onclick="openTab('blackout')">⚡ 정전/복전 매뉴얼</button>
+    </div>
+
+    <div id="fire" class="manual-section active">
+        
+        <div class="card">
+            <div class="card-title">1. [span_0](start_span)화재 경보 발생 시 초동 비상조치[span_0](end_span)</div>
+            <ul class="step-list">
+                <li class="step-item">
+                    <span class="step-num red-num">1</span>
+                    <span class="step-text"><b>화재 수신반 화면 확인:</b><br>화면 창에 발생한 구체적인 층과 라인을 확인합니다. (예시 화면 표시: <code>2라인-B1F-1</code>) [span_1](start_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num red-num">2</span>
+                    <span class="step-text"><b>방재실 음향 정지 조작 (수신반 우측 녹색 표시 버튼):</b><br><b>[주부저정지]</b>, <b>[주경종정지]</b>, <b>[지구음향정지]</b> 버튼을 눌러 음향을 정지시킵니다. (정지 시 버튼 옆 점멸등이 깜박거림) [span_1](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num red-num">3</span>
+                    <span class="step-text"><b>설비 연동 정지 조작 (수신반 하단 노란색 라인 안):</b><br><b>[프리액션 정지]</b>, <b>[싸이렌 정지]</b>, <b>[비상방송 정지]</b> 등 10개의 녹색 표시 버튼을 눌러 연동을 정지시킵니다. [span_2](start_span)누르면 방재실, 현장 싸이렌 및 지구음향, 비상방송이 정지되며 점멸등이 깜박거립니다.[span_2](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num red-num">4</span>
+                    [span_3](start_span)[span_4](start_span)<span class="step-text"><b>현장 화재 여부 검증:</b><br>화재 경보가 발생한 층에 직접 올라가 실제 화재가 발생했는지 확인하고, 오동작 시 해당 감지기에 적색등이 켜져 있는지 육안 점검합니다.[span_3](end_span)[span_4](end_span)</span>
+                </li>
+            </ul>
+            <div class="info-box">
+                <b>🔥 실제 화재 발생 시 필수 조치:</b><br>
+                [span_5](start_span)현장 확인 결과 실제 화재일 경우에는 위에서 일시 정지시켜 놓은 수신반의 모든 [버튼]을 다시 눌러서 <b>정지를 모두 해지(연동 상태로 원복)</b>시켜야 합니다[span_5](end_span)!
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title slate-side">2. [span_6](start_span)소방 감지기 라인 구획 정보[span_6](end_span)</div>
+            <p style="font-size: 0.8rem; color: #475569; margin: 0 0 8px 0; line-height: 1.4;">수신반 화면에 표시되는 라인별 실제 현장 점검 구역 범위입니다.</p>
+            <div class="line-group">
+                [span_7](start_span)<div class="line-badge line-1">1라인<br>(3,4,5,6호실, 복도, 화장실)[span_7](end_span)</div>
+                [span_8](start_span)<div class="line-badge line-2">2라인<br>(1, 2호실 전용)[span_8](end_span)</div>
+                [span_9](start_span)<div class="line-badge line-3">3라인<br>(일반/비상용 E/V 홀)[span_9](end_span)</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">3. [span_10](start_span)감지기 오동작 시 최종 복구 요령[span_10](end_span)</div>
+            <ul class="step-list">
+                <li class="step-item">
+                    [span_11](start_span)<span class="step-text"><b>현장 대기 상태 유지:</b> 감지기 오작동 시에는 주경종을 정지시켜도 다시 싸이렌이 울리며, 방재실에서 복구 버튼을 눌러도 소용이 없습니다.[span_11](end_span) 반드시 아래 순서를 엄수하십시오.</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num">A</span>
+                    [span_12](start_span)<span class="step-text">방재실 노란색 라인의 녹색 13개 버튼은 <b>눌려져 있는 상태(정지 상태)를 유지</b>합니다.[span_12](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num" style="background:#dc2626;">B</span>
+                    [span_13](start_span)<span class="step-text">이 상태에서 방재실 수신반의 빨간색 <b>[복구] 버튼은 절대로 먼저 누르지 마십시오.</b>[span_13](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num">C</span>
+                    [span_14](start_span)<span class="step-text">현장에서 <b>적색 LED가 켜진 불량 감지기를 완전히 분리(탈거)</b>합니다.[span_14](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num">D</span>
+                    [span_15](start_span)<span class="step-text">감지기 분리가 완료된 것을 확인한 뒤, 방재실로 돌아와 수신반의 빨간색 <b>[복구] 버튼</b>을 누릅니다.[span_15](end_span)</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            [span_16](start_span)<div class="card-title slate-side">🛠️ 주경종(싸이렌) 연속 발생 시 최종 임시조치[span_16](end_span)</div>
+            <div class="info-box orange-box" style="margin-top:0;">
+                [span_17](start_span)방재실 내부 수신기에서 주경종 싸이렌이 꺼지지 않고 계속 울릴 때 행하는 최후의 비상 임시조치 방법입니다.[span_17](end_span)<br><br>
+                [span_18](start_span)<b>👉 조치 방법:</b> 소방수신기 하단 문열기 내부 공간 안에 위치한 <b>[N-MUX LU 수신기 내부 잭(Jack) 분리]</b>를 실행하면 방재실 경보음이 강제로 해제됩니다.[span_18](end_span)<br>
+                [span_19](start_span)<span style="font-size:0.75rem; color:#b45309; display:block; margin-top:6px;">※ 조치 전후 반드시 긴급 연락망을 통해 담당자 및 책임자에게 상황을 전하고 지시에 따르십시오.[span_19](end_span)</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="blackout" class="manual-section">
+        
+        <div class="card">
+            <div class="card-title blue-side">1. [span_20](start_span)정전대비 평상시 준비사항[span_20](end_span)</div>
+            <ul class="step-list">
+                [span_21](start_span)<li class="step-item"><span class="step-num">1</span><span class="step-text">ATS, VCB 등 각 차단기의 수동 투입방법을 사전에 확실히 확인해 둡니다.[span_21](end_span)</span></li>
+                [span_22](start_span)<li class="step-item"><span class="step-num">2</span><span class="step-text">근무자가 돌발 상황 시 직접 조작할 수 있도록 평상시 교육을 실시합니다.[span_22](end_span)</span></li>
+                [span_23](start_span)<li class="step-item"><span class="step-num">3</span><span class="step-text">전기안전관리자 및 협력공사업체 연락처를 항시 파악해 둡니다.[span_23](end_span)</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-title blue-side">2. [span_24](start_span)사고 정전 발생 시 복전 순서 (1~10단계)[span_24](end_span)</div>
+            <ul class="step-list">
+                <li class="step-item">
+                    <span class="step-num blue-num">1</span>
+                    [span_25](start_span)<span class="step-text">정전 즉시 내부 전체가 암전되며 유도등, 비상조명등, 전기실 DC등만 켜지게 됩니다.[span_25](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">2</span>
+                    [span_26](start_span)<span class="step-text">전기실 내 발전기가 굉장한 소음을 내며 <b>자동 가동</b>되는지 확인합니다.<br><b>(만일 발전기가 자동으로 안 돌면 즉시 수동조작하여 가동시켜야 하며, 발전기반 ACB 역시 자동으로 안 되면 중요부하부터 수동 조작하여 투입합니다.)</b>[span_26](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">3</span>
+                    [span_27](start_span)<span class="step-text">저압반에 있는 <b>ATS가 한전측에서 발전측으로 자동 절체</b>되는지 표시등을 확인합니다.<br><b>(만일 ATS가 자동으로 발전측으로 절체 안 될 시에는 수동으로 강제 절체시켜야 합니다.)</b>[span_27](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">4</span>
+                    <span class="step-text">특고압반에 VCB 정전 경보 부저가 울리면 <b>부저를 정지</b>시킵니다. [span_28](start_span)한전 정전 시 MOF 계량기는 꺼지고 LBS 쪽 표시 램프는 적색등이 아닌 녹색등이 켜지거나 소등되므로 이를 육안 점검합니다.[span_28](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">5</span>
+                    [span_29](start_span)<span class="step-text">한전(123)에 연락하여 정전 원인 및 복전 예상시간을 확인한 후, 최경식 소장님 등 책임자와 직원 비상연락망을 통해 상황을 전파합니다.[span_29](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">6</span>
+                    [span_30](start_span)<span class="step-text"><b>한전 전원 복전 유무 확인:</b> 복전이 이루어지면 전기실 내 DC등이 꺼지고, LBS 판넬의 표시 램프가 다시 적색등으로 인입되며, MOF 계량기에도 전원이 돌아옵니다.[span_30](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">7</span>
+                    [span_31](start_span)<span class="step-text">특고압반 VCB의 <b>UVR(부족전압계전기) 동작 빨간 램프를 리셋(RESET)</b> 시켜 오동작 신호를 없앤 후, VCB를 차례대로 <b>CLOSE(투입)</b> 조작합니다.[span_31](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">8</span>
+                    <span class="step-text">복전 후 비상발전기가 정상적으로 멈추는지 확인하고, 발전기반 내 계전기 점검 및 자동운전 모드 세팅을 확인합니다. [span_32](start_span)또한 ATS반과 저압반 ACB가 <b>'자동 및 한전측'</b>으로 명확히 복구되었는지 검증합니다.[span_32](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">9</span>
+                    [span_33](start_span)<span class="step-text">비상연락망을 통해 전 직원에게 복전 완료를 공유한 후, 주요 설비들의 상태를 전면 조사합니다.<br><b>[조사 대상]:</b> 엘리베이터, 방재실(소방수신반, 방송시스템, 자동제어 PC, CCTV 모니터링 등), 펌프류(지하4층 기계실 MCC반, 수전펌프, 배수펌프, 분리수거장 및 B2F 졸라펌프), 주차시스템, 정화조 등[span_33](end_span)</span>
+                </li>
+                <li class="step-item">
+                    <span class="step-num blue-num">10</span>
+                    [span_34](start_span)<span class="step-text">복전 상황 및 점검 결과를 바탕으로 최종 <b>보고서를 작성</b>합니다.[span_34](end_span)</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-title blue-side">3. [span_35](start_span)[span_36](start_span)정기검사(계획정전) 작업 시퀀스 매뉴얼[span_35](end_span)[span_36](end_span)</div>
+            <p style="font-size:0.8rem; color:#475569; margin:0 0 10px 0; line-height:1.45;">정기 법정 검사 시 수동 차단 및 투입 진행 단계입니다.</p>
+            
+            [span_37](start_span)<div style="font-size:0.85rem; font-weight:bold; color:#1e3a8a; margin-bottom:6px;">⬇️ [차단 및 검사 단계 순서][span_37](end_span)</div>
+            <ul class="step-list" style="margin-bottom:15px;">
+                <li class="step-item"><span class="step-text">가. [span_38](start_span)[span_39](start_span)통신사와 보안업체 등에 계획정전 사전 통보 및 세대/공용부하 사전 공지 방송 실시[span_38](end_span)[span_39](end_span)</span></li>
+                <li class="step-item"><span class="step-text">나. [span_40](start_span)방재실 내 주요 장비 전원 OFF (원격검침, 조명설비, CCTV DVR, 방송설비, 주차차량인식시스템, 소방수신반 등 / 단, R형 수신기 및 방송시스템의 비상대비 가동 유지 상태는 별도 확인)[span_40](end_span)</span></li>
+                <li class="step-item"><span class="step-text">다. [span_41](start_span)승강기(1, 2, 3호기 및 화물용 4대)를 모두 1층에 잡아놓고 운행 정지 (경비 정지)[span_41](end_span)</span></li>
+                <li class="step-item"><span class="step-text">라. [span_42](start_span)검사 10분 전 작업자 및 로비 경비원과 상황 공유 진행[span_42](end_span)</span></li>
+                <li class="step-item"><span class="step-text">마. [span_43](start_span)신세계 UPS 가동시간(30분 내)을 고려하여 정전 복구 스케줄을 재차 확인[span_43](end_span)</span></li>
+                <li class="step-item"><span class="step-text">바. [span_44](start_span)저압반 비상동력 MCCB(소방, 승강기, 방재실 부하) 및 각 층별 저압반 차단기 선택 OFF 확인[span_44](end_span)</span></li>
+                <li class="step-item"><span class="step-text">사. [span_45](start_span)각 ACB 차단기 수동 OFF 조작 (4SS ➡️ 5SS 순차 차단 및 3SS 비상/동력 차단 검토 후 풀턴 스위치나 조작 버튼으로 OFF)[span_45](end_span)</span></li>
+                <li class="step-item"><span class="step-text">아. [span_46](start_span)ATS 절체 및 비상발전전원 자동 가동 확인 (승강기, 정화조, 소방, 수전 주요 전등, 조작판넬, 정류반 비상 전원 공급 확인)[span_46](end_span)</span></li>
+                <li class="step-item"><span class="step-text">자. [span_47](start_span)VCB 및 LBS 차단 개방 (2SS 및 1SS 판넬을 풀턴 스위치나 조작 버튼으로 OFF)[span_47](end_span)</span></li>
+                <li class="step-item"><span class="step-text">차. [span_48](start_span)2차 사고 예방을 위해 PF 개방, MOF반 및 TR반 개방 조치[span_48](end_span)</span></li>
+                <li class="step-item"><span class="step-text">카. [span_49](start_span)최종 한전 책임분계점(COS) 개방 조치[span_49](end_span)</span></li>
+                <li class="step-item"><span class="step-text">타. [span_50](start_span)한국전기안전공사 주관 수변전설비 점검 실시 (고압절연내압, 보호계전기 시험, 절연저항 측정 등)[span_50](end_span)</span></li>
+            </ul>
+
+            [span_51](start_span)[span_52](start_span)<div style="font-size:0.85rem; font-weight:bold; color:#16a34a; margin-bottom:6px;">⬆️ [복전 실시 단계 순서 - 차단과 역순][span_51](end_span)[span_52](end_span)</div>
+            <div class="info-box blue-box" style="margin-top:0; margin-bottom:10px; font-size:0.78rem;">
+                [span_53](start_span)<b>※ 중요 안전 수칙:</b> 복전 투입 시 설비 기기 보호를 위해 각 투입 단계 사이사이에 <b>'서지 소멸 시간'</b>을 반드시 확보하고 진입하십시오.[span_53](end_span)
+            </div>
+            <ul class="step-list">
+                <li class="step-item"><span class="step-text">1. [span_54](start_span)큐비클 내부 작업 완료 상태 전면 확인 (내부 작업자 잔류 여부, 공구류 및 이물질 확인, 퓨즈 고정, 안전 도어 잠금 등) 후 <b>TR보호용 PF 투입</b>[span_54](end_span)</span></li>
+                <li class="step-item"><span class="step-text">2. [span_55](start_span)<b>한전 책임분계점 투입</b> 시행[span_55](end_span)</span></li>
+                <li class="step-item"><span class="step-text">3. [span_56](start_span)<b>LBS 투입</b> (VCB 인터록 관계 확인, 조작 키 위치 확인 / 고장 정전 시에도 VCB 트립 후 LBS 차단 원칙 적용)[span_56](end_span)</span></li>
+                <li class="step-item"><span class="step-text">4. [span_57](start_span)DM 단자반 LED 표시등 및 VCB반 전압/전류 계기값 확인 후 <b>VCB 투입</b> 진행 (투입 후 일정 시간 유지하며 변압기(TR) 무부하 전류, 1차측 전압, 역률 등 무부하 데이터 기록)[span_57](end_span)</span></li>
+                <li class="step-item"><span class="step-text">5. [span_58](start_span)<b>공용 ACB 투입</b> 조작 (투입 후 분리 불가능한 부하의 초기 계기값 기록, 서지 소멸 시간 확보 후 수변전실 전등 및 DC 부하 상태 주의 관찰)[span_58](end_span)</span></li>
+                <li class="step-item"><span class="step-text">6. [span_59](start_span)[span_60](start_span)<b>ATS 자동 절체</b> 확인 및 비상발전기 자동 정지 여부 체크 (ACB 투입 개방 동작 연동 확인)[span_59](end_span)[span_60](end_span)</span></li>
+                <li class="step-item"><span class="step-text">7. [span_61](start_span)<b>공용 부하별 MCCB 차단기 투입</b> (사전 작성된 부하 기록표를 참고하여 투입 시 변동 계기값 기록 및 불평형 부하 확인 후 서지 소멸 시간 확보)[span_61](end_span)</span></li>
+                <li class="step-item"><span class="step-text">8. [span_62](start_span)<b>세대 ACB 차단기 투입</b> 조작[span_62](end_span)</span></li>
+                <li class="step-item"><span class="step-text">9. [span_63](start_span)충분한 서지 소멸 시간을 추가 확보한 후, <b>각 동별 MCCB 차단기 투입</b>[span_63](end_span)</span></li>
+                <li class="step-item"><span class="step-text">10. [span_64](start_span)최종적으로 <b>세대 내부 분전함의 메인 차단기(MCCB)를 투입</b>하며 검사 종료[span_64](end_span)</span></li>
+                <li class="step-item"><span class="step-text">11. [span_65](start_span)[span_66](start_span)복전 후 가동 점검 수행 (1~3호 및 화물 엘리베이터 가동, 정화조, MCC반, 수전/배수 펌프, 방재실 원격검침, 조명, CCTV, 방송, 주차 정산소 정산 시스템, 소방 수신반 등 이상 유무 최종 점검 및 정전 기록 보관)[span_65](end_span)[span_66](end_span)</span></li>
+            </ul>
+            
+            <div class="info-box orange-box" style="font-size:0.78rem;">
+                [span_67](start_span)<b>⚠️ 수전실 절대 금지 조치 사항[span_67](end_span):</b><br>
+                - <b>PTT 및 CTT 단자</b>는 한국전기안전공사 시험자 외에는 <b>절대 조작 및 사용을 금지</b>합니다. (평상시 이물질 투입 방지를 위해 분리 보관할 것) [span_68](start_span)[span_69](start_span)<br>
+                - 고압반 계기, 계전기 부품 수리 시에는 <b>임의 조작을 절대 금지</b>하며, 반드시 전체 계획정전을 실시한 후 안전용구(절연모, 절연장갑)를 착용하고 작업하는 것을 원칙으로 합니다.[span_68](end_span)[span_69](end_span)
+            </div>
+        </div>
+
+        <div class="card">
+            [span_70](start_span)<div class="card-title slate-side">📞 현장 긴급 비상 연락처 대장[span_70](end_span)</div>
+            <div class="contact-grid">
+                [span_71](start_span)<a href="tel:123" class="contact-card"><span class="contact-name">한전 고장/장애 신고</span>국번없이 123[span_71](end_span)</a>
+                [span_72](start_span)<a href="tel:0222905261" class="contact-card"><span class="contact-name">한전 광진성동지사</span>02-2290-5261[span_72](end_span)</a>
+                [span_73](start_span)<a href="tel:0222905268" class="contact-card"><span class="contact-name">광진변전소</span>02-2290-5268[span_73](end_span)</a>
+                [span_74](start_span)<a href="tel:0264886400" class="contact-card"><span class="contact-name">전기안전공사 서울동부</span>02-6488-6400[span_74](end_span)</a>
+                [span_75](start_span)<a href="tel:0234726971" class="contact-card"><span class="contact-name">비상발전기 (이스타파워)</span>02-3472-6971[span_75](end_span)</a>
+                [span_76](start_span)<a href="tel:01052236789" class="contact-card"><span class="contact-name">삼원전기 안전</span>010-5223-6789[span_76](end_span)</a>
+                [span_77](start_span)<a href="tel:01034950508" class="contact-card"><span class="contact-name">성우 승강기 AS</span>010-3495-0508[span_77](end_span)</a>
+                [span_78](start_span)<a href="tel:0222420110" class="contact-card"><span class="contact-name">티센 엘리베이터 AS</span>02-2242-0110[span_78](end_span)</a>
+                [span_79](start_span)<a href="tel:01022715101" class="contact-card"><span class="contact-name">최경식 소장 (책임자)</span>010-2271-5101[span_79](end_span)</a>
+                [span_80](start_span)<a href="tel:01063187516" class="contact-card"><span class="contact-name">하유신 과장</span>010-6318-7516[span_80](end_span)</a>
+                [span_81](start_span)<a href="tel:01023230197" class="contact-card"><span class="contact-name">박기환 과장</span>010-2323-0197[span_81](end_span)</a>
+                [span_82](start_span)<a href="tel:0221181377" class="contact-card"><span class="contact-name">L타워 로비 경비실</span>02-2118-1377[span_82](end_span)</a>
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="btn-back">⬅️ 메인 대시보드로 돌아가기</a>
+
+</div>
+
+<script>
+    function openTab(tabId) {
+        document.querySelectorAll('.manual-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+            btn.classList.remove('blue-tab');
+        });
+        
+        document.getElementById(tabId).classList.add('active');
+        
+        const currentBtn = event.currentTarget;
+        currentBtn.classList.add('active');
+        if(tabId === 'blackout') {
+            currentBtn.classList.add('blue-tab');
+        }
+    }
+</script>
+
+</body>
+</html>
