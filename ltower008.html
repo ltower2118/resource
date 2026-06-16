@@ -41,7 +41,59 @@
         
         .loading-text { text-align: center; font-size: 0.85rem; color: #94a3b8; padding: 20px 0; }
         .error-text { text-align: center; font-size: 0.85rem; color: #f87171; padding: 20px 0; }
-    </style>
+   // index.html 맨 아래 <script> 안의 fetch 부분을 이 코드로 교체하세요.
+
+const csvFileName = "facility_list.csv"; 
+
+fetch(csvFileName)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("엑셀 CSV 파일을 찾을 수 없습니다.");
+        }
+        // 원래 response.text()였던 부분을 arrayBuffer()로 받아옵니다 (글자 깨짐 방지)
+        return response.arrayBuffer();
+    })
+    .then(buffer => {
+        // 💡 한국어 엑셀 전용 CP949(EUC-KR) 디코더로 한글 깨짐을 강제 해결합니다.
+        const decoder = new TextDecoder("cp949");
+        const text = decoder.decode(buffer);
+
+        const lines = text.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+        if (lines.length === 0) {
+            document.getElementById("table-container").innerHTML = "<div class='error-text'>❌ 엑셀 파일에 데이터가 없습니다.</div>";
+            return;
+        }
+
+        let html = "<table class='excel-table'><thead><tr>";
+        const headers = parseCSVLine(lines[0]);
+        headers.forEach(header => {
+            html += `<th>${header}</th>`;
+        });
+        html += "</tr></thead><tbody>";
+
+        for (let i = 1; i < lines.length; i++) {
+            const columns = parseCSVLine(lines[i]);
+            if (columns.length === headers.length || columns.length > 1) {
+                html += "<tr>";
+                columns.forEach((col, index) => {
+                    if(index === 0) {
+                        html += `<td><span class='badge'>${col}</span></td>`;
+                    } else {
+                        html += `<td>${col}</td>`;
+                    }
+                });
+                html += "</tr>";
+            }
+        }
+        html += "</tbody></table>";
+        document.getElementById("table-container").innerHTML = html;
+    })
+    .catch(error => {
+        console.error(error);
+        document.getElementById("table-container").innerHTML = 
+            `<div class='error-text'>❌ 엑셀 연동 실패<br><span style='font-size:0.75rem; color:#64748b; font-weight:normal;'>파일이 없거나 인코딩 오류입니다.</span></div>`;
+    });
+ </style>
 </head>
 <body>
 
