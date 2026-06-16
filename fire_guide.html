@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🚨 방재실 수신반 화재/오동작 조치 요령</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f1f5f9; padding: 12px; margin: 0; color: #0f172a; }
+        .container { max-width: 550px; margin: 0 auto; }
+        
+        /* 상단 헤더 */
+        .header { background: #dc2626; color: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(220,38,38,0.2); margin-bottom: 15px; }
+        .header h1 { margin: 0; font-size: 1.15rem; font-weight: bold; }
+        .header p { margin: 5px 0 0 0; font-size: 0.8rem; opacity: 0.9; }
+
+        /* 섹션 공통 카드 스타일 */
+        .card { background: white; border-radius: 12px; border: 1px solid #cbd5e1; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .card-title { font-size: 1rem; font-weight: bold; color: #1e3a8a; margin-top: 0; margin-bottom: 12px; border-left: 4px solid #dc2626; padding-left: 8px; display: flex; align-items: center; justify-content: space-between; }
+        
+        /* 스텝 리스트 */
+        .step-list { display: flex; flex-direction: column; gap: 10px; padding: 0; margin: 0; list-style: none; }
+        .step-item { display: flex; gap: 10px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; line-height: 1.45; font-size: 0.88rem; }
+        .step-num { display: inline-flex; align-items: center; justify-content: center; background: #1e3a8a; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.75rem; font-weight: bold; shrink: 0; flex-shrink: 0; }
+        .step-text b { color: #dc2626; }
+        
+        /* 하이라이트 경고 박스 */
+        .warning-box { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 0.82rem; color: #991b1b; line-height: 1.45; }
+        .warning-box b { color: #dc2626; }
+
+        /* 도면 배치용 뱃지 그룹 */
+        .line-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 10px; }
+        .line-badge { text-align: center; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 0.8rem; color: white; }
+        .line-1 { background: #16a34a; } /* 녹색 */
+        .line-2 { background: #dc2626; } /* 적색 */
+        .line-3 { background: #eab308; color: #0f172a; } /* 황색 */
+
+        /* 임시조치 안내판 */
+        .emergency-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 12px; font-size: 0.82rem; color: #c2410c; line-height: 1.45; }
+
+        /* 메인으로 돌아가기 버튼 */
+        .btn-back { display: block; text-align: center; background: #475569; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 상단 타이틀 -->
+    <div class="header">
+        <h1>🚨 방재실 수신반 화재 대처 매뉴얼</h1>
+        <p>성수동1가 지식산업센터 현장 실무 가이드</p>
+    </div>
+
+    <!-- 1단계: 초동 조치 -->
+    <div class="card">
+        <div class="card-title">1. 화재 경보 발생 시 초동 조치 시퀀스</div>
+        <ul class="step-list">
+            <li class="step-item">
+                <span class="step-num">1</span>
+                <span class="step-text"><b>화재 수신반 모니터 화면 확인</b><br>화면에 표시된 구체적인 <b>발생 층과 감지기 라인</b>을 파악합니다.<br>(예: <code>2라인-B1F-1</code> 표시됨)</span>
+            </li>
+            <li class="step-item">
+                <span class="step-num">2</span>
+                <span class="step-text"><b>수신반 우측 [음향 정지] (녹색 버튼 3개)</b><br><b>[주부저정지]</b>, <b>[주경종정지]</b>, <b>[지구음향정지]</b>를 즉시 눌러 방재실 및 현장 음향을 일시 정지시킵니다. (정지 시 점멸등 깜박임)</span>
+            </li>
+            <li class="step-item">
+                <span class="step-num">3</span>
+                <span class="step-text"><b>수신반 하단 [설비 연동 정지] (녹색 버튼 10개)</b><br><b>노란색 라인 안</b>에 있는 <b>[싸이렌정지]</b>, <b>[비상방송정지]</b>, <b>[프리액션 정지]</b> 등 총 10여 개의 연동 버튼을 눌러 정지(점멸) 상태로 둡니다.</span>
+            </li>
+        </ul>
+        <div class="warning-box">
+            <b>⚠️ 실제 화재 발생 시 주의사항:</b><br>
+            현장 확인 후 실제 화재인 경우에는 상기 정지시켜 놓은 모든 녹색 버튼들을 즉시 다시 눌러 <b>[정지 해제(연동)] 상태로 원복</b>시켜야 정상적으로 소방 설비가 작동합니다.
+        </div>
+    </div>
+
+    <!-- 2단계: 현장 검증 및 도면 정보 -->
+    <div class="card">
+        <div class="card-title">2. 현장 확인 및 소방 감지기 라인 정보</div>
+        <ul class="step-list">
+            <li class="step-item">
+                <span class="step-num">4</span>
+                <span class="step-text"><b>경보 발생 층 이동 후 육안 검증</b><br>현장 천장에 설치된 소방 감지기 중 <b>빨간색 불(적색 LED)이 들어와 있는 문제의 감지기</b>를 탐색합니다.</span>
+            </li>
+        </ul>
+        
+        <div style="font-size:0.82rem; font-weight:bold; margin-top:12px; color:#334155;">📍 수신반 표시 라인별 현장 점검 구역</div>
+        <div class="line-group">
+            <div class="line-badge line-1">1라인<br>(3,4,5,6호실/복도/화장실)</div>
+            <div class="line-badge line-2">2라인<br>(1, 2호실 전용)</div>
+            <div class="line-badge line-3">3라인<br>(일반/비상 E/V 홀)</div>
+        </div>
+    </div>
+
+    <!-- 3단계: 복구 및 오동작 처리 -->
+    <div class="card">
+        <div class="card-title">3. 감지기 오동작 시 최종 복구 요령</div>
+        <ul class="step-list">
+            <li class="step-item">
+                <span class="step-num">5</span>
+                <span class="step-text"><b>오동작 감지기 분리 (필수)</b><br>주경종을 정지시켜도 감지기가 맛이 간 경우(오작동) <b>수신반 복구를 눌러도 소용없이 다시 싸이렌이 울립니다.</b> 반드시 현장에서 적색 점등된 감지기를 헤드에서 돌려 <b>분리(탈거)</b>해야 합니다.</span>
+            </li>
+            <li class="step-item">
+                <span class="step-num">6</span>
+                <span class="step-text"><b>방재실 수신반 [복구] 처리</b><br>감지기 탈거가 확인되면 방재실 수신반의 빨간색 <b>[복구]</b> 버튼을 눌러 전체 시스템을 리셋합니다.</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 4단계: 비상 임시조치 -->
+    <div class="card">
+        <div class="card-title">🛠️ 방재실 주경종(싸이렌) 연속 발생 시 임시조치</div>
+        <div class="emergency-box">
+            감지기 불량이나 선로 단락 등으로 인해 방재실에 주경종 및 싸이렌이 멈추지 않고 계속 울릴 때의 최종 임시조치 방법입니다.<br>
+            <b>👉 조치법:</b> 수신기 내부 문을 열고 내부에 위치한 <b>[N-MUX LU 수신기 내 잭(Jack) 분리]</b>를 실행하면 방재실 경보음이 강제로 해제됩니다.<br>
+            <span style="font-size:0.75rem; color:#b45309; display:block; margin-top:4px;">※ 주의: 본 조치는 긴급 연락망을 통해 담당자 및 책임자에게 선 보고 후 지시에 따라 시행하십시오.</span>
+        </div>
+    </div>
+
+    <!-- 홈 화면 링크 -->
+    <a href="index.html" class="btn-back">⬅️ 메인 대시보드로 돌아가기</a>
+
+</div>
+
+</body>
+</html>
