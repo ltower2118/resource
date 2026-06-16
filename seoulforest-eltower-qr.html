@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서울숲엘타워 시설물 안내</title>
+<style>
+  :root{
+    --navy:#16459b;
+    --navy-dark:#0f3578;
+    --red:#c62828;
+    --red-bg:#fdecea;
+    --red-border:#f5b8b3;
+    --blue-bg:#e7f3fb;
+    --blue-border:#bfe2f2;
+    --gray-bg:#f2f4f7;
+    --text:#1a1f2b;
+    --sub:#5b6472;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--gray-bg);
+    font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--text);
+  }
+  .wrap{
+    max-width:480px;
+    margin:0 auto;
+    padding:20px 16px 60px;
+  }
+  .header{
+    background:linear-gradient(135deg,var(--navy),var(--navy-dark));
+    border-radius:14px;
+    padding:28px 20px;
+    text-align:center;
+    color:#fff;
+    margin-bottom:24px;
+  }
+  .header h1{
+    margin:0 0 8px;
+    font-size:22px;
+    font-weight:800;
+  }
+  .header p{
+    margin:0;
+    font-size:13px;
+    color:#cfe0f7;
+  }
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:17px;
+    font-weight:800;
+    margin:28px 0 12px;
+  }
+  .card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:10px;
+    border:1px solid transparent;
+  }
+  .card.red{ background:var(--red-bg); border-color:var(--red-border); }
+  .card.blue{ background:var(--blue-bg); border-color:var(--blue-border); }
+  .card .label{
+    font-size:14px;
+    font-weight:700;
+    line-height:1.4;
+  }
+  .card .label small{
+    display:block;
+    font-weight:400;
+    color:var(--sub);
+    font-size:12px;
+    margin-top:2px;
+  }
+  .btn{
+    flex:0 0 auto;
+    border:none;
+    border-radius:8px;
+    padding:10px 14px;
+    font-size:13px;
+    font-weight:700;
+    color:#fff;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .btn.red{ background:var(--red); }
+  .btn.navy{ background:var(--navy); }
+
+  .doc-list{ margin-top:4px; }
+  .doc{
+    display:block;
+    background:#fff;
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:10px;
+    font-weight:700;
+    font-size:15px;
+    text-decoration:none;
+    color:var(--text);
+    box-shadow:0 1px 2px rgba(0,0,0,0.04);
+    border-left:5px solid var(--red);
+  }
+  .doc.alt{ border-left-color:#2e8b57; }
+
+  .expand-box{
+    display:none;
+    background:#fff;
+    border-radius:10px;
+    padding:14px 16px;
+    margin-top:-2px;
+    margin-bottom:10px;
+    font-size:13px;
+    line-height:1.7;
+  }
+  .expand-box.show{ display:block; }
+  .expand-box div{ display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px dashed #e3e6ea; }
+  .expand-box div:last-child{ border-bottom:none; }
+  .expand-box a{ color:var(--navy); font-weight:700; text-decoration:none; }
+
+  .note{
+    margin-top:30px;
+    font-size:12px;
+    color:var(--sub);
+    text-align:center;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <h1>서울숲엘타워 시설물 안내</h1>
+    <p>QR코드로 접속한 시설관리 페이지입니다</p>
+  </div>
+
+  <div class="section-title">📞 시설관리 긴급 핫라인</div>
+
+  <div class="card red">
+    <div class="label">⚡ 한국전력공사 고장장애 종합신고</div>
+    <a class="btn red" href="tel:123">즉시 통화 (123)</a>
+  </div>
+
+  <div class="card blue">
+    <div class="label">🛗 승강기 유지보수<small>고장 신고 / AS 출동 요청</small></div>
+    <a class="btn navy" href="tel:15881580">AS 센터 연결</a>
+  </div>
+
+  <div class="card red">
+    <div class="label">🔥 소방 · 화재 비상신고</div>
+    <a class="btn red" href="tel:119">119 연결</a>
+  </div>
+
+  <div class="card blue">
+    <div class="label">🅿️ 주차관제 시스템 장애<small>차단기 · 무인정산기 오류</small></div>
+    <a class="btn navy" href="tel:0212345678">담당자 연결</a>
+  </div>
+
+  <div class="section-title">☎️ 비상연락망</div>
+
+  <div class="card blue">
+    <div class="label">🏢 관리소 · 전기과 직접 연결</div>
+    <a class="btn navy" href="tel:0212340000">전기과장 연결</a>
+  </div>
+
+  <div class="card blue" style="cursor:pointer" onclick="document.getElementById('list1').classList.toggle('show')">
+    <div class="label">📋 외주 협력사 · 관공서 연락망</div>
+    <span class="btn navy">목록 보기</span>
+  </div>
+  <div class="expand-box" id="list1">
+    <div><span>CCTV/네트워크 협력사</span><a href="tel:0000000000">연결</a></div>
+    <div><span>소방시설 점검업체</span><a href="tel:0000000000">연결</a></div>
+    <div><span>승강기 유지보수(성우/티센)</span><a href="tel:15881580">연결</a></div>
+    <div><span>관할 소방서</span><a href="tel:119">연결</a></div>
+    <div><span>관할 경찰서</span><a href="tel:112">연결</a></div>
+  </div>
+
+  <div class="section-title">📁 설비 자료실</div>
+  <div class="doc-list">
+    <a class="doc" href="#">정전 시 긴급대응 매뉴얼</a>
+    <a class="doc alt" href="#">입주사 긴급비상 연락망</a>
+    <a class="doc" href="#">직원 및 관계기관 연락처</a>
+    <a class="doc alt" href="#">화재 발생 시 대응절차</a>
+    <a class="doc" href="#">승강기 점검 · 장애대응 매뉴얼</a>
+    <a class="doc alt" href="#">통신실 · IT장비 비상연락처</a>
+  </div>
+
+  <div class="note">
+    ※ 예시 템플릿입니다. 실제 전화번호 · 매뉴얼 PDF 링크로 교체 후 QR코드를 생성해 사용하세요.
+  </div>
+
+</div>
+</body>
+</html>
