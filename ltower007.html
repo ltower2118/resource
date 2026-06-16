@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏢 지식산업센터 엑셀 연동형 통합 제어 허브 (밝은 모드)</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        /* 시인성이 우수한 맑은 연회색 배경 */
+        body { background-color: #f1f5f9; padding: 12px; margin: 0; color: #0f172a; }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        /* 💡 신뢰감을 주는 블루&화이트 톤 헤더 */
+        .hub-header { text-align: center; padding: 18px 0; border-bottom: 2px solid #cbd5e1; margin-bottom: 15px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .hub-header h1 { margin: 0; font-size: 1.25rem; color: #1e3a8a; font-weight: bold; }
+        .hub-header p { margin: 5px 0 0 0; font-size: 0.82rem; color: #64748b; font-weight: 500; }
+
+        /* 그룹 타이틀을 더 명확하고 진하게 조정 */
+        .group-title { font-size: 0.92rem; font-weight: bold; color: #334155; margin: 22px 0 10px 4px; letter-spacing: 0.3px; border-left: 4px solid #1e3a8a; padding-left: 6px; }
+
+        /* 🚨 상황 맞춤형 긴급 시나리오 카드 리스트 */
+        .scenario-container { display: flex; flex-direction: column; gap: 8px; }
+        .scenario-card { display: flex; align-items: center; background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; text-decoration: none; color: #1e293b; transition: all 0.15s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .scenario-card:active { background: #f8fafc; transform: scale(0.99); }
+        .scenario-badge { width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-right: 12px; flex-shrink: 0; color: white; }
+        .scenario-info { display: flex; flex-direction: column; }
+        .scenario-question { font-size: 0.9rem; font-weight: bold; color: #0f172a; }
+        .scenario-action { font-size: 0.76rem; color: #2563eb; margin-top: 3px; font-weight: 500; }
+
+        /* 밝은 모드용 고대비 위험 알림 색상 정의 */
+        .bg-danger { background: #fef2f2; border-color: #fca5a5 !important; }
+        .bg-danger .scenario-badge { background: #dc2626; }
+        .bg-danger .scenario-action { color: #b91c1c; }
+
+        /* 📊 밝은 모드용 오피스 엑셀 표 스타일 */
+        .excel-table-wrapper { background: white; border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px; overflow-x: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .excel-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; color: #334155; text-align: left; min-width: 440px; }
+        .excel-table th { background: #f8fafc; color: #1e3a8a; font-weight: bold; padding: 10px 8px; border-bottom: 2px solid #cbd5e1; font-size: 0.85rem; }
+        .excel-table td { padding: 11px 8px; border-bottom: 1px solid #e2e8f0; line-height: 1.45; }
+        .excel-table tr:nth-child(even) { background-color: #fcfcfc; } /* 행 구분선 명확화 */
+        .excel-table tr:last-child td { border-bottom: none; }
+        
+        /* 설비 분류 구분용 스마트 배지 */
+        .badge { display: inline-block; padding: 3px 7px; border-radius: 4px; font-size: 0.72rem; font-weight: bold; background: #475569; color: white; }
+        
+        .loading-text { text-align: center; font-size: 0.85rem; color: #64748b; padding: 20px 0; font-weight: 500; }
+        .error-text { text-align: center; font-size: 0.85rem; color: #dc2626; padding: 20px 0; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="hub-header">
+        <h1>🏢 서울숲엘타워 통합 시설제어반</h1>
+        <p>엑셀 데이터 실시간 연동 스마트 대시보드 (Light Mode)</p>
+    </div>
+
+    <div class="group-title">🚨 현장 상황별 비상 대응 매뉴얼</div>
+    <div class="scenario-container">
+        <a href="index5.html" class="scenario-card bg-danger">
+            <div class="scenario-badge">⚡</div>
+            <div class="scenario-info">
+                <span class="scenario-question">건물 전체 불이 꺼지고 정전이 발생했습니까?</span>
+                <span class="scenario-action">➡️ [클릭] 7페이지 분량 완벽 복전 시퀀스 매뉴얼 열기</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="group-title">📊 엑셀 데이터 연동: 전반 시설물 및 관리대장</div>
+    <div class="excel-table-wrapper">
+        <div id="table-container">
+            <div class="loading-text">🔄 facility_list.csv 파일에서 데이터를 불러오는 중...</div>
+        </div>
+    </div>
+
+    <div class="group-title">📞 원터치 긴급 콜센터</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <a href="tel:123" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: 1px solid #fca5a5;">
+            📞 한전 고장 (123)
+        </a>
+        <a href="tel:0222420110" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #f1f5f9; color: #334155; padding: 12px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: bold; border: 1px solid #cbd5e1;">
+            🛗 승강기 고장 (AS)
+        </a>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const csvFileName = "facility_list.csv"; 
+
+        fetch(csvFileName)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("엑셀 CSV 파일을 찾을 수 없습니다.");
+                }
+                return response.text();
+            })
+            .then(text => {
+                const lines = text.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+                if (lines.length === 0) {
+                    document.getElementById("table-container").innerHTML = "<div class='error-text'>❌ 엑셀 파일에 데이터가 없습니다.</div>";
+                    return;
+                }
+
+                let html = "<table class='excel-table'><thead><tr>";
+                const headers = parseCSVLine(lines[0]);
+                headers.forEach(header => {
+                    html += `<th>${header}</th>`;
+                });
+                html += "</tr></thead><tbody>";
+
+                for (let i = 1; i < lines.length; i++) {
+                    const columns = parseCSVLine(lines[i]);
+                    if (columns.length === headers.length || columns.length > 1) {
+                        html += "<tr>";
+                        columns.forEach((col, index) => {
+                            if(index === 0) {
+                                html += `<td><span class='badge'>${col}</span></td>`;
+                            } else {
+                                html += `<td>${col}</td>`;
+                            }
+                        });
+                        html += "</tr>";
+                    }
+                }
+                html += "</tbody></table>";
+                document.getElementById("table-container").innerHTML = html;
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById("table-container").innerHTML = 
+                    `<div class='error-text'>❌ 엑셀 연동 실패<br><span style='font-size:0.75rem; color:#64748b; font-weight:normal;'>저장소 메인 폴더에 [facility_list.csv] 파일이 있는지 확인해 주세요.</span></div>`;
+            });
+
+        function parseCSVLine(text) {
+            let p = '', r = [];
+            let q = false;
+            for (let i = 0; i < text.length; i++) {
+                let c = text.charAt(i);
+                if (c === '"') { q = !q; }
+                else if (c === ',' && !q) { r.push(p); p = ''; }
+                else { p += c; }
+            }
+            r.push(p);
+            return r;
+        }
+    });
+</script>
+
+</body>
+</html>
