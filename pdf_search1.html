@@ -2,166 +2,82 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📑 모바일 PDF 매뉴얼 검색 시스템</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>📑 모바일 종합 PDF 매뉴얼 검색 시스템</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
-        body { background-color: #f1f5f9; margin: 0; padding: 15px; color: #0f172a; }
+        body { background-color: #f1f5f9; margin: 0; padding: 12px; color: #0f172a; }
         .container { max-width: 600px; margin: 0 auto; }
         
-        /* 헤더 스타일 */
-        .header { background: #1e3a8a; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .header h1 { font-size: 1.3rem; margin: 0 0 10px 0; }
+        /* 상단 헤더 영역 */
+        .header { background: #1e3a8a; color: white; padding: 18px; border-radius: 12px; text-align: center; margin-bottom: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 1.25rem; margin: 0 0 12px 0; }
         
-        /* 검색창 영역 */
-        .search-box { display: flex; gap: 8px; margin-top: 10px; }
+        /* 컨트롤 테이블/폼 (파일 선택 및 검색바) */
+        .control-panel { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        .select-box { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9rem; background-color: white; font-weight: bold; color: #334155; }
+        .search-box { display: flex; gap: 6px; }
         .search-input { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; }
-        .search-btn { background: #eab308; border: none; color: #0f172a; padding: 0 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.95rem; }
+        .search-btn { background: #eab308; border: none; color: #0f172a; padding: 0 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.95rem; min-width: 70px; }
         .search-btn:active { background: #ca8a04; }
 
-        /* 검색 결과 안내 */
-        .result-status { font-size: 0.9rem; color: #475569; margin: 10px 0; font-weight: 500; text-align: left; }
+        /* 안내 문구 상태바 */
+        .result-status { font-size: 0.88rem; color: #475569; margin: 8px 0; font-weight: 500; }
 
-        /* 매뉴얼 본문 뷰어 영역 */
-        .pdf-viewer-container { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); min-height: 400px; }
-        .page-box { border-bottom: 2px dashed #e2e8f0; padding-bottom: 20px; margin-bottom: 20px; }
+        /* PDF 내용 출력 뷰어 */
+        .pdf-viewer-container { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); min-height: 350px; }
+        .page-box { border-bottom: 2px dashed #e2e8f0; padding-bottom: 15px; margin-bottom: 15px; }
         .page-box:last-child { border-bottom: none; }
-        .page-num { font-size: 0.8rem; color: #94a3b8; font-weight: bold; margin-bottom: 8px; display: inline-block; background: #f8fafc; padding: 2px 8px; border-radius: 4px; }
+        .page-num { font-size: 0.78rem; color: #94a3b8; font-weight: bold; margin-bottom: 6px; display: inline-block; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
         
-        /* 검색된 키워드 강조 하이라이트 스타일 */
-        .highlight { background-color: #fde047; color: #000; font-weight: bold; padding: 2px 0; border-radius: 2px; box-shadow: 0 0 4px #fde047; }
-        
-        /* 텍스트 내용 출력 레이아웃 */
-        .text-content { font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; word-break: break-all; color: #334155; }
+        /* 검색 단어 하이라이트 효과 */
+        .highlight { background-color: #fde047; color: #000; font-weight: bold; padding: 1px 0; border-radius: 2px; box-shadow: 0 0 4px #fde047; }
+        .text-content { font-size: 0.92rem; line-height: 1.6; white-space: pre-wrap; word-break: break-all; color: #334155; }
         
         /* 하단 푸터 */
-        .footer { text-align: center; font-size: 0.75rem; color: #94a3b8; margin-top: 30px; letter-spacing: 0.3px; }
+        .footer { text-align: center; font-size: 0.75rem; color: #94a3b8; margin-top: 25px; letter-spacing: 0.3px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>방재실 수신반 요령 검색</h1>
-        <div class="search-box">
-            <input type="text" id="keyword" class="search-input" placeholder="검색할 단어를 입력하세요 (예: 프리액션, 부저)" onkeyup="if(window.event.keyCode==13){searchPDF()}">
-            <button class="search-btn" onclick="searchPDF()">검색</button>
+        <h1>통합 모바일 매뉴얼 검색</h1>
+        
+        <div class="control-panel">
+            <select id="pdf-select" class="select-box" onchange="changePDF()">
+                <option value="[교육]방재실수신반요령.pdf">🚨 방재실 수신반 요령 매뉴얼</option>
+                <option value="[서울숲엘타워] 정전시대응메뉴얼정전.pdf">⚡ 정전시 대응 매뉴얼</option>
+            </select>
+            
+            <div class="search-box">
+                <input type="text" id="keyword" class="search-input" placeholder="검색할 단어 입력 (예: 부저, ATS, 복구)" onkeyup="if(window.event.keyCode==13){searchPDF()}">
+                <button class="search-btn" onclick="searchPDF()">검색</button>
+            </div>
         </div>
     </div>
 
-    <div id="status" class="result-status">문서를 불러오는 중입니다...</div>
+    <div id="status" class="result-status">문서를 분석하는 중입니다...</div>
 
-    <div class="pdf-viewer-container" id="viewer">
-        </div>
+    <div class="pdf-viewer-container" id="viewer"></div>
     
     <p class="footer">Built by AI & Ha Yu-sin</p>
 </div>
 
 <script>
-    // 💡 중요: 깃허브에 함께 올린 실제 PDF 파일명과 일치해야 합니다.
-    const pdfUrl = '[교육]방재실수신반요령.pdf'; 
-    
-    let pdfDoc = null;
-    let pagesText = []; // 페이지별 텍스트를 저장할 배열
-
-    // PDF.js 초기화 및 파일 로드
+    // PDF.js 워커 연결 설정
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-    async function loadPDF() {
-        try {
-            pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
-            document.getElementById('status').innerText = `총 ${pdfDoc.numPages}페이지 문서를 확인했습니다. 내용을 동기화합니다.`;
-            
-            const viewer = document.getElementById('viewer');
-            viewer.innerHTML = '';
+    let pdfDoc = null;
+    let pagesText = []; // 현재 로드된 PDF의 텍스트 보관 저장소
 
-            // 모든 페이지의 텍스트 추출하여 메모리에 임시 저장 및 화면 초기 렌더링
-            for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
-                const page = await pdfDoc.getPage(pageNum);
-                const textContent = await page.getTextContent();
-                
-                // 페이지 내의 글자 조각들을 하나의 문장으로 합침
-                const pageText = textContent.items.map(item => item.str).join(' ');
-                pagesText.push({ page: pageNum, text: pageText });
-
-                // 화면에 기본 레이아웃 생성
-                createPageElement(pageNum, pageText);
-            }
-            document.getElementById('status').innerText = `검색 준비 완료. 단어를 입력해 주세요.`;
-        } catch (error) {
-            console.error(error);
-            document.getElementById('status').innerText = `PDF 파일을 불러오지 못했습니다. 파일명을 확인해 주세요.`;
-        }
-    }
-
-    // 화면에 페이지 틀을 만들어주는 함수
-    function createPageElement(pageNum, text) {
+    // 1. 선택한 PDF 파일을 읽어와서 텍스트를 추출하는 핵심 함수
+    async function loadPDF(pdfUrl) {
+        const statusText = document.getElementById('status');
         const viewer = document.getElementById('viewer');
         
-        const pageBox = document.createElement('div');
-        pageBox.className = 'page-box';
-        pageBox.id = `page-container-${pageNum}`;
-
-        const pageLabel = document.createElement('span');
-        pageLabel.className = 'page-num';
-        pageLabel.innerText = `PAGE ${pageNum}`;
-
-        const textDiv = document.createElement('div');
-        textDiv.className = 'text-content';
-        textDiv.id = `page-text-${pageNum}`;
-        textDiv.innerText = text;
-
-        pageBox.appendChild(pageLabel);
-        pageBox.appendChild(textDiv);
-        viewer.appendChild(pageBox);
-    }
-
-    // 🔍 핵심: 검색 버튼 클릭 시 실행되는 함수 (하이라이트 기능 포함)
-    function searchPDF() {
-        const keyword = document.getElementById('keyword').value.trim();
-        const statusText = document.getElementById('status');
-        
-        if (!keyword) {
-            statusText.innerText = "검색어를 입력해 주세요.";
-            // 검색어 없을 시 하이라이트 해제하고 원본 복구
-            pagesText.forEach(item => {
-                document.getElementById(`page-text-${item.page}`).innerText = item.text;
-            });
-            return;
-        }
-
-        let matchCount = 0;
-
-        pagesText.forEach(item => {
-            const textDiv = document.getElementById(`page-text-${item.page}`);
-            const originalText = item.text;
-
-            if (originalText.includes(keyword)) {
-                matchCount++;
-                // 대소문자 구분 없이 키워드 부분을 <span class="highlight">로 감싸서 교체
-                const regex = new RegExp(keyword, 'g');
-                const highlightedText = originalText.replace(regex, `<span class="highlight">${keyword}</span>`);
-                textDiv.innerHTML = highlightedText;
-                
-                // 검색된 내용이 있는 페이지로 스크롤을 살짝 이동시키거나 강조 처리할 수 있음
-                document.getElementById(`page-container-${item.page}`).style.display = 'block';
-            } else {
-                // 검색 결과가 없는 페이지는 텍스트 원상복구
-                textDiv.innerText = originalText;
-            }
-        });
-
-        if (matchCount > 0) {
-            statusText.innerHTML = `검색어 <span style="color:#1e3a8a; font-weight:bold;">'${keyword}'</span>이(가) 포함된 페이지를 찾았습니다.`;
-        } else {
-            statusText.innerText = `검색 결과가 없습니다. 다시 확인해 주세요.`;
-        }
-    }
-
-    // 페이지 로드 시 PDF 가져오기 시작
-    window.onload = loadPDF;
-</script>
-
-</body>
-</html>
+        statusText.innerText = "📄 새 문서를 불러와 텍스트를 추출하고 있습니다...";
+        viewer.innerHTML = '';
+        pagesText = []; // 기존 데이터 초기화
+        document.getElementById('keyword').value = ''; // 검색창
