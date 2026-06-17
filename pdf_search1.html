@@ -80,4 +80,101 @@
         statusText.innerText = "📄 새 문서를 불러와 텍스트를 추출하고 있습니다...";
         viewer.innerHTML = '';
         pagesText = []; // 기존 데이터 초기화
-        document.getElementById('keyword').value = ''; // 검색창
+        document.getElementById('keyword').value = ''; // 검색창 초기화
+
+        try {
+            pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
+            statusText.innerText = `확인 완료: 총 ${pdfDoc.numPages}페이지 문서 로드 성공.`;
+            
+            for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                const page = await pdfDoc.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items.map(item => item.str).join(' ');
+                
+                // 데이터 매핑 저장
+                pagesText.push({ page: pageNum, text: pageText });
+
+                // 초기 화면 구성 배치
+                createPageLayout(pageNum, pageText);
+            }
+            statusText.innerText = `검색 준비 완료. 키워드를 입력해 주세요.`;
+        } catch (error) {
+            console.error(error);
+            statusText.innerText = "❌ 파일을 찾을 수 없거나 불러오지 못했습니다. 깃허브 파일명을 검증해 주세요.";
+        }
+    }
+
+    // 2. 파일 목록 드롭다운 선택이 변경될 때 가동되는 이벤트 함수
+    function changePDF() {
+        const selectedPdf = document.getElementById('pdf-select').value;
+        loadPDF(selectedPdf);
+    }
+
+    // 3. 페이지 레이아웃 구조 동적 생성기
+    function createPageLayout(pageNum, text) {
+        const viewer = document.getElementById('viewer');
+        
+        const pageBox = document.createElement('div');
+        pageBox.className = 'page-box';
+        pageBox.id = `page-container-${pageNum}`;
+
+        const pageLabel = document.createElement('span');
+        pageLabel.className = 'page-num';
+        pageLabel.innerText = `PAGE ${pageNum}`;
+
+        const textDiv = document.createElement('div');
+        textDiv.className = 'text-content';
+        textDiv.id = `page-text-${pageNum}`;
+        textDiv.innerText = text;
+
+        pageBox.appendChild(pageLabel);
+        pageBox.appendChild(textDiv);
+        viewer.appendChild(pageBox);
+    }
+
+    // 4. 🔍 통합 다중 하이라이트 실시간 검색 로직
+    function searchPDF() {
+        const keyword = document.getElementById('keyword').value.trim();
+        const statusText = document.getElementById('status');
+        
+        if (!keyword) {
+            statusText.innerText = "검색어를 입력해 주십시오.";
+            // 키워드가 공백이면 하이라이트 전체 초기화 복구
+            pagesText.forEach(item => {
+                document.getElementById(`page-text-${item.page}`).innerText = item.text;
+            });
+            return;
+        }
+
+        let matchCount = 0;
+
+        pagesText.forEach(item => {
+            const textDiv = document.getElementById(`page-text-${item.page}`);
+            const originalText = item.text;
+
+            if (originalText.includes(keyword)) {
+                matchCount++;
+                // 특수기호 에러 방지 처리 및 정규식을 통한 키워드 하이라이트 치환
+                const safeKeyword = keyword.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const regex = new RegExp(safeKeyword, 'g');
+                textDiv.innerHTML = originalText.replace(regex, `<span class="highlight">${keyword}</span>`);
+            } else {
+                textDiv.innerText = originalText; // 일치하지 않는 페이지는 깨끗하게 초기화
+            }
+        });
+
+        if (matchCount > 0) {
+            statusText.innerHTML = `검색 결과: <span style="color:#1e3a8a; font-weight:bold;">총 ${matchCount}개 페이지</span>에서 단어를 발견했습니다.`;
+        } else {
+            statusText.innerText = "❌ 검색 결과가 없습니다. 다른 단어로 검색해 보세요.";
+        }
+    }
+
+    // 첫 실행 시 드롭다운의 기본 선택된 첫 번째 파일([교육]방재실수신반요령.pdf)을 바로 로드함
+    window.onload = function() {
+        changePDF();
+    };
+</script>
+
+</body>
+</html>
