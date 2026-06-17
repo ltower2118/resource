@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>💳 계좌입금 안내 - 서울숲 L-TOWER</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f1f5f9; padding: 12px; margin: 0; color: #0f172a; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .container { max-width: 450px; width: 100%; margin: 0 auto; }
+        
+        /* 메인 안내 카드 */
+        .account-card { background: #3b5998; color: white; padding: 30px 20px; border-radius: 16px; text-align: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .card-title { font-size: 1.5rem; font-weight: bold; margin-top: 0; margin-bottom: 25px; letter-spacing: -0.5px; }
+        
+        /* 알림 메시지 영역 */
+        .notice-box { background: rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 15px; margin-bottom: 25px; font-size: 0.92rem; line-height: 1.5; word-break: keep-all; }
+        .accent-text { color: #fde047; font-weight: bold; }
+
+        /* 문의 전화 번호 */
+        .phone-box { font-size: 0.88rem; opacity: 0.9; margin-bottom: 30px; }
+        .phone-link { color: white; text-decoration: underline; font-weight: bold; margin-left: 4px; }
+
+        /* 은행 정보 화이트 박스 */
+        .bank-info-container { background: white; color: #0f172a; border-radius: 12px; padding: 22px; text-align: left; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06); margin-bottom: 20px; }
+        .bank-name { font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .bank-name::before { content: ''; display: inline-block; width: 6px; height: 16px; background: #eab308; border-radius: 2px; }
+        
+        .account-number { font-size: 1.35rem; font-weight: bold; color: #334155; letter-spacing: 0.5px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #cbd5e1; display: flex; justify-content: space-between; align-items: center; }
+        .btn-copy { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; }
+        .btn-copy:active { background: #cbd5e1; }
+        
+        .account-holder { font-size: 1rem; font-weight: bold; color: #0f172a; }
+        .holder-label { font-size: 0.8rem; color: #64748b; font-weight: normal; margin-right: 8px; }
+
+        /* 하단 감사 인사 및 버튼 */
+        .closing-text { font-size: 0.95rem; opacity: 0.85; margin-bottom: 25px; }
+        .btn-back { display: block; text-align: center; background: rgba(255, 255, 255, 0.2); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-back:active { background: rgba(255, 255, 255, 0.3); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="account-card">
+        <h1 class="card-title">계좌입금 안내</h1>
+        
+        <div class="notice-box">
+            입금 시 <span class="accent-text">차량번호</span>를 꼭 기재해 주세요.<br>
+            (예: 12가3456)
+        </div>
+        
+        <div class="phone-box">
+            문의전화: <a href="tel:0221181379" class="phone-link">02-2118-1379 관리사무소</a>
+        </div>
+
+        <div class="bank-info-container">
+            <div class="bank-name">국민은행</div>
+            <div class="account-number">
+                <span id="acc-num">822401-04-11317</span>
+                <button class="btn-copy" onclick="copyAccount()">복사</button>
+            </div>
+            <div class="account-holder">
+                <span class="holder-label">예금주</span>서울숲 L-TOWER 관리단위원회
+            </div>
+        </div>
+
+        <div class="closing-text">감사합니다.</div>
+        
+        <a href="index.html" class="btn-back">메인 화면으로 이동</a>
+    </div>
+
+</div>
+
+<script>
+    function copyAccount() {
+        const accNum = document.getElementById('acc-num').innerText;
+        navigator.clipboard.writeText(accNum).then(() => {
+            alert('계좌번호가 클립보드에 복사되었습니다.');
+        }).catch(err => {
+            // 구형 스마트폰 대응용 임시 fallback 조치
+            const tempInput = document.createElement('input');
+            tempInput.value = accNum;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('계좌번호가 복사되었습니다.');
+        });
+    }
+</script>
+
+</body>
+</html>
