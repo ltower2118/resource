@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본어 플래시카드</title>
+    <style>
+        body { background-color: #1a1a1a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background-color: #2d2d2d; width: 85%; max-width: 400px; height: 450px; border-radius: 30px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 40px 20px; box-sizing: border-box; text-align: center; position: relative; }
+        .progress { font-size: 14px; color: #888; align-self: flex-start; }
+        .content { font-size: 24px; font-weight: bold; line-height: 1.5; margin: auto; white-space: pre-line; }
+        .btn-show { background: none; border: none; color: #888; font-size: 16px; cursor: pointer; text-decoration: underline; }
+        .nav-box { display: flex; gap: 20px; margin-top: 30px; width: 85%; max-width: 400px; justify-content: space-between; }
+        .btn-nav { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #555; background: none; color: white; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-wrong { border-color: #ff6b6b; color: #ff6b6b; }
+        .btn-correct { border-color: #51cf66; color: #51cf66; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="progress" id="progress">1/3</div>
+        <div class="content" id="content">질문 나오는 곳</div>
+        <button class="btn-show" id="btn-show" onclick="toggleAnswer()">정답 보기</button>
+    </div>
+
+    <div class="nav-box">
+        <button class="btn-nav" onclick="prevCard()">←</button>
+        <button class="btn-nav btn-wrong" onclick="nextCard()">✕</button>
+        <button class="btn-nav btn-correct" onclick="nextCard()">✓</button>
+        <button class="btn-nav" onclick="nextCard()">→</button>
+    </div>
+
+    <script>
+        // 💡 여기에 원하는 질문과 정답을 추가하시면 됩니다!
+        const cards = [
+            { q: "이자카야에서 인원수를\n확인할 때 쓰는 표현\n(~분 맞으신가요?) 은?", a: "何名様ですか？\n(난메이사마데스카?)" },
+            { q: "생맥주 한 잔\n주세요", a: "生ビール、一杯ください。\n(나마비-루, 이っぱい 쿠다사이)" },
+            { q: "화장실은\n어디인가요?", a: "トイレはどこですか？\n(토이레와 도코데스카?)" }
+        ];
+
+        let currentIndex = 0;
+        let isShowingAnswer = false;
+
+        function updateCard() {
+            const card = cards[currentIndex];
+            document.getElementById('progress').innerText = `${currentIndex + 1}/${cards.length}`;
+            document.getElementById('content').innerText = isShowingAnswer ? card.a : card.q;
+            document.getElementById('btn-show').innerText = isShowingAnswer ? "질문 보기" : "정답 보기";
+        }
+
+        function toggleAnswer() {
+            isShowingAnswer = !isShowingAnswer;
+            updateCard();
+        }
+
+        function nextCard() {
+            if (currentIndex < cards.length - 1) {
+                currentIndex++;
+                isShowingAnswer = false;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                isShowingAnswer = false;
+                updateCard();
+            }
+        }
+
+        // 초기 실행
+        updateCard();
+    </script>
+</body>
+</html>
