@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>⚙️ 설비자료실 - 서울숲 L-TOWER</title>
+    <style>
+        /* 터치 밀림 및 텍스트 드래그 방지로 앱 같은 느낌 구현 */
+        * { 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+            -webkit-tap-highlight-color: transparent; /* 터치 시 하이라이트 잔상 제거 */
+        }
+        
+        body { 
+            background-color: #3b5998; 
+            padding: 24px 16px; 
+            margin: 0; 
+            color: #0f172a; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        
+        /* 스마트폰 화면 규격 가변형 컨테이너 */
+        .container { 
+            width: 100%; 
+            max-width: 430px; /* 최신 스마트폰(아이폰 프로맥스, 울트라 등) 최대 폭 고정 */
+            margin: 0 auto; 
+        }
+        
+        /* 상단 타이틀 구역 */
+        .archive-header { 
+            text-align: center; 
+            color: white; 
+            margin-bottom: 28px; 
+            margin-top: 10px;
+        }
+        .archive-header h1 { 
+            font-size: 1.6rem; 
+            margin: 0 0 8px 0; 
+            font-weight: 800; 
+            letter-spacing: -0.5px; 
+        }
+        .archive-header p { 
+            font-size: 0.88rem; 
+            margin: 0; 
+            opacity: 0.85; 
+            font-weight: 400;
+        }
+
+        /* 버튼 리스트 정렬 */
+        .menu-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 14px; /* 손가락이 겹치지 않는 충분한 버튼 간격 */
+            margin-bottom: 30px; 
+        }
+        
+        /* 📱 스마트폰 맞춤형 버튼 카드 */
+        .menu-card { 
+            display: flex; 
+            align-items: center; 
+            background: #ffffff; 
+            padding: 18px 16px; 
+            border-radius: 14px; /* 모바일 앱 스타일의 둥근 모서리 */
+            text-decoration: none; 
+            color: #334155; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); 
+            transition: background-color 0.1s, transform 0.1s;
+        }
+        
+        /* 💡 스마트폰에서 버튼을 터치했을 때의 쫀득한 피드백 효과 */
+        .menu-card:active { 
+            transform: scale(0.97); /* 살짝 눌리는 느낌 */
+            background-color: #f1f5f9; /* 배경색이 어두워짐 */
+        }
+        
+        /* 카드 내부 아이콘 원형 상자 */
+        .card-icon { 
+            font-size: 1.5rem; 
+            margin-right: 14px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 46px; 
+            height: 46px; 
+            background: #f1f5f9; 
+            border-radius: 50%; /* 완전 원형으로 아이콘 강조 */
+            flex-shrink: 0; /* 화면이 작아져도 아이콘 찌그러짐 방지 */
+        }
+        
+        /* 카드 텍스트 레이아웃 */
+        .card-info { 
+            flex: 1; 
+            overflow: hidden;
+        }
+        .card-title { 
+            font-size: 1.05rem; 
+            font-weight: 700; 
+            color: #1e3a8a; 
+            margin: 0 0 3px 0; 
+            letter-spacing: -0.3px;
+        }
+        .card-desc { 
+            font-size: 0.8rem; 
+            color: #64748b; 
+            margin: 0; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; /* 스마트폰 폭이 좁아지면 글자가 말줄임(...) 처리됨 */
+        }
+        
+        /* 오른쪽 진입 화살표 */
+        .card-arrow { 
+            color: #94a3b8; 
+            font-weight: bold; 
+            font-size: 0.9rem; 
+            margin-left: 8px;
+        }
+
+        /* 하단 메인 화면으로 이동 버튼 */
+        .btn-home { 
+            display: block; 
+            text-align: center; 
+            background: rgba(255, 255, 255, 0.15); 
+            color: white; 
+            padding: 14px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 0.95rem; 
+            border: 1px solid rgba(255,255,255,0.25); 
+            transition: background 0.2s; 
+        }
+        .btn-home:active { 
+            background: rgba(255, 255, 255, 0.25); 
+        }
+        
+        /* 푸터 시그니처 */
+        .footer { 
+            text-align: center; 
+            font-size: 0.75rem; 
+            color: #cbd5e1; 
+            margin-top: 35px; 
+            letter-spacing: 0.5px; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="archive-header">
+        <h1>⚙️ 설비자료실</h1>
+        <p>서울숲 L-TOWER 기술/방재운영 매뉴얼</p>
+    </div>
+    
+    <div class="menu-grid">
+        
+        <a href="pdf_search.html" class="menu-card">
+            <div class="card-icon">🚨</div>
+            <div class="card-info">
+                <h2 class="card-title">방재실 수신반 요령</h2>
+                <p class="card-desc">화재 경보 및 오동작 시 비상조치 요령</p>
+            </div>
+            <div class="card-arrow">▶</div>
+        </a>
+
+        <a href="pdf_search.html" class="menu-card">
+            <div class="card-icon">⚡</div>
+            <div class="card-info">
+                <h2 class="card-title">정전시 대응 매뉴얼</h2>
+                <p class="card-desc">정전 발생 및 ATS/UPS 장비 조치 요령</p>
+            </div>
+            <div class="card-arrow">▶</div>
+        </a>
+
+        <a href="data_view.html" class="menu-card">
+            <div class="card-icon">📊</div>
+            <div class="card-info">
+                <h2 class="card-title">종합 설비 데이터 현황</h2>
+                <p class="card-desc">엑셀 연동 가변형 데이터 실시간 조회</p>
+            </div>
+            <div class="card-arrow">▶</div>
+        </a>
+
+        <a href="account_info.html" class="menu-card">
+            <div class="card-icon">💳</div>
+            <div class="card-info">
+                <h2 class="card-title">주차비/관리비 입금 안내</h2>
+                <p class="card-desc">관리단위원회 지정 수납 계좌 복사 및 안내</p>
+            </div>
+            <div class="card-arrow">▶</div>
+        </a>
+
+    </div>
+
+    <a href="index.html" class="btn-home">⬅️ 메인 화면으로 이동</a>
+
+    <p class="footer">Built by AI & Ha Yu-sin</p>
+</div>
+
+</body>
+</html>
