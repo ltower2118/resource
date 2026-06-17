@@ -2,212 +2,118 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>⚙️ 설비자료실 - 서울숲 L-TOWER</title>
+    <!-- 📱 스마트폰 화면 크기에 맞춰 글자 및 버튼 크기를 자동으로 조절 (가변형 핵심) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울숲엘타워</title>
     <style>
-        * { 
-            box-sizing: border-box; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f5f7fa; color: #333; }
+        .header { background-color: #0056b3; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 1.6rem; }
+        .header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
         
-        /* 💡 전체 배경을 깔끔한 흰색으로 통일 */
-        body { 
-            background-color: #ffffff; 
-            padding: 0; 
-            margin: 0; 
-            color: #0f172a; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            min-height: 100vh; 
-        }
+        .section-title { font-size: 1.3rem; font-weight: bold; margin: 25px 0 10px 0; color: #111; }
         
-        .container { 
-            width: 100%; 
-            max-width: 430px; 
-            margin: 0 auto;
-            padding: 0 16px 24px 16px;
-        }
+        /* 📱 스마트폰에서 누르기 편한 대형 버튼 스타일 */
+        .btn { display: flex; align-items: center; justify-content: center; background-color: white; color: #333; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: background 0.2s; }
+        .btn:active { background-color: #f0f0f0; }
+        .btn-pdf { border-left: 6px solid #dc3545; }    /* PDF는 빨간색 선 */
+        .btn-history { border-left: 6px solid #28a745; } /* 이력은 초록색 선 */
+        .btn-video { border-left: 6px solid #ff0000; }   /* 유튜브는 유튜브 레드 */
         
-        /* 💡 상단 헤더 영역 (좌측 뒤로가기 버튼 + 중앙 타이틀) */
-        .top-nav-bar {
-            width: 100%;
-            max-width: 430px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 20px 0;
-            margin-top: 10px;
-            border-bottom: 1px solid #f1f5f9;
-            margin-bottom: 24px;
-        }
+        .btn span { margin-right: 10px; font-size: 1.3rem; }
+        
+                /* 📞 긴급 연락처 퀵링크 버튼 */
+        .contact-box { background: #edd8d8; border: 1px solid #fca5a5; padding: 12px; border-radius: 10px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .contact-info { font-size: 1.0rem; color: #991b1b; font-weight: bold; }
+        .contact-info small{display:block;font-weight:400;color:var(--sub);font-size:11px;margin-top:2px;}
+        .contact-btn { background: #991b1b; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; }
+        
+         /* 연락처 테이블 스타일 */
+        .contact-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 5px; }
+        .contact-table th, .contact-table td { border: 1px solid #e2e8f0; padding: 8px 6px; text-align: left; }
+        .contact-table th { background: #f8fafc; color: #475569; font-weight: bold; text-align: center; }
+        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; text-align: center; }
 
-        /* 💡 왼쪽 정렬된 메인 화면 가기 버튼 */
-        .btn-back-left {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: #f1f5f9;
-            border-radius: 50%;
-            text-decoration: none;
-            color: #334155;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: background-color 0.1s;
-        }
-        .btn-back-left:active {
-            background-color: #e2e8f0;
-        }
-
-        .page-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #1e3a8a;
-            margin: 0;
-            text-align: center;
-        }
-
-        .archive-subtitle {
-            font-size: 0.85rem;
-            color: #64748b;
-            text-align: center;
-            margin: -14px 0 24px 0;
-            font-weight: 400;
-        }
-
-        /* 버튼 리스트 (연한 회색 테두리가 있는 카드 스타일로 흰색 배경과 구분) */
-        .menu-grid { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-            margin-bottom: 20px; 
-        }
-        
-        .menu-card { 
-            display: flex; 
-            align-items: center; 
-            background: #ffffff; 
-            padding: 16px; 
-            border-radius: 12px; 
-            text-decoration: none; 
-            color: #334155; 
-            border: 1px solid #e2e8f0; /* 흰 배경 위에서 부각되도록 소프트한 테두리 추가 */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-            transition: background-color 0.1s;
-        }
-        
-        .menu-card:active { 
-            background-color: #f8fafc; 
-        }
-        
-        .card-icon { 
-            font-size: 1.4rem; 
-            margin-right: 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            width: 42px; 
-            height: 42px; 
-            background: #f1f5f9; 
-            border-radius: 50%; 
-            flex-shrink: 0; 
-        }
-        
-        .card-info { 
-            flex: 1; 
-            overflow: hidden;
-        }
-        .card-title { 
-            font-size: 1rem; 
-            font-weight: 700; 
-            color: #1e3a8a; 
-            margin: 0 0 3px 0; 
-        }
-        .card-desc { 
-            font-size: 0.78rem; 
-            color: #64748b; 
-            margin: 0; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-        }
-        
-        .card-arrow { 
-            color: #cbd5e1; 
-            font-size: 0.85rem; 
-            margin-left: 4px;
-        }
-        
-        .footer { 
-            text-align: center; 
-            font-size: 0.75rem; 
-            color: #94a3b8; 
-            margin-top: 40px; 
-            letter-spacing: 0.5px; 
-        }
     </style>
 </head>
 <body>
 
-<div class="container">
-
-    <div class="top-nav-bar">
-        <a href="index.html" class="btn-back-left" title="메인 화면으로 가기">⬅️</a>
-        <h1 class="page-title">⚙️ 설비자료실</h1>
+    <!-- 설비 기본 정보 -->
+    <div class="header">
+        <h1>서울숲엘타워 시설관리 </h1>
+        <p>QR코드를 링크 메뉴얼볼수 있음</p>
     </div>
     
-    <p class="archive-subtitle">서울숲 L-TOWER 기술/방재운영 매뉴얼</p>
+   <div class="section-title">📞 시설관리 긴급 핫라인</div>
     
-    <div class="menu-grid">
-        
-        <a href="pdf_search.html" class="menu-card">
-            <div class="card-icon">🚨</div>
-            <div class="card-info">
-                <h2 class="card-title">방재실 수신반 요령</h2>
-                <p class="card-desc">화재 경보 및 오동작 시 비상조치 요령</p>
-            </div>
-            <div class="card-arrow">▶</div>
-        </a>
-
-        <a href="pdf_search.html" class="menu-card">
-            <div class="card-icon">⚡</div>
-            <div class="card-info">
-                <h2 class="card-title">정전시 대응 매뉴얼</h2>
-                <p class="card-desc">정전 발생 및 ATS/UPS 장비 조치 요령</p>
-            </div>
-            <div class="card-arrow">▶</div>
-        </a>
-
-        <a href="data_view.html" class="menu-card">
-            <div class="card-icon">📊</div>
-            <div class="card-info">
-                <h2 class="card-title">종합 설비 데이터 현황</h2>
-                <p class="card-desc">엑셀 연동 가변형 데이터 실시간 조회</p>
-            </div>
-            <div class="card-arrow">▶</div>
-        </a>
-
-        <a href="account_info.html" class="menu-card">
-            <div class="card-icon">💳</div>
-            <div class="card-info">
-                <h2 class="card-title">주차비/관리비 입금 안내</h2>
-                <p class="card-desc">관리단위원회 지정 수납 계좌 복사 및 안내</p>
-            </div>
-            <div class="card-arrow">▶</div>
-        </a>
-
+    <div class="contact-box">
+        <div class="contact-info">🔥 소방화재 비상신고</div>
+        <a href="tel:119" class="contact-btn">즉시 통화 (119)</a>
+    </div>
+    <div class="contact-box">
+        <div class="contact-info">⚡ 한국전력공사 고장장애 종합신고</div>
+        <a href="tel:123" class="contact-btn">장애 신고 (123)</a>
+    </div>
+    <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
+        <div class="contact-info" style="color:#0369a1;">🛗 승강기 유지보수 (성우/티센)<br><small>고장 신고 / AS 출동 요청</small></div>
+        <a href="tel:0222420110" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
     </div>
 
-    <p class="footer">Built by AI & Ha Yu-sin</p>
-</div>
+     <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
+    <div class="contact-info" style="color:#0369a1;">🅿️ 주차관제 시스템 장애
+        <br><small>차단기 · 무인정산기 오류</small></div>
+    <a href="tel:1588-5783" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
+  </div>
+  <div class="section-title">☎️ 관리실 비상연락망</div>
+    <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
+        <div class="contact-info" style="color:#0369a1;">🛗 관리실, 관공서및 협력사 연락망</div>
+        <a href="ltower_tel.html" class="contact-btn" style="background:#0369a1;">비상 연락망 보기</a>
+    </div>
+
+    
+    <div class="section-title">설비 자료실</div>
+
+    <!-- 1. 링크  -->
+    <a href="ltower001.html" class="btn btn-pdf">
+        <!--<span>📕</span>-->  정전시 긴급
+    </a>
+
+    <a href="history.html" class="btn btn-history">
+        <!--<span>🟢</span>-->  입주사 긴급비상 연락망
+    </a>
+
+    <a href="manual.pdf" class="btn btn-pdf">
+        <!--<span>📕</span>--> 직원및 관계기관 연락처
+    </a>
+
+    <a href="history.html" class="btn btn-history">
+        <!--<span>🟢</span>--> 전기차충전시설 현황
+    </a>
+
+    <a href="history.html" class="btn btn-history">
+        <!--<span>🟢</span>--> 에어컨 설치현황
+    </a>
+
+    <a href="history.html" class="btn btn-history">
+        <!--<span>🟢</span>--> 수변전 시설현황
+    </a>
+     <a href="history.html" class="btn btn-history">
+        <!--<span>🟢</span>--> 내부네트워크 구성
+    </a>
+    <a href="history.html" class="btn btn-history">
+        <!--<span>🟢</span>--> 각종 비번
+    </a>
+
+    <div class="section-title">이력관리</div>
+
+    <!-- 3. QR코드-->
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScecCTzxSUz-IzUq5Y-RC0p1R1qKwkdF1tdN5wgu_HTlcr3Rg/viewform?usp=header" target="_blank" class="btn btn-video">
+        <!--<span>▶️</span>-->QR코드를 이용한 이력관리입력화면
+    </a>
+        <a href="https://www.youtube.com/watch?v=내동영상주소" target="_blank" class="btn btn-video">
+        <!--<span>▶️</span>-->이력관리조회리스트
+    </a>
 
 </body>
 </html>
+
