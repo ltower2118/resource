@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- 📱 스마트폰 화면 크기에 맞춰 글자 및 버튼 크기를 자동으로 조절 (가변형 핵심) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 VCB반 설비 종합 가이드</title>
+    <title>서울숲엘타워</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f5f7fa; color: #333; }
         .header { background-color: #0056b3; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
@@ -25,6 +25,7 @@
                 /* 📞 긴급 연락처 퀵링크 버튼 */
         .contact-box { background: #edd8d8; border: 1px solid #fca5a5; padding: 12px; border-radius: 10px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
         .contact-info { font-size: 0.85rem; color: #991b1b; font-weight: bold; }
+        .contact-info small{display:block;font-weight:400;color:var(--sub);font-size:11px;margin-top:2px;}
         .contact-btn { background: #991b1b; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
         
          /* 연락처 테이블 스타일 */
@@ -32,7 +33,7 @@
         .contact-table th, .contact-table td { border: 1px solid #e2e8f0; padding: 8px 6px; text-align: left; }
         .contact-table th { background: #f8fafc; color: #475569; font-weight: bold; text-align: center; }
         .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; text-align: center; }
-     
+
     </style>
 </head>
 <body>
@@ -43,24 +44,32 @@
         <p>QR코드를 링크 메뉴얼볼수 있음</p>
     </div>
     
- <div class="section-title">📞 시설관리 긴급 핫라인</div>
+   <div class="section-title">📞 시설관리 긴급 핫라인</div>
+    
+    <div class="contact-box">
+        <div class="contact-info">🔥 소방화재 비상신고</div>
+        <a href="tel:119" class="contact-btn">즉시 통화 (119)</a>
+    </div>
     <div class="contact-box">
         <div class="contact-info">⚡ 한국전력공사 고장장애 종합신고</div>
         <a href="tel:123" class="contact-btn">즉시 통화 (123)</a>
     </div>
     <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
-        <div class="contact-info" style="color:#0369a1;">🛗 승강기 유지보수 (성우/티센)</div>
+        <div class="contact-info" style="color:#0369a1;">🛗 승강기 유지보수 (성우/티센)<br><small>고장 신고 / AS 출동 요청</small></div>
         <a href="tel:0222420110" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
     </div>
 
-    
-     <div class="section-title">📞 비상연락망</div>
-
+     <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
+    <div class="contact-info" style="color:#0369a1;">🅿️ 주차관제 시스템 장애
+        <br><small>차단기 · 무인정산기 오류</small></div>
+    <a href="tel:0222420110" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
+  </div>
+  <div class="section-title">☎️ 관리실 비상연락망</div>
     <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
-        <div class="contact-info" style="color:#0369a1;">🛗 관리소, 외주 관공서및 협력사 </div>
+        <div class="contact-info" style="color:#0369a1;">🛗 관리실, 관공서및 협력사 연락망</div>
         <a href="ltower_tel.html" class="contact-btn" style="background:#0369a1;">비상 연락망 보기</a>
     </div>
-    ㅁ 
+
     
     <div class="section-title">설비 자료실</div>
 
@@ -81,8 +90,8 @@
         <!--<span>🟢</span>--> 전기차충전시설 현황
     </a>
 
-    <a href="fire_guide3.html" class="btn btn-history">
-        <!--<span>🟢</span>--> 소방 수신반 조작방법
+    <a href="history.html" class="btn btn-history">
+        <!--<span>🟢</span>--> 에어컨 설치현황
     </a>
 
     <a href="history.html" class="btn btn-history">
