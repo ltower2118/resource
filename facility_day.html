@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <!-- 📱 스마트폰 화면 크기에 맞춰 글자 및 버튼 크기를 자동으로 조절 (가변형 핵심) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울숲엘타워</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f5f7fa; color: #333; }
+        .header { background-color: #0056b3; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 1.5rem; }
+        .header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
+        
+        .section-title { font-size: 1.2rem; font-weight: bold; margin: 25px 0 10px 0; color: #111; }
+        
+        /* 📱 스마트폰에서 누르기 편한 대형 버튼 스타일 */
+        .btn { display: flex; align-items: center; justify-content: center; background-color: white; color: #333; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: background 0.2s; }
+        .btn:active { background-color: #f0f0f0; }
+        .btn-pdf { border-left: 6px solid #0056b3; }    /* PDF는 빨간색 선 */
+        .btn-history { border-left: 6px solid #28a745; } /* 이력은 초록색 선 */
+        .btn-video { border-left: 6px solid #ff0000; }   /* 유튜브는 유튜브 레드 */
+        
+        .btn span { margin-right: 10px; font-size: 1.3rem; }
+    </style>
+</head>
+<body>
+
+    <!-- 설비 기본 정보 -->
+    <div class="header">
+        <h1>2016년~2025년 일일점검일지</h1>
+        <p>PDF파일 다운로드하면 볼수 있음</p>
+    </div>
+
+    <div class="section-title">📋 다운로드</div>
+
+    <!-- 1. PDF 매뉴얼 링크 -->
+    <a href="2016.pdf" class="btn btn-pdf">
+        <span></span>2016년 일일점검일지</a>
+    <a href="2017.pdf" class="btn btn-pdf">
+        <span></span>2017년 일일점검일지</a>
+    <a href="2018.pdf" class="btn btn-pdf">
+        <span></span>2017년 일일점검일지</a>
+    <a href="2019.pdf" class="btn btn-pdf">
+        <span></span>2017년 일일점검일지</a>
+    <a href="2020.pdf" class="btn btn-pdf">
+        <span></span>2020년 일일점검일지</a>
+    <a href="2021.pdf" class="btn btn-pdf">
+        <span></span>2021년 일일점검일지</a>
+    <a href="2022.pdf" class="btn btn-pdf">
+        <span></span>2022년 일일점검일지</a>
+    <a href="2023.pdf" class="btn btn-pdf">
+        <span></span>2023년 일일점검일지</a>
+    <a href="2024.pdf" class="btn btn-pdf">
+        <span></span>2024년 일일점검일지</a>
+    <a href="2025.pdf" class="btn btn-pdf">
+        <span></span>2025년 일일점검일지</a>
+    
+</body>
+</html>
