@@ -37,38 +37,40 @@
     // 💡 [수정 포인트] 과장님이 깃허브에 올리신 CSV 파일명과 똑같이 적어주세요!
     const csvFileName = 'ipadress.CSV'; 
 
-    async function loadCSV() {
-        try {
-            const response = await fetch(csvFileName);
-            const csvText = await response.text();
-            
-            // 줄바꿈(\n)을 기준으로 행(Row)을 자릅니다.
-            const rows = csvText.split('\n');
-            let tableHTML = '';
+async function loadCSV() {
+    try {
+        // 1. CSV 파일을 원본 바이너리(Blob) 데이터로 먼저 가져옵니다.
+        const response = await fetch(csvFileName);
+        const blob = await response.blob();
+        
+        // 2. 💡 [핵심] 텍스트 디코더를 'EUC-KR'(한국어 표준) 형식으로 지정합니다.
+        // 만약 이렇게 해도 깨진다면 'utf-8'로 바꿔보시면 됩니다.
+        const decoder = new TextDecoder('euc-kr');
+        
+        // 3. 바이너리 데이터를 한국어 폰트 형식으로 변환(디코딩)합니다.
+        const buffer = await blob.arrayBuffer();
+        const csvText = decoder.decode(buffer);
+        
+        // --- 이 아래부터는 기존 줄바꿈 처리 코드를 그대로 씁니다 ---
+        const rows = csvText.split('\n');
+        let tableHTML = '';
 
-            rows.forEach((row, index) => {
-                if (!row.trim()) return; // 빈 줄은 건너뛰기
-                
-                // 쉼표(,)를 기준으로 칸(Cell)을 자릅니다.
-                const cells = row.split(',');
-                tableHTML += '<tr>';
-                
-                cells.forEach(cell => {
-                    // 첫 줄(index 0)은 제목칸(th)으로, 나머지는 데이터칸(td)으로 삽입
-                    tableHTML += index === 0 ? `<th>${cell.trim()}</th>` : `<td>${cell.trim()}</td>`;
-                });
-                tableHTML += '</tr>';
+        rows.forEach((row, index) => {
+            if (!row.trim()) return;
+            const cells = row.split(',');
+            tableHTML += '<tr>';
+            cells.forEach(cell => {
+                tableHTML += index === 0 ? `<th>${cell.trim()}</th>` : `<td>${cell.trim()}</td>`;
             });
+            tableHTML += '</tr>';
+        });
 
-            document.getElementById('excel-table').innerHTML = tableHTML;
-        } catch (error) {
-            console.error('CSV 파일을 불러오지 못했습니다.', error);
-            document.getElementById('excel-table').innerHTML = '<tr><td style="color:red; padding:20px;">❌ 데이터를 불러오지 못했습니다. 파일명을 확인해 주세요.</td></tr>';
-        }
+        document.getElementById('excel-table').innerHTML = tableHTML;
+    } catch (error) {
+        console.error('CSV 로드 실패:', error);
     }
+}
 
-    // 페이지가 켜지면 자동으로 위 함수 작동
-    window.onload = loadCSV;
 </script>
 </body>
 </html>
