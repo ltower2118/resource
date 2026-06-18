@@ -1,0 +1,8 @@
+PC,컴퓨터 이름 ,작업그룹,,네트워크설정,랜연결
+전기수도 자동 검침PC,원격검침,WORKGROUP,,자동,O
+조명제어PC,조명제어PC,WORKGROUP,,자동,O
+방송PC,DESKTOP-AR2FU7Q,WORKGROUP,,,X
+주차장PC,Parking_H-PC,WORKGROUP,로컬 영역 연결 2  IPv4,자동,O
+,,,로컬 영역 연결   IPv4,192.168.0.88,
+로비펌프PC,로비제어펌프PC,WORKGROUP,로컬 영역 연결  IPv4,192.168.0.150,O
+원격제어PC,Smartterminal,WORKGROUP,무선IP설정,192.168.0.90,무선

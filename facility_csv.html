@@ -2,41 +2,73 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 📱 스마트폰 화면 크기에 맞춰 글자 및 버튼 크기를 자동으로 조절 (가변형 핵심) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>서울숲엘타워</title>
+    <title>📊 설비 데이터 조회</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f5f7fa; color: #8f8484; }
-        .header { background-color: #0056b3; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
-        .header h1 { margin: 0; font-size: 1.5rem; }
-        .header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; }
         
-        .section-title { font-size: 1.2rem; font-weight: bold; margin: 25px 0 10px 0; color: #111; }
+        /* 테이블을 감싸는 박스 (모바일에서 화면이 작으면 가로 스크롤 생성) */
+        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
         
-        /* 📱 스마트폰에서 누르기 편한 대형 버튼 스타일 */
-        .btn { display: flex; align-items: center; justify-content: center; background-color: white; color: #575656; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: background 0.2s; }
-        .btn:active { background-color: #f0f0f0; }
-        .btn-pdf { border-left: 6px solid #0056b3; }    /* PDF는 빨간색 선 */
-        .btn-history { border-left: 6px solid #28a745; } /* 이력은 초록색 선 */
-        .btn-video { border-left: 6px solid #ff0000; }   /* 유튜브는 유튜브 레드 */
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th, td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; white-space: nowrap; }
         
-        .btn span { margin-right: 10px; font-size: 1.3rem; }
-        
-        /* foot 섹션 */
-        .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
+        /* 첫 줄(제목칸) 배경색 파란색 톤으로 지정 */
+        th { background-color: #1e3a8a; color: white; font-weight: bold; }
+        /* 한 줄 건너 한 줄씩 음영을 주어 눈이 편하게 세팅 */
+        tr:nth-child(even) { background-color: #f8fafc; }
+        tr:hover { background-color: #f1f5f9; }
     </style>
 </head>
 <body>
 
-    <!-- 설비 기본 정보 -->
-    <div class="header">
-        <h1>csv</h1>
-        <p>csv</p>
+    <h2 style="color: #1e3a8a; border-left: 4px solid #1e3a8a; padding-left: 8px; margin-bottom: 15px;">📊 종합 관리 데이터 현황</h2>
+
+    <div class="table-container">
+        <table id="excel-table">
+            <tr>
+                <td style="padding: 30px; color: #94a3b8;">데이터를 불러오는 중입니다...</td>
+            </tr>
+        </table>
     </div>
 
-    <div class="section-title">📋 csv</div>
+<script>
+    // 💡 [수정 포인트] 과장님이 깃허브에 올리신 CSV 파일명과 똑같이 적어주세요!
+    const csvFileName = 'ipadress.CSV'; 
 
-    
-            <br><br><br><div class="copyright">Made by ai & ha you sin</div>
+    async function loadCSV() {
+        try {
+            const response = await fetch(csvFileName);
+            const csvText = await response.text();
+            
+            // 줄바꿈(\n)을 기준으로 행(Row)을 자릅니다.
+            const rows = csvText.split('\n');
+            let tableHTML = '';
+
+            rows.forEach((row, index) => {
+                if (!row.trim()) return; // 빈 줄은 건너뛰기
+                
+                // 쉼표(,)를 기준으로 칸(Cell)을 자릅니다.
+                const cells = row.split(',');
+                tableHTML += '<tr>';
+                
+                cells.forEach(cell => {
+                    // 첫 줄(index 0)은 제목칸(th)으로, 나머지는 데이터칸(td)으로 삽입
+                    tableHTML += index === 0 ? `<th>${cell.trim()}</th>` : `<td>${cell.trim()}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+
+            document.getElementById('excel-table').innerHTML = tableHTML;
+        } catch (error) {
+            console.error('CSV 파일을 불러오지 못했습니다.', error);
+            document.getElementById('excel-table').innerHTML = '<tr><td style="color:red; padding:20px;">❌ 데이터를 불러오지 못했습니다. 파일명을 확인해 주세요.</td></tr>';
+        }
+    }
+
+    // 페이지가 켜지면 자동으로 위 함수 작동
+    window.onload = loadCSV;
+</script>
 </body>
 </html>
