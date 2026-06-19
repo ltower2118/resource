@@ -2,75 +2,220 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>입주사 긴급비상 연락망</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>📱 입주사 긴급연락망 (격자형)</title>
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
-        body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; }
+        * { 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
         
-        /* 테이블을 감싸는 박스 (모바일에서 화면이 작으면 가로 스크롤 생성) */
-        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
+        body { 
+            background-color: #ffffff; 
+            padding: 0; 
+            margin: 0; 
+            color: #0f172a; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh; 
+        }
         
-        table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        th, td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; white-space: nowrap; }
+        /* 스마트폰 화면 최적화 컨테이너 (여백 최소화로 가로 공간 확보) */
+        .container { 
+            width: 100%; 
+            max-width: 430px; 
+            padding: 0 8px 24px 8px; /* 양옆 여백을 8px로 줄여 표 공간 확보 */
+        }
         
-        /* 첫 줄(제목칸) 배경색 파란색 톤으로 지정 */
-        th { background-color: #1e3a8a; color: white; font-weight: bold; }
-        /* 한 줄 건너 한 줄씩 음영을 주어 눈이 편하게 세팅 */
-        tr:nth-child(even) { background-color: #f8fafc; }
-        tr:hover { background-color: #f1f5f9; }
+        /* 상단 네비게이션 바 */
+        .top-nav-bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 16px 0;
+            margin-top: 5px;
+            border-bottom: 2px solid #334155;
+            margin-bottom: 15px;
+        }
+
+        .btn-back-left {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: #f1f5f9;
+            border-radius: 50%;
+            text-decoration: none;
+            color: #334155;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .page-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin: 0;
+        }
+
+        /* 💡 꽉 찬 화면 가변형 테이블 영역 */
+        .table-wrap {
+            width: 100%;
+            overflow: hidden; /* 스크롤바가 안 생기도록 강제 제어 */
+        }
+
+        /* 💡 핵심: 안팎 격자 라인이 선명하게 다 보이는 표 스타일 */
+        .grid-table {
+            width: 100%;
+            border-collapse: collapse; /* 선 겹침 제거 */
+            border: 2px solid #334155; /* 외곽 테두리를 두껍고 선명하게 */
+            background-color: #ffffff;
+            table-layout: fixed; /* 폰 크기에 맞춰 칸 너비 강제 고정 */
+        }
+
+        /* 첫 줄 대분류 (제목칸) */
+        .grid-table th {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 0.85rem;
+            padding: 10px 4px;
+            text-align: center;
+            border: 1px solid #334155; /* 내부 가로세로 격자선 */
+        }
+
+        /* 데이터 내용 칸 */
+        .grid-table td {
+            padding: 10px 4px;
+            font-size: 0.8rem;
+            color: #0f172a;
+            text-align: center;
+            border: 1px solid #cbd5e1; /* 내부 격자선은 보기 편하게 회색으로 처리 */
+            overflow: hidden;
+            text-overflow: ellipsis; /* 글자가 칸 넘어가면 자동 숨김 대처 */
+            word-break: break-all;   /* 긴 영문이나 숫자 강제 줄바꿈 */
+        }
+
+        /* 💡 스마트폰 가로 폭 분배비율 세팅 (합이 100%) */
+        .col-room { width: 15%; }    /* 호실 (예: 501호) */
+        .col-company { width: 32%; } /* 업체명 */
+        .col-name { width: 23%; }    /* 직책/이름 */
+        .col-phone { width: 30%; }   /* 연락처 */
+
+        /* 전화번호 링크 스타일 */
+        .tel-btn {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+        }
+
+        /* 시인성을 위한 짝수 행 음영 처리 */
+        .grid-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .footer { 
+            text-align: center; 
+            font-size: 0.72rem; 
+            color: #94a3b8; 
+            margin-top: 30px; 
+        }
     </style>
 </head>
 <body>
 
-    <h2 style="color: #1e3a8a; border-left: 4px solid #1e3a8a; padding-left: 8px; margin-bottom: 15px;">입주사 긴급비상 연락망</h2>
+<div class="container">
 
-    <div class="table-container">
-        <table id="excel-table">
-            <tr>
-                <td style="padding: 30px; color: #94a3b8;">데이터를 불러오는 중입니다...</td>
-            </tr>
+    <div class="top-nav-bar">
+        <a href="facility_archive.html" class="btn-back-left">⬅️</a>
+        <h1 class="page-title">📞 입주사 연락망 (격자)</h1>
+    </div>
+    
+    <div class="table-wrap">
+        <table class="grid-table">
+            <colgroup>
+                <col class="col-room">
+                <col class="col-company">
+                <col class="col-name">
+                <col class="col-phone">
+            </colgroup>
+            
+            <thead>
+                <tr>
+                    <th>호실</th>
+                    <th>업체명</th>
+                    <th>담당자</th>
+                    <th>연락처</th>
+                </tr>
+            </thead>
+            <tbody id="excel-data-body">
+                <tr>
+                    <td colspan="4" style="padding: 30px; color: #94a3b8;">데이터 로딩 중...</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
+    <p class="footer">Built by AI & Ha Yu-sin</p>
+</div>
+
 <script>
-    // 💡 [수정 포인트] 과장님이 깃허브에 올리신 CSV 파일명과 똑같이 적어주세요!
-    const csvFileName = 'emergency_contact.csv'; 
+    const csvFileName = 'tenant_emergency_contacts.csv'; 
 
-async function loadCSV() {
-    try {
-        // 1. CSV 파일을 원본 바이너리(Blob) 데이터로 먼저 가져옵니다.
-        const response = await fetch(csvFileName);
-        const blob = await response.blob();
-        
-        // 2. 💡 [핵심] 텍스트 디코더를 'EUC-KR'(한국어 표준) 형식으로 지정합니다.
-        // 만약 이렇게 해도 깨진다면 'utf-8'로 바꿔보시면 됩니다.
-        const decoder = new TextDecoder('euc-kr');
-        
-        // 3. 바이너리 데이터를 한국어 폰트 형식으로 변환(디코딩)합니다.
-        const buffer = await blob.arrayBuffer();
-        const csvText = decoder.decode(buffer);
-        
-        // --- 이 아래부터는 기존 줄바꿈 처리 코드를 그대로 씁니다 ---
-        const rows = csvText.split('\n');
-        let tableHTML = '';
+    async function loadGridTable() {
+        try {
+            const response = await fetch('./' + csvFileName);
+            if (!response.ok) throw new Error('파일 확인 불가');
 
-        rows.forEach((row, index) => {
-            if (!row.trim()) return;
-            const cells = row.split(',');
-            tableHTML += '<tr>';
-            cells.forEach(cell => {
-                tableHTML += index === 0 ? `<th>${cell.trim()}</th>` : `<td>${cell.trim()}</td>`;
+            const blob = await response.blob();
+            const decoder = new TextDecoder('euc-kr');
+            const buffer = await blob.arrayBuffer();
+            const csvText = decoder.decode(buffer);
+            
+            const rows = csvText.split(/\r?\n/);
+            let tableHTML = '';
+
+            rows.forEach((row, index) => {
+                if (index === 0 || !row.trim()) return; // 첫 줄 제목행 패스
+
+                const cells = row.split(',');
+                
+                if (cells.length >= 4) {
+                    const room = cells[0].trim();
+                    const company = cells[1].trim();
+                    const manager = cells[2].trim();
+                    const phone = cells[3].trim();
+
+                    tableHTML += `
+                        <tr>
+                            <td>${room}</td>
+                            <td style="text-align: left; padding-left: 6px; font-weight: 500;">${company}</td>
+                            <td>${manager}</td>
+                            <td><a href="tel:${phone}" class="tel-btn">${phone}</a></td>
+                        </tr>
+                    `;
+                }
             });
-            tableHTML += '</tr>';
-        });
 
-        document.getElementById('excel-table').innerHTML = tableHTML;
-    } catch (error) {
-        console.error('CSV 로드 실패:', error);
+            document.getElementById('excel-data-body').innerHTML = tableHTML || '<tr><td colspan="4">데이터가 없습니다.</td></tr>';
+        } catch (error) {
+            console.error(error);
+            document.getElementById('excel-data-body').innerHTML = '<tr><td colspan="4" style="color:red; padding:20px;">❌ 로드 실패</td></tr>';
+        }
     }
-}
 
+    window.onload = loadGridTable;
 </script>
+
 </body>
 </html>
