@@ -111,62 +111,99 @@
 
     <p class="footer">Built by AI & Ha Yu-sin</p>
 </div>
+
+
 <script>
     const csvFileName = 'emergency_contact.csv'; 
 
-    async function loadGridTable() {
+    // 💡 개량된 전화번호 감지기: 텍스트 안에 숫자와 하이픈이 포함되어 있으면 무조건 감지합니다.
+    function hasPhoneNumber(text) {
+        const cleanText = text.replace(/[^0-9\-]/g, '');
+        return cleanText.length >= 9; // 숫자가 9자리 이상이면 전화번호로 인정
+    }
+
+    // 💡 텍스트 내부에서 순수 전화번호(숫자와 하이픈)만 쏙 추출하는 함수
+    function extractPhoneNumber(text) {
+        return text.replace(/[^0-9\-]/g, '');
+    }
+
+    async function loadUniversalCSV() {
         try {
-            // 1. CSV 파일을 날것(바이너리) 데이터로 가져옵니다.
             const response = await fetch('./' + csvFileName);
-            if (!response.ok) throw new Error('파일을 찾을 수 없습니다.');
+            if (!response.ok) throw new Error('CSV 파일을 찾을 수 없습니다.');
 
             const buffer = await response.arrayBuffer();
             
-            // 2. 💡 [한글 깨짐 해결 핵심] 
-            // 파일의 앞부분(BOM)을 체크하여 UTF-8인지 ANSI(EUC-KR)인지 자동으로 판별합니다.
+            // 1. 인코딩 자동 감지 (한글 깨짐 차단)
             const arr = new Uint8Array(buffer);
-            let encoding = 'euc-kr'; // 기본값은 엑셀 일반 CSV 형식(ANSI)
-            
+            let encoding = 'euc-kr'; 
             if (arr.length >= 3 && arr[0] === 0xEF && arr[1] === 0xBB && arr[2] === 0xBF) {
-                encoding = 'utf-8'; // UTF-8 변환 파일일 경우
+                encoding = 'utf-8';
             }
 
-            // 3. 판별된 인코딩 번역기를 물려 글자를 깨짐 없이 읽어옵니다.
             const decoder = new TextDecoder(encoding);
             const csvText = decoder.decode(buffer);
             
-            // 4. 줄바꿈 처리 및 표 그리기
+            // 2. 줄바꿈 기준 분리
             const rows = csvText.split(/\r?\n/);
-            let tableHTML = '';
+            
+            let headHTML = '<tr>';
+            let bodyHTML = '';
+            let maxColumns = 0;
 
-            rows.forEach((row, index) => {
-                if (index === 0 || !row.trim()) return; // 첫 줄 제목행 패스
+            rows.forEach((row, rowIndex) => {
+                if (!row.trim()) return; // 빈 줄 패스
 
                 const cells = row.split(',');
                 
-                if (cells.length >= 4) {
-                    const room = cells[0].trim();
-                    const company = cells[1].trim();
-                    const manager = cells[2].trim();
-                    const phone = cells[3].trim();
-
-                    tableHTML += `
-                        <tr>
-                            <td>${room}</td>
-                            <td style="text-align: left; padding-left: 6px; font-weight: 500;">${company}</td>
-                            <td>${manager}</td>
-                            <td><a href="tel:${phone}" class="tel-btn">${phone}</a></td>
-                        </tr>
-                    `;
+                // 첫 번째 행: 무조건 제목칸(th) 매칭
+                if (rowIndex === 0) {
+                    maxColumns = cells.length;
+                    cells.forEach(cell => {
+                        headHTML += `<th>${cell.trim()}</th>`;
+                    });
+                    headHTML += '</tr>';
+                } 
+                // 두 번째 행부터: 데이터칸(td) 조립
+                else {
+                    bodyHTML += '<tr>';
+                    
+                    // 💡 핵심 수정: 원래 첫 줄 열 개수(maxColumns)나 현재 행의 열 개수 중 더 큰 값만큼 끝까지 돌립니다.
+                    // 이렇게 하면 엑셀 변환 오류로 칸이 뒤로 밀려도 데이터가 잘리지 않고 끝까지 화면에 출력됩니다.
+                    const currentLength = Math.max(maxColumns, cells.length);
+                    
+                    for (let i = 0; i < currentLength; i++) {
+                        const cellData = cells[i] ? cells[i].trim() : '';
+                        
+                        // 데이터가 아예 비어있다면 빈칸 처리
+                        if (!cellData) {
+                            bodyHTML += `<td>-</td>`;
+                        } 
+                        // 💡 만약 데이터 안에 전화번호 성격의 숫자가 포함되어 있다면
+                        else if (hasPhoneNumber(cellData)) {
+                            const purePhone = extractPhoneNumber(cellData);
+                            // 글자 전체를 다 보여주되, 클릭 시 전화가 걸리도록 안전하게 매칭
+                            bodyHTML += `<td><a href="tel:${purePhone}" class="tel-btn">${cellData}</a></td>`;
+                        } 
+                        // 일반 텍스트는 그대로 출력
+                        else {
+                            bodyHTML += `<td>${cellData}</td>`;
+                        }
+                    }
+                    bodyHTML += '</tr>';
                 }
             });
 
-            document.getElementById('excel-data-body').innerHTML = tableHTML || '<tr><td colspan="4">데이터가 없습니다.</td></tr>';
+            // 3. 화면에 격자 반영
+            document.getElementById('table-head').innerHTML = headHTML;
+            document.getElementById('table-body').innerHTML = bodyHTML || `<tr><td colspan="${maxColumns}">데이터가 비어 있습니다.</td></tr>`;
+            
         } catch (error) {
             console.error(error);
-            document.getElementById('excel-data-body').innerHTML = `<tr><td colspan="4" style="color:red; padding:20px;">❌ 로드 실패 (${error.message})</td></tr>`;
+            document.getElementById('table-body').innerHTML = `<tr><td style="color:red; padding:20px;">❌ 로드 실패: ${error.message}</td></tr>`;
         }
     }
 
-    window.onload = loadGridTable;
+    window.onload = loadUniversalCSV;
 </script>
+
