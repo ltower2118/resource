@@ -21,6 +21,50 @@
 
         .table-wrap { width: 100%; overflow: hidden; }
 
+/* 💡 변경된 테이블 스타일: 외곽선 제거 */
+.grid-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    border: none; /* ❌ 바깥쪽 사각형 테두리를 완전히 제거 */
+    background-color: #ffffff; 
+    table-layout: fixed; 
+}
+
+/* 첫 줄 대분류 (제목칸) */
+.grid-table th { 
+    background-color: #1e3a8a; 
+    color: #ffffff; 
+    font-weight: bold; 
+    font-size: 0.8rem; 
+    padding: 10px 2px; 
+    text-align: center; 
+    /* 💡 바깥쪽 선과 겹치지 않는 내부 격자선만 유지 */
+    border-top: none;
+    border-bottom: 1px solid #334155; 
+    border-left: 1px solid #334155;
+    border-right: 1px solid #334155;
+}
+/* 제목칸 중 맨 왼쪽과 맨 오른쪽의 세로선도 지워서 완전히 개방된 느낌을 줍니다 */
+.grid-table th:first-child { border-left: none; }
+.grid-table th:last-child { border-right: none; }
+
+/* 데이터 내용 칸 */
+.grid-table td { 
+    padding: 10px 2px; 
+    font-size: 0.75rem; 
+    color: #0f172a; 
+    text-align: center; 
+    border-bottom: 1px solid #cbd5e1; /* 가로 분리선 */
+    border-left: 1px solid #cbd5e1;   /* 세로 분리선 */
+    border-right: 1px solid #cbd5e1;  /* 세로 분리선 */
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    word-break: break-all; 
+}
+/* 데이터 칸도 맨 왼쪽과 맨 오른쪽 세로 테두리선을 없앱니다 */
+.grid-table td:first-child { border-left: none; }
+.grid-table td:last-child { border-right: none; }
+        
         /* 선명한 격자 테이블 스타일 */
         .grid-table { width: 100%; border-collapse: collapse; border: 2px solid #334155; background-color: #ffffff; table-layout: fixed; }
         .grid-table th { background-color: #1e3a8a; color: #ffffff; font-weight: bold; font-size: 0.8rem; padding: 10px 2px; text-align: center; border: 1px solid #334155; }
