@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>📱 입주사 긴급연락망 </title>
+    <title>📱 입주사 긴급연락망</title>
     <style>
         * { 
             box-sizing: border-box; 
@@ -12,7 +12,7 @@
         }
         
         body { background-color: #ffffff; padding: 0; margin: 0; color: #0f172a; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; } /* 칸이 늘어나 여백을 더 줄임 */
+        .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; } 
         
         /* 상단 네비게이션 바 */
         .top-nav-bar { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 15px; }
@@ -21,18 +21,52 @@
 
         .table-wrap { width: 100%; overflow: hidden; }
 
-        
-        /* 선명한 격자 테이블 스타일 */
-        .grid-table { width: 100%; border-collapse: collapse; border: 2px solid #334155; background-color: #ffffff; table-layout: fixed; }
-        .grid-table th { background-color: #1e3a8a; color: #ffffff; font-weight: bold; font-size: 0.8rem; padding: 10px 2px; text-align: center; border: 1px solid #334155; }
-        .grid-table td { padding: 10px 2px; font-size: 0.75rem; color: #0f172a; text-align: center; border: 1px solid #cbd5e1; overflow: hidden; text-overflow: ellipsis; word-break: break-all; }
+        /* 💡 1. 여기 구역이 바깥 테두리(border)를 없앤 구역입니다 */
+        .grid-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            border: none; /* 외곽 큰 사각형 선 제거 */
+            background-color: #ffffff; 
+            table-layout: fixed; 
+        }
 
-        /* 💡 1. 연락처가 늘어남에 따라 가로 비율 재조정 (합계 100%) */
-        .col-room { width: 14%; }    /* 호실 */
-        .col-company { width: 26%; } /* 업체명 */
-        .col-name { width: 18%; }    /* 담당자 */
-        .col-tel1 { width: 21%; }    /* 연락처1 (예: 일반) */
-        .col-tel2 { width: 21%; }    /* 연락처2 (예: 휴대폰) */
+        /* 💡 2. 제목칸의 양쪽 끝 세로선을 제거하는 스타일 */
+        .grid-table th { 
+            background-color: #1e3a8a; 
+            color: #ffffff; 
+            font-weight: bold; 
+            font-size: 0.8rem; 
+            padding: 10px 2px; 
+            text-align: center; 
+            border-bottom: 1px solid #334155; 
+            border-left: 1px solid #334155;
+            border-right: 1px solid #334155;
+        }
+        .grid-table th:first-child { border-left: none; } /* 맨 왼쪽 세로선 제거 */
+        .grid-table th:last-child { border-right: none; }  /* 맨 오른쪽 세로선 제거 */
+
+        /* 💡 3. 데이터 내용칸의 양쪽 끝 세로선을 제거하는 스타일 */
+        .grid-table td { 
+            padding: 10px 2px; 
+            font-size: 0.75rem; 
+            color: #0f172a; 
+            text-align: center; 
+            border-bottom: 1px solid #cbd5e1; 
+            border-left: 1px solid #cbd5e1;   
+            border-right: 1px solid #cbd5e1;  
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            word-break: break-all; 
+        }
+        .grid-table td:first-child { border-left: none; } /* 맨 왼쪽 세로선 제거 */
+        .grid-table td:last-child { border-right: none; }  /* 맨 오른쪽 세로선 제거 */
+
+        /* 가로 폭 비율 고정 */
+        .col-room { width: 14%; }    
+        .col-company { width: 26%; } 
+        .col-name { width: 18%; }    
+        .col-tel1 { width: 21%; }    
+        .col-tel2 { width: 21%; }    
 
         .tel-btn { color: #2563eb; text-decoration: none; font-weight: bold; display: block; }
         .grid-table tr:nth-child(even) { background-color: #f8fafc; }
@@ -44,8 +78,8 @@
 <div class="container">
 
     <div class="top-nav-bar">
-        <a href="facility_archive.html" class="btn-back-left">⬅️</a>
-        <h1 class="page-title">📞 입주사 긴급연락망</h1>
+        <a href="index.html" class="btn-back-left">⬅️</a>
+        <h1 class="page-title">📞 입주사 연락망</h1>
     </div>
     
     <div class="table-wrap">
@@ -62,14 +96,14 @@
                 <tr>
                     <th>호실</th>
                     <th>업체명</th>
-                    <th>정부</th>
+                    <th>정/부</th>
                     <th>담당자</th>
                     <th>휴대폰</th>
                 </tr>
             </thead>
             <tbody id="excel-data-body">
                 <tr>
-                    <td colspan="5" style="padding: 30px; color: #94a3b8;">잠시만 기다려주세요 데이터 로딩 중...</td>
+                    <td colspan="5" style="padding: 30px; color: #94a3b8;">데이터 로딩 중...</td>
                 </tr>
             </tbody>
         </table>
@@ -99,13 +133,12 @@
 
                 const cells = row.split(',');
                 
-                // 💡 2. 연락처가 추가되어 최소 5개 이상의 칸(cells)이 있는지 확인합니다.
                 if (cells.length >= 5) {
                     const room = cells[0].trim();
                     const company = cells[1].trim();
                     const manager = cells[2].trim();
-                    const tel1 = cells[3].trim(); // 일반전화 번호 추출
-                    const tel2 = cells[4].trim(); // 휴대폰 번호 추출
+                    const tel1 = cells[3].trim(); 
+                    const tel2 = cells[4].trim(); 
 
                     tableHTML += `
                         <tr>
