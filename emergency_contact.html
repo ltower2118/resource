@@ -2,82 +2,221 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>입주사 긴급비상 연락망</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>📱 입주사 긴급연락망</title>
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
-        body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; }
+        * { 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
         
-        /* 테이블을 감싸는 박스 (모바일에서 화면이 작으면 가로 스크롤 생성) */
-        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
+        body { 
+            background-color: #f8fafc; 
+            padding: 0; 
+            margin: 0; 
+            color: #0f172a; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh; 
+        }
         
-        table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        th, td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; white-space: nowrap; }
+        .container { 
+            width: 100%; 
+            max-width: 430px; /* 스마트폰 최대 폭 고정 */
+            padding: 0 16px 24px 16px;
+        }
         
-        /* 첫 줄(제목칸) 배경색 파란색 톤으로 지정 */
-        th { background-color: #1e3a8a; color: white; font-weight: bold; }
-        /* 한 줄 건너 한 줄씩 음영을 주어 눈이 편하게 세팅 */
-        tr:nth-child(even) { background-color: #f8fafc; }
-        tr:hover { background-color: #f1f5f9; }
+        /* 상단 네비게이션 바 */
+        .top-nav-bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px 0;
+            margin-top: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .btn-back-left {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #f1f5f9;
+            border-radius: 50%;
+            text-decoration: none;
+            color: #334155;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin: 0;
+        }
+
+        /* 📱 가로 스크롤 없는 모바일 리스트 스타일 컨테이너 */
+        #contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* 카드간 여백 */
+            width: 100%;
+        }
+
+        /* 연락처 카드 개별 스타일 */
+        .contact-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* 카드 상단: 업체명 및 호실 */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 6px;
+            margin-bottom: 4px;
+        }
+
+        .company-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .room-number {
+            font-size: 0.85rem;
+            font-weight: bold;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        /* 카드 본문: 직책, 이름, 연락처 */
+        .card-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .manager-info {
+            color: #475569;
+            font-weight: 500;
+        }
+
+        /* 스마트폰에서 누르면 바로 전화 걸리는 버튼 스타일 */
+        .phone-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 700;
+            background-color: #eff6ff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #bfdbfe;
+            font-size: 0.85rem;
+        }
+        .phone-link:active {
+            background-color: #dbeafe;
+        }
+
+        .footer { 
+            text-align: center; 
+            font-size: 0.75rem; 
+            color: #94a3b8; 
+            margin-top: 40px; 
+        }
     </style>
 </head>
 <body>
 
-    <h2 style="color: #1e3a8a; border-left: 4px solid #1e3a8a; padding-left: 8px; margin-bottom: 15px;">입주사 긴급비상 연락망</h2>
+<div class="container">
 
-    <div class="table-container">
-        <table id="excel-table">
-            <tr>
-                <td style="padding: 30px; color: #94a3b8;">데이터를 불러오는 중입니다...</td>
-            </tr>
-        </table>
+    <div class="top-nav-bar">
+        <a href="facility_archive.html" class="btn-back-left">⬅️</a>
+        <h1 class="page-title">📞 입주사 긴급연락망</h1>
+    </div>
+    
+    <div id="contact-list">
+        <p style="text-align: center; color: #94a3b8; padding: 40px;">연락망 데이터를 불러오는 중입니다...</p>
     </div>
 
+    <p class="footer">Built by AI & Ha Yu-sin</p>
+</div>
+
 <script>
-    // 💡 1. 파일명 대소문자 확인 (깃허브에 올린 파일명과 토씨 하나 틀리지 않게 똑같이 적어주세요)
+    // 💡 과장님이 세팅하신 CSV 파일명과 일치시켜 주세요
     const csvFileName = 'emergency_contact.csv'; 
 
-    async function loadCSV() {
+    async function loadEmergencyContacts() {
         try {
-            // 💡 경로 오류 방지를 위해 ./ 를 붙여 현재 폴더임을 명시합니다.
             const response = await fetch('./' + csvFileName);
-            
-            if (!response.ok) {
-                throw new Error('파일을 찾을 수 없습니다. (에러코드: ' + response.status + ')');
-            }
+            if (!response.ok) throw new Error('파일 로드 실패');
 
             const blob = await response.blob();
-            const decoder = new TextDecoder('euc-kr');
+            const decoder = new TextDecoder('euc-kr'); // 한글 깨짐 방지
             const buffer = await blob.arrayBuffer();
             const csvText = decoder.decode(buffer);
             
-            // 💡 윈도우(\r\n)와 리눅스(\n) 줄바꿈 규격을 모두 호환하도록 수정
             const rows = csvText.split(/\r?\n/);
-            let tableHTML = '';
+            let listHTML = '';
 
+            // 💡 과장님 엑셀 서식 순서 가정: [ 0:호실, 1:업체명, 2:직책/이름, 3:연락처 ]
+            // 만약 엑셀 칸 순서가 다르다면 아래 번호(cells[0], cells[1]...)를 알맞게 바꿔주시면 됩니다.
             rows.forEach((row, index) => {
-                if (!row.trim()) return; 
-                
+                if (index === 0 || !row.trim()) return; // 첫 줄(제목행) 및 빈 줄 건너뛰기
+
                 const cells = row.split(',');
-                tableHTML += '<tr>';
-                cells.forEach(cell => {
-                    tableHTML += index === 0 ? `<th>${cell.trim()}</th>` : `<td>${cell.trim()}</td>`;
-                });
-                tableHTML += '</tr>';
+                
+                // 데이터가 정상적으로 채워져 있는 행만 카드로 만듭니다.
+                if (cells.length >= 4) {
+                    const room = cells[0].trim();
+                    const company = cells[1].trim();
+                    const manager = cells[2].trim();
+                    const phone = cells[3].trim();
+
+                    listHTML += `
+                        <div class="contact-card">
+                            <div class="card-header">
+                                <span class="company-name">${company}</span>
+                                <span class="room-number">${room}</span>
+                            </div>
+                            <div class="card-body">
+                                <span class="manager-info">${manager}</span>
+                                <a href="tel:${phone}" class="phone-link">📞 ${phone}</a>
+                            </div>
+                        </div>
+                    `;
+                }
             });
 
-            document.getElementById('excel-table').innerHTML = tableHTML;
+            document.getElementById('contact-list').innerHTML = listHTML || '<p style="text-align:center; padding:20px;">등록된 연락처가 없습니다.</p>';
         } catch (error) {
             console.error(error);
-            document.getElementById('excel-table').innerHTML = `
-                <tr><td style="color:red; padding:30px; font-weight:bold;">
-                    ❌ CSV 파일을 불러오지 못했습니다.<br>
-                    <span style="font-size:0.8rem; color:#64748b; font-weight:normal;">이유: ${error.message}</span>
-                </td></tr>`;
+            document.getElementById('contact-list').innerHTML = `<p style="text-align:center; color:red; padding:20px;">❌ 연락망을 불러오지 못했습니다.</p>`;
         }
     }
 
-    window.onload = loadCSV;
+    window.onload = loadEmergencyContacts;
 </script>
 
 </body>
