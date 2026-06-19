@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>입주사 긴급비상 연락망 (격자형)</title>
+    <title>📱 입주사 긴급연락망 (연락처 추가형)</title>
     <style>
         * { 
             box-sizing: border-box; 
@@ -11,125 +11,31 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        body { 
-            background-color: #ffffff; 
-            padding: 0; 
-            margin: 0; 
-            color: #0f172a; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            min-height: 100vh; 
-        }
-        
-        /* 스마트폰 화면 최적화 컨테이너 (여백 최소화로 가로 공간 확보) */
-        .container { 
-            width: 100%; 
-            max-width: 430px; 
-            padding: 0 8px 24px 8px; /* 양옆 여백을 8px로 줄여 표 공간 확보 */
-        }
+        body { background-color: #ffffff; padding: 0; margin: 0; color: #0f172a; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; } /* 칸이 늘어나 여백을 더 줄임 */
         
         /* 상단 네비게이션 바 */
-        .top-nav-bar {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 16px 0;
-            margin-top: 5px;
-            border-bottom: 2px solid #334155;
-            margin-bottom: 15px;
-        }
+        .top-nav-bar { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 15px; }
+        .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: #f1f5f9; border-radius: 50%; text-decoration: none; color: #334155; font-size: 1.1rem; font-weight: bold; }
+        .page-title { font-size: 1.15rem; font-weight: 800; color: #1e3a8a; margin: 0; }
 
-        .btn-back-left {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background-color: #f1f5f9;
-            border-radius: 50%;
-            text-decoration: none;
-            color: #334155;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
+        .table-wrap { width: 100%; overflow: hidden; }
 
-        .page-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #1e3a8a;
-            margin: 0;
-        }
+        /* 선명한 격자 테이블 스타일 */
+        .grid-table { width: 100%; border-collapse: collapse; border: 2px solid #334155; background-color: #ffffff; table-layout: fixed; }
+        .grid-table th { background-color: #1e3a8a; color: #ffffff; font-weight: bold; font-size: 0.8rem; padding: 10px 2px; text-align: center; border: 1px solid #334155; }
+        .grid-table td { padding: 10px 2px; font-size: 0.75rem; color: #0f172a; text-align: center; border: 1px solid #cbd5e1; overflow: hidden; text-overflow: ellipsis; word-break: break-all; }
 
-        /* 💡 꽉 찬 화면 가변형 테이블 영역 */
-        .table-wrap {
-            width: 100%;
-            overflow: hidden; /* 스크롤바가 안 생기도록 강제 제어 */
-        }
+        /* 💡 1. 연락처가 늘어남에 따라 가로 비율 재조정 (합계 100%) */
+        .col-room { width: 14%; }    /* 호실 */
+        .col-company { width: 26%; } /* 업체명 */
+        .col-name { width: 18%; }    /* 담당자 */
+        .col-tel1 { width: 21%; }    /* 연락처1 (예: 일반) */
+        .col-tel2 { width: 21%; }    /* 연락처2 (예: 휴대폰) */
 
-        /* 💡 핵심: 안팎 격자 라인이 선명하게 다 보이는 표 스타일 */
-        .grid-table {
-            width: 100%;
-            border-collapse: collapse; /* 선 겹침 제거 */
-            border: 2px solid #334155; /* 외곽 테두리를 두껍고 선명하게 */
-            background-color: #ffffff;
-            table-layout: fixed; /* 폰 크기에 맞춰 칸 너비 강제 고정 */
-        }
-
-        /* 첫 줄 대분류 (제목칸) */
-        .grid-table th {
-            background-color: #1e3a8a;
-            color: #ffffff;
-            font-weight: bold;
-            font-size: 0.85rem;
-            padding: 10px 4px;
-            text-align: center;
-            border: 1px solid #334155; /* 내부 가로세로 격자선 */
-        }
-
-        /* 데이터 내용 칸 */
-        .grid-table td {
-            padding: 10px 4px;
-            font-size: 0.8rem;
-            color: #0f172a;
-            text-align: center;
-            border: 1px solid #cbd5e1; /* 내부 격자선은 보기 편하게 회색으로 처리 */
-            overflow: hidden;
-            text-overflow: ellipsis; /* 글자가 칸 넘어가면 자동 숨김 대처 */
-            word-break: break-all;   /* 긴 영문이나 숫자 강제 줄바꿈 */
-        }
-
-        /* 💡 스마트폰 가로 폭 분배비율 세팅 (합이 100%) */
-        .col-room { width: 15%; }    /* 호실 (예: 501호) */
-        .col-company { width: 32%; } /* 업체명 */
-        .col-name { width: 23%; }    /* 직책/이름 */
-        .col-phone { width: 30%; }   /* 연락처 */
-
-        /* 전화번호 링크 스타일 */
-        .tel-btn {
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-        }
-
-        /* 시인성을 위한 짝수 행 음영 처리 */
-        .grid-table tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-
-        .footer { 
-            text-align: center; 
-            font-size: 0.72rem; 
-            color: #94a3b8; 
-            margin-top: 30px; 
-        }
+        .tel-btn { color: #2563eb; text-decoration: none; font-weight: bold; display: block; }
+        .grid-table tr:nth-child(even) { background-color: #f8fafc; }
+        .footer { text-align: center; font-size: 0.72rem; color: #94a3b8; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -138,7 +44,7 @@
 
     <div class="top-nav-bar">
         <a href="facility_archive.html" class="btn-back-left">⬅️</a>
-        <h1 class="page-title">📞 입주사 연락망 (격자)</h1>
+        <h1 class="page-title">📞 입주사 연락망 (연락처2종)</h1>
     </div>
     
     <div class="table-wrap">
@@ -147,7 +53,8 @@
                 <col class="col-room">
                 <col class="col-company">
                 <col class="col-name">
-                <col class="col-phone">
+                <col class="col-tel1">
+                <col class="col-tel2">
             </colgroup>
             
             <thead>
@@ -155,12 +62,13 @@
                     <th>호실</th>
                     <th>업체명</th>
                     <th>담당자</th>
-                    <th>연락처</th>
+                    <th>일반전화</th>
+                    <th>휴대폰</th>
                 </tr>
             </thead>
             <tbody id="excel-data-body">
                 <tr>
-                    <td colspan="4" style="padding: 30px; color: #94a3b8;">데이터 로딩 중...</td>
+                    <td colspan="5" style="padding: 30px; color: #94a3b8;">데이터 로딩 중...</td>
                 </tr>
             </tbody>
         </table>
@@ -170,7 +78,7 @@
 </div>
 
 <script>
-    const csvFileName = 'emergency_contact.csv'; 
+    const csvFileName = 'tenant_emergency_contacts.csv'; 
 
     async function loadGridTable() {
         try {
@@ -186,31 +94,34 @@
             let tableHTML = '';
 
             rows.forEach((row, index) => {
-                if (index === 0 || !row.trim()) return; // 첫 줄 제목행 패스
+                if (index === 0 || !row.trim()) return; 
 
                 const cells = row.split(',');
                 
-                if (cells.length >= 4) {
+                // 💡 2. 연락처가 추가되어 최소 5개 이상의 칸(cells)이 있는지 확인합니다.
+                if (cells.length >= 5) {
                     const room = cells[0].trim();
                     const company = cells[1].trim();
                     const manager = cells[2].trim();
-                    const phone = cells[3].trim();
+                    const tel1 = cells[3].trim(); // 일반전화 번호 추출
+                    const tel2 = cells[4].trim(); // 휴대폰 번호 추출
 
                     tableHTML += `
                         <tr>
                             <td>${room}</td>
-                            <td style="text-align: left; padding-left: 6px; font-weight: 500;">${company}</td>
+                            <td style="text-align: left; padding-left: 4px; font-weight: 500;">${company}</td>
                             <td>${manager}</td>
-                            <td><a href="tel:${phone}" class="tel-btn">${phone}</a></td>
+                            <td><a href="tel:${tel1}" class="tel-btn">${tel1 || '-'}</a></td>
+                            <td><a href="tel:${tel2}" class="tel-btn">${tel2 || '-'}</a></td>
                         </tr>
                     `;
                 }
             });
 
-            document.getElementById('excel-data-body').innerHTML = tableHTML || '<tr><td colspan="4">데이터가 없습니다.</td></tr>';
+            document.getElementById('excel-data-body').innerHTML = tableHTML || '<tr><td colspan="5">데이터가 없습니다.</td></tr>';
         } catch (error) {
             console.error(error);
-            document.getElementById('excel-data-body').innerHTML = '<tr><td colspan="4" style="color:red; padding:20px;">❌ 로드 실패</td></tr>';
+            document.getElementById('excel-data-body').innerHTML = '<tr><td colspan="5" style="color:red; padding:20px;">❌ 로드 실패</td></tr>';
         }
     }
 
