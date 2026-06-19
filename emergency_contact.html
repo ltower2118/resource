@@ -21,16 +21,15 @@
 
         .table-wrap { width: 100%; overflow: hidden; }
 
-        /* 💡 1. 여기 구역이 바깥 테두리(border)를 없앤 구역입니다 */
         .grid-table { 
             width: 100%; 
             border-collapse: collapse; 
-            border: none; /* 외곽 큰 사각형 선 제거 */
+            border: none; 
             background-color: #ffffff; 
             table-layout: fixed; 
         }
 
-        /* 💡 2. 제목칸의 양쪽 끝 세로선을 제거하는 스타일 */
+        /* 제목칸 테두리 정돈 */
         .grid-table th { 
             background-color: #1e3a8a; 
             color: #ffffff; 
@@ -42,10 +41,10 @@
             border-left: 1px solid #334155;
             border-right: 1px solid #334155;
         }
-        .grid-table th:first-child { border-left: none; } /* 맨 왼쪽 세로선 제거 */
-        .grid-table th:last-child { border-right: none; }  /* 맨 오른쪽 세로선 제거 */
+        .grid-table th:first-child { border-left: none; } 
+        .grid-table th:last-child { border-right: none; } 
 
-        /* 💡 3. 데이터 내용칸의 양쪽 끝 세로선을 제거하는 스타일 */
+        /* 데이터 칸 테두리 정돈 */
         .grid-table td { 
             padding: 10px 2px; 
             font-size: 0.75rem; 
@@ -58,10 +57,10 @@
             text-overflow: ellipsis; 
             word-break: break-all; 
         }
-        .grid-table td:first-child { border-left: none; } /* 맨 왼쪽 세로선 제거 */
-        .grid-table td:last-child { border-right: none; }  /* 맨 오른쪽 세로선 제거 */
+        .grid-table td:first-child { border-left: none; } 
+        .grid-table td:last-child { border-right: none; } 
 
-        /* 가로 폭 비율 고정 */
+        /* 5개 열 기준 가로 폭 비율 고정 */
         .col-room { width: 14%; }    
         .col-company { width: 26%; } 
         .col-name { width: 18%; }    
@@ -92,7 +91,7 @@
                 <col class="col-tel2">
             </colgroup>
             
-            <thead>
+            <thead id="table-head">
                 <tr>
                     <th>호실</th>
                     <th>업체명</th>
@@ -112,29 +111,27 @@
     <p class="footer">Built by AI & Ha Yu-sin</p>
 </div>
 
-
 <script>
+    // 💡 [수정] 파일명 확장자를 소문자(.csv) 안전 규격으로 맞췄습니다.
     const csvFileName = 'emergency_contact.csv'; 
 
-    // 💡 개량된 전화번호 감지기: 텍스트 안에 숫자와 하이픈이 포함되어 있으면 무조건 감지합니다.
     function hasPhoneNumber(text) {
         const cleanText = text.replace(/[^0-9\-]/g, '');
-        return cleanText.length >= 9; // 숫자가 9자리 이상이면 전화번호로 인정
+        return cleanText.length >= 9; 
     }
 
-    // 💡 텍스트 내부에서 순수 전화번호(숫자와 하이픈)만 쏙 추출하는 함수
     function extractPhoneNumber(text) {
         return text.replace(/[^0-9\-]/g, '');
     }
 
     async function loadUniversalCSV() {
         try {
+            // 💡 [수정] 현재 폴더 명시를 위해 ./ 경로를 동반하여 호출합니다.
             const response = await fetch('./' + csvFileName);
-            if (!response.ok) throw new Error('CSV 파일을 찾을 수 없습니다.');
+            if (!response.ok) throw new Error('CSV 파일을 찾을 수 없습니다. 대소문자를 확인해 주세요.');
 
             const buffer = await response.arrayBuffer();
             
-            // 1. 인코딩 자동 감지 (한글 깨짐 차단)
             const arr = new Uint8Array(buffer);
             let encoding = 'euc-kr'; 
             if (arr.length >= 3 && arr[0] === 0xEF && arr[1] === 0xBB && arr[2] === 0xBF) {
@@ -144,48 +141,39 @@
             const decoder = new TextDecoder(encoding);
             const csvText = decoder.decode(buffer);
             
-            // 2. 줄바꿈 기준 분리
             const rows = csvText.split(/\r?\n/);
             
-            let headHTML = '<tr>';
+            let headHTML = '';
             let bodyHTML = '';
-            let maxColumns = 0;
+            let maxColumns = 5; // 고정된 레이아웃 기준 열 개수
 
             rows.forEach((row, rowIndex) => {
-                if (!row.trim()) return; // 빈 줄 패스
+                if (!row.trim()) return; 
 
                 const cells = row.split(',');
                 
-                // 첫 번째 행: 무조건 제목칸(th) 매칭
+                // 첫 번째 행이 엑셀의 제목칸일 경우 타이틀 자동 매칭
                 if (rowIndex === 0) {
                     maxColumns = cells.length;
+                    headHTML += '<tr>';
                     cells.forEach(cell => {
                         headHTML += `<th>${cell.trim()}</th>`;
                     });
                     headHTML += '</tr>';
                 } 
-                // 두 번째 행부터: 데이터칸(td) 조립
+                // 데이터 내용 조립
                 else {
                     bodyHTML += '<tr>';
-                    
-                    // 💡 핵심 수정: 원래 첫 줄 열 개수(maxColumns)나 현재 행의 열 개수 중 더 큰 값만큼 끝까지 돌립니다.
-                    // 이렇게 하면 엑셀 변환 오류로 칸이 뒤로 밀려도 데이터가 잘리지 않고 끝까지 화면에 출력됩니다.
-                    const currentLength = Math.max(maxColumns, cells.length);
-                    
-                    for (let i = 0; i < currentLength; i++) {
+                    for (let i = 0; i < maxColumns; i++) {
                         const cellData = cells[i] ? cells[i].trim() : '';
                         
-                        // 데이터가 아예 비어있다면 빈칸 처리
                         if (!cellData) {
                             bodyHTML += `<td>-</td>`;
                         } 
-                        // 💡 만약 데이터 안에 전화번호 성격의 숫자가 포함되어 있다면
                         else if (hasPhoneNumber(cellData)) {
                             const purePhone = extractPhoneNumber(cellData);
-                            // 글자 전체를 다 보여주되, 클릭 시 전화가 걸리도록 안전하게 매칭
                             bodyHTML += `<td><a href="tel:${purePhone}" class="tel-btn">${cellData}</a></td>`;
                         } 
-                        // 일반 텍스트는 그대로 출력
                         else {
                             bodyHTML += `<td>${cellData}</td>`;
                         }
@@ -194,16 +182,19 @@
                 }
             });
 
-            // 3. 화면에 격자 반영
-            document.getElementById('table-head').innerHTML = headHTML;
-            document.getElementById('table-body').innerHTML = bodyHTML || `<tr><td colspan="${maxColumns}">데이터가 비어 있습니다.</td></tr>`;
+            // 추출된 데이터가 정상적일 때만 헤더와 바디를 교체합니다.
+            if (headHTML) {
+                document.getElementById('table-head').innerHTML = headHTML;
+            }
+            document.getElementById('excel-data-body').innerHTML = bodyHTML || `<tr><td colspan="${maxColumns}">데이터가 비어 있습니다.</td></tr>`;
             
         } catch (error) {
             console.error(error);
-            document.getElementById('table-body').innerHTML = `<tr><td style="color:red; padding:20px;">❌ 로드 실패: ${error.message}</td></tr>`;
+            document.getElementById('excel-data-body').innerHTML = `<tr><td colspan="5" style="color:red; padding:20px; font-weight:bold;">❌ 로드 실패<br><span style="font-size:0.75rem; color:#94a3b8; font-weight:normal;">${error.message}</span></td></tr>`;
         }
     }
 
     window.onload = loadUniversalCSV;
 </script>
-
+</body>
+</html>
