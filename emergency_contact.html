@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입주사 긴급비상 연락망</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; }
+        
+        /* 테이블을 감싸는 박스 (모바일에서 화면이 작으면 가로 스크롤 생성) */
+        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
+        
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th, td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; white-space: nowrap; }
+        
+        /* 첫 줄(제목칸) 배경색 파란색 톤으로 지정 */
+        th { background-color: #1e3a8a; color: white; font-weight: bold; }
+        /* 한 줄 건너 한 줄씩 음영을 주어 눈이 편하게 세팅 */
+        tr:nth-child(even) { background-color: #f8fafc; }
+        tr:hover { background-color: #f1f5f9; }
+    </style>
+</head>
+<body>
+
+    <h2 style="color: #1e3a8a; border-left: 4px solid #1e3a8a; padding-left: 8px; margin-bottom: 15px;">입주사 긴급비상 연락망</h2>
+
+    <div class="table-container">
+        <table id="excel-table">
+            <tr>
+                <td style="padding: 30px; color: #94a3b8;">데이터를 불러오는 중입니다...</td>
+            </tr>
+        </table>
+    </div>
+
+<script>
+    // 💡 [수정 포인트] 과장님이 깃허브에 올리신 CSV 파일명과 똑같이 적어주세요!
+    const csvFileName = 'emergency_contact.CSV'; 
+
+async function loadCSV() {
+    try {
+        // 1. CSV 파일을 원본 바이너리(Blob) 데이터로 먼저 가져옵니다.
+        const response = await fetch(csvFileName);
+        const blob = await response.blob();
+        
+        // 2. 💡 [핵심] 텍스트 디코더를 'EUC-KR'(한국어 표준) 형식으로 지정합니다.
+        // 만약 이렇게 해도 깨진다면 'utf-8'로 바꿔보시면 됩니다.
+        const decoder = new TextDecoder('euc-kr');
+        
+        // 3. 바이너리 데이터를 한국어 폰트 형식으로 변환(디코딩)합니다.
+        const buffer = await blob.arrayBuffer();
+        const csvText = decoder.decode(buffer);
+        
+        // --- 이 아래부터는 기존 줄바꿈 처리 코드를 그대로 씁니다 ---
+        const rows = csvText.split('\n');
+        let tableHTML = '';
+
+        rows.forEach((row, index) => {
+            if (!row.trim()) return;
+            const cells = row.split(',');
+            tableHTML += '<tr>';
+            cells.forEach(cell => {
+                tableHTML += index === 0 ? `<th>${cell.trim()}</th>` : `<td>${cell.trim()}</td>`;
+            });
+            tableHTML += '</tr>';
+        });
+
+        document.getElementById('excel-table').innerHTML = tableHTML;
+    } catch (error) {
+        console.error('CSV 로드 실패:', error);
+    }
+}
+
+</script>
+</body>
+</html>
