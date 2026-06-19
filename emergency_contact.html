@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>서울숲엘타워2</title>
+    <title>서울숲엘타워4</title>
     <style>
         * { 
             box-sizing: border-box; 
@@ -21,15 +21,16 @@
 
         .table-wrap { width: 100%; overflow: hidden; }
 
+        /* 💡 1. 여기 구역이 바깥 테두리(border)를 없앤 구역입니다 */
         .grid-table { 
             width: 100%; 
             border-collapse: collapse; 
-            border: none; 
+            border: none; /* 외곽 큰 사각형 선 제거 */
             background-color: #ffffff; 
             table-layout: fixed; 
         }
 
-        /* 제목칸 테두리 정돈 */
+        /* 💡 2. 제목칸의 양쪽 끝 세로선을 제거하는 스타일 */
         .grid-table th { 
             background-color: #1e3a8a; 
             color: #ffffff; 
@@ -41,10 +42,10 @@
             border-left: 1px solid #334155;
             border-right: 1px solid #334155;
         }
-        .grid-table th:first-child { border-left: none; } 
-        .grid-table th:last-child { border-right: none; } 
+        .grid-table th:first-child { border-left: none; } /* 맨 왼쪽 세로선 제거 */
+        .grid-table th:last-child { border-right: none; }  /* 맨 오른쪽 세로선 제거 */
 
-        /* 데이터 칸 테두리 정돈 */
+        /* 💡 3. 데이터 내용칸의 양쪽 끝 세로선을 제거하는 스타일 */
         .grid-table td { 
             padding: 10px 2px; 
             font-size: 0.75rem; 
@@ -57,10 +58,10 @@
             text-overflow: ellipsis; 
             word-break: break-all; 
         }
-        .grid-table td:first-child { border-left: none; } 
-        .grid-table td:last-child { border-right: none; } 
+        .grid-table td:first-child { border-left: none; } /* 맨 왼쪽 세로선 제거 */
+        .grid-table td:last-child { border-right: none; }  /* 맨 오른쪽 세로선 제거 */
 
-        /* 5개 열 기준 가로 폭 비율 고정 */
+        /* 가로 폭 비율 고정 */
         .col-room { width: 14%; }    
         .col-company { width: 26%; } 
         .col-name { width: 18%; }    
@@ -91,7 +92,7 @@
                 <col class="col-tel2">
             </colgroup>
             
-            <thead id="table-head">
+            <thead>
                 <tr>
                     <th>호실</th>
                     <th>업체명</th>
@@ -112,89 +113,51 @@
 </div>
 
 <script>
-    // 💡 [수정] 파일명 확장자를 소문자(.csv) 안전 규격으로 맞췄습니다.
     const csvFileName = 'emergency_contact.csv'; 
 
-    function hasPhoneNumber(text) {
-        const cleanText = text.replace(/[^0-9\-]/g, '');
-        return cleanText.length >= 9; 
-    }
-
-    function extractPhoneNumber(text) {
-        return text.replace(/[^0-9\-]/g, '');
-    }
-
-    async function loadUniversalCSV() {
+    async function loadGridTable() {
         try {
-            // 💡 [수정] 현재 폴더 명시를 위해 ./ 경로를 동반하여 호출합니다.
             const response = await fetch('./' + csvFileName);
-            if (!response.ok) throw new Error('CSV 파일을 찾을 수 없습니다. 대소문자를 확인해 주세요.');
+            if (!response.ok) throw new Error('파일 확인 불가');
 
-            const buffer = await response.arrayBuffer();
-            
-            const arr = new Uint8Array(buffer);
-            let encoding = 'euc-kr'; 
-            if (arr.length >= 3 && arr[0] === 0xEF && arr[1] === 0xBB && arr[2] === 0xBF) {
-                encoding = 'utf-8';
-            }
-
-            const decoder = new TextDecoder(encoding);
+            const blob = await response.blob();
+            const decoder = new TextDecoder('euc-kr');
+            const buffer = await blob.arrayBuffer();
             const csvText = decoder.decode(buffer);
             
             const rows = csvText.split(/\r?\n/);
-            
-            let headHTML = '';
-            let bodyHTML = '';
-            let maxColumns = 5; // 고정된 레이아웃 기준 열 개수
+            let tableHTML = '';
 
-            rows.forEach((row, rowIndex) => {
-                if (!row.trim()) return; 
+            rows.forEach((row, index) => {
+                if (index === 0 || !row.trim()) return; 
 
                 const cells = row.split(',');
                 
-                // 첫 번째 행이 엑셀의 제목칸일 경우 타이틀 자동 매칭
-                if (rowIndex === 0) {
-                    maxColumns = cells.length;
-                    headHTML += '<tr>';
-                    cells.forEach(cell => {
-                        headHTML += `<th>${cell.trim()}</th>`;
-                    });
-                    headHTML += '</tr>';
-                } 
-                // 데이터 내용 조립
-                else {
-                    bodyHTML += '<tr>';
-                    for (let i = 0; i < maxColumns; i++) {
-                        const cellData = cells[i] ? cells[i].trim() : '';
-                        
-                        if (!cellData) {
-                            bodyHTML += `<td>-</td>`;
-                        } 
-                        else if (hasPhoneNumber(cellData)) {
-                            const purePhone = extractPhoneNumber(cellData);
-                            bodyHTML += `<td><a href="tel:${purePhone}" class="tel-btn">${cellData}</a></td>`;
-                        } 
-                        else {
-                            bodyHTML += `<td>${cellData}</td>`;
-                        }
-                    }
-                    bodyHTML += '</tr>';
+                if (cells.length >= 5) {
+                    const room = cells[0].trim();
+                    const company = cells[1].trim();
+                    const manager = cells[2].trim();
+                    const tel1 = cells[3].trim(); 
+                    const tel2 = cells[4].trim(); 
+
+                    tableHTML += `
+                        <tr>
+                            <td>${room}</td>
+                            <td style="text-align: left; padding-left: 4px; font-weight: 500;">${company}</td>
+                            <td>${manager}</td>
+                            <td><a href="tel:${tel1}" class="tel-btn">${tel1 || '-'}</a></td>
+                            <td><a href="tel:${tel2}" class="tel-btn">${tel2 || '-'}</a></td>
+                        </tr>
+                    `;
                 }
             });
 
-            // 추출된 데이터가 정상적일 때만 헤더와 바디를 교체합니다.
-            if (headHTML) {
-                document.getElementById('table-head').innerHTML = headHTML;
-            }
-            document.getElementById('excel-data-body').innerHTML = bodyHTML || `<tr><td colspan="${maxColumns}">데이터가 비어 있습니다.</td></tr>`;
-            
+            document.getElementById('excel-data-body').innerHTML = tableHTML || '<tr><td colspan="5">데이터가 없습니다.</td></tr>';
         } catch (error) {
             console.error(error);
-            document.getElementById('excel-data-body').innerHTML = `<tr><td colspan="5" style="color:red; padding:20px; font-weight:bold;">❌ 로드 실패<br><span style="font-size:0.75rem; color:#94a3b8; font-weight:normal;">${error.message}</span></td></tr>`;
+            document.getElementById('excel-data-body').innerHTML = '<tr><td colspan="5" style="color:red; padding:20px;">❌ 로드 실패</td></tr>';
         }
     }
 
-    window.onload = loadUniversalCSV;
+    window.onload = loadGridTable;
 </script>
-</body>
-</html>
