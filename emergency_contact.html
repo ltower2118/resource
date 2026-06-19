@@ -15,8 +15,8 @@
         .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; } 
         
         /* 상단 네비게이션 바 */
-        .top-nav-bar { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 15px; }
-        .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: #f1f5f9; border-radius: 50%; text-decoration: none; color: #334155; font-size: 1.1rem; font-weight: bold; }
+        .top-nav-bar { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 16px; }
+        .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: transparent; border: none; cursor: pointer; font-size: 1.2rem; }
         .page-title { font-size: 1.15rem; font-weight: 800; color: #1e3a8a; margin: 0; }
 
         .table-wrap { width: 100%; overflow: hidden; }
@@ -121,9 +121,14 @@
             if (!response.ok) throw new Error('파일 확인 불가');
 
             const blob = await response.blob();
-            const decoder = new TextDecoder('euc-kr');
-            const buffer = await blob.arrayBuffer();
-            const csvText = decoder.decode(buffer);
+            
+            // UTF-8로 디코딩 시도 (권장)
+            let csvText = await blob.text();
+            
+            // BOM 제거
+            if (csvText.charCodeAt(0) === 0xFEFF) {
+                csvText = csvText.slice(1);
+            }
             
             const rows = csvText.split(/\r?\n/);
             let tableHTML = '';
