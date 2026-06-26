@@ -76,18 +76,16 @@
 
     <div class="content-card" id="content1">
         <h3>🚨 돌발 사고정전 발생 시 대응순서</h3>
-        
-        <h4>1. 초기 상황 인지 및 안내</h4>
+        <h4>1. 초기 상황 인지</h4>
         <div class="step-box alert">
             <span class="step-num">① 정전 상황 인지 및 비상등 확인</span>
             정전 즉시 내부 전체 소등 발생 및 비상등(유도등, 비상조명등, DC등)만 켜진 상태 인지. 전기실내 비상전원 절체상태(소방, 통신, 승강기 설비 등) 즉시 점검.
         </div>
-        <div class="step-box">
-            <span class="step-num">② 입주민 사전 안내 방송</span>
-            정전 원인을 정밀 파악하기 전, 입주민들이 동요하지 않도록 안내 방송을 우선 시행.
-        </div>
-
         <h4>2. 전기실 수변전 및 발전기 가동상태 확인</h4>
+                <div class="step-box alert">
+            <span class="step-num">②특고압반 부저 정지 및 계통 점검</span>
+            특고압반 VCB 정전 경보 부저 즉시 정지. 정전 발생 시 전기실에는 DC등만 점등되며, MOF 계량기는 소등됨. LBS(부하개폐기) 표시 램프가 적색(ON)에서 녹색(OFF)으로 전환되거나 소등되었는지 확인.
+        </div>
         <div class="step-box warning">
             <span class="step-num">③ 비상발전기 자동 기동 검증</span>
             전기실 내 굉장한 소음과 함께 발전기가 자동 기동되는지 확인.
@@ -96,15 +94,15 @@
         <div class="step-box">
             <span class="step-num">④ 고압반 ATS 절체 지시등 확인</span>고압반 ATS가 한전측에서 발전측으로 자동 절체되었는지 [한전 ➡️ 발전] 표시등 전수 조사. 자동 절체 실패 시 수동 핸들을 장착해 수동 절체 감행.
         </div>
-        <div class="step-box alert">
-            <span class="step-num">⑤ 특고압반 부저 정지 및 계통 점검</span>
-            특고압반 VCB 정전 경보 부저 즉시 정지. 정전 발생 시 전기실에는 DC등만 점등되며, MOF 계량기는 소등됨. LBS(부하개폐기) 표시 램프가 적색(ON)에서 녹색(OFF)으로 전환되거나 소등되었는지 확인.
-        </div>
 
         <h4>3. 원인 파악 및 부하 개방 절차</h4>
         <div class="step-box">
-            <span class="step-num">⑥ 한전 상황실 연계 및 내부 전파</span>
+            <span class="step-num">⑤ 한전 상황실 연계 및 내부 전파</span>
             한전 사령실에 연락하여 정전 원인 및 복전 예정시간 확인. 최경식 소장(책임자) 및 관리소에 내용을 즉시 통보하고 세대에 원인, 조치요령, 소요시간, 입주민 협조 사항을 재고지.
+        </div>
+                <div class="step-box">
+            <span class="step-num">⑥ 입주사 사전 안내 방송</span>
+            정전 원인을 정밀 파악하기 전, 입주사들이 동요하지 않도록 안내 방송을 우선 시행.
         </div>
         <div class="step-box warning">
             <span class="step-num">⑦ 고장 복전 대비 부하 차단 (원칙)</span>
@@ -117,6 +115,7 @@
                 <li>VCB 개방(트립)상태 재확인 및 LBS 개방(원칙) 후 복전 대기</li>
             </ul>
         </div>
+        
     </div>
 
     <div class="content-card" id="content2">
@@ -166,7 +165,7 @@
     <div class="content-card" id="content3">
         <h3>🔄 복전(계획정전 종료 및 사고정전 복구) 시퀀스</h3>
         
-        <h4>1. 특고압 계통 및 변압기 가전(加電) 단계</h4>
+        <h4>1. 특고압 계통 및 변압기 투입전 확인</h4>
         <div class="step-box warning">
             <span class="step-num">① 큐비클 내부 점검 및 퓨즈 투입</span>
             수변전실 내부의 작업자 잔류 여부, 작업 공기구 회수 상태, 기기 주변 이물질, 퓨즈 고정 상태 및 안전 도어 잠금 상태를 전수 확인한 뒤 <strong>TR보호용 PF(파워퓨즈)를 먼저 투입</strong>함.
