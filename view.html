@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>소모품 재고 현황</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f5f3;--card:#fff;--border:rgba(0,0,0,.10);--border2:rgba(0,0,0,.18);
+  --text:#1a1a18;--text2:#5f5e5a;--text3:#888780;
+  --blue-bg:#e6f1fb;--blue-t:#0c447c;--blue-b:#85b7eb;
+  --green-bg:#eaf3de;--green-t:#27500a;--green-b:#97c459;
+  --red-bg:#fcebeb;--red-t:#791f1f;--red-b:#f09595;
+  --amber-bg:#faeeda;--amber-t:#633806;--amber-b:#ef9f27;
+  --gray-bg:#f1efe8;--gray-t:#444441;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1c1c1a;--card:#242422;--border:rgba(255,255,255,.10);--border2:rgba(255,255,255,.18);
+  --text:#e8e6de;--text2:#b4b2a9;--text3:#888780;
+  --blue-bg:#0c447c;--blue-t:#b5d4f4;--blue-b:#185fa5;
+  --green-bg:#27500a;--green-t:#c0dd97;--green-b:#3b6d11;
+  --red-bg:#791f1f;--red-t:#f7c1c1;--red-b:#a32d2d;
+  --amber-bg:#633806;--amber-t:#fac775;--amber-b:#854f0b;
+  --gray-bg:#444441;--gray-t:#d3d1c7;
+}}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;padding-bottom:80px}
+
+.header{background:var(--card);border-bottom:.5px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+.h-icon{width:36px;height:36px;border-radius:9px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.h-title{font-size:15px;font-weight:600}
+.h-sub{font-size:12px;color:var(--text2);margin-top:1px}
+.btn-reload{margin-left:auto;padding:7px 12px;border:.5px solid var(--blue-b);border-radius:8px;background:var(--blue-bg);color:var(--blue-t);font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0}
+
+/* 탭 */
+.tabs{display:flex;background:var(--card);border-bottom:.5px solid var(--border)}
+.tab{flex:1;padding:11px 0;font-size:14px;font-weight:500;color:var(--text2);text-align:center;border-bottom:2px solid transparent;cursor:pointer}
+.tab.on{color:var(--text);border-bottom-color:var(--text)}
+
+/* 검색 */
+.search-wrap{padding:10px 16px;background:var(--card);border-bottom:.5px solid var(--border)}
+.search{width:100%;padding:9px 14px;border:.5px solid var(--border2);border-radius:10px;background:var(--bg);color:var(--text);font-size:14px;outline:none}
+.search:focus{border-color:var(--blue-b)}
+
+/* 재고 카드 그리드 */
+.stock-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px}
+.stock-card{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:12px;cursor:pointer}
+.stock-card.low{border-color:var(--red-b);background:var(--red-bg)}
+.stock-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4}
+.stock-qty{font-size:22px;font-weight:700;color:var(--text)}
+.stock-unit{font-size:12px;color:var(--text2);margin-left:3px}
+.stock-min{font-size:11px;color:var(--text3);margin-top:3px}
+.stock-badge{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:700;margin-top:5px}
+.badge-ok{background:var(--green-bg);color:var(--green-t)}
+.badge-low{background:var(--red-bg);color:var(--red-t)}
+.badge-warn{background:var(--amber-bg);color:var(--amber-t)}
+
+/* 이력 리스트 */
+.list-wrap{padding:0 16px 20px}
+.group-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.05em;padding:14px 0 7px}
+.hist-card{background:var(--card);border:.5px solid var(--border);border-radius:11px;padding:12px 14px;margin-bottom:7px;display:flex;gap:10px;align-items:flex-start}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dot-use{background:#e24b4a}.dot-in{background:#639922}.dot-gray{background:#888780}
+.h-body{flex:1;min-width:0}
+.h-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h-meta{font-size:12px;color:var(--text2)}
+.h-worker{font-size:11px;color:var(--text3);margin-top:2px}
+.h-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:99px;flex-shrink:0;align-self:flex-start;margin-top:1px}
+.b-use{background:var(--red-bg);color:var(--red-t)}
+.b-in{background:var(--green-bg);color:var(--green-t)}
+
+/* 필터 바 */
+.filter-bar{display:flex;gap:6px;overflow-x:auto;padding:8px 16px;background:var(--card);border-bottom:.5px solid var(--border)}
+.filter-bar::-webkit-scrollbar{display:none}
+.f-btn{padding:5px 12px;border-radius:99px;border:.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.f-btn.on{background:var(--blue-bg);color:var(--blue-t);border-color:var(--blue-b);font-weight:600}
+
+/* 통계 */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 16px}
+.s-card{background:var(--card);border:.5px solid var(--border);border-radius:10px;padding:10px 8px}
+.s-num{font-size:19px;font-weight:700}.s-lbl{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* FAB */
+.fab{position:fixed;bottom:24px;right:18px;background:var(--blue-bg);color:var(--blue-t);border:.5px solid var(--blue-b);border-radius:99px;padding:12px 18px;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,.12);display:flex;align-items:center;gap:6px}
+
+/* 설정 패널 */
+.cfg-panel{padding:14px 16px}
+.cfg-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;margin-top:14px}
+.cfg-input{width:100%;padding:9px 12px;border:.5px solid var(--border2);border-radius:9px;background:var(--bg);color:var(--text);font-size:13px;outline:none;margin-bottom:4px}
+.btn-cfg{width:100%;padding:10px;border:.5px solid var(--blue-b);border-radius:9px;background:var(--blue-bg);color:var(--blue-t);font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
+
+.empty{text-align:center;padding:48px 24px;color:var(--text2);font-size:14px;line-height:1.8}
+.empty .icon{font-size:36px;margin-bottom:12px}
+.empty .ttl{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px}
+
+/* 모달 */
+.modal-back{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:flex-end;justify-content:center}
+.modal-back.open{display:flex}
+.modal{background:var(--card);border-radius:20px 20px 0 0;padding:20px 20px 40px;width:100%;max-width:540px;max-height:80vh;overflow-y:auto}
+.modal-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 14px}
+.modal-ttl{font-size:17px;font-weight:700;margin-bottom:14px}
+.m-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:.5px solid var(--border);font-size:14px;gap:12px}
+.m-row:last-child{border-bottom:none}
+.m-key{color:var(--text2)}.m-val{color:var(--text);font-weight:500;text-align:right}
+.m-close{width:100%;padding:12px;background:var(--bg);border:.5px solid var(--border2);border-radius:10px;color:var(--text);font-size:15px;font-weight:600;cursor:pointer;margin-top:14px}
+
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--blue-t);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="h-icon">📦</div>
+  <div style="flex:1">
+    <div class="h-title">소모품 재고 현황</div>
+    <div class="h-sub" id="h-sub">구글 시트 연동 중…</div>
+  </div>
+  <button class="btn-reload" onclick="loadAll()">🔄 새로고침</button>
+</div>
+
+<div class="tabs">
+  <div class="tab on" id="tab-stock" onclick="switchTab('stock')">📦 재고현황</div>
+  <div class="tab" id="tab-hist"  onclick="switchTab('hist')">📋 이력</div>
+  <div class="tab" id="tab-cfg"   onclick="switchTab('cfg')">⚙</div>
+</div>
+
+<!-- ── 재고현황 탭 ── -->
+<div id="pane-stock">
+  <div class="search-wrap">
+    <input class="search" id="s-stock" placeholder="품목명 검색…" oninput="filterStock()">
+  </div>
+  <div class="stats" id="stat-row" style="display:none">
+    <div class="s-card"><div class="s-num" id="st-total">—</div><div class="s-lbl">전체 품목</div></div>
+    <div class="s-card"><div class="s-num" style="color:#639922" id="st-ok">—</div><div class="s-lbl">재고 충분</div></div>
+    <div class="s-card"><div class="s-num" style="color:#ba7517" id="st-warn">—</div><div class="s-lbl">주의</div></div>
+    <div class="s-card"><div class="s-num" style="color:#e24b4a" id="st-low">—</div><div class="s-lbl">부족</div></div>
+  </div>
+  <div class="stock-grid" id="stock-grid">
+    <div class="empty" style="grid-column:1/-1"><div class="icon">📦</div><div class="ttl">데이터 불러오는 중</div><span class="spinner"></span></div>
+  </div>
+</div>
+
+<!-- ── 이력 탭 ── -->
+<div id="pane-hist" style="display:none">
+  <div class="search-wrap">
+    <input class="search" id="s-hist" placeholder="품목, 작업내용, 담당자 검색…" oninput="filterHist()">
+  </div>
+  <div class="filter-bar">
+    <button class="f-btn on" id="fb-all" onclick="setHF('all',this)">전체</button>
+    <button class="f-btn" id="fb-use" onclick="setHF('use',this)">🔴 사용</button>
+    <button class="f-btn" id="fb-in"  onclick="setHF('in',this)">🟢 입고</button>
+  </div>
+  <div class="list-wrap" id="hist-list">
+    <div class="empty"><div class="icon">📋</div><div class="ttl">이력 불러오는 중</div><span class="spinner"></span></div>
+  </div>
+</div>
+
+<!-- ── 설정 탭 ── -->
+<div id="pane-cfg" style="display:none">
+  <div class="cfg-panel">
+    <div class="cfg-label">Apps Script 웹앱 URL</div>
+    <input class="cfg-input" id="cfg-url" placeholder="https://script.google.com/macros/s/…/exec">
+    <button class="btn-cfg" onclick="saveCfg()">✅ 저장 후 데이터 불러오기</button>
+    <div style="font-size:12px;color:var(--text3);margin-top:10px;line-height:1.7">
+      입력 페이지(input.html)와 동일한 URL을 입력하면 됩니다.
+    </div>
+
+    <div class="cfg-label" style="margin-top:18px">입력 페이지 바로가기</div>
+    <a href="input.html" class="btn-cfg" style="display:block;text-align:center;text-decoration:none;margin-top:0">
+      ✏️ 소모품 이력 입력 →
+    </a>
+  </div>
+</div>
+
+<!-- 모달 -->
+<div class="modal-back" id="modal" onclick="closeMod(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-ttl" id="mod-ttl"></div>
+    <div id="mod-body"></div>
+    <button class="m-close" onclick="closeMod()">닫기</button>
+  </div>
+</div>
+
+<a class="fab" href="input.html">✏️ 이력 입력</a>
+
+<script>
+let allItems = [];
+let allHist  = [];
+let histFilter = 'all';
+const GAS_URL_KEY = 'gas_url';
+
+// ── 탭 전환 ─────────────────────────────────────────────
+function switchTab(t) {
+  ['stock','hist','cfg'].forEach(x => {
+    document.getElementById('pane-'+x).style.display = x===t?'block':'none';
+    document.getElementById('tab-'+x).classList.toggle('on', x===t);
+  });
+}
+
+// ── 전체 로드 ────────────────────────────────────────────
+async function loadAll() {
+  const url = localStorage.getItem(GAS_URL_KEY);
+  if (!url) {
+    loadSample();
+    return;
+  }
+  document.getElementById('h-sub').textContent = '불러오는 중…';
+  try {
+    const [ri, rh] = await Promise.all([
+      fetch(url + '?action=getItems').then(r=>r.json()),
+      fetch(url + '?action=getHistory').then(r=>r.json()),
+    ]);
+    allItems = ri.items || [];
+    allHist  = rh.history || [];
+    afterLoad();
+  } catch(e) {
+    loadSample();
+  }
+}
+
+function loadSample() {
+  allItems = [
+    {name:'LED 매입등 (6인치)',  unit:'개', stock:12, minStock:5},
+    {name:'LED 매입등 (4인치)',  unit:'개', stock:3,  minStock:5},
+    {name:'형광등 (32W)',        unit:'개', stock:20, minStock:10},
+    {name:'형광등 (40W)',        unit:'개', stock:2,  minStock:10},
+    {name:'안정기',              unit:'개', stock:4,  minStock:3},
+    {name:'콘센트 (2구)',        unit:'개', stock:10, minStock:5},
+    {name:'스위치 (단로)',       unit:'개', stock:8,  minStock:5},
+    {name:'배선용차단기 (20A)', unit:'개', stock:1,  minStock:2},
+    {name:'전선 (2.5sq)',        unit:'m',  stock:50, minStock:20},
+    {name:'절연테이프',          unit:'개', stock:15, minStock:5},
+  ];
+  allHist = [
+    {date:'2026-06-20',item:'LED 매입등 (6인치)',type:'use',qty:2,content:'화장실 매입등 교체',worker:'전기과장',location:'3층 남자화장실',note:''},
+    {date:'2026-06-18',item:'형광등 (32W)',type:'use',qty:4,content:'복도 형광등 교체',worker:'전기과장',location:'2층 복도',note:''},
+    {date:'2026-06-15',item:'LED 매입등 (4인치)',type:'in',qty:10,content:'소모품 입고',worker:'전기과장',location:'',note:'효성전기 납품'},
+    {date:'2026-06-12',item:'형광등 (40W)',type:'use',qty:6,content:'사무실 형광등 교체',worker:'김기사',location:'5층 사무실',note:''},
+    {date:'2026-06-10',item:'배선용차단기 (20A)',type:'use',qty:1,content:'차단기 트립 후 교체',worker:'전기과장',location:'B1 전기실',note:'긴급'},
+    {date:'2026-06-08',item:'전선 (2.5sq)',type:'in',qty:100,content:'전선 입고',worker:'전기과장',location:'',note:''},
+    {date:'2026-05-30',item:'콘센트 (2구)',type:'use',qty:3,content:'콘센트 파손 교체',worker:'김기사',location:'4층 회의실',note:''},
+  ];
+  afterLoad('⚠ 샘플 데이터 표시 중 (설정에서 URL 입력 필요)');
+}
+
+function afterLoad(msg) {
+  document.getElementById('h-sub').textContent =
+    msg || `품목 ${allItems.length}개 · 이력 ${allHist.length}건`;
+  renderStock(allItems);
+  renderHist(allHist);
+}
+
+// ── 재고 렌더 ─────────────────────────────────────────────
+function renderStock(items) {
+  if (!items.length) {
+    document.getElementById('stock-grid').innerHTML =
+      '<div class="empty" style="grid-column:1/-1"><div class="icon">📭</div><div class="ttl">품목 없음</div></div>';
+    return;
+  }
+  const ok   = items.filter(x => Number(x.stock) > Number(x.minStock||5)*1.5).length;
+  const warn = items.filter(x => Number(x.stock) <= Number(x.minStock||5)*1.5 && Number(x.stock) > Number(x.minStock||5)).length;
+  const low  = items.filter(x => Number(x.stock) <= Number(x.minStock||5)).length;
+  document.getElementById('stat-row').style.display = 'grid';
+  document.getElementById('st-total').textContent = items.length;
+  document.getElementById('st-ok').textContent    = ok;
+  document.getElementById('st-warn').textContent  = warn;
+  document.getElementById('st-low').textContent   = low;
+
+  document.getElementById('stock-grid').innerHTML = items.map((x,i) => {
+    const s = Number(x.stock)||0;
+    const m = Number(x.minStock)||5;
+    const isLow  = s <= m;
+    const isWarn = !isLow && s <= m*1.5;
+    const badgeClass = isLow ? 'badge-low' : isWarn ? 'badge-warn' : 'badge-ok';
+    const badgeText  = isLow ? '🔴 부족' : isWarn ? '⚠ 주의' : '✅ 충분';
+    return `<div class="stock-card${isLow?' low':''}" onclick="showStockDetail(${i})">
+      <div class="stock-name">${esc(x.name)}</div>
+      <div><span class="stock-qty">${s}</span><span class="stock-unit">${esc(x.unit||'개')}</span></div>
+      <div class="stock-min">최소기준: ${m}${x.unit||'개'}</div>
+      <div class="stock-badge ${badgeClass}">${badgeText}</div>
+    </div>`;
+  }).join('');
+}
+
+function filterStock() {
+  const kw = document.getElementById('s-stock').value.toLowerCase();
+  renderStock(allItems.filter(x => x.name.toLowerCase().includes(kw)));
+}
+
+function showStockDetail(i) {
+  const x = allItems[i];
+  const recentHist = allHist.filter(h => h.item === x.name).slice(0,5);
+  document.getElementById('mod-ttl').textContent = x.name;
+  const s = Number(x.stock)||0, m = Number(x.minStock)||5;
+  let html = `
+    <div class="m-row"><span class="m-key">현재 재고</span><span class="m-val">${s} ${x.unit||'개'}</span></div>
+    <div class="m-row"><span class="m-key">최소 기준</span><span class="m-val">${m} ${x.unit||'개'}</span></div>
+    <div class="m-row"><span class="m-key">상태</span><span class="m-val">${s<=m?'🔴 부족':s<=m*1.5?'⚠ 주의':'✅ 충분'}</span></div>
+  `;
+  if (recentHist.length) {
+    html += '<div style="font-size:12px;font-weight:600;color:var(--text3);margin:12px 0 6px">최근 이력</div>';
+    recentHist.forEach(h => {
+      html += `<div class="m-row"><span class="m-key">${esc(h.date)}<br><small style="color:var(--text3)">${h.type==='use'?'사용':'입고'}</small></span><span class="m-val">${h.type==='use'?'-':'+'}<strong>${h.qty}</strong>${esc(x.unit||'개')}<br><small style="color:var(--text2)">${esc(h.content)}</small></span></div>`;
+    });
+  }
+  document.getElementById('mod-body').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+}
+
+// ── 이력 렌더 ─────────────────────────────────────────────
+function renderHist(rows) {
+  if (!rows.length) {
+    document.getElementById('hist-list').innerHTML =
+      '<div class="empty"><div class="icon">🔍</div><div class="ttl">이력 없음</div></div>';
+    return;
+  }
+  const groups = {};
+  rows.forEach(r => {
+    const m = (r.date||'').slice(0,7) || '날짜 미상';
+    if (!groups[m]) groups[m] = [];
+    groups[m].push(r);
+  });
+  let html = '';
+  Object.keys(groups).sort().reverse().forEach(m => {
+    const label = m==='날짜 미상' ? m : `${m.slice(0,4)}년 ${parseInt(m.slice(5))}월`;
+    html += `<div class="group-label">${label} · ${groups[m].length}건</div>`;
+    groups[m].forEach(r => {
+      const isUse = r.type==='use'||r.type==='사용';
+      const title = `${esc(r.item)} ${isUse?'사용':'입고'} ${r.qty}${r.unit||'개'}`;
+      html += `<div class="hist-card">
+        <div class="dot ${isUse?'dot-use':'dot-in'}"></div>
+        <div class="h-body">
+          <div class="h-title">${title}</div>
+          <div class="h-meta">${esc(r.date)}${r.location?' · '+esc(r.location):''}</div>
+          ${r.content?`<div class="h-worker">${esc(r.content)}</div>`:''}
+          ${r.worker?`<div class="h-worker">담당: ${esc(r.worker)}</div>`:''}
+        </div>
+        <span class="h-badge ${isUse?'b-use':'b-in'}">${isUse?'사용':'입고'}</span>
+      </div>`;
+    });
+  });
+  document.getElementById('hist-list').innerHTML = html;
+}
+
+function setHF(f, el) {
+  histFilter = f;
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  filterHist();
+}
+
+function filterHist() {
+  const kw = document.getElementById('s-hist').value.toLowerCase();
+  let rows = allHist;
+  if (histFilter==='use') rows = rows.filter(r=>r.type==='use'||r.type==='사용');
+  if (histFilter==='in')  rows = rows.filter(r=>r.type==='in' ||r.type==='입고');
+  if (kw) rows = rows.filter(r =>
+    [r.item,r.content,r.worker,r.location,r.note].some(v=>(v||'').toLowerCase().includes(kw))
+  );
+  renderHist(rows);
+}
+
+// ── 설정 ────────────────────────────────────────────────
+function saveCfg() {
+  const url = document.getElementById('cfg-url').value.trim();
+  if (!url){alert('URL을 입력하세요');return;}
+  localStorage.setItem(GAS_URL_KEY, url);
+  switchTab('stock');
+  loadAll();
+}
+
+// ── 모달 ────────────────────────────────────────────────
+function closeMod(e) {
+  if (!e||e.target===document.getElementById('modal'))
+    document.getElementById('modal').classList.remove('open');
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+// ── 초기화 ─────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  const url = localStorage.getItem(GAS_URL_KEY);
+  if (url) document.getElementById('cfg-url').value = url;
+  loadAll();
+});
+</script>
+</body>
+</html>

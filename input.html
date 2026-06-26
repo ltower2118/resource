@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>소모품 이력 입력</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f5f3;--card:#fff;--border:rgba(0,0,0,.10);--border2:rgba(0,0,0,.18);
+  --text:#1a1a18;--text2:#5f5e5a;--text3:#888780;
+  --blue-bg:#e6f1fb;--blue-t:#0c447c;--blue-b:#85b7eb;
+  --green-bg:#eaf3de;--green-t:#27500a;--green-b:#97c459;
+  --red-bg:#fcebeb;--red-t:#791f1f;--red-b:#f09595;
+  --amber-bg:#faeeda;--amber-t:#633806;--amber-b:#ef9f27;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1c1c1a;--card:#242422;--border:rgba(255,255,255,.10);--border2:rgba(255,255,255,.18);
+  --text:#e8e6de;--text2:#b4b2a9;--text3:#888780;
+  --blue-bg:#0c447c;--blue-t:#b5d4f4;--blue-b:#185fa5;
+  --green-bg:#27500a;--green-t:#c0dd97;--green-b:#3b6d11;
+  --red-bg:#791f1f;--red-t:#f7c1c1;--red-b:#a32d2d;
+  --amber-bg:#633806;--amber-t:#fac775;--amber-b:#854f0b;
+}}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;padding-bottom:40px}
+
+.header{background:var(--card);border-bottom:.5px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+.h-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.h-title{font-size:15px;font-weight:600}
+.h-sub{font-size:12px;color:var(--text2);margin-top:1px}
+
+/* 탭 */
+.tabs{display:flex;background:var(--card);border-bottom:.5px solid var(--border)}
+.tab{flex:1;padding:11px 0;font-size:14px;font-weight:500;color:var(--text2);text-align:center;border-bottom:2px solid transparent;cursor:pointer}
+.tab.on{color:var(--text);border-bottom-color:var(--text)}
+
+/* 섹션 */
+.section{padding:14px 16px 0}
+.s-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px}
+.card{background:var(--card);border:.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
+
+/* 폼 필드 */
+.field{padding:11px 14px;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:10px}
+.field:last-child{border-bottom:none}
+.f-label{font-size:13px;color:var(--text2);min-width:62px;flex-shrink:0}
+.f-input{flex:1;background:transparent;border:none;outline:none;font-size:14px;color:var(--text);text-align:right}
+.f-input::placeholder{color:var(--text3)}
+select.f-input{-webkit-appearance:none;cursor:pointer}
+
+/* 타입 선택 버튼 */
+.type-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;padding:0 16px}
+.type-btn{padding:12px;border:.5px solid var(--border2);border-radius:10px;background:var(--card);color:var(--text2);font-size:14px;font-weight:500;cursor:pointer;text-align:center;transition:.15s}
+.type-btn.on-use{background:var(--red-bg);color:var(--red-t);border-color:var(--red-b)}
+.type-btn.on-in{background:var(--green-bg);color:var(--green-t);border-color:var(--green-b)}
+
+/* 재고 뱃지 */
+.stock-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:13px;font-weight:600;margin-left:auto}
+
+/* 제출 버튼 */
+.btn-submit{width:calc(100% - 32px);margin:4px 16px 0;padding:14px;border-radius:12px;border:none;font-size:15px;font-weight:700;cursor:pointer}
+.btn-use{background:var(--red-bg);color:var(--red-t);border:.5px solid var(--red-b)}
+.btn-in{background:var(--green-bg);color:var(--green-t);border:.5px solid var(--green-b)}
+
+/* 설정 */
+.cfg-input{width:100%;padding:9px 12px;border:.5px solid var(--border2);border-radius:9px;background:var(--bg);color:var(--text);font-size:13px;outline:none;margin-bottom:8px}
+.cfg-input:focus{border-color:var(--blue-b)}
+.btn-cfg{width:100%;padding:10px;border:.5px solid var(--blue-b);border-radius:9px;background:var(--blue-bg);color:var(--blue-t);font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
+
+/* 토스트 */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a18;color:#fff;padding:11px 22px;border-radius:99px;font-size:14px;font-weight:500;transition:.3s;opacity:0;pointer-events:none;white-space:nowrap;z-index:99}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.note{font-size:12px;color:var(--text3);line-height:1.7;padding:10px 14px;border-top:.5px solid var(--border)}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;background:var(--amber-bg);color:var(--amber-t);margin-right:4px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="h-icon" id="h-icon">🔧</div>
+  <div>
+    <div class="h-title">소모품 이력 입력</div>
+    <div class="h-sub" id="h-sub">사용 또는 입고를 선택하세요</div>
+  </div>
+</div>
+
+<!-- 탭 -->
+<div class="tabs">
+  <div class="tab on" id="tab-entry" onclick="switchTab('entry')">이력 입력</div>
+  <div class="tab" id="tab-cfg" onclick="switchTab('cfg')">⚙ 설정</div>
+</div>
+
+<!-- ── 입력 탭 ── -->
+<div id="pane-entry">
+
+  <!-- 유형 선택 -->
+  <div class="section" style="padding-bottom:0">
+    <div class="s-label" style="padding:14px 0 8px">유형 선택</div>
+  </div>
+  <div class="type-row">
+    <button class="type-btn on-use" id="btn-use" onclick="setType('use')">
+      🔴 사용 / 출고
+    </button>
+    <button class="type-btn" id="btn-in" onclick="setType('in')">
+      🟢 입고 / 보충
+    </button>
+  </div>
+
+  <!-- 날짜 + 품목 -->
+  <div class="section">
+    <div class="s-label">기본 정보</div>
+    <div class="card">
+      <div class="field">
+        <span class="f-label">날짜</span>
+        <input class="f-input" type="date" id="inp-date">
+      </div>
+      <div class="field">
+        <span class="f-label">품목</span>
+        <select class="f-input" id="inp-item" onchange="onItemChange()">
+          <option value="">— 품목 선택 —</option>
+        </select>
+      </div>
+      <div class="field" id="stock-row" style="display:none">
+        <span class="f-label">현재 재고</span>
+        <span class="stock-badge" id="stock-badge">—</span>
+      </div>
+    </div>
+
+    <div class="s-label">수량 / 내용</div>
+    <div class="card">
+      <div class="field">
+        <span class="f-label" id="qty-label">사용 수량</span>
+        <input class="f-input" type="number" id="inp-qty" placeholder="0" min="1">
+        <span style="font-size:13px;color:var(--text2);margin-left:4px" id="unit-label">개</span>
+      </div>
+      <div class="field">
+        <span class="f-label">작업 내용</span>
+        <input class="f-input" type="text" id="inp-content" placeholder="예: 화장실 매입등 교체">
+      </div>
+      <div class="field">
+        <span class="f-label">담당자</span>
+        <input class="f-input" type="text" id="inp-worker" placeholder="이름">
+      </div>
+      <div class="field">
+        <span class="f-label">위치</span>
+        <input class="f-input" type="text" id="inp-location" placeholder="예: 3층 남자화장실">
+      </div>
+      <div class="field">
+        <span class="f-label">비고</span>
+        <input class="f-input" type="text" id="inp-note" placeholder="선택사항">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-submit btn-use" id="btn-submit" onclick="submitEntry()">
+    🔴 사용 이력 저장
+  </button>
+
+  <div class="note" style="margin:14px 16px 0;border:.5px solid var(--border);border-radius:10px">
+    저장하면 구글 시트에 자동으로 기록되고<br>
+    재고가 <strong>자동으로 차감/증가</strong>됩니다.
+  </div>
+</div>
+
+<!-- ── 설정 탭 ── -->
+<div id="pane-cfg" style="display:none">
+  <div class="section">
+    <div class="s-label" style="padding-top:14px">Apps Script 웹앱 URL</div>
+    <div class="card" style="padding:14px">
+      <input class="cfg-input" id="cfg-url" placeholder="https://script.google.com/macros/s/…/exec">
+      <div style="font-size:12px;color:var(--text3);line-height:1.7;margin-bottom:10px">
+        구글 Apps Script를 배포한 후 웹앱 URL을 여기에 입력하세요.<br>
+        동봉된 <strong>apps-script.gs</strong> 파일을 스크립트 에디터에 붙여넣고 배포하면 됩니다.
+      </div>
+      <button class="btn-cfg" onclick="saveCfg()">✅ 저장</button>
+    </div>
+
+    <div class="s-label" style="padding-top:6px">품목 목록 관리</div>
+    <div class="card" style="padding:14px">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.7">
+        구글 시트의 <span class="tag">품목마스터</span> 탭에 품목을 추가하면<br>
+        이 페이지에 자동으로 반영됩니다.
+      </div>
+      <button class="btn-cfg" onclick="loadItems()">🔄 품목 목록 새로고침</button>
+    </div>
+
+    <div class="s-label" style="padding-top:6px">이력 조회 페이지</div>
+    <div class="card" style="padding:14px">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:10px">
+        동봉된 <strong>view.html</strong>을 GitHub에 같이 올리면<br>
+        재고현황과 이력을 조회할 수 있습니다.
+      </div>
+      <a class="btn-cfg" id="link-view" href="view.html" style="display:block;text-align:center;text-decoration:none">
+        📋 이력 조회 페이지 열기
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let currentType = 'use';
+let itemsData = []; // {name, unit, stock}
+
+// ── 탭 전환 ──────────────────────────────────────────────
+function switchTab(t) {
+  ['entry','cfg'].forEach(x => {
+    document.getElementById('pane-'+x).style.display = x===t ? 'block' : 'none';
+    document.getElementById('tab-'+x).classList.toggle('on', x===t);
+  });
+}
+
+// ── 유형 선택 ─────────────────────────────────────────────
+function setType(t) {
+  currentType = t;
+  const isUse = t === 'use';
+  document.getElementById('btn-use').className = 'type-btn' + (isUse ? ' on-use' : '');
+  document.getElementById('btn-in').className  = 'type-btn' + (!isUse ? ' on-in' : '');
+  document.getElementById('qty-label').textContent   = isUse ? '사용 수량' : '입고 수량';
+  document.getElementById('btn-submit').className    = 'btn-submit ' + (isUse ? 'btn-use' : 'btn-in');
+  document.getElementById('btn-submit').textContent  = isUse ? '🔴 사용 이력 저장' : '🟢 입고 이력 저장';
+  document.getElementById('h-icon').textContent      = isUse ? '🔧' : '📦';
+  document.getElementById('h-sub').textContent       = isUse ? '소모품 사용 출고 기록' : '소모품 입고 보충 기록';
+  onItemChange();
+}
+
+// ── 품목 선택 시 재고 표시 ───────────────────────────────
+function onItemChange() {
+  const sel = document.getElementById('inp-item').value;
+  const item = itemsData.find(x => x.name === sel);
+  const row = document.getElementById('stock-row');
+  const badge = document.getElementById('stock-badge');
+  const unit = document.getElementById('unit-label');
+
+  if (item) {
+    row.style.display = 'flex';
+    unit.textContent = item.unit || '개';
+    const stock = Number(item.stock) || 0;
+    const isLow = stock <= (Number(item.minStock) || 5);
+    badge.textContent = stock + ' ' + (item.unit || '개');
+    badge.style.background = isLow ? 'var(--red-bg)' : 'var(--green-bg)';
+    badge.style.color       = isLow ? 'var(--red-t)'  : 'var(--green-t)';
+  } else {
+    row.style.display = 'none';
+    unit.textContent = '개';
+  }
+}
+
+// ── 품목 목록 로드 ──────────────────────────────────────
+async function loadItems() {
+  const url = localStorage.getItem('gas_url');
+  if (!url) { showToast('⚙ 먼저 설정에서 웹앱 URL을 입력하세요'); return; }
+
+  showToast('품목 불러오는 중…');
+  try {
+    const res = await fetch(url + '?action=getItems', {mode:'cors'});
+    const data = await res.json();
+    itemsData = data.items || [];
+    buildSelect();
+    showToast('✅ 품목 ' + itemsData.length + '개 로드 완료');
+  } catch(e) {
+    // 연결 실패 시 로컬 샘플 사용
+    itemsData = [
+      {name:'LED 매입등 (6인치)',  unit:'개', stock:12, minStock:5},
+      {name:'LED 매입등 (4인치)',  unit:'개', stock:8,  minStock:5},
+      {name:'형광등 (32W)',        unit:'개', stock:20, minStock:10},
+      {name:'형광등 (40W)',        unit:'개', stock:15, minStock:10},
+      {name:'안정기',              unit:'개', stock:4,  minStock:3},
+      {name:'콘센트 (2구)',        unit:'개', stock:10, minStock:5},
+      {name:'스위치 (단로)',       unit:'개', stock:8,  minStock:5},
+      {name:'배선용차단기 (20A)', unit:'개', stock:3,  minStock:2},
+      {name:'배선용차단기 (30A)', unit:'개', stock:2,  minStock:2},
+      {name:'전선 (2.5sq)',        unit:'m',  stock:50, minStock:20},
+      {name:'전선 (1.5sq)',        unit:'m',  stock:30, minStock:20},
+      {name:'절연테이프',          unit:'개', stock:15, minStock:5},
+      {name:'퓨즈 (10A)',          unit:'개', stock:20, minStock:10},
+      {name:'퓨즈 (20A)',          unit:'개', stock:10, minStock:10},
+    ];
+    buildSelect();
+    showToast('⚠ 오프라인 — 샘플 품목으로 표시 중');
+  }
+}
+
+function buildSelect() {
+  const sel = document.getElementById('inp-item');
+  sel.innerHTML = '<option value="">— 품목 선택 —</option>' +
+    itemsData.map(x => `<option value="${esc(x.name)}">${esc(x.name)} (재고: ${x.stock||0}${x.unit||'개'})</option>`).join('');
+}
+
+// ── 제출 ────────────────────────────────────────────────
+async function submitEntry() {
+  const url  = localStorage.getItem('gas_url');
+  const date = document.getElementById('inp-date').value;
+  const item = document.getElementById('inp-item').value;
+  const qty  = Number(document.getElementById('inp-qty').value);
+  const content  = document.getElementById('inp-content').value.trim();
+  const worker   = document.getElementById('inp-worker').value.trim();
+  const location = document.getElementById('inp-location').value.trim();
+  const note     = document.getElementById('inp-note').value.trim();
+
+  if (!item)    { showToast('❗ 품목을 선택하세요'); return; }
+  if (!qty || qty < 1) { showToast('❗ 수량을 입력하세요'); return; }
+  if (!content) { showToast('❗ 작업 내용을 입력하세요'); return; }
+
+  const payload = {
+    action: 'addEntry',
+    date, item, qty, type: currentType,
+    content, worker, location, note,
+    timestamp: new Date().toISOString()
+  };
+
+  document.getElementById('btn-submit').textContent = '저장 중…';
+  document.getElementById('btn-submit').disabled = true;
+
+  if (!url) {
+    // URL 없으면 로컬 미리보기만
+    setTimeout(() => {
+      afterSubmit(item, qty);
+    }, 800);
+    return;
+  }
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {'Content-Type':'application/json'}
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      // 재고 업데이트
+      const itm = itemsData.find(x => x.name === item);
+      if (itm) {
+        itm.stock = currentType === 'use'
+          ? (Number(itm.stock)||0) - qty
+          : (Number(itm.stock)||0) + qty;
+      }
+      buildSelect();
+      onItemChange();
+      afterSubmit(item, qty);
+    } else {
+      throw new Error(data.message || '오류');
+    }
+  } catch(e) {
+    showToast('❌ 저장 실패: ' + e.message);
+    document.getElementById('btn-submit').textContent =
+      currentType==='use' ? '🔴 사용 이력 저장' : '🟢 입고 이력 저장';
+    document.getElementById('btn-submit').disabled = false;
+  }
+}
+
+function afterSubmit(item, qty) {
+  const action = currentType === 'use' ? '사용' : '입고';
+  showToast(`✅ ${item} ${qty}개 ${action} 저장 완료`);
+  // 수량/내용 초기화
+  document.getElementById('inp-qty').value = '';
+  document.getElementById('inp-content').value = '';
+  document.getElementById('inp-note').value = '';
+  document.getElementById('btn-submit').textContent =
+    currentType==='use' ? '🔴 사용 이력 저장' : '🟢 입고 이력 저장';
+  document.getElementById('btn-submit').disabled = false;
+  onItemChange();
+}
+
+// ── 설정 저장 ────────────────────────────────────────────
+function saveCfg() {
+  const url = document.getElementById('cfg-url').value.trim();
+  if (!url) { showToast('URL을 입력하세요'); return; }
+  localStorage.setItem('gas_url', url);
+  showToast('✅ 저장 완료 — 품목 불러오기를 눌러주세요');
+  switchTab('entry');
+  loadItems();
+}
+
+// ── 유틸 ──────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tm);
+  t._tm = setTimeout(() => t.classList.remove('show'), 2500);
+}
+function esc(s) { return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+// ── 초기화 ──────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  // 오늘 날짜 기본값
+  const today = new Date();
+  const ymd = today.getFullYear() + '-' +
+    String(today.getMonth()+1).padStart(2,'0') + '-' +
+    String(today.getDate()).padStart(2,'0');
+  document.getElementById('inp-date').value = ymd;
+
+  // 저장된 설정 복원
+  const url = localStorage.getItem('gas_url');
+  if (url) document.getElementById('cfg-url').value = url;
+
+  // 담당자 기억
+  const w = localStorage.getItem('last_worker');
+  if (w) document.getElementById('inp-worker').value = w;
+
+  loadItems();
+});
+
+document.getElementById('inp-worker').addEventListener('change', function() {
+  localStorage.setItem('last_worker', this.value);
+});
+</script>
+</body>
+</html>
