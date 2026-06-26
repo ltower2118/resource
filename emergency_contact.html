@@ -1,21 +1,15 @@
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>서울숲엘타워</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입주사 긴급비상 연락망</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
         body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; }
-        * { 
-            box-sizing: border-box; 
-            font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
         
         /* 테이블을 감싸는 박스 (모바일에서 화면이 작으면 가로 스크롤 생성) */
         .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
-        body { background-color: #ffffff; padding: 0; margin: 0; color: #0f172a; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; } 
         
         table { width: 100%; border-collapse: collapse; min-width: 500px; }
         th, td { padding: 12px 10px; text-align: center; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; white-space: nowrap; }
@@ -25,104 +19,23 @@
         /* 한 줄 건너 한 줄씩 음영을 주어 눈이 편하게 세팅 */
         tr:nth-child(even) { background-color: #f8fafc; }
         tr:hover { background-color: #f1f5f9; }
-        /* 상단 네비게이션 바 */
-        .top-nav-bar { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 15px; }
-        .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: #f1f5f9; border-radius: 50%; text-decoration: none; color: #334155; font-size: 1.1rem; font-weight: bold; }
-        .page-title { font-size: 1.2rem; font-weight: 800; color: #1e3a8a; margin: 0; }
-
-        .table-wrap { width: 100%; overflow: hidden; }
-
-        /* 💡 1. 여기 구역이 바깥 테두리(border)를 없앤 구역입니다 */
-        .grid-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            border: none; /* 외곽 큰 사각형 선 제거 */
-            background-color: #ffffff; 
-            table-layout: fixed; 
-        }
-
-        /* 💡 2. 제목칸의 양쪽 끝 세로선을 제거하는 스타일 */
-        .grid-table th { 
-            background-color: #1e3a8a; 
-            color: #ffffff; 
-            font-weight: bold; 
-            font-size: 0.8rem; 
-            padding: 10px 2px; 
-            text-align: center; 
-            border-bottom: 1px solid #334155; 
-            border-left: 1px solid #334155;
-            border-right: 1px solid #334155;
-        }
-        .grid-table th:first-child { border-left: none; } /* 맨 왼쪽 세로선 제거 */
-        .grid-table th:last-child { border-right: none; }  /* 맨 오른쪽 세로선 제거 */
-
-        /* 💡 3. 데이터 내용칸의 양쪽 끝 세로선을 제거하는 스타일 */
-        .grid-table td { 
-            padding: 10px 2px; 
-            font-size: 0.75rem; 
-            color: #0f172a; 
-            text-align: center; 
-            border-bottom: 1px solid #cbd5e1; 
-            border-left: 1px solid #cbd5e1;   
-            border-right: 1px solid #cbd5e1;  
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-            word-break: break-all; 
-        }
-        .grid-table td:first-child { border-left: none; } /* 맨 왼쪽 세로선 제거 */
-        .grid-table td:last-child { border-right: none; }  /* 맨 오른쪽 세로선 제거 */
-
-        /* 가로 폭 비율 고정 */
-        .col-room { width: 14%; }    
-        .col-company { width: 26%; } 
-        .col-name { width: 10%; }    
-        .col-tel1 { width: 20%; }    
-        .col-tel2 { width: 30%; }    
-
-        .tel-btn { color: #2563eb; text-decoration: none; font-weight: bold; display: block; }
-        .grid-table tr:nth-child(even) { background-color: #f8fafc; }
-        .footer { text-align: center; font-size: 0.72rem; color: #94a3b8; margin-top: 30px; }
     </style>
 </head>
 <body>
-    <div class="top-nav-bar">
-        <a href="index.html" class="btn-back-left">⬅️</a>
-        <h1 class="page-title">📞 입주사 비상연락망</h1>
-    </div>
-    
-    <div class="table-wrap">
-        <table class="grid-table">
-            <colgroup>
-                <col class="col-room">
-                <col class="col-company">
-                <col class="col-name">
-                <col class="col-tel1">
-                <col class="col-tel2">
-            </colgroup>
-            
-            <thead>
-                <tr>
-                    <th>호실</th>
-                    <th>업체명</th>
-                    <th>정/부</th>
-                    <th>담당자</th>
-                    <th>휴대폰</th>
-                </tr>
-            </thead>
-            <tbody id="excel-data-body">
-                <tr>
-                    <td colspan="5" style="padding: 30px; color: #94a3b8;">잠시만 기다려주세요 .<b>데이터 로딩 중...</td>
-                </tr>
-            </tbody>
+
+    <h2 style="color: #1e3a8a; border-left: 4px solid #1e3a8a; padding-left: 8px; margin-bottom: 15px;">입주사 긴급비상 연락망</h2>
+
+    <div class="table-container">
+        <table id="excel-table">
+            <tr>
+                <td style="padding: 30px; color: #94a3b8;">데이터를 불러오는 중입니다...</td>
+            </tr>
         </table>
     </div>
 
-    <p class="footer">Made by AI & Ha You Sin</p>
-</div>
-
 <script>
     // 💡 [수정 포인트] 과장님이 깃허브에 올리신 CSV 파일명과 똑같이 적어주세요!
-    const csvFileName = 'emergency_contact.csv'; 
+    const csvFileName = 'emergency_contact.CSV'; 
 
 async function loadCSV() {
     try {
@@ -148,41 +61,6 @@ async function loadCSV() {
             tableHTML += '<tr>';
             cells.forEach(cell => {
                 tableHTML += index === 0 ? `<th>${cell.trim()}</th>` : `<td>${cell.trim()}</td>`;
-    async function loadGridTable() {
-        try {
-            const response = await fetch('./' + csvFileName);
-            if (!response.ok) throw new Error('파일 확인 불가');
-
-            const blob = await response.blob();
-            const decoder = new TextDecoder('euc-kr');
-            const buffer = await blob.arrayBuffer();
-            const csvText = decoder.decode(buffer);
-            
-            const rows = csvText.split(/\r?\n/);
-            let tableHTML = '';
-
-            rows.forEach((row, index) => {
-                if (index === 0 || !row.trim()) return; 
-
-                const cells = row.split(',');
-                
-                if (cells.length >= 5) {
-                    const room = cells[0].trim();
-                    const company = cells[1].trim();
-                    const manager = cells[2].trim();
-                    const tel1 = cells[3].trim(); 
-                    const tel2 = cells[4].trim(); 
-
-                    tableHTML += `
-                        <tr>
-                            <td>${room}</td>
-                            <td style="text-align: left; padding-left: 4px; font-weight: 500;">${company}</td>
-                            <td>${manager}</td>
-                            <td>${tel1}</td>
-                            <td><a href="tel:${tel2}" class="tel-btn">${tel2 || '-'}</a></td>
-                        </tr>
-                    `;
-                }
             });
             tableHTML += '</tr>';
         });
@@ -190,15 +68,9 @@ async function loadCSV() {
         document.getElementById('excel-table').innerHTML = tableHTML;
     } catch (error) {
         console.error('CSV 로드 실패:', error);
-            document.getElementById('excel-data-body').innerHTML = tableHTML || '<tr><td colspan="5">데이터가 없습니다.</td></tr>';
-        } catch (error) {
-            console.error(error);
-            document.getElementById('excel-data-body').innerHTML = '<tr><td colspan="5" style="color:red; padding:20px;">❌ 로드 실패</td></tr>';
-        }
     }
 }
 
-    window.onload = loadGridTable;
 </script>
 </body>
 </html>
