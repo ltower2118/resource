@@ -18,7 +18,7 @@
         .accent-text { color: #fde047; font-weight: bold; }
 
         /* 문의 전화 번호 */
-        .phone-box { font-size: 0.88rem; opacity: 0.9; margin-bottom: 30px; }
+        .phone-box { opacity: 0.9; margin-bottom: 30px; border-radius: 8px; padding: 15px; margin-bottom: 25px; font-size: 1.0rem; line-height: 1.5; word-break: keep-all; }
         .phone-link { color: white; text-decoration: underline; font-weight: bold; margin-left: 4px; }
 
         /* 은행 정보 화이트 박스 */
@@ -27,7 +27,7 @@
         .bank-name::before { content: ''; display: inline-block; width: 6px; height: 16px; background: #eab308; border-radius: 2px; }
         
         .account-number { font-size: 1.35rem; font-weight: bold; color: #334155; letter-spacing: 0.5px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #cbd5e1; display: flex; justify-content: space-between; align-items: center; }
-        .btn-copy { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; }
+        .btn-copy { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; cursor: pointer; }
         .btn-copy:active { background: #cbd5e1; }
         
         .account-holder { font-size: 1rem; font-weight: bold; color: #0f172a; }
@@ -42,16 +42,13 @@
 <body>
 <div class="container">
     <div class="account-card"><br><br><br>
-        <h1 class="card-title">계좌입금 안내</h1>
+        <h1 class="card-title">주차요금 계좌입금 안내</h1>
         
         <div class="notice-box">
             입금 시 <span class="accent-text">차량번호</span>를 꼭 기재해 주세요.<br>
             (예: 12가3456)
         </div>
-        
-        <div class="phone-box">
-            문의전화: <a href="tel:0221181379" class="phone-link">02-2118-1379 관리사무소</a>
-        </div>
+    
 
         <div class="bank-info-container">
             <div class="bank-name">국민은행</div>
@@ -63,8 +60,10 @@
                 <span class="holder-label">예금주</span>서울숲 L-TOWER 관리단위원회
             </div>
         </div>
-
-        <div class="closing-text">감사합니다.</div><br>
+    
+        <div class="phone-box">서울숲엘타워 관리사무실<br>
+            문의전화: <a href="tel:0221181379" class="phone-link">02-2118-1379 </a>
+        </div>
 <br><br><br><br><br><br><br>
     </div>
 
