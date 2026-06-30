@@ -1,0 +1,62 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>서울숲엘타워</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; }
+        
+        /* 상단 네비게이션 바 */
+        .top-nav-bar { width: 100%; max-width: 430px; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 20px; }
+        .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: transparent; border: none; font-size: 1.2rem; cursor: pointer; text-decoration: none; }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #1e3a8a; margin: 0; }
+
+         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f1f5f9; padding: 12px; margin: 0; color: #1e293b; }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        /* 메인 타이틀 */
+        .main-header { background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; padding: 20px 15px; border-radius: 12px; text-align: center; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); }
+        .main-header h1 { margin: 0; font-size: 1.3rem; font-weight: bold; }
+        .main-header p { margin: 5px 0 0 0; font-size: 0.85rem; color: #93c5fd; }
+
+        /* 🚨 최상단 긴급 정전대응 버튼 (시인성 극대화) */
+        .emergency-shortcut { display: block; background: #dc2626; color: white; text-align: center; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.05rem; margin-bottom: 15px; animation: blink 2s infinite; box-shadow: 0 4px 10px rgba(220,38,38,0.3); }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
+
+        /* 섹션 타이틀 */
+        .section-title { font-size: 0.95rem; font-weight: bold; color: #475569; margin: 15px 0 8px 5px; display: flex; align-items: center; gap: 5px; }
+
+        /* 메뉴 카드 그리드 */
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .menu-card { background: white; padding: 14px; border-radius: 10px; text-decoration: none; color: #334155; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .menu-card:active { background: #f8fafc; transform: scale(0.98); }
+        .card-icon { font-size: 1.5rem; margin-bottom: 6px; }
+        .card-title { font-weight: bold; font-size: 1.2rem; color: #0f172a; text-align: center;margin: 10px 0 8px 5px; }
+        .card-desc { font-size: 0.75rem; color: #64748b; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
+
+        /* 한 줄짜리 와이드 카드 */
+        .wide-card { grid-column: span 2; display: flex; flex-direction: row; align-items: center; gap: 12px; justify-content: flex-start; }
+
+        /* 하단 고정 알림판 */
+        .footer-notice { background: #e2e8f0; padding: 10px; border-radius: 8px; font-size: 0.75rem; color: #475569; margin-top: 20px; line-height: 1.4; text-align: center; }
+    </style>
+        
+
+</head>
+<body>
+    <div class="top-nav-bar">
+        <a href="index.html" class="btn-back-left">⬅️</a>
+        <h1 class="page-title">무인주차 시스템 결제정보</h1>
+    </div>
+    <div class="text">휴대폰번호를 클릭하면 바로연결됩니다.</div><br>
+       <div styl="text-align: center;" class="menu-grid"></div>
+        <a href="resource/vcb_diagram.pdf" target="_blank" class="menu-card">
+            <span class="card-title">카드결제</span>
+            <span class="card-title"><img src="images/pay01.jpg" alt="카드결제" width="100%"></span>
+            <span class="card-desc">아이파킹 카드 결제 바로가기</span>
+           </a>
+</body>
+</html>
