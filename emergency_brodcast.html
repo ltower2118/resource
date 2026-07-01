@@ -90,7 +90,19 @@
     body.dark nav a {
       color: #90caf9;
     }
+    .home-btn {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
 
+    .home-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
 
     /* 모바일 메뉴 */
     @media (max-width: 768px) {
@@ -116,7 +128,13 @@
 <body>
   <header>
     <div class="logo">비상방송 멘트</div>
+<a href="index.html" 
+   style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; color:#fff; background:#0078D4; padding:8px 12px; border-radius:6px;">
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+    <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+  </svg>
 
+</a>
   </header>
 
   <main>
