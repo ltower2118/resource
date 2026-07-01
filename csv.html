@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Facility List CSV 표출</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+    tr:hover {
+      background-color: #d0ebff;
+    }
+  </style>
+</head>
+<body>
+  <h2>Facility List</h2>
+  <div id="table-container"></div>
+
+  <script>
+    fetch("emergency_contact.csv")
+      .then(response => response.text())
+      .then(text => {
+        const rows = text.trim().split("\n").map(row => row.split(","));
+        
+        let table = "<table>";
+        rows.forEach((row, index) => {
+          table += "<tr>";
+          row.forEach(cell => {
+            if (index === 0) {
+              table += "<th>" + cell.trim() + "</th>";
+            } else {
+              table += "<td>" + cell.trim() + "</td>";
+            }
+          });
+          table += "</tr>";
+        });
+        table += "</table>";
+
+        document.getElementById("table-container").innerHTML = table;
+      })
+      .catch(error => console.error("CSV 파일 불러오기 오류:", error));
+  </script>
+</body>
+</html>
