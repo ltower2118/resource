@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>서울숲엘타워</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #0056b3;
+      color: white;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background: #f9f9f9;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #b9b9b9;
+      border-radius: 5px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+      padding: 1.5rem;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      font-size: 0.8rem;
+      color: #888888;
+      text-align: center;
+      padding: 1rem;
+      background: #ffffff;
+      margin-top: 2rem;
+    }
+
+    /* 다크 모드 */
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    body.dark .card {
+      background: #1e1e1e;
+      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+    }
+
+    body.dark nav a {
+      color: #90caf9;
+    }
+
+
+    /* 모바일 메뉴 */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background: var(--primary);
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        padding: 1rem;
+      }
+      nav.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">비상방송 멘트</div>
+
+  </header>
+
+  <main>
+    <div class="card" style="color:#000000;">
+      <h2>정전</h2>
+      <p>1.	현장부저 OFF <br>
+        2.	LBS 한전 전원 확인(3상표시램프 OFF여부확인)<br>
+        3.	MAIN VCB OFF(OPEN) 상태 확인<br>
+        -	VCB계전기 전압.전류확인<br>
+        4.	ATS 절체확인(한전->발전)<br>
+        5.	발전기 정상가동 확인(한전->발전)<br>
+        -	미가동시 수동가동
+        6.	ACB 3개소(고층부,저층부, 비상동력 ) 확인<br>
+        7.	고층부, 저층부 MCCB차단기 확인<br>
+        8.	한전상황실 연락 확인<br>
+        9.	엘리베이터 상황 확인,기타 설비확인<br>
+        10.	비상연락망 전파</p>
+    </div>
+    <div class="card" style="color:#000000;">
+      <h2>복전</h2>
+      <p>2.	LBS 한전 전원 복전확인(3상표시램프 ON여부확인)<br>
+        3.	MAIN VCB 계전기 전압 정상확인<br>
+        4.	VCB 2개소(고층부,저층부) 차단기 OFF(OPEN)<br>
+        5.	고층부 저층부 MCCB차단기 OFF<br>
+        6.	MCCB 계전기 UVR 리셋<br>
+        7.	메인 VCB 투입(CLOSE)<br>
+        8.	ATS 절체 확인(발전->한전)<br>
+        9.	ACB 2개소 투입(CLOSE)<br>
+        10.	고층부, 저층부 각 MCCB 차단기 ON<br>
+        11.	엘리베이터,방재실(수신반,방송시스템등), 펌프실(MCC반,수전펌프,분리수거장등), 정화조 ,주차시스템 이상유무확인<br>
+        12.	보고서 작성</p>
+    </div>
+    <div class="card">
+      <h2>애니메이션 효과</h2>
+      <p>스크롤 시 콘텐츠가 자연스럽게 나타나는 인터랙션을 제공합니다.</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>Made by Ai & Ha You Sin</p>
+  </footer>
+
+  <script>
+
+    // 스크롤 애니메이션
+    const cards = document.querySelectorAll(".card");
+    const revealOnScroll = () => {
+      const triggerBottom = window.innerHeight * 0.85;
+      cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        if (cardTop < triggerBottom) {
+          card.classList.add("visible");
+        }
+      });
+    };
+    window.addEventListener("scroll", revealOnScroll);
+    revealOnScroll();
+  </script>
+</body>
+</html>
