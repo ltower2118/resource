@@ -16,15 +16,6 @@
     th {
       background-color: #f2f2f2;
     }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    tr:nth-child(odd) {
-      background-color: #ffffff;
-    }
-    tr:hover {
-      background-color: #d0ebff;
-    }
   </style>
 </head>
 <body>
@@ -32,6 +23,7 @@
   <div id="table-container"></div>
 
   <script>
+    // CSV 파일 불러오기
     fetch("emergency_contact.csv")
       .then(response => response.text())
       .then(text => {
