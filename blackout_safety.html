@@ -5,43 +5,47 @@
   <title>Modern Trend Webpage</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --primary: #003a78;
+      --accent: #2563eb;
+      --danger: #b91c1c;
+      --success: #16a34a;
+      --bg-light: #f4f6f9;
+      --bg-dark: #1e1e1e;
+      --text-light: #333;
+      --text-dark: #f9f9f9;
+    }
+
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: "Malgun Gothic", Roboto, sans-serif;
       background-color: var(--bg-light);
       color: var(--text-light);
       transition: background-color 0.3s, color 0.3s;
+      line-height: 1.6;
     }
 
     header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       padding: 1rem 2rem;
-      background-color: #0056b3;
-      color: white;
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
 
-    .logo {
-      font-size: 1.2rem;
+    header h1 {
+      font-size: 1.4rem;
       font-weight: bold;
+      margin: 0;
     }
 
-    nav {
-      display: flex;
-      gap: 1rem;
+    .home-btn svg {
+      transition: transform 0.2s ease;
     }
-
-    nav a {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
+    .home-btn:hover svg {
+      transform: scale(1.1);
     }
 
     main {
@@ -51,15 +55,14 @@
     }
 
     .card {
-      background: #f9f9f9;
+      background: #fff;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
-      border: 1px solid #b9b9b9;
-      border-radius: 5px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.6s ease;
-      padding: 1.5rem;
     }
 
     .card.visible {
@@ -67,61 +70,49 @@
       transform: translateY(0);
     }
 
+    .card h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      color: var(--accent);
+    }
+
+    .text {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .emergency .text {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
     footer {
       font-size: 0.8rem;
-      color: #888888;
+      color: #888;
       text-align: center;
       padding: 1rem;
-      background: #ffffff;
+      background: #fafafa;
+      border-top: 1px solid #ddd;
       margin-top: 2rem;
     }
 
-    /* 다크 모드 */
     body.dark {
       background-color: var(--bg-dark);
       color: var(--text-dark);
     }
 
     body.dark .card {
-      background: #1e1e1e;
+      background: #2a2a2a;
+      color: var(--text-dark);
       box-shadow: 0 4px 12px rgba(255,255,255,0.1);
-    }
-
-    body.dark nav a {
-      color: #90caf9;
-    }
-    .home-btn {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      padding: 0.5rem 1rem;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-
-    .home-btn:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* 모바일 메뉴 */
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        background: var(--primary);
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 200px;
-        padding: 1rem;
-      }
-      nav.active {
-        display: flex;
-      }
-      .menu-toggle {
-        display: block;
-      }
     }
   </style>
 </head>
@@ -136,10 +127,10 @@
 </a>
   </header>
 
-  <main>
-    <div class="card">
+    <main>
+  <div class="card">
       <h2>정전</h2>
-      <p>1.	현장부저 OFF <br>
+      <p class="text">1.	현장부저 OFF <br>
         2.	LBS 한전 전원 확인(3상표시램프 OFF여부확인)<br>
         3.	MAIN VCB OFF(OPEN) 상태 확인<br>
         -	VCB계전기 전압.전류확인<br>
@@ -165,10 +156,6 @@
         10.	고층부, 저층부 각 MCCB 차단기 ON<br>
         11.	엘리베이터,방재실(수신반,방송시스템등), 펌프실(MCC반,수전펌프,분리수거장등), 정화조 ,주차시스템 이상유무확인<br>
         12.	보고서 작성</p>
-    </div>
-    <div class="card">
-      <h2>자세하게보기</h2>
-      <p>클릭하면 더 자센한 내용을 볼수 있습니다.</p>
     </div>
   </main>
 
