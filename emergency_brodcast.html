@@ -2,37 +2,64 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>서울숲엘타워</title>
+  <title>서울숲엘타워 비상방송</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --primary: #003a78;
+      --accent: #2563eb;
+      --danger: #b91c1c;
+      --success: #16a34a;
+      --bg-light: #f4f6f9;
+      --bg-dark: #1e1e1e;
+      --text-light: #333;
+      --text-dark: #f9f9f9;
+    }
+
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", Roboto, sans-serif;
+      font-family: "Malgun Gothic", Roboto, sans-serif;
       background-color: var(--bg-light);
       color: var(--text-light);
       transition: background-color 0.3s, color 0.3s;
+      line-height: 1.6;
     }
- /* 상단 네비게이션 바 */
-        .top-nav-bar { width: 100%; max-width: 430px; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 20px; }
-        .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: transparent; border: none; font-size: 1.2rem; cursor: pointer; text-decoration: none; }
-        .page-title { font-size: 1.2rem; font-weight: 800; color: #fff; margin: 0; }
-        .page-title2 { font-size: 1.2rem; font-weight: 800; color: #000000; margin: 0; }
-        .text { font-size: 0.9rem; color: #414141; margin: 0; }
 
     header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       padding: 1rem 2rem;
-      background-color: #003a78;
-      color: white;
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
+
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .home-btn svg {
+      transition: transform 0.2s ease;
+    }
+    .home-btn:hover svg {
+      transform: scale(1.1);
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
     .card {
-      background: #f9f9f9;
+      background: #fff;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
-      border: 1px solid #b9b9b9;
-      border-radius: 5px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.6s ease;
@@ -42,191 +69,115 @@
       opacity: 1;
       transform: translateY(0);
     }
-    .logo {
+
+    .card h2 {
       font-size: 1.2rem;
-      font-weight: bold;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--primary);
     }
 
-    nav {
-      display: flex;
-      gap: 1rem;
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      color: var(--accent);
     }
 
-    nav a {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
+    .text {
+      font-size: 0.95rem;
+      color: #444;
     }
 
-    .menu-toggle {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
+    .emergency .text {
+      color: var(--danger);
+      font-weight: 600;
     }
-
-    main {
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
-
-
 
     footer {
       font-size: 0.8rem;
-      color: #888888;
+      color: #888;
       text-align: center;
       padding: 1rem;
-      background: #ffffff;
+      background: #fafafa;
+      border-top: 1px solid #ddd;
       margin-top: 2rem;
     }
 
-    /* 다크 모드 */
     body.dark {
       background-color: var(--bg-dark);
       color: var(--text-dark);
     }
 
     body.dark .card {
-      background: #1e1e1e;
+      background: #2a2a2a;
+      color: var(--text-dark);
       box-shadow: 0 4px 12px rgba(255,255,255,0.1);
-    }
-
-    body.dark nav a {
-      color: #90caf9;
-    }
-    .home-btn {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      padding: 0.5rem 1rem;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-
-    .home-btn:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* 모바일 메뉴 */
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        background: var(--primary);
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 200px;
-        padding: 1rem;
-      }
-      nav.active {
-        display: flex;
-      }
-      .menu-toggle {
-        display: block;
-      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1 class="page-title">비상방송 멘트</h1>
-<a href="index.html" 
-   >
-  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
-    <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
-  </svg>
-
-</a>
+    <h1>비상방송 멘트</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
   </header>
 
   <main>
-  
-    <div class="card" style="color:#000000;">
-    <h2 class="page-title2">화재 오작동 방송</h2><br>
-
-    <span class="text"> ‘차임벨’ <br><br>
-        관리사무실에서 안내말씀드립니다.<br><br>
-        조금 전 화재경보는 00층 감지기 오작동으로 확인되었습니다.<br> <br>
-        정상 조치중으로 안전에 이상이 없으니 입주사께서는 안심하시고 하던 업무나 활동을 계속해 주시기 바랍니다.<br><br>
-
-
-        다시한번 안내말씀드립니다.<br><br>
-        조금 전 화재경보는 00층 감지기 오작동으로 확인되었습니다. <br><br>
-        정상 조치중으로 안전에 이상이 없으니 입주사께서는 안심하시고 하던 업무나 활동을 계속해 주시기 바랍니다.<br><br>
-
-        이상은 관리사무소에서 말씀 드렸습니다.<br> <br>
-
-      ‘차임벨’ </span>
-
-    </div>
-  
     <div class="card">
-      <h2 class="page-title2">소방점검 방송</h2><br>
-  
-     <span class="text">차임벨<br><br>
-
-          관리사무실에서 안내말씀드립니다.<br><br>
-
-          잠시후 오전9시 부터 오전 11시까지 건물 전체 소방시설에 대한 정기점검이 
-          실시될 예정입니다. <br><br>
-          점검중에는 비상방송, 싸이렌등이 일시적으로 작동될수 있으니 놀라지 마시고,업무 및 생활에 참고해주시기 바랍니다.<br><br>
-
-          다시한번 말씀드리겠습니다.<br><br>
-
-          잠시후 오전9시 부터 오전 11시까지 건물 전체 소방시설에 대한 정기점검이 
-          실시될 예정입니다. <br><br>
-          점검중에는 비상방송, 싸이렌등이 일시적으로 작동될수 있으니 놀라지 마시고,업무 및 생활에 참고해주시기 바랍니다.<br><br>
-
-          이상은 관리사무실에서 안내말씀드렸습니다.<br><br>
-
-
-       차임벨</span>
-    </div>
-  <div class="card" style="color:#000000;">
-      <h2 class="page-title2">실제 화재시 방송</h2><br><br>
-    <span class="text"><h3>1. 화재발생시 비상방송</h3><br>
-       “화재발생, 화재발생”<br><br>
-        건물내부 0층에서 화재가 발생했습니다. <br>
-      입주자께서는 당황하지마시고 비상구와 계단을 이용하여 신속하게 대피해 주시기 바랍니다.<br>
-        엘리베이터는 사용하지 마십시오.
-        대피시에는 옷이나 손수건등으로 코와 입을 막고 낮은 자세로 이동해 주십시오. <br>
-        다시한번 말씀드립니다. 지금은 실제 상황입니다.<br><br>
-        “화재발생, 화재발생”<br><br>
-        건물내부 0층에서 화재가 발생했습니다. <br>
-        입주자께서는 당황하지마시고 비상구와 계단을 이용하여 신속하게 대피해 주시기 바랍니다. <br>
-        엘리베이터는 사용하지 마십시오.<br>
-        대피시에는 옷이나 손수건등으로 코와 입을 막고 낮은 자세로 이동해 주십시오
-        <br><br><br>
+      <h2>화재 오작동 방송</h2>
+      <p class="text">관리사무실에서 안내말씀드립니다.<br><br>
+      조금 전 화재경보는 <strong>00층 감지기 오작동</strong>으로 확인되었습니다.<br>
+      정상 조치 중이니 안심하시고 업무를 계속해 주시기 바랍니다.<br><br>
       
-        <h3>2. 화재진압시작  </h3><br>
-        ‘차임벨’ <br><br>
-        현재 소방관들이 도착하여 화재 진압을 시작했습니다. <br><br>
-        건물 내부에 계신분들은 계속해서 안전한 장소로 대피해 주시기 바랍니다. <br><br>
-        연기가 발생하고 있으니 수건으로 코와 입을 막고 몸을 숙여 이동해 주십시오<br><br>
-        화재진압이 완료 되는대로 안내말씀드리겠습니다.<br><br>
-        ‘차임벨’<br><br> 
-      
-      <h3>3. 화재진압완료  </h3><br>
-        ‘차임벨’ <br><br>
-        안내말씀드립니다.현재 0층에서 발생된 화재가 진압되었습니다.<br><br>
-        현재 정확한 피해상황을 확인하고 있으며 신속한 복구를 위해 최선을 다하겠습니다.<br><br>
-        또한 상황이 종료되어 안심하시고 일상 업무로 복귀해 주셔도 좋습니다. <br>
-        협조해 주셔서 감사합니다. <br><br>
+        다시한번 안내말씀 드립니다.<br><br>
+        조금 전 화재경보는 <strong>00층 감지기 오작동</strong>으로 확인되었습니다.<br>
+      정상 조치 중이니 안심하시고 업무를 계속해 주시기 바랍니다.<br><br>
         이상은 관리실에서 안내말씀 드렸습니다.
-        ‘차임벨’
-    </span>
+        
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>소방점검 방송</h2>
+      <p class="text">관리사무실에서 안내말씀드립니다.<br><br>
+      잠시 후 <strong>오전 9시 ~ 11시</strong>까지 건물 전체 소방시설 정기점검이 실시됩니다.<br>
+      점검 중에는 비상방송, 사이렌 등이 일시적으로 작동될 수 있으니 놀라지 마시고 참고해 주시기 바랍니다.<br><br>
+      
+      다시한번 안내말씀 드립니다.<br><br>
+      잠시 후 <strong>오전 9시 ~ 11시</strong>까지 건물 전체 소방시설 정기점검이 실시됩니다.<br>
+      점검 중에는 비상방송, 사이렌 등이 일시적으로 작동될 수 있으니 놀라지 마시고 참고해 주시기 바랍니다.<br><br>
+      이상은 관리실에서 안내말씀 드렸습니다.
+      
+      </p>
+    </div>
+
+    <div class="card emergency">
+      <h2>🔥 실제 화재 발생 방송</h2>
+      <h3>1. 화재 발생</h3>
+      <p class="text">“화재발생, 화재발생”<br>
+      건물 내부 <strong>0층</strong>에서 화재가 발생했습니다.<br>
+      비상구와 계단을 이용해 신속히 대피해 주시고, <strong>엘리베이터는 사용하지 마십시오.</strong></p>
+      
+      <h3>2. 화재 진압 시작</h3>
+      <p class="text">현재 소방관들이 도착하여 화재 진압을 시작했습니다.<br>
+      건물 내부에 계신 분들은 안전한 장소로 계속 대피해 주시기 바랍니다.</p>
+      
+      <h3>3. 화재 진압 완료</h3>
+      <p class="text">안내 말씀드립니다. <strong>0층 화재가 진압</strong>되었습니다.<br>
+      피해 상황을 확인 중이며 신속한 복구를 위해 최선을 다하겠습니다.<br>
+      안심하시고 일상 업무로 복귀해 주셔도 좋습니다.</p>
     </div>
   </main>
 
   <footer>
     <p>Made by Ai & Ha You Sin</p>
   </footer>
-  <script>
 
-    // 스크롤 애니메이션
+  <script>
     const cards = document.querySelectorAll(".card");
     const revealOnScroll = () => {
       const triggerBottom = window.innerHeight * 0.85;
