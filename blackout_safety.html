@@ -24,22 +24,22 @@
       transition: background-color 0.3s, color 0.3s;
       line-height: 1.6;
     }
-    /* 상단 앱바 */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 90%;
-      height: 60px;
-      background-color: white;
-      color: black;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
+ /* 상단 앱바 */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90%; /* 전체 폭 */
+  height: 60px;
+  background-color: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
 
     header h1 {
       font-size: 18px;
@@ -57,11 +57,15 @@
       transform: scale(1.1);
     }
 
-    main {
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
+/* 메인 영역 */
+main {
+  margin-top: 80px; /* 헤더 높이만큼 여백 */
+  padding: 2rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  /* height와 overflow 제거 → body가 스크롤 담당 */
+}
 
     .card {
       background: #fff;
@@ -127,7 +131,7 @@
 </head>
 <body>
   <header>
-    <h1>정전시 대응메뉴얼</h1>
+    <h1>서울숲엘타워</h1>
     <a href="index.html" class="home-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
         <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
@@ -143,8 +147,8 @@
         2.  LBS 한전 전원 확인(3상표시램프 OFF여부확인)<br>
         3.  MAIN VCB OFF(OPEN) 상태 확인<br>
         -	VCB계전기 전압.전류확인<br>
-        4.  ATS 절체확인(한전 발전)<br>
-        5.  발전기 정상가동 확인(한전 -> 발전)<br>
+        4.  ATS 절체확인(한전-발전)<br>
+        5.  발전기 정상가동 확인(한전 - 발전)<br>
         - 미가동시 수동가동
         6.  ACB 3개소(고층부,저층부, 비상동력 ) 확인<br>
         7.  고층부, 저층부 MCCB차단기 확인<br>
@@ -162,7 +166,7 @@
         5.고층부 저층부 MCCB차단기 OFF<br>
         6.MCCB 계전기 UVR 리셋<br>
         7.메인 VCB 투입(CLOSE)<br>
-        8.ATS 절체 확인(발전->한전)<br>
+        8.ATS 절체 확인(발전 - 한전)<br>
         9.ACB 2개소 투입(CLOSE)<br>
         10.고층부, 저층부 각 MCCB 차단기 ON<br>
         11.엘리베이터,방재실(수신반,방송시스템등), 펌프실(MCC반,수전펌프,분리수거장등), 정화조 ,주차시스템 이상유무확인<br>
