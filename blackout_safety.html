@@ -24,25 +24,25 @@
       transition: background-color 0.3s, color 0.3s;
       line-height: 1.6;
     }
- /* 상단 앱바 */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 90%; /* 전체 폭 */
-  height: 60px;
-  background-color: white;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: 1000;
-}
+     /* 상단 앱바 */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 90%; /* 전체 폭 */
+      height: 60px;
+      background-color: white;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
 
     header h1 {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
     }
 
@@ -57,15 +57,15 @@ header {
       transform: scale(1.1);
     }
 
-/* 메인 영역 */
-main {
-  margin-top: 80px; /* 헤더 높이만큼 여백 */
-  padding: 2rem;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-  /* height와 overflow 제거 → body가 스크롤 담당 */
-}
+    /* 메인 영역 */
+    main {
+      margin-top: 80px; /* 헤더 높이만큼 여백 */
+    padding: 2rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    /* height와 overflow 제거 → body가 스크롤 담당 */
+    }
 
     .card {
       background: #fff;
