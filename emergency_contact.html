@@ -4,16 +4,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>서울숲엘타워</title>
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
         body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; }
         
-        /* 상단 네비게이션 바 */
-        .top-nav-bar { width: 100%; max-width: 430px; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 20px; }
-        .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: transparent; border: none; font-size: 1.2rem; cursor: pointer; text-decoration: none; }
-        .page-title { font-size: 1.2rem; font-weight: 800; color: #1e3a8a; margin: 0; }
+         body {
+      margin: 0;
+      font-family: "Malgun Gothic", Roboto, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
+      line-height: 1.6;
+    }
+     /* 상단 앱바 */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 90%; /* 전체 폭 */
+      height: 60px;
+      background-color: white;
+      color: black;
+      
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
 
-        /* 테이블 감싸는 박스 - 스크롤 제거 */
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    header .icon {
+      font-size: 22px;
+    }
+
+    .home-btn svg {
+      transition: transform 0.2s ease;
+    }
+    .home-btn:hover svg {
+      transform: scale(1.1);
+    }
+     .title {
+      font-size: 1.1rem;
+      color: #444;
+    }
+    .text {
+      font-size: 0.95rem;
+      color: #444;
+    }
+        
+           /* 테이블 감싸는 박스 - 스크롤 제거 */
         .table-wrap { width: 100%; max-width: 430px; overflow: hidden; margin-bottom: 20px; }
 
         /* 그리드 테이블 */
@@ -67,12 +112,17 @@
         .grid-table tr:nth-child(even) { background-color: #f8fafc; }
         .footer { text-align: center; font-size: 0.72rem; color: #94a3b8; margin-top: 30px; }
     </style>
-</head>
-<body>
-    <div class="top-nav-bar">
-        <a href="index.html" class="btn-back-left">⬅️</a>
-        <h1 class="page-title">📞 입주사 비상연락망</h1>
-    </div>
+   </head>
+      <header>
+    <h1>서울숲엘타워</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
+  </header>
+  <body>
+      <br><br><br><div class="title"><H3>입주사 비상 연락망</H3> </div>
     <div class="text">휴대폰번호를 클릭하면 바로연결됩니다.</div><br>
     <div class="table-wrap">
         <table class="grid-table">
@@ -95,14 +145,13 @@
             </thead>
             <tbody id="excel-data-body">
                 <tr>
-                    <td colspan="5" style="padding: 30px; color: #94a3b8;">잠시만 기다려주세요 .<b>데이터 로딩 중...</td>
+                    <td colspan="5" style="padding: 30px; color: #94a3b8;">잠시만 기다려주세요 .<b>데이터 로딩 중...</b></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <p class="footer">Made by AI & Ha You Sin</p>
-</div>
 
 <script>
     // 💡 [수정 포인트] 과장님이 깃허브에 올리신 CSV 파일명과 똑같이 적어주세요!
