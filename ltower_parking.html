@@ -11,10 +11,44 @@
         /* 상단 네비게이션 바 */
         .top-nav-bar { width: 100%; max-width: 430px; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 20px; }
         .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: transparent; border: none; font-size: 1.2rem; cursor: pointer; text-decoration: none; }
-        .page-title { font-size: 1.2rem; font-weight: 800; color: #1e3a8a; margin: 0; }
+        
+        .title { font-size: 1.5rem; font-weight: 800; color: #1e3a8a; margin: 10; }
         .text { font-size: 0.75rem; font-weight: 800; color: #878788; margin: 0; }
         
 
+                     /* 상단 앱바 */
+        header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%; /* 전체 폭 */
+          height: 60px;
+          background-color: white;
+          color: black;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+          z-index: 1000;
+          }
+
+        header h1 {
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        header .icon {
+          font-size: 22px;
+        }
+        
+        /* 내부 타이틀 및 박스 스타일 */
+        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
+           
+        
+        
          * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
         body { background-color: #f1f5f9; padding: 12px; margin: 0; color: #1e293b; }
         .container { max-width: 500px; margin: 0 auto; }
@@ -24,7 +58,7 @@
         .main-header h1 { margin: 0; font-size: 1.3rem; font-weight: bold; }
         .main-header p { margin: 5px 0 0 0; font-size: 0.85rem; color: #93c5fd; }
 
-        /* 🚨 최상단 긴급 정전대응 버튼 (시인성 극대화) */
+        /* 최상단 긴급 정전대응 버튼 (시인성 극대화) */
         .emergency-shortcut { display: block; background: #dc2626; color: white; text-align: center; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.05rem; margin-bottom: 15px; animation: blink 2s infinite; box-shadow: 0 4px 10px rgba(220,38,38,0.3); }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
 
@@ -49,10 +83,16 @@
 
 </head>
 <body>
-    <div class="top-nav-bar">
-        <a href="index.html" class="btn-back-left">⬅️</a>
-        <h1 class="page-title">무인주차 시스템 결제정보</h1>
-    </div>
+  <header>
+    <h1>서울숲엘타워</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
+  </header>
+    <br><br><br>
+    <div class="title">무인주차 결제 정보</div>
     <div class="text">QR코드 또는 이미지를 클릭하면 바로연결됩니다.</div><br>
        <div styl="text-align: center;" class="menu-grid"></div>
         <a href="http://iparking.co.kr/mobile/arf/core/pay/selfPaymentFormMug.do?park_seq=5331" target="_blank" class="menu-card">
