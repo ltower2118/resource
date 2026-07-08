@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>⚡ 서울숲엘타워 종합 정전대응 매뉴얼</title>
+    <title>서울숲엘타워</title>
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        * { box-sizing: border-box; font-family: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
         body { background-color: #f1f5f9; padding: 10px; margin: 0; color: #1e293b; }
         .container { max-width: 540px; margin: 0 auto; }
         
@@ -35,16 +35,16 @@
         #tab5:checked ~ #content5 { display: block; }
 
         /* 내부 타이틀 및 박스 스타일 */
-        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
-        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
+        h3 { font-size: 1.2rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px ; padding-bottom: 6px; }
+        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; padding: 6px; border-radius: 4px; border-left: 3px }
         
         .step-box { background: #f8fafc; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; font-size: 0.85rem; line-height: 1.5; color: #334155; border-left: 4px solid #94a3b8; }
-        .step-box.alert { border-left-color: #ef4444; background: #fef2f2; }
+        .step-box.alert { }
         .step-box.success { border-left-color: #10b981; background: #f0fdf4; }
-        .step-box.warning { border-left-color: #f59e0b; background: #fffbeb; }
+        .step-box.warning { }
         .step-num { font-weight: bold; color: #0f172a; margin-bottom: 2px; display: block; }
         
-        .info-list { padding-left: 16px; margin: 5px 0; font-size: 0.85rem; line-height: 1.5; color: #475569; }
+        .info-list { padding-left: 16px; margin: 5px 0; font-size: 0.85rem; line-height: 1.5; color: #2e69bd; }
         .info-list li { margin-bottom: 4px; }
 
         /* 연락처 테이블 스타일 */
@@ -57,20 +57,18 @@
 <body>
 
 <div class="container">
-    <div class="header-title">🏢 서울숲엘타워 수변전 정전대응</div>
+    <div class="header-title">서울숲엘타워 수변전 정전대응</div>
     <div class="emergency-banner">🚨 한국전력공사 광진성동지사 고장장애 신고: 국번없이 123</div>
 
     <input type="radio" id="tab1" name="menu" class="tab-input" checked>
     <input type="radio" id="tab2" name="menu" class="tab-input">
     <input type="radio" id="tab3" name="menu" class="tab-input">
-    <input type="radio" id="tab4" name="menu" class="tab-input">
     <input type="radio" id="tab5" name="menu" class="tab-input">
 
-    <div class="tab-menu">
+    <div class="tab-menu" >
         <label for="tab1" class="tab-btn">🚨 돌발정전</label>
         <label for="tab2" class="tab-btn">📅 계획정전</label>
         <label for="tab3" class="tab-btn">🔄 복전절차</label>
-        <label for="tab4" class="tab-btn">🛠️ 작업안전</label>
         <label for="tab5" class="tab-btn">📞 비상연락</label>
     </div>
 
@@ -83,8 +81,13 @@
         </div>
         <h4>2. 전기실 수변전 및 발전기 가동상태 확인</h4>
                 <div class="step-box alert">
-            <span class="step-num">②특고압반 부저 정지 및 계통 점검</span>
-            특고압반 VCB 정전 경보 부저 즉시 정지. 정전 발생 시 전기실에는 DC등만 점등되며, MOF 계량기는 소등됨. LBS(부하개폐기) 표시 램프가 적색(ON)에서 녹색(OFF)으로 전환되거나 소등되었는지 확인.
+        <span class="step-num">②특고압반 부저 정지 및 계통 점검</span>
+        <ul class="info-list">
+                <li>특고압반 VCB 정전 경보 부저 즉시 정지.</li>
+                <li>정전 발생 시 전기실에는 DC등만 점등</li> 
+                <li>MOF 계량기는 소등됨.</li> 
+                <li>LBS(부하개폐기) 표시 램프가 적색(ON)에서 녹색(OFF)으로 전환되거나 소등되었는지 확인.</li>
+                </ul>
         </div>
         <div class="step-box warning">
             <span class="step-num">③ 비상발전기 자동 기동 검증</span>
