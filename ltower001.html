@@ -13,6 +13,16 @@
         .header-title { background: #01438a; color: #f8fafc; padding: 14px 10px; border-radius: 8px; text-align: center; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .emergency-banner { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.9rem; margin-bottom: 12px; }
         
+        .title {
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: #1e3a8a;
+        }
+        .text {
+          font-size: 0.95rem;
+          color: #444;
+        }
+        
         /* 5단 터치 메뉴 탭 구조 */
         .tab-menu { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 12px; }
         .tab-btn { background: #e2e8f0; border: 1px solid #cbd5e1; padding: 12px 2px; text-align: center; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: bold; color: #475569; transition: all 0.15s; }
@@ -91,19 +101,20 @@
         </div>
         <div class="step-box warning">
             <span class="step-num">③ 비상발전기 자동 기동 검증</span>
-            전기실 내 굉장한 소음과 함께 발전기가 자동 기동되는지 확인.
-            <br><strong>⚠️ 만일 발전기 자동운전 불가 시:</strong> 즉시 발전기반으로 가 수동 조작 가동 처리. 발전기반 ACB 자동 투입 실패 시 중요부하부터 차례로 수동조작 투입.
+            전기실 내 굉장한 소음과 함께 발전기가 자동 기동되는지 확인.<br>
+            <br><strong>⚠️ 만일 발전기 자동운전 불가 시<br>
+            </strong>-> 즉시 발전기반으로 가 수동 조작 가동 처리. 발전기반 ACB 자동 투입 실패 시 중요부하부터 차례로 수동조작 투입.
         </div>
         <div class="step-box">
-            <span class="step-num">④ 고압반 ATS 절체 지시등 확인</span>고압반 ATS가 한전측에서 발전측으로 자동 절체되었는지 [한전 ➡️ 발전] 표시등 전수 조사. 자동 절체 실패 시 수동 핸들을 장착해 수동 절체 감행.
+            <span class="step-num">④ 고압반 ATS 절체 지시등 확인</span>고압반 ATS가 한전측에서 발전측으로 자동 절체되었는지 [한전 ➡️ 발전] 표시등 전수 조사.<br><br> 자동 절체 실패 시 수동 핸들을 장착해 수동 절체 감행.
         </div>
 
         <h4>3. 원인 파악 및 부하 개방 절차</h4>
         <div class="step-box">
             <span class="step-num">⑤ 한전 상황실 연계 및 내부 전파</span>
-            한전 사령실에 연락하여 정전 원인 및 복전 예정시간 확인. 최경식 소장(책임자) 및 관리소에 내용을 즉시 통보하고 세대에 원인, 조치요령, 소요시간, 입주민 협조 사항을 재고지.
+            한전 사령실에 연락하여 정전 원인 및 복전 예정시간 확인. <br><br>최경식 소장(책임자) 및 관리소에 내용을 즉시 통보<br>
         </div>
-                <div class="step-box">
+        <div class="step-box">
             <span class="step-num">⑥ 입주사 사전 안내 방송</span>
             정전 원인을 정밀 파악하기 전, 입주사들이 동요하지 않도록 안내 방송을 우선 시행.
         </div>
@@ -127,19 +138,37 @@
         <h4>1. 정전 30분 전 사전 작업 단계</h4>
         <div class="step-box">
             <span class="step-num">가. 유관기관 통신 및 보안업체 사전 통보</span>
-            계획 정전 시작 전 통신사 및 외부 보안업체에 정전 일시 통보.
+            계획 정전 시작 전 KT, SK , U+ 통신사<br>
+            신세계 보안업체 에스큐 정전 일시 통보.
         </div>
         <div class="step-box alert">
             <span class="step-num">나. 방재실 주요 제어 전원 오프(OFF)</span>
-            정전 시 전기적 충격 방지를 위해 방재실 내의 <strong>원격검침 시스템, 조명설비 제어반, CCTV DVR 시스템, 방송설비, 주차차량인식시스템, 소방수신반(R형 수신기 포함) 전원을 사전 개방.</strong> 단, 방송 시스템 및 수신반의 비상대비 배터리 가동 유지 유무를 사전에 철저히 검증할 것.
+            <ul class="info-list">
+                <strong><li>원격검침 시스템</li>
+                <li>조명설비 제어반</li>
+                <li>CCTV DVR 시스템</li>
+                <li>방송설비</li>
+                <li>주차차량인식시스템</li>
+                <li>소방수신반(R형 수신기 포함) 전원</li></strong> 
+                단, 방송 시스템 및 수신반의 비상대비 배터리 가동 유지 유무를 사전에 철저히 검증할 것.</ul>
+        </div>
+               <div class="step-box alert">
+            <span class="step-num">다. B4F 펌프기계실 MCC반 자동제어 차단기(OFF)</span>
+            <ul class="info-list">
+                <strong>
+                    <li>MCC 자동제어반 차단기 OFF</li>
+</strong> 
+                단, 자동제어 각종 기판 서지방지.</ul>
         </div>
         <div class="step-box warning">
-            <span class="step-num">다. 승강기 사전 가동 정지 조치</span>
-            엘리베이터 내부 갇힘 사고 예방을 위해 <strong>승강기 1, 2, 3호기 및 화물 엘리베이터 4대 전체를 1층으로 하강 유도 후 로비 경비 협조 하에 가동 정지(잡아놓기)</strong> 처리.
+            <span class="step-num">라. 승강기 사전 가동 정지 조치</span>
+            엘리베이터 내부 갇힘 사고 예방을 위해 <strong><br>
+            승강기 1, 2, 3호기 및 화물 엘리베이터 4대 전체를 1층으로 하강 유도 후 로비 경비 협조 하에 가동 정지(잡아놓기)</strong> 처리.
         </div>
         <div class="step-box">
-            <span class="step-num">라. 정전 10분 전 최종 공유 및 UPS 확인</span>
-            작업자 및 로비 경비원 간 최종 정전 준비 상태 공유. 신세계 UPS 가동시간(30분 이내)을 감안하여 시간 내 정전 및 복구 작업 범위를 상호 재확인.
+            <span class="step-num">마. 정전 10분 전 최종 공유</span>
+            작업자 및 로비 경비원 간 최종 정전 준비 상태 공유. <br>
+            신세계 UPS 가동시간(30분 이내)을 감안하여 시간 내 정전 및 복구 작업 범위를 상호 재확인.
         </div>
 
         <h4>2. 계획정전 부하 차단 및 개방 시퀀스 (순서 엄수)</h4>
@@ -149,7 +178,9 @@
         </div>
         <div class="step-box warning">
             <span class="step-num">2) 저압 메인 ACB 차단기 개방</span>
-            <strong>공용 ACB(5SS ➡️ 4SS ➡️ 3SS 순서대로) 및 세대 ACB 차단기를 차례로 OFF</strong>함. 판넬 전면의 풀턴 스위치(Pull-Turn) 또는 조작용 물리 버튼을 조작하여 확실히 개방할 것. (※ 3SS 비상 및 동력 개방 여부 현장 확인 필수)
+            <strong>공용 ACB(5SS ➡️ 4SS ➡️ 3SS 순서대로) 및 세대 ACB 차단기를 차례로 OFF</strong>함. <br>
+            판넬 전면의 풀턴 스위치(Pull-Turn) 또는 조작용 물리 버튼을 조작하여 확실히 개방할 것. <br>
+            (※ 3SS 비상 및 동력 개방 여부 현장 확인 필수)
         </div>
         <div class="step-box success">
             <span class="step-num">3) 발전기 가동 및 비상전원 인입 확인</span>
