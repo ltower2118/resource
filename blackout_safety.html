@@ -68,6 +68,21 @@
     /* height와 overflow 제거 → body가 스크롤 담당 */
     }
 
+    .shortcut { 
+      display: block; 
+      background: #1e3a8a; 
+      color: white; 
+      text-align: center; 
+      padding: 10px; 
+      border-radius: 10px; 
+      text-decoration: none; 
+      font-weight: bold; 
+      font-size: 1.05rem; 
+      margin-bottom: 5px; 
+      animation: blink 2s infinite;  
+    }
+    
+    
     .card {
       background: #fff;
       padding: 1.5rem;
@@ -97,19 +112,14 @@
       margin-top: 1rem;
       color: var(--accent);
     }
-         .title {
-          font-weight: bold;
-          font-size: 1.1rem;
-          color: #1e3a8a;
+    .title {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #1e3a8a;
         }
     .text {
       font-size: 0.95rem;
       color: #444;
-    }
-
-    .emergency .text {
-      color: var(--danger);
-      font-weight: 600;
     }
 
     footer {
@@ -122,16 +132,6 @@
       margin-top: 2rem;
     }
 
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    body.dark .card {
-      background: #2a2a2a;
-      color: var(--text-dark);
-      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
-    }
   </style>
 </head>
 <body>
@@ -160,7 +160,12 @@
         8.  한전상황실 연락 확인<br>
         9.  엘리베이터 상황 확인,기타 설비확인<br>
         10. 비상연락망 전파</p>
+                <a href="ltower_tel.html" target="_blank" class="shortcut">
+        <!--<span>▶️</span>-->비상 연락처
+    </a>
+        
     </div>
+      
     <div class="card">
       <h2>복전시</h2>
       <p class="text"><br>
