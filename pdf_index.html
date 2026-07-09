@@ -3,267 +3,366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>서울숲엘타워 - PDF 매뉴얼 리스트</title>
+    <title>서울숲엘타워 PDF 문서 관리 시스템</title>
     <style>
         :root {
-            --primary-color: #0f2027;
-            --secondary-color: #203a43;
-            --accent-color: #2c5364;
-            --highlight-color: #00b4db;
-            --text-color: #333333;
-            --bg-color: #f4f7f6;
+            --primary-color: #0f172a; /* 딥 네이비 */
+            --secondary-color: #0d9488; /* 청록 민트 */
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
+            --text-color: #334155;
+            --border-color: #e2e8f0;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Pretendard', -apple-system, sans-serif;
         }
 
         body {
-            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
             padding-bottom: 60px;
         }
 
-        /* 상단 헤더 */
         header {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color), var(--accent-color));
-            color: #ffffff;
-            padding: 30px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid var(--secondary-color);
         }
 
         header h1 {
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
         }
 
-        header p {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        /* 메인 컨테이너 */
-        main {
+        .container {
             max-width: 800px;
-            margin: 30px auto;
+            margin: 20px auto;
             padding: 0 15px;
         }
 
-        /* 검색창 영역 */
-        .search-container {
+        /* 설정 및 업로드 섹션 카드 */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
             margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        .search-input {
+        .card h2 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #64748b;
+        }
+
+        .form-group input[type="text"], 
+        .form-group input[type="file"] {
             width: 100%;
-            padding: 14px 20px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            outline: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-            transition: all 0.3s ease;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
         }
 
-        .search-input:focus {
-            border-color: var(--highlight-color);
-            box-shadow: 0 2px 8px rgba(0, 180, 219, 0.2);
+        /* 버튼 스타일 */
+        .btn {
+            display: inline-block;
+            width: 100%;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
         }
 
-        /* 리스트 스타일 (아이콘 제거, 깔끔한 텍스트 중심) */
+        .btn:hover {
+            background-color: #0f766e;
+        }
+
+        /* 검색 바 */
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* PDF 리스트 스타일 */
         .pdf-list {
             list-style: none;
         }
 
         .pdf-item {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            padding: 18px 24px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            background: #fff;
+            transition: background 0.2s;
+        }
+
+        .pdf-item:last-child {
+            border-bottom: none;
         }
 
         .pdf-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            background-color: #f1f5f9;
         }
 
         .pdf-info {
             flex: 1;
-            min-width: 0;
+            padding-right: 15px;
         }
 
-        .pdf-title {
-            font-size: 16px;
+        .pdf-name {
             font-weight: 600;
-            color: #222;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+            word-break: break-all;
         }
 
-        .pdf-meta {
-            font-size: 13px;
-            color: #777;
-        }
-
-        /* 보기 버튼 (텍스트 형식) */
-        .view-btn {
-            background-color: var(--secondary-color);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-            transition: background-color 0.2s ease;
-            flex-shrink: 0;
-            margin-left: 15px;
-            text-align: center;
-        }
-
-        .view-btn:hover {
-            background-color: var(--highlight-color);
-        }
-
-        /* 푸터 스타일 */
-        footer {
+        .pdf-link {
+            display: inline-block;
             background-color: var(--primary-color);
-            color: #ffffff;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 12px;
+            color: white;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .pdf-link:hover {
+            background-color: #1e293b;
+        }
+
+        /* 상태 메시지 */
+        .status-msg {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            color: #ef4444;
+        }
+
+        /* 하단 고정 푸터 */
+        footer {
             position: fixed;
             bottom: 0;
+            left: 0;
             width: 100%;
-            letter-spacing: 1px;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-        }
-
-        /* 검색 결과 없을 때 */
-        .no-result {
+            background-color: var(--primary-color);
+            color: #94a3b8;
             text-align: center;
-            padding: 40px;
-            color: #777;
-            display: none;
-            font-size: 15px;
-            margin-top: 20px;
+            padding: 12px 0;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            border-top: 1px solid #1e293b;
         }
 
-        /* 반응형 모바일 조정 */
-        @media (max-width: 480px) {
-            header { padding: 20px 15px; }
-            header h1 { font-size: 20px; }
-            .pdf-item { padding: 14px 18px; }
-            .pdf-title { font-size: 14px; }
-            .view-btn { padding: 6px 14px; font-size: 12px; }
+        /* 반응형 스타일 */
+        @media (max-width: 600px) {
+            body { padding-bottom: 70px; }
+            .pdf-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .pdf-link { width: 100%; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 상단 타이틀 바 -->
     <header>
-        <h1>서울숲엘타워 시설관리 매뉴얼</h1>
-        <p>필요한 문서를 선택하시면 다운로드 없이 바로 브라우저 뷰어로 열립니다.</p>
+        <h1>서울숲엘타워 시설관리 문서시스템</h1>
     </header>
 
-    <!-- 메인 콘텐츠 영역 -->
-    <main>
-        <!-- 검색창 (돋보기 이모지 삭제) -->
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="매뉴얼 명칭 검색..." onkeyup="filterList()">
+    <div class="container">
+        <div class="card">
+            <h2>GitHub 연동 설정</h2>
+            <div class="form-group">
+                <label>GitHub 토큰 (Personal Access Token)</label>
+                <input type="text" id="githubToken" placeholder="ghp_..." value="">
+            </div>
+            <div class="form-group">
+                <label>저장소 정보 (계정명/저장소명)</label>
+                <input type="text" id="repoInfo" placeholder="예: user_id/repo_name" value="">
+            </div>
+            <button class="btn" onclick="loadPdfList()">설정 저장 및 리스트 불러오기</button>
         </div>
 
-        <!-- PDF 파일 목록 리스트 (아이콘 전면 제거) -->
-        <ul class="pdf-list" id="pdfList">
-            <!-- 1. 아이파킹 주차 시스템 -->
-            <li class="pdf-item">
-                <div class="pdf-info">
-                    <div class="pdf-title">아이파킹 무인주차 시스템 운영 매뉴얼</div>
-                    <div class="pdf-meta">분류: 주차관리 | 형식: PDF</div>
-                </div>
-                <a href="iparking_manual.pdf" target="_blank" class="view-btn">보기</a>
-            </li>
+        <div class="card">
+            <h2>신규 PDF 매뉴얼 업로드</h2>
+            <div class="form-group">
+                <label>PDF 파일 선택</label>
+                <input type="file" id="pdfFile" accept=".pdf">
+            </div>
+            <button class="btn" onclick="uploadPdfFile()">GitHub resource 폴더로 업로드</button>
+            <div id="uploadStatus" class="status-msg" style="color: var(--secondary-color);"></div>
+        </div>
 
-            <!-- 2. 정화조 모터/EOCR 고장 진단 -->
-            <li class="pdf-item">
-                <div class="pdf-info">
-                    <div class="pdf-title">정화조 모터 및 EOCR 고장 진단 기록 가이드</div>
-                    <div class="pdf-meta">분류: 기계설비 | 형식: PDF</div>
-                </div>
-                <a href="septic_tank_eocr_guide.pdf" target="_blank" class="view-btn">보기</a>
-            </li>
+        <div class="card">
+            <h2>PDF 마스터 리스트</h2>
+            <input type="text" id="searchBox" class="search-box" placeholder="찾으실 매뉴얼 명을 입력하세요..." onkeyup="filterList()">
+            <ul id="pdfListContainer" class="pdf-list">
+                <li style="text-align: center; color: #94a3b8; padding: 20px;">연동 설정을 완료하면 리스트가 표시됩니다.</li>
+            </ul>
+        </div>
+    </div>
 
-            <!-- 3. 연간 시설 점검 체크리스트 -->
-            <li class="pdf-item">
-                <div class="pdf-info">
-                    <div class="pdf-title">연간/월간 시설물 정기 점검 체크리스트 일정표</div>
-                    <div class="pdf-meta">분류: 일반점검 | 형식: PDF</div>
-                </div>
-                <a href="annual_checklist.pdf" target="_blank" class="view-btn">보기</a>
-            </li>
-
-            <!-- 4. 비상 연락망 -->
-            <li class="pdf-item">
-                <div class="pdf-info">
-                    <div class="pdf-title">관리실 및 입주사 모바일 비상 연락망 수첩</div>
-                    <div class="pdf-meta">분류: 비상대책 | 형식: PDF</div>
-                </div>
-                <a href="emergency_contacts.pdf" target="_blank" class="view-btn">보기</a>
-            </li>
-        </ul>
-
-        <!-- 검색 결과가 없을 때 표출될 메시지 -->
-        <div id="noResult" class="no-result">검색 결과가 없습니다.</div>
-    </main>
-
-    <!-- 하단 제작자 정보 바 -->
     <footer>
         MADE BY AI & HA YOU SIN
     </footer>
 
-    <!-- 검색 기능 스크립트 -->
     <script>
+        // 실시간 검색 기능 (아이콘 없는 깔끔한 텍스트 리스트 기반)
         function filterList() {
-            var input = document.getElementById('searchInput');
-            var filter = input.value.toLowerCase();
-            var ul = document.getElementById('pdfList');
-            var li = ul.getElementsByClassName('pdf-item');
-            var noResult = document.getElementById('noResult');
-            var hasMatch = false;
-
-            for (var i = 0; i < li.length; i++) {
-                var title = li[i].getElementsByClassName('pdf-title')[0];
-                if (title) {
-                    var txtValue = title.textContent || title.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        li[i].style.display = "";
-                        hasMatch = true;
-                    } else {
-                        li[i].style.display = "none";
-                    }
+            const query = document.getElementById('searchBox').value.toLowerCase();
+            const items = document.querySelectorAll('.pdf-item');
+            
+            items.forEach(item => {
+                const text = item.querySelector('.pdf-name').textContent.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
                 }
+            });
+        }
+
+        // 1. GitHub resource 폴더 파일 목록 불러오기
+        async function loadPdfList() {
+            const token = document.getElementById('githubToken').value.trim();
+            const repo = document.getElementById('repoInfo').value.trim();
+            const container = document.getElementById('pdfListContainer');
+
+            if (!token || !repo) {
+                alert('GitHub 토큰과 저장소 정보를 모두 입력해주세요.');
+                return;
             }
 
-            if (hasMatch || filter === "") {
-                noResult.style.display = "none";
-            } else {
-                noResult.style.display = "block";
+            container.innerHTML = '<li style="text-align: center; padding: 20px;">목록을 불러오는 중...</li>';
+
+            // GitHub API를 통해 'resource' 폴더 내 파일 조회
+            const url = `https://api.github.com/repos/${repo}/contents/resource`;
+
+            try {
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+
+                if (!response.ok) throw new Error('파일 목록을 가져오지 못했습니다. 경로(resource)나 토큰을 확인하세요.');
+
+                const files = await response.json();
+                container.innerHTML = '';
+
+                // PDF 파일만 필터링하여 리스트업
+                const pdfFiles = files.filter(file => file.name.toLowerCase().endsWith('.pdf'));
+
+                if (pdfFiles.length === 0) {
+                    container.innerHTML = '<li style="text-align: center; color: #94a3b8; padding: 20px;">resource 폴더에 PDF 파일이 없습니다.</li>';
+                    return;
+                }
+
+                pdfFiles.forEach(file => {
+                    // 브라우저 뷰어로 바로 보기 위해 GitHub Pages 주소 또는 raw 주소 생성
+                    // 여기서는 target="_blank"를 통해 내장 브라우저 뷰어로 강제 연동합니다.
+                    const viewUrl = file.html_url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+
+                    const li = document.createElement('li');
+                    li.className = 'pdf-item';
+                    li.innerHTML = `
+                        <div class="pdf-info">
+                            <div class="pdf-name">${file.name}</div>
+                        </div>
+                        <a href="${viewUrl}" target="_blank" class="pdf-link">바로 보기</a>
+                    `;
+                    container.appendChild(li);
+                });
+
+            } catch (error) {
+                container.innerHTML = `<li style="text-align: center; color: #ef4444; padding: 20px;">오류 발생: ${error.message}</li>`;
             }
+        }
+
+        // 2. PDF 파일을 GitHub resource 폴더에 업로드 (Base64 인코딩 방식)
+        async function uploadPdfFile() {
+            const token = document.getElementById('githubToken').value.trim();
+            const repo = document.getElementById('repoInfo').value.trim();
+            const fileInput = document.getElementById('pdfFile');
+            const statusDiv = document.getElementById('uploadStatus');
+
+            if (!token || !repo) {
+                alert('GitHub 설정을 먼저 입력해주세요.');
+                return;
+            }
+            if (fileInput.files.length === 0) {
+                alert('업로드할 PDF 파일을 선택해주세요.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            statusDiv.style.color = 'var(--secondary-color)';
+            statusDiv.textContent = '업로드 진행 중... 잠시만 기다려주세요.';
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async function () {
+                const base64Content = reader.result.split(',')[1];
+                const uploadUrl = `https://api.github.com/repos/${repo}/contents/resource/${file.name}`;
+
+                try {
+                    // 업로드 API 호출
+                    const response = await fetch(uploadUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: `Upload ${file.name} via Web Admin`,
+                            content: base64Content
+                        })
+                    });
+
+                    if (response.status === 201 || response.status === 200) {
+                        statusDiv.style.color = 'green';
+                        statusDiv.textContent = `성공적으로 업로드되었습니다: ${file.name}`;
+                        fileInput.value = ''; // 폼 초기화
+                        loadPdfList(); // 업로드 후 리스트 갱신
+                    } else {
+                        const errData = await response.json();
+                        throw new Error(errData.message || '업로드 실패');
+                    }
+                } catch (error) {
+                    statusDiv.style.color = '#ef4444';
+                    statusDiv.textContent = `업로드 오류: ${error.message}`;
+                }
+            };
         }
     </script>
 </body>
