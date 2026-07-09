@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울숲엘타워 - PDF 매뉴얼 리스트</title>
+    <style>
+        :root {
+            --primary-color: #0f2027;
+            --secondary-color: #203a43;
+            --accent-color: #2c5364;
+            --highlight-color: #00b4db;
+            --text-color: #333333;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* 상단 헤더 */
+        header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color), var(--accent-color));
+            color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* 메인 컨테이너 */
+        main {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        /* 검색창 영역 */
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--highlight-color);
+            box-shadow: 0 2px 8px rgba(0, 180, 219, 0.2);
+        }
+
+        /* 리스트 스타일 (아이콘 제거, 깔끔한 텍스트 중심) */
+        .pdf-list {
+            list-style: none;
+        }
+
+        .pdf-item {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 18px 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pdf-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .pdf-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pdf-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pdf-meta {
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* 보기 버튼 (텍스트 형식) */
+        .view-btn {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+            flex-shrink: 0;
+            margin-left: 15px;
+            text-align: center;
+        }
+
+        .view-btn:hover {
+            background-color: var(--highlight-color);
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 12px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            letter-spacing: 1px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* 검색 결과 없을 때 */
+        .no-result {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+            display: none;
+            font-size: 15px;
+            margin-top: 20px;
+        }
+
+        /* 반응형 모바일 조정 */
+        @media (max-width: 480px) {
+            header { padding: 20px 15px; }
+            header h1 { font-size: 20px; }
+            .pdf-item { padding: 14px 18px; }
+            .pdf-title { font-size: 14px; }
+            .view-btn { padding: 6px 14px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 타이틀 바 -->
+    <header>
+        <h1>서울숲엘타워 시설관리 매뉴얼</h1>
+        <p>필요한 문서를 선택하시면 다운로드 없이 바로 브라우저 뷰어로 열립니다.</p>
+    </header>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main>
+        <!-- 검색창 (돋보기 이모지 삭제) -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="매뉴얼 명칭 검색..." onkeyup="filterList()">
+        </div>
+
+        <!-- PDF 파일 목록 리스트 (아이콘 전면 제거) -->
+        <ul class="pdf-list" id="pdfList">
+            <!-- 1. 아이파킹 주차 시스템 -->
+            <li class="pdf-item">
+                <div class="pdf-info">
+                    <div class="pdf-title">아이파킹 무인주차 시스템 운영 매뉴얼</div>
+                    <div class="pdf-meta">분류: 주차관리 | 형식: PDF</div>
+                </div>
+                <a href="iparking_manual.pdf" target="_blank" class="view-btn">보기</a>
+            </li>
+
+            <!-- 2. 정화조 모터/EOCR 고장 진단 -->
+            <li class="pdf-item">
+                <div class="pdf-info">
+                    <div class="pdf-title">정화조 모터 및 EOCR 고장 진단 기록 가이드</div>
+                    <div class="pdf-meta">분류: 기계설비 | 형식: PDF</div>
+                </div>
+                <a href="septic_tank_eocr_guide.pdf" target="_blank" class="view-btn">보기</a>
+            </li>
+
+            <!-- 3. 연간 시설 점검 체크리스트 -->
+            <li class="pdf-item">
+                <div class="pdf-info">
+                    <div class="pdf-title">연간/월간 시설물 정기 점검 체크리스트 일정표</div>
+                    <div class="pdf-meta">분류: 일반점검 | 형식: PDF</div>
+                </div>
+                <a href="annual_checklist.pdf" target="_blank" class="view-btn">보기</a>
+            </li>
+
+            <!-- 4. 비상 연락망 -->
+            <li class="pdf-item">
+                <div class="pdf-info">
+                    <div class="pdf-title">관리실 및 입주사 모바일 비상 연락망 수첩</div>
+                    <div class="pdf-meta">분류: 비상대책 | 형식: PDF</div>
+                </div>
+                <a href="emergency_contacts.pdf" target="_blank" class="view-btn">보기</a>
+            </li>
+        </ul>
+
+        <!-- 검색 결과가 없을 때 표출될 메시지 -->
+        <div id="noResult" class="no-result">검색 결과가 없습니다.</div>
+    </main>
+
+    <!-- 하단 제작자 정보 바 -->
+    <footer>
+        MADE BY AI & HA YOU SIN
+    </footer>
+
+    <!-- 검색 기능 스크립트 -->
+    <script>
+        function filterList() {
+            var input = document.getElementById('searchInput');
+            var filter = input.value.toLowerCase();
+            var ul = document.getElementById('pdfList');
+            var li = ul.getElementsByClassName('pdf-item');
+            var noResult = document.getElementById('noResult');
+            var hasMatch = false;
+
+            for (var i = 0; i < li.length; i++) {
+                var title = li[i].getElementsByClassName('pdf-title')[0];
+                if (title) {
+                    var txtValue = title.textContent || title.innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        li[i].style.display = "";
+                        hasMatch = true;
+                    } else {
+                        li[i].style.display = "none";
+                    }
+                }
+            }
+
+            if (hasMatch || filter === "") {
+                noResult.style.display = "none";
+            } else {
+                noResult.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
