@@ -359,13 +359,21 @@
     }
     @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
 
-    .form-field { display: flex; flex-direction: column; gap: 6px; }
-    .form-field.full { grid-column: 1 / -1; }
+    .form-field { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 6px; 
+      color: #383434;
+  }
+    .form-field.full { 
+      grid-column: 1 / -1; 
+      color: #383434;
+  }
 
     .form-field label {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--color-steel);
+      font-size: 0.9rem;
+ 
+      color: #383434;
     }
 
     .form-field input,
@@ -374,9 +382,9 @@
       border: 1px solid var(--color-line);
       border-radius: 4px;
       padding: 9px 10px;
-      font-size: 13.5px;
+      font-size: 0.9rem;
       font-family: var(--font-body);
-      background: #fff;
+      background: #eaf0ff;
       color: var(--color-navy);
     }
 
