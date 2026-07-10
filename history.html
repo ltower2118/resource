@@ -620,7 +620,7 @@ function renderList() {
 
   const filtered = allRows.filter(function (row) {
     const matchesCat = !cat || row['구분'] === cat;
-    const haystack = [row['위치 / 내용'], row['작업내용'], row['작업자']].join(' ').toLowerCase();
+    const haystack = [row['위치/내용'], row['작업내용'], row['작업자']].join(' ').toLowerCase();
     const matchesText = !q || haystack.includes(q);
     return matchesCat && matchesText;
   }).sort(function (a, b) {
@@ -641,7 +641,7 @@ function renderList() {
     tr.innerHTML =
       '<td>' + (row['날짜'] || '') + '</td>' +
       '<td><span class="badge ' + cls + '">' + (row['구분'] || '') + '</span></td>' +
-      '<td>' + (row['위치 / 내용'] || '') + '</td>' +
+      '<td>' + (row['위치/내용'] || '') + '</td>' +
       '<td>' + (row['작업내용'] || '') + '</td>' +
       '<td>' + (row['작업자'] || '') + '</td>' +
       '<td>' + (row['비고'] || '') + '</td>';
