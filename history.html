@@ -3,34 +3,501 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>이력관리 - 서울숲엘타워 시설관리</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+<title>서울숲엘타워</title>
+<style>/* ==========================================================
+   서울숲엘타워 시설관리 자료실 - 공통 스타일
+   ========================================================== */
 
-<header class="site-header">
-  <div class="header-inner">
-    <div>
-      <p class="brand-eyebrow">SEOUL FOREST EL TOWER · FACILITY OPS</p>
-      <h1 class="brand-title">시설관리 자료실</h1>
-    </div>
-  </div>
-</header>
-<div class="hazard-stripe"></div>
-<nav class="site-nav">
-  <div class="nav-inner">
-    <a href="index.html">홈</a>
-    <a href="drawings.html">도면자료</a>
-    <a href="manuals.html">장비 매뉴얼</a>
-    <a href="supplies.html">소모품관리</a>
-    <a href="history.html" class="active">이력관리</a>
-  </div>
-</nav>
+    :root {
+      --color-bg: #f4f5f3;
+      --color-surface: #ffffff;
+      --color-navy: #1c2b39;
+      --color-navy-soft: #2c3e4f;
+      --color-steel: #5c7080;
+      --color-steel-light: #e2e6e9;
+      --color-line: #dfe3e2;
+      --color-amber: #f2a900;
+      --color-amber-dark: #c98700;
+      --color-danger: #c0392b;
+      --color-ok: #2f6f4e;
+
+      --font-display: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
+      --font-body: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
+      --font-mono: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
+
+      --radius: 6px;
+      --shadow-card: 0 1px 2px rgba(28,43,57,0.06), 0 1px 8px rgba(28,43,57,0.04);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--color-bg);
+      color: var(--color-navy);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px 64px;
+    }
+
+    /* ---------- 헤더 ---------- */
+    .site-header {
+      background: var(--color-navy);
+      color: #fff;
+    }
+
+    .site-header .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 22px 20px 18px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .brand-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--color-amber);
+      text-transform: uppercase;
+      margin: 0 0 4px;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-sub {
+      font-size: 13px;
+      color: #b9c3cb;
+      margin: 0;
+    }
+
+    /* 상단 앱바 */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%; /* 전체 폭 */
+      height: 60px;
+      background-color: white;
+      color: black;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+      z-index: 1000;
+      }
+
+        header h1 {
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        header .icon {
+          font-size: 22px;
+        }
+
+        .home-btn svg {
+          transition: transform 0.2s ease;
+        }
+        .home-btn:hover svg {
+          transform: scale(1.1);
+        }
+         .title {
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: #1e3a8a;
+             margin: 10;
+        }
+        .text {
+          font-size: 0.95rem;
+          color: #0c0c0c;
+        }
+
+
+
+    /* 안전띠(hazard stripe) - 시그니처 요소 */
+    .hazard-stripe {
+      height: 7px;
+      background: repeating-linear-gradient(
+        135deg,
+        var(--color-navy) 0 16px,
+        var(--color-amber) 16px 32px
+      );
+    }
+
+  /* 구분선 */
+  .line {
+  border-bottom: 1px solid var(--color-line);
+}
+  
+  
+    /* ---------- 네비게이션 ---------- */
+    .site-nav {
+      background: var(--color-navy-soft);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .site-nav .nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    .site-nav a {
+      display: block;
+      padding: 11px 14px;
+      font-size: 13.5px;
+      color: #cfd8dd;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+    }
+
+    .site-nav a:hover { color: #fff; }
+
+    .site-nav a.active {
+      color: #fff;
+      border-bottom-color: var(--color-amber);
+      font-weight: 700;
+    }
+
+
+    /* ---------- 섹션 공통 ---------- */
+    .page-head {
+      padding: 28px 0 16px;
+      border-bottom: 1px solid var(--color-line);
+      margin-bottom: 24px;
+    }
+
+    .page-head h1 {
+      font-size: 20px;
+      margin: 0 0 6px;
+    }
+
+    .page-head p {
+      margin: 0;
+      color: var(--color-steel);
+      font-size: 13.5px;
+    }
+
+    /* ---------- 대시보드 카드 ---------- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 26px 0 36px;
+    }
+
+    @media (max-width: 860px) {
+      .card-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .card-grid { grid-template-columns: 1fr; }
+    }
+
+    .category-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-line);
+      border-top: 4px solid var(--color-navy);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      box-shadow: var(--shadow-card);
+      transition: border-color .12s ease, transform .12s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 148px;
+    }
+
+    .category-card:hover {
+      border-top-color: var(--color-amber);
+      transform: translateY(-2px);
+    }
+
+    .category-card .icon {
+      width: 30px;
+      height: 30px;
+      color: var(--color-navy);
+    }
+
+    .category-card h3 {
+      margin: 0;
+      font-size: 15.5px;
+    }
+
+    .category-card p {
+      margin: 0;
+      font-size: 12.5px;
+      color: var(--color-steel);
+      line-height: 1.5;
+    }
+
+    .category-card .tag {
+      margin-top: auto;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-amber-dark);
+      letter-spacing: 0.04em;
+    }
+
+    /* ---------- 섹션 박스 / 리스트 ---------- */
+    .panel {
+      background: var(--color-surface);
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius);
+      padding: 18px 18px 6px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 22px;
+    }
+
+    .panel h2 {
+      font-size: 14.5px;
+      margin: 0 0 4px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-line);
+    }
+
+    .file-list { list-style: none; margin: 0; padding: 0; }
+
+    .file-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 4px;
+      border-bottom: 1px solid var(--color-line);
+      font-size: 13.5px;
+    }
+
+    .file-list li:last-child { border-bottom: none; }
+
+    .file-list .name { font-weight: 600; }
+    .file-list .meta {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--color-steel);
+    }
+
+    .file-list a.dl {
+      font-size: 12px;
+      color: var(--color-navy);
+      background: var(--color-steel-light);
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--color-line);
+    }
+    .file-list a.dl:hover { background: var(--color-amber); border-color: var(--color-amber-dark); color: #fff; }
+
+    .group-title {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 11px;
+      color: var(--color-steel);
+      margin: 22px 0 4px;
+    }
+
+    /* ---------- 테이블 ---------- */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table.data-table th {
+      text-align: left;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-steel);
+      border-bottom: 2px solid var(--color-navy);
+      padding: 8px 8px;
+      white-space: nowrap;
+    }
+
+    table.data-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--color-line);
+      vertical-align: top;
+    }
+
+    table.data-table tbody tr:hover { background: #fafbfa; }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: var(--color-steel-light);
+      color: var(--color-navy);
+    }
+    .badge.elec { background: #fdecc8; color: var(--color-amber-dark); }
+    .badge.fire { background: #fbdedb; color: var(--color-danger); }
+    .badge.comm { background: #dcebf7; color: #1c5d8a; }
+    .badge.mech { background: #e3ecdf; color: var(--color-ok); }
+
+    /* ---------- 폼 ---------- */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 16px;
+    }
+    @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .form-field { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 6px; 
+      color: #383434;
+  }
+    .form-field.full { 
+      grid-column: 1 / -1; 
+      color: #383434;
+  }
+
+    .form-field label {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #383434;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      border: 1px solid var(--color-line);
+      border-radius: 4px;
+      padding: 9px 10px;
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      background: #f3f4f6;
+      color: var(--color-navy);
+    }
+
+    .form-field textarea { resize: vertical; min-height: 70px; }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      outline: 2px solid var(--color-amber);
+      outline-offset: 1px;
+      border-color: var(--color-amber);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      min-width: 100%;
+      justify-content: center;
+      gap: 6px;
+      background: #1e3a8a;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--color-navy-soft); }
+    .btn:disabled { background: var(--color-steel-light); color: var(--color-steel); cursor: not-allowed; }
+
+    .btn.secondary {
+      background: #ebedf3;
+      color: var(--color-navy);
+      border: 1px solid var(--color-line);
+    }
+    .btn.secondary:hover { border-color: var(--color-navy); }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .toolbar select, .toolbar input[type="search"] {
+      border: 1px solid var(--color-line);
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .status-msg {
+      font-size: 12.5px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: none;
+    }
+    .status-msg.ok { display: block; background: #e3ecdf; color: var(--color-ok); }
+    .status-msg.err { display: block; background: #fbdedb; color: var(--color-danger); }
+    .status-msg.pending { display: block; background: var(--color-steel-light); color: var(--color-steel); }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 12px;
+      color: var(--color-steel);
+      font-size: 13px;
+    }
+
+    .setup-note {
+      background: #fdecc8;
+      border: 1px solid var(--color-amber);
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      color: var(--color-navy);
+      margin-bottom: 18px;
+    }
+
+    .footer-note {
+      margin-top: 40px;
+      padding-top: 14px;
+      border-top: 1px solid var(--color-line);
+      font-size: 11.5px;
+      color: var(--color-steel);
+      text-align: center;
+}
+</style>
+</head>
+  <header>
+    <h1>서울숲엘타워</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
+  </header>
+<body>
 
 <main class="wrap">
 
   <div class="page-head">
-    <h1>이력관리</h1>
+    <br><br><br>
+    <div class="title">이력관리</div>
     <p>점검 · 고장 · 조치 이력을 입력하면 구글시트에 자동 저장되고, 아래 목록에서 바로 조회할 수 있습니다.</p>
   </div>
 
@@ -41,7 +508,7 @@
   </div>
 
   <div class="panel">
-    <h2>이력 입력</h2>
+    <h3>작업이력 입력</h3>
     <form id="historyForm">
       <div class="form-grid">
         <div class="form-field">
@@ -59,17 +526,18 @@
             <option value="기타">기타</option>
           </select>
         </div>
+        
         <div class="form-field">
-          <label for="location">위치</label>
+          <label for="location">위치 / 내용</label>
           <input type="text" id="location" placeholder="예: 옥상 / 전기실 / 지하2층 주차장" required>
-        </div>
-        <div class="form-field">
-          <label for="handler">처리자</label>
-          <input type="text" id="handler" placeholder="예: 홍길동" required>
         </div>
         <div class="form-field full">
           <label for="content">작업내용</label>
           <textarea id="content" placeholder="점검/고장/조치 내용을 입력하세요" required></textarea>
+        </div>
+                <div class="form-field">
+          <label for="handler">작업자</label>
+          <input type="text" id="handler" placeholder="예: 홍길동" required>
         </div>
         <div class="form-field full">
           <label for="note">비고</label>
@@ -77,14 +545,14 @@
         </div>
       </div>
       <div style="margin-top:16px;">
-        <button type="submit" class="btn" id="submitBtn">이력 저장</button>
+        <button type="submit" class="btn" id="submitBtn" >저장하기</button>
       </div>
       <div class="status-msg" id="formStatus"></div>
     </form>
   </div>
 
   <div class="panel">
-    <h2>이력 조회</h2>
+    <h3>이력 조회</h3>
     <div class="toolbar">
       <select id="catFilter">
         <option value="">전체 구분</option>
@@ -94,7 +562,7 @@
         <option value="기계">기계</option>
         <option value="기타">기타</option>
       </select>
-      <input type="search" id="searchBox" placeholder="위치/내용/처리자 검색" style="min-width:220px">
+      <input type="search" id="searchBox" placeholder="위치/작업내용/작업자 검색" style="min-width:220px">
       <button class="btn secondary" id="refreshBtn" type="button">새로고침</button>
     </div>
     <table class="data-table">
@@ -102,9 +570,9 @@
         <tr>
           <th>날짜</th>
           <th>구분</th>
-          <th>위치</th>
+          <th>위치 / 내용</th>
           <th>작업내용</th>
-          <th>처리자</th>
+          <th>작업자</th>
           <th>비고</th>
         </tr>
       </thead>
@@ -123,23 +591,9 @@
    배포 방법은 SETUP.md 문서를 참고하세요.
    예: const SCRIPT_URL = "https://script.google.com/macros/s/AKfycb.../exec";
 ===================================================================== */
-const SCRIPT_URL = "여기에_배포된_웹앱_URL을_붙여넣으세요";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweYKQzJozN4HtV1HZbnFtbM7FcqTz491aK-EnRmEBVk_NflVxD7fxMAs8740prwVgZ-g/exec";
 
 const badgeClass = { "전기": "elec", "소방": "fire", "통신": "comm", "기계": "mech", "기타": "" };
-
-/* 날짜 값을 어떤 형식으로 받아오든 YYYY.MM.DD 형태로만 표시 */
-function formatDateOnly(value) {
-  if (!value) return '';
-  const d = new Date(value);
-  if (!isNaN(d.getTime())) {
-    const y = d.getFullYear();
-    const mo = String(d.getMonth() + 1).padStart(2, '0');
-    const da = String(d.getDate()).padStart(2, '0');
-    return y + '.' + mo + '.' + da;
-  }
-  const m = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
-  return m ? m[1] + '.' + m[2] + '.' + m[3] : String(value);
-}
 
 function isConfigured() {
   return SCRIPT_URL && SCRIPT_URL.indexOf("https://script.google.com") === 0;
@@ -181,11 +635,11 @@ function renderList() {
 
   const filtered = allRows.filter(function (row) {
     const matchesCat = !cat || row['구분'] === cat;
-    const haystack = [row['위치'], row['작업내용'], row['처리자']].join(' ').toLowerCase();
+    const haystack = [row['위치/내용'], row['작업내용'], row['작업자']].join(' ').toLowerCase();
     const matchesText = !q || haystack.includes(q);
     return matchesCat && matchesText;
   }).sort(function (a, b) {
-    return formatDateOnly(b['날짜']).localeCompare(formatDateOnly(a['날짜']));
+    return (b['날짜'] || '').localeCompare(a['날짜'] || '');
   });
 
   listBody.innerHTML = '';
@@ -200,11 +654,11 @@ function renderList() {
     const tr = document.createElement('tr');
     const cls = badgeClass[row['구분']] || '';
     tr.innerHTML =
-      '<td>' + formatDateOnly(row['날짜']) + '</td>' +
+      '<td>' + (row['날짜'] || '') + '</td>' +
       '<td><span class="badge ' + cls + '">' + (row['구분'] || '') + '</span></td>' +
-      '<td>' + (row['위치'] || '') + '</td>' +
+      '<td>' + (row['위치/내용'] || '') + '</td>' +
       '<td>' + (row['작업내용'] || '') + '</td>' +
-      '<td>' + (row['처리자'] || '') + '</td>' +
+      '<td>' + (row['작업자'] || '') + '</td>' +
       '<td>' + (row['비고'] || '') + '</td>';
     listBody.appendChild(tr);
   });
