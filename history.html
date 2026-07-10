@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이력관리 - 서울숲엘타워 시설관리</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <p class="brand-eyebrow">SEOUL FOREST EL TOWER · FACILITY OPS</p>
+      <h1 class="brand-title">시설관리 자료실</h1>
+    </div>
+  </div>
+</header>
+<div class="hazard-stripe"></div>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html">홈</a>
+    <a href="drawings.html">도면자료</a>
+    <a href="manuals.html">장비 매뉴얼</a>
+    <a href="supplies.html">소모품관리</a>
+    <a href="history.html" class="active">이력관리</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <div class="page-head">
+    <h1>이력관리</h1>
+    <p>점검 · 고장 · 조치 이력을 입력하면 구글시트에 자동 저장되고, 아래 목록에서 바로 조회할 수 있습니다.</p>
+  </div>
+
+  <div class="setup-note" id="setupNote">
+    ⚠ 최초 1회 설정 필요: 이 파일 맨 아래 &lt;script&gt; 안의 <code>SCRIPT_URL</code>에
+    구글 Apps Script 웹앱 URL을 넣어야 저장/조회가 동작합니다. 함께 드린
+    <b>SETUP.md</b> 문서와 <b>code.gs</b> 파일을 참고해 배포하세요. 설정 후에는 이 안내가 자동으로 숨겨집니다.
+  </div>
+
+  <div class="panel">
+    <h2>이력 입력</h2>
+    <form id="historyForm">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="date">날짜</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-field">
+          <label for="category">구분</label>
+          <select id="category" required>
+            <option value="">선택</option>
+            <option value="전기">전기</option>
+            <option value="소방">소방</option>
+            <option value="통신">통신</option>
+            <option value="기계">기계</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="location">위치</label>
+          <input type="text" id="location" placeholder="예: 옥상 / 전기실 / 지하2층 주차장" required>
+        </div>
+        <div class="form-field">
+          <label for="handler">처리자</label>
+          <input type="text" id="handler" placeholder="예: 홍길동" required>
+        </div>
+        <div class="form-field full">
+          <label for="content">작업내용</label>
+          <textarea id="content" placeholder="점검/고장/조치 내용을 입력하세요" required></textarea>
+        </div>
+        <div class="form-field full">
+          <label for="note">비고</label>
+          <textarea id="note" placeholder="특이사항, 후속조치 필요 여부 등 (선택)"></textarea>
+        </div>
+      </div>
+      <div style="margin-top:16px;">
+        <button type="submit" class="btn" id="submitBtn">이력 저장</button>
+      </div>
+      <div class="status-msg" id="formStatus"></div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>이력 조회</h2>
+    <div class="toolbar">
+      <select id="catFilter">
+        <option value="">전체 구분</option>
+        <option value="전기">전기</option>
+        <option value="소방">소방</option>
+        <option value="통신">통신</option>
+        <option value="기계">기계</option>
+        <option value="기타">기타</option>
+      </select>
+      <input type="search" id="searchBox" placeholder="위치/내용/처리자 검색" style="min-width:220px">
+      <button class="btn secondary" id="refreshBtn" type="button">새로고침</button>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>날짜</th>
+          <th>구분</th>
+          <th>위치</th>
+          <th>작업내용</th>
+          <th>처리자</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody id="listBody"></tbody>
+    </table>
+    <div class="empty-state" id="emptyState" style="display:none;">등록된 이력이 없습니다.</div>
+  </div>
+
+  <p class="footer-note">서울숲엘타워 관리단 · 전기과 내부 자료 · 무단 외부 공유 금지</p>
+
+</main>
+
+<script>
+/* =====================================================================
+   설정: 아래 SCRIPT_URL에 구글 Apps Script 웹앱 배포 URL을 붙여넣으세요.
+   배포 방법은 SETUP.md 문서를 참고하세요.
+   예: const SCRIPT_URL = "https://script.google.com/macros/s/AKfycb.../exec";
+===================================================================== */
+const SCRIPT_URL = "여기에_배포된_웹앱_URL을_붙여넣으세요";
+
+const badgeClass = { "전기": "elec", "소방": "fire", "통신": "comm", "기계": "mech", "기타": "" };
+
+function isConfigured() {
+  return SCRIPT_URL && SCRIPT_URL.indexOf("https://script.google.com") === 0;
+}
+
+if (isConfigured()) {
+  document.getElementById('setupNote').style.display = 'none';
+}
+
+let allRows = [];
+
+async function loadHistory() {
+  const listBody = document.getElementById('listBody');
+  const emptyState = document.getElementById('emptyState');
+  if (!isConfigured()) {
+    listBody.innerHTML = '';
+    emptyState.style.display = 'block';
+    emptyState.textContent = 'SCRIPT_URL 설정 후 이력이 표시됩니다.';
+    return;
+  }
+  try {
+    const res = await fetch(SCRIPT_URL + '?action=list');
+    const json = await res.json();
+    if (!json.success) throw new Error(json.error || '조회 실패');
+    allRows = json.data || [];
+    renderList();
+  } catch (err) {
+    listBody.innerHTML = '';
+    emptyState.style.display = 'block';
+    emptyState.textContent = '이력을 불러오지 못했습니다 (' + err.message + ')';
+  }
+}
+
+function renderList() {
+  const cat = document.getElementById('catFilter').value;
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  const listBody = document.getElementById('listBody');
+  const emptyState = document.getElementById('emptyState');
+
+  const filtered = allRows.filter(function (row) {
+    const matchesCat = !cat || row['구분'] === cat;
+    const haystack = [row['위치'], row['작업내용'], row['처리자']].join(' ').toLowerCase();
+    const matchesText = !q || haystack.includes(q);
+    return matchesCat && matchesText;
+  }).sort(function (a, b) {
+    return (b['날짜'] || '').localeCompare(a['날짜'] || '');
+  });
+
+  listBody.innerHTML = '';
+  if (filtered.length === 0) {
+    emptyState.style.display = 'block';
+    emptyState.textContent = '조건에 맞는 이력이 없습니다.';
+    return;
+  }
+  emptyState.style.display = 'none';
+
+  filtered.forEach(function (row) {
+    const tr = document.createElement('tr');
+    const cls = badgeClass[row['구분']] || '';
+    tr.innerHTML =
+      '<td>' + (row['날짜'] || '') + '</td>' +
+      '<td><span class="badge ' + cls + '">' + (row['구분'] || '') + '</span></td>' +
+      '<td>' + (row['위치'] || '') + '</td>' +
+      '<td>' + (row['작업내용'] || '') + '</td>' +
+      '<td>' + (row['처리자'] || '') + '</td>' +
+      '<td>' + (row['비고'] || '') + '</td>';
+    listBody.appendChild(tr);
+  });
+}
+
+document.getElementById('catFilter').addEventListener('change', renderList);
+document.getElementById('searchBox').addEventListener('input', renderList);
+document.getElementById('refreshBtn').addEventListener('click', loadHistory);
+
+document.getElementById('historyForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const statusEl = document.getElementById('formStatus');
+  const submitBtn = document.getElementById('submitBtn');
+
+  if (!isConfigured()) {
+    statusEl.className = 'status-msg err';
+    statusEl.textContent = '먼저 SCRIPT_URL을 설정해야 저장할 수 있습니다. SETUP.md를 참고하세요.';
+    return;
+  }
+
+  const payload = {
+    date: document.getElementById('date').value,
+    category: document.getElementById('category').value,
+    location: document.getElementById('location').value,
+    content: document.getElementById('content').value,
+    handler: document.getElementById('handler').value,
+    note: document.getElementById('note').value
+  };
+
+  submitBtn.disabled = true;
+  statusEl.className = 'status-msg pending';
+  statusEl.textContent = '저장 중...';
+
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // preflight 방지용
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error(json.error || '저장 실패');
+
+    statusEl.className = 'status-msg ok';
+    statusEl.textContent = '저장되었습니다.';
+    document.getElementById('historyForm').reset();
+    loadHistory();
+  } catch (err) {
+    statusEl.className = 'status-msg err';
+    statusEl.textContent = '저장 중 오류가 발생했습니다: ' + err.message;
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+
+loadHistory();
+</script>
+
+</body>
+</html>

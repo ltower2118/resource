@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>장비 매뉴얼 - 서울숲엘타워 시설관리</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <p class="brand-eyebrow">SEOUL FOREST EL TOWER · FACILITY OPS</p>
+      <h1 class="brand-title">시설관리 자료실</h1>
+    </div>
+  </div>
+</header>
+<div class="hazard-stripe"></div>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html">홈</a>
+    <a href="drawings.html">도면자료</a>
+    <a href="manuals.html" class="active">장비 매뉴얼</a>
+    <a href="supplies.html">소모품관리</a>
+    <a href="history.html">이력관리</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <div class="page-head">
+    <h1>장비 매뉴얼</h1>
+    <p>manuals/분야명/ 폴더에 파일을 넣고 아래 목록에 한 줄만 추가하면 됩니다. 검색창은 이름만 걸러줍니다.</p>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" id="searchBox" placeholder="장비명으로 검색 (예: 펌프, UPS, DDC)" style="min-width:260px">
+  </div>
+
+  <p class="group-title">전기 · 수배전</p>
+  <div class="panel">
+    <ul class="file-list" data-list>
+      <li><span class="name">저압반 취급설명서</span><span class="meta">LS일렉트릭</span><a class="dl" href="manuals/전기/저압반_취급설명서.pdf">열기</a></li>
+      <li><span class="name">UPS 유지보수 매뉴얼</span><span class="meta">에너솔라</span><a class="dl" href="manuals/전기/UPS_매뉴얼.pdf">열기</a></li>
+    </ul>
+  </div>
+
+  <p class="group-title">소방 · 방재</p>
+  <div class="panel">
+    <ul class="file-list" data-list>
+      <li><span class="name">수신기(P형) 조작 매뉴얼</span><span class="meta">한국소방설비</span><a class="dl" href="manuals/소방/수신기_매뉴얼.pdf">열기</a></li>
+    </ul>
+  </div>
+
+  <p class="group-title">기계 · 급배수</p>
+  <div class="panel">
+    <ul class="file-list" data-list>
+      <li><span class="name">오배수 처리반 B펌프 매뉴얼</span><span class="meta">남성전기</span><a class="dl" href="manuals/기계/오배수_B펌프_매뉴얼.pdf">열기</a></li>
+      <li><span class="name">레벨컨트롤러 취급설명서</span><span class="meta">남성전기</span><a class="dl" href="manuals/기계/레벨컨트롤러_매뉴얼.pdf">열기</a></li>
+    </ul>
+  </div>
+
+  <p class="group-title">통신 · 네트워크 · CCTV</p>
+  <div class="panel">
+    <ul class="file-list" data-list>
+      <li><span class="name">네트워크 스위치 설정 가이드</span><span class="meta">사내 작성</span><a class="dl" href="manuals/통신/스위치_설정가이드.pdf">열기</a></li>
+    </ul>
+  </div>
+
+  <p class="footer-note">서울숲엘타워 관리단 · 전기과 내부 자료 · 무단 외부 공유 금지</p>
+
+</main>
+
+<script>
+document.getElementById('searchBox').addEventListener('input', function (e) {
+  var q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll('[data-list] li').forEach(function (li) {
+    var text = li.querySelector('.name').textContent.toLowerCase();
+    li.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+</script>
+
+</body>
+</html>
