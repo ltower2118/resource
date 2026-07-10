@@ -142,7 +142,12 @@
         var(--color-amber) 16px 32px
       );
     }
-
+  /* 구분선 */
+  .line {
+  border-bottom: 1px solid var(--color-line);
+}
+  
+  
     /* ---------- 네비게이션 ---------- */
     .site-nav {
       background: var(--color-navy-soft);
@@ -417,7 +422,7 @@
     .btn:disabled { background: var(--color-steel-light); color: var(--color-steel); cursor: not-allowed; }
 
     .btn.secondary {
-      background: #fff;
+      background: #ebedf3;
       color: var(--color-navy);
       border: 1px solid var(--color-line);
     }
@@ -520,6 +525,7 @@
             <option value="기타">기타</option>
           </select>
         </div>
+        
         <div class="form-field">
           <label for="location">위치 / 내용</label>
           <input type="text" id="location" placeholder="예: 옥상 / 전기실 / 지하2층 주차장" required>
@@ -545,7 +551,7 @@
   </div>
 
   <div class="panel">
-    <h2>이력 조회</h2>
+    <h3>이력 조회</h3>
     <div class="toolbar">
       <select id="catFilter">
         <option value="">전체 구분</option>
