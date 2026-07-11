@@ -595,6 +595,20 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweYKQzJozN4HtV1HZbn
 
 const badgeClass = { "전기": "elec", "소방": "fire", "통신": "comm", "기계": "mech", "기타": "" };
 
+/* 날짜 값을 어떤 형식으로 받아오든 YYYY.MM.DD 형태로만 표시 (T15:00:00.000Z 제거) */
+function formatDateOnly(value) {
+  if (!value) return '';
+  const d = new Date(value);
+  if (!isNaN(d.getTime())) {
+    const y = d.getFullYear();
+    const mo = String(d.getMonth() + 1).padStart(2, '0');
+    const da = String(d.getDate()).padStart(2, '0');
+    return y + '.' + mo + '.' + da;
+  }
+  const m = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? m[1] + '.' + m[2] + '.' + m[3] : String(value);
+}
+
 function isConfigured() {
   return SCRIPT_URL && SCRIPT_URL.indexOf("https://script.google.com") === 0;
 }
@@ -639,7 +653,7 @@ function renderList() {
     const matchesText = !q || haystack.includes(q);
     return matchesCat && matchesText;
   }).sort(function (a, b) {
-    return (b['날짜'] || '').localeCompare(a['날짜'] || '');
+    return formatDateOnly(b['날짜']).localeCompare(formatDateOnly(a['날짜']));
   });
 
   listBody.innerHTML = '';
@@ -654,7 +668,7 @@ function renderList() {
     const tr = document.createElement('tr');
     const cls = badgeClass[row['구분']] || '';
     tr.innerHTML =
-      '<td>' + (row['날짜'] || '') + '</td>' +
+      '<td>' + formatDateOnly(row['날짜']) + '</td>' +
       '<td><span class="badge ' + cls + '">' + (row['구분'] || '') + '</span></td>' +
       '<td>' + (row['위치/내용'] || '') + '</td>' +
       '<td>' + (row['작업내용'] || '') + '</td>' +
