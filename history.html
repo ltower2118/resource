@@ -639,7 +639,7 @@ function renderList() {
     const matchesText = !q || haystack.includes(q);
     return matchesCat && matchesText;
   }).sort(function (a, b) {
-    return (b['날짜'] || '').localeCompare(a['날짜'] || '');
+    return formatDateOnly(b['날짜'] || '').localeCompare(a['날짜'] || '');
   });
 
   listBody.innerHTML = '';
