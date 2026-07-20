@@ -1,191 +1,160 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <!-- 📱 스마트폰 화면 크기에 맞춰 글자 및 버튼 크기를 자동으로 조절 (가변형 핵심) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>서울숲엘타워</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", Roboto, sans-serif; margin: 0; padding: 20px; background-color: #f5f7fa; color: #333; }
-        .header { background-color: #0056b3; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
-        .header h1 { margin: 0; font-size: 1.6rem; }
-        .header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.8; }
-        
-        .section-title { font-size: 1.3rem; font-weight: bold; margin: 25px 0 10px 0; color: #111; }
-        
-        /* 📱 스마트폰에서 누르기 편한 대형 버튼 스타일 */
-        .btn { display: flex; align-items: center; justify-content: center; background-color: white; color: #575656; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px; font-weight: bold; font-size: 1.0rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: background 0.2s; }
-        .btn:active { background-color: #f0f0f0; }
-        .btn-pdf { border-left: 6px solid #dc3545; }    /* PDF는 빨간색 선 */
-        .btn-history { border-left: 6px solid #28a745; } /* 이력은 초록색 선 */
-        .btn-video { border-left: 6px solid #ff0000; }   /* 유튜브는 유튜브 레드 */
-        
-        .btn span { margin-right: 10px; font-size: 1.3rem; }
-        
-        /* 🚨 최상단 긴급 정전대응 버튼 (시인성 극대화) */
-        .emergency-shortcut { display: block; background: #dc2626; color: white; text-align: center; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.05rem; margin-bottom: 15px; animation: blink 2s infinite; box-shadow: 0 4px 10px rgba(220,38,38,0.3); }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
-        
-                /* 📞 긴급 연락처 퀵링크 버튼 */
-        .contact-box { background: #edd8d8; border: 1px solid #fca5a5; padding: 12px; border-radius: 10px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .contact-info { font-size: 1.0rem; color: #991b1b; font-weight: bold; }
-        .contact-info small{display:block;font-weight:400;color:var(--sub);font-size:11px;margin-top:2px;}
-        .contact-btn { background: #991b1b; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; }
-        
-         /* 연락처 테이블 스타일 */
-        .contact-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 5px; }
-        .contact-table th, .contact-table td { border: 1px solid #e2e8f0; padding: 8px 6px; text-align: left; }
-        .contact-table th { background: #f8fafc; color: #475569; font-weight: bold; text-align: center; }
-        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; text-align: center; }
-        
-
-        /* 메뉴 카드 그리드 */
-        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .menu-card { background: white; padding: 14px; border-radius: 10px; text-decoration: none; color: #334155; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
-        .menu-card:active { background: #f8fafc; transform: scale(0.98); }
-        .card-icon { font-size: 1.5rem; margin-bottom: 6px; }
-        .card-title { font-weight: bold; font-size: 0.9rem; color: #0f172a; }
-        .card-desc { font-size: 0.75rem; color: #64748b; margin-top: 4px; line-height: 1.3; }
-
-        /* 한 줄짜리 와이드 카드 */
-        .wide-card { grid-column: span 2; display: flex; flex-direction: row; align-items: center; gap: 12px; justify-content: flex-start; }
-
-        /* 하단 고정 알림판 */
-        .footer-notice { background: #e2e8f0; padding: 10px; border-radius: 8px; font-size: 0.75rem; color: #475569; margin-top: 20px; line-height: 1.4; text-align: center; }
-        
-        /* foot 섹션 */
-        .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
-        
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서울숲엘타워 시설관리 자료실</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- 설비 기본 정보 -->
-    <div class="header">
-        <h1>서울숲엘타워 시설관리 </h1>
-        <p>QR코드를 링크 메뉴얼 볼수있음</p>
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <p class="brand-eyebrow">SEOUL FOREST EL TOWER · FACILITY OPS</p>
+      <h1 class="brand-title">시설관리 자료실</h1>
+      <p class="brand-sub">전기과 · 도면 / 매뉴얼 / 소모품 / 이력관리 통합 페이지</p>
     </div>
-    
-   <div class="section-title">📞 시설관리 긴급 핫라인</div>
-    
-    <div class="contact-box">
-        <div class="contact-info">🔥 소방화재 비상신고</div>
-        <a href="tel:119" class="contact-btn">즉시 통화 (119)</a>
-    </div>
-    <div class="contact-box">
-        <div class="contact-info">⚡ 한국전력공사 전기고장 종합신고</div>
-        
-        <a href="tel:123" class="contact-btn">장애 신고 (123)</a>
-    </div>
-    <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
-        <div class="contact-info" style="color:#0369a1;">승강기 유지보수 (성우/티센)</div>
-        <a href="tel:0222420110" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
-    </div>
-
-     <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
-    <div class="contact-info" style="color:#0369a1;">주차관제 시스템 장애 (아이파킹)
-        </div>
-    <a href="tel:1588-5783" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
   </div>
-       <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
-        <div class="contact-info" style="color:#0369a1;"> 인터넷 · 네트워크장애 (KT)</div>
-        <a href="tel:02-2118-1499" class="contact-btn" style="background:#0369a1;">바로  연결하기</a>
+</header>
+<div class="hazard-stripe"></div>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="active">홈</a>
+    <a href="drawings.html">도면자료</a>
+    <a href="manuals.html">장비 매뉴얼</a>
+    <a href="supplies.html">소모품관리</a>
+    <a href="history.html">이력관리</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <div class="page-head">
+    <h1>바로가기</h1>
+    <p>필요한 자료실로 이동하세요. 카드를 옆으로 넘겨 확인할 수 있습니다.</p>
+  </div>
+
+  <div class="card-grid">
+
+    <a class="category-card" href="drawings.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M8 9v11M8 13h5M8 17h5"/></svg>
+      <h3>도면자료</h3>
+      <p>전기 · 소방 · 통신 · 주차 · 기계 등 분야별 준공도면과 개정 이력을 한곳에서 확인할 수 있습니다.</p>
+      <span class="tag">DWG / PDF</span>
+    </a>
+
+    <a class="category-card" href="manuals.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5v-18Z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>
+      <h3>장비 매뉴얼</h3>
+      <p>제조사별 · 설비별 취급설명서와 결선도를 정리해두었습니다. 장비명으로 바로 검색할 수 있습니다.</p>
+      <span class="tag">MANUAL</span>
+    </a>
+
+    <a class="category-card" href="supplies.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>
+      <h3>소모품관리</h3>
+      <p>품목별 규격, 현재고, 최근 교체일, 거래처 정보를 표로 관리하고 검색할 수 있습니다.</p>
+      <span class="tag">STOCK</span>
+    </a>
+
+    <a class="category-card" href="history.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 2.5h6v3H9zM8.5 10h7M8.5 13.5h7M8.5 17h4"/></svg>
+      <h3>이력관리</h3>
+      <p>점검 · 고장 · 조치 이력을 입력하면 구글시트에 자동 저장되고, 언제든 다시 조회할 수 있습니다.</p>
+      <span class="tag">GOOGLE SHEETS</span>
+    </a>
+
+  </div>
+
+  <div class="panel">
+    <h2>최근 이력 <span style="font-weight:400;color:var(--color-steel);font-size:12px;">(최근 5건)</span></h2>
+    <ul class="file-list" id="recentList">
+      <li><span class="meta">불러오는 중...</span></li>
+    </ul>
+    <div class="empty-state" id="recentEmpty" style="display:none;"></div>
+    <div style="text-align:right; padding:10px 4px 12px;">
+      <a href="history.html" style="font-size:12.5px; color:var(--color-navy); font-weight:700;">전체 이력 보기 →</a>
     </div>
- <br>
-  <div class="section-title">관리실/입주사 비상연락망</div>
-    <div class="contact-box" style="background:white; border-color:#9a9f9f;">
-        <div class="contact-info" style="color:#565656;">관리실, 관공서및 협력사 연락망</div>
-        <a href="ltower_tel.html" class="contact-btn" style="background:#0a0a0b;"> 비상 연락망 보기</a>
-    </div>
-    <div class="contact-box" style="background:white; border-color:#9a9f9f;">
-        <div class="contact-info" style="color:#565656;">입주사 비상 연락망</div>
-        <a href="emergency_contact.html" class="contact-btn" style="background:#0a0a0b;"> 비상 연락망 보기</a>
-    </div>
-    <br><br>
-    <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
-    <div class="section-title">설비 자료실</div>
+  </div>
 
-    <!-- 1. 링크  -->
-    
-    <a href="https://docs.google.com/gview?embedded=1&url=https://ltower2118.github.io/resource/ltower_info.pdf" target="_blank" rel="noopener" class="btn btn-history">
-        <!--<span>🟢</span>--> 서울숲엘타워 시설현황 및 수전설비정보
-    </a>
-    <a href="blackout_safety.html" class="btn btn-pdf">
-        <!--<span>📕</span>-->  정전시 메뉴얼
-    </a>
+  <p class="footer-note">서울숲엘타워 관리단 · 전기과 내부 자료 · 무단 외부 공유 금지</p>
 
-    <a href="emergency_brodcast.html" class="btn btn-history">
-        <!--<span>🟢</span>-->  비상방송 멘트
-    </a>
+</main>
 
-    <a href="manual.pdf" class="btn btn-pdf">
-        <!--<span>📕</span>--> 직원및 관계기관 연락처
-    </a>
+<script>
+/* =====================================================================
+   최근 이력 미리보기: history.html과 동일한 SCRIPT_URL을 넣어주세요.
+   비워두면 이 영역은 "이력관리 페이지에서 확인하세요" 안내만 표시됩니다.
+===================================================================== */
+const SCRIPT_URL = "여기에_배포된_웹앱_URL을_붙여넣으세요";
 
-    <a href="history.html" class="btn btn-history">
-        <!--<span>🟢</span>--> 전기차충전시설 현황
-    </a>
+const badgeClass = { "전기": "elec", "소방": "fire", "통신": "comm", "기계": "mech", "기타": "" };
 
-    <a href="ltower_parking.html" class="btn btn-history">
-        <!--<span>🟢</span>--> 무인주차시스템 결제관련
-    </a>
+function isConfigured() {
+  return SCRIPT_URL && SCRIPT_URL.indexOf("https://script.google.com") === 0;
+}
 
-     <a href="https://docs.google.com/gview?embedded=1&url=https://ltower2118.github.io/resource/network_list.pdf" target="_blank" rel="noopener" class="btn btn-history">
-        <!--<span>🟢</span>--> 내부네트워크 구성
-    </a>
-    <a href="history.html" class="btn btn-history">
-        <!--<span>🟢</span>--> 각종 비번
-    </a>
-    <a href="facility_day.html" class="btn btn-history">
-        <!--<span>🟢</span>--> 2016년~2025년 업무점검일지
-    </a>
-      <a href="https://docs.google.com/gview?embedded=1&url=https://ltower2118.github.io/resource/fire_exting.pdf" target="_blank" rel="noopener" class="btn btn-history">
-       <!--<span>🟢</span>--> 소화기관리</a>
+function formatDateOnly(value) {
+  if (!value) return '';
+  const d = new Date(value);
+  if (!isNaN(d.getTime())) {
+    const y = d.getFullYear();
+    const mo = String(d.getMonth() + 1).padStart(2, '0');
+    const da = String(d.getDate()).padStart(2, '0');
+    return y + '.' + mo + '.' + da;
+  }
+  const m = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? m[1] + '.' + m[2] + '.' + m[3] : String(value);
+}
 
-     <a href="ltower001.html" class="emergency-shortcut">🚨 돌발/계획 정전대응 매뉴얼 (클릭)</a>
-    <br>
-    <div style="height: 1px; background-color: #ccc; margin: 30px 0;"></div>
-   
-    <div class="section-title">이력관리</div>
+async function loadRecent() {
+  const list = document.getElementById('recentList');
+  const empty = document.getElementById('recentEmpty');
 
-    <!-- 3. QR코드-->
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLScecCTzxSUz-IzUq5Y-RC0p1R1qKwkdF1tdN5wgu_HTlcr3Rg/viewform?usp=header" target="_blank" class="btn btn-video">
-        <!--<span>▶️</span>-->QR코드를 이용한 이력관리입력화면
-    </a>
-    <!-- 공유시 edit?usp=sharing표시되고 이메일계정요구한다 를 preview로 고치면 이메일 계정요구안한다--> 
-    <a href="https://docs.google.com/spreadsheets/d/1z7FUg0HYIdq3ztfMFzz2IIea8liEn8CB8tm04HTF5Hw/preview" target="_blank" class="btn btn-video">
-        <!--<span>▶️</span>-->이력관리 조회리스트
-    </a>
-    <div style="height: 1px; background-color: #ccc; margin: 30px 0;"></div>
-    <!--도면 -->
-    <div class="section-title">📄 수변전실 주요 결선도 및 도면</div>
-    <div class="menu-grid">
-        <a href="resource/vcb_diagram.pdf" target="_blank" class="menu-card">
-            <span class="card-icon"></span>
-            <span class="card-title">특고압 VCB 결선도</span>
-            <span class="card-desc">진공차단기 인터록 및 계전기 조작 도면</span>
-        </a>
-        <a href="resource/ats_diagram.pdf" target="_blank" class="menu-card">
-            <span class="card-icon"></span>
-            <span class="card-title">저압반 ATS 시퀀스</span>
-            <span class="card-desc">한전-발전 자동 절체 제어 시퀀스 회로도</span>
-        </a>
-        <a href="resource/rectifier_diagram.pdf" target="_blank" class="menu-card">
-            <span class="card-icon"></span>
-            <span class="card-title">정류기반 회로도</span>
-            <span class="card-desc">DC 110V 제어전원 및 배터리 결선 사양서</span>
-        </a>
-        <a href="resource/transformer_spec.pdf" target="_blank" class="menu-card">
-            <span class="card-icon"></span>
-            <span class="card-title">변압기(TR) 결선 및 사양</span>
-            <span class="card-desc">동별 변압기 용량 및 고·저압 부싱 도면</span>
-        </a>
-    </div>
+  if (!isConfigured()) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    empty.textContent = '이력관리 페이지에서 SCRIPT_URL을 설정하면 최근 이력이 이 자리에 표시됩니다.';
+    return;
+  }
 
-        <br><br><br><div class="copyright">Made by ai & ha you sin</div>
+  try {
+    const res = await fetch(SCRIPT_URL + '?action=list');
+    const json = await res.json();
+    if (!json.success) throw new Error(json.error || '조회 실패');
+
+    const rows = (json.data || []).slice().sort(function (a, b) {
+      return formatDateOnly(b['날짜']).localeCompare(formatDateOnly(a['날짜']));
+    }).slice(0, 5);
+
+    if (rows.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      empty.textContent = '등록된 이력이 없습니다.';
+      return;
+    }
+
+    empty.style.display = 'none';
+    list.innerHTML = '';
+    rows.forEach(function (row) {
+      const li = document.createElement('li');
+      const cls = badgeClass[row['구분']] || '';
+      const loc = row['위치/내용'] || row['위치'] || '';
+      li.innerHTML =
+        '<span class="name"><span class="badge ' + cls + '" style="margin-right:8px;">' + (row['구분'] || '') + '</span>' + loc + '</span>' +
+        '<span class="meta">' + formatDateOnly(row['날짜']) + '</span>';
+      list.appendChild(li);
+    });
+  } catch (err) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    empty.textContent = '최근 이력을 불러오지 못했습니다.';
+  }
+}
+
+loadRecent();
+</script>
+
 </body>
 </html>
-
-
-
-
