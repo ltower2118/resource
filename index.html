@@ -77,6 +77,28 @@
             margin-bottom: 30px;
         }
 
+        /* 가로 스크롤 가능한 카드 메뉴 레이아웃 */
+        .menu-grid.horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            gap: 15px;
+            margin-bottom: 30px;
+            scroll-behavior: smooth;
+            padding: 5px 0;
+            scrollbar-width: none;
+        }
+
+        /* Firefox 스크롤바 숨기기 */
+        .menu-grid.horizontal-scroll {
+            -ms-overflow-style: none;
+        }
+
+        /* Chrome, Safari, Edge 스크롤바 숨기기 */
+        .menu-grid.horizontal-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
         /* 시각적인 카드 메뉴 스타일 */
         .menu-card {
             background-color: var(--card-bg);
@@ -92,6 +114,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+
+        /* 가로 스크롤 카드 최소 너비 */
+        .menu-grid.horizontal-scroll .menu-card {
+            min-width: 180px;
+            flex-shrink: 0;
         }
 
         /* 마우스 호버 효과 */
@@ -176,7 +204,7 @@
             <p>현장에서 문제 발생 시 아래의 메뉴 선택하여 즉시 매뉴얼 및 연락망을 확인하세요.</p>
         </div>
        <div class="section-title">비상 연락망</div>
-        <div class="menu-grid">
+        <div class="menu-grid horizontal-scroll">
             
             <a href="contacts.html" class="menu-card">
                 <div class="menu-icon">📱</div>
@@ -186,6 +214,16 @@
             <a href="tenant_info.html" class="menu-card">
                 <div class="menu-icon">📊</div>
                 <div class="menu-title">입주사 비상연락망</div>
+            </a>
+
+            <a href="emergency_hospital.html" class="menu-card">
+                <div class="menu-icon">🏥</div>
+                <div class="menu-title">응급실 연락망</div>
+            </a>
+
+            <a href="fire_dept.html" class="menu-card">
+                <div class="menu-icon">🚒</div>
+                <div class="menu-title">소방서 연락망</div>
             </a>
 
         </div>
