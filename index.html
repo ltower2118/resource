@@ -116,6 +116,11 @@
             align-items: center;
             justify-content: center;
             }
+             .menu-card img{
+                width:300px;
+                height:300px;
+                object-fit:contain;
+            }
         .menu-card-s {
             background-color: var(--card-bg);
             border-radius: 12px;
@@ -152,7 +157,7 @@
 
         /* 첫 번째 카드만 더 크게 */
         .menu-grid.horizontal-scroll .menu-card:first-child {
-            min-width: 320px;
+            min-width: 350px;
             min-height: 400px;
             padding: 40px 25px;
         }
@@ -263,25 +268,25 @@
         <div class="section-title">가이드및 메뉴얼 기타</div>
         <div class="menu-grid">
             
-             <a href="pdf.html" class="menu-card">
+             <a href="pdf.html" class="menu-card-s">
                 <img src="images/pdf_down.png">
                 <div class="menu-title">도면</div>
             </a>
-            <a href="manual.html" class="menu-card">
+            <a href="manual.html" class="menu-card-s">
              <img src="images/manual_s.png">
                 <div class="menu-title">각종 매뉴얼</div>
             </a>
 
-            <a href="history.html" class="menu-card">
+            <a href="history.html" class="menu-card-s">
                  <img src="images/history_write.png">
                 <div class="menu-title">이력관리</div>
             </a>
 
-            <a href="fire.html" class="menu-card">
+            <a href="fire.html" class="menu-card-s">
                  <img src="images/fire_s.png">
                 <div class="menu-title">소방</div>
             </a>
-            <a href="parking_manual.html" class="menu-card">
+            <a href="parking_manual.html" class="menu-card-s">
               <img src="images/parking.png">
                 <div class="menu-title">주차</div>
             </a>
