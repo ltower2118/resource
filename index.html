@@ -100,6 +100,15 @@
             display: none;
         }
 
+               /* 📱 스마트폰에서 누르기 편한 대형 버튼 스타일 */
+        .btn { display: flex; align-items: center; justify-content: center; background-color: white; color: #575656; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px; font-weight: bold; font-size: 1.0rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: background 0.2s; }
+        .btn:active { background-color: #f0f0f0; }
+        .btn-pdf { border-left: 6px solid #dc3545; }    /* PDF는 빨간색 선 */
+        .btn-history { border-left: 6px solid #28a745; } /* 이력은 초록색 선 */
+        .btn-video { border-left: 6px solid #ff0000; }   /* 유튜브는 유튜브 레드 */
+        
+        .btn span { margin-right: 10px; font-size: 1.3rem; }
+        
         /* 시각적인 카드 메뉴 스타일 */
         .menu-card {
             background-color: var(--card-bg);
@@ -262,9 +271,14 @@
                 <div class="text">입주사 비상 연락망</div>
                   <div class="text2">입주사별 연락처를 확인하세요</div>
             </a>
- 
-
         </div>
+            <div class="section-title">이력관리</div>
+
+    <!-- 3. QR코드-->
+    <a href="history.html" target="_blank" class="btn btn-video">
+        <!--<span>▶️</span>-->고장 점검 교체  입력화면
+    </a>
+        <br>
         <div class="section-title">가이드및 메뉴얼 기타</div>
         <div class="menu-grid">
             
@@ -292,9 +306,6 @@
             </a>
             
         </div>
-
- 
-
     </main>
       <br><br><br><div class="copyright">Made by ai & ha you sin</div><br>
 </body>
