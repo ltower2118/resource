@@ -116,10 +116,24 @@
             align-items: center;
             justify-content: center;
             }
-
-            .menu-card img{
-                width:300px;
-                height:250px;
+        .menu-card-s {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            }
+            .menu-card-s img{
+                width:100px;
+                height:100px;
                 object-fit:contain;
             }
 
@@ -167,7 +181,7 @@
 
         /* 메뉴 텍스트 스타일 */
         .menu-title {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #222;
         }
@@ -230,7 +244,7 @@
             
             <a href="emergency_contact.html" class="menu-card">
             <img src="images/fire_e.jpg" alt="정전시 비상연락망">
-                <div class="text">비상연락처</div>
+                <div class="text">긴급 비상연락처</div>
                   <div class="text2">정전시/화재 긴급 발생시 연락처를 확인하세요</div>
             </a>
             <a href="ltower_tel.html" class="menu-card">
@@ -250,25 +264,25 @@
         <div class="menu-grid">
             
              <a href="parking_manual.html" class="menu-card">
-                <div class="menu-icon">🅿️</div>
+                <img src="images/pdf_down.png">
                 <div class="menu-title">도면</div>
             </a>
             <a href="parking_manual.html" class="menu-card">
-                <div class="menu-icon">🅿️</div>
+             <img src="images/manual_s.png">
                 <div class="menu-title">각종 매뉴얼</div>
             </a>
 
             <a href="history.html" class="menu-card">
-                <div class="menu-icon">🔥</div>
+                 <img src="images/history_write.png">
                 <div class="menu-title">이력관리</div>
             </a>
 
             <a href="checklist.html" class="menu-card">
-                <div class="menu-icon">📅</div>
+                 <img src="images/fire_s.png">
                 <div class="menu-title">소방</div>
             </a>
-                        <a href="checklist.html" class="menu-card">
-                <div class="menu-icon">📅</div>
+            <a href="checklist.html" class="menu-card">
+              <img src="images/parking.png">
                 <div class="menu-title">주차</div>
             </a>
             
