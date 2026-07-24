@@ -1,30 +1,54 @@
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>서울숲엘타워</title>
+    <title> 서울숲엘타워 비상연락망</title>
     <style>
         * { box-sizing: border-box; font-family: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
-        body { background-color: ##0056b3; margin: 0; padding: 16px; color: #334155; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; }
+        body { background-color: #ffffff; padding: 5px; margin: 0; color: #1e293b; }
+        .container { max-width: 540px; margin: 0 auto; }
         
-     /* 상단 앱바 */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%; /* 전체 폭 */
-      height: 60px;
-      background-color: white;
-      color: black;
-      
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      box-shadow: 0 0px 0px rgba(0,0,0,0.1);
-      z-index: 1000;
-      }
+        /* 헤더 섹션 */
+        .header-title { background: #01438a; color: #f8fafc; padding: 14px 10px; border-radius: 8px; text-align: center; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .emergency-banner { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.9rem; margin-bottom: 12px; }
+       
+          /* 메인 영역 */
+        main {
+        margin-top: 0px; /* 헤더 높이만큼 여백 */
+        padding: 1rem;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        /* height와 overflow 제거 → body가 스크롤 담당 */
+        }
+         .title {
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: #1e3a8a;
+        }
+        .text {
+          font-size: 0.95rem;
+          color: #444;
+        }
+        
+             /* 상단 앱바 */
+        header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%; /* 전체 폭 */
+          height: 60px;
+          background-color: white;
+          color: black;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+          z-index: 1000;
+          }
 
         header h1 {
           font-size: 20px;
@@ -34,55 +58,37 @@
         header .icon {
           font-size: 22px;
         }
+        
+        /* 내부 타이틀 및 박스 스타일 */
+        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
+            
 
-        .home-btn svg {
-          transition: transform 0.2s ease;
+        /* 연락처 테이블 스타일 */
+        .contact-table { 
+          border: none; /* 테이블 외곽선 제거 */
+          background: white; 
+          width: 100%; 
+          border-collapse: collapse; 
+          font-size: 0.8rem; 
+          margin-top: 5px; 
         }
-        .home-btn:hover svg {
-          transform: scale(1.1);
-        }
-         .title {
-          font-weight: bold;
-          font-size: 1.5rem;
-          color: #1e3a8a;
-             margin: 10;
-        }
-        .text {
-          font-size: 1.0rem;
-          color: #0c0c0c;
-        }
-
-           /* 테이블 감싸는 박스 - 스크롤 제거 */
-        .table-wrap { width: 100%; max-width: 460px; overflow: hidden; margin-bottom: 20px; }
-
-        /* 그리드 테이블 */
-        .grid-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            border: none;
-            background-color: #ffffff;
-            table-layout: auto;
-        }
-
-        /* 제목칸 스타일 */
-        .grid-table th { 
-            background-color: #1e3a8a; 
-            color: #ffffff; 
-            font-weight: bold; 
-            font-size: 0.9rem; 
-            padding: 10px 4px; 
-            text-align: center; 
-            border-bottom: 1px solid #334155;
-            border-left: 1px solid #334155;
-            border-right: 1px solid #334155;
-            white-space: nowrap;
-        }
-        .grid-table th:first-child { border-left: none; }
-        .grid-table th:last-child { border-right: none; }
-        .text { text-align: center; font-size: 0.8rem; color: #666768; margin-top: 0px; }
-        /* 데이터 칸 스타일 */
-        .grid-table td { 
-            padding: 10px 4px; 
+      
+         /* 📞 긴급 연락처 퀵링크 버튼 */
+        .contact-box { background: #edd8d8; border: 1px solid #fca5a5; padding: 12px; border-radius: 3px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .contact-info { font-size: 1.0rem; color: #991b1b; font-weight: bold; }
+        .contact-info small{display:block;font-weight:400;color:var(--sub);font-size:11px;margin-top:2px;}
+        .contact-btn { background: #991b1b; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; }
+        
+         /* 연락처 테이블 스타일 */
+        .contact-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 5px; }
+        .contact-table th, .contact-table td { border: 1px solid #e2e8f0; padding: 8px 6px; text-align: left; }
+        .contact-table th { background: #f8fafc; color: #475569; font-weight: bold; text-align: center; }
+        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; text-align: center; }
+        
+        .contact-table th, 
+        .contact-table td { 
+          padding: 10px 4px; 
             font-size: 0.9rem; 
             color: #0f172a; 
             text-align: center; 
@@ -92,22 +98,25 @@
             word-break: break-word;
             line-height: 1.3;
         }
-        .grid-table td:first-child { border-left: none; }
-        .grid-table td:last-child { border-right: none; }
+        /* 외곽선 없애기 */
+        .contact-table td:first-child { border-left: none; }
+        .contact-table td:last-child { border-right: none; }
+        
+        .contact-table th { 
+          background: #1e3a8a; 
+          color: #ffffff; 
+          font-weight: bold; 
+          text-align: center; 
+        }
 
-        /* 가로 폭 비율 */
-        .col-room { width: 12%; }    
-        .col-company { width: 30%; } 
-        .col-name { width: 8%; }    
-        .col-tel1 { width: 14%; }    
-        .col-tel2 { width: 36%; }   
-
-        .tel-btn { color: #2563eb; text-decoration: none; font-weight: bold; display: block; }
-        .grid-table tr:nth-child(even) { background-color: #f8fafc; }
-        .footer { text-align: center; font-size: 0.72rem; color: #94a3b8; margin-top: 30px; }
+        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; }
+        
+        /* foot 섹션 */
+        .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
+        
     </style>
-   </head>
-      <header>
+</head><body>
+    <header>
     <h1>서울숲엘타워</h1>
     <a href="index.html" class="home-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
@@ -115,105 +124,65 @@
       </svg>
     </a>
   </header>
-  <body>
-      <br><br><br><div class="title">입주사 비상 연락망 </div>
-    <div class="text">휴대폰번호를 클릭하면 바로연결됩니다.</div><br>
-    <div class="table-wrap">
-        <table class="grid-table">
-            <colgroup>
-                <col class="col-room">
-                <col class="col-company">
-                <col class="col-name">
-                <col class="col-tel1">
-                <col class="col-tel2">
-            </colgroup>
-            
-            <thead>
-                <tr>
-                    <th>호실</th>
-                    <th>업체명</th>
-                    <th>정/부</th>
-                    <th>담당자</th>
-                    <th>휴대폰</th>
-                </tr>
-            </thead>
-            <tbody id="excel-data-body">
-                <tr>
-                    <td colspan="5" style="padding: 30px; color: #94a3b8;">잠시만 기다려주세요 .<b>데이터 로딩 중...</b></td>
-                </tr>
-            </tbody>
-        </table>
+
+<main>   
+    <br><br><br>
+ 
+     <div class="title">긴급 비상연락망</div>
+    
+    <div class="contact-box">
+        <div class="contact-info">🔥 소방화재 비상신고</div>
+        <a href="tel:119" class="contact-btn">즉시 통화 (119)</a>
+    </div>
+    <div class="contact-box">
+        <div class="contact-info">⚡ 정전시  종합신고</div>
+        
+        <a href="tel:123" class="contact-btn">장애 신고 (123)</a>
+    </div>
+    <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
+        <div class="contact-info" style="color:#0369a1;">승강기 유지보수 (성우/티센)</div>
+        <a href="tel:0222420110" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
     </div>
 
-    <p class="footer">Made by AI & Ha You Sin</p>
+     <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
+    <div class="contact-info" style="color:#0369a1;">주차관제 시스템 장애 (아이파킹)
+        </div>
+    <a href="tel:1588-5783" class="contact-btn" style="background:#0369a1;">AS 센터 연결</a>
+  </div>
+       <div class="contact-box" style="background:#e0f2fe; border-color:#7dd3fc;">
+        <div class="contact-info" style="color:#0369a1;"> 인터넷 · 네트워크장애 (KT)</div>
+        <a href="tel:02-2118-1499" class="contact-btn" style="background:#0369a1;">바로  연결하기</a>
+    </div>
+ <br>
+  <div class="section-title">관리실/입주사 비상연락망</div>
+    <div class="contact-box" style="background:white; border-color:#9a9f9f;">
+        <div class="contact-info" style="color:#565656;">관리실, 관공서및 협력사 연락망</div>
+        <a href="ltower_tel.html" class="contact-btn" style="background:#0a0a0b;"> 비상 연락망 보기</a>
+    </div>
+    <div class="contact-box" style="background:white; border-color:#9a9f9f;">
+        <div class="contact-info" style="color:#565656;">입주사 비상 연락망</div>
+        <a href="emergency_contact.html" class="contact-btn" style="background:#0a0a0b;"> 비상 연락망 보기</a>
+    </div>
+    <br>
+        <table class="contact-table">
+            <thead>
+                <tr><th>기관 및 업체명</th><th>고객 센터 번호</th><th>다이렉트</th></tr>
+            </thead>
+            <tbody>
+                <tr style="background:#f8fafc;"><td>한국전력공사 광진성동지사 (긴급)</td><td>02-2290-5261</td><td>
+                    <a href="tel:0222905261" class="contact-call">전화연결</a></td></tr>
+                <tr><td>한전 광진변전소 직통 라인</td><td>02-2290-5268</td><td><a href="tel:0222905268" class="contact-call">전화연결</a></td></tr>
+                <tr style="background:#f8fafc;"><td>한국전력공사 고장장애 종합신고</td><td>국번없이 123</td><td><a href="tel:123" class="contact-call">전화연결</a></td></tr>
+                <tr><td>한국전기안전공사 서울동부지사</td><td>02-6488-6400</td><td><a href="tel:0264886400" class="contact-call">전화연결</a></td></tr>
+                <tr><td style="background:#f8fafc;">삼원전기 (상시 전기안전관리 협력)</td><td>010-5223-6789</td><td><a href="tel:01052236789" class="contact-call">전화연결</a></td></tr>
+                <tr><td>이스타파워 (비상발전기 전문 AS)</td><td>02-3472-6971</td><td><a href="tel:0234726971" class="contact-call">전화연결</a></td></tr>
+                <tr><td style="background:#f8fafc;">성우 E/V (승강기 유지보수관리)</td><td>010-9222-3263</td><td><a href="tel:010-9222-3263" class="contact-call">전화연결</a></td></tr>
+                <tr><td>티센 엘리베이터 종합 AS 센터</td><td>02-2242-0110</td><td><a href="tel:0222420110" class="contact-call">전화연결</a></td></tr>
+            </tbody>
+        </table>
+        <br><br>
 
-<script>
-    // 💡 [수정 포인트] 과장님이 깃허브에 올리신 CSV 파일명과 똑같이 적어주세요!
-   const csvFileName = 'emergency_contact.csv'; 
- async function loadGridTable() {
-        try {
-            // GitHub Raw 파일 URL 사용 (상대경로 대신)
-            const response = await fetch(`https://raw.githubusercontent.com/ltower2118/resource/main/${csvFileName}`);
-            
-            if (!response.ok) {
-                throw new Error(`파일을 찾을 수 없습니다. (상태: ${response.status})`);
-            }
-
-            const blob = await response.blob();
-            const decoder = new TextDecoder('euc-kr');
-            const buffer = await blob.arrayBuffer();
-            const csvText = decoder.decode(buffer);
-            
-            const rows = csvText.split(/\r?\n/);
-            let tableHTML = '';
-            let dataCount = 0;
-
-            rows.forEach((row, index) => {
-                // 첫 줄(헤더) 스킵, 빈 줄 스킵
-                if (index === 0 || !row.trim()) return; 
-
-                const cells = row.split(',');
-                
-                if (cells.length >= 5) {
-                    const room = cells[0].trim();
-                    const company = cells[1].trim();
-                    const manager = cells[2].trim();
-                    const tel1 = cells[3].trim(); 
-                    const tel2 = cells[4].trim(); 
-
-                    tableHTML += `
-                        <tr>
-                            <td>${room}</td>
-                            <td style="text-align: left; padding-left: 4px; font-weight: 500;">${company}</td>
-                            <td>${manager}</td>
-                            <td>${tel1}</td>
-                            <td><a href="tel:${tel2}" class="tel-btn">${tel2 || '-'}</a></td>
-                        </tr>
-                    `;
-                    dataCount++;
-                }
-            });
-
-            if (dataCount === 0) {
-                tableHTML = '<tr><td colspan="5" style="color: #94a3b8; padding: 20px;">📭 데이터가 없습니다.</td></tr>';
-            }
-
-            document.getElementById('excel-data-body').innerHTML = tableHTML;
-
-        } catch (error) {
-            console.error('CSV 로드 실패:', error);
-            document.getElementById('excel-data-body').innerHTML = `
-                <tr>
-                    <td colspan="5" class="error-message">
-                        ❌ 데이터 로드 실패<br>
-                        <small>${error.message}</small>
-                    </td>
-                </tr>
-            `;
-        }
-    }
-
-    window.onload = loadGridTable;
-</script>
+        <br><br><br><div class="copyright">Made by ai & ha you sin</div>
+    </main>
 </body>
 </html>

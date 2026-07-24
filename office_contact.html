@@ -1,0 +1,219 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>서울숲엘타워</title>
+    <style>
+        * { box-sizing: border-box; font-family: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
+        body { background-color: ##0056b3; margin: 0; padding: 16px; color: #334155; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; }
+        
+     /* 상단 앱바 */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%; /* 전체 폭 */
+      height: 60px;
+      background-color: white;
+      color: black;
+      
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+      z-index: 1000;
+      }
+
+        header h1 {
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        header .icon {
+          font-size: 22px;
+        }
+
+        .home-btn svg {
+          transition: transform 0.2s ease;
+        }
+        .home-btn:hover svg {
+          transform: scale(1.1);
+        }
+         .title {
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: #1e3a8a;
+             margin: 10;
+        }
+        .text {
+          font-size: 1.0rem;
+          color: #0c0c0c;
+        }
+
+           /* 테이블 감싸는 박스 - 스크롤 제거 */
+        .table-wrap { width: 100%; max-width: 460px; overflow: hidden; margin-bottom: 20px; }
+
+        /* 그리드 테이블 */
+        .grid-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            border: none;
+            background-color: #ffffff;
+            table-layout: auto;
+        }
+
+        /* 제목칸 스타일 */
+        .grid-table th { 
+            background-color: #1e3a8a; 
+            color: #ffffff; 
+            font-weight: bold; 
+            font-size: 0.9rem; 
+            padding: 10px 4px; 
+            text-align: center; 
+            border-bottom: 1px solid #334155;
+            border-left: 1px solid #334155;
+            border-right: 1px solid #334155;
+            white-space: nowrap;
+        }
+        .grid-table th:first-child { border-left: none; }
+        .grid-table th:last-child { border-right: none; }
+        .text { text-align: center; font-size: 0.8rem; color: #666768; margin-top: 0px; }
+        /* 데이터 칸 스타일 */
+        .grid-table td { 
+            padding: 10px 4px; 
+            font-size: 0.9rem; 
+            color: #0f172a; 
+            text-align: center; 
+            border-bottom: 1px solid #cbd5e1; 
+            border-left: 1px solid #cbd5e1;
+            border-right: 1px solid #cbd5e1;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+        .grid-table td:first-child { border-left: none; }
+        .grid-table td:last-child { border-right: none; }
+
+        /* 가로 폭 비율 */
+        .col-room { width: 12%; }    
+        .col-company { width: 30%; } 
+        .col-name { width: 8%; }    
+        .col-tel1 { width: 14%; }    
+        .col-tel2 { width: 36%; }   
+
+        .tel-btn { color: #2563eb; text-decoration: none; font-weight: bold; display: block; }
+        .grid-table tr:nth-child(even) { background-color: #f8fafc; }
+        .footer { text-align: center; font-size: 0.72rem; color: #94a3b8; margin-top: 30px; }
+    </style>
+   </head>
+      <header>
+    <h1>서울숲엘타워</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
+  </header>
+  <body>
+      <br><br><br><div class="title">입주사 비상 연락망 </div>
+    <div class="text">휴대폰번호를 클릭하면 바로연결됩니다.</div><br>
+    <div class="table-wrap">
+        <table class="grid-table">
+            <colgroup>
+                <col class="col-room">
+                <col class="col-company">
+                <col class="col-name">
+                <col class="col-tel1">
+                <col class="col-tel2">
+            </colgroup>
+            
+            <thead>
+                <tr>
+                    <th>호실</th>
+                    <th>업체명</th>
+                    <th>정/부</th>
+                    <th>담당자</th>
+                    <th>휴대폰</th>
+                </tr>
+            </thead>
+            <tbody id="excel-data-body">
+                <tr>
+                    <td colspan="5" style="padding: 30px; color: #94a3b8;">잠시만 기다려주세요 .<b>데이터 로딩 중...</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="footer">Made by AI & Ha You Sin</p>
+
+<script>
+    // 💡 [수정 포인트] 과장님이 깃허브에 올리신 CSV 파일명과 똑같이 적어주세요!
+   const csvFileName = 'emergency_contact.csv'; 
+ async function loadGridTable() {
+        try {
+            // GitHub Raw 파일 URL 사용 (상대경로 대신)
+            const response = await fetch(`https://raw.githubusercontent.com/ltower2118/resource/main/${csvFileName}`);
+            
+            if (!response.ok) {
+                throw new Error(`파일을 찾을 수 없습니다. (상태: ${response.status})`);
+            }
+
+            const blob = await response.blob();
+            const decoder = new TextDecoder('euc-kr');
+            const buffer = await blob.arrayBuffer();
+            const csvText = decoder.decode(buffer);
+            
+            const rows = csvText.split(/\r?\n/);
+            let tableHTML = '';
+            let dataCount = 0;
+
+            rows.forEach((row, index) => {
+                // 첫 줄(헤더) 스킵, 빈 줄 스킵
+                if (index === 0 || !row.trim()) return; 
+
+                const cells = row.split(',');
+                
+                if (cells.length >= 5) {
+                    const room = cells[0].trim();
+                    const company = cells[1].trim();
+                    const manager = cells[2].trim();
+                    const tel1 = cells[3].trim(); 
+                    const tel2 = cells[4].trim(); 
+
+                    tableHTML += `
+                        <tr>
+                            <td>${room}</td>
+                            <td style="text-align: left; padding-left: 4px; font-weight: 500;">${company}</td>
+                            <td>${manager}</td>
+                            <td>${tel1}</td>
+                            <td><a href="tel:${tel2}" class="tel-btn">${tel2 || '-'}</a></td>
+                        </tr>
+                    `;
+                    dataCount++;
+                }
+            });
+
+            if (dataCount === 0) {
+                tableHTML = '<tr><td colspan="5" style="color: #94a3b8; padding: 20px;">📭 데이터가 없습니다.</td></tr>';
+            }
+
+            document.getElementById('excel-data-body').innerHTML = tableHTML;
+
+        } catch (error) {
+            console.error('CSV 로드 실패:', error);
+            document.getElementById('excel-data-body').innerHTML = `
+                <tr>
+                    <td colspan="5" class="error-message">
+                        ❌ 데이터 로드 실패<br>
+                        <small>${error.message}</small>
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+    window.onload = loadGridTable;
+</script>
+</body>
+</html>
