@@ -241,44 +241,40 @@
             .menu-icon { font-size: 1.8rem; }
             .menu-title { font-size: 0.9rem; }
         }
-.scroll-indicator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    gap: 6px;
-}
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            gap: 6px;
+        }
 
-.scroll-indicator .dot {
-    width: 10px;
-    height: 10px;
-    background-color: #d0d0d0;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        .scroll-indicator .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #d0d0d0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.scroll-indicator .dot.active {
-    background-color: var(--secondary-color);
-}
-
-        
+        .scroll-indicator .dot.active {
+            background-color: #19367d;
+        }
     </style>
-</head>
-<body>
+    </head>
+    <body>
 
     <header>
         <h1>서울숲엘타워 지식산업센터</h1>
         <p>관리 매뉴얼 </p>
     </header>
-
     <main>
-
             <p>본 자료는 내부직원 정보공유를 위해 만든 자료입니다. 업무에 참고하기 바랍니다.</p>
        <div class="section-title">비상 연락망</div>
-<!-- 기존 카드 섹션 -->
-<div class="menu-grid horizontal-scroll" id="scrollMenu">
-    <a href="emergency_contact.html" class="menu-card">
+    <!-- 기존 카드 섹션 -->
+    <div class="menu-grid horizontal-scroll" id="scrollMenu">
+        <a href="emergency_contact.html" class="menu-card">
         <img src="images/fire_e.jpg" alt="정전시 비상연락망">
         <div class="text">긴급 비상연락처</div>
         <div class="text2">정전시/화재 긴급 발생시 연락처를 확인하세요</div>
@@ -293,15 +289,15 @@
         <div class="text">입주사 비상 연락망</div>
         <div class="text2">입주사별 연락처를 확인하세요</div>
     </a>
-</div>
+        </div>
 
-<!-- 🔵 하단 점 표시 -->
-<div class="scroll-indicator">
-    <span class="dot active"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-</div>
-<br><br>
+    <!-- 🔵 하단 점 표시 -->
+    <div class="scroll-indicator">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+    <br><br>
     <a href="history.html" target="_blank" class="btn btn-video">
         작업이력 입력하기
     </a>
