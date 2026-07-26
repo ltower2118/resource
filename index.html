@@ -241,7 +241,7 @@
             .menu-icon { font-size: 1.8rem; }
             .menu-title { font-size: 0.9rem; }
         }
-        .scroll-indicator {
+.scroll-indicator {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -254,6 +254,7 @@
     height: 10px;
     background-color: #d0d0d0;
     border-radius: 50%;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
@@ -335,3 +336,34 @@
       <br><br><br><div class="copyright">Made by ai & ha you sin</div><br>
 </body>
 </html>
+<script>
+const scrollMenu = document.getElementById('scrollMenu');
+const dots = document.querySelectorAll('.scroll-indicator .dot');
+const cards = scrollMenu.querySelectorAll('.menu-card');
+
+// 스크롤 시 활성 점 변경
+scrollMenu.addEventListener('scroll', () => {
+    const scrollLeft = scrollMenu.scrollLeft;
+    const maxScroll = scrollMenu.scrollWidth - scrollMenu.clientWidth;
+    const ratio = scrollLeft / maxScroll;
+    const activeIndex = Math.round(ratio * (dots.length - 1));
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIndex);
+    });
+});
+
+// 점 클릭 시 해당 카드로 스크롤 이동
+dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+        const index = parseInt(dot.dataset.index);
+        const targetCard = cards[index];
+        const offsetLeft = targetCard.offsetLeft;
+        scrollMenu.scrollTo({
+            left: offsetLeft,
+            behavior: 'smooth'
+        });
+        dots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+    });
+});
+</script>
