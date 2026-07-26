@@ -136,10 +136,6 @@
           font-size: 0.95rem;
           color: #0c0c0c;
         }
-        .text2 {
-          font-size: 0.95rem;
-          color: #767575;
-        }
 
 
 
@@ -207,7 +203,7 @@
     .page-head p {
       margin: 0;
       color: var(--color-steel);
-      font-size: 0.9rem;
+      font-size: 13.5px;
     }
 
     /* ---------- 대시보드 카드 ---------- */
@@ -275,18 +271,11 @@
       background: var(--color-surface);
       border: 1px solid var(--color-line);
       border-radius: var(--radius);
-      padding: 18px 18px 18px;
+      padding: 18px 18px 6px;
       box-shadow: var(--shadow-card);
       margin-bottom: 22px;
     }
-    .panel_wide {
-      background: white;
-    
-      /*border-radius: var(--radius);*/
-      padding: 18px 18px 1px;
-      /*box-shadow: var(--shadow-card);*/
-      margin-bottom: 22px;
-    }
+
     .panel h2 {
       font-size: 14.5px;
       margin: 0 0 4px;
@@ -343,7 +332,7 @@
 
     table.data-table th {
       text-align: left;
-      font-size: 0.9rem;
+      font-size: 11.5px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--color-steel);
@@ -358,21 +347,21 @@
       vertical-align: top;
     }
 
-    table.data-table tbody tr:hover { background: #e8edfb; }
+    table.data-table tbody tr:hover { background: #fafbfa; }
 
     .badge {
       display: inline-block;
-      font-size: 0.9rem;
+      font-size: 11px;
       font-family: var(--font-mono);
       padding: 2px 7px;
       border-radius: 3px;
       background: var(--color-steel-light);
       color: var(--color-navy);
     }
-    .badge.elec { background: #ccddf9; color: #1e3a8a; }
+    .badge.elec { background: #fdecc8; color: var(--color-amber-dark); }
     .badge.fire { background: #fbdedb; color: var(--color-danger); }
-    .badge.comm { background: #e1f7dc; color: #1c5d8a; }
-    .badge.mech { background: #e6e6e6; color: var(--color-ok); }
+    .badge.comm { background: #dcebf7; color: #1c5d8a; }
+    .badge.mech { background: #e3ecdf; color: var(--color-ok); }
 
     /* ---------- 폼 ---------- */
     .form-grid {
@@ -405,7 +394,7 @@
       border: 1px solid var(--color-line);
       border-radius: 4px;
       padding: 9px 10px;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       font-family: var(--font-body);
       background: #f3f4f6;
       color: var(--color-navy);
@@ -451,14 +440,14 @@
       gap: 10px;
       flex-wrap: wrap;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 1.1rem;
     }
 
     .toolbar select, .toolbar input[type="search"] {
       border: 1px solid var(--color-line);
       border-radius: 4px;
       padding: 8px 10px;
-      font-size: 0.9rem;
+      font-size: 1.1rem
       background: #fff;
     }
 
@@ -469,9 +458,9 @@
       margin-top: 10px;
       display: none;
     }
-    .status-msg.ok { display: block; background: #d6dffb; color: var(--color-ok);font-size: 0.9rem; }
-    .status-msg.err { display: block; background: #fbdedb; color: var(--color-danger);font-size: 0.9rem; }
-    .status-msg.pending { display: block; background: var(--color-steel-light); color: var(--color-steel);font-size: 0.9rem; }
+    .status-msg.ok { display: block; background: #e3ecdf; color: var(--color-ok); }
+    .status-msg.err { display: block; background: #fbdedb; color: var(--color-danger); }
+    .status-msg.pending { display: block; background: var(--color-steel-light); color: var(--color-steel); }
 
     .empty-state {
       text-align: center;
@@ -514,8 +503,8 @@
 
   <div class="page-head">
     <br><br><br>
-    <div class="title">점검 · 고장 · 조치</div>
-    <p>구글시트에 자동 저장되고, 아래 목록에서 바로 조회할 수 있습니다.</p>
+    <div class="title">이력관리</div>
+    <p>점검 · 고장 · 조치 이력을 입력하면 구글시트에 자동 저장되고, 아래 목록에서 바로 조회할 수 있습니다.</p>
   </div>
 
   <div class="setup-note" id="setupNote">
@@ -567,11 +556,9 @@
       <div class="status-msg" id="formStatus"></div>
     </form>
   </div>
-</main>
-  <div class="panel_wide">
-    <div class="title2">이력조회</div>
-    <p class="text2">날짜 · 위치 · 작업내용 · 작업자등 이력을 입력하면 아래 목록에서 바로 조회할 수 있습니다.</p>
-    <br>
+
+  <div class="panel">
+    <h3>이력 조회</h3>
     <div class="toolbar">
       <select id="catFilter">
         <option value="">전체 구분</option>
@@ -584,7 +571,7 @@
       <input type="search" id="searchBox" placeholder="위치/작업내용/작업자 검색" style="min-width:220px">
       <button class="btn secondary" id="refreshBtn" type="button">새로고침</button>
     </div>
-    <table class="data-table" >
+    <table class="data-table">
       <thead>
         <tr>
           <th>날짜</th>
@@ -602,7 +589,7 @@
 
   <p class="footer-note">서울숲엘타워 관리단 · 전기과 내부 자료 · 무단 외부 공유 금지</p>
 
-
+</main>
 
 <script>
 /* =====================================================================
