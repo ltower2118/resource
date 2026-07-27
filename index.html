@@ -101,7 +101,7 @@
         }
 
                /* 📱 스마트폰에서 누르기 편한 대형 버튼 스타일 */
-        .btn { display: flex; align-items: center; justify-content: center; background-color: #e9f1f9; color: #000000; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px;  font-size: 1.3rem; box-shadow: 0 0px 0px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: background 0.2s; }
+        .btn { display: flex; align-items: center; justify-content: center; background-color: #e9f1f9; color: #000000; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 10px;  }
         .btn:active { background-color: #f0f0f0; }
         .btn-pdf { border-left: 6px solid #dc3545; }    /* PDF는 빨간색 선 */
         .btn-history { border-left: 6px solid #28a745; } /* 이력은 초록색 선 */
@@ -125,7 +125,7 @@
             align-items: center;
             justify-content: center;
             }
-             .menu-card img{
+              .menu-card img{
                 width:300px;
                 height:300px;
                 object-fit:contain;
@@ -167,12 +167,19 @@
         /* 첫 번째 카드만 더 크게 */
         .menu-grid.horizontal-scroll .menu-card:first-child {
             min-width: 300px;
-            min-height: 350;
+            min-height: 300;
             padding: 40px 25px;
         }
 
         /* 마우스 호버 효과 */
         .menu-card:hover {
+            transform: translateY(1px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--secondary-color);
+        }
+
+        /* 활성 카드 상태 (스크롤 시 자동 적용) */
+        .menu-card.active {
             transform: translateY(1px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
             border-color: var(--secondary-color);
@@ -190,6 +197,10 @@
         }
 
         .menu-card:hover .menu-icon {
+            transform: scale(1.15);
+        }
+
+        .menu-card.active .menu-icon {
             transform: scale(1.15);
         }
 
@@ -338,21 +349,37 @@ const scrollMenu = document.getElementById('scrollMenu');
 const dots = document.querySelectorAll('.scroll-indicator .dot');
 const cards = scrollMenu.querySelectorAll('.menu-card');
 
-// 스크롤 시 활성 점 변경
+// 페이지 로드 시 첫 번째 카드에 활성 상태 적용
+function applyActiveState(cardIndex) {
+    cards.forEach((card, i) => {
+        card.classList.toggle('active', i === cardIndex);
+    });
+}
+
+// 초기 로드 시 첫 번째 카드 활성화
+window.addEventListener('load', () => {
+    applyActiveState(0);
+});
+
+// 스크롤 시 활성 점 및 카드 변경
 scrollMenu.addEventListener('scroll', () => {
     const scrollLeft = scrollMenu.scrollLeft;
     const maxScroll = scrollMenu.scrollWidth - scrollMenu.clientWidth;
     const ratio = scrollLeft / maxScroll;
     const activeIndex = Math.round(ratio * (dots.length - 1));
+    
     dots.forEach((dot, i) => {
         dot.classList.toggle('active', i === activeIndex);
     });
+    
+    // 활성 카드 상태 업데이트
+    applyActiveState(activeIndex);
 });
 
 // 점 클릭 시 해당 카드로 스크롤 이동
-dots.forEach(dot => {
+dots.forEach((dot, index) => {
+    dot.dataset.index = index;
     dot.addEventListener('click', () => {
-        const index = parseInt(dot.dataset.index);
         const targetCard = cards[index];
         const offsetLeft = targetCard.offsetLeft;
         scrollMenu.scrollTo({
@@ -361,6 +388,9 @@ dots.forEach(dot => {
         });
         dots.forEach(d => d.classList.remove('active'));
         dot.classList.add('active');
+        
+        // 활성 카드 상태 업데이트
+        applyActiveState(index);
     });
 });
 </script>
