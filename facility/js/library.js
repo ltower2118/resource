@@ -1,0 +1,1 @@
+fetch('data/library.csv').then(r=>r.text()).then(t=>{const rows=t.trim().split('\n').slice(1).map(v=>v.split(','));const q=document.getElementById('q');const list=document.getElementById('list');function draw(){list.innerHTML='';rows.filter(r=>r[2].includes(q.value)).forEach(r=>list.innerHTML+=`<div class='card'><b>${r[2]}</b><br>${r[1]}</div>`)}q.oninput=draw;draw();});
