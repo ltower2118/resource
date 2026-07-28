@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> 서울숲엘타워 비상연락망</title>
+    <style>
+        * { box-sizing: border-box; font-family: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
+        body { background-color: #ffffff; padding: 5px; margin: 0; color: #1e293b; }
+        .container { max-width: 540px; margin: 0 auto; }
+        
+        /* 헤더 섹션 */
+        .header-title { background: #01438a; color: #f8fafc; padding: 14px 10px; border-radius: 8px; text-align: center; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .emergency-banner { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.9rem; margin-bottom: 12px; }
+       
+          /* 메인 영역 */
+        main {
+        margin-top: 0px; /* 헤더 높이만큼 여백 */
+        padding: 1rem;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        /* height와 overflow 제거 → body가 스크롤 담당 */
+        }
+         .title {
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: #1e3a8a;
+        }
+        .text-s {
+          font-size: 0.95rem;
+          color: #444;
+        }
+        .text {
+          font-size: 0.95rem;
+          color: #444;
+        }
+        
+             /* 상단 앱바 */
+        header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%; /* 전체 폭 */
+          height: 60px;
+          background-color: white;
+          color: black;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+          z-index: 1000;
+          }
+
+        header h1 {
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        header .icon {
+          font-size: 22px;
+        }
+        
+        /* 내부 타이틀 및 박스 스타일 */
+        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
+        
+        .text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #222;
+        }
+        .text2 {
+            font-size: 0.9rem;
+            color: #737373;
+        }
+
+        /* 연락처 테이블 스타일 */
+        .contact-table { 
+          border: none; /* 테이블 외곽선 제거 */
+          background: white; 
+          width: 100%; 
+          border-collapse: collapse; 
+          font-size: 0.8rem; 
+          margin-top: 5px; 
+        }
+
+        .contact-table th, 
+        .contact-table td { 
+          padding: 10px 4px; 
+            font-size: 0.75rem; 
+            color: #0f172a; 
+            text-align: center; 
+            border-bottom: 1px solid #cbd5e1; 
+            border-left: 1px solid #cbd5e1;
+            border-right: 1px solid #cbd5e1;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+        /* 외곽선 없애기 */
+        .contact-table td:first-child { border-left: none; }
+        .contact-table td:last-child { border-right: none; }
+        
+        .contact-table th { 
+          background: #1e3a8a; 
+          color: #ffffff; 
+         /* font-weight: bold; */ 
+          text-align: center; 
+        }
+
+        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; }
+        
+        /* foot 섹션 */
+        .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
+        
+    </style>
+</head><body>
+    <header>
+    <h1>서울숲엘타워</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
+  </header>
+
+<main>   
+    <br><br><br>
+    <div class="title">EPS실 통신장비현황 </div><br>
+    <div class="text2">EPS 층별 KT스카이라이프 방송 증폭기 (공청·위성)[전]
+    <br>⚠ 이 표는 첨부하신 PDF(2024.3.11 기준)를 그대로 옮긴 것입니다. 이후 장비 변경 시 위 표의 &lt;tr&gt; 셀 내용을 직접 수정해서 사용하세요.</div>
+ <br>
+  <div class="panel">
+    <div style="overflow-x:auto;">
+      <table class="contact-table" style="min-width:100%;">
+        <thead>
+          <tr>
+            <th>층별</th>
+            <th>계량기위치</th>
+            <th>통신장비</th>
+            <th>TV · 케이블방송</th>
+            <th>기타</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr><td>PH층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>15층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>14층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>13층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전], UTP 허브박스</td></tr>
+        <tr><td>12층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>C&M 케이블방송 증폭기[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>11층</td><td><span style="color:var(--color-line);">-</span></td><td>5G 장비 SK</td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>타임게이트 네트웍장비(KT 랙 사용), ADT장비(보안)</td></tr>
+        <tr><td>10층</td><td><span style="color:var(--color-line);">-</span></td><td>이통3사 공용화결합장비[전], LGU+ 표준랙[전], SK 중계기(TS-L60)[전]</td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>9층</td><td><span style="color:var(--color-line);">-</span></td><td>5G장비 및 중계기[전]</td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>8층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>7층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>6층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>5층</td><td>디지털계량기[전] (KT)</td><td>KT 중계기[전]</td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>4층</td><td>딜라이브 디지털계량기[전]</td><td>5G 장비 SK</td><td>딜라이브 케이블방송 증폭기[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>3층</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>2층</td><td>5G 디지털계량기[전], 분전반 (KT)</td><td>5G 장비 KT</td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전], 소방예비전원함 3EA[전]</td></tr>
+        <tr><td>1층</td><td><span style="color:var(--color-line);">-</span></td><td>UTP 허브박스[전]</td><td>KT스카이라이프 방송 증폭기 (공청·위성)[전]</td><td>KT랙장비(허브)[전], DDC자동제어(온습도)[전]</td></tr>
+        <tr><td>B1F</td><td>SK 디지털계량기[전] (B2F 분전함)</td><td>SK 중계기(TS-L60)[전], UTP 허브박스[전]</td><td><span style="color:var(--color-line);">-</span></td><td>KT랙장비(허브)[전]</td></tr>
+        <tr><td>B2F</td><td>LGU+ 디지털계량기[전]</td><td>5G 중계기[전], 5G 장비 SK</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td></tr>
+        <tr><td>B3F</td><td><span style="color:var(--color-line);">-</span></td><td>UTP 허브박스[전]</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td></tr>
+        <tr><td>B4F</td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td><td><span style="color:var(--color-line);">-</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+ 
+    <br><br><br><div class="copyright">Made by ai & ha you sin</div>
+    </main>
+</body>
+</html>
