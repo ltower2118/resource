@@ -164,7 +164,7 @@
         --color-steel-light: #f1f5f9;
         --color-line: #cbd5e1;
       }
-      .nested { width:700px; border-collapse:collapse; font-size:12.5px; table-layout:fixed; }
+      .nested { width:100%; border-collapse:collapse; font-size:12.5px; table-layout:fixed; }
       .nested td, .nested th {
         border:1px solid var(--color-line);
         padding:7px 8px;
@@ -219,10 +219,10 @@
     <table class="info-table">
         <colgroup>
             <col style="width: 28%;">
+            <col style="width: 24%;">
             <col style="width: 20%;">
-            <col style="width: 20%;">
-            <col style="width: 25%;">
-            <col style="width: 17%;">
+            <col style="width: 28%;">
+            <col style="width: 24%;">
             <col style="width: 18%;">
         </colgroup>
         <tbody>
@@ -346,14 +346,28 @@
     <h2>수전설비 기본 정보</h2>
     <div style="overflow-x:auto;">
     <table class="info-table">
-      <tr><th  class="text-info"aria-atomic="">수신실 위치</th><td class="no-border-td"><table class="nested"><tr><td>지하5층</td></tr></table></td></tr>
-      <tr><th class="text-info">인입점-수전실 거리</th><td class="no-border-td"><table class="nested"><tr><td>-</td></tr></table></td></tr>
+              <colgroup>
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 16%;">
+            <col style="width: 20%;">
+            <col style="width: 22%;">
+        </colgroup>
+        <tbody>
+        <th  class="text-info">수전실위치</th>
+        <td class="no-border-td">
+          <table class="nested"><colgroup><col class="lbl-col"><col class="val-col"><col class="lbl-col"><col class="val-col"></colgroup>
+            <tr><td class="lbl">지하5층</td><td>인입점-수전실 거리</td><td class="lbl">m</td><td></td></tr>
+
+          </table>
+        </td>
+      </tr>
  
       <tr>
         <th  class="text-info">인입개폐기</th>
         <td class="no-border-td">
           <table class="nested"><colgroup><col class="lbl-col"><col class="val-col"><col class="lbl-col"><col class="val-col"></colgroup>
-            <tr><td class="lbl">종류</td><td>LBS 기중부하개폐기</td><td class="lbl">설치일</td><td>2015.07</td></tr>
+            <tr><td class="lbl">지하5층 </td><td>LBS 기중부하개폐기</td><td class="lbl">설치일</td><td>2015.07</td></tr>
             <tr><td class="lbl">용량</td><td>25.8kV</td><td class="lbl">정격전압/전류</td><td>24kV / 630A</td></tr>
             <tr><td class="lbl">제조사</td><td>비츠로테크</td><td class="lbl">제품명/번호</td><td>VTL 24/630 A1 / 150702</td></tr>
           </table>
@@ -381,7 +395,7 @@
             <tr><td class="lbl">제조사/번호</td><td colspan="3">LS 산전 / 15061756</td></tr>
           </table>
         </td>
-      </tr>
+          </tr></tbody>
     </table>
     </div>
   </div>
