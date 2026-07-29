@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> 서울숲엘타워 비상연락망</title>
+    <style>
+        * { box-sizing: border-box; font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
+        body { background-color: #ffffff; padding: 5px; margin: 0; color: #1e293b; }
+        .container { max-width: 540px; margin: 0 auto; }
+        
+        /* 헤더 섹션 */
+        .header-title { background: #01438a; color: #f8fafc; padding: 14px 10px; border-radius: 8px; text-align: center; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .emergency-banner { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.9rem; margin-bottom: 12px; }
+       
+          /* 메인 영역 */
+        main {
+        margin-top: 0px; /* 헤더 높이만큼 여백 */
+        padding: 1rem;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        /* height와 overflow 제거 → body가 스크롤 담당 */
+        }
+         .title {
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: #1e3a8a;
+        }
+        .text-s {
+          font-size: 0.95rem;
+          color: #444;
+        }
+        .text {
+          font-size: 0.95rem;
+          color: #444;
+        }
+        
+             /* 상단 앱바 */
+        header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%; /* 전체 폭 */
+          height: 60px;
+          background-color: white;
+          color: black;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+          z-index: 1000;
+          }
+
+        header h1 {
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        header .icon {
+          font-size: 22px;
+        }
+        
+        /* 내부 타이틀 및 박스 스타일 */
+        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
+        
+        .text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #222;
+        }
+        .text2 {
+            font-size: 0.9rem;
+            color: #535252;
+        }
+        .text3 {
+         font-size: 1.2rem;
+          color: #f30f36;
+          font-weight: bold;
+        }
+        .text4 {
+         font-size: 1.2rem;
+          color: #1e3a8a;
+          font-weight: bold;
+        }
+        .text5 {
+         font-size: 1.0rem;
+          color: #0f172a;
+          font-weight: bold;
+        }
+
+
+        /* 연락처 테이블 스타일 */
+        .contact-table { 
+          border: none; /* 테이블 외곽선 제거 */
+          background: white; 
+          width: 600px; 
+          border-collapse: collapse; 
+          font-size: 0.8rem; 
+          margin-top: 5px; 
+        }
+
+        .contact-table th, 
+        .contact-table td { 
+          padding: 5px 4px; 
+            font-size: 0.95rem; 
+            color: #0f172a; 
+            text-align: center; 
+            border-bottom: 1px solid #cbd5e1; 
+            border-left: 1px solid #cbd5e1;
+            border-right: 1px solid #cbd5e1;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+        /* 외곽선 없애기 */
+        .contact-table td:first-child { border-left: none; }
+        .contact-table td:last-child { border-right: none; }
+        
+        .contact-table th { 
+          background: #1e3a8a; 
+          color: #ffffff; 
+         font-weight: bold; 
+          text-align: center; 
+        }
+
+        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; }
+        
+        /* foot 섹션 */
+        .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
+        
+    </style>
+</head><body>
+    <header>
+    <h1>서울숲엘타워</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
+  </header>
+
+<main>   
+    <br><br><br>
+    <div class="title">서울숲엘타워 시설현황 통신장비현황 </div><br>
+    <div class="text2">
+      * 모자분리: KT유선, KT무선 , SK무선, 7Kw전기차,11KW전기차 1405호 , LG유플러스무선, 102호 CU<br>
+      * EPS실 공통 - 분전반, 비상방송 박스, 원격조명제어<br>
+      *[전]-분전반 전원연결됨
+       </div>
+ <br>
+ <div class="panel">
+    <h2>기본현황</h2>
+    <div style="overflow-x:auto;">
+    <table class="contact-table">
+      <tr><th>명칭</th><td colspan="3">서울숲 L-TOWER</td></tr>
+      <tr><th>도로명주소</th><td colspan="3">서울시 성동구 아차산로 17</td></tr>
+      <tr>
+        <th rowspan="2">연락처</th>
+        <td class="sub-th">책임자</td><td>최경식 관리소장</td>
+        <td class="sub-th">소방안전관리자</td>
+      </tr>
+      <tr>
+        <td class="sub-th">연락처</td><td>010-2271-5101</td>
+        <td class="sub-th">하유신 과장 / 010-6318-7516</td>
+      </tr>
+ 
+      <tr><th rowspan="9">시설현황</th><td class="sub-th">수신기위치</td><td colspan="2">1층 방재실</td></tr>
+      <tr>
+        <td class="sub-th">대상물 급수</td><td>1급</td>
+        <td class="sub-th">주용도 / 사용승인일</td>
+      </tr>
+      <tr>
+        <td class="sub-th">연면적 / 건축면적</td><td>22,796.14㎡ / 1,278.99㎡</td>
+        <td>지식산업센터,지원시설 / 2016.2.5</td>
+      </tr>
+      <tr>
+        <td class="sub-th">층수</td><td colspan="2">지하 4층 / 지상 15층</td>
+      </tr>
+      <tr>
+        <td class="sub-th">높이 / 구조 / 지붕</td><td colspan="2">68.3m / 철근콘크리트 / 철근콘크리트</td>
+      </tr>
+      <tr>
+        <td class="sub-th">승강기</td>
+        <td colspan="2"><span class="check">☑</span> 승용 3대　<span class="check">☑</span> 비상용 1대　<span class="check">☑</span> 화물용</td>
+      </tr>
+      <tr>
+        <td class="sub-th">주차장</td>
+        <td colspan="2"><span class="check">☑</span> 옥내　<span class="check">☑</span> 옥외　(자주식/기계식 미체크)　·　전기차충전소 11kw 2기</td>
+      </tr>
+      <tr>
+        <td class="sub-th">계단</td>
+        <td colspan="2"><span class="check">☑</span> 특별피난계단 2개소　<span class="uncheck">☐</span> 직통계단　<span class="uncheck">☐</span> 피난계단　<span class="uncheck">☐</span> 옥외계단</td>
+      </tr>
+      <tr>
+        <td class="sub-th" colspan="3"></td>
+      </tr>
+ 
+      <tr><th rowspan="5">운영현황</th>
+        <td class="sub-th">운영시간(평일)</td>
+        <td colspan="2">주간 09시~18시 / 야간 18시~익일09시</td>
+      </tr>
+      <tr>
+        <td class="sub-th">운영시간(휴일)</td>
+        <td colspan="2">주간 09시~18시 / 야간 18시~익일09시</td>
+      </tr>
+      <tr>
+        <td class="sub-th">인원현황</td>
+        <td colspan="2">근무인원 15명 / 거주인원 - / 최대수용인원 -</td>
+      </tr>
+      <tr>
+        <td class="sub-th">공공기관 / 업무대행 / 권원분리</td>
+        <td colspan="2">해당없음 / 해당없음 / 해당없음</td>
+      </tr>
+      <tr>
+        <td class="sub-th">화재보험</td>
+        <td colspan="2">가입 (보험사·가입기간·가입금액 미기재)</td>
+      </tr>
+    </table>
+    </div>
+  </div>
+ 
+  <div class="panel">
+    <h2>수전설비 기본 정보</h2>
+    <div style="overflow-x:auto;">
+    <table class="contact-table">
+      <tr><th>수전실 위치</th><td colspan="3">지하5층</td></tr>
+      <tr><th>인입점-수전실 거리</th><td colspan="3">-</td></tr>
+      <tr>
+        <th>인입개폐기</th>
+        <td class="sub-th">종류</td><td>LBS 기중부하개폐기</td>
+        <td class="sub-th">차단용량 / 정정치</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="sub-th">용량 / 1차-2차전압</td><td>25.8kV, 정격전압/전류 24kV / 630A</td>
+        <td class="sub-th">설치일 / 제조년월</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="sub-th">제조사/번호</td><td>비츠로테크 / 제품명·번호 VTL 24/630 A1 / 150702</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>수전변압기</th>
+        <td class="sub-th">용량</td><td>2500 KVA (500KVA×1, 1000KVA×2)</td>
+        <td class="sub-th">설치일/제조년월 2015.8</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="sub-th">1차-2차전압 / 결선방식</td><td>22.9 kV / 380V, Δ-Y 결선</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="sub-th">제조사/번호</td><td colspan="2">1차 LS산전 / TR1: 0044909H, TR2: 20044900H, TR3: 20044901H</td>
+      </tr>
+      <tr>
+        <th>보호계전기</th>
+        <td class="sub-th">종류</td><td>OCR, OCGR, UVR</td>
+        <td class="sub-th">형식 디지털복합계전기</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="sub-th">설치일/제조년월</td><td>2015.06</td>
+        <td class="sub-th">계전기명 GIPAM115 F1</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="sub-th">정정치</td><td>1차측(한시탭) 5A, 2차측(순시탭) 16A</td>
+        <td class="sub-th">제조사/번호 LS 산전 / 15061756</td>
+      </tr>
+    </table>
+    </div>
+  </div>
+ 
+  <div class="panel">
+    <h2>원동기 및 발전기 정보</h2>
+    <div style="overflow-x:auto;">
+    <table class="contact-table">
+      <tr><th style="width:auto;"></th><th>원동기</th><th>발전기</th></tr>
+      <tr><td class="sub-th">형식</td><td>DP158LDS</td><td>동기발전기 HFC5-352-4</td></tr>
+      <tr><td class="sub-th">정격용량</td><td>756kw</td><td>500KW / 455KW</td></tr>
+      <tr><td class="sub-th">정격회전수</td><td>1800 rpm</td><td>1800 RPM</td></tr>
+      <tr><td class="sub-th">제작회사</td><td>DOOSAN INFRACORE CO.</td><td>EAST POWER CO.</td></tr>
+      <tr><td class="sub-th">제작번호</td><td>DV15-00G06515820</td><td>G-15040180</td></tr>
+      <tr><td class="sub-th">제작년월</td><td>2015</td><td>2015.07</td></tr>
+      <tr><td class="sub-th">냉각방식 / 정격전압</td><td>수냉식</td><td>380/220 V</td></tr>
+      <tr><td class="sub-th">기동방식 / 정격전류</td><td>자동(수동)</td><td>950 A</td></tr>
+      <tr><td class="sub-th">차단기명 / 역률</td><td>ACB</td><td>80 %</td></tr>
+    </table>
+    </div>
+  </div>
+ 
+  <div class="panel">
+    <h2>차단기 명세</h2>
+    <div style="overflow-x:auto;">
+    <table class="btncontact-table" style="min-width:760px;">
+      <thead>
+        <tr>
+          <th>설치장소</th><th>차단기명</th><th>차단용량(KV)</th><th>정격전압(KV)/전류(A)</th>
+          <th>제작회사</th><th>제작번호</th><th>제작년도</th><th>용도</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>SS-2</td><td>VCB</td><td>12.5KV</td><td>125KV/630A</td><td>LS 산전</td><td>15075-6208.02</td><td>2015.07</td><td>수전용</td></tr>
+        <tr><td>SS-3</td><td>ACB</td><td>1000V</td><td>690V/50KA</td><td>LS 산전</td><td>150624-8207.01</td><td>2015.07</td><td>-</td></tr>
+        <tr><td>SS-4</td><td>ACB</td><td>1000V</td><td>690V/50KA</td><td>LS 산전</td><td>150624-8213.01</td><td>2015.07</td><td>-</td></tr>
+        <tr><td>SS-4</td><td>ACB</td><td>1000V</td><td>690V/50KA</td><td>LS 산전</td><td>150624-8209.01</td><td>2015.07</td><td>-</td></tr>
+        <tr><td>SS-5</td><td>ACB</td><td>1000V</td><td>690V/50KA</td><td>LS 산전</td><td>150624-8211.01</td><td>2015.07</td><td>-</td></tr>
+        <tr><td>SS-5</td><td>ACB</td><td>1000V</td><td>690V/50KA</td><td>LS 산전</td><td>150624-8209.02</td><td>2015.07</td><td>-</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+ 
+ 
+    <br><br><br><div class="copyright">Made by ai & ha you sin</div>
+    </main>
+</body>
+</html>
