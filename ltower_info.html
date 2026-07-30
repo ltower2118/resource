@@ -146,6 +146,12 @@
             color: #535252;
             line-height: 1.4;
         }
+        .text5 {
+         font-size: 0.85rem;
+          color: #0f172a;
+          font-weight: bold;
+        }
+
 
         /* 연락처 테이블 스타일 */
         .contact-table { 
@@ -181,7 +187,7 @@
 
         /* 단일 규격 정보 테이블 */
         .info-table { 
-          width: 100%; 
+          width: 700px; 
           border-collapse: collapse; 
           font-size: 12.5px; 
           table-layout: fixed; 
@@ -215,14 +221,14 @@
 
         .nested { width:100%; border-collapse:collapse; font-size:12.5px; table-layout:fixed; }
         .nested td, .nested th {
-          border:1px solid var(--color-line);
+          border: 1px solid #cbd5e1;
           padding:7px 8px;
           text-align:left;
           vertical-align:middle;
           word-break: break-word;
           line-height: 1.3;
         }
-        .nested .lbl { background:#fbfbfb; font-weight:700; color:#334155; white-space:nowrap; width:var(--lbl-w); overflow:hidden; text-overflow:ellipsis; }
+        .nested .lbl { background:#ffffff; font-weight:700; color:#334155; white-space:nowrap; width:var(--lbl-w); overflow:hidden; text-overflow:ellipsis; }
         .nested col.lbl-col { width:var(--lbl-w); }
         .nested col.val-col { width:var(--val-w); }
         .no-border-td { border:none !important; padding:0 !important; }
@@ -311,13 +317,13 @@
                 </tr>
                 <tr>
                     <td class="lbl">사용승인일</td>
-                    <td>2016.2.5</td>
+                    <td class="text5">2016.2.5</td>
                     <td class="lbl">연면적</td>
-                    <td colspan="2">22,796.14㎡</td>
+                    <td colspan="2" class="text5">22,796.14㎡</td>
                 </tr>
                 <tr>
                     <td class="lbl">건축면적</td>
-                    <td>1,278.99㎡</td>
+                    <td class="text5">1,278.99㎡</td>
                     <td class="lbl">층수</td>
                     <td colspan="2">지하 4층 / 지상 15층</td>
                 </tr>
@@ -466,9 +472,10 @@
     <!-- 패널 3: 원동기 및 발전기 정보 -->
     <div class="panel" id="panel-3">
         <h2>원동기 및 발전기 정보</h2>
+         <div style="overflow-x:auto;">
      <table class="info-table">
         <table class="nested"><colgroup><col class="lbl-col"><col class="val-col"><col class="val-col"></colgroup>
-          <tr><td class="lbl" style="background:#1e3a8a;"></td><th style="background:var(--color-steel-light);">원동기</th><th style="background:var(--color-steel-light);">발전기</th></tr>
+          <tr><td class="lbl" style="background:#1e3a8a;"></td><th style="background:#f9f9f9;">원동기</th><th style="background:#f9f9f9;">발전기</th></tr>
           <tr><td class="lbl" style="background:#1e3a8a;color:white">형식</td><td>DP158LDS</td><td>동기발전기 HFC5-352-4</td></tr>
           <tr><td class="lbl" style="background:#1e3a8a;color:white">정격용량</td><td>756kw</td><td>500KW / 455KW</td></tr>
           <tr><td class="lbl" style="background:#1e3a8a;color:white">정격회전수</td><td>1800 rpm</td><td>1800 RPM</td></tr>
@@ -479,10 +486,8 @@
           <tr><td class="lbl" style="background:#1e3a8a;color:white">기동방식 / 정격전류</td><td>자동(수동)</td><td>950 A</td></tr>
           <tr><td class="lbl" style="background:#1e3a8a;color:white">차단기명 / 역률</td><td>ACB</td><td>80 %</td></tr>
         </table>
-          </td></tr>
-        </table>
-        </div>
-    </div>
+         </table>
+     </div>
  
     <!-- 패널 4: 차단기 명세 -->
     <div class="panel" id="panel-4">
