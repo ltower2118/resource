@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR 링크·주소 관리대장</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root{--bg:#f5f7fb;--card:#fff;--line:#dfe4ec;--text:#172033;--muted:#687386;--blue:#2563eb;--blue2:#1d4ed8;--danger:#dc2626;--ok:#0f766e}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px}.top h1{margin:0;font-size:30px}.top p{color:var(--muted);margin:8px 0 22px}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+    .mode{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.mode button,.btn{border:1px solid var(--line);background:white;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.mode button.active,.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.btn.primary:hover{background:var(--blue2)}.btn.danger{color:var(--danger)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.full{grid-column:1/-1}.field label{display:block;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:#fff}.field small{display:block;color:var(--muted);margin-top:5px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.hidden{display:none!important}
+    .preview{display:grid;grid-template-columns:250px 1fr;gap:22px;align-items:start}.qrbox{border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;background:#fff}.qr-title{font-size:20px;font-weight:800;margin-bottom:12px}.qr-target{font-size:12px;color:var(--muted);word-break:break-all;margin-top:12px}.qrholder{width:210px;height:210px;margin:0 auto;display:flex;align-items:center;justify-content:center}.qrholder img,.qrholder canvas{max-width:210px!important;max-height:210px!important}
+    .summary{line-height:1.7}.summary .url{word-break:break-all;background:#f8fafc;padding:10px;border-radius:10px;border:1px solid var(--line)}
+    table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f8fafc;white-space:nowrap}.urlcell{max-width:360px;word-break:break-all}.tablewrap{overflow:auto}.empty{text-align:center;color:var(--muted);padding:34px}
+    .status{margin-top:10px;color:var(--ok);font-weight:700}.note{padding:12px;border-radius:10px;background:#eff6ff;color:#1e3a8a;margin-top:12px}
+    @media(max-width:760px){.grid,.preview{grid-template-columns:1fr}.wrap{padding:14px}.qrbox{max-width:280px;margin:auto}}
+    @media print{body{background:white}.top,.input-panel,.list-panel,.no-print{display:none!important}.wrap{padding:0}.panel{border:0;box-shadow:none}.preview{display:block}.qrbox{width:90mm;margin:20mm auto;border:1px solid #000}.qrholder{width:55mm;height:55mm}.qrholder img,.qrholder canvas{width:55mm!important;height:55mm!important}.summary{display:none}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><h1>QR 링크·주소 관리대장</h1><p>URL 또는 GitHub Pages 주소를 만들고, 제목이 포함된 QR 이미지를 저장·인쇄하며 주소 목록을 Excel용 파일로 정리합니다.</p></div>
+
+  <section class="panel input-panel">
+    <div class="mode">
+      <button id="modeUrl" class="active" type="button">URL 직접 입력</button>
+      <button id="modeGithub" type="button">GitHub Pages 주소 만들기</button>
+    </div>
+    <div class="grid">
+      <div class="field full"><label for="title">타이틀</label><input id="title" placeholder="예: FAC-001 VCB 수변전 이력조회" /></div>
+      <div id="urlFields" class="field full"><label for="directUrl">연결 URL</label><input id="directUrl" type="url" placeholder="https://script.google.com/... 또는 https://example.com/page" /></div>
+      <div id="githubFields" class="full hidden">
+        <div class="grid">
+          <div class="field"><label for="ghUser">GitHub 사용자명</label><input id="ghUser" placeholder="예: honggildong" /></div>
+          <div class="field"><label for="ghRepo">저장소명</label><input id="ghRepo" placeholder="예: facility-history" /></div>
+          <div class="field full"><label for="ghPath">파일/페이지 경로</label><input id="ghPath" placeholder="예: docs/FAC-001.html 또는 비워두기" /><small>프로젝트 저장소 Pages 기준 주소: https://사용자명.github.io/저장소명/경로</small></div>
+        </div>
+      </div>
+      <div class="field"><label for="category">분류</label><input id="category" placeholder="예: 전기설비, 소방, 배수펌프" /></div>
+      <div class="field"><label for="memo">비고</label><input id="memo" placeholder="관리 메모" /></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="generateBtn" type="button">QR 미리보기</button>
+      <button class="btn" id="saveBtn" type="button">주소 목록에 저장</button>
+      <button class="btn" id="resetBtn" type="button">입력 초기화</button>
+    </div>
+    <div id="status" class="status"></div>
+  </section>
+
+  <section class="panel" id="previewPanel">
+    <div class="preview">
+      <div class="qrbox" id="printArea">
+        <div class="qr-title" id="previewTitle">QR 타이틀</div>
+        <div id="qrcode" class="qrholder"></div>
+        <div class="qr-target" id="previewUrl">URL을 입력하세요.</div>
+      </div>
+      <div class="summary">
+        <h2 style="margin-top:0">생성 결과</h2>
+        <p><b>타이틀:</b> <span id="summaryTitle">-</span></p>
+        <p><b>주소:</b></p><div class="url" id="summaryUrl">-</div>
+        <div class="actions no-print">
+          <button class="btn primary" id="downloadBtn" type="button">QR 이미지 다운로드</button>
+          <button class="btn" id="printBtn" type="button">인쇄</button>
+          <button class="btn" id="copyBtn" type="button">주소 복사</button>
+        </div>
+        <div class="note">GitHub에 파일을 올린 경우 GitHub Pages가 활성화되어 있어야 주소가 열립니다. GitHub 저장소의 일반 파일 주소가 아니라 Pages 주소를 사용하세요.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel list-panel">
+    <h2 style="margin-top:0">주소 목록</h2>
+    <div class="actions" style="margin:0 0 14px">
+      <button class="btn primary" id="csvBtn" type="button">CSV 다운로드</button>
+      <button class="btn" id="xlsBtn" type="button">Excel(.xls) 다운로드</button>
+      <button class="btn" id="printAllBtn" type="button">전체 QR 인쇄</button>
+      <button class="btn danger" id="clearBtn" type="button">목록 전체 삭제</button>
+    </div>
+    <div class="tablewrap"><table><thead><tr><th>번호</th><th>타이틀</th><th>분류</th><th>주소</th><th>비고</th><th>등록일</th><th>작업</th></tr></thead><tbody id="listBody"></tbody></table></div>
+  </section>
+</div>
+<script>
+const $=id=>document.getElementById(id); let mode='url'; let currentUrl=''; let currentTitle=''; let records=JSON.parse(localStorage.getItem('qrLinkRecords')||'[]');
+function setMode(m){mode=m;$('modeUrl').classList.toggle('active',m==='url');$('modeGithub').classList.toggle('active',m==='github');$('urlFields').classList.toggle('hidden',m!=='url');$('githubFields').classList.toggle('hidden',m!=='github');}
+$('modeUrl').onclick=()=>setMode('url'); $('modeGithub').onclick=()=>setMode('github');
+function normalizePath(p){return String(p||'').trim().replace(/^\/+/, '').replace(/\s/g,'%20');}
+function buildUrl(){if(mode==='url')return $('directUrl').value.trim();const u=$('ghUser').value.trim(),r=$('ghRepo').value.trim(),p=normalizePath($('ghPath').value);if(!u||!r)return '';return `https://${u}.github.io/${r}/${p}`.replace(/\/$/,'/');}
+function validUrl(v){try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)}catch(e){return false}}
+function safeName(v){return (v||'QR').replace(/[\\/:*?"<>|]/g,'_').trim()||'QR'}
+function renderQR(){const url=buildUrl(),title=$('title').value.trim()||'QR 코드';if(!validUrl(url)){alert('올바른 http 또는 https 주소를 입력하세요.');return false}currentUrl=url;currentTitle=title;$('previewTitle').textContent=title;$('previewUrl').textContent=url;$('summaryTitle').textContent=title;$('summaryUrl').textContent=url;const box=$('qrcode');box.innerHTML='';if(window.QRCode){new QRCode(box,{text:url,width:210,height:210,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}else{const img=new Image();img.alt='QR 코드';img.src='https://api.qrserver.com/v1/create-qr-code/?size=420x420&margin=10&data='+encodeURIComponent(url);img.width=210;img.height=210;box.appendChild(img);}return true}
+$('generateBtn').onclick=renderQR;
+$('saveBtn').onclick=()=>{if(!renderQR())return;records.push({title:currentTitle,category:$('category').value.trim(),url:currentUrl,memo:$('memo').value.trim(),created:new Date().toLocaleString('ko-KR')});persist();$('status').textContent='주소 목록에 저장했습니다.';};
+function persist(){localStorage.setItem('qrLinkRecords',JSON.stringify(records));renderList()}
+function renderList(){const b=$('listBody');if(!records.length){b.innerHTML='<tr><td colspan="7" class="empty">저장된 주소가 없습니다.</td></tr>';return}b.innerHTML=records.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.title)}</td><td>${esc(r.category)}</td><td class="urlcell"><a href="${attr(r.url)}" target="_blank" rel="noopener">${esc(r.url)}</a></td><td>${esc(r.memo)}</td><td>${esc(r.created)}</td><td><button class="btn" onclick="loadRecord(${i})">QR</button> <button class="btn danger" onclick="deleteRecord(${i})">삭제</button></td></tr>`).join('')}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function attr(s){return esc(s)}
+window.loadRecord=i=>{const r=records[i];setMode('url');$('title').value=r.title;$('directUrl').value=r.url;$('category').value=r.category;$('memo').value=r.memo;renderQR();scrollTo({top:0,behavior:'smooth'})};window.deleteRecord=i=>{if(confirm('이 항목을 삭제할까요?')){records.splice(i,1);persist()}};
+$('resetBtn').onclick=()=>{['title','directUrl','ghUser','ghRepo','ghPath','category','memo'].forEach(id=>$(id).value='');currentUrl='';currentTitle='';$('qrcode').innerHTML='';$('previewTitle').textContent='QR 타이틀';$('previewUrl').textContent='URL을 입력하세요.';$('summaryTitle').textContent='-';$('summaryUrl').textContent='-';$('status').textContent=''};
+$('copyBtn').onclick=async()=>{if(!currentUrl&&!renderQR())return;await navigator.clipboard.writeText(currentUrl);$('status').textContent='주소를 복사했습니다.'};
+$('printBtn').onclick=()=>{if(!currentUrl&&!renderQR())return;window.print()};
+$('downloadBtn').onclick=async()=>{if(!currentUrl&&!renderQR())return;const box=$('qrcode'),canvas=box.querySelector('canvas'),img=box.querySelector('img');if(canvas){const a=document.createElement('a');a.download=safeName(currentTitle)+'.png';a.href=canvas.toDataURL('image/png');a.click();return}if(img){try{const res=await fetch(img.src);const blob=await res.blob();const a=document.createElement('a');a.download=safeName(currentTitle)+'.png';a.href=URL.createObjectURL(blob);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}catch(e){window.open(img.src,'_blank')}}};
+function csvCell(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
+$('csvBtn').onclick=()=>{const rows=[['번호','타이틀','분류','주소','비고','등록일'],...records.map((r,i)=>[i+1,r.title,r.category,r.url,r.memo,r.created])];downloadBlob('\ufeff'+rows.map(x=>x.map(csvCell).join(',')).join('\r\n'),'QR_주소목록.csv','text/csv;charset=utf-8')};
+$('xlsBtn').onclick=()=>{const rows=[['번호','타이틀','분류','주소','비고','등록일'],...records.map((r,i)=>[i+1,r.title,r.category,r.url,r.memo,r.created])];const tr=rows.map((row,ri)=>'<tr>'+row.map((v,ci)=>`${ri===0?'<th>':'<td>'}${ci===3&&ri>0?`<a href="${attr(v)}">${esc(v)}</a>`:esc(v)}${ri===0?'</th>':'</td>'}`).join('')+'</tr>').join('');const html=`<html><head><meta charset="utf-8"></head><body><table border="1">${tr}</table></body></html>`;downloadBlob('\ufeff'+html,'QR_주소목록.xls','application/vnd.ms-excel;charset=utf-8')};
+function downloadBlob(data,name,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+$('clearBtn').onclick=()=>{if(confirm('저장된 주소 목록을 모두 삭제할까요?')){records=[];persist()}};
+$('printAllBtn').onclick=()=>{if(!records.length){alert('저장된 목록이 없습니다.');return}const w=window.open('','_blank');const cards=records.map(r=>`<div class="card"><h2>${esc(r.title)}</h2><img src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&margin=10&data=${encodeURIComponent(r.url)}"><p>${esc(r.url)}</p></div>`).join('');w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>전체 QR 인쇄</title><style>body{font-family:sans-serif}.card{width:80mm;min-height:105mm;border:1px solid #333;margin:8mm auto;padding:8mm;text-align:center;page-break-inside:avoid}.card img{width:55mm;height:55mm}.card p{font-size:10px;word-break:break-all}@media print{button{display:none}}</style></head><body><button onclick="print()">인쇄</button>${cards}</body></html>`);w.document.close()};
+renderList();
+</script>
+</body></html>
