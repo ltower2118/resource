@@ -25,7 +25,7 @@
         
         /* 5단 터치 메뉴 탭 구조 */
         .tab-menu { display: grid; grid-template-columns: repeat(5, 1fr); gap:5px; margin-bottom: 15px; }
-        .tab-btn { background: #e2e8f0; border: 1px solid #cbd5e1; width: 90px; padding: 5px 5px; text-align: center; border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: bold; color: #475569; transition: all 0.15s; }
+        .tab-btn { background: #e2e8f0; border: 1px solid #cbd5e1; width: 90px; padding: 5px 5px; text-align: center; border-radius: 20px; cursor: pointer; font-size: 1.1rem; ; color: #475569; transition: all 0.15s; }
         
         .tab-input { display: none; }
         #tab1:checked ~ .tab-menu label[for="tab1"],
@@ -68,8 +68,7 @@
 
 <div class="container">
     <div class="header-title">서울숲엘타워 수변전 정전대응</div>
-    <div class="emergency-banner">🚨 한국전력공사 고장장애 신고 <br>
-        국번없이 123<br>광진성동지사 : 2290-5261</div>
+
 
     <input type="radio" id="tab1" name="menu" class="tab-input" checked>
     <input type="radio" id="tab2" name="menu" class="tab-input">
@@ -84,7 +83,8 @@
     </div>
 
     <div class="content-card" id="content1">
-        <h3>🚨 돌발 사고정전 발생 시 대응순서</h3>
+        국번없이 123<br>광진성동지사 : 2290-5261</div><br>
+        <h3>🚨 돌발 사고정전 발생 시 대응순서</h3><br>
         <h3>1. 초기 상황 인지</h3>
         <div class="step-box alert">
             <span class="step-num">① 정전 상황 인지 및 비상등 확인</span>
