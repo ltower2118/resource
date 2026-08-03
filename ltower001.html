@@ -11,7 +11,7 @@
         
         /* 헤더 섹션 */
         .header-title { background: #01438a; color: #f8fafc; padding: 14px 10px; border-radius: 8px; text-align: center; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .emergency-banner { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.9rem; margin-bottom: 12px; }
+        .emergency-banner { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 1.1rem; margin-bottom: 12px; }
         
         .title {
           font-weight: bold;
@@ -25,7 +25,7 @@
         
         /* 5단 터치 메뉴 탭 구조 */
         .tab-menu { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 12px; }
-        .tab-btn { background: #e2e8f0; border: 1px solid #cbd5e1; padding: 12px 2px; text-align: center; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-weight: bold; color: #475569; transition: all 0.15s; }
+        .tab-btn { background: #e2e8f0; border: 1px solid #cbd5e1; padding: 12px 2px; text-align: center; border-radius: 6px; cursor: pointer; font-size: 1.1rem; font-weight: bold; color: #475569; transition: all 0.15s; }
         
         .tab-input { display: none; }
         #tab1:checked ~ .tab-menu label[for="tab1"],
@@ -48,17 +48,17 @@
         h3 { font-size: 1.2rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px ; padding-bottom: 6px; }
         h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; padding: 6px; border-radius: 4px; border-left: 3px }
         
-        .step-box { background: #f8fafc; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; font-size: 0.85rem; line-height: 1.5; color: #334155; border-left: 4px solid #94a3b8; }
+        .step-box { background: #f8fafc; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; font-size: 1.1rem; line-height: 1.5; color: #334155; border-left: 4px solid #94a3b8; }
         .step-box.alert { }
         .step-box.success { border-left-color: #10b981; background: #f0fdf4; }
         .step-box.warning { }
         .step-num { font-weight: bold; color: #0f172a; margin-bottom: 2px; display: block; }
         
-        .info-list { padding-left: 16px; margin: 5px 0; font-size: 0.85rem; line-height: 1.5; color: #2e69bd; }
+        .info-list { padding-left: 16px; margin: 5px 0; font-size: 1.0rem; line-height: 1.5; color: #2e69bd; }
         .info-list li { margin-bottom: 4px; }
 
         /* 연락처 테이블 스타일 */
-        .contact-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 5px; }
+        .contact-table { width: 100%; border-collapse: collapse; font-size: 1.0rem; margin-top: 5px; }
         .contact-table th, .contact-table td { border: 1px solid #e2e8f0; padding: 8px 6px; text-align: left; }
         .contact-table th { background: #f8fafc; color: #475569; font-weight: bold; text-align: center; }
         .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; text-align: center; }
@@ -84,7 +84,7 @@
 
     <div class="content-card" id="content1">
         <h3>🚨 돌발 사고정전 발생 시 대응순서</h3>
-        <h4>1. 초기 상황 인지</h4>
+        <h3>1. 초기 상황 인지</h3>
         <div class="step-box alert">
             <span class="step-num">① 정전 상황 인지 및 비상등 확인</span>
             정전 즉시 내부 전체 소등 발생 및 비상등(유도등, 비상조명등, DC등)만 켜진 상태 인지. 전기실내 비상전원 절체상태(소방, 통신, 승강기 설비 등) 즉시 점검.
@@ -137,7 +137,7 @@
     <div class="content-card" id="content2">
         <h3>📅 정기검사 및 계획정전 작업 매뉴얼</h3>
         
-        <h4>1. 정전 30분 전 사전 작업 단계</h4>
+        <h3>1. 정전 30분 전 사전 작업 단계</h3>
         <div class="step-box">
             <span class="step-num">가. 유관기관 통신 및 보안업체 사전 통보</span>
             계획 정전 시작 전 KT, SK , U+ 통신사<br>
@@ -327,7 +327,7 @@
             </tbody>
         </table>
         
-        <div style="margin-top:12px; font-size:0.75rem; color:#64748b; font-weight:500; line-height:1.4;">
+        <div style="margin-top:12px; font-size:0.9rem; color:#64748b; font-weight:500; line-height:1.4;">
             ※ 평상시 정전대비 준비사항:<br>
             1. ATS, VCB 등 각 차단기 수동 투입방법을 현장에서 사전 전수 확인하십시오.<br>
             2. 전기실 전 근무자가 실무 조작 가능하도록 비상 대응 훈련 및 평상시 교육을 철저히 이행하십시오.
