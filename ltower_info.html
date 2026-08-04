@@ -59,6 +59,10 @@
           font-size: 0.95rem;
           color: #444;
         }
+        .text3 {
+          font-size: 1.5rem;
+          color: #444;
+        }
         
         /* 상단 앱바 */
         header {
@@ -86,7 +90,14 @@
         header .icon {
           font-size: 22px;
         }
-        
+        .card {
+      background: #ecf2f9;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.08);
+
+    }
         /* 내비게이션 버튼 메뉴 그룹 */
         .nav-btn-group {
           display: grid;
@@ -255,9 +266,9 @@
 
 <main>   
     <br><br><br>
-    <div class="title">서울숲엘타워 시설현황정보</div>
+    <div class="title">시설현황정보</div>
     <div class="text2" style="margin-top: 8px;">
-      *기본현황, 수전설비등을 볼수 있습니다.<br>
+      기본현황, 수전설비등을 자세히 볼수 있습니다.<br>
 
     </div>
 
@@ -272,6 +283,11 @@
     <!-- 패널 1: 기본현황 -->
     <div class="panel" id="panel-1">
         <h2>기본현황</h2>
+         <div class="card">
+        <p>연면적 / 건축면적</p>
+        <h1>22,796.14㎡ / 1278.99㎡ </h1>
+        <h2>지하4층 / 지상15층</h2> 
+        </div>
         <div style="overflow-x:auto;">
         <table class="info-table">
          <colgroup>
@@ -307,7 +323,7 @@
                 <tr>
                     <th class="text-info" rowspan="8">시설현황</th>
                     <td class="lbl">수신기위치</td>
-                    <td colspan="4">B1층 방재실</td>
+                    <td colspan="4">1층 방재실</td>
                 </tr>
                 <tr>
                     <td class="lbl">대상물 급수</td>
@@ -404,8 +420,8 @@
         </colgroup>
             <tbody>
                 <tr>
-                    <th class="text-info">수변전실 위치</th>
-                    <td colspan="4">지하4층</td>
+                    <th class="text-info">수신실 위치</th>
+                    <td colspan="4">지하5층</td>
                 </tr>
                 <tr>
                     <th class="text-info" rowspan="3">인입개폐기</th>
