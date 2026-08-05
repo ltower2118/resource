@@ -195,7 +195,7 @@
     /* ---------- 섹션 공통 ---------- */
     .page-head {
       padding: 28px 0 16px;
-      border-bottom: 1px solid var(--color-line);
+     /* border-bottom: 1px solid var(--color-line); */
       margin-bottom: 24px;
     }
 
@@ -436,15 +436,15 @@
       font-weight: 700;
       cursor: pointer;
     }
-    .btn:hover { background: var(--color-navy-soft); }
+    .btn:hover { background: #8da9f8; }
     .btn:disabled { background: var(--color-steel-light); color: var(--color-steel); cursor: not-allowed; }
 
     .btn.secondary {
-      background: #ebedf3;
+      background: #a9a9a9;
       color: var(--color-navy);
       border: 1px solid var(--color-line);
     }
-    .btn.secondary:hover { border-color: var(--color-navy); }
+    .btn.secondary:hover { background: #1e3a8a; color: #fff; }
 
     .toolbar {
       display: flex;
@@ -512,10 +512,12 @@
 
 <main class="wrap">
 
+  <div class="page-head">
     <br><br><br>
     <div class="title">작업 입력하기 </div>
     <p>구글시트에 자동 저장되고, 아래 목록에서 바로 조회할 수 있습니다.</p>
-<br>
+  </div>
+
   <div class="setup-note" id="setupNote">
     ⚠ 최초 1회 설정 필요: 이 파일 맨 아래 &lt;script&gt; 안의 <code>SCRIPT_URL</code>에
     구글 Apps Script 웹앱 URL을 넣어야 저장/조회가 동작합니다. 함께 드린
@@ -523,7 +525,7 @@
   </div>
 
   <div class="panel">
-    <div class="title2">고장.점검조치 입력</div><br>
+    <div class="title2">고장.점검조치 </div><br>
     <form id="historyForm">
       <div class="form-grid">
         <div class="form-field">
@@ -567,7 +569,7 @@
   </div>
 </main>
   <div class="panel_wide">
-    <div class="title2">이력조회</div>
+    <div class="title">이력조회하기</div>
     <p class="text2">날짜 · 위치 · 작업내용 · 작업자등 이력을 입력하면 아래 목록에서 바로 조회할 수 있습니다.</p>
     <br>
     <div class="toolbar">
