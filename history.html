@@ -9,7 +9,7 @@
    ========================================================== */
 
     :root {
-          --btn-bg: #f1f5f9;
+    --btn-bg: #f1f5f9;
           --btn-text: #0d2260;
           --btn-border: white;
           
@@ -17,12 +17,14 @@
           --btn-active-text: #ffffff;
           --btn-active-border: #ffffff;
 
+          --btn-font-size: 1.1rem;
+          --btn-padding: 10px 20px;
+          --btn-radius: 30px;
+
       --font-display: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
       --font-body: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
       --font-mono: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
 
-      --radius: 6px;
-      --shadow-card: 0 1px 2px rgba(28,43,57,0.06), 0 1px 8px rgba(28,43,57,0.04);
     }
 
     * { box-sizing: border-box; }
@@ -117,7 +119,7 @@
           transform: scale(1.1);
         }
   
-    /* 네비게이션 버튼 그룹 */
+      /* 네비게이션 버튼 그룹 */
     .nav-btn-group {
       display: flex;                /* 가로 배치 */
       gap: 6px;
@@ -384,20 +386,20 @@
       border-color: var(--btn-active-border);
     }
 
-    .panel {
+    /*.panel {
       scroll-margin-top: 135px;
       margin-bottom: 25px;
-    }
+    } */
   
     /* ---------- 섹션 박스 / 리스트 ---------- */
-    /*.panel {
+    .panel {
       background: var(--color-surface);
       border: 1px solid var(--color-line);
       border-radius: var(--radius);
       padding: 18px 18px 18px;
       box-shadow: var(--shadow-card);
       margin-bottom: 22px;
-    } */
+    } 
     .panel_wide {
       background: white;
     
@@ -726,7 +728,8 @@
   <p class="footer-note">서울숲엘타워 관리단 · 전기과 내부 자료 · 무단 외부 공유 금지</p>
 
 </main>
-
+</body>
+</html>
 <script>
 /* =====================================================================
    설정: 아래 SCRIPT_URL에 구글 Apps Script 웹앱 배포 URL을 붙여넣으세요.
@@ -883,5 +886,4 @@ document.getElementById('historyForm').addEventListener('submit', async function
 loadHistory();
 </script>
 
-</body>
-</html>
+
