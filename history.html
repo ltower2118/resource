@@ -577,8 +577,9 @@
     <p>구글시트에 자동 저장되고, 아래 목록에서 바로 조회할 수 있습니다.</p>
   </div>
    <div class="nav-btn-group">
-      <button class="nav-btn active" onclick="scrollToPanel('panel-1', this)">작업이력 입력</button>
-      <button class="nav-btn" onclick="scrollToPanel('panel-wide', this)">작업이력 조회</button>
+      <button class="nav-btn active" onclick="scrollToPanel('panel-1', this)">화재오작동방송</button>
+      <button class="nav-btn" onclick="scrollToPanel('panel-wide', this)">소방점검방송</button>
+      <button class="nav-btn" onclick="scrollToPanel('panel-3', this)">실제화재방송</button>
 
     </div>
   <div class="setup-note" id="setupNote">
@@ -673,7 +674,19 @@
    배포 방법은 SETUP.md 문서를 참고하세요.
    예: const SCRIPT_URL = "https://script.google.com/macros/s/AKfycb.../exec";
 ===================================================================== */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweYKQzJozN4HtV1HZbnFtbM7FcqTz491aK-EnRmEBVk_NflVxD7fxMAs8740prwVgZ-g/exec";
+ /*상단버튼 이동하기 */
+  function scrollToPanel(panelId, btnElement) {
+        const targetPanel = document.getElementById(panelId);
+        if (targetPanel) {
+            targetPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+    }
+  
+  
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweYKQzJozN4HtV1HZbnFtbM7FcqTz491aK-EnRmEBVk_NflVxD7fxMAs8740prwVgZ-g/exec";
 
 const badgeClass = { "전기": "elec", "소방": "fire", "통신": "comm", "기계": "mech", "기타": "" };
 
