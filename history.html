@@ -9,21 +9,21 @@
    ========================================================== */
 
     :root {
-      --btn-bg: #f1f5f9;
-          --btn-text: #0d2260;
-          --btn-border: white;
-          
-          --btn-active-bg: #1e3a8a;
-          --btn-active-text: #ffffff;
-          --btn-active-border: #ffffff;
+      --color-bg: #fff;
+      --color-surface: #ffffff;
+      --color-navy: #1c2b39;
+      --color-navy-soft: #2c3e4f;
+      --color-steel: #5c7080;
+      --color-steel-light: #e2e6e9;
+      --color-line: #dfe3e2;
+      --color-amber: #f2a900;
+      --color-amber-dark: #c98700;
+      --color-danger: #c0392b;
+      --color-ok: #2f6f4e;
 
-          --btn-font-size: 1.1rem;
-          --btn-padding: 10px 20px;
-          --btn-radius: 30px;
-
-      --font-display: "Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
-      --font-body: "Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
-      --font-mono: "Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
+      --font-display: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
+      --font-body: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
+      --font-mono: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; 
 
       --radius: 6px;
       --shadow-card: 0 1px 2px rgba(28,43,57,0.06), 0 1px 8px rgba(28,43,57,0.04);
@@ -189,65 +189,6 @@
       color: #fff;
       border-bottom-color: var(--color-amber);
       font-weight: 700;
-    }
-
-    /* 네비게이션 버튼 그룹 */
-    .nav-btn-group {
-      display: flex;                /* 가로 배치 */
-      gap: 6px;
-      margin: 15px 0 20px 0;
-      position: sticky;
-      top: 60px;
-      background: #ffffff;
-      padding: 8px 0;
-      z-index: 900;
-
-      overflow-x: auto;             /* 가로 스크롤 가능 */
-      scrollbar-width: none;        /* Firefox 스크롤바 숨김 */
-    }
-    .nav-btn-group::-webkit-scrollbar {
-      display: none;                /* Chrome/Edge 스크롤바 숨김 */
-    }
-
-    /* 오른쪽 끝 안개 효과 */
-    .nav-btn-group::after {
-      content: "";
-      position: sticky;
-      right: 0;
-      width: 50px;
-      height: 100%;
-      pointer-events: none;
-      background: linear-gradient(to left, #ffffff, transparent);
-    }
-
-    .nav-btn {
-      background-color: var(--btn-bg);
-      color: var(--btn-text);
-      border: 1px solid var(--btn-border);
-      padding: var(--btn-padding);
-      font-size: var(--btn-font-size);
-      font-weight: 600;
-      border-radius: var(--btn-radius);
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s ease-in-out;
-      outline: none;
-      word-break: keep-all;
-      line-height: 1.2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto; /* 버튼 크기 유지 */
-    }
-
-    .nav-btn:hover {
-      background-color: #e2e8f0;
-    }
-
-    .nav-btn.active {
-      background-color: var(--btn-active-bg);
-      color: var(--btn-active-text);
-      border-color: var(--btn-active-border);
     }
 
 
@@ -530,7 +471,7 @@
     }
     .status-msg.ok { display: block; background: #d6dffb; color: #1e3a8a;font-size: 1.1rem; }
     .status-msg.err { display: block; background: #fbdedb; color: #1e3a8a;font-size: 1.1rem; }
-    .status-msg.pending { display: block; background: var(--color-steel-light); color: #1e3a8a;font-size: 1.1rem; }
+    .status-msg.pending { display: block; background: var(--color-steel-light); color: var(--color-steel);font-size: 1.1rem; }
 
     .empty-state {
       text-align: center;
@@ -576,19 +517,14 @@
     <div class="title">작업 입력하기 </div>
     <p>구글시트에 자동 저장되고, 아래 목록에서 바로 조회할 수 있습니다.</p>
   </div>
-   <div class="nav-btn-group">
-      <button class="nav-btn active" onclick="scrollToPanel('panel-1', this)">화재오작동방송</button>
-      <button class="nav-btn" onclick="scrollToPanel('panel-wide', this)">소방점검방송</button>
-      <button class="nav-btn" onclick="scrollToPanel('panel-3', this)">실제화재방송</button>
 
-    </div>
   <div class="setup-note" id="setupNote">
     ⚠ 최초 1회 설정 필요: 이 파일 맨 아래 &lt;script&gt; 안의 <code>SCRIPT_URL</code>에
     구글 Apps Script 웹앱 URL을 넣어야 저장/조회가 동작합니다. 함께 드린
     <b>SETUP.md</b> 문서와 <b>code.gs</b> 파일을 참고해 배포하세요. 설정 후에는 이 안내가 자동으로 숨겨집니다.
   </div>
 
-  <div class="panel-1">
+  <div class="panel">
     <div class="title2">고장.점검조치 </div><br>
     <form id="historyForm">
       <div class="form-grid">
@@ -674,19 +610,7 @@
    배포 방법은 SETUP.md 문서를 참고하세요.
    예: const SCRIPT_URL = "https://script.google.com/macros/s/AKfycb.../exec";
 ===================================================================== */
- /*상단버튼 이동하기 */
-  function scrollToPanel(panelId, btnElement) {
-        const targetPanel = document.getElementById(panelId);
-        if (targetPanel) {
-            targetPanel.scrollIntoView({ behavior: 'smooth' });
-        }
-        const buttons = document.querySelectorAll('.nav-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        btnElement.classList.add('active');
-    }
-  
-  
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweYKQzJozN4HtV1HZbnFtbM7FcqTz491aK-EnRmEBVk_NflVxD7fxMAs8740prwVgZ-g/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweYKQzJozN4HtV1HZbnFtbM7FcqTz491aK-EnRmEBVk_NflVxD7fxMAs8740prwVgZ-g/exec";
 
 const badgeClass = { "전기": "elec", "소방": "fire", "통신": "comm", "기계": "mech", "기타": "" };
 
