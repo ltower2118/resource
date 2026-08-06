@@ -7,7 +7,7 @@
     <style>
         /* 기본 스타일 및 컬러셋 정의 (서브페이지의 세련된 톤 적용) */
         :root {
-            --bg-color: #f4f6f9;
+            --bg-color: #e8ecf3;
             --primary-color: #1e3d59; /* 신뢰감을 주는 모던 네이비 */
             --secondary-color: #17b890; /* 세련된 포인트 그린 */
             --text-dark: #333333;
@@ -204,7 +204,14 @@
         .menu-card.active .menu-icon {
             transform: scale(1.15);
         }
+       .card {
+      background: #ffffff;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
 
+       }
+        
         /* 메뉴 텍스트 스타일 */
         .menu-title {
             font-size: 1.2rem;
@@ -289,7 +296,7 @@
 
     <header>
         <h1>서울숲엘타워 지식산업센터</h1>
-        <p>관리 매뉴얼 </p>
+        <p>관리 매뉴얼</p>
     </header>
     <main>
             <p>본 자료는 내부직원 정보공유를 위해 만든 자료입니다. 업무에 참고하기 바랍니다.</p>
@@ -351,10 +358,11 @@
                 <div class="menu-title">일일점검일지</div>
             </a>
         </div><br>
-            <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
+        <div class="card">
+        
          <a href="ltower001.html" class="emergency-shortcut">🚨 돌발/계획 정전대응 매뉴얼</a> 
          <a href="history.html" class="emergency-shortcut2">이력관리 입력</a>      
-         
+         </div>
         <br><br>
     <div class="section-title">기타 자료</div>
 
