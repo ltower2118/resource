@@ -280,10 +280,10 @@
       margin-bottom: 22px;
     }
     .panel_wide {
-      background: white;
+      background: #f1f1f1;
     
       /*border-radius: var(--radius);*/
-      padding: 18px 26px 18px;
+      padding: 18px 6px 18px;
       /*box-shadow: var(--shadow-card);*/
       margin-bottom: 22px;
     }
@@ -592,7 +592,7 @@
           <th>위치 / 내용</th>
           <th>작업내용</th>
           <th>작업자</th>
-         <!-- <th>비고</th> -->
+         <th>비고</th>
         </tr>
       </thead>
       <tbody id="listBody"></tbody>
@@ -692,7 +692,7 @@ function renderList() {
       '<td>' + (row['위치/내용'] || '') + '</td>' +
       '<td>' + (row['작업내용'] || '') + '</td>' +
       '<td>' + (row['작업자'] || '') + '</td>' +
-      /*'<td>' + (row['비고'] || '') + '</td>'; */
+      '<td>' + (row['비고'] || '') + '</td>';
     listBody.appendChild(tr);
   });
 }
