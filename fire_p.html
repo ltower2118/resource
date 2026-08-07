@@ -6,16 +6,18 @@
 <title>화재 경보 발생 시 비상조치 요령 | 서울숲엘타워</title>
 <style>
   :root {
-    --red: #c81e1e;
-    --red-dark: #8f1414;
-    --green: #1f9d55;
-    --yellow: #e8b800;
-    --ink: #1c1c1c;
-    --paper: #faf8f4;
-    --card: #ffffff;
-    --line: #e3ddd2;
-    --muted: #6b6358;
-  }
+          --btn-bg: #f1f5f9;
+          --btn-text: #0d2260;
+          --btn-border: white;
+          
+          --btn-active-bg: #1e3a8a;
+          --btn-active-text: #ffffff;
+          --btn-active-border: #ffffff;
+
+          --btn-font-size: 1.1rem;
+          --btn-padding: 10px 20px;
+          --btn-radius: 30px;
+       }
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -104,6 +106,66 @@
     border-radius: 999px;
     font-weight: 700;
   }
+   /* 네비게이션 버튼 그룹 */
+    .nav-btn-group {
+      display: flex;                /* 가로 배치 */
+      gap: 6px;
+      margin: 15px 0 20px 0;
+      position: sticky;
+      top: 60px;
+      background: #ffffff;
+      padding: 8px 0;
+      z-index: 900;
+
+      overflow-x: auto;             /* 가로 스크롤 가능 */
+      scrollbar-width: none;        /* Firefox 스크롤바 숨김 */
+    }
+    .nav-btn-group::-webkit-scrollbar {
+      display: none;                /* Chrome/Edge 스크롤바 숨김 */
+    }
+
+    /* 오른쪽 끝 안개 효과 */
+    .nav-btn-group::after {
+      content: "";
+      position: sticky;
+      right: 0;
+      width: 50px;
+      height: 100%;
+      pointer-events: none;
+      background: linear-gradient(to left, #ffffff, transparent);
+    }
+
+    .nav-btn {
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      border: 1px solid var(--btn-border);
+      padding: var(--btn-padding);
+      font-size: var(--btn-font-size);
+      font-weight: 600;
+      border-radius: var(--btn-radius);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease-in-out;
+      outline: none;
+      word-break: keep-all;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto; /* 버튼 크기 유지 */
+    }
+
+    .nav-btn:hover {
+      background-color: #e2e8f0;
+    }
+
+    .nav-btn.active {
+      background-color: var(--btn-active-bg);
+      color: var(--btn-active-text);
+      border-color: var(--btn-active-border);
+    }
+
+  
   ol.steps {
     list-style: none;
     margin: 0;
@@ -284,6 +346,14 @@
   <p class="sub">오동작 확인부터 수신반 조작, 라인 구분까지</p>
 </header>
 
+    <div class="title">비상방송별 멘트</div>
+    <div class="nav-btn-group">
+      <button class="nav-btn active" onclick="scrollToPanel('panel-1', this)">화재오작동방송</button>
+      <button class="nav-btn" onclick="scrollToPanel('panel-2', this)">소방점검방송</button>
+      <button class="nav-btn" onclick="scrollToPanel('panel-3', this)">실제화재방송</button>
+      <button class="nav-btn" onclick="scrollToPanel('panel-4', this)">순간정전시방송</button>
+    </div>
+  
 <nav class="toc">
   <a href="#step1">① 기본 절차</a>
   <a href="#step2">② 수신반 화면</a>
@@ -431,3 +501,14 @@
 
 </body>
 </html>
+ <script>
+    function scrollToPanel(panelId, btnElement) {
+        const targetPanel = document.getElementById(panelId);
+        if (targetPanel) {
+            targetPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+    }
+  </script>
