@@ -26,34 +26,43 @@
     }
 
     /* 상단 앱바 */
-/* 상단 앱바 */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%; /* 전체 폭으로 변경 */
-  height: 60px;
-  background-color: white;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: 1000;
-}
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 90%;
+      height: 60px;
+      background-color: white;
+      border: 1px solid #d5d5d5;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
 
-/* 메인 영역만 스크롤 */
-main {
-  margin-top: 70px; /* 헤더 높이만큼 여백 */
-  padding: 20px;
-  overflow-y: auto; /* 메인만 스크롤 */
-  height: calc(100vh - 70px); /* 화면 전체 높이에서 헤더 제외 */
-}
     header h1 {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
     }
+
+    header .icon {
+      font-size: 22px;
+    }
+
+    /* 메인 영역만 스크롤 */
+    main {
+      margin-top: 70px; /* 헤더 높이만큼 여백 */
+      padding: 20px;
+      overflow-y: auto; /* 메인만 스크롤 */
+      height: calc(100vh - 70px); /* 화면 전체 높이에서 헤더 제외 */
+    }
+        header h1 {
+          font-size: 18px;
+          font-weight: 700;
+        }
 
     header .icon {
       font-size: 22px;
