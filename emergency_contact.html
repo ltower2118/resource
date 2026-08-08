@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title> 서울숲엘타워 비상연락망</title>
     <style>
-        * { box-sizing: border-box; font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
+        * { box-sizing: border-box; font-family: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
         body { background-color: #ffffff; padding: 5px; margin: 0; color: #1e293b; }
         .container { max-width: 540px; margin: 0 auto; }
         
@@ -36,23 +36,24 @@
           font-size: 1.1rem;
           color: #1e3a8a;
         }
-             /* 상단 앱바 */
-        header {
+ /* 상단 앱바 */
+         header {
           position: fixed;
           top: 0;
           left: 0;
-          width: 100%; /* 전체 폭 */
+          width: 100%;
           height: 60px;
           background-color: white;
+          border-bottom: 1px solid #d5d5d5; /* 사방 테두리(border) 대신 하단 테두리만 설정 */
           color: black;
-
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding: 0 20px;
           box-shadow: 0 0px 0px rgba(0,0,0,0.1);
           z-index: 1000;
-          }
+        }
+
 
         header h1 {
           font-size: 20px;
@@ -99,18 +100,18 @@
         .contact-box { background: #edd8d8; border: 1px solid #fca5a5; padding: 12px; border-radius: 3px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
         .contact-info { font-size: 1.1em; color: #991b1b; font-weight: bold; }
         .contact-info small{display:block;font-weight:400;color:var(--sub);font-size:11px;margin-top:2px;}
-        .contact-btn { background: #991b1b; color: white; text-decoration: none; padding: 6px 12px; border-radius: 15px; font-size: 0.9rem; font-weight: bold; }
+        .contact-btn { background: #991b1b; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; }
         
          /* 연락처 테이블 스타일 */
         .contact-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 5px; }
         .contact-table th, .contact-table td { border: 1px solid #e2e8f0; padding: 8px 6px; text-align: left; }
         .contact-table th { background: #f8fafc; color: #475569; font-weight: bold; text-align: center; }
-        .contact-call { display: inline-block; background: #01438a; color: white; text-decoration: none; padding: 6px 6px; border-radius: 15px; font-weight: bold; font-size: 1.0rem; text-align: center; }
+        .contact-call { display: inline-block; background: #01438a; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; text-align: center; }
         
         .contact-table th, 
         .contact-table td { 
           padding: 10px 4px; 
-            font-size: 1.0rem; 
+            font-size: 0.85rem; 
             color: #0f172a; 
             text-align: center; 
             border-bottom: 1px solid #cbd5e1; 
@@ -130,7 +131,7 @@
           text-align: center; 
         }
 
-        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 4px 10px; border-radius: 15px; font-size: 0.9rem; }
+        .contact-call { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.78rem; }
         
         /* foot 섹션 */
         .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
@@ -164,7 +165,7 @@
     </div>
     <div class="contact-box" style="background:white; border-color:#9a9f9f;">
         <div class="contact-info" style="color:#0369a1;">승강기 유지보수 (성우/티센)</div>
-        <a href="tel:02-2242-0110" class="contact-btn" style="background:#0369a1;">&nbsp;&nbsp;AS 센터 연결&nbsp;&nbsp;</a>
+        <a href="tel:0222420110" class="contact-btn" style="background:#0369a1;">&nbsp;&nbsp;AS 센터 연결&nbsp;&nbsp;</a>
     </div>
 
      <div class="contact-box" style="background:white; border-color:#9a9f9f;">
@@ -176,7 +177,7 @@
         <div class="contact-info" s style="color:#0369a1;"> 인터넷 · 네트워크장애 (KT)</div>
         <a href="tel:02-2118-1499" class="contact-btn" style="background:#0369a1;">&nbsp;&nbsp;바로  연결하기</a>
     </div>
- <br><br><div class="section-gray"><br>
+ <br><br><div class="section-gray">
   <div class="section-title">관리실/입주사 비상연락망</div>
     <div class="contact-box" style="background:white; border-color:#9a9f9f;">
         <div class="contact-info" style="color:#565656;">관리실·경비·미화 연락망</div>
@@ -188,39 +189,32 @@
     </div>
 
     <br>
-        <table class="contact-table"><br><br>
-<div class="section-title">신세계홈쇼핑</div>
-                    <table class="contact-table">
-            <thead>
-                <tr><th>이름</th><th>전화 번호</th><th>다이렉트</th></tr>
-            </thead>
+        <table class="contact-table">
+<div class="section-title">신세계홈쇼핑</div><br>
             <tbody>
                 <tr ><td>김환호 파트너</td><td>010-5448-5646</td><td>
-                    <a href="tel:010-5448-5646" class="contact-call">전화연결</a></td></tr>
-                <tr style="background:#f8fafc;"><td>임영빈소장</td><td>010-5246-4850</td><td><a href="tel:010-5246-4850" class="contact-call">전화연결</a></td></tr>
-                <tr><td>김동주 파트너</td><td>010-9161-4171</td><td><a href="tel:010-9161-4171" class="contact-call">전화연결</a></td></tr>
+                    <a href="tel:01054485646" class="contact-call">전화연결</a></td></tr>
+                <tr><td>임영빈소장</td><td>010-5246-4850</td><td><a href="tel:01052464850" class="contact-call">전화연결</a></td></tr>
+                <tr><td>김동주 파트너</td><td>010-9161-4171</td><td><a href="tel:01091614171" class="contact-call">전화연결</a></td></tr>
                             </tbody>
         </table>
+        
+    </div>
         <br><br>
-        <table class="contact-table"><br>
-            <div class="section-title">기타</div>
+        <table class="contact-table">
             <thead>
                 <tr><th>기관 / 업체명</th><th>고객 센터 번호</th><th>다이렉트</th></tr>
             </thead>
             <tbody>
-                <tr style="background:#f8fafc;"><td>성동소방서<br> </td><td>02-2622-1777</td><td>
-                 <a href="tel:02-2622-1777" class="contact-call">전화연결</a></td></tr>
-                <tr><td>엠에스소방<br> </td><td>02-487-1191</td><td>
-                <a href="tel:487-1191" class="contact-call">전화연결</a></td></tr>
-                <tr style="background:#f8fafc;"><td>한국전력공사<br> 광진성동지사 (긴급)</td><td>02-2290-5261</td><td>
-                    <a href="tel:02-2290-5261" class="contact-call">전화연결</a></td></tr>
-                <tr><td>한전 광진변전소<br>직통 라인</td><td>02-2290-5268</td><td><a href="tel:02-2290-5268" class="contact-call">전화연결</a></td></tr>
-                <tr style="background:#f8fafc;"><td>한국전력공사 <br>고장장애 종합신고</td><td>국번없이 123</td><td><a href="tel:123" class="contact-call">전화연결</a></td></tr>
-                <tr><td>한국전기안전공사<br>서울동부지사</td><td>02-6488-6400</td><td><a href="tel:02-6488-6400" class="contact-call">전화연결</a></td></tr>
-                <tr style="background:#f8fafc;" ><td>삼원전기<br> (상시 전기안전관리 협력)</td><td>010-5223-6789</td><td><a href="tel:010-5223-6789" class="contact-call">전화연결</a></td></trstyle="background:#f8fafc;">
-                <tr><td>이스타파워 <br>(비상발전기 전문 AS)</td><td>02-3472-6971</td><td><a href="tel:02-3472-6971" class="contact-call">전화연결</a></td></tr>
-                <tr style="background:#f8fafc;"><td>성우 E/V <br>김성재대리(유지보수)</td><td>010-9222-3263</td><td><a href="tel:010-9222-3263" class="contact-call">전화연결</a></td></tr>
-                <tr><td>티센 엘리베이터 <br>종합 AS 센터</td><td>02-2242-0110</td><td><a href="tel:02-2242-0110" class="contact-call">전화연결</a></td></tr>
+                <tr style="background:#f8fafc;"><td>한국전력공사 광진성동지사 (긴급)</td><td>02-2290-5261</td><td>
+                    <a href="tel:0222905261" class="contact-call">전화연결</a></td></tr>
+                <tr><td>한전 광진변전소 직통 라인</td><td>02-2290-5268</td><td><a href="tel:0222905268" class="contact-call">전화연결</a></td></tr>
+                <tr style="background:#f8fafc;"><td>한국전력공사 고장장애 종합신고</td><td>국번없이 123</td><td><a href="tel:123" class="contact-call">전화연결</a></td></tr>
+                <tr><td>한국전기안전공사 서울동부지사</td><td>02-6488-6400</td><td><a href="tel:0264886400" class="contact-call">전화연결</a></td></tr>
+                <tr><td style="background:#f8fafc;">삼원전기 (상시 전기안전관리 협력)</td><td>010-5223-6789</td><td><a href="tel:01052236789" class="contact-call">전화연결</a></td></tr>
+                <tr><td>이스타파워 (비상발전기 전문 AS)</td><td>02-3472-6971</td><td><a href="tel:0234726971" class="contact-call">전화연결</a></td></tr>
+                <tr><td style="background:#f8fafc;">성우 E/V 김성재대리(유지보수)</td><td>010-9222-3263</td><td><a href="tel:010-9222-3263" class="contact-call">전화연결</a></td></tr>
+                <tr><td>티센 엘리베이터 종합 AS 센터</td><td>02-2242-0110</td><td><a href="tel:0222420110" class="contact-call">전화연결</a></td></tr>
             </tbody>
         </table>
         <br><br>
