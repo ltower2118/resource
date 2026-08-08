@@ -24,7 +24,7 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: #f4f4f4;
             color: var(--text-dark);
             line-height: 1.6;
         }
@@ -204,6 +204,39 @@
         .menu-card.active .menu-icon {
             transform: scale(1.15);
         }
+        
+         .menu-grid.horizontal-scroll .menu-card:first-child .menu-title {
+            font-size: 1.0rem;
+        }
+                /* 모바일 최적화 미디어 쿼리 */
+        @media (max-width: 480px) {
+            header { padding: 30px 15px; }
+            header h1 { font-size: 1.5rem; }
+            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .menu-card { padding: 18px 10px; }
+            .menu-icon { font-size: 1.8rem; }
+            .menu-title { font-size: 0.9rem; }
+        }
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            gap: 6px;
+        }
+
+        .scroll-indicator .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #d0d0d0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .scroll-indicator .dot.active {
+            background-color: #1e3a8a;
+        }
        .card {
       background: #ffffff;
       padding: 1.5rem;
@@ -240,9 +273,7 @@
             color: #737373;
              border-radius: 6px;
         }
-        .menu-grid.horizontal-scroll .menu-card:first-child .menu-title {
-            font-size: 1.0rem;
-        }
+       
 
         /* 안내 및 알림 배너 스타일 */
         .info-banner {
@@ -274,35 +305,7 @@
         /* foot 섹션 */
         .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
 
-        /* 모바일 최적화 미디어 쿼리 */
-        @media (max-width: 480px) {
-            header { padding: 30px 15px; }
-            header h1 { font-size: 1.5rem; }
-            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .menu-card { padding: 18px 10px; }
-            .menu-icon { font-size: 1.8rem; }
-            .menu-title { font-size: 0.9rem; }
-        }
-        .scroll-indicator {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 10px;
-            gap: 6px;
-        }
 
-        .scroll-indicator .dot {
-            width: 10px;
-            height: 10px;
-            background-color: #d0d0d0;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .scroll-indicator .dot.active {
-            background-color: #1e3a8a;
-        }
     </style>
     </head>
     <body>
