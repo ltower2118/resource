@@ -24,7 +24,7 @@
         }
 
         body {
-            background-color: #f4f4f4;
+            background-color: var(--bg-color);
             color: var(--text-dark);
             line-height: 1.6;
         }
@@ -113,12 +113,12 @@
         /* 시각적인 카드 메뉴 스타일 */
         .menu-card {
             background-color: var(--card-bg);
-            border-radius: 30px;
+            border-radius: 12px;
             padding: 20px 15px;
             text-align: center;
             text-decoration: none;
             color: var(--text-dark);
-            /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(0, 0, 0, 0.03);
             transition: all 0.25s ease;
             display: flex;
@@ -176,14 +176,14 @@
         .menu-card:hover {
             transform: translateY(1px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            border-color: #18317a;
+            border-color: var(--secondary-color);
         }
 
         /* 활성 카드 상태 (스크롤 시 자동 적용) */
         .menu-card.active {
             transform: translateY(1px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            border-color: #18317a;
+            border-color: var(--secondary-color);
         }
 
         /* 이모지 아이콘 스타일 */
@@ -204,52 +204,11 @@
         .menu-card.active .menu-icon {
             transform: scale(1.15);
         }
-        
-         .menu-grid.horizontal-scroll .menu-card:first-child .menu-title {
-            font-size: 1.0rem;
-        }
-                /* 모바일 최적화 미디어 쿼리 */
-        @media (max-width: 480px) {
-            header { padding: 30px 15px; }
-            header h1 { font-size: 1.5rem; }
-            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .menu-card { padding: 18px 10px; }
-            .menu-icon { font-size: 1.8rem; }
-            .menu-title { font-size: 0.9rem; }
-        }
-        .scroll-indicator {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 10px;
-            gap: 6px;
-        }
-
-        .scroll-indicator .dot {
-            width: 10px;
-            height: 10px;
-            background-color: #d0d0d0;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .scroll-indicator .dot.active {
-            background-color: #1e3a8a;
-        }
        .card {
       background: #ffffff;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
-      border-radius: 30px;
-
-       }
-        .card2 {
-      background: #ffffff;
-      padding: 1.2rem;
-      margin-bottom: 1.5rem;
-      border-radius: 30px;
-            
+      border-radius: 8px;
 
        }
         
@@ -260,7 +219,7 @@
             color: #222;
         }
        .text {
-            font-size: 1.7rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: #222;
         }
@@ -268,13 +227,9 @@
             font-size: 0.9rem;
             color: #737373;
         }
-         .text3 {
-            font-size: 1.2rem;
-             font-weight: 600;
-            color: #737373;
-             border-radius: 6px;
+        .menu-grid.horizontal-scroll .menu-card:first-child .menu-title {
+            font-size: 1.0rem;
         }
-       
 
         /* 안내 및 알림 배너 스타일 */
         .info-banner {
@@ -306,7 +261,35 @@
         /* foot 섹션 */
         .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
 
+        /* 모바일 최적화 미디어 쿼리 */
+        @media (max-width: 480px) {
+            header { padding: 30px 15px; }
+            header h1 { font-size: 1.5rem; }
+            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .menu-card { padding: 18px 10px; }
+            .menu-icon { font-size: 1.8rem; }
+            .menu-title { font-size: 0.9rem; }
+        }
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            gap: 6px;
+        }
 
+        .scroll-indicator .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #d0d0d0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .scroll-indicator .dot.active {
+            background-color: #1e3a8a;
+        }
     </style>
     </head>
     <body>
@@ -316,22 +299,22 @@
         <p>관리 매뉴얼</p>
     </header>
     <main>
-            <p>본 자료는 내부직원 정보공유를 위해 만든 자료입니다. 업무에 참고하기 바랍니다.</p><br>
-       <!--<div class="section-title">비상 연락망</div>-->
+            <p>본 자료는 내부직원 정보공유를 위해 만든 자료입니다. 업무에 참고하기 바랍니다.</p>
+       <div class="section-title">비상 연락망</div>
     <!-- 기존 카드 섹션 -->
     <div class="menu-grid horizontal-scroll" id="scrollMenu">
         <a href="emergency_contact.html" class="menu-card">
-        <img src="images/fire_e.jpg" alt="정전시 비상연락망"><br><br>
+        <img src="images/fire_e.jpg" alt="정전시 비상연락망">
         <div class="text">긴급 비상연락처</div>
         <div class="text2">정전시/화재 긴급 발생시 연락처를 확인하세요</div>
     </a>
     <a href="ltower_tel.html" class="menu-card">
-        <img src="images/office_tel.jpg" alt="비상연락망"><br><br>
+        <img src="images/office_tel.jpg" alt="비상연락망">
         <div class="text">관리실 /경비/미화 연락망</div>
         <div class="text2">연락처를 확인하세요</div>
     </a>
     <a href="office_contact.html" class="menu-card">
-        <img src="images/emergency_tel.jpg" alt="비상연락망"><br><br>
+        <img src="images/emergency_tel.jpg" alt="비상연락망">
         <div class="text">입주사 비상 연락망</div>
         <div class="text2">입주사별 연락처를 확인하세요</div>
     </a>
@@ -342,7 +325,7 @@
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
-    <br><br><br>
+    <br>
      <!--
         <div class="section-title">가이드및 메뉴얼 기타</div>
            <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div><br>
@@ -376,12 +359,11 @@
             </a>
         </div><br>  
            -->
-        <div class="card2">
+        <div class="card">
         
-         <a href="ltower001.html" class="text3">🚨 돌발/계획 정전대응 매뉴얼</a> </div>
-         <div class="card2">
-         <a href="history.html" class="text3">이력관리 입력</a>  </div>    
-         
+         <a href="ltower001.html" class="emergency-shortcut">🚨 돌발/계획 정전대응 매뉴얼</a> 
+         <a href="history.html" class="emergency-shortcut2">이력관리 입력</a>      
+         </div>
         <br><br>
     <div class="section-title">기타 자료</div>
 
@@ -393,6 +375,9 @@
              <a href="https://docs.google.com/gview?embedded=1&url=https://ltower2118.github.io/resource/06.pdf" target="_blank" rel="noopener" class="btn btn-history">
         <!--<span>🟢</span>-->  방재실 화재수신반 대응방법
         </a>
+                  <a href="warehouse.html" class="btn btn-pdf">
+        <!--<span>📕</span>-->  창고사용현황
+    </a>
             <a href="parking_manual.html" class="btn btn-pdf">
         <!--<span>📕</span>-->  무인주차 영수증교체방법
     </a>
