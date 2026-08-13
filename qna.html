@@ -81,25 +81,31 @@
     margin: 0 auto;
   }
 
-  .faq-item {
-    background: #fff;
-    display: flex;
-    border: 1px solid #e2e8f0;
-    width: 100%;              /* 폭을 90%로 조절 */
-    margin: 0 auto 12px auto; /* 좌우 중앙 정렬 + 아래 간격 */
-    border-radius: 8px;
-    padding: 14px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+ .faq-item {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  width: 100%;              /* 폭을 100%로 설정 */
+  margin: 0 auto 12px auto; /* 중앙 정렬 + 아래 간격 */
+  border-radius: 8px;
+  padding: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
-  .faq-question {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-weight: bold;
-    color: #1e3a8a;
-  }
+.faq-question {
+  display: flex;
+  justify-content: space-between; /* 좌측 텍스트, 우측 아이콘 */
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+.faq-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: auto;        /* 아이콘을 항상 오른쪽 끝으로 밀어냄 */
+  transition: transform 0.3s ease;
+}
 
   .faq-answer {
     display: none;
@@ -108,11 +114,6 @@
     line-height: 1.5;
   }
 
-  .faq-icon {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.3s ease;
-  }
 
   .faq-item.active .faq-answer {
     display: block;
