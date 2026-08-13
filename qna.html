@@ -1,0 +1,177 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>서울숲엘타워</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; }
+        
+        /* 상단 네비게이션 바 */
+        .top-nav-bar { width: 100%; max-width: 430px; display: flex; align-items: center; justify-content: center; position: relative; padding: 16px 0; margin-top: 5px; border-bottom: 2px solid #334155; margin-bottom: 20px; }
+        .btn-back-left { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: transparent; border: none; font-size: 1.2rem; cursor: pointer; text-decoration: none; }
+        
+        .title { font-size: 1.5rem; font-weight: 800; color: #1e3a8a; margin: 10; }
+        .text { font-size: 0.75rem; font-weight: 800; color: #0f0f0f; margin: 0; }
+        
+
+        /* 상단 앱바 */
+        header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%; /* 전체 폭 */
+          height: 60px;
+          background-color: white;
+          color: black;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+          z-index: 1000;
+          }
+
+        header h1 {
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        header .icon {
+          font-size: 22px;
+        }
+        
+        /* 내부 타이틀 및 박스 스타일 */
+        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
+           
+        
+        
+         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
+        body { background-color: #f1f5f9; padding: 12px; margin: 0; color: #1e293b; }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        /* 메인 타이틀 */
+        .main-header { background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; padding: 20px 15px; border-radius: 12px; text-align: center; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); }
+        .main-header h1 { margin: 0; font-size: 1.3rem; font-weight: bold; }
+        .main-header p { margin: 5px 0 0 0; font-size: 0.85rem; color: #93c5fd; }
+
+  
+        /* 섹션 타이틀 */
+        .section-title { font-size: 0.95rem; font-weight: bold; color: #475569; margin: 15px 0 8px 5px; display: flex; align-items: center; gap: 5px; }
+
+        /* 메뉴 카드 그리드 */
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .menu-card { background: white; padding: 14px; border-radius: 10px; text-decoration: none; color: #334155; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .menu-card:active { background: #f8fafc; transform: scale(0.98); }
+        .card-icon { font-size: 1.5rem; margin-bottom: 6px; }
+        .card-title { font-weight: bold; font-size: 1.2rem; color: #0f172a; text-align: center;margin: 10px 0 8px 5px; }
+        .card-desc { font-size: 0.75rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
+
+        /* 한 줄짜리 와이드 카드 */
+        .wide-card { grid-column: span 2; display: flex; flex-direction: row; align-items: left; gap: 12px; justify-content: flex-start; }
+        .card-desc2 { font-size: 0.95rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
+        
+      
+      
+       .faq-container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #1e3a8a;
+  }
+
+  .faq-answer {
+    display: none;
+    margin-top: 10px;
+    color: #334155;
+    line-height: 1.5;
+  }
+
+  .faq-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item.active .faq-answer {
+    display: block;
+  }
+
+  .faq-item.active .faq-icon {
+    transform: rotate(45deg);
+  }
+      
+      
+      
+      
+      /* 하단 고정 알림판 */
+        .footer-notice { background: #e2e8f0; padding: 10px; border-radius: 8px; font-size: 0.75rem; color: #475569; margin-top: 20px; line-height: 1.4; text-align: center; }
+    </style>
+        
+
+</head>
+<body>
+  <header>
+    <h1>서울숲엘타워</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
+  </header>
+    <br><br><br>
+    <div class="title">무인주차관련 Q&A</div>
+    <div class="text">QR코드 또는 이미지를 클릭하면 바로연결됩니다.</div><br>
+
+  
+  <div class="faq-container">
+  <div class="faq-item">
+    <div class="faq-question">
+      대림바스 비데 DDS 착좌 감지 안됨 (버튼을 눌러도 분사 안 됨) 원인이 뭔가요?
+      <img src="plus-icon.png" alt="+" class="faq-icon">
+    </div>
+    <div class="faq-answer">
+      착좌 센서가 오염되었거나 전원 연결이 불안정할 수 있습니다. 노즐 청소 후에도 문제가 지속되면 A/S 센터에 문의하세요.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">
+      혼자 해결할 수 있나요?
+      <img src="plus-icon.png" alt="+" class="faq-icon">
+    </div>
+    <div class="faq-answer">
+      기본적인 자가점검으로 해결 가능한 경우가 많습니다. 전원 확인, 노즐 청소, 착좌 센서 점검을 먼저 시도해 보세요.
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(item => {
+    item.addEventListener('click', () => {
+      const parent = item.parentElement;
+      parent.classList.toggle('active');
+    });
+  });
+</script>
+</body>
+</html>
