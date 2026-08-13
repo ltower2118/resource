@@ -74,29 +74,29 @@
         .wide-card { grid-column: span 2; display: flex; flex-direction: row; align-items: left; gap: 12px; justify-content: flex-start; }
         .card-desc2 { font-size: 0.95rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
 
-.faq-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 10px; /* 좌우 여백 10px 고정 */
-  box-sizing: border-box;
-}
+      .faq-container {
+        width: 100%;              /* 항상 꽉 차도록 */
+        margin: 0 0 0px 0;       /* 아래 간격만 */
+        border-radius: 8px;
+        padding: 0px;
+   
+      }
 
-.faq-item {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  width: 100%;              /* 항상 꽉 차도록 */
-  margin: 0 0 12px 0;       /* 아래 간격만 */
-  border-radius: 8px;
-  padding: 14px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  box-sizing: border-box;   /* 패딩 포함 폭 계산 */
-}
+      .faq-item {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        width: 100%;              /* 항상 꽉 차도록 */
+        margin: 0 0 12px 0;       /* 아래 간격만 */
+        border-radius: 8px;
+        padding: 14px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
 
-/* 📱 모바일 화면용 (최대 600px 이하) */
-@media (max-width: 600px) {
-  .faq-container {
-    padding: 0 10px; /* 모바일에서도 동일하게 좌우 10px */
-  }
+      /* 📱 모바일 화면용 (최대 600px 이하) */
+      @media (max-width: 600px) {
+        .faq-container {
+          padding: 0 0px; /* 모바일에서도 동일하게 좌우 10px */
+        }
 
 
 
@@ -160,8 +160,7 @@
     <div class="title">무인주차관련 Q&A</div>
     <div class="text">QR코드 또는 이미지를 클릭하면 바로연결됩니다.</div><br>
 
-
-  <div class="faq-item">
+<div class="faq-container">
     <div class="faq-item active"> <!-- active 클래스 추가 -->
     <div class="faq-question">
       출구에서 미인식으로 뜨는경우
