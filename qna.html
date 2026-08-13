@@ -93,14 +93,24 @@
 
 .faq-question {
   display: flex;
-  justify-content: space-between; /* 좌측 텍스트, 우측 아이콘 */
+  justify-content: space-between;
   align-items: center;
   cursor: pointer;
   font-weight: bold;
-  font-size:1.2rem;
   color: #1e3a8a;
+  padding: 8px 0;       /* 위아래 여백 */
+  line-height: 1.6;     /* 줄 간격 */
 }
 
+.faq-answer {
+  display: none;
+  margin-top: 12px;     /* 질문과 답변 사이 간격 */
+  color: #334155;
+  line-height: 1.8; /* 답변 줄 간격 */
+  font-size:1.1rem;
+}
+
+      
 .faq-icon {
   width: 24px;
   height: 24px;
@@ -108,13 +118,6 @@
   transition: transform 0.3s ease;
 }
 
-  .faq-answer {
-    display: none;
-    margin-top: 10px;
-    color: #334155;
-    font-size:1.1rem;
-    line-height: 1.5;
-  }
 
 
   .faq-item.active .faq-answer {
