@@ -112,13 +112,16 @@
         line-height: 1.6;     /* 줄 간격 */
       }
 
-      .faq-answer {
-        display: none;
-        margin-top: 12px;     /* 질문과 답변 사이 간격 */
-        color: #334155;
-        line-height: 1.8; /* 답변 줄 간격 */
-        font-size:1.1rem;
-      }
+   .faq-answer ul {
+  margin: 8px 0;
+  padding-left: 20px; /* 들여쓰기 */
+  list-style-type: disc; /* ● 기본 점 */
+}
+
+.faq-answer li {
+  margin-bottom: 6px; /* 항목 간격 */
+  line-height: 1.6;   /* 줄 간격 */
+}
 
 
       .faq-icon {
@@ -167,7 +170,8 @@
       <img src="images/arrow.png" alt="+" class="faq-icon">
     </div>
     <div class="faq-answer">
-      <b>입차중 인식이 안되는경우</b><br>
+      <div style="height: 1px; background-color: #e2e2e2; margin: 10px 0;"></div>
+      <br><b>입차중 인식이 안되는경우</b><br>
       모니터 터치-> 차량번호 4자리 입력<br>
       ->금액이 뜨면 결재 .<br>
       <br><b>입차학인 되는경우 </b>
@@ -183,7 +187,8 @@
       <img src="images/arrow.png" alt="+" class="faq-icon">
     </div> 
     <div class="faq-answer">
-      <b>입주사방문차량</b><br>
+      <div style="height: 1px; background-color: #e2e2e2; margin: 10px 0;"></div>
+      <br><b>입주사방문차량</b><br>
       입주사에서 부여 <br>
       주차권 30분: 30분에 해당도는 금액외 정산 <br>
       방문확인시 30분 :  75%할인<br>
@@ -191,6 +196,13 @@
       -  > 원할한 주차유도를 위해 후진후 처리<br>
 
      현금받기,계좌이체 : 차량번호및 출차시간메모<br><br><br>
+      
+      <ul>
+    <li>입주사에서 부여한 주차권 30분: 해당 금액 외 정산</li>
+    <li>방문 확인 시 30분: 75% 할인</li>
+    <li>결제 안됨 → 미확인 차량인 경우 후진 후 처리</li>
+    <li>현금받기, 계좌이체: 차량번호 및 출차시간 메모</li>
+  </ul>
     </div>
   </div>
 </div>
