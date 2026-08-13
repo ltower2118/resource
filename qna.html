@@ -74,60 +74,68 @@
         .wide-card { grid-column: span 2; display: flex; flex-direction: row; align-items: left; gap: 12px; justify-content: flex-start; }
         .card-desc2 { font-size: 0.95rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
         
-      
-      
-       .faq-container {
-    max-width: 100%;
-    margin: 0 auto;
-  }
+    .faq-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 10px; /* 기본 좌우 여백 */
+}
 
- .faq-item {
+.faq-item {
   background: #fff;
   border: 1px solid #e2e8f0;
-  width: 450px;              /* 폭을 100%로 설정 */
-  margin: 0 auto 12px auto; /* 중앙 정렬 + 아래 간격 */
+  width: 450px;              /* 기본 PC 폭 */
+  margin: 0 auto 12px auto;  /* 중앙 정렬 + 아래 간격 */
   border-radius: 8px;
   padding: 14px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.faq-question {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  font-size:1.3rem;
-  font-weight: bold;
-  color: #1e3a8a;
-  padding: 8px 0;       /* 위아래 여백 */
-  line-height: 1.6;     /* 줄 간격 */
-}
-
-.faq-answer {
-  display: none;
-  margin-top: 12px;     /* 질문과 답변 사이 간격 */
-  color: #334155;
-  line-height: 1.8; /* 답변 줄 간격 */
-  font-size:1.1rem;
-}
-
-      
-.faq-icon {
-  width: 24px;
-  height: 24px;
-  margin-left: auto;        /* 아이콘을 항상 오른쪽 끝으로 밀어냄 */
-  transition: transform 0.3s ease;
-}
-
-
-
-  .faq-item.active .faq-answer {
-    display: block;
+/* 📱 모바일 화면용 (최대 600px 이하) */
+@media (max-width: 600px) {
+  .faq-item {
+    width: 100%;        /* 화면 전체 폭 */
+    margin: 0 10px 12px; /* 좌우 여백 10px */
   }
+}
 
-  .faq-item.active .faq-icon {
-    transform: rotate(90deg);
-  }
+
+      .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-size:1.3rem;
+        font-weight: bold;
+        color: #1e3a8a;
+        padding: 8px 0;       /* 위아래 여백 */
+        line-height: 1.6;     /* 줄 간격 */
+      }
+
+      .faq-answer {
+        display: none;
+        margin-top: 12px;     /* 질문과 답변 사이 간격 */
+        color: #334155;
+        line-height: 1.8; /* 답변 줄 간격 */
+        font-size:1.1rem;
+      }
+
+
+      .faq-icon {
+        width: 24px;
+        height: 24px;
+        margin-left: auto;        /* 아이콘을 항상 오른쪽 끝으로 밀어냄 */
+        transition: transform 0.3s ease;
+      }
+
+
+
+        .faq-item.active .faq-answer {
+          display: block;
+        }
+
+        .faq-item.active .faq-icon {
+          transform: rotate(90deg);
+        }
       
       
       
