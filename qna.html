@@ -73,30 +73,31 @@
         /* 한 줄짜리 와이드 카드 */
         .wide-card { grid-column: span 2; display: flex; flex-direction: row; align-items: left; gap: 12px; justify-content: flex-start; }
         .card-desc2 { font-size: 0.95rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
-        
-    .faq-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 10px; /* 기본 좌우 여백 */
-}
 
-.faq-item {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  width: 450px;              /* 기본 PC 폭 */
-  margin: 0 auto 12px auto;  /* 중앙 정렬 + 아래 간격 */
-  border-radius: 8px;
-  padding: 14px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
+        .faq-container {
+          max-width: 100%;
+          margin: 0 auto;
+          padding: 0 10px; /* 기본 좌우 여백 */
+        }
 
-/* 📱 모바일 화면용 (최대 600px 이하) */
-@media (max-width: 600px) {
-  .faq-item {
-    width: 100%;        /* 화면 전체 폭 */
-    margin: 0 10px 12px; /* 좌우 여백 10px */
-  }
-}
+        .faq-item {
+          background: #fff;
+          border: 1px solid #e2e8f0;
+          width: 450px;              /* 기본 PC 폭 */
+          margin: 0 auto 12px auto;  /* 중앙 정렬 + 아래 간격 */
+          border-radius: 8px;
+          padding: 14px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 📱 모바일 화면용 (최대 600px 이하) */
+        @media (max-width: 600px) {
+          .faq-item {
+            width: 100%;              /* 화면 전체 폭 */
+            margin: 0 10px 12px;      /* 좌우 여백 10px */
+            padding: 16px;            /* 내부 여백 조금 늘림 */
+            box-sizing: border-box;   /* 패딩 포함 폭 계산 */
+          }
 
 
       .faq-question {
