@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서울숲엘타워</title>
+<style>
+  :root {
+    --color-bg: #fff;
+    --color-surface: #ffffff;
+    --color-navy: #1c2b39;
+    --color-navy-soft: #2c3e4f;
+    --color-steel: #5c7080;
+    --color-steel-light: #e2e6e9;
+    --color-line: #dfe3e2;
+    --color-amber: #f2a900;
+    --color-amber-dark: #c98700;
+    --color-danger: #c0392b;
+    --color-ok: #2f6f4e;
+
+    --font-display: "Pretendard Variable", Pretendard, "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Malgun Gothic", Roboto, sans-serif; 
+    --font-body: "Pretendard Variable", Pretendard, "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Malgun Gothic", Roboto, sans-serif; 
+    --font-mono: "Pretendard Variable", Pretendard, "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Malgun Gothic", Roboto, sans-serif; 
+
+    --radius: 6px;
+    --shadow-card: 0 1px 2px rgba(28,43,57,0.06), 0 1px 8px rgba(28,43,57,0.04);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--color-bg);
+    color: var(--color-navy);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 20px 64px;
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    border: 1px solid #d5d5d5;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+
+  header h1 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .home-btn svg {
+    transition: transform 0.2s ease;
+  }
+  .home-btn:hover svg {
+    transform: scale(1.1);
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #1e3a8a;
+  }
+
+  .text2 {
+    font-size: 0.95rem;
+    color: #454444;
+  }
+
+  .page-head {
+    padding: 28px 0 16px;
+    margin-bottom: 24px;
+  }
+
+  .page-head p {
+    margin: 6px 0 0;
+    color: var(--color-steel);
+    font-size: 0.9rem;
+  }
+
+  .panel {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    padding: 18px 18px 18px;
+    margin-bottom: 22px;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+  }
+
+  .panel_wide {
+    background: #f1f1f1;
+    padding: 18px 22px 18px;
+    margin-bottom: 22px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+  }
+  @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .form-field { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 6px; 
+    color: #383434;
+  }
+
+  .form-field.full { 
+    grid-column: 1 / -1; 
+    color: #383434;
+  }
+
+  .form-field label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #383434;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    padding: 9px 10px;
+    font-size: 1.1rem;
+    font-family: var(--font-body);
+    background: #f3f4f6;
+    color: var(--color-navy);
+  }
+
+  .form-field textarea { resize: vertical; min-height: 70px; }
+
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 1px;
+    border-color: var(--color-amber);
+  }
+
+  /* ---------- 날짜 입력 필드 커스텀 스타일 ---------- */
+  .date-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .date-input-wrapper input[type="date"] {
+    width: 100%;
+    padding-right: 40px; /* 우측 아이콘 공간 */
+    cursor: pointer;
+  }
+
+  /* 비어있을 때 '날짜선택하기' 텍스트 표시 */
+  .date-input-wrapper input[type="date"]:invalid::-webkit-datetime-edit {
+    color: transparent;
+  }
+  .date-input-wrapper input[type="date"]:invalid:before {
+    content: attr(data-placeholder);
+    color: #6b7280;
+  }
+
+  /* 브라우저 기본 달력 아이콘 영역 확장 (전체 클릭 가능) */
+  .date-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    color: transparent;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  /* 우측 우측 날짜 선택 도구 아이콘 */
+  .date-input-wrapper .calendar-icon {
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    min-width: 100%;
+    justify-content: center;
+    gap: 6px;
+    background: #1e3a8a;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn:hover { background: #527cf6; }
+  .btn:disabled { background: var(--color-steel-light); color: var(--color-steel); cursor: not-allowed; }
+
+  .btn.secondary {
+    background: #dadada;
+    color: #111111;
+    border: 1px solid var(--color-line);
+    min-width: auto;
+  }
+  .btn.secondary:hover { background: #b8b9bb; }
+
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .toolbar select, .toolbar input[type="search"] {
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    background: #fff;
+  }
+
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  table.data-table th {
+    text-align: left;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-steel);
+    border-bottom: 2px solid var(--color-navy);
+    padding: 8px 8px;
+    white-space: nowrap;
+  }
+
+  table.data-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+
+  table.data-table tbody tr:hover { background: #e8edfb; }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--color-steel-light);
+    color: var(--color-navy);
+  }
+  .badge.elec { background: #ccddf9; color: #1e3a8a; }
+  .badge.fire { background: #fbdedb; color: var(--color-danger); }
+  .badge.comm { background: #e1f7dc; color: #1c5d8a; }
+  .badge.mech { background: #e6e6e6; color: var(--color-ok); }
+
+  .status-msg {
+    font-size: 12.5px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: none;
+  }
+  .status-msg.ok { display: block; background: #d6dffb; color: #1e3a8a; font-size: 1.1rem; }
+  .status-msg.err { display: block; background: #fbdedb; color: #1e3a8a; font-size: 1.1rem; }
+  .status-msg.pending { display: block; background: var(--color-steel-light); color: var(--color-steel); font-size: 1.1rem; }
+
+  .empty-state {
+    text-align: center;
+    padding: 32px 12px;
+    color: var(--color-steel);
+    font-size: 13px;
+  }
+
+  .setup-note {
+    background: #fdecc8;
+    border: 1px solid var(--color-amber);
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    color: var(--color-navy);
+    margin-bottom: 18px;
+  }
+
+  .footer-note {
+    margin-top: 40px;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-line);
+    font-size: 11.5px;
+    color: var(--color-steel);
+    text-align: center;
+  }
+</style>
+</head>
+
+<header>
+  <h1>서울숲엘타워</h1>
+  <a href="index.html" class="home-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+    </svg>
+  </a>
+</header>
+
+<body>
+
+<main class="wrap">
+
+  <div class="page-head">
+    <br><br><br>
+     <h1>일일 점검일지 검색</h1>
+  <input type="text" id="searchBox" placeholder="검색어 입력..." onkeyup="filterTable()">
+
+  <table id="logTable">
+    <thead>
+      <tr>
+        <th>날짜</th>
+        <th>점검항목</th>
+        <th>내용</th>
+        <th>담당자</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- 구글시트 데이터가 여기에 삽입됨 -->
+    </tbody>
+  </table>
+
+  <script>
+    // 구글시트 JSON API URL (공개 설정 필요)
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?tqx=out:json";
+
+    fetch(sheetUrl)
+      .then(res => res.text())
+      .then(data => {
+        const json = JSON.parse(data.substr(47).slice(0, -2));
+        const rows = json.table.rows;
+        let html = "";
+        rows.forEach(r => {
+          html += `<tr>
+            <td>${r.c[0]?.v || ""}</td>
+            <td>${r.c[1]?.v || ""}</td>
+            <td>${r.c[2]?.v || ""}</td>
+            <td>${r.c[3]?.v || ""}</td>
+          </tr>`;
+        });
+        document.getElementById("tableBody").innerHTML = html;
+      });
+
+    function filterTable() {
+      const input = document.getElementById("searchBox").value.toLowerCase();
+      const rows = document.querySelectorAll("#logTable tbody tr");
+      rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
+      });
+    }
+  </script>
+
+</body>
+</html>
