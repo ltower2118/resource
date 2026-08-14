@@ -337,7 +337,7 @@
   <input type="text" id="searchBox" placeholder="검색어 입력...">
   <button onclick="searchData()">검색</button>
 
- <table id="logTable" style="display:none;">
+  <table id="logTable" style="display:none;">
     <thead>
       <tr>
         <th>날짜</th>
@@ -359,8 +359,14 @@
       return text.replace(/(\d+\.)/g, "<br>$1");
     }
 
+    function highlightText(text, keyword) {
+      if (!keyword) return text;
+      const regex = new RegExp(`(${keyword})`, "gi");
+      return text.replace(regex, "<mark>$1</mark>");
+    }
+
     function searchData() {
-      const keyword = document.getElementById("searchBox").value.toLowerCase();
+      const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
       fetch(sheetUrl)
         .then(res => res.text())
         .then(data => {
@@ -376,11 +382,11 @@
             const rowText = `${date} ${day} ${author} ${task} ${next}`.toLowerCase();
             if (rowText.includes(keyword)) {
               html += `<tr>
-                <td>${date}</td>
-                <td>${day}</td>
-                <td>${author}</td>
-                <td>${formatTasks(task)}</td>
-                <td>${next}</td>
+                <td>${highlightText(date, keyword)}</td>
+                <td>${highlightText(day, keyword)}</td>
+                <td>${highlightText(author, keyword)}</td>
+                <td>${highlightText(formatTasks(task), keyword)}</td>
+                <td>${highlightText(next, keyword)}</td>
               </tr>`;
             }
           });
