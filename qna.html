@@ -82,54 +82,46 @@
    
       }
 
-      .faq-item {
-        background: #fff;
-        border: 1px solid #e2e8f0;
-        width: 100%;              /* 항상 꽉 차도록 */
-        margin: 0 0 12px 0;       /* 아래 간격만 */
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      }
+   .faq-item {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
 
-      /* 📱 모바일 화면용 (최대 600px 이하) */
-      @media (max-width: 600px) {
-        .faq-container {
-          padding: 0 0px; /* 모바일에서도 동일하게 좌우 10px */
-        }
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #1e3a8a;
+  }
 
+  .faq-answer {
+    display: none;
+    margin-top: 10px;
+    color: #334155;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
 
+  .faq-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
 
-      .faq-question {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        font-size:1.3rem;
-        font-weight: bold;
-        color: #1e3a8a;
-        padding: 8px 0;       /* 위아래 여백 */
-        line-height: 1.6;     /* 줄 간격 */
-      }
+  .faq-item.active .faq-answer {
+    display: block;
+  }
 
-
-      .faq-icon {
-        width: 24px;
-        height: 24px;
-        margin-left: auto;        /* 아이콘을 항상 오른쪽 끝으로 밀어냄 */
-        transition: transform 0.3s ease;
-      }
-
-
-
-        .faq-item.active .faq-answer {
-          display: block;
-        }
-
-        .faq-item.active .faq-icon {
-          transform: rotate(90deg);
-        }
-      
+  .faq-item.active .faq-icon {
+    transform: rotate(45deg);
+  }
       
       
       
@@ -188,6 +180,10 @@
 
     </div>
   </div>
+
+  
+  
+  
 </div>
 
 <script>
