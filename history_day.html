@@ -336,7 +336,7 @@
   <input type="text" id="searchBox" placeholder="검색어 입력...">
   <button onclick="searchData()">검색</button>
 
-  <table id="logTable" style="display:none;">
+ <table id="logTable" style="display:none;">
     <thead>
       <tr>
         <th>날짜</th>
@@ -350,7 +350,13 @@
   </table>
 
   <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/10jiv1BSN8DzlEcXxIoThB8qQi3kbnP_NNjShQLGGEs4/gviz/tq?tqx=out:json";
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?tqx=out:json";
+
+    function formatTasks(text) {
+      if (!text) return "";
+      // 번호 패턴(예: "1.", "2.") 앞에 줄바꿈 추가
+      return text.replace(/(\d+\.)/g, "<br>$1");
+    }
 
     function searchData() {
       const keyword = document.getElementById("searchBox").value.toLowerCase();
@@ -372,7 +378,7 @@
                 <td>${date}</td>
                 <td>${day}</td>
                 <td>${author}</td>
-                <td>${task}</td>
+                <td>${formatTasks(task)}</td>
                 <td>${next}</td>
               </tr>`;
             }
