@@ -309,14 +309,95 @@
     margin-bottom: 18px;
   }
 
-  .footer-note {
-    margin-top: 40px;
-    padding-top: 14px;
-    border-top: 1px solid var(--color-line);
-    font-size: 11.5px;
-    color: var(--color-steel);
-    text-align: center;
+       .section-gray {
+         background: #f1f5f9;
+         margin-top: 0px;
+          padding: 1rem;
+          max-width: 900px;
+          margin-left: auto;
+          margin-right: auto;
+    }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
   }
+  @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .form-field { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 6px; 
+    color: #383434;
+  }
+
+  .form-field.full { 
+    grid-column: 1 / -1; 
+    color: #383434;
+  }
+
+  .form-field label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #383434;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    padding: 9px 10px;
+    font-size: 1.1rem;
+    font-family: var(--font-body);
+    background: #f3f4f6;
+    color: var(--color-navy);
+  }
+
+  .form-field textarea { resize: vertical; min-height: 70px; }
+
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 1px;
+    border-color: var(--color-amber);
+  }
+.btn {
+    display: inline-flex;
+    align-items: center;
+    min-width: 100%;
+    justify-content: center;
+    gap: 6px;
+    background: #1e3a8a;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn:hover { background: #527cf6; }
+  .btn:disabled { background: var(--color-steel-light); color: var(--color-steel); cursor: not-allowed; }
+
+  .btn.secondary {
+    background: #dadada;
+    color: #111111;
+    border: 1px solid var(--color-line);
+    min-width: auto;
+  }
+  .btn.secondary:hover { background: #b8b9bb; }
+  
+      .footer-note {
+        margin-top: 40px;
+        padding-top: 14px;
+        border-top: 1px solid var(--color-line);
+        font-size: 11.5px;
+        color: var(--color-steel);
+        text-align: center;
+      }
 </style>
 </head>
 
@@ -333,10 +414,12 @@
 
 <body>
   <!-- 코파일럿 시설자료 DB화 및 Github에서 만듬 -->
+  <div class="section-gray"><br><br><br>
   <h1>일일 점검일지 검색</h1>
+    <div class="form-field">
   <input type="text" id="searchBox" placeholder="검색어 입력...">
-  <button onclick="searchData()">검색</button>
-
+      <button class="btn" onclick="searchData()">검색</button></div>
+<br>
   <table id="logTable" style="display:none;">
     <thead>
       <tr>
@@ -349,7 +432,7 @@
     </thead>
     <tbody id="tableBody"></tbody>
   </table>
-
+  </div>
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/10jiv1BSN8DzlEcXxIoThB8qQi3kbnP_NNjShQLGGEs4/gviz/tq?tqx=out:json";
 
