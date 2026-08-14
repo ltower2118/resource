@@ -331,54 +331,55 @@
 
 <body>
 
-<main class="wrap">
+<body>
+  <h1>일일 점검일지 검색</h1>
+  <input type="text" id="searchBox" placeholder="검색어 입력...">
+  <button onclick="searchData()">검색</button>
 
-  <div class="page-head">
-    <br><br><br>
-     <h1>일일 점검일지 검색</h1>
-  <input type="text" id="searchBox" placeholder="검색어 입력..." onkeyup="filterTable()">
-
-  <table id="logTable">
+  <table id="logTable" style="display:none;">
     <thead>
       <tr>
         <th>날짜</th>
-        <th>점검항목</th>
-        <th>내용</th>
-        <th>담당자</th>
+        <th>요일</th>
+        <th>작성자</th>
+        <th>업무사항</th>
+        <th>향후 추진사항</th>
       </tr>
     </thead>
-    <tbody id="tableBody">
-      <!-- 구글시트 데이터가 여기에 삽입됨 -->
-    </tbody>
+    <tbody id="tableBody"></tbody>
   </table>
 
   <script>
-    // 구글시트 JSON API URL (공개 설정 필요)
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/10jiv1BSN8DzlEcXxIoThB8qQi3kbnP_NNjShQLGGEs4/gviz/tq?tqx=out:json";
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?tqx=out:json";
 
-    fetch(sheetUrl)
-      .then(res => res.text())
-      .then(data => {
-        const json = JSON.parse(data.substr(47).slice(0, -2));
-        const rows = json.table.rows;
-        let html = "";
-        rows.forEach(r => {
-          html += `<tr>
-            <td>${r.c[0]?.v || ""}</td>
-            <td>${r.c[1]?.v || ""}</td>
-            <td>${r.c[2]?.v || ""}</td>
-            <td>${r.c[3]?.v || ""}</td>
-          </tr>`;
+    function searchData() {
+      const keyword = document.getElementById("searchBox").value.toLowerCase();
+      fetch(sheetUrl)
+        .then(res => res.text())
+        .then(data => {
+          const json = JSON.parse(data.substr(47).slice(0, -2));
+          const rows = json.table.rows;
+          let html = "";
+          rows.forEach(r => {
+            const date = r.c[0]?.v || "";
+            const day = r.c[1]?.v || "";
+            const author = r.c[2]?.v || "";
+            const task = r.c[3]?.v || "";
+            const next = r.c[4]?.v || "";
+            const rowText = `${date} ${day} ${author} ${task} ${next}`.toLowerCase();
+            if (rowText.includes(keyword)) {
+              html += `<tr>
+                <td>${date}</td>
+                <td>${day}</td>
+                <td>${author}</td>
+                <td>${task}</td>
+                <td>${next}</td>
+              </tr>`;
+            }
+          });
+          document.getElementById("tableBody").innerHTML = html;
+          document.getElementById("logTable").style.display = html ? "table" : "none";
         });
-        document.getElementById("tableBody").innerHTML = html;
-      });
-
-    function filterTable() {
-      const input = document.getElementById("searchBox").value.toLowerCase();
-      const rows = document.querySelectorAll("#logTable tbody tr");
-      rows.forEach(row => {
-        row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
-      });
     }
   </script>
 
