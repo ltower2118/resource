@@ -172,6 +172,7 @@
     <div class="faq-answer">
       <div style="height: 1px; background-color: #e2e2e2; margin: 10px 0;"></div>
       <br><b>1. 일반 방문차량</b><br>
+      <br>회차무료 : 10분
       
       <br><b>2. 입주사방문차량</b><br>
       -> 입주사에서 부여 <br>
@@ -209,8 +210,12 @@
 <script>
   document.querySelectorAll('.faq-question').forEach(item => {
     item.addEventListener('click', () => {
-      const parent = item.parentElement;
-      parent.classList.toggle('active');
+      // 모든 faq-item에서 active 제거
+      document.querySelectorAll('.faq-item').forEach(faq => {
+        faq.classList.remove('active');
+      });
+      // 클릭한 항목만 active 추가
+      item.parentElement.classList.add('active');
     });
   });
 </script>
