@@ -22,14 +22,14 @@
     <input type="text" id="searchBox" placeholder="검색어 입력..." onkeydown="if(event.key==='Enter') searchData()">
     <button class="btn" onclick="searchData()">검색</button>
   </div>
- 
+
   <div id="subSearchBox" style="display:none; flex-direction:column; gap:8px; margin-bottom:16px;">
     <input type="text" id="subSearchInput" placeholder="검색 결과 내에서 세부검색..." style="width:100%; padding:9px 10px; border:1px solid #dfe3e2; border-radius:4px; font-size:1.1rem;" onkeydown="if(event.key==='Enter') subSearchData()">
     <button class="btn" onclick="subSearchData()">세부검색</button>
     <button class="btn" style="background:#888;" onclick="resetSubSearch()">초기화</button>
   </div>
   <div id="resultCount" style="margin-bottom:10px; color:#5c7080; font-size:0.95rem;"></div>
- 
+
   <table id="logTable" style="display:none;">
     <thead>
       <tr>
@@ -42,10 +42,10 @@
     </thead>
     <tbody id="tableBody"></tbody>
   </table>
- 
+
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/10jiv1BSN8DzlEcXxIoThB8qQi3kbnP_NNjShQLGGEs4/gviz/tq?tqx=out:json";
- 
+
     // 구글 시트가 날짜 셀을 "Date(2018,1,22,0,0,0)" 형태 문자열로 주는 걸
     // "2018.2.22" 형태로 바꿔주는 함수 (월은 0부터 시작하므로 +1 필요)
     function parseGoogleDate(value) {
@@ -56,24 +56,24 @@
       const [y, m, d] = nums; // m은 0-indexed
       return `${y}.${m + 1}.${d}`;
     }
- 
+
     function formatTasks(text) {
       if (!text) return "";
       // 각 번호(1. 2. 3. ...) 앞에 줄바꿈을 넣어 항목별로 줄이 나뉘게 함
       return String(text).replace(/(\d+\.)/g, "<br>$1").replace(/^<br>/, "");
     }
- 
+
     function highlightText(text, keyword) {
       if (!keyword) return text;
       const regex = new RegExp(`(${keyword})`, "gi");
       return String(text).replace(regex, "<mark>$1</mark>");
     }
- 
+
     // 시트 전체 데이터를 파싱해서 배열로 보관 (매 검색마다 다시 fetch하지 않도록)
     let allRows = [];
     let firstSearchResults = []; // 1차 검색 결과 (세부검색의 대상이 됨)
     let firstKeyword = "";
- 
+
     function loadAllRows() {
       if (allRows.length > 0) {
         return Promise.resolve(allRows);
@@ -92,12 +92,12 @@
           return allRows;
         });
     }
- 
+
     function rowMatches(row, keyword) {
       const rowText = `${row.date} ${row.day} ${row.author} ${row.task} ${row.next}`.toLowerCase();
       return rowText.includes(keyword);
     }
- 
+
     function renderRows(rows, keywords) {
       let html = "";
       rows.forEach(row => {
@@ -123,7 +123,7 @@
       document.getElementById("logTable").style.display = html ? "table" : "none";
       document.getElementById("resultCount").textContent = rows.length ? `검색결과 ${rows.length}건` : "검색결과 없음";
     }
- 
+
     function searchData() {
       const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
       firstKeyword = keyword;
@@ -135,7 +135,7 @@
         document.getElementById("subSearchBox").style.display = firstSearchResults.length ? "flex" : "none";
       });
     }
- 
+
     function subSearchData() {
       const subKeyword = document.getElementById("subSearchInput").value.trim().toLowerCase();
       const filtered = subKeyword
@@ -143,7 +143,7 @@
         : firstSearchResults;
       renderRows(filtered, [firstKeyword, subKeyword]);
     }
- 
+
     function resetSubSearch() {
       document.getElementById("subSearchInput").value = "";
       renderRows(firstSearchResults, [firstKeyword]);
@@ -151,4 +151,3 @@
   </script>
 </body>
 </html>
- 
