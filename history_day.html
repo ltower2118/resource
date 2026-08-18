@@ -19,9 +19,16 @@
 <body>
   <h1>일일 점검일지 검색</h1>
   <div class="form-field">
-    <input type="text" id="searchBox" placeholder="검색어 입력...">
+    <input type="text" id="searchBox" placeholder="검색어 입력..." onkeydown="if(event.key==='Enter') searchData()">
     <button class="btn" onclick="searchData()">검색</button>
   </div>
+ 
+  <div class="form-field" id="subSearchBox" style="display:none;">
+    <input type="text" id="subSearchInput" placeholder="검색 결과 내에서 세부검색..." onkeydown="if(event.key==='Enter') subSearchData()">
+    <button class="btn" onclick="subSearchData()">세부검색</button>
+    <button class="btn" style="background:#888;" onclick="resetSubSearch()">초기화</button>
+  </div>
+  <div id="resultCount" style="margin-bottom:10px; color:#5c7080; font-size:0.95rem;"></div>
  
   <table id="logTable" style="display:none;">
     <thead>
@@ -61,34 +68,84 @@
       return String(text).replace(regex, "<mark>$1</mark>");
     }
  
-    function searchData() {
-      const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
-      fetch(sheetUrl)
+    // 시트 전체 데이터를 파싱해서 배열로 보관 (매 검색마다 다시 fetch하지 않도록)
+    let allRows = [];
+    let firstSearchResults = []; // 1차 검색 결과 (세부검색의 대상이 됨)
+    let firstKeyword = "";
+ 
+    function loadAllRows() {
+      if (allRows.length > 0) {
+        return Promise.resolve(allRows);
+      }
+      return fetch(sheetUrl)
         .then(res => res.text())
         .then(data => {
           const json = JSON.parse(data.substr(47).slice(0, -2));
-          const rows = json.table.rows;
-          let html = "";
-          rows.forEach(r => {
-            const date = parseGoogleDate(r.c[0]?.v || "");
-            const day = r.c[1]?.v || "";
-            const author = r.c[2]?.v || "";
-            const task = r.c[3]?.v || "";
-            const next = r.c[4]?.v || "";
-            const rowText = `${date} ${day} ${author} ${task} ${next}`.toLowerCase();
-            if (rowText.includes(keyword)) {
-              html += `<tr>
-                <td>${highlightText(date, keyword)}</td>
-                <td>${highlightText(day, keyword)}</td>
-                <td>${highlightText(author, keyword)}</td>
-                <td>${highlightText(formatTasks(task), keyword)}</td>
-                <td>${highlightText(next, keyword)}</td>
-              </tr>`;
-            }
-          });
-          document.getElementById("tableBody").innerHTML = html;
-          document.getElementById("logTable").style.display = html ? "table" : "none";
+          allRows = json.table.rows.map(r => ({
+            date: parseGoogleDate(r.c[0]?.v || ""),
+            day: r.c[1]?.v || "",
+            author: r.c[2]?.v || "",
+            task: r.c[3]?.v || "",
+            next: r.c[4]?.v || ""
+          }));
+          return allRows;
         });
+    }
+ 
+    function rowMatches(row, keyword) {
+      const rowText = `${row.date} ${row.day} ${row.author} ${row.task} ${row.next}`.toLowerCase();
+      return rowText.includes(keyword);
+    }
+ 
+    function renderRows(rows, keywords) {
+      let html = "";
+      rows.forEach(row => {
+        let dateHtml = row.date, dayHtml = row.day, authorHtml = row.author,
+            taskHtml = formatTasks(row.task), nextHtml = row.next;
+        keywords.forEach(kw => {
+          if (!kw) return;
+          dateHtml = highlightText(dateHtml, kw);
+          dayHtml = highlightText(dayHtml, kw);
+          authorHtml = highlightText(authorHtml, kw);
+          taskHtml = highlightText(taskHtml, kw);
+          nextHtml = highlightText(nextHtml, kw);
+        });
+        html += `<tr>
+          <td>${dateHtml}</td>
+          <td>${dayHtml}</td>
+          <td>${authorHtml}</td>
+          <td>${taskHtml}</td>
+          <td>${nextHtml}</td>
+        </tr>`;
+      });
+      document.getElementById("tableBody").innerHTML = html;
+      document.getElementById("logTable").style.display = html ? "table" : "none";
+      document.getElementById("resultCount").textContent = rows.length ? `검색결과 ${rows.length}건` : "검색결과 없음";
+    }
+ 
+    function searchData() {
+      const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
+      firstKeyword = keyword;
+      loadAllRows().then(rows => {
+        firstSearchResults = rows.filter(row => rowMatches(row, keyword));
+        renderRows(firstSearchResults, [keyword]);
+        // 결과가 있으면 세부검색창 표시, 세부검색 입력값 초기화
+        document.getElementById("subSearchInput").value = "";
+        document.getElementById("subSearchBox").style.display = firstSearchResults.length ? "flex" : "none";
+      });
+    }
+ 
+    function subSearchData() {
+      const subKeyword = document.getElementById("subSearchInput").value.trim().toLowerCase();
+      const filtered = subKeyword
+        ? firstSearchResults.filter(row => rowMatches(row, subKeyword))
+        : firstSearchResults;
+      renderRows(filtered, [firstKeyword, subKeyword]);
+    }
+ 
+    function resetSubSearch() {
+      document.getElementById("subSearchInput").value = "";
+      renderRows(firstSearchResults, [firstKeyword]);
     }
   </script>
 </body>
