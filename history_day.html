@@ -59,8 +59,8 @@
  
     function formatTasks(text) {
       if (!text) return "";
-      // "1." "2." 같은 번호 다음에 줄바꿈을 넣어 내용이 아래로 내려가게 함
-      return String(text).replace(/(\d+\.)/g, "<br>$1<br>").replace(/^<br>/, "");
+      // 각 번호(1. 2. 3. ...) 앞에 줄바꿈을 넣어 항목별로 줄이 나뉘게 함
+      return String(text).replace(/(\d+\.)/g, "<br>$1").replace(/^<br>/, "");
     }
  
     function highlightText(text, keyword) {
@@ -151,3 +151,4 @@
   </script>
 </body>
 </html>
+ 
