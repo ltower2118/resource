@@ -23,8 +23,8 @@
     <button class="btn" onclick="searchData()">검색</button>
   </div>
  
-  <div class="form-field" id="subSearchBox" style="display:none;">
-    <input type="text" id="subSearchInput" placeholder="검색 결과 내에서 세부검색..." onkeydown="if(event.key==='Enter') subSearchData()">
+  <div id="subSearchBox" style="display:none; flex-direction:column; gap:8px; margin-bottom:16px;">
+    <input type="text" id="subSearchInput" placeholder="검색 결과 내에서 세부검색..." style="width:100%; padding:9px 10px; border:1px solid #dfe3e2; border-radius:4px; font-size:1.1rem;" onkeydown="if(event.key==='Enter') subSearchData()">
     <button class="btn" onclick="subSearchData()">세부검색</button>
     <button class="btn" style="background:#888;" onclick="resetSubSearch()">초기화</button>
   </div>
@@ -59,7 +59,8 @@
  
     function formatTasks(text) {
       if (!text) return "";
-      return String(text).replace(/(\d+\.)/g, "<br>$1");
+      // "1." "2." 같은 번호 다음에 줄바꿈을 넣어 내용이 아래로 내려가게 함
+      return String(text).replace(/(\d+\.)/g, "<br>$1<br>").replace(/^<br>/, "");
     }
  
     function highlightText(text, keyword) {
