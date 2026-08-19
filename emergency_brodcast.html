@@ -302,19 +302,16 @@
   </main>
 
   <script>
-  function scrollToPanel(panelId, btnElement) {
-    const targetPanel = document.getElementById(panelId);
-    if (targetPanel) {
-        targetPanel.scrollIntoView({ behavior: 'smooth' });
-    }
+   foot 섹션   function scrollToPanel(panelId, btnElement) {
+        const targetPanel = document.getElementById(panelId);
+        if (targetPanel) {
+            targetPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+    } 
 
-    const buttons = document.querySelectorAll('.nav-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    btnElement.classList.add('active');
-
-    // 추가: 클릭한 버튼을 왼쪽으로 스크롤
-    btnElement.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-}
   </script>
 </body>
   </html>
