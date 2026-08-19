@@ -35,7 +35,7 @@
       width: 90%;
       height: 60px;
       background-color: white;
-      border-bottom: 1px solid #d5d5d5; /* 사방 테두리(border) 대신 하단 테두리만 설정 */
+      border: 1px solid #d5d5d5;
       color: black;
       display: flex;
       align-items: center;
@@ -302,15 +302,19 @@
   </main>
 
   <script>
-    function scrollToPanel(panelId, btnElement) {
-        const targetPanel = document.getElementById(panelId);
-        if (targetPanel) {
-            targetPanel.scrollIntoView({ behavior: 'smooth' });
-        }
-        const buttons = document.querySelectorAll('.nav-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        btnElement.classList.add('active');
+  function scrollToPanel(panelId, btnElement) {
+    const targetPanel = document.getElementById(panelId);
+    if (targetPanel) {
+        targetPanel.scrollIntoView({ behavior: 'smooth' });
     }
+
+    const buttons = document.querySelectorAll('.nav-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    btnElement.classList.add('active');
+
+    // 추가: 클릭한 버튼을 왼쪽으로 스크롤
+    btnElement.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+}
   </script>
 </body>
   </html>
