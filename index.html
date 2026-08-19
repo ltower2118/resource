@@ -101,19 +101,22 @@
         }
 
         
-        .btn-banner { display: flex; 
+        .banner { display: flex; 
             align-items: center;
             justify-content: left; 
             background-color: white; 
             color: #575656;
-            max-height: 150px;
+            max-height: 200px;   /* 버튼 최대 높이 */
+            width: 100%;         /* 버튼 너비 (예: 전체 가로폭) */
+
             text-decoration: none; 
             padding: 18px; 
             margin-bottom: 12px; 
             border-radius: 15px; 
             font-weight: bold;  
             font-size: 1.05rem; /* box-shadow: 0 4px 6px rgba(0,0,0,0.05); */
-            border: 1px solid #e1e4e8; transition: background 0.2s; }
+            border: 1px solid #e1e4e8; transition: background 0.2s; 
+        }
         
         
         
@@ -435,7 +438,7 @@
        EPS실 장비현황
     </a>
         
-     <a href="https://pp.kepco.co.kr/intro.do" class="btn-banner">
+     <a href="https://pp.kepco.co.kr/intro.do" class="banner">
        파워플래너 
     </a>
 
