@@ -5,7 +5,7 @@
     <title>서울숲엘타워</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
-        body { background-color: #ffffff; margin: 0; padding: 16px; color: #334155; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        body { background-color: #f1f5f9; margin: 0; padding: 16px; color: #334155; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         .container { width: 100%; max-width: 430px; padding: 0 6px 24px 6px; }
         
         /* 상단 네비게이션 바 */
@@ -47,11 +47,7 @@
         h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
         h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
            
-        
-        
-         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif; }
-        body { background-color: #f1f5f9; padding: 12px; margin: 0; color: #1e293b; }
-        .container { max-width: 500px; margin: 0 auto; }
+   
         
         /* 메인 타이틀 */
         .main-header { background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; padding: 20px 15px; border-radius: 12px; text-align: center; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); }
@@ -67,15 +63,15 @@
 
         /* 메뉴 카드 그리드 */
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .menu-card { background: white; padding: 14px; border-radius: 10px; text-decoration: none; color: #334155; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .menu-card { background: white; padding: 90px; border-radius: 10px; text-decoration: none; color: #334155; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
         .menu-card:active { background: #f8fafc; transform: scale(0.98); }
         .card-icon { font-size: 1.5rem; margin-bottom: 6px; }
-        .card-title { font-weight: bold; font-size: 1.2rem; color: #0f172a; text-align: center;margin: 10px 0 8px 5px; }
-        .card-desc { font-size: 0.75rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
+        .card-title { font-weight: bold; padding: 8px; font-size: 1.5rem; color: #0f172a; text-align: center;margin: 10px 0 8px 5px; }
+        .card-desc { font-size: 0.9rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
 
         /* 한 줄짜리 와이드 카드 */
         .wide-card { grid-column: span 2; display: flex; flex-direction: row; align-items: left; gap: 12px; justify-content: flex-start; }
-        .card-desc2 { font-size: 0.95rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
+        .card-desc2 { font-size: 1.0rem; color: #1e3a8a; margin-top: 4px; line-height: 1.3; text-align: center; margin: 10px 0 8px 5px;}
         /* 하단 고정 알림판 */
         .footer-notice { background: #e2e8f0; padding: 10px; border-radius: 8px; font-size: 0.75rem; color: #475569; margin-top: 20px; line-height: 1.4; text-align: center; }
     </style>
@@ -83,7 +79,7 @@
 
 </head>
 <body>
-  <header>
+     <header>
     <h1>서울숲엘타워</h1>
     <a href="index.html" class="home-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
@@ -97,30 +93,24 @@
        <div styl="text-align: center;" class="menu-grid"></div>
         <a href="http://iparking.co.kr/mobile/arf/core/pay/selfPaymentFormMug.do?park_seq=5331" target="_blank" class="menu-card">
             <span class="card-title">카드결제</span>
-            <span class="card-title"><img src="images/pay01.jpg" alt="카드결제" width="100%"></span>
+            <img src="images/pay01.jpg" alt="카드결제" width="200px">
             <span class="card-desc">아이파킹 카드 결제 바로가기</span>
            </a>
     <br>
        <div styl="text-align: center;" class="menu-grid"></div>
         <a href="https://aq.gy/f/aAiN_" target="_blank" class="menu-card">
             <span class="card-title">실시간 계좌이체</span>
-            <span class="card-title"><img src="images/pay02.jpg" alt="카드결제" width="100%"></span>
+            <img src="images/pay02.jpg" alt="카드결제" width="200px">
             <span class="card-desc">실시간으로 계좌이체를 할수 있습니다.</span>
            </a>
        <br>
        <div styl="text-align: center;" class="menu-grid"></div>
         <a href="http://ltower2118.github.io/resource/account_info.html" target="_blank" class="menu-card">
             <span class="card-title">입금 계좌정보 </span>
-            <span class="card-title"><img src="images/pay03.jpg" alt="카드결제" width="100%"></span>
+            <img src="images/pay03.jpg" alt="카드결제" width="200px">
             <span class="card-desc">계좌정보를 볼수 있습니다.</span>
            </a>
   <br>
-  
-         <div styl="text-align: left;" class="wide-card"></div>
-        <a href="http://ltower2118.github.io/resource/account_info.html" target="_blank" class="menu-card">
-            <span class="card-title">번호인식이 안되는경우 </span>
-            
-            <span class="card-desc2">1.메뉴판 터치 차량번호 4자리입력 금액이 뜨는경우 결재하고 출자 입차확인되어 금액이 0으로 뜨면 차단기가 자동으로 올라가 출차가능함</span>
-           </a>
+
 </body>
 </html>
