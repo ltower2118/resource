@@ -102,22 +102,26 @@
 
         
         .banner { display: flex; 
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); */
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: left; 
-            background-color: white; 
-            color: #575656;
-            max-height: 200px;   /* 버튼 최대 높이 */
-            width: 100%;         /* 버튼 너비 (예: 전체 가로폭) */
-            text-decoration: none; 
-            padding: 100px; 
-            margin-bottom: 12px; 
-            border-radius: 15px; 
-            font-weight: bold;  
-            font-size: 1.05rem; /* box-shadow: 0 4px 6px rgba(0,0,0,0.05); */
-            border: 1px solid #e1e4e8; transition: background 0.2s; 
+            justify-content: center;
         }
         
-        
+         .banner img{
+                width:200px;
+                
+                object-fit:contain;
+            }
         
         .btn { display: flex; align-items: center; justify-content: left; background-color: white; color: #575656; text-decoration: none; padding: 18px; margin-bottom: 12px; border-radius: 15px; font-weight: bold;  font-size: 1.05rem; /* box-shadow: 0 4px 6px rgba(0,0,0,0.05); */ border: 1px solid #e1e4e8; transition: background 0.2s; }
         .btn:active { background-color: #f0f0f0; }
@@ -384,6 +388,11 @@
          <a href="history.html" class="emergency-shortcut2">이력관리 입력</a> 
         <a href="history_day.html" class="emergency-shortcut2">일일점검일지 검색</a>  
          
+    <br><br>
+   <div> <a href="https://pp.kepco.co.kr/intro.do" class="banner">
+        <img src="images/powerplan.jpg" alt="파워플랜">
+       서울숲엘타워 전기사용량정보 바로가기 
+    </a></div> 
         <br><br>
     <div class="section-title">기타 자료</div>
 
@@ -437,9 +446,7 @@
        EPS실 장비현황
     </a>
    <br><br><br>
-     <a href="https://pp.kepco.co.kr/intro.do" class="banner">
-       파워플래너 
-    </a>
+    
 
 
     </main>
