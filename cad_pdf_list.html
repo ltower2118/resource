@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>서울숲엘타워 비상연락망</title>
+    <style>
+        /* =========================================================
+           [커스터마이징 가이드] 버튼 스타일 제어 변수 (여기서 수정하세요)
+           ========================================================= */
+  :root {
+  --color-bg: #f4f5f3;
+  --color-surface: #ffffff;
+  --color-navy: #1c2b39;
+  --color-navy-soft: #2c3e4f;
+  --color-steel: #5c7080;
+  --color-steel-light: #e2e6e9;
+  --color-line: #dfe3e2;
+  --color-amber: #f2a900;
+  --color-amber-dark: #c98700;
+  --color-danger: #c0392b;
+  --color-ok: #2f6f4e;
+
+}
+    body {
+      margin: 0;
+      font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif;
+      background-color: var(--bg-light);
+      color: #e8ecf3
+      transition: background-color 0.3s, color 0.3s;
+      line-height: 1.6;
+    }
+        /* 메인 영역 */
+        main {
+          margin-top: 0px;
+          padding: 1rem;
+          max-width: 900px;
+           color: #0f0f0f;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .title {
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: #1e3a8a;
+        }
+        .text-s {
+          font-size: 0.95rem;
+          color: #444;
+        }
+        .text {
+          font-size: 0.95rem;
+          color: #444;
+        }
+        .text3 {
+          font-size: 1.5rem;
+          color: #444;
+        }
+        
+   header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 90%;
+      height: 60px;
+      background-color: white;
+      border: 1px solid #d5d5d5;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    header .icon {
+      font-size: 22px;
+    }
+
+    .home-btn svg {
+      transition: transform 0.2s ease;
+    }
+    .home-btn:hover svg {
+      transform: scale(1.1);
+    }
+        .card {
+      background: #ecf2f9;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 0px 0px rgba(0,0,0,0.08);
+
+    }
+        /* 내비게이션 버튼 메뉴 그룹 */
+        .nav-btn-group {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+          margin: 15px 0 20px 0;
+          position: sticky;
+          top: 60px; /* Header 바로 밑에 고정 */
+          background: #ffffff;
+          padding: 8px 0;
+          z-index: 900;
+        }
+
+        .nav-btn {
+          background-color: var(--btn-bg);
+          color: var(--btn-text);
+          border: 1px solid var(--btn-border);
+          padding: var(--btn-padding);
+          font-size: var(--btn-font-size);
+          font-weight: 600;
+          border-radius: var(--btn-radius);
+          cursor: pointer;
+          text-align: center;
+          transition: all 0.2s ease-in-out;
+          outline: none;
+          word-break: keep-all;
+          line-height: 1.2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* 버튼 호버 & 활성화(클릭) 상태 */
+        .nav-btn:hover {
+          background-color: #e2e8f0;
+        }
+
+        .nav-btn.active {
+          background-color: var(--btn-active-bg);
+          color: var(--btn-active-text);
+          border-color: var(--btn-active-border);
+
+        }
+
+        /* 패널 스크롤 위치 오프셋 (Header + Nav 높이 고려) */
+        .panel {
+          scroll-margin-top: 135px;
+          margin-bottom: 25px;
+        }
+
+        /* 내부 타이틀 및 박스 스타일 */
+        h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
+        
+        .text2 {
+            font-size: 0.9rem;
+            color: #535252;
+            line-height: 1.4;
+        }
+        .text5 {
+         font-size: 0.85rem;
+          color: #0f172a;
+          font-weight: bold;
+        }
+
+              /* ---------- 섹션 박스 / 리스트 ---------- */
+        .panel {
+          background: var(--color-surface);
+          border: 1px solid var(--color-line);
+          border-radius: var(--radius);
+          padding: 15px 15px 15px;
+
+          margin-bottom: 22px;
+        }
+
+        .panel h2 {
+          font-size: 14.5px;
+          margin: 0 0 4px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid var(--color-line);
+        }
+
+        .file-list { list-style: none; margin: 0; padding: 0; }
+
+        .file-list li {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 12px 4px;
+          border-bottom: 1px solid var(--color-line);
+          font-size: 16px;
+        }
+
+        .file-list li:last-child { border-bottom: none; }
+
+        .file-list .name { font-weight: 600; }
+        .file-list .meta {
+          font-family: var(--font-mono);
+          font-size: 11.5px;
+          color: var(--color-steel);
+        }
+
+        .file-list a.dl {
+          font-size: 12px;
+          color: var(--color-navy);
+          background: var(--color-steel-light);
+          padding: 5px 10px;
+          border-radius: 4px;
+          border: 1px solid var(--color-line);
+        }
+        .file-list a.dl:hover { background: var(--color-amber); border-color: var(--color-amber-dark); color: #fff; }
+
+        .group-title {
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          font-size: 11px;
+          color: var(--color-steel);
+          margin: 22px 0 4px;
+        }
+
+      
+
+        /* 연락처 테이블 스타일 */
+        .contact-table { 
+          border: none;
+          background: white; 
+          width: 100%; 
+          border-collapse: collapse; 
+          font-size: 0.8rem; 
+          margin-top: 5px; 
+        }
+
+        .contact-table th, 
+        .contact-table td { 
+          padding: 5px 4px; 
+          font-size: 0.9rem; 
+          color: #505051; 
+          text-align: left; 
+          border-bottom: 1px solid #cbd5e1; 
+          border-left: 1px solid #cbd5e1;
+          border-right: 1px solid #cbd5e1;
+          word-break: break-word;
+          line-height: 1.3;
+        }
+        .contact-table td:first-child { border-left: none; }
+        .contact-table td:last-child { border-right: none; }
+        
+        .contact-table th { 
+          background: #1e3a8a; 
+          color: #ffffff; 
+          font-weight: bold; 
+          text-align: center; 
+        }
+
+        /* 단일 규격 정보 테이블 */
+        .info-table { 
+          width: 100%; 
+          border-collapse: collapse; 
+          font-size: 12.5px; 
+          table-layout: fixed; 
+        }
+        
+        .info-table th, .info-table td {
+          border: 1px solid #cbd5e1;
+          padding: 8px 9px;
+          text-align: left;
+          vertical-align: middle;
+          word-break: keep-all;
+          line-height: 1.3;
+        }
+
+        .text-info {
+          font-size: 0.9rem;
+          color: #ffffff;
+          font-weight: bold;
+          background: #1e3a8a;
+          text-align: center;
+          white-space: nowrap;
+        }
+
+        .info-table td.lbl {
+          background: #fbfbfb;
+          font-weight: 700;
+          color: #334155;
+          text-align: center;
+          white-space: nowrap;
+        }
+
+        .nested { width:100%; border-collapse:collapse; font-size:12.5px; table-layout:fixed; }
+        .nested td, .nested th {
+          border: 1px solid #cbd5e1;
+          padding:7px 8px;
+          text-align:left;
+          vertical-align:middle;
+          word-break: break-word;
+          line-height: 1.3;
+        }
+        .nested .lbl { background:#ffffff; font-weight:700; color:#334155; white-space:nowrap; width:var(--lbl-w); overflow:hidden; text-overflow:ellipsis; }
+        .nested col.lbl-col { width:var(--lbl-w); }
+        .nested col.val-col { width:var(--val-w); }
+        .no-border-td { border:none !important; padding:0 !important; }
+        .check { font-weight:700; }
+
+        /* 차단기 명세 테이블 스타일 */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: center; border: 1px solid #cbd5e1; }
+        .data-table th { background: #1e3a8a; color: white; padding: 8px 4px; border: 1px solid #cbd5e1; }
+        .data-table td { padding: 6px 4px; border: 1px solid #cbd5e1; }
+
+        /* foot 섹션 */
+        .copyright { font-size: 0.9rem; color: #969697; margin: 20px 0 12px 0; padding-bottom: 6px; text-align: center;}
+    </style>
+</head>
+<body>
+  <header>
+    <h1>서울숲엘타워</h1>
+    <a href="index.html" class="home-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </a>
+  </header>
+
+<main>   
+    <br><br><br>
+    <div class="title">도면</div>
+ 
+    <!-- 패널 1: 기본현황 -->
+
+
+         <p class="group-title">전기 · 수배전</p>
+  <div class="panel">
+    <ul class="file-list" data-list>
+      <li><span class="name">저압반 취급설명서</span><a class="dl" href="manuals/전기/저압반_취급설명서.pdf">열기</a></li>
+      <li><span class="name">UPS 유지보수 매뉴얼</span><a class="dl" href="manuals/전기/UPS_매뉴얼.pdf">열기</a></li>
+    </ul>
+  </div>
+
+  <p class="group-title">소방 · 방재</p>
+  <div class="panel">
+    <ul class="file-list" data-list>
+      <li><span class="name">수신기(P형) 조작 매뉴얼</span><a class="dl" href="manuals/소방/수신기_매뉴얼.pdf">열기</a></li>
+    </ul>
+  </div>
+
+  <p class="group-title">기계 · 급배수</p>
+  <div class="panel">
+    <ul class="file-list" data-list>
+      <li><span class="name">오배수 처리반 B펌프 매뉴얼</span><a class="dl" href="manuals/기계/오배수_B펌프_매뉴얼.pdf">열기</a></li>
+      <li><span class="name">레벨컨트롤러 취급설명서</span><a class="dl" href="manuals/기계/레벨컨트롤러_매뉴얼.pdf">열기</a></li>
+    </ul>
+  </div>
+
+  <p class="group-title">통신 · 네트워크 · CCTV</p>
+  <div class="panel">
+    <ul class="file-list" data-list>
+      <li><span class="name">네트워크 스위치 설정 가이드</span><a class="dl" href="manuals/통신/스위치_설정가이드.pdf">열기</a></li>
+    </ul>
+  </div>
+<br><br><br>
+ 
+    <div class="copyright">Made by ai & ha you sin</div>
+</main>
+
+<script>
+    // 클릭 시 해당 패널로 스크롤 및 활성화 클래스 적용 스크립트
+    function scrollToPanel(panelId, btnElement) {
+        const targetPanel = document.getElementById(panelId);
+        if (targetPanel) {
+            targetPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 전체 버튼에서 active 제거 후 클릭된 버튼에 부여
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+    }
+</script>
+</body>
+</html>
