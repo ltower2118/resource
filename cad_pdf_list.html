@@ -44,6 +44,11 @@
           font-size: 1.5rem;
           color: #1e3a8a;
         }
+      .title-sub {
+          font-weight: bold;
+          font-size: 1.5rem;
+          color: #808080;
+        }
         .text-s {
           font-size: 0.95rem;
           color: #444;
@@ -56,6 +61,7 @@
           font-size: 1.5rem;
           color: #444;
         }
+      
         
    header {
       position: fixed;
@@ -151,16 +157,8 @@
         h3 { font-size: 1.05rem; margin: 0 0 12px 0; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
         h4 { font-size: 0.92rem; margin: 12px 0 6px 0; color: #0f172a; background: #f1f5f9; padding: 6px; border-radius: 4px; border-left: 3px solid #1e3a8a; }
         
-        .text2 {
-            font-size: 0.9rem;
-            color: #535252;
-            line-height: 1.4;
-        }
-        .text5 {
-         font-size: 0.85rem;
-          color: #0f172a;
-          font-weight: bold;
-        }
+ 
+
 
               /* ---------- 섹션 박스 / 리스트 ---------- */
         .panel {
@@ -326,7 +324,7 @@
 
 <main>   
     <br><br><br>
-    <div class="title">도면</div>
+    <div class="title">도면 <span class="title-sub">Drawing</span></div>
  
     <!-- 패널 1: 기본현황 -->
 
@@ -334,15 +332,17 @@
          <p class="group-title">전기 · 수배전</p>
   <div class="panel">
     <ul class="file-list" data-list>
-      <li><span class="name">저압반 취급설명서</span><a href="manuals/전기/저압반_취급설명서.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
-      <li><span class="name">UPS 유지보수 매뉴얼</span><a  href="manuals/전기/UPS_매뉴얼.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
+      <li><span class="name">전기 전체</span><a href="manuals/전기/저압반_취급설명서.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
+      <li><span class="name">전기-통신</span><a  href="manuals/전기/UPS_매뉴얼.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
+      <li><span class="name">전기-소방</span><a  href="manuals/전기/UPS_매뉴얼.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
+
     </ul>
   </div>
 
   <p class="group-title">소방 · 방재</p>
   <div class="panel">
     <ul class="file-list" data-list>
-      <li><span class="name">수신기(P형) 조작 매뉴얼</span><a  href="manuals/소방/수신기_매뉴얼.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
+      <li><span class="name">소방 감지기 </span><a  href="manuals/소방/수신기_매뉴얼.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
     </ul>
   </div>
 
@@ -357,7 +357,7 @@
   <p class="group-title">통신 · 네트워크 · CCTV</p>
   <div class="panel">
     <ul class="file-list" data-list>
-      <li><span class="name">네트워크 스위치 설정 가이드</span><a  href="manuals/통신/스위치_설정가이드.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
+      <li><span class="name">통신전체</span><a  href="manuals/통신/스위치_설정가이드.pdf"><img src="images/pdf_down.png" alt="아이콘"></a></li>
     </ul>
   </div>
 <br><br><br>
