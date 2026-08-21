@@ -300,18 +300,19 @@
 <br> <br>
 <br><br><br><div class="copyright">Made by ai & ha you sin</div><br>
   </main>
+<script>
+  function scrollToPanel(panelId, btnElement) {
+    // 패널 이동
+    const targetPanel = document.getElementById(panelId);
+    if (targetPanel) {
+      targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-  <script>
-   foot 섹션   function scrollToPanel(panelId, btnElement) {
-        const targetPanel = document.getElementById(panelId);
-        if (targetPanel) {
-            targetPanel.scrollIntoView({ behavior: 'smooth' });
-        }
-        const buttons = document.querySelectorAll('.nav-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        btnElement.classList.add('active');
-    } 
-
-  </script>
+    // 버튼 active 상태 변경
+    const buttons = document.querySelectorAll('.nav-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    btnElement.classList.add('active');
+  }
+    </script>
 </body>
   </html>
