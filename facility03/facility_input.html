@@ -232,7 +232,7 @@ const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxtR-tGTujWgVE4f6EZw
 
   // 설정 확인 배너
   const banner = document.getElementById('syncBanner');
-  if (WEBAPP_URL.indexOf('https://script.google.com/macros/s/AKfycbxtR-tGTujWgVE4f6EZwsK2dIgSP3AEUA6VnNOv9XtF5URB1FLdJ5g2ygjX5IYtZNo/exec') > -1) {
+  if (WEBAPP_URL.indexOf('YOUR_DEPLOYMENT_ID') > -1) {
     banner.innerHTML = '<div class="sync-banner warn">⚠ 구글시트 연동 미설정 — 상단 WEBAPP_URL 값을 Apps Script 배포 URL로 교체하세요.</div>';
     sheetBtn.disabled = true;
   } else {
