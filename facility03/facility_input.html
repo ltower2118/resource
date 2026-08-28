@@ -133,7 +133,7 @@
 
   <div id="inputView">
     <header class="nameplate">
-      <p class="eyebrow">FACILITY INSPECTION LOG</p>
+      <p class="eyebrow">서울숲엘타워</p>
       <h1>시설점검 사진등록</h1>
       <div class="np-grid">
         <div class="np-field"><label>시설명</label><input id="siteName" type="text" value="서울숲엘타워"></div>
@@ -211,7 +211,7 @@
 
 <script>
 /* ====== 이 값을 Apps Script 배포 후 받은 웹 앱 URL로 교체하세요 ====== */
-const WEBAPP_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxBFbn1ZiAfX7sgOQFfA2mJYJ1Bi2YBa1VvcW85Jp2wMpwZc7wW_JP2u0stKIP4xR6K/exec';
 /* =================================================================== */
 
 (function(){
@@ -228,7 +228,7 @@ const WEBAPP_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
 
   // 설정 확인 배너
   const banner = document.getElementById('syncBanner');
-  if (WEBAPP_URL.indexOf('YOUR_DEPLOYMENT_ID') > -1) {
+  if (WEBAPP_URL.indexOf('1r9PCcHqXIvCGHspVD40p4PjNXZStnfrrdcVi9rG3bnQ') > -1) {
     banner.innerHTML = '<div class="sync-banner warn">⚠ 구글시트 연동 미설정 — HTML 하단 WEBAPP_URL 값을 Apps Script 배포 URL로 교체하세요.</div>';
     sheetBtn.disabled = true;
   } else {

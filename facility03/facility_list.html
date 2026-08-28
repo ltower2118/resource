@@ -92,7 +92,7 @@
 
 <script>
 /* ====== 이 두 값을 본인 스프레드시트에 맞게 교체하세요 ====== */
-const SHEET_ID = 'YOUR_SHEET_ID_HERE';   // 스프레드시트 ID
+const SHEET_ID = '1r9PCcHqXIvCGHspVD40p4PjNXZStnfrrdcVi9rG3bnQ';   // 스프레드시트 ID
 const SHEET_NAME = '점검기록';            // 시트(탭) 이름
 /* ============================================================ */
 /* 주의: 스프레드시트 공유 설정이 "링크가 있는 모든 사용자 - 뷰어"로
@@ -113,7 +113,7 @@ async function fetchData(){
   statusMsg.textContent = '불러오는 중...';
   listWrap.innerHTML = '';
 
-  if (SHEET_ID.indexOf('YOUR_SHEET_ID') > -1) {
+  if (SHEET_ID.indexOf('1r9PCcHqXIvCGHspVD40p4PjNXZStnfrrdcVi9rG3bnQ') > -1) {
     statusMsg.className = 'status-msg err';
     statusMsg.textContent = '⚠ 상단 SHEET_ID 값을 본인 스프레드시트 ID로 교체해주세요.';
     return;
