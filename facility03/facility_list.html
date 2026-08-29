@@ -113,7 +113,7 @@ async function fetchData(){
   statusMsg.textContent = '불러오는 중...';
   listWrap.innerHTML = '';
 
-  if (SHEET_ID.indexOf('1r9PCcHqXIvCGHspVD40p4PjNXZStnfrrdcVi9rG3bnQ') > -1) {
+  if (SHEET_ID.indexOf('YOUR_SHEET_ID') > -1) {
     statusMsg.className = 'status-msg err';
     statusMsg.textContent = '⚠ 상단 SHEET_ID 값을 본인 스프레드시트 ID로 교체해주세요.';
     return;
