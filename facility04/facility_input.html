@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>시설점검 일일보고서 입력04-1</title>
+<title>시설점검 일일보고서 입력04-2</title>
 <style>
 :root{--ink:#1c2530;--paper:#f6f4ee;--line:#cfc9bb;--amber:#e2a63b;--steel:#6b7785;--ok:#3f7d68;--bad:#c1443c;}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);font-family:Arial,'Noto Sans KR',sans-serif;color:var(--ink)}
@@ -54,7 +54,8 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxVx2cvOYDyEBoRc_wnrT7PYOI-36d-IbcNQ7-6PLkSDArmDwoHeB38DJkob7naf4IT/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyra21XMyVeEpm6mEHWMdOrgP6X_PFilo0ki5TTSunvtPJ_UxwOHj-d8ifnTSojH8S6/exec';
+const REQUIRED_BACKEND_VERSION='2.1.0';
 const MAX_ITEMS=30;
 let items=[];
 let nextId=1;
@@ -87,8 +88,28 @@ function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;',
 function updatePreview(){document.getElementById('pvTitle').textContent=document.getElementById('title').value||'시설점검 보고서';document.getElementById('pvDate').textContent=document.getElementById('inspectDate').value;document.getElementById('pvJob').textContent=document.getElementById('jobName').value;document.getElementById('pvDetails').textContent=document.getElementById('details').value;document.getElementById('pvVendor').textContent=document.getElementById('vendor').value;}
 function showStatus(msg,type){const s=document.getElementById('status');s.className='status show '+type;s.textContent=msg;}
 
+async function checkBackend(){
+  try{
+    const res=await fetch(WEBAPP_URL+'?action=health&_='+Date.now());
+    const text=await res.text();
+    let json;
+    try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다.');}
+    if(json.result!=='success')throw new Error(json.message||'서버 확인 실패');
+    if(json.version!==REQUIRED_BACKEND_VERSION){
+      showStatus('Apps Script가 이전 버전입니다. 현재 서버 '+(json.version||'구버전')+' / 필요한 버전 '+REQUIRED_BACKEND_VERSION+' — Code.gs 저장 후 새 버전으로 재배포하세요.','err');
+      return false;
+    }
+    showStatus('서버 연결 정상 · 버전 '+json.version+' · 저장된 보고서 '+(json.reportCount||0)+'건','ok');
+    return true;
+  }catch(err){
+    showStatus('서버 연결 실패: '+err.message+' — WEBAPP_URL/웹앱 배포를 확인하세요.','err');
+    return false;
+  }
+}
+
 async function saveReport(){
   const btn=document.getElementById('saveBtn');
+  if(!(await checkBackend())) return;
   const payload={action:'saveReport',siteName:document.getElementById('siteName').value.trim(),inspector:document.getElementById('inspector').value.trim(),date:document.getElementById('inspectDate').value,title:document.getElementById('title').value.trim(),jobName:document.getElementById('jobName').value.trim(),details:document.getElementById('details').value.trim(),vendor:document.getElementById('vendor').value.trim(),items:items.map(x=>({text:x.text,photo:x.photo}))};
   if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
@@ -97,7 +118,7 @@ async function saveReport(){
   try{
     const res=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(payload)});
     const text=await res.text();let json;try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹 앱 배포 권한을 확인하세요.');}
-    if(json.result!=='success')throw new Error(json.message||'저장 실패');
+    if(json.result!=='success')throw new Error(json.message||'저장 실패');if(json.version!==REQUIRED_BACKEND_VERSION)throw new Error('Apps Script 구버전 응답입니다. 새 버전으로 재배포하세요.');
     showStatus('저장 완료: '+json.fileName,'ok');
     if(json.spreadsheetUrl){setTimeout(()=>{if(confirm('저장되었습니다. 생성된 구글시트를 바로 열까요?'))window.open(json.spreadsheetUrl,'_blank');},200);}
   }catch(err){showStatus('저장 실패: '+err.message,'err');}
@@ -106,7 +127,7 @@ async function saveReport(){
 
 document.getElementById('addItemBtn').addEventListener('click',createItem);document.getElementById('saveBtn').addEventListener('click',saveReport);
 ['title','inspectDate','jobName','details','vendor'].forEach(id=>document.getElementById(id).addEventListener('input',updatePreview));
-document.getElementById('inspectDate').valueAsDate=new Date();for(let i=0;i<4;i++)createItem();updatePreview();
+document.getElementById('inspectDate').valueAsDate=new Date();for(let i=0;i<4;i++)createItem();updatePreview();checkBackend();
 </script>
 </body>
 </html>
