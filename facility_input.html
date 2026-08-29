@@ -31,7 +31,7 @@
 </head>
 <body>
 <div class="app">
-  <header class="head"><h1>시설점검 일일보고서04-6</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>시설점검 일일보고서04-7</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
 
   <section class="panel">
     <div class="grid">
@@ -119,7 +119,7 @@ function renderItems(){
         <input
           id="gallery-${it.id}"
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
         >
       </div>
 
@@ -235,11 +235,28 @@ document.getElementById('chooseCameraBtn').addEventListener('click',()=>{
   closePhotoChoice();
   if(el)el.click();
 });
-document.getElementById('chooseGalleryBtn').addEventListener('click',()=>{
+document.getElementById('chooseGalleryBtn').addEventListener('click',async()=>{
   if(activePhotoItemId===null)return;
+
   const el=document.getElementById('gallery-'+activePhotoItemId);
   closePhotoChoice();
-  if(el)el.click();
+
+  if(!el)return;
+
+  /*
+   * Android/Chrome에서는 showPicker()를 우선 사용해
+   * 시스템 사진 선택기를 바로 띄웁니다.
+   * 지원하지 않는 브라우저는 click()으로 자동 대체됩니다.
+   */
+  try{
+    if(typeof el.showPicker==='function'){
+      el.showPicker();
+    }else{
+      el.click();
+    }
+  }catch(err){
+    el.click();
+  }
 });
 document.getElementById('closePhotoChoiceBtn').addEventListener('click',closePhotoChoice);
 document.getElementById('photoChoiceModal').addEventListener('click',e=>{
