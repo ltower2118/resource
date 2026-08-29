@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시설점검 이력 조회</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C2530; --paper:#F6F4EE; --steel:#6B7785; --amber:#E2A63B;
+    --ok:#3F7D68; --issue:#C1443C; --line:#D9D4C7; --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Noto Sans KR',sans-serif;-webkit-font-smoothing:antialiased;}
+  .app{max-width:760px;margin:0 auto;padding:0 0 40px;}
+
+  .nameplate{background:var(--ink);color:var(--paper);padding:22px 20px 20px;position:relative;overflow:hidden;}
+  .nameplate::before{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border:2px solid rgba(246,244,238,.08);border-radius:50%;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--amber);text-transform:uppercase;margin:0 0 6px;}
+  .nameplate h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:24px;margin:0;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .refresh-btn{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--paper);
+    background:rgba(246,244,238,.1);border:1px solid rgba(246,244,238,.25);
+    border-radius:20px;padding:6px 12px;cursor:pointer;white-space:nowrap;
+  }
+
+  .summary-bar{display:flex;gap:8px;padding:14px 16px 0;}
+  .sum-box{flex:1;background:#fff;border:1px solid var(--line);border-radius:8px;text-align:center;padding:10px 4px;}
+  .sum-box .n{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;}
+  .sum-box .l{font-size:10px;color:var(--steel);margin-top:2px;}
+  .sum-box.ok .n{color:var(--ok);} .sum-box.warn .n{color:var(--amber);} .sum-box.bad .n{color:var(--issue);}
+
+  .filter-bar{display:flex;gap:8px;padding:14px 16px 0;flex-wrap:wrap;align-items:center;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:6px 12px;border-radius:20px;border:1px solid var(--line);background:#fff;color:var(--steel);cursor:pointer;}
+  .chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .search-input{flex:1;min-width:140px;border:1px solid var(--line);border-radius:20px;padding:7px 14px;font-size:13px;font-family:'Noto Sans KR',sans-serif;}
+  .search-input:focus{outline:none;border-color:var(--ink);}
+
+  .status-msg{padding:30px 16px;text-align:center;color:var(--steel);font-size:13px;}
+  .status-msg.err{color:var(--issue);}
+
+  .list-wrap{margin:16px 16px 0;}
+  .r-item{
+    background:#fff;border:1px solid var(--line);border-radius:10px;
+    padding:14px;margin-bottom:10px;
+  }
+  .r-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .r-loc{font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;}
+  .r-meta{font-size:11px;color:var(--steel);margin-top:3px;font-family:'IBM Plex Mono',monospace;}
+  .badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap;color:#fff;flex:none;}
+  .badge.정상{background:var(--ok);} .badge.주의{background:var(--amber);} .badge.이상{background:var(--issue);}
+  .r-note{font-size:13px;color:var(--ink);margin-top:8px;line-height:1.5;white-space:pre-wrap;}
+  .r-photos{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+  .r-photos img{width:72px;height:72px;object-fit:cover;border-radius:6px;border:1px solid var(--line);cursor:pointer;}
+
+  .lightbox{
+    display:none;position:fixed;inset:0;background:rgba(28,37,48,.9);
+    z-index:50;align-items:center;justify-content:center;padding:20px;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:6px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="nameplate">
+    <p class="eyebrow">FACILITY INSPECTION HISTORY</p>
+    <h1>시설점검 이력 <button class="refresh-btn" id="refreshBtn">↻ 새로고침</button></h1>
+  </header>
+
+  <div class="summary-bar">
+    <div class="sum-box ok"><div class="n" id="cntOk">-</div><div class="l">정상</div></div>
+    <div class="sum-box warn"><div class="n" id="cntWarn">-</div><div class="l">주의</div></div>
+    <div class="sum-box bad"><div class="n" id="cntBad">-</div><div class="l">이상</div></div>
+    <div class="sum-box"><div class="n" id="cntTotal">-</div><div class="l">전체</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="chip active" data-status="전체">전체</button>
+    <button class="chip" data-status="정상">정상</button>
+    <button class="chip" data-status="주의">주의</button>
+    <button class="chip" data-status="이상">이상</button>
+    <input class="search-input" id="searchInput" type="text" placeholder="위치 · 비고 검색">
+  </div>
+
+  <div id="statusMsg" class="status-msg">불러오는 중...</div>
+  <div class="list-wrap" id="listWrap"></div>
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg" src=""></div>
+
+<script>
+/* ====== 이 두 값을 본인 스프레드시트에 맞게 교체하세요 ====== */
+const SHEET_ID = '1r9PCcHqXIvCGHspVD40p4PjNXZStnfrrdcVi9rG3bnQ';   // 스프레드시트 ID
+const SHEET_NAME = '점검기록';            // 시트(탭) 이름
+/* ============================================================ */
+/* 주의: 스프레드시트 공유 설정이 "링크가 있는 모든 사용자 - 뷰어"로
+   되어 있어야 이 페이지가 데이터를 읽어올 수 있습니다. */
+
+let allRows = [];
+let currentStatus = '전체';
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function fetchData(){
+  const statusMsg = document.getElementById('statusMsg');
+  const listWrap = document.getElementById('listWrap');
+  statusMsg.style.display = 'block';
+  statusMsg.className = 'status-msg';
+  statusMsg.textContent = '불러오는 중...';
+  listWrap.innerHTML = '';
+
+  if (SHEET_ID.indexOf('YOUR_SHEET_ID') > -1) {
+    statusMsg.className = 'status-msg err';
+    statusMsg.textContent = '⚠ 상단 SHEET_ID 값을 본인 스프레드시트 ID로 교체해주세요.';
+    return;
+  }
+
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('시트를 불러올 수 없습니다 (공유 설정을 확인하세요)');
+    const text = await res.text();
+    const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+    const json = JSON.parse(jsonStr);
+    const rows = (json.table.rows || []).map(r => (r.c || []).map(c => c ? c.v : ''));
+
+    // 열 순서: 0 등록일시,1 시설명,2 점검자,3 점검일,4 구역,5 분류,6 위치,7 상태,8 비고,
+    //          9 사진미리보기(수식,무시),10~13 사진URL1-4
+    allRows = rows
+      .filter(r => r[6]) // 위치가 있는 행만
+      .map(r => ({
+        timestamp: r[0], siteName: r[1], inspector: r[2], date: r[3], area: r[4],
+        category: r[5], location: r[6], status: r[7], note: r[8],
+        photos: [r[10], r[11], r[12], r[13]].filter(Boolean)
+      }))
+      .reverse(); // 최신순
+
+    statusMsg.style.display = 'none';
+    render();
+  } catch (err) {
+    statusMsg.className = 'status-msg err';
+    statusMsg.textContent = '⚠ 데이터를 불러오지 못했습니다: ' + err.message;
+  }
+}
+
+function render(){
+  const listWrap = document.getElementById('listWrap');
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  const ok = allRows.filter(r=>r.status==='정상').length;
+  const warn = allRows.filter(r=>r.status==='주의').length;
+  const bad = allRows.filter(r=>r.status==='이상').length;
+  document.getElementById('cntOk').textContent = ok;
+  document.getElementById('cntWarn').textContent = warn;
+  document.getElementById('cntBad').textContent = bad;
+  document.getElementById('cntTotal').textContent = allRows.length;
+
+  let filtered = allRows;
+  if (currentStatus !== '전체') filtered = filtered.filter(r => r.status === currentStatus);
+  if (q) filtered = filtered.filter(r =>
+    (r.location||'').toLowerCase().includes(q) ||
+    (r.note||'').toLowerCase().includes(q) ||
+    (r.area||'').toLowerCase().includes(q)
+  );
+
+  if (filtered.length === 0) {
+    listWrap.innerHTML = '<div class="status-msg">표시할 점검 기록이 없습니다.</div>';
+    return;
+  }
+
+  listWrap.innerHTML = filtered.map(r => `
+    <div class="r-item">
+      <div class="r-top">
+        <div>
+          <div class="r-loc">${escapeHtml(r.location)}</div>
+          <div class="r-meta">${escapeHtml(r.category || '')} · ${escapeHtml(r.area || '')} · ${escapeHtml(r.date || '')} · ${escapeHtml(r.inspector || '')}</div>
+        </div>
+        <span class="badge ${r.status}">${escapeHtml(r.status || '-')}</span>
+      </div>
+      ${r.note ? `<div class="r-note">${escapeHtml(r.note)}</div>` : ''}
+      ${r.photos.length ? `<div class="r-photos">${r.photos.map(p=>`<img src="${p}" data-full="${p}">`).join('')}</div>` : ''}
+    </div>
+  `).join('');
+
+  listWrap.querySelectorAll('.r-photos img').forEach(img => {
+    img.addEventListener('click', () => {
+      document.getElementById('lightboxImg').src = img.dataset.full;
+      document.getElementById('lightbox').classList.add('open');
+    });
+  });
+}
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    currentStatus = chip.dataset.status;
+    render();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', render);
+document.getElementById('refreshBtn').addEventListener('click', fetchData);
+document.getElementById('lightbox').addEventListener('click', () => {
+  document.getElementById('lightbox').classList.remove('open');
+});
+
+fetchData();
+</script>
+</body>
+</html>
