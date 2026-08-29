@@ -31,7 +31,7 @@
 </head>
 <body>
 <div class="app">
-  <header class="head"><h1>시설점검 일일보고서04-7</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>시설점검 일일보고서04-8</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
 
   <section class="panel">
     <div class="grid">
@@ -76,7 +76,7 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbwy2cGw3Nq4NB-DInZV85ZD_sE41LeDV8QqTNS-QssBGR-DGpPwT22B-0jkiSmvLO9O/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyoRCc0EZDqPugV70DMwY0DXdUhQILhEg4I9YeL1gt2SgGL807yIP_sgbzrgNrpfjYH/exec';
 const REQUIRED_BACKEND_VERSION='2.1.0';
 const MAX_ITEMS=30;
 let items=[];
@@ -177,7 +177,112 @@ function renderItems(){
     el.addEventListener('click',()=>removeItem(Number(el.dataset.remove)))
   );
 }
-function compressImage(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=e=>{const img=new Image();img.onload=()=>{const maxW=1200,scale=Math.min(1,maxW/img.width),c=document.createElement('canvas');c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',0.72));};img.onerror=reject;img.src=e.target.result;};r.onerror=reject;r.readAsDataURL(file);});}
+function compressImage(file){
+  return new Promise((resolve,reject)=>{
+
+    const reader = new FileReader();
+
+    reader.onload = e => {
+
+      const img = new Image();
+
+      img.onload = () => {
+
+        // Google Sheet insertImage의 2MB 제한을 고려
+        const MAX_WIDTH = 900;
+        const MAX_HEIGHT = 900;
+
+        let width = img.width;
+        let height = img.height;
+
+        const scale = Math.min(
+          1,
+          MAX_WIDTH / width,
+          MAX_HEIGHT / height
+        );
+
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+
+        const canvas =
+          document.createElement('canvas');
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx =
+          canvas.getContext('2d');
+
+        // 흰색 배경
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(
+          0,
+          0,
+          width,
+          height
+        );
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          width,
+          height
+        );
+
+        let quality = 0.65;
+
+        let dataUrl =
+          canvas.toDataURL(
+            'image/jpeg',
+            quality
+          );
+
+        /*
+         * base64 문자열을 약 1.5MB 이하로
+         * 만들기 위해 품질을 단계적으로 감소
+         */
+        while(
+          dataUrl.length > 1900000 &&
+          quality > 0.35
+        ){
+          quality -= 0.08;
+
+          dataUrl =
+            canvas.toDataURL(
+              'image/jpeg',
+              quality
+            );
+        }
+
+        resolve(dataUrl);
+
+      };
+
+      img.onerror = () => {
+        reject(
+          new Error(
+            '선택한 이미지를 읽을 수 없습니다.'
+          )
+        );
+      };
+
+      img.src = e.target.result;
+
+    };
+
+    reader.onerror = () => {
+      reject(
+        new Error(
+          '사진 파일을 읽지 못했습니다.'
+        )
+      );
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+}
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function updatePreview(){document.getElementById('pvTitle').textContent=document.getElementById('title').value||'시설점검 보고서';document.getElementById('pvDate').textContent=document.getElementById('inspectDate').value;document.getElementById('pvJob').textContent=document.getElementById('jobName').value;document.getElementById('pvDetails').textContent=document.getElementById('details').value;document.getElementById('pvVendor').textContent=document.getElementById('vendor').value;}
 function showStatus(msg,type){const s=document.getElementById('status');s.className='status show '+type;s.textContent=msg;}
