@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>시설점검 보고서 목록</title>
+<title>시설점검 보고서 목록04-3</title>
 <style>
 :root{--ink:#1c2530;--paper:#f6f4ee;--line:#cfc9bb;--amber:#e2a63b;--steel:#6b7785;--bad:#c1443c}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);font-family:Arial,'Noto Sans KR',sans-serif;color:var(--ink)}.app{max-width:900px;margin:auto;padding-bottom:40px}.head{background:var(--ink);color:#fff;padding:20px}.head h1{margin:0;font-size:24px}.head p{margin:4px 0 0;font-size:12px;color:#ddd}.toolbar{padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap}.toolbar input{flex:1;min-width:160px;padding:10px;border:1px solid var(--line);border-radius:7px}.btn{padding:10px 13px;border:1px solid var(--line);background:#fff;border-radius:7px;font-weight:700;cursor:pointer}.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}.tabs{display:flex;gap:6px;padding:0 14px}.tab{padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:#fff;cursor:pointer}.tab.active{background:var(--amber);border-color:var(--amber);font-weight:700}.status{padding:28px 14px;text-align:center;color:var(--steel)}
@@ -23,12 +23,50 @@
 </div>
 <script>
 const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyra21XMyVeEpm6mEHWMdOrgP6X_PFilo0ki5TTSunvtPJ_UxwOHj-d8ifnTSojH8S6/exec';
-const REQUIRED_BACKEND_VERSION='2.1.0';let reports=[];let selected=null;let currentView='list';
+let reports=[];let selected=null;let currentView='list';
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-async function loadList(){const st=document.getElementById('status');st.style.display='block';st.className='status';st.textContent='불러오는 중...';try{const r=await fetch(WEBAPP_URL+'?action=list&_='+Date.now());const text=await r.text();let j;try{j=JSON.parse(text);}catch(err){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹앱 공개 설정을 확인하세요.');}if(j.result!=='success')throw new Error(j.message||'불러오기 실패');if(j.version!==REQUIRED_BACKEND_VERSION)throw new Error('Apps Script가 이전 버전입니다. 현재 '+(j.version||'구버전')+' / 필요한 버전 '+REQUIRED_BACKEND_VERSION+' — 새 버전으로 재배포하세요.');reports=j.reports||[];st.style.display='none';renderList();}catch(e){st.className='status error';st.style.display='block';st.textContent='불러오기 실패: '+e.message;}}
+function jsonp(action, params={}){
+  return new Promise((resolve,reject)=>{
+    const callback='cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const script=document.createElement('script');
+    const qs=new URLSearchParams({action,callback,_:Date.now().toString(),...params});
+    const timer=setTimeout(()=>{cleanup();reject(new Error('서버 응답 시간 초과'));},15000);
+    function cleanup(){clearTimeout(timer);delete window[callback];if(script.parentNode)script.parentNode.removeChild(script);}
+    window[callback]=(data)=>{cleanup();resolve(data);};
+    script.onerror=()=>{cleanup();reject(new Error('Apps Script 연결 실패 — 웹앱 배포가 모든 사용자 공개인지 확인하세요.'));};
+    script.src=WEBAPP_URL+'?'+qs.toString();
+    document.head.appendChild(script);
+  });
+}
+
+async function loadList(){
+  const st=document.getElementById('status');
+  st.style.display='block';st.className='status';st.textContent='불러오는 중...';
+  try{
+    const j=await jsonp('list');
+    if(!j||j.result!=='success') throw new Error((j&&j.message)||'불러오기 실패');
+    reports=Array.isArray(j.reports)?j.reports:[];
+    st.style.display='none';
+    renderList();
+  }catch(e){
+    st.className='status error';st.style.display='block';
+    st.textContent='불러오기 실패: '+e.message;
+  }
+}
 function filtered(){const q=document.getElementById('search').value.trim().toLowerCase();if(!q)return reports;return reports.filter(r=>[r.date,r.jobName,r.vendor,r.details,r.inspector,r.siteName].join(' ').toLowerCase().includes(q));}
 function renderList(){const list=document.getElementById('listView');const arr=filtered();if(!arr.length){list.innerHTML='<div class="status">저장된 보고서가 없습니다.</div>';return;}list.innerHTML=arr.map(r=>`<div class="card" data-id="${esc(r.reportId)}"><div class="card-top"><div><div class="job">${esc(r.jobName||r.title)}</div><div class="meta">${esc(r.vendor)} ${r.inspector?'· '+esc(r.inspector):''} · 항목 ${r.itemCount||0}개</div></div><div class="date">${esc(r.date)}</div></div>${r.details?`<div class="detail">${esc(r.details)}</div>`:''}${r.coverPhoto?`<img class="cover" src="${esc(r.coverPhoto)}" onerror="this.style.display='none'">`:''}</div>`).join('');list.querySelectorAll('.card').forEach(c=>c.addEventListener('click',()=>openReport(c.dataset.id)));}
-async function openReport(id){const st=document.getElementById('status');st.style.display='block';st.textContent='상세 보고서 불러오는 중...';try{const r=await fetch(WEBAPP_URL+'?action=detail&id='+encodeURIComponent(id)+'&_='+Date.now());const j=await r.json();if(j.result!=='success')throw new Error(j.message||'상세 조회 실패');selected=j.report;st.style.display='none';renderSheet();setView('sheet');}catch(e){st.className='status error';st.textContent='상세 조회 실패: '+e.message;}}
+async function openReport(id){
+  const st=document.getElementById('status');
+  st.style.display='block';st.className='status';st.textContent='상세 보고서 불러오는 중...';
+  try{
+    const j=await jsonp('detail',{id});
+    if(!j||j.result!=='success') throw new Error((j&&j.message)||'상세 조회 실패');
+    selected=j.report;st.style.display='none';renderSheet();setView('sheet');
+  }catch(e){
+    st.className='status error';st.style.display='block';
+    st.textContent='상세 조회 실패: '+e.message;
+  }
+}
 function renderSheet(){if(!selected)return;document.getElementById('openSheet').href=selected.spreadsheetUrl||'#';document.getElementById('backBtn').style.display='inline-block';document.getElementById('sheetContent').innerHTML=`<div class="sheet"><div class="sheet-title">${esc(selected.title||'시설점검 보고서')}</div><div class="meta-row"><div class="meta-label">일시</div><div class="meta-value">${esc(selected.date)}</div></div><div class="meta-row"><div class="meta-label">작업명</div><div class="meta-value">${esc(selected.jobName)}</div></div><div class="meta-row"><div class="meta-label">세부내용</div><div class="meta-value">${esc(selected.details)}</div></div><div class="meta-row"><div class="meta-label">업체(작업자)</div><div class="meta-value">${esc(selected.vendor)}</div></div><div class="photo-grid">${(selected.items||[]).map((x,i)=>`<div class="photo-item"><div class="photo-area">${x.photoUrl?`<img src="${esc(x.photoUrl)}" onerror="this.outerHTML='<span class=&quot;empty-photo&quot;>사진을 표시할 수 없습니다</span>'">`:'<span class="empty-photo">사진 없음</span>'}</div><div class="photo-text">${esc(x.text||'')}</div></div>`).join('')}</div></div>`;}
 function setView(v){currentView=v;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===v));document.getElementById('listView').style.display=v==='list'?'block':'none';document.getElementById('sheetView').style.display=v==='sheet'?'block':'none';if(v==='sheet'&&!selected){document.getElementById('sheetContent').innerHTML='<div class="status">리스트에서 보고서를 선택하세요.</div>';document.getElementById('openSheet').href='#';document.getElementById('backBtn').style.display='none';}}
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>setView(t.dataset.view)));document.getElementById('backBtn').addEventListener('click',()=>setView('list'));document.getElementById('refreshBtn').addEventListener('click',loadList);document.getElementById('search').addEventListener('input',renderList);setView('list');loadList();
