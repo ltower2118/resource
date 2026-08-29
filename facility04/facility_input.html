@@ -16,7 +16,14 @@
 .photo-actions{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;padding:16px}
 .photo-action-btn{display:inline-flex;align-items:center;justify-content:center;min-width:120px;padding:10px 12px;border-radius:7px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:13px;font-weight:700;cursor:pointer}
 .photo-action-btn.camera{background:var(--ink);color:#fff;border-color:var(--ink)}
-.photo-action-btn.gallery{background:#fff;color:var(--ink)}.item-text{border-top:1px solid #333;padding:8px}.item-text textarea{width:100%;min-height:58px;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:13px;resize:vertical}.item-tools{display:flex;justify-content:space-between;align-items:center;margin-top:5px}.item-no{font-size:11px;color:var(--steel)}.remove-btn{border:0;background:none;color:var(--bad);cursor:pointer;font-size:12px}
+.photo-action-btn.gallery{background:#fff;color:var(--ink)}
+.photo-choice-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:9999;align-items:flex-end;justify-content:center;padding:14px}
+.photo-choice-modal.show{display:flex}
+.photo-choice-sheet{width:100%;max-width:520px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 12px 35px rgba(0,0,0,.25)}
+.photo-choice-title{text-align:center;font-weight:700;font-size:14px;margin:3px 0 12px}
+.photo-choice-option{width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;padding:14px;margin-top:8px;font-size:15px;font-weight:700;cursor:pointer}
+.photo-choice-option.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.photo-choice-cancel{width:100%;border:0;background:#eee;border-radius:9px;padding:12px;margin-top:10px;font-size:14px;cursor:pointer}.item-text{border-top:1px solid #333;padding:8px}.item-text textarea{width:100%;min-height:58px;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:13px;resize:vertical}.item-tools{display:flex;justify-content:space-between;align-items:center;margin-top:5px}.item-no{font-size:11px;color:var(--steel)}.remove-btn{border:0;background:none;color:var(--bad);cursor:pointer;font-size:12px}
 .status{margin-top:10px;padding:10px;border-radius:7px;font-size:13px;display:none}.status.show{display:block}.status.ok{background:#e7f1ec;color:#245c46}.status.err{background:#fbe6e4;color:#8a2c24}.status.wait{background:#fbf0dc;color:#8a5a0f}
 .bottom{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;max-width:820px;margin:auto}.bottom .save-btn{flex:2}.bottom .link-btn{flex:1}
 @media(max-width:600px){.grid{grid-template-columns:1fr}.item-grid{grid-template-columns:1fr}.photo-box{height:210px}.meta-row{grid-template-columns:90px 1fr}.head h1{font-size:21px}}
@@ -24,7 +31,7 @@
 </head>
 <body>
 <div class="app">
-  <header class="head"><h1>시설점검 일일보고서04-4</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>시설점검 일일보고서04-6</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
 
   <section class="panel">
     <div class="grid">
@@ -51,6 +58,16 @@
     <div class="item-grid" id="itemGrid"></div>
     <div id="status" class="status"></div>
   </section>
+</div>
+
+
+<div class="photo-choice-modal" id="photoChoiceModal">
+  <div class="photo-choice-sheet">
+    <div class="photo-choice-title">사진 입력 방법 선택</div>
+    <button type="button" class="photo-choice-option primary" id="chooseCameraBtn">📷 사진 촬영</button>
+    <button type="button" class="photo-choice-option" id="chooseGalleryBtn">🖼 갤러리에서 선택</button>
+    <button type="button" class="photo-choice-cancel" id="closePhotoChoiceBtn">취소</button>
+  </div>
 </div>
 
 <div class="bottom">
@@ -82,12 +99,9 @@ function renderItems(){
           ? `<img src="${it.photo}" alt="선택한 사진">`
           : `
             <div class="photo-actions">
-              <label class="photo-action-btn camera" for="camera-${it.id}">
-                📷 사진 촬영
-              </label>
-              <label class="photo-action-btn gallery" for="gallery-${it.id}">
-                🖼 갤러리 선택
-              </label>
+              <button type="button" class="photo-action-btn camera photo-choice-btn" data-photo-choice="${it.id}">
+                📷 사진촬영 / 이미지 선택
+              </button>
               <div style="width:100%;text-align:center;color:var(--steel);font-size:11px;">
                 항목 ${i+1}
               </div>
@@ -148,6 +162,10 @@ function renderItems(){
     }
   });
 
+  grid.querySelectorAll('[data-photo-choice]').forEach(el=>
+    el.addEventListener('click',()=>openPhotoChoice(el.dataset.photoChoice))
+  );
+
   grid.querySelectorAll('textarea').forEach(el=>
     el.addEventListener('input',e=>{
       const it=items.find(x=>x.id===Number(e.target.dataset.id));
@@ -200,6 +218,33 @@ async function saveReport(){
   }catch(err){showStatus('저장 실패: '+err.message,'err');}
   finally{btn.disabled=false;btn.textContent='날짜별 구글시트로 저장';}
 }
+
+
+let activePhotoItemId = null;
+
+function openPhotoChoice(id){
+  activePhotoItemId = Number(id);
+  document.getElementById('photoChoiceModal').classList.add('show');
+}
+function closePhotoChoice(){
+  document.getElementById('photoChoiceModal').classList.remove('show');
+}
+document.getElementById('chooseCameraBtn').addEventListener('click',()=>{
+  if(activePhotoItemId===null)return;
+  const el=document.getElementById('camera-'+activePhotoItemId);
+  closePhotoChoice();
+  if(el)el.click();
+});
+document.getElementById('chooseGalleryBtn').addEventListener('click',()=>{
+  if(activePhotoItemId===null)return;
+  const el=document.getElementById('gallery-'+activePhotoItemId);
+  closePhotoChoice();
+  if(el)el.click();
+});
+document.getElementById('closePhotoChoiceBtn').addEventListener('click',closePhotoChoice);
+document.getElementById('photoChoiceModal').addEventListener('click',e=>{
+  if(e.target.id==='photoChoiceModal')closePhotoChoice();
+});
 
 document.getElementById('addItemBtn').addEventListener('click',createItem);document.getElementById('saveBtn').addEventListener('click',saveReport);
 ['title','inspectDate','jobName','details','vendor'].forEach(id=>document.getElementById(id).addEventListener('input',updatePreview));
