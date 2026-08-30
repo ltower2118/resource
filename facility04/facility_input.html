@@ -58,7 +58,7 @@
 </head>
 <body>
 <div class="app">
-  <header class="head"><h1>시설점검 일일보고서04-10</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>시설점검 일일보고서04-11</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
 
   <section class="panel">
     <div class="grid">
@@ -334,6 +334,16 @@ function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;',
 function updatePreview(){document.getElementById('pvTitle').textContent=document.getElementById('title').value||'시설점검 보고서';document.getElementById('pvDate').textContent=document.getElementById('inspectDate').value;document.getElementById('pvJob').textContent=document.getElementById('jobName').value;document.getElementById('pvDetails').textContent=document.getElementById('details').value;document.getElementById('pvVendor').textContent=document.getElementById('vendor').value;}
 function showStatus(msg,type){const s=document.getElementById('status');s.className='status show '+type;s.textContent=msg;}
 
+function getFieldValue(id, fallback=''){
+  const el=document.getElementById(id);
+  return el ? String(el.value || '').trim() : fallback;
+}
+
+function setTextIfExists(id, value){
+  const el=document.getElementById(id);
+  if(el) el.textContent=value;
+}
+
 async function checkBackend(){
   try{
     const res=await fetch(WEBAPP_URL+'?action=health&_='+Date.now());
@@ -356,7 +366,17 @@ async function checkBackend(){
 async function saveReport(){
   const btn=document.getElementById('saveBtn');
   if(!(await checkBackend())) return;
-  const payload={action:'saveReport',siteName:document.getElementById('siteName').value.trim(),inspector:document.getElementById('inspector').value.trim(),date:document.getElementById('inspectDate').value,title:document.getElementById('title').value.trim(),jobName:document.getElementById('jobName').value.trim(),details:document.getElementById('details').value.trim(),vendor:document.getElementById('vendor').value.trim(),items:items.map(x=>({text:x.text,photo:x.photo}))};
+  const payload={
+    action:'saveReport',
+    siteName:getFieldValue('siteName','서울숲엘타워'),
+    inspector:getFieldValue('inspector',''),
+    date:getFieldValue('inspectDate',''),
+    title:getFieldValue('title','시설점검 보고서'),
+    jobName:getFieldValue('jobName',''),
+    details:getFieldValue('details',''),
+    vendor:getFieldValue('vendor',''),
+    items:items.map(x=>({text:x.text,photo:x.photo}))
+  };
   if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
   if(!payload.items.length){showStatus('사진/내용 항목을 추가하세요.','err');return;}
@@ -417,15 +437,17 @@ document.getElementById('photoChoiceModal').addEventListener('click',e=>{
 
 
 function buildPrintReport(){
-  document.getElementById('prTitle').textContent=document.getElementById('title').value.trim()||'시설점검 보고서';
-  document.getElementById('prSite').textContent=document.getElementById('siteName').value.trim()||'-';
-  document.getElementById('prInspector').textContent=document.getElementById('inspector').value.trim()||'-';
-  document.getElementById('prDate').textContent=document.getElementById('inspectDate').value||'-';
-  document.getElementById('prJob').textContent=document.getElementById('jobName').value.trim()||'-';
-  document.getElementById('prDetails').textContent=document.getElementById('details').value.trim()||'-';
-  document.getElementById('prVendor').textContent=document.getElementById('vendor').value.trim()||'-';
+  setTextIfExists('prTitle', getFieldValue('title','시설점검 보고서') || '시설점검 보고서');
+  setTextIfExists('prSite', getFieldValue('siteName','서울숲엘타워') || '-');
+  setTextIfExists('prInspector', getFieldValue('inspector','') || '-');
+  setTextIfExists('prDate', getFieldValue('inspectDate','') || '-');
+  setTextIfExists('prJob', getFieldValue('jobName','') || '-');
+  setTextIfExists('prDetails', getFieldValue('details','') || '-');
+  setTextIfExists('prVendor', getFieldValue('vendor','') || '-');
 
   const prItems=document.getElementById('prItems');
+  if(!prItems) return;
+
   prItems.innerHTML=items.map((it,i)=>`
     <div class="print-item">
       <div class="print-photo">${it.photo?`<img src="${it.photo}" alt="사진 ${i+1}">`:'<span>사진 없음</span>'}</div>
@@ -435,13 +457,46 @@ function buildPrintReport(){
 }
 
 function saveAsPdf(){
-  buildPrintReport();
-  setTimeout(()=>window.print(),100);
+  try{
+    buildPrintReport();
+
+    const date=getFieldValue('inspectDate','');
+    const job=getFieldValue('jobName','');
+
+    if(!date){
+      showStatus('PDF 저장 전 점검일을 입력하세요.','err');
+      return;
+    }
+
+    if(!job){
+      showStatus('PDF 저장 전 작업명을 입력하세요.','err');
+      return;
+    }
+
+    showStatus('PDF 저장 화면을 여는 중입니다. 인쇄 화면에서 "PDF로 저장"을 선택하세요.','ok');
+
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        setTimeout(()=>window.print(),150);
+      });
+    });
+
+  }catch(err){
+    console.error(err);
+    showStatus('PDF 준비 실패: '+err.message,'err');
+  }
 }
 
 document.getElementById('addItemBtn').addEventListener('click',createItem);document.getElementById('saveBtn').addEventListener('click',saveReport);document.getElementById('pdfBtn').addEventListener('click',saveAsPdf);
-['title','inspectDate','jobName','details','vendor'].forEach(id=>document.getElementById(id).addEventListener('input',updatePreview));
-document.getElementById('inspectDate').valueAsDate=new Date();for(let i=0;i<4;i++)createItem();updatePreview();checkBackend();
+['title','inspectDate','jobName','details','vendor'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('input',updatePreview);
+});
+const dateInput=document.getElementById('inspectDate');
+if(dateInput) dateInput.valueAsDate=new Date();
+for(let i=0;i<4;i++)createItem();
+updatePreview();
+checkBackend();
 </script>
 </body>
 </html>
