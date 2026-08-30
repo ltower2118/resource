@@ -76,7 +76,7 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyoRCc0EZDqPugV70DMwY0DXdUhQILhEg4I9YeL1gt2SgGL807yIP_sgbzrgNrpfjYH/exechttps://script.google.com/macros/s/AKfycbwhCT6h77a3g3Pi0NBLhGSBmItBOL31Demkth6qPoTUkI9lkx-_cpYYIf2IxQFZ5TNp/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbwhCT6h77a3g3Pi0NBLhGSBmItBOL31Demkth6qPoTUkI9lkx-_cpYYIf2IxQFZ5TNp/exec';
 const REQUIRED_BACKEND_VERSION='2.1.0';
 const MAX_ITEMS=30;
 let items=[];
@@ -301,7 +301,7 @@ async function checkBackend(){
     showStatus('서버 연결 정상 · 버전 '+json.version+' · 저장된 보고서 '+(json.reportCount||0)+'건','ok');
     return true;
   }catch(err){
-    showStatus('서버 연결 실패: '+err.message+' — WEBAPP_URL/웹앱 배포를 확인하세요.','err');
+    showStatus('서버 연결 실패: '+err.message+' — WEBAPP_URL이 올바른 /exec 주소인지, Apps Script 웹앱이 모든 사용자 공개인지 확인하세요.','err');
     return false;
   }
 }
