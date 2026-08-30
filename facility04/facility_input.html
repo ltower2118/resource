@@ -55,10 +55,11 @@
 
 @media(max-width:600px){.grid{grid-template-columns:1fr}.item-grid{grid-template-columns:1fr}.photo-box{height:210px}.meta-row{grid-template-columns:90px 1fr}.head h1{font-size:21px}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 <div class="app">
-  <header class="head"><h1>시설점검 일일보고서04-12</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>시설점검 일일보고서04-10</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
 
   <section class="panel">
     <div class="grid">
@@ -456,7 +457,10 @@ function buildPrintReport(){
   `).join('');
 }
 
-function saveAsPdf(){
+async function saveAsPdf(){
+  let reportEl=null;
+  let oldStyle='';
+
   try{
     const date=getFieldValue('inspectDate','');
     const job=getFieldValue('jobName','');
@@ -471,156 +475,78 @@ function saveAsPdf(){
       return;
     }
 
-    buildPrintReport();
-
-    // 모바일 브라우저는 setTimeout 후 window.print()를 팝업으로 차단하는 경우가 많습니다.
-    // 사용자 클릭 순간 새 창을 먼저 열어 팝업 차단을 피합니다.
-    const printWindow = window.open('', '_blank');
-
-    if(!printWindow){
-      showStatus('팝업이 차단되었습니다. 브라우저 설정에서 이 사이트의 팝업을 허용해주세요.','err');
+    if(typeof html2pdf === 'undefined'){
+      showStatus('PDF 생성 모듈을 불러오지 못했습니다. 인터넷 연결을 확인하세요.','err');
       return;
     }
 
-    const reportEl=document.getElementById('printReport');
+    buildPrintReport();
+
+    reportEl=document.getElementById('printReport');
     if(!reportEl){
-      printWindow.close();
       showStatus('PDF 보고서 영역을 찾지 못했습니다.','err');
       return;
     }
 
-    const printHtml = `
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${escapeHtml(getFieldValue('title','시설점검 보고서'))}</title>
-<style>
-@page{size:A4 portrait;margin:10mm}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:#fff;
-  color:#000;
-  font-family:Arial,'Noto Sans KR',sans-serif;
-  -webkit-print-color-adjust:exact;
-  print-color-adjust:exact;
-}
-.print-page{width:190mm;max-width:100%;margin:0 auto}
-.print-title{
-  text-align:center;
-  font-size:22px;
-  font-weight:700;
-  padding:8mm 0 5mm;
-  border-bottom:1px solid #000
-}
-.print-meta{border-left:1px solid #000;border-top:1px solid #000}
-.print-meta-row{
-  display:grid;
-  grid-template-columns:30mm 1fr;
-  border-bottom:1px solid #000
-}
-.print-meta-label{
-  font-weight:700;
-  text-align:center;
-  padding:3mm;
-  border-right:1px solid #000
-}
-.print-meta-value{padding:3mm;white-space:pre-wrap;word-break:break-word}
-.print-items{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  border-left:1px solid #000;
-  border-top:1px solid #000;
-  margin-top:4mm
-}
-.print-item{
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
-  break-inside:avoid;
-  page-break-inside:avoid
-}
-.print-photo{
-  height:72mm;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:2mm;
-  overflow:hidden
-}
-.print-photo img{
-  max-width:100%;
-  max-height:100%;
-  width:auto;
-  height:auto;
-  object-fit:contain
-}
-.print-text{
-  border-top:1px solid #000;
-  padding:3mm;
-  min-height:16mm;
-  white-space:pre-wrap;
-  font-size:11pt
-}
-.print-no{font-size:8pt;color:#555;margin-bottom:1mm}
-@media(max-width:600px){
-  .print-page{width:100%}
-}
-</style>
-</head>
-<body>
-${reportEl.innerHTML}
-<script>
-(function(){
-  function doPrint(){
-    setTimeout(function(){
-      window.focus();
-      window.print();
-    }, 500);
-  }
+    const safeJob=job.replace(/[\\/:*?"<>|]/g,'_').slice(0,40);
+    const fileName=`${date}_${safeJob}_시설점검보고서.pdf`;
 
-  const imgs=Array.from(document.images || []);
-  if(!imgs.length){
-    doPrint();
-    return;
-  }
+    showStatus('PDF 파일을 생성 중입니다...','wait');
 
-  let pending=0;
-  imgs.forEach(function(img){
-    if(!img.complete){
-      pending++;
-      img.addEventListener('load', function(){
-        pending--;
-        if(pending===0) doPrint();
-      }, {once:true});
-      img.addEventListener('error', function(){
-        pending--;
-        if(pending===0) doPrint();
-      }, {once:true});
-    }
-  });
+    oldStyle=reportEl.getAttribute('style') || '';
+    reportEl.style.display='block';
+    reportEl.style.position='fixed';
+    reportEl.style.left='-10000px';
+    reportEl.style.top='0';
+    reportEl.style.width='794px';
+    reportEl.style.background='#fff';
 
-  if(pending===0) doPrint();
+    const imgs=Array.from(reportEl.querySelectorAll('img'));
+    await Promise.all(imgs.map(img=>{
+      if(img.complete) return Promise.resolve();
+      return new Promise(resolve=>{
+        const done=()=>resolve();
+        img.addEventListener('load',done,{once:true});
+        img.addEventListener('error',done,{once:true});
+      });
+    }));
 
-  // 일부 모바일 브라우저에서 이미지 load 이벤트가 지연될 경우 대비
-  setTimeout(function(){
-    if(pending>0) doPrint();
-  }, 2500);
-})();
-<\/script>
-</body>
-</html>`;
+    const options={
+      margin:[8,8,8,8],
+      filename:fileName,
+      image:{type:'jpeg',quality:0.92},
+      html2canvas:{
+        scale:2,
+        useCORS:true,
+        backgroundColor:'#ffffff',
+        logging:false
+      },
+      jsPDF:{
+        unit:'mm',
+        format:'a4',
+        orientation:'portrait'
+      },
+      pagebreak:{
+        mode:['css','legacy'],
+        avoid:['.print-item']
+      }
+    };
 
-    printWindow.document.open();
-    printWindow.document.write(printHtml);
-    printWindow.document.close();
+    await html2pdf().set(options).from(reportEl).save();
 
-    showStatus('PDF 저장 화면을 열었습니다. 인쇄 대상에서 "PDF로 저장"을 선택하세요.','ok');
+    showStatus('PDF 저장을 시작했습니다. 스마트폰의 다운로드 폴더를 확인하세요.','ok');
 
   }catch(err){
     console.error(err);
-    showStatus('PDF 준비 실패: '+err.message,'err');
+    showStatus('PDF 저장 실패: '+err.message,'err');
+  }finally{
+    if(reportEl){
+      if(oldStyle){
+        reportEl.setAttribute('style',oldStyle);
+      }else{
+        reportEl.removeAttribute('style');
+      }
+    }
   }
 }
 
