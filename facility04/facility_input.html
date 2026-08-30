@@ -26,6 +26,33 @@
 .photo-choice-cancel{width:100%;border:0;background:#eee;border-radius:9px;padding:12px;margin-top:10px;font-size:14px;cursor:pointer}.item-text{border-top:1px solid #333;padding:8px}.item-text textarea{width:100%;min-height:58px;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:13px;resize:vertical}.item-tools{display:flex;justify-content:space-between;align-items:center;margin-top:5px}.item-no{font-size:11px;color:var(--steel)}.remove-btn{border:0;background:none;color:var(--bad);cursor:pointer;font-size:12px}
 .status{margin-top:10px;padding:10px;border-radius:7px;font-size:13px;display:none}.status.show{display:block}.status.ok{background:#e7f1ec;color:#245c46}.status.err{background:#fbe6e4;color:#8a2c24}.status.wait{background:#fbf0dc;color:#8a5a0f}
 .bottom{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;max-width:820px;margin:auto}.bottom .save-btn{flex:2}.bottom .link-btn{flex:1}
+
+.pdf-btn{background:#c1443c;color:#fff;border:0;border-radius:7px;padding:11px 14px;font-weight:700;cursor:pointer;width:100%}
+.bottom{flex-wrap:wrap}
+.bottom .save-btn{flex:1 1 100%}
+.bottom .pdf-btn{flex:1 1 calc(50% - 4px)}
+.bottom .link-btn{flex:1 1 calc(50% - 4px)}
+#printReport{display:none}
+
+@page{size:A4 portrait;margin:10mm}
+@media print{
+  body{background:#fff}
+  body > *:not(#printReport){display:none !important}
+  #printReport{display:block !important;background:#fff;color:#000}
+  .print-page{width:190mm;margin:0 auto;font-family:Arial,'Noto Sans KR',sans-serif}
+  .print-title{text-align:center;font-size:22px;font-weight:700;padding:8mm 0 5mm;border-bottom:1px solid #000}
+  .print-meta{border-left:1px solid #000;border-top:1px solid #000}
+  .print-meta-row{display:grid;grid-template-columns:30mm 1fr;border-bottom:1px solid #000}
+  .print-meta-label{font-weight:700;text-align:center;padding:3mm;border-right:1px solid #000}
+  .print-meta-value{padding:3mm;white-space:pre-wrap}
+  .print-items{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #000;border-top:1px solid #000;margin-top:4mm}
+  .print-item{border-right:1px solid #000;border-bottom:1px solid #000;break-inside:avoid}
+  .print-photo{height:72mm;display:flex;align-items:center;justify-content:center;padding:2mm}
+  .print-photo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+  .print-text{border-top:1px solid #000;padding:3mm;min-height:16mm;white-space:pre-wrap;font-size:11pt}
+  .print-no{font-size:8pt;color:#555;margin-bottom:1mm}
+}
+
 @media(max-width:600px){.grid{grid-template-columns:1fr}.item-grid{grid-template-columns:1fr}.photo-box{height:210px}.meta-row{grid-template-columns:90px 1fr}.head h1{font-size:21px}}
 </style>
 </head>
@@ -70,8 +97,25 @@
   </div>
 </div>
 
+
+<div id="printReport">
+  <div class="print-page">
+    <div class="print-title" id="prTitle">시설점검 보고서</div>
+    <div class="print-meta">
+      <div class="print-meta-row"><div class="print-meta-label">시설명</div><div class="print-meta-value" id="prSite"></div></div>
+      <div class="print-meta-row"><div class="print-meta-label">점검자</div><div class="print-meta-value" id="prInspector"></div></div>
+      <div class="print-meta-row"><div class="print-meta-label">일시</div><div class="print-meta-value" id="prDate"></div></div>
+      <div class="print-meta-row"><div class="print-meta-label">작업명</div><div class="print-meta-value" id="prJob"></div></div>
+      <div class="print-meta-row"><div class="print-meta-label">세부내용</div><div class="print-meta-value" id="prDetails"></div></div>
+      <div class="print-meta-row"><div class="print-meta-label">업체(작업자)</div><div class="print-meta-value" id="prVendor"></div></div>
+    </div>
+    <div class="print-items" id="prItems"></div>
+  </div>
+</div>
+
 <div class="bottom">
   <button class="save-btn" id="saveBtn">날짜별 구글시트로 저장</button>
+  <button class="pdf-btn" id="pdfBtn">PDF로 저장하기</button>
   <button class="link-btn" onclick="location.href='facility_list.html'">목록 보기</button>
 </div>
 
@@ -368,7 +412,31 @@ document.getElementById('photoChoiceModal').addEventListener('click',e=>{
   if(e.target.id==='photoChoiceModal')closePhotoChoice();
 });
 
-document.getElementById('addItemBtn').addEventListener('click',createItem);document.getElementById('saveBtn').addEventListener('click',saveReport);
+
+function buildPrintReport(){
+  document.getElementById('prTitle').textContent=document.getElementById('title').value.trim()||'시설점검 보고서';
+  document.getElementById('prSite').textContent=document.getElementById('siteName').value.trim()||'-';
+  document.getElementById('prInspector').textContent=document.getElementById('inspector').value.trim()||'-';
+  document.getElementById('prDate').textContent=document.getElementById('inspectDate').value||'-';
+  document.getElementById('prJob').textContent=document.getElementById('jobName').value.trim()||'-';
+  document.getElementById('prDetails').textContent=document.getElementById('details').value.trim()||'-';
+  document.getElementById('prVendor').textContent=document.getElementById('vendor').value.trim()||'-';
+
+  const prItems=document.getElementById('prItems');
+  prItems.innerHTML=items.map((it,i)=>`
+    <div class="print-item">
+      <div class="print-photo">${it.photo?`<img src="${it.photo}" alt="사진 ${i+1}">`:'<span>사진 없음</span>'}</div>
+      <div class="print-text"><div class="print-no">text${i+1}</div>${escapeHtml(it.text||'')}</div>
+    </div>
+  `).join('');
+}
+
+function saveAsPdf(){
+  buildPrintReport();
+  setTimeout(()=>window.print(),100);
+}
+
+document.getElementById('addItemBtn').addEventListener('click',createItem);document.getElementById('saveBtn').addEventListener('click',saveReport);document.getElementById('pdfBtn').addEventListener('click',saveAsPdf);
 ['title','inspectDate','jobName','details','vendor'].forEach(id=>document.getElementById(id).addEventListener('input',updatePreview));
 document.getElementById('inspectDate').valueAsDate=new Date();for(let i=0;i<4;i++)createItem();updatePreview();checkBackend();
 </script>
