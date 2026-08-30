@@ -11,7 +11,7 @@
 .toolbar{padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap}.toolbar input{flex:1;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:7px}.btn{padding:10px 13px;border:1px solid var(--line);background:#fff;border-radius:7px;font-weight:700;cursor:pointer;text-decoration:none;color:var(--ink)}.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
 .tabs{display:flex;gap:6px;padding:0 14px}.tab{padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:#fff;cursor:pointer}.tab.active{background:var(--amber);border-color:var(--amber);font-weight:700}
 .status{padding:24px 14px;text-align:center;color:var(--steel)}.status.error{color:var(--bad)}.status.ok{color:var(--ok)}
-.list{padding:14px}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}.card-top{display:flex;justify-content:space-between;gap:10px}.job{font-size:16px;font-weight:700}.date{font-size:12px;color:var(--steel);white-space:nowrap}.meta{font-size:12px;color:var(--steel);margin-top:5px}.detail{font-size:13px;margin-top:8px;white-space:pre-wrap}.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.mini{font-size:12px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;text-decoration:none;color:var(--ink);font-weight:700}
+.list{padding:14px}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}.card-top{display:flex;justify-content:space-between;gap:10px}.job{font-size:16px;font-weight:700}.date{font-size:12px;color:var(--steel);white-space:nowrap}.meta{font-size:12px;color:var(--steel);margin-top:5px}.detail{font-size:13px;margin-top:8px;white-space:pre-wrap}.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.mini{font-size:12px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;text-decoration:none;color:var(--ink);font-weight:700;cursor:pointer}
 .table-wrap{display:none;padding:14px;overflow:auto}.sheet-table{width:100%;border-collapse:collapse;background:#fff;min-width:1050px}.sheet-table th,.sheet-table td{border:1px solid #b8b8b8;padding:8px;font-size:12px;vertical-align:top}.sheet-table th{background:#eef1f4;position:sticky;top:0;z-index:1}.sheet-table a{color:#0b57d0}
 .note{margin:12px 14px 0;padding:10px 12px;border-radius:8px;background:#fff7e6;border:1px solid #ead2a0;color:#795300;font-size:12px;line-height:1.5}
 @media(max-width:600px){.head h1{font-size:21px}.card-top{flex-direction:column}.date{white-space:normal}}
@@ -20,7 +20,7 @@
 <body>
 <div class="app">
   <header class="head">
-    <h1>시설점검 보고서5</h1>
+    <h1>시설점검 보고서5비번설정</h1>
     <p>마스터 Google 시트의 '점검목록'을 JSONP 방식으로 직접 읽습니다. fetch/CORS 오류를 사용하지 않습니다.</p>
   </header>
 
@@ -46,6 +46,9 @@
 const SHEET_ID = '1r9PCcHqXIvCGHspVD40p4PjNXZStnfrrdcVi9rG3bnQ';
 const SHEET_NAME = '점검목록';
 
+// 구글시트 열기 비밀번호
+const SHEET_OPEN_PASSWORD = '1234';
+
 let reports = [];
 let currentView = 'list';
 
@@ -58,14 +61,25 @@ function gvizValue(cell){
   return cell.v;
 }
 
+function openSheetWithPassword(url){
+  const pw = prompt('구글시트를 보려면 비밀번호를 입력하세요.');
+
+  if(pw === null) return;
+
+  if(pw !== SHEET_OPEN_PASSWORD){
+    alert('비밀번호가 올바르지 않습니다.');
+    return;
+  }
+
+  window.open(url, '_blank', 'noopener');
+}
+
 function loadData(){
   const status = document.getElementById('status');
   status.style.display = 'block';
   status.className = 'status';
   status.textContent = '점검목록 불러오는 중...';
 
-  // GitHub Pages에서 Google Sheets fetch()가 CORS로 차단되는 경우가 있어
-  // script 태그(JSONP) 방식으로 직접 읽습니다.
   const callbackName = '__facilitySheetCallback_' + Date.now();
   const oldScript = document.getElementById('gvizJsonpScript');
   if (oldScript) oldScript.remove();
@@ -102,10 +116,6 @@ function loadData(){
 
       const rows = json.table.rows || [];
 
-      // 점검목록 열 순서
-      // 0 보고서ID, 1 등록일시, 2 점검일, 3 제목, 4 작업명, 5 세부내용,
-      // 6 업체(작업자), 7 시설명, 8 점검자, 9 항목수, 10 구글시트ID,
-      // 11 구글시트URL, 12 대표사진URL
       reports = rows.map(r => {
         const c = r.c || [];
         return {
@@ -170,7 +180,7 @@ function filtered(){
 function renderList(arr){
   const el=document.getElementById('listView');
   if(!arr.length){el.innerHTML='<div class="status">표시할 보고서가 없습니다.</div>';return;}
-  el.innerHTML=arr.map(r=>`
+  el.innerHTML=arr.map((r,idx)=>`
     <div class="card">
       <div class="card-top">
         <div><div class="job">${esc(r.jobName || r.title || '시설점검 보고서')}</div><div class="meta">${esc(r.vendor)}${r.inspector?' · '+esc(r.inspector):''}${r.siteName?' · '+esc(r.siteName):''} · 항목 ${esc(r.itemCount||0)}개</div></div>
@@ -178,9 +188,18 @@ function renderList(arr){
       </div>
       ${r.details?`<div class="detail">${esc(r.details)}</div>`:''}
       <div class="actions">
-        ${r.spreadsheetUrl?`<a class="mini" href="${esc(r.spreadsheetUrl)}" target="_blank" rel="noopener">구글시트 열기</a>`:''}
+        ${r.spreadsheetUrl?`<button class="mini" type="button" data-open-sheet="${idx}">구글시트 열기</button>`:''}
       </div>
     </div>`).join('');
+
+  el.querySelectorAll('[data-open-sheet]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const row = arr[Number(btn.dataset.openSheet)];
+      if(row && row.spreadsheetUrl){
+        openSheetWithPassword(row.spreadsheetUrl);
+      }
+    });
+  });
 }
 
 function renderTable(arr){
@@ -188,9 +207,18 @@ function renderTable(arr){
   if(!arr.length){el.innerHTML='<div class="status">표시할 보고서가 없습니다.</div>';return;}
   el.innerHTML=`<table class="sheet-table"><thead><tr>
     <th>점검일</th><th>제목</th><th>작업명</th><th>세부내용</th><th>업체(작업자)</th><th>시설명</th><th>점검자</th><th>항목수</th><th>등록일시</th><th>Google 시트</th>
-  </tr></thead><tbody>${arr.map(r=>`<tr>
-    <td>${esc(r.date)}</td><td>${esc(r.title)}</td><td>${esc(r.jobName)}</td><td>${esc(r.details)}</td><td>${esc(r.vendor)}</td><td>${esc(r.siteName)}</td><td>${esc(r.inspector)}</td><td>${esc(r.itemCount)}</td><td>${esc(r.createdAt)}</td><td>${r.spreadsheetUrl?`<a href="${esc(r.spreadsheetUrl)}" target="_blank" rel="noopener">열기</a>`:''}</td>
+  </tr></thead><tbody>${arr.map((r,idx)=>`<tr>
+    <td>${esc(r.date)}</td><td>${esc(r.title)}</td><td>${esc(r.jobName)}</td><td>${esc(r.details)}</td><td>${esc(r.vendor)}</td><td>${esc(r.siteName)}</td><td>${esc(r.inspector)}</td><td>${esc(r.itemCount)}</td><td>${esc(r.createdAt)}</td><td>${r.spreadsheetUrl?`<button class="mini" type="button" data-table-open="${idx}">열기</button>`:''}</td>
   </tr>`).join('')}</tbody></table>`;
+
+  el.querySelectorAll('[data-table-open]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const row = arr[Number(btn.dataset.tableOpen)];
+      if(row && row.spreadsheetUrl){
+        openSheetWithPassword(row.spreadsheetUrl);
+      }
+    });
+  });
 }
 
 function render(){const arr=filtered();renderList(arr);renderTable(arr);}
