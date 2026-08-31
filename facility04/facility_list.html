@@ -3,25 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>시설점검 보고서 목록</title>
+<title>서울숲엘타워</title>
 <style>
-:root{--ink:#1c2530;--paper:#f6f4ee;--line:#d7d1c4;--amber:#e2a63b;--steel:#6b7785;--bad:#c1443c;--ok:#3f7d68}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);font-family:Arial,'Noto Sans KR',sans-serif;color:var(--ink)}
-.app{max-width:1100px;margin:auto;padding-bottom:40px}.head{background:var(--ink);color:#fff;padding:20px}.head h1{margin:0;font-size:24px}.head p{margin:5px 0 0;color:#d8d8d8;font-size:12px}
-.toolbar{padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap}.toolbar input{flex:1;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:7px}.btn{padding:10px 13px;border:1px solid var(--line);background:#fff;border-radius:7px;font-weight:700;cursor:pointer;text-decoration:none;color:var(--ink)}.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
-.tabs{display:flex;gap:6px;padding:0 14px}.tab{padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:#fff;cursor:pointer}.tab.active{background:var(--amber);border-color:var(--amber);font-weight:700}
-.status{padding:24px 14px;text-align:center;color:var(--steel)}.status.error{color:var(--bad)}.status.ok{color:var(--ok)}
-.list{padding:14px}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}.card-top{display:flex;justify-content:space-between;gap:10px}.job{font-size:16px;font-weight:700}.date{font-size:12px;color:var(--steel);white-space:nowrap}.meta{font-size:12px;color:var(--steel);margin-top:5px}.detail{font-size:13px;margin-top:8px;white-space:pre-wrap}.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.mini{font-size:12px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;text-decoration:none;color:var(--ink);font-weight:700;cursor:pointer}
-.table-wrap{display:none;padding:14px;overflow:auto}.sheet-table{width:100%;border-collapse:collapse;background:#fff;min-width:1050px}.sheet-table th,.sheet-table td{border:1px solid #b8b8b8;padding:8px;font-size:12px;vertical-align:top}.sheet-table th{background:#eef1f4;position:sticky;top:0;z-index:1}.sheet-table a{color:#0b57d0}
-.note{margin:12px 14px 0;padding:10px 12px;border-radius:8px;background:#fff7e6;border:1px solid #ead2a0;color:#795300;font-size:12px;line-height:1.5}
-@media(max-width:600px){.head h1{font-size:21px}.card-top{flex-direction:column}.date{white-space:normal}}
+    :root{--ink:#1c2530;--paper:#f6f4ee;--line:#d7d1c4;--amber:#e2a63b;--steel:#6b7785;--bad:#c1443c;--ok:#3f7d68}
+    *{box-sizing:border-box}
+      body{margin:0;background:var(--paper);font-family:Arial,'Noto Sans KR',sans-serif;color:var(--ink)}
+    .app{max-width:1100px;margin:auto;padding-bottom:40px}
+      .head{background:var(--ink);color:#fff;padding:20px}
+      .head h1{margin:0;font-size:24px}
+      .head p{margin:5px 0 0;color:#d8d8d8;font-size:12px}
+    .toolbar{padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap}
+      .toolbar input{flex:1;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:7px}
+      .btn{padding:10px 13px;border:1px solid var(--line);background:#fff;border-radius:7px;font-weight:700;cursor:pointer;text-decoration:none;color:var(--ink)}.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .tabs{display:flex;gap:6px;padding:0 14px}
+      .tab{padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:#fff;cursor:pointer}
+      .tab.active{background:var(--amber);border-color:var(--amber);font-weight:700}
+    .status{padding:24px 14px;text-align:center;color:var(--steel)}
+      .status.error{color:var(--bad)}
+      .status.ok{color:var(--ok)}
+    .list{padding:14px}
+      .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}
+      .card-top{display:flex;justify-content:space-between;gap:10px}
+      .job{font-size:16px;font-weight:700}
+      .date{font-size:12px;color:var(--steel);white-space:nowrap}
+      .meta{font-size:12px;color:var(--steel);margin-top:5px}
+      .detail{font-size:13px;margin-top:8px;white-space:pre-wrap}
+      .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+      .mini{font-size:12px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;text-decoration:none;color:var(--ink);font-weight:700;cursor:pointer}
+    .table-wrap{display:none;padding:14px;overflow:auto}
+      .sheet-table{width:100%;border-collapse:collapse;background:#fff;min-width:1050px}
+      .sheet-table th,.sheet-table td{border:1px solid #b8b8b8;padding:8px;font-size:12px;vertical-align:top}
+      .sheet-table th{background:#eef1f4;position:sticky;top:0;z-index:1}
+      .sheet-table a{color:#0b57d0}
+    .note{margin:12px 14px 0;padding:10px 12px;border-radius:8px;background:#fff7e6;border:1px solid #ead2a0;color:#795300;font-size:12px;line-height:1.5}
+    @media(max-width:600px){
+      .head h1{font-size:21px}
+      .card-top{flex-direction:column}
+      .date{white-space:normal}}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="head">
-    <h1>시설점검 보고서5비번설정</h1>
-    <p>마스터 Google 시트의 '점검목록'을 JSONP 방식으로 직접 읽습니다. fetch/CORS 오류를 사용하지 않습니다.</p>
+    <h2>작업(공사) 보고서 리스트</h2>
+    <!-- <p>마스터 Google 시트의 '점검목록'을 JSONP 방식으로 직접 읽습니다. fetch/CORS 오류를 사용하지 않습니다.</p> -->
   </header>
 
   <div class="toolbar">
@@ -35,7 +60,7 @@
     <button class="tab" data-view="table">구글시트형태</button>
   </div>
 
-  <div class="note">※ 이 버전은 <b>fetch()</b>를 사용하지 않습니다. GitHub Pages의 CORS 문제를 피하기 위해 Google Sheets <b>JSONP</b> 방식으로 <b>점검목록</b>을 직접 읽습니다.</div>
+  <!-- <div class="note">※ 이 버전은 <b>fetch()</b>를 사용하지 않습니다. GitHub Pages의 CORS 문제를 피하기 위해 Google Sheets <b>JSONP</b> 방식으로 <b>점검목록</b>을 직접 읽습니다.</div> -->
 
   <div id="status" class="status">불러오는 중...</div>
   <div id="listView" class="list"></div>
