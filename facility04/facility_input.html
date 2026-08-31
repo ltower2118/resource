@@ -388,7 +388,7 @@ async function saveReport(){
     siteName:getFieldValue('siteName','서울숲엘타워'),
     inspector:getFieldValue('inspector',''),
     date:getFieldValue('inspectDate',''),
-    title:getFieldValue('title','시설점검 보고서'),
+    title:getFieldValue('title','작업(공사) 보고서'),
     jobName:getFieldValue('jobName',''),
     details:getFieldValue('details',''),
     vendor:getFieldValue('vendor',''),
@@ -454,7 +454,7 @@ document.getElementById('photoChoiceModal').addEventListener('click',e=>{
 
 
 function buildPrintReport(){
-  setTextIfExists('prTitle', getFieldValue('title','시설점검 보고서') || '시설점검 보고서');
+  setTextIfExists('prTitle', getFieldValue('title','작업(공사) 보고서') || '작업(공사) 보고서');
   setTextIfExists('prSite', getFieldValue('siteName','서울숲엘타워') || '-');
   setTextIfExists('prInspector', getFieldValue('inspector','') || '-');
   setTextIfExists('prDate', getFieldValue('inspectDate','') || '-');
@@ -481,7 +481,7 @@ async function saveAsPdf(){
     siteName:getFieldValue('siteName','서울숲엘타워'),
     inspector:getFieldValue('inspector',''),
     date:getFieldValue('inspectDate',''),
-    title:getFieldValue('title','시설점검 보고서'),
+    title:getFieldValue('title','작업(공사) 보고서'),
     jobName:getFieldValue('jobName',''),
     details:getFieldValue('details',''),
     vendor:getFieldValue('vendor',''),
