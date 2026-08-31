@@ -371,7 +371,7 @@ function compressImage(file){
   });
 }
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function updatePreview(){document.getElementById('pvTitle').textContent=document.getElementById('title').value||'시설점검 보고서';document.getElementById('pvDate').textContent=document.getElementById('inspectDate').value;document.getElementById('pvJob').textContent=document.getElementById('jobName').value;document.getElementById('pvDetails').textContent=document.getElementById('details').value;document.getElementById('pvVendor').textContent=document.getElementById('vendor').value;}
+function updatePreview(){document.getElementById('pvTitle').textContent=document.getElementById('title').value||'작업(공사) 보고서';document.getElementById('pvDate').textContent=document.getElementById('inspectDate').value;document.getElementById('pvJob').textContent=document.getElementById('jobName').value;document.getElementById('pvDetails').textContent=document.getElementById('details').value;document.getElementById('pvVendor').textContent=document.getElementById('vendor').value;}
 function showStatus(msg,type){const s=document.getElementById('status');s.className='status show '+type;s.textContent=msg;}
 
 function getFieldValue(id, fallback=''){
