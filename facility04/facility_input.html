@@ -75,7 +75,7 @@
 </head>
 <body>
 <div class="app">
-  <header class="head"><h1>시설점검 일일보고서04-12</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>시설점검 일일보고서04-14</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
 
   <section class="panel">
     <div class="grid">
@@ -140,7 +140,7 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxTOHae7FuT4BbZ5gq9vBA1k8wsPwRN3CTMoumUXmccU13wqVKihj_i9VlVjRJqr_v5/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbwhCT6h77a3g3Pi0NBLhGSBmItBOL31Demkth6qPoTUkI9lkx-_cpYYIf2IxQFZ5TNp/exec';
 const REQUIRED_BACKEND_VERSION='2.1.0';
 const MAX_ITEMS=30;
 let items=[];
@@ -474,57 +474,80 @@ function buildPrintReport(){
 }
 
 async function saveAsPdf(){
-  let pdfRoot=null;
+  const btn=document.getElementById('pdfBtn');
+
+  const payload={
+    action:'savePdf',
+    siteName:getFieldValue('siteName','서울숲엘타워'),
+    inspector:getFieldValue('inspector',''),
+    date:getFieldValue('inspectDate',''),
+    title:getFieldValue('title','시설점검 보고서'),
+    jobName:getFieldValue('jobName',''),
+    details:getFieldValue('details',''),
+    vendor:getFieldValue('vendor',''),
+    items:items.map(x=>({text:x.text,photo:x.photo}))
+  };
+
+  if(!payload.date){
+    showStatus('PDF 저장 전 점검일을 입력하세요.','err');
+    return;
+  }
+
+  if(!payload.jobName){
+    showStatus('PDF 저장 전 작업명을 입력하세요.','err');
+    return;
+  }
+
+  if(!payload.items.length){
+    showStatus('사진/내용 항목을 추가하세요.','err');
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent='PDF 생성 중...';
+  showStatus('Google 시트 형식으로 보고서를 만든 뒤 동일한 형태의 PDF로 변환 중입니다...','wait');
+
   try{
-    const date=getFieldValue('inspectDate','');
-    const job=getFieldValue('jobName','');
-    if(!date){showStatus('PDF 저장 전 점검일을 입력하세요.','err');return;}
-    if(!job){showStatus('PDF 저장 전 작업명을 입력하세요.','err');return;}
-    if(typeof html2pdf==='undefined'){showStatus('PDF 생성 모듈을 불러오지 못했습니다. 인터넷 연결을 확인하세요.','err');return;}
+    const res=await fetch(WEBAPP_URL,{
+      method:'POST',
+      body:JSON.stringify(payload)
+    });
 
-    buildPrintReport();
-    const source=document.getElementById('printReport');
-    if(!source || !source.firstElementChild){showStatus('PDF 보고서 영역을 찾지 못했습니다.','err');return;}
+    const text=await res.text();
+    let json;
 
-    const safeJob=job.replace(/[\\/:*?"<>|]/g,'_').slice(0,40);
-    const fileName=`${date}_${safeJob}_시설점검보고서.pdf`;
-    showStatus('PDF 파일을 생성 중입니다...','wait');
+    try{
+      json=JSON.parse(text);
+    }catch(e){
+      throw new Error('Apps Script 응답이 JSON이 아닙니다.');
+    }
 
-    pdfRoot=document.createElement('div');
-    pdfRoot.className='pdf-render-root';
-    pdfRoot.setAttribute('aria-hidden','true');
-    pdfRoot.appendChild(source.firstElementChild.cloneNode(true));
-    document.body.appendChild(pdfRoot);
+    if(json.result!=='success'){
+      throw new Error(json.message||'PDF 생성 실패');
+    }
 
-    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    if(!json.pdfDownloadUrl){
+      throw new Error('PDF 다운로드 주소를 받지 못했습니다.');
+    }
 
-    const imgs=Array.from(pdfRoot.querySelectorAll('img'));
-    await Promise.all(imgs.map(async img=>{
-      if(!img.complete){
-        await new Promise(resolve=>{
-          const done=()=>resolve();
-          img.addEventListener('load',done,{once:true});
-          img.addEventListener('error',done,{once:true});
-        });
-      }
-      if(typeof img.decode==='function'){try{await img.decode();}catch(e){}}
-    }));
+    showStatus('PDF 생성 완료: '+(json.pdfFileName||'보고서.pdf'),'ok');
 
-    await html2pdf().set({
-      margin:[8,8,8,8],
-      filename:fileName,
-      image:{type:'jpeg',quality:0.95},
-      html2canvas:{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#ffffff',logging:false,scrollX:0,scrollY:0,windowWidth:794},
-      jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true},
-      pagebreak:{mode:['css','legacy'],avoid:['.print-item']}
-    }).from(pdfRoot).save();
+    // 모바일/PC 공통: 생성된 PDF 직접 다운로드
+    const a=document.createElement('a');
+    a.href=json.pdfDownloadUrl;
+    a.target='_blank';
+    a.rel='noopener';
+    a.download=json.pdfFileName||'시설점검보고서.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
 
-    showStatus('PDF 저장이 완료되었습니다. 다운로드 폴더를 확인하세요.','ok');
   }catch(err){
     console.error(err);
-    showStatus('PDF 저장 실패: '+(err&&err.message?err.message:err),'err');
+    showStatus('PDF 저장 실패: '+err.message,'err');
   }finally{
-    if(pdfRoot&&pdfRoot.parentNode) pdfRoot.parentNode.removeChild(pdfRoot);
+    btn.disabled=false;
+    btn.textContent='PDF로 저장하기';
   }
 }
 
