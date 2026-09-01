@@ -25,8 +25,8 @@
   .meta-value{padding:10px;white-space:pre-wrap;min-height:40px}
 .items-title{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px}
   .items-title h2{font-size:16px;margin:0}
-  .add-btn,.save-btn,.link-btn{border:0;border-radius:15px;padding:8px 16px;font-weight:700;cursor:pointer}
-  .add-btn{background:#8fca5e;color:var(--ink)}.save-btn{background:var(--ink);color:#fff;width:100%;font-size:15px}
+  .add-btn,.save-btn,.link-btn{border:0;border-radius:7px;padding:8px 14px;font-weight:700;cursor:pointer}
+  .add-btn{background:#95c86a;color:var(--ink)}.save-btn{background:var(--ink);color:#fff;width:100%;font-size:15px}
   .link-btn{background:#fff;border:1px solid var(--line);color:var(--ink)}
 .item-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #333;border-left:1px solid #333}
   .item-card{border-right:1px solid #333;border-bottom:1px solid #333;background:#fff}.photo-box{height:230px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#fafafa}.photo-box img{width:100%;height:100%;object-fit:contain}.photo-box input{display:none}
@@ -46,8 +46,8 @@
   .item-text textarea{font-family:"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; width:100%;min-height:58px;border:1px solid #ddd;border-radius:4px;padding:8px;font-size:1.0rem;resize:vertical}
   .item-tools{display:flex;justify-content:space-between;align-items:center;margin-top:5px}
   .item-no{font-size:11px;color:var(--steel)}
-  .remove-btn{border:0;background:none;color:var(--bad);cursor:pointer;font-size:12px}
-.status{margin-top:10px;padding:20px;border-radius:7px;font-size:0.9rem;display:none}
+  .remove-btn{border:0;background:none;color:var(--bad);cursor:pointer;font-size:1.0rem}
+.status{margin-top:10px;padding:10px;border-radius:7px;font-size:0.9rem;display:none}
   .status.show{display:block}
   .status.ok{background:#e7f1ec;color:#245c46}
   .status.err{background:#fbe6e4;color:#8a2c24}
@@ -102,7 +102,7 @@
 </head>
 <body>
 <div class="app">
-  <header class="head"><h1>작업(공상) 보고서17</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서17</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
 
   <section class="panel">
     <div class="grid">
@@ -115,10 +115,10 @@
     <div class="field"><label>세부내용</label><textarea id="details" placeholder="점검 및 작업 내용을 입력하세요"></textarea></div>
     <div class="field"><label>업체(작업자)</label><input id="vendor" placeholder="예: ○○전기 / 홍길동"></div>
   </section>
-
+<br>
   <section class="panel">
     <div class="sheet-preview">
-      <div class="sheet-title" id="pvTitle">시설점검 보고서</div>
+      <div class="sheet-title" id="pvTitle">작업(공사) 보고서</div>
       <div class="meta-row"><div class="meta-label">일시</div><div class="meta-value" id="pvDate"></div></div>
       <div class="meta-row"><div class="meta-label">작업명</div><div class="meta-value" id="pvJob"></div></div>
       <div class="meta-row"><div class="meta-label">세부내용</div><div class="meta-value" id="pvDetails"></div></div>
@@ -126,8 +126,8 @@
     </div>
 
     <div class="items-title"><h2>사진 / 내용 항목</h2><button class="add-btn" id="addItemBtn">+ 항목 추가</button></div>
-    <div class="item-grid" id="itemGrid"></div><br>
-    <div id="status" class="status"></div><br>
+    <div class="item-grid" id="itemGrid"></div>
+    <div id="status" class="status"></div>
   </section>
 </div>
 
@@ -144,7 +144,7 @@
 
 <div id="printReport">
   <div class="print-page">
-    <div class="print-title" id="prTitle">시설점검 보고서</div>
+    <div class="print-title" id="prTitle">작업(공사) 보고서</div>
     <div class="print-meta">
      <!-- 상단 시설명   
    <div class="print-meta-row"><div class="print-meta-label">시설명</div><div class="print-meta-value" id="prSite"></div></div>
@@ -193,7 +193,7 @@ function renderItems(){
               <button type="button" class="photo-action-btn camera photo-choice-btn" data-photo-choice="${it.id}">
                 📷 사진촬영 / 이미지 선택
               </button>
-              <div style="width:100%;text-align:center;color:var(--steel);font-size:11px;">
+              <div style="width:100%;text-align:center;color:var(--steel);font-size:0.9rem;">
                 항목 ${i+1}
               </div>
             </div>
