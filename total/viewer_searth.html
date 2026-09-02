@@ -31,11 +31,15 @@
    예) https://script.google.com/macros/s/AKfycb.../exec
 */
 const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLMTYmfKnJek9KKvxkOZKLr2tHU4z-wtmy-SehGfB9bRBk0btnzFoU8KXZah7Fd2c8KA/exec";
+const api = () => APP_SCRIPT_URL;
+window.onload = () => {
+  files();
+};
 // =========================================================
 
 let $=x=>document.getElementById(x),api=()=>APP_SCRIPT_URL;async function get(p){let u=new URL(api());Object.entries(p).forEach(([k,v])=>u.searchParams.set(k,v));let j=await(await fetch(u,{cache:"no-store"})).json();
                                                                                  if(!j.ok)throw Error(j.error);return j}
-            async function files(){try{$("u").value=api();let j=await get({action:"files"}),g=j.files.filter(x=>x.readable),x=j.files.filter(x=>!x.readable);$("f").innerHTML='<option value="all">전체 파일</option>'+g.map(v=>`<option value="${v.id}">${v.name}</option>`)
+            async function files(){try{let j=await get({action:"files"}),g=j.files.filter(x=>x.readable),x=j.files.filter(x=>!x.readable);$("f").innerHTML='<option value="all">전체 파일</option>'+g.map(v=>`<option value="${v.id}">${v.name}</option>`)
                 .join("");$("stat").textContent="조회가능 "+g.length+"개 / Excel 원본 "+x.length+"개(변환 필요)"}
                                    catch(e){$("stat").textContent=e.message}}async function search()
             {try{$("r").innerHTML="검색 중...";let q=$("q").value,j=await get({action:"search",id:$("f").value,q});$("stat").textContent="검색 "+j.totalMatches+"건 / "+j.fileMatches+"개 파일";
