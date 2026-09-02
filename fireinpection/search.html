@@ -3,22 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>서울숲엘타워 소방점검 검색</title>
+<title>서울숲엘타워</title>
 <style>
-:root{--navy:#173e63;--bg:#f3f6f9;--line:#dce3ea;--red:#b42318;--green:#087443}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#17202a;font-family:Arial,"Noto Sans KR",sans-serif}
-header{background:var(--navy);color:#fff;padding:18px 20px}header h1{font-size:21px;margin:0 0 5px}header p{font-size:13px;margin:0;opacity:.88}
-main{max-width:1500px;margin:auto;padding:14px}.box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:11px}
-.config{background:#fff8e7}.grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:8px}
-input,select,button{width:100%;padding:10px;border:1px solid #cbd5df;border-radius:8px;background:#fff;font-size:14px}
-button{border:0;background:var(--navy);color:#fff;cursor:pointer}.secondary{background:#5d6975}
-.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.badge{background:#eaf0f6;border-radius:18px;padding:7px 10px;font-size:13px}
-.good{color:var(--green)}.bad{color:var(--red)}.small{font-size:12px;color:#5c6773}.hidden{display:none}
-.tablewrap{overflow:auto;max-height:68vh;border:1px solid var(--line);border-radius:10px}
-table{border-collapse:collapse;width:100%;min-width:1250px;background:#fff}th,td{padding:9px;border-bottom:1px solid #e6ebef;text-align:left;vertical-align:top;font-size:13px}
-th{position:sticky;top:0;background:#eaf0f6;z-index:2}tr:hover td{background:#f8fbfd}mark{background:#fff09a}
-#loading{text-align:center;padding:28px}
-@media(max-width:800px){main{padding:8px}.grid{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}header{padding:14px}}
+    :root{--navy:#173e63;--bg:#f3f6f9;--line:#dce3ea;--red:#b42318;--green:#087443}
+    *{box-sizing:border-box}
+      body{margin:0;background:var(--bg);color:#17202a;font-family:"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif}
+    header{background:var(--navy);color:#fff;padding:18px 20px}
+      header h1{font-size:21px;margin:0 0 5px}
+      header p{font-size:13px;margin:0;opacity:.88}
+    main{max-width:1500px;margin:auto;padding:14px}
+      .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:11px}
+    .config{background:#fff8e7}
+      .grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:8px}
+    input,select,button{width:100%;padding:10px;border:1px solid #cbd5df;border-radius:8px;background:#fff;font-size:0.9rem}
+    button{border:0;background:var(--navy);color:#fff;cursor:pointer}
+      .secondary{background:#5d6975}
+    .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+      .badge{background:#eaf0f6;border-radius:18px;padding:7px 10px;font-size:0.9rem}
+    .good{color:var(--green)}
+  .bad{color:var(--red)}
+      .small{font-size:12px;color:#5c6773}
+  .hidden{display:none}
+    .tablewrap{overflow:auto;max-height:68vh;border:1px solid var(--line);border-radius:10px}
+    table{border-collapse:collapse;width:100%;min-width:1250px;background:#fff}
+      th,td{padding:9px;border-bottom:1px solid #e6ebef;text-align:left;vertical-align:top;font-size:0.9rem}
+    th{position:sticky;top:0;background:#eaf0f6;z-index:2}
+      tr:hover td{background:#f8fbfd}mark{background:#fff09a}
+    #loading{text-align:center;padding:28px}
+    @media(max-width:800px){main{padding:8px}.grid{grid-template-columns:1fr 1fr}
+      .wide{grid-column:1/-1}header{padding:14px}}
 </style>
 </head>
 <body>
@@ -39,7 +52,7 @@ th{position:sticky;top:0;background:#eaf0f6;z-index:2}tr:hover td{background:#f8
 
 <div class="box">
 <div class="grid">
-<input class="wide" id="q" placeholder="통합검색: 살수반경, 살수장애, 1306호, 타임게이트, 감지기 미설치..." oninput="render()">
+<input class="wide" id="q" placeholder="통합검색:  3층, 1306호, 타임게이트, 감지기, 스프링클러등..." oninput="render()">
 <select id="year" onchange="render()"><option value="">전체 연도</option></select>
 <select id="kind" onchange="render()"><option value="">전체 점검종류</option></select>
 <select id="report" onchange="render()"><option value="">전체 신고구분</option></select>
