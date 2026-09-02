@@ -30,7 +30,7 @@
    아래 따옴표 안에 배포 후 받은 /exec 주소 전체를 붙여넣으세요.
    예) https://script.google.com/macros/s/AKfycb.../exec
 */
-const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5c5IUjJBx-ldOHeY1pfs7IDlPPA-Vt0gWPiJUbsL9jgRtjzL_gb_B1pCLgW-TeYFCww/exec";
+const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLMTYmfKnJek9KKvxkOZKLr2tHU4z-wtmy-SehGfB9bRBk0btnzFoU8KXZah7Fd2c8KA/exec";
 // =========================================================
 
 let $=x=>document.getElementById(x),api=()=>APP_SCRIPT_URL;async function get(p){let u=new URL(api());Object.entries(p).forEach(([k,v])=>u.searchParams.set(k,v));let j=await(await fetch(u,{cache:"no-store"})).json();
