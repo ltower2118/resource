@@ -8,16 +8,16 @@
     :root{--navy:#173e63;--bg:#f3f6f9;--line:#dce3ea;--red:#b42318;--green:#087443}
     *{box-sizing:border-box}
       body{margin:0;background:var(--bg);color:#17202a;font-family:"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif}
-    header{background:var(--navy);color:#fff;padding:18px 20px}
+    header{background:#0e2568;color:#fff;padding:18px 20px}
       header h1{font-size:21px;margin:0 0 5px}
       header p{font-size:13px;margin:0;opacity:.88}
     main{max-width:1500px;margin:auto;padding:14px}
       .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:11px}
     .config{background:#fff8e7}
       .grid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:8px}
-    input,select,button{width:100%;padding:10px;border:1px solid #cbd5df;border-radius:8px;background:#fff;font-size:0.9rem}
-    button{border:0;background:var(--navy);color:#fff;cursor:pointer}
-      .secondary{background:#5d6975}
+    input,select,button{width:100%;padding:10px;border:1px solid #cbd5df;border-radius:8px;background:#fff;font-size:1.0rem}
+    button{border:0;background:#0e2568;color:#fff;cursor:pointer}
+      .secondary{background:#5E81AC}
     .stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
       .badge{background:#eaf0f6;border-radius:18px;padding:7px 10px;font-size:0.9rem}
     .good{color:var(--green)}
@@ -36,7 +36,7 @@
 </head>
 <body>
 <header>
-<h1>서울숲엘타워 소방점검 검색</h1>
+<h2>서울숲엘타워 소방점검 검색</h2>
 <p>2017–2025 종합·작동점검 / 원본·신고자료 통합 검색</p>
 </header>
 <main>
@@ -60,7 +60,7 @@
 </div>
 <div style="display:flex;gap:8px;margin-top:8px">
 <button class="secondary" onclick="resetFilters()">필터 초기화</button>
-<button onclick="loadData()">구글시트 새로고침</button>
+<button onclick="loadData()">새로고침</button>
 <button onclick="exportCsv()">검색결과 CSV 저장</button>
 </div>
 <div class="stats">
