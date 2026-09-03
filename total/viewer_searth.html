@@ -6,331 +6,182 @@
 <title>서울숲엘타워</title>
 <style>
 body{margin:0;background:#f3f6f9;font-family:Arial,sans-serif}
-header{background:#0e2568;color:white;padding:18px}
+header{background:#0e2568;color:#fff;padding:18px}
 main{padding:12px;max-width:1500px;margin:auto}
-.box,.file{background:white;padding:12px;margin-bottom:10px;border-radius:10px}
+.box,.file,.pdf-card{background:#fff;padding:12px;margin-bottom:10px;border-radius:10px}
 .g{display:grid;grid-template-columns:1fr 2fr 100px;gap:8px}
 input,select,button{font-size:1rem;padding:11px;width:100%;box-sizing:border-box;border:1px solid #ccd5df;border-radius:7px}
-button{font-size:1rem;background:#0e2568;color:white;cursor:pointer}
+button{background:#0e2568;color:#fff;cursor:pointer}
 .wrap{overflow:auto;max-height:55vh}
 table{border-collapse:collapse;width:100%;min-width:800px}
-th,td{padding:8px;border:1px solid #ccd5df;text-align:left;font-size:0.95rem;vertical-align:middle}
-th{position:sticky;top:0;background:#eaf0f6;z-index:2}
-/* tbody tr:nth-child(odd) td{background:#ffffff}
-tbody tr:nth-child(even) td{background:#f7f9fc} */
-
-/* 첫 번째 표시 행: 전체 열 가로 병합 */
-td.sheet-title-merged{
-  background:#8dabcd !important;
-  font-weight:700;
-  text-align:left;
-  font-size:1.05rem;
-  padding:12px 10px;
-}
-
-/* 그 다음 데이터의 첫 번째 열 연속값은 세로 병합 */
-td.merged-first{
-  background:#eef3fb !important;
-  font-weight:700;
-  text-align:center;
-}
-
-mark{background:#fff09a}
-.msg{text-align:center;padding:25px;color:#64717d}
-.err{color:#b42318}
-.file-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
-.file-head h2{margin:0}
+th,td{padding:8px;border:1px solid #ccd5df;text-align:left;font-size:.95rem;vertical-align:middle}
+.merged-cell{background:#eef3fb;font-weight:700}
+mark{background:#fff09a}.msg{text-align:center;padding:25px;color:#64717d}.err{color:#b42318}
+.file-head,.pdf-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
+.file-head h2,.pdf-head h2{margin:0}
 .file-meta{font-size:12px;color:#64717d;line-height:1.55;text-align:right}
+.pdf-actions{display:flex;gap:8px;flex-wrap:wrap}
+.pdf-btn{display:inline-block;padding:9px 14px;border-radius:7px;text-decoration:none;font-weight:700}
+.pdf-btn.preview{background:#0e2568;color:#fff}
+.pdf-btn.download{background:#c1443c;color:#fff}
+.pdf-preview{width:100%;height:520px;border:1px solid #ccd5df;border-radius:8px;overflow:hidden;background:#f7f7f7}
+.pdf-preview iframe{width:100%;height:100%;border:0}
+.pdf-note{font-size:12px;color:#64717d;margin-top:6px}
 @media(max-width:700px){
-  .g{grid-template-columns:1fr}
-  .file-head{flex-direction:column}
-  .file-meta{text-align:left}
+ .g{grid-template-columns:1fr}
+ .file-head,.pdf-head{flex-direction:column}
+ .file-meta{text-align:left}
+ .pdf-preview{height:430px}
 }
 </style>
 </head>
 <body>
 <header><h2>서울숲엘타워 통합자료</h2></header>
-
 <main>
-  <div class="box">
-    <div class="g">
-      <div>
-        <h2>문서 목록</h2>
-        <div style="font-size:12px;color:#64717d;margin-top:4px">
-          지정된 Google Drive 폴더의 Google 스프레드시트를 자동으로 불러옵니다.
-        </div>
-      </div>
-      <div></div>
-      <button onclick="loadFiles()">파일목록 새로고침</button>
-    </div>
+<div class="box">
+  <div class="g">
+    <div><h2>문서 목록</h2><div style="font-size:12px;color:#64717d;margin-top:4px">Google 스프레드시트와 PDF 파일을 자동으로 불러옵니다.</div></div>
+    <div></div>
+    <button onclick="loadFiles()">파일목록 새로고침</button>
   </div>
-
-  <div class="box">
-    <div class="g">
-      <select id="f"><option value="all">전체 파일</option></select>
-      <input id="q" placeholder="내용 검색..." onkeydown="if(event.key==='Enter')searchFiles()">
-      <button onclick="searchFiles()">검색</button>
-    </div>
-    <div id="stat">초기화 중...</div>
+</div>
+<div class="box">
+  <div class="g">
+    <select id="f"><option value="all">전체 파일</option></select>
+    <input id="q" placeholder="내용 또는 파일명 검색..." onkeydown="if(event.key==='Enter')searchFiles()">
+    <button onclick="searchFiles()">검색</button>
   </div>
-
-  <div id="r"><div class="msg">파일 목록을 불러오는 중입니다.</div></div>
+  <div id="stat">초기화 중...</div>
+</div>
+<div id="r"><div class="msg">파일 목록을 불러오는 중입니다.</div></div>
 </main>
 
 <script>
 "use strict";
-
-const APP_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwLMTYmfKnJek9KKvxkOZKLr2tHU4z-wtmy-SehGfB9bRBk0btnzFoU8KXZah7Fd2c8KA/exec";
+const APP_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwmHa3CMbl6xqwCB7hVj8eB1yIz0z-MJhxDuGzzniJDYj9w2TtVkpKigPzAp44S1Vst/exec";
 const $=id=>document.getElementById(id);
+let allFiles=[];
 
-function esc(v){
-  return String(v??"").replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
-}
-
-function fmtDate(v){
-  if(!v) return "-";
-  const d=new Date(v);
-  if(Number.isNaN(d.getTime())) return esc(v);
-  const z=n=>String(n).padStart(2,"0");
-  return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}`;
-}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function fmtDate(v){if(!v)return "-";const d=new Date(v);if(Number.isNaN(d.getTime()))return esc(v);const z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}`}
 
 async function get(params){
-  const u=new URL(APP_SCRIPT_URL);
-  Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,String(v)));
-
-  const res=await fetch(u.toString(),{
-    method:"GET",
-    cache:"no-store",
-    redirect:"follow"
-  });
-
-  if(!res.ok) throw new Error("HTTP "+res.status);
-
-  const text=await res.text();
-  let j;
-
-  try{
-    j=JSON.parse(text);
-  }catch(e){
-    throw new Error("Apps Script 응답이 JSON이 아닙니다. 배포 및 접근권한을 확인하세요.");
-  }
-
-  if(!j.ok) throw new Error(j.error||"Apps Script 오류");
-  return j;
+ const u=new URL(APP_SCRIPT_URL);
+ Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,String(v)));
+ const res=await fetch(u.toString(),{method:"GET",cache:"no-store",redirect:"follow"});
+ if(!res.ok)throw new Error("HTTP "+res.status);
+ const text=await res.text();let j;
+ try{j=JSON.parse(text)}catch(e){throw new Error("Apps Script 응답이 JSON이 아닙니다. 배포 및 접근권한을 확인하세요.")}
+ if(!j.ok)throw new Error(j.error||"Apps Script 오류");
+ return j;
 }
 
 async function loadFiles(){
-  $("stat").className="";
-  $("stat").textContent="파일목록 불러오는 중...";
-
-  try{
-    const j=await get({action:"files"});
-    const all=Array.isArray(j.files)?j.files:[];
-    const good=all.filter(x=>x.readable);
-    const bad=all.filter(x=>!x.readable);
-
-    $("f").innerHTML=
-      '<option value="all">전체 파일</option>'+
-      good.map(v=>{
-        const mod=v.updatedAt?` · 수정 ${fmtDate(v.updatedAt)}`:"";
-        return `<option value="${esc(v.id)}">${esc(v.name)}${mod}</option>`;
-      }).join("");
-
-    $("stat").textContent=
-      `조회가능 ${good.length}개${bad.length?" / Excel 원본 "+bad.length+"개(변환 필요)":""}`;
-
-    $("r").innerHTML='<div class="msg">파일을 선택하거나 검색어를 입력하세요.</div>';
-
-  }catch(e){
-    showError(e);
-  }
+ $("stat").className="";$("stat").textContent="파일목록 불러오는 중...";
+ try{
+  const j=await get({action:"files"});
+  allFiles=Array.isArray(j.files)?j.files:[];
+  const sheets=allFiles.filter(x=>x.type==="sheet");
+  const pdfs=allFiles.filter(x=>x.type==="pdf");
+  $("f").innerHTML='<option value="all">전체 파일</option>'+allFiles.map(v=>`<option value="${esc(v.id)}">${v.type==="pdf"?"[PDF]":"[시트]"} ${esc(v.name)}</option>`).join("");
+  $("stat").textContent=`Google 시트 ${sheets.length}개 / PDF ${pdfs.length}개`;
+  $("r").innerHTML=pdfs.length?renderPdfSection(pdfs):'<div class="msg">파일을 선택하거나 검색어를 입력하세요.</div>';
+ }catch(e){showError(e)}
 }
 
 async function searchFiles(){
-  $("stat").className="";
-  $("stat").textContent="검색 중...";
-  $("r").innerHTML='<div class="msg">검색 중...</div>';
+ $("stat").className="";$("stat").textContent="검색 중...";$("r").innerHTML='<div class="msg">검색 중...</div>';
+ try{
+  const q=$("q").value.trim();
+  const selectedId=$("f").value;
+  const selected=allFiles.find(x=>x.id===selectedId);
 
-  try{
-    const q=$("q").value.trim();
-
-    const j=await get({
-      action:"search",
-      id:$("f").value,
-      q:q
-    });
-
-    $("stat").textContent=
-      `검색 ${j.totalMatches}건 / ${j.fileMatches}개 파일`;
-
-    render(j.results||[],q);
-
-  }catch(e){
-    showError(e);
-  }
-}
-
-function hi(v,q){
-  let s=esc(v);
-  if(!q) return s;
-
-  const z=q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-  return s.replace(new RegExp(z,"gi"),m=>"<mark>"+m+"</mark>");
-}
-
-/*
- * 첫 번째 열 연속값 세로 병합
- * 예:
- * 신세계홈쇼핑
- * 신세계홈쇼핑
- * 신세계홈쇼핑
- * -> 하나의 셀(rowspan=3)
- */
-function buildMergedRows(rows,q){
-  if(!rows.length) return "";
-
-  const spans=new Array(rows.length).fill(0);
-
-  let i=0;
-  while(i<rows.length){
-    const first=String(rows[i][0]??"");
-    let j=i+1;
-
-    while(
-      j<rows.length &&
-      String(rows[j][0]??"")===first
-    ){
-      j++;
-    }
-
-    spans[i]=j-i;
-    i=j;
-  }
-
-  return rows.map((row,rowIndex)=>{
-    const cells=[];
-
-    if(spans[rowIndex]>0){
-      cells.push(
-        `<td class="merged-first" rowspan="${spans[rowIndex]}">${hi(row[0]||"",q)}</td>`
-      );
-    }
-
-    for(let col=1;col<row.length;col++){
-      cells.push(`<td>${hi(row[col]||"",q)}</td>`);
-    }
-
-    return `<tr>${cells.join("")}</tr>`;
-  }).join("");
-}
-
-function render(a,q){
-  if(!a.length){
-    $("r").innerHTML='<div class="msg">검색 결과가 없습니다.</div>';
+  if(selected && selected.type==="pdf"){
+    $("stat").textContent="PDF 1개";
+    $("r").innerHTML=renderPdfSection([selected]);
     return;
   }
 
-  $("r").innerHTML=a.map(f=>`
-    <section class="file">
-      <div class="file-head">
-        <h2>${esc(f.name)} — ${f.matches}건</h2>
-        <div class="file-meta">
-          생성일: ${fmtDate(f.createdAt)}<br>
-          최종수정: ${fmtDate(f.updatedAt)}
-        </div>
-      </div>
+  const j=await get({action:"search",id:selectedId,q});
+  let out=renderSheets(j.results||[],q);
 
-      ${(f.tables||[]).map(t=>tbl(t,q)).join("")}
-    </section>
-  `).join("");
-}
-
-function tbl(t,q){
-  const rows=t.rows||[];
-  if(!rows.length) return "";
-
-  /*
-   * Apps Script 결과의 rows[0]은 원래 첫 번째 시트 행입니다.
-   * 이미지처럼 그 첫 번째 행을 전체 열 가로 병합해 표시합니다.
-   *
-   * 첫 번째 행에 여러 칸 값이 있더라도 빈 칸은 제외하고 하나의 문자열로 연결합니다.
-   */
-  const firstRow=rows[0]||[];
-
-  /* 전체 열 수는 모든 행 중 가장 긴 행 기준 */
-  const colCount=Math.max(
-    1,
-    ...rows.map(r=>Array.isArray(r)?r.length:0)
-  );
-
-  const titleText=firstRow
-    .filter(v=>String(v??"").trim()!=="")
-    .join(" ");
-
-  /*
-   * 두 번째 행 이후:
-   * 일반적으로 첫 번째 행이 제목이고 다음 행부터 업체/장소/내역 헤더 및 데이터.
-   * 첫 번째 데이터 행을 헤더로 사용합니다.
-   */
-  const remaining=rows.slice(1);
-
-  if(!remaining.length){
-    return `
-      <div class="wrap">
-        <table>
-          <tbody>
-            <tr>
-              <td class="sheet-title-merged" colspan="${colCount}">
-                ${hi(titleText,q)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `;
+  if(selectedId==="all"){
+    const qq=q.toLowerCase();
+    const pdfs=allFiles.filter(x=>x.type==="pdf" && (!qq || String(x.name||"").toLowerCase().includes(qq)));
+    if(pdfs.length)out+=renderPdfSection(pdfs);
   }
 
-  const h=remaining[0];
-  const b=remaining.slice(1);
-
-  return `
-    <div class="wrap">
-      <table>
-
-        <thead>
-          <tr>
-            <th class="sheet-title-merged" colspan="${colCount}">
-              ${hi(titleText,q)}
-            </th>
-          </tr>
-
-          <tr>
-            ${h.map(x=>"<th>"+hi(x,q)+"</th>").join("")}
-          </tr>
-        </thead>
-
-        <tbody>
-          ${buildMergedRows(b,q)}
-        </tbody>
-
-      </table>
-    </div>
-  `;
+  $("stat").textContent=`검색 ${j.totalMatches||0}건 / ${j.fileMatches||0}개 시트`;
+  $("r").innerHTML=out||'<div class="msg">검색 결과가 없습니다.</div>';
+ }catch(e){showError(e)}
 }
 
-function showError(e){
-  console.error(e);
+function hi(v,q){let s=esc(v);if(!q)return s;let z=q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return s.replace(new RegExp(z,"gi"),m=>"<mark>"+m+"</mark>")}
 
-  $("stat").className="err";
-  $("stat").textContent="오류: "+(e.message||e);
+function buildTableHtml(t,q){
+ const rows=t.rows||[];if(!rows.length)return "";
+ const colCount=Math.max(1,...rows.map(r=>Array.isArray(r)?r.length:0));
+ const merges=Array.isArray(t.merges)?t.merges:[];
+ const start=new Map(),covered=new Set();
 
-  $("r").innerHTML=
-    '<div class="msg err">'+esc(e.message||e)+'</div>';
+ merges.forEach(m=>{
+  const r0=Number(m.row||0),c0=Number(m.col||0),nr=Math.max(1,Number(m.numRows||1)),nc=Math.max(1,Number(m.numCols||1));
+  start.set(`${r0}:${c0}`,{nr,nc});
+  for(let r=r0;r<r0+nr;r++)for(let c=c0;c<c0+nc;c++)if(!(r===r0&&c===c0))covered.add(`${r}:${c}`);
+ });
+
+ const body=rows.map((row,r)=>{
+  const cells=[];
+  for(let c=0;c<colCount;c++){
+   const key=`${r}:${c}`; if(covered.has(key))continue;
+   const m=start.get(key),v=(row&&row[c]!==undefined)?row[c]:"";
+   if(m){
+    const rs=m.nr>1?` rowspan="${m.nr}"`:"",cs=m.nc>1?` colspan="${m.nc}"`:"";
+    cells.push(`<td class="merged-cell"${rs}${cs}>${hi(v,q)}</td>`);
+   }else cells.push(`<td>${hi(v,q)}</td>`);
+  }
+  return `<tr>${cells.join("")}</tr>`;
+ }).join("");
+
+ return `<div class="wrap"><table><tbody>${body}</tbody></table></div>`;
 }
 
+function renderSheets(a,q){
+ return a.map(f=>`
+  <section class="file">
+   <div class="file-head">
+    <h2>${esc(f.name)} — ${f.matches}건</h2>
+    <div class="file-meta">생성일: ${fmtDate(f.createdAt)}<br>최종수정: ${fmtDate(f.updatedAt)}</div>
+   </div>
+   ${(f.tables||[]).map(t=>`<h3 style="font-size:14px;margin:12px 0 6px">${esc(t.sheet)}</h3>${buildTableHtml(t,q)}`).join("")}
+  </section>`).join("");
+}
+
+function renderPdfSection(pdfs){
+ return `<div style="font-weight:700;margin:8px 0">PDF 문서</div>${pdfs.map(renderPdfCard).join("")}`;
+}
+
+function renderPdfCard(f){
+ const previewUrl=f.previewUrl||`https://drive.google.com/file/d/${encodeURIComponent(f.id)}/preview`;
+ const downloadUrl=f.downloadUrl||`https://drive.google.com/uc?export=download&id=${encodeURIComponent(f.id)}`;
+ return `
+ <section class="pdf-card">
+  <div class="pdf-head">
+   <div>
+    <h2>${esc(f.name)}</h2>
+    <div class="file-meta" style="text-align:left;margin-top:5px">생성일: ${fmtDate(f.createdAt)}<br>최종수정: ${fmtDate(f.updatedAt)}</div>
+   </div>
+   <div class="pdf-actions">
+    <a class="pdf-btn preview" href="${esc(previewUrl)}" target="_blank" rel="noopener">PDF 크게보기</a>
+    <a class="pdf-btn download" href="${esc(downloadUrl)}" target="_blank" rel="noopener">PDF 다운로드</a>
+   </div>
+  </div>
+  <div class="pdf-preview"><iframe src="${esc(previewUrl)}" title="${esc(f.name)} 미리보기" loading="lazy"></iframe></div>
+  <div class="pdf-note">미리보기는 PDF 첫 페이지부터 표시됩니다.</div>
+ </section>`;
+}
+
+function showError(e){console.error(e);$("stat").className="err";$("stat").textContent="오류: "+(e.message||e);$("r").innerHTML='<div class="msg err">'+esc(e.message||e)+'</div>'}
 window.addEventListener("DOMContentLoaded",loadFiles);
 </script>
 </body>
