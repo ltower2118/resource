@@ -5,9 +5,14 @@
 body{margin:0;background:#f3f6f9;font-family:Arial,sans-serif}header{background:#0e2568;color:white;padding:18px}
 main{padding:12px;max-width:1500px;margin:auto}.box,.file{background:white;padding:12px;margin-bottom:10px;border-radius:10px}
 .g{display:grid;grid-template-columns:1fr 2fr 100px;gap:8px}input,select,button{font-size:1.0rem ;padding:11px;width:100%;box-sizing:border-box;border:1px solid #ccd5df;border-radius:7px}
-button{font-size:1.0rem;background:#0e2568;color:white}.wrap{overflow:auto;max-height:55vh}table{border-collapse:collapse;width:100%;min-width:800px}
-th,td{padding:8px;border-bottom:1px solid #ddd;text-align:left;font-size:13px}th{position:sticky;top:0;background:#eaf0f6}
-mark{background:#fff09a}.msg{text-align:center;padding:25px;color:#64717d}.err{color:#b42318}
+button{font-size:1.0rem;background:#0e2568;color:white}
+  .wrap{overflow:auto;max-height:55vh}
+  table{border-collapse:collapse;width:100%;min-width:800px}
+th,td{padding:8px;border-bottom:1px solid #ccd5df;text-align:left;font-size:1.0rem}
+  th{position:sticky;top:0;background:#eaf0f6}
+mark{background:#fff09a}
+  .msg{text-align:center;padding:25px;color:#64717d}
+  .err{color:#b42318}
 @media(max-width:700px){.g{grid-template-columns:1fr}}
 </style></head><body>
 <header><h2>서울숲엘타워 통합자료</h2></header>
@@ -47,8 +52,15 @@ async function searchFiles(){
 }
 function hi(v,q){let s=esc(v);if(!q)return s;let z=q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return s.replace(new RegExp(z,"gi"),m=>"<mark>"+m+"</mark>")}
 function render(a,q){if(!a.length){$("r").innerHTML='<div class="msg">검색 결과가 없습니다.</div>';return}
- $("r").innerHTML=a.map(f=>`<section class="file"><h3>${esc(f.name)} — ${f.matches}건</h3>${(f.tables||[]).map(t=>tbl(t,q)).join("")}</section>`).join("")}
-function tbl(t,q){let rows=t.rows||[];if(!rows.length)return"";let h=rows[0],b=rows.slice(1);return `<h4>시트: ${esc(t.sheet)} — ${t.matches}건</h4><div class="wrap"><table><thead><tr>${h.map(x=>"<th>"+hi(x,q)+"</th>").join("")}</tr></thead><tbody>${b.map(row=>"<tr>"+h.map((_,i)=>"<td>"+hi(row[i]||"",q)+"</td>").join("")+"</tr>").join("")}</tbody></table></div>`}
+ $("r").innerHTML=a.map(f=>`<section class="file"><h2>${esc(f.name)} — ${f.matches}건</h2>${(f.tables||[]).map(t=>tbl(t,q)).join("")}</section>`).join("")}
+function tbl(t,q){let rows=t.rows||[];if(!rows.length)return"";let h=rows[0],b=rows.slice(1);return `
+<div class="wrap">
+<table><thead><tr>${h.map(x=>"<th>"+hi(x,q)+"</th>").join("")}</tr>
+  </thead>
+<tbody>${b.map(row=>"<tr>"+h.map((_,i)=>"<td>"+hi(row[i]||"",q)+"</td>").join("")+"</tr>").join("")}
+  </tbody>
+  </table>
+  </div>`}
 function showError(e){console.error(e);$("stat").className="err";$("stat").textContent="오류: "+(e.message||e);$("r").innerHTML='<div class="msg err">'+esc(e.message||e)+'</div>'}
 window.addEventListener("DOMContentLoaded",loadFiles);
 </script></body></html>
