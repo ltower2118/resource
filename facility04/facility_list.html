@@ -30,6 +30,7 @@
       .detail{font-size:13px;margin-top:8px;white-space:pre-wrap}
       .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
       .mini{font-size:12px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;text-decoration:none;color:var(--ink);font-weight:700;cursor:pointer}
+      .mini.delete{background:#c1443c;color:#fff;border-color:#c1443c}
     .table-wrap{display:none;padding:14px;overflow:auto}
       .sheet-table{width:100%;border-collapse:collapse;background:#fff;min-width:1050px}
       .sheet-table th,.sheet-table td{border:1px solid #b8b8b8;padding:8px;font-size:12px;vertical-align:top}
@@ -74,11 +75,12 @@
  * Apps Script의 action=list를 호출해서
  * report 폴더 안에 현재 실제 존재하는 보고서만 표시합니다.
  */
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbz-DJX4FgDVUOASPKxlgE0y7ZGFHn6mytEwOSzVGeSoRwz0eDVZnCNSCGUH0r5L4_o2/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyJoWKFsbszzFDsfnInYpuV12thtyXEUMJELHRMSPLTqjuspD6BLbCdgI08E67Dtdlv/exec';
 const REQUIRED_BACKEND_VERSION='2.1.0';
 
 // 구글시트 열기 비밀번호
 const SHEET_OPEN_PASSWORD='1234';
+const DELETE_PASSWORD='1234';
 
 let reports=[];
 let currentView='list';
@@ -104,6 +106,69 @@ function openSheetWithPassword(url){
   }
 
   window.open(url,'_blank','noopener');
+}
+
+async function deleteReport(report){
+  if(!report || !report.reportId){
+    alert('삭제할 보고서 정보가 없습니다.');
+    return;
+  }
+
+  const pw=prompt('보고서를 삭제하려면 비밀번호를 입력하세요.');
+  if(pw===null)return;
+
+  if(pw!==DELETE_PASSWORD){
+    alert('비밀번호가 올바르지 않습니다.');
+    return;
+  }
+
+  const name=report.jobName||report.title||'보고서';
+
+  if(!confirm(
+    '정말 삭제하시겠습니까?\n\n'+
+    name+'\n'+
+    (report.date||'')+
+    '\n\n삭제하면 report 폴더의 Google 시트와 관련 사진/PDF도 휴지통으로 이동합니다.'
+  )){
+    return;
+  }
+
+  const status=document.getElementById('status');
+  status.style.display='block';
+  status.className='status';
+  status.textContent='보고서 삭제 중...';
+
+  try{
+    const res=await fetch(WEBAPP_URL,{
+      method:'POST',
+      body:JSON.stringify({
+        action:'deleteReport',
+        password:pw,
+        reportId:report.reportId,
+        spreadsheetId:report.spreadsheetId||''
+      })
+    });
+
+    const text=await res.text();
+    let json;
+
+    try{
+      json=JSON.parse(text);
+    }catch(e){
+      throw new Error('Apps Script 응답이 JSON이 아닙니다.');
+    }
+
+    if(json.result!=='success'){
+      throw new Error(json.message||'삭제 실패');
+    }
+
+    alert('삭제되었습니다.');
+    await loadData();
+
+  }catch(err){
+    status.className='status error';
+    status.textContent='삭제 실패: '+err.message;
+  }
 }
 
 async function loadData(){
@@ -231,6 +296,7 @@ function renderList(arr){
             ? `<button class="mini" type="button" data-open-sheet="${idx}">구글시트 열기</button>`
             : ''
         }
+        <button class="mini delete" type="button" data-delete-report="${idx}">삭제</button>
       </div>
     </div>
   `).join('');
@@ -242,6 +308,13 @@ function renderList(arr){
       if(row&&row.spreadsheetUrl){
         openSheetWithPassword(row.spreadsheetUrl);
       }
+    });
+  });
+
+  el.querySelectorAll('[data-delete-report]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const row=arr[Number(btn.dataset.deleteReport)];
+      if(row) deleteReport(row);
     });
   });
 }
@@ -267,7 +340,7 @@ function renderTable(arr){
           <th>점검자</th>
           <th>항목수</th>
           <th>등록일시</th>
-          <th>Google 시트</th>
+          <th>Google 시트</th><th>삭제</th>
         </tr>
       </thead>
 
@@ -292,6 +365,9 @@ function renderTable(arr){
                     : ''
                 }
               </td>
+              <td>
+                <button class="mini delete" type="button" data-table-delete="${idx}">삭제</button>
+              </td>
             </tr>
           `).join('')
         }
@@ -306,6 +382,13 @@ function renderTable(arr){
       if(row&&row.spreadsheetUrl){
         openSheetWithPassword(row.spreadsheetUrl);
       }
+    });
+  });
+
+  el.querySelectorAll('[data-table-delete]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const row=arr[Number(btn.dataset.tableDelete)];
+      if(row) deleteReport(row);
     });
   });
 }
