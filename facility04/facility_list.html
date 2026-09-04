@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>서울숲엘타워</title>
 <style>
-    :root{--ink:#1c2530;--paper:#f6f4ee;--line:#d7d1c4;--amber:#e2a63b;--steel:#6b7785;--bad:#c1443c;--ok:#3f7d68}
+  /* 구글시트연결파일 : 점검기록 시트 */
+    :root{--ink:#1c2530;--paper:#e8ecf3;--line:#fff;--amber:#e2a63b;--steel:#6b7785;--bad:#c1443c;--ok:#3f7d68}
     *{box-sizing:border-box}
       body{margin:0;background:var(--paper);font-family:"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif;color:var(--ink)}
     .app{max-width:1100px;margin:auto;padding-bottom:40px}
@@ -17,20 +18,20 @@
       .btn{font-size:0.9rem;padding:10px 13px;border:1px solid var(--line);background:#fff;border-radius:7px;font-weight:700;cursor:pointer;text-decoration:none;color:var(--ink)}
       .btn.primary{font-size:0.9rem;padding:10px 13px;border:1px solid var(--line);background:#0e2568;border-radius:7px;font-weight:700;cursor:pointer;text-decoration:none;color:#fff}
     .tabs{display:flex;gap:6px;padding:0 14px}
-      .tab{padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:#fff;cursor:pointer}
+      .tab{padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
       .tab.active{background:var(--amber);border-color:var(--amber);font-weight:700}
     .status{padding:24px 14px;text-align:center;color:var(--steel)}
       .status.error{color:var(--bad)}
       .status.ok{color:var(--ok)}
     .list{padding:14px}
       .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}
-      .card-top{display:flex;justify-content:space-between;gap:10px}
-      .job{font-size:16px;font-weight:700}
+      .card-top{display:flex;justify-content:space-between;gap:20px}
+      .job{font-size:1.1rem;font-weight:700}
       .date{font-size:12px;color:var(--steel);white-space:nowrap}
       .meta{font-size:12px;color:var(--steel);margin-top:5px}
       .detail{font-size:13px;margin-top:8px;white-space:pre-wrap}
       .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-      .mini{font-size:12px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;text-decoration:none;color:var(--ink);font-weight:700;cursor:pointer}
+      .mini{font-size:12px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:#e8ecf3;text-decoration:none;color:var(--ink);font-weight:700;cursor:pointer}
       .mini.delete{background:#c1443c;color:#fff;border-color:#c1443c}
     .table-wrap{display:none;padding:14px;overflow:auto}
       .sheet-table{width:100%;border-collapse:collapse;background:#fff;min-width:1050px}
