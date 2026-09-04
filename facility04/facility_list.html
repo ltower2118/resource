@@ -45,7 +45,7 @@
 <body>
 <div class="app">
   <header class="head">
-    <h2>작업(공사) 보고서 리스트_폴더내리스트보여주기</h2>
+    <h2>작업(공사) 보고서 리스트_폴더내리스트보여주기-다시2</h2>
     <!-- <p>마스터 Google 시트의 '점검목록'을 JSONP 방식으로 직접 읽습니다. fetch/CORS 오류를 사용하지 않습니다.</p> -->
   </header>
 
@@ -68,159 +68,178 @@
 </div>
 
 <script>
-const SHEET_ID = '1r9PCcHqXIvCGHspVD40p4PjNXZStnfrrdcVi9rG3bnQ';
-const SHEET_NAME = '점검목록';
+/*
+ * 중요:
+ * 이 버전은 마스터 Google 시트 '점검목록'을 직접 읽지 않습니다.
+ * Apps Script의 action=list를 호출해서
+ * report 폴더 안에 현재 실제 존재하는 보고서만 표시합니다.
+ */
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbz-DJX4FgDVUOASPKxlgE0y7ZGFHn6mytEwOSzVGeSoRwz0eDVZnCNSCGUH0r5L4_o2/exec';
+const REQUIRED_BACKEND_VERSION='2.1.0';
 
 // 구글시트 열기 비밀번호
-const SHEET_OPEN_PASSWORD = '1234';
+const SHEET_OPEN_PASSWORD='1234';
 
-let reports = [];
-let currentView = 'list';
+let reports=[];
+let currentView='list';
 
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-
-function gvizValue(cell){
-  if(!cell) return '';
-  if(cell.f !== undefined && cell.f !== null) return cell.f;
-  if(cell.v === undefined || cell.v === null) return '';
-  return cell.v;
+function esc(s){
+  return String(s??'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[c]));
 }
 
 function openSheetWithPassword(url){
-  const pw = prompt('구글시트를 보려면 비밀번호를 입력하세요.');
+  const pw=prompt('구글시트를 보려면 비밀번호를 입력하세요.');
 
-  if(pw === null) return;
+  if(pw===null)return;
 
-  if(pw !== SHEET_OPEN_PASSWORD){
+  if(pw!==SHEET_OPEN_PASSWORD){
     alert('비밀번호가 올바르지 않습니다.');
     return;
   }
 
-  window.open(url, '_blank', 'noopener');
+  window.open(url,'_blank','noopener');
 }
 
-function loadData(){
-  const status = document.getElementById('status');
-  status.style.display = 'block';
-  status.className = 'status';
-  status.textContent = '점검목록 불러오는 중...';
+async function loadData(){
+  const status=document.getElementById('status');
 
-  const callbackName = '__facilitySheetCallback_' + Date.now();
-  const oldScript = document.getElementById('gvizJsonpScript');
-  if (oldScript) oldScript.remove();
+  status.style.display='block';
+  status.className='status';
+  status.textContent='report 폴더의 보고서 목록 불러오는 중...';
 
-  let finished = false;
-  const timer = setTimeout(() => {
-    if (finished) return;
-    finished = true;
-    cleanup();
-    showLoadError('Google 시트 응답 시간이 초과되었습니다. 시트 공유 설정과 시트 이름을 확인하세요.');
-  }, 15000);
+  try{
+    const url=WEBAPP_URL+'?action=list&_='+Date.now();
 
-  function cleanup(){
-    clearTimeout(timer);
-    const sc = document.getElementById('gvizJsonpScript');
-    if (sc) sc.remove();
-    try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
-  }
+    const res=await fetch(url,{
+      method:'GET',
+      cache:'no-store',
+      redirect:'follow'
+    });
 
-  window[callbackName] = function(json){
-    if (finished) return;
-    finished = true;
-    cleanup();
-
-    try {
-      if (!json || !json.table) {
-        throw new Error('Google 시트에서 올바른 데이터를 받지 못했습니다.');
-      }
-
-      if (json.status === 'error') {
-        const msg = (json.errors || []).map(e => e.detailed_message || e.message || '').filter(Boolean).join(' / ');
-        throw new Error(msg || 'Google 시트 조회 오류');
-      }
-
-      const rows = json.table.rows || [];
-
-      reports = rows.map(r => {
-        const c = r.c || [];
-        return {
-          reportId: gvizValue(c[0]),
-          createdAt: gvizValue(c[1]),
-          date: gvizValue(c[2]),
-          title: gvizValue(c[3]),
-          jobName: gvizValue(c[4]),
-          details: gvizValue(c[5]),
-          vendor: gvizValue(c[6]),
-          siteName: gvizValue(c[7]),
-          inspector: gvizValue(c[8]),
-          itemCount: gvizValue(c[9]),
-          spreadsheetId: gvizValue(c[10]),
-          spreadsheetUrl: gvizValue(c[11]),
-          coverPhoto: gvizValue(c[12])
-        };
-      }).filter(x => x.reportId || x.jobName || x.date).reverse();
-
-      status.className = 'status ok';
-      status.textContent = `불러오기 완료 · ${reports.length}건`;
-      setTimeout(() => status.style.display = 'none', 1200);
-      render();
-    } catch(err) {
-      showLoadError(err.message);
+    if(!res.ok){
+      throw new Error('HTTP '+res.status);
     }
-  };
 
-  const tqx = `out:json;responseHandler:${callbackName}`;
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(SHEET_NAME)}&headers=1&tqx=${encodeURIComponent(tqx)}&_=${Date.now()}`;
+    const text=await res.text();
 
-  const script = document.createElement('script');
-  script.id = 'gvizJsonpScript';
-  script.src = url;
-  script.async = true;
-  script.onerror = function(){
-    if (finished) return;
-    finished = true;
-    cleanup();
-    showLoadError('Google 시트 연결에 실패했습니다. 점검기록 시트를 링크가 있는 모든 사용자 → 뷰어로 설정했는지 확인하세요.');
-  };
-  document.head.appendChild(script);
+    let json;
+
+    try{
+      json=JSON.parse(text);
+    }catch(e){
+      throw new Error('Apps Script 응답이 JSON이 아닙니다.');
+    }
+
+    if(json.result!=='success'){
+      throw new Error(json.message||'보고서 목록 조회 실패');
+    }
+
+    if(json.version && json.version!==REQUIRED_BACKEND_VERSION){
+      throw new Error(
+        'Apps Script 버전이 다릅니다. 현재 '+json.version+
+        ' / 필요한 버전 '+REQUIRED_BACKEND_VERSION+
+        ' — Code.gs 저장 후 새 버전으로 재배포하세요.'
+      );
+    }
+
+    reports=Array.isArray(json.reports)?json.reports:[];
+
+    status.className='status ok';
+    status.textContent='report 폴더 보고서 · '+reports.length+'건';
+
+    setTimeout(()=>{
+      status.style.display='none';
+    },1200);
+
+    render();
+
+  }catch(err){
+    showLoadError(err.message);
+  }
 }
 
 function showLoadError(message){
-  const status = document.getElementById('status');
-  status.style.display = 'block';
-  status.className = 'status error';
-  status.innerHTML = '불러오기 실패: ' + esc(message) + '<br><br>' +
-    '확인사항: <b>점검기록</b> Google 시트 → 공유 → 일반 액세스 → <b>링크가 있는 모든 사용자 → 뷰어</b><br>' +
-    '그리고 시트 아래쪽 탭 이름이 <b>점검목록</b>인지 확인하세요.';
-  document.getElementById('listView').innerHTML = '';
-  document.getElementById('tableView').innerHTML = '';
+  const status=document.getElementById('status');
+
+  status.style.display='block';
+  status.className='status error';
+  status.innerHTML=
+    '불러오기 실패: '+esc(message)+'<br><br>'+
+    '확인사항: Apps Script의 <b>getReportList_()</b>가 report 폴더 기준으로 필터링되어 있는지 확인하고, '+
+    '<b>새 버전으로 재배포</b>하세요.';
+
+  document.getElementById('listView').innerHTML='';
+  document.getElementById('tableView').innerHTML='';
 }
 
 function filtered(){
   const q=document.getElementById('search').value.trim().toLowerCase();
-  if(!q) return reports;
-  return reports.filter(r => [r.date,r.jobName,r.vendor,r.details,r.inspector,r.siteName,r.title].join(' ').toLowerCase().includes(q));
+
+  if(!q)return reports;
+
+  return reports.filter(r=>
+    [
+      r.date,
+      r.jobName,
+      r.vendor,
+      r.details,
+      r.inspector,
+      r.siteName,
+      r.title
+    ].join(' ').toLowerCase().includes(q)
+  );
 }
 
 function renderList(arr){
   const el=document.getElementById('listView');
-  if(!arr.length){el.innerHTML='<div class="status">표시할 보고서가 없습니다.</div>';return;}
+
+  if(!arr.length){
+    el.innerHTML='<div class="status">report 폴더에 표시할 보고서가 없습니다.</div>';
+    return;
+  }
+
   el.innerHTML=arr.map((r,idx)=>`
     <div class="card">
       <div class="card-top">
-        <div><div class="job">${esc(r.jobName || r.title || '시설점검 보고서')}</div><div class="meta">${esc(r.vendor)}${r.inspector?' · '+esc(r.inspector):''}${r.siteName?' · '+esc(r.siteName):''} · 항목 ${esc(r.itemCount||0)}개</div></div>
+        <div>
+          <div class="job">
+            ${esc(r.jobName||r.title||'작업(공사) 보고서')}
+          </div>
+
+          <div class="meta">
+            ${esc(r.vendor)}
+            ${r.inspector?' · '+esc(r.inspector):''}
+            ${r.siteName?' · '+esc(r.siteName):''}
+            · 항목 ${esc(r.itemCount||0)}개
+          </div>
+        </div>
+
         <div class="date">${esc(r.date)}</div>
       </div>
+
       ${r.details?`<div class="detail">${esc(r.details)}</div>`:''}
+
       <div class="actions">
-        ${r.spreadsheetUrl?`<button class="mini" type="button" data-open-sheet="${idx}">구글시트 열기</button>`:''}
+        ${
+          r.spreadsheetUrl
+            ? `<button class="mini" type="button" data-open-sheet="${idx}">구글시트 열기</button>`
+            : ''
+        }
       </div>
-    </div>`).join('');
+    </div>
+  `).join('');
 
   el.querySelectorAll('[data-open-sheet]').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      const row = arr[Number(btn.dataset.openSheet)];
-      if(row && row.spreadsheetUrl){
+      const row=arr[Number(btn.dataset.openSheet)];
+
+      if(row&&row.spreadsheetUrl){
         openSheetWithPassword(row.spreadsheetUrl);
       }
     });
@@ -229,30 +248,104 @@ function renderList(arr){
 
 function renderTable(arr){
   const el=document.getElementById('tableView');
-  if(!arr.length){el.innerHTML='<div class="status">표시할 보고서가 없습니다.</div>';return;}
-  el.innerHTML=`<table class="sheet-table"><thead><tr>
-    <th>점검일</th><th>제목</th><th>작업명</th><th>세부내용</th><th>업체(작업자)</th><th>시설명</th><th>점검자</th><th>항목수</th><th>등록일시</th><th>Google 시트</th>
-  </tr></thead><tbody>${arr.map((r,idx)=>`<tr>
-    <td>${esc(r.date)}</td><td>${esc(r.title)}</td><td>${esc(r.jobName)}</td><td>${esc(r.details)}</td><td>${esc(r.vendor)}</td><td>${esc(r.siteName)}</td><td>${esc(r.inspector)}</td><td>${esc(r.itemCount)}</td><td>${esc(r.createdAt)}</td><td>${r.spreadsheetUrl?`<button class="mini" type="button" data-table-open="${idx}">열기</button>`:''}</td>
-  </tr>`).join('')}</tbody></table>`;
+
+  if(!arr.length){
+    el.innerHTML='<div class="status">report 폴더에 표시할 보고서가 없습니다.</div>';
+    return;
+  }
+
+  el.innerHTML=`
+    <table class="sheet-table">
+      <thead>
+        <tr>
+          <th>점검일</th>
+          <th>제목</th>
+          <th>작업명</th>
+          <th>세부내용</th>
+          <th>업체(작업자)</th>
+          <th>시설명</th>
+          <th>점검자</th>
+          <th>항목수</th>
+          <th>등록일시</th>
+          <th>Google 시트</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        ${
+          arr.map((r,idx)=>`
+            <tr>
+              <td>${esc(r.date)}</td>
+              <td>${esc(r.title)}</td>
+              <td>${esc(r.jobName)}</td>
+              <td>${esc(r.details)}</td>
+              <td>${esc(r.vendor)}</td>
+              <td>${esc(r.siteName)}</td>
+              <td>${esc(r.inspector)}</td>
+              <td>${esc(r.itemCount)}</td>
+              <td>${esc(r.createdAt)}</td>
+
+              <td>
+                ${
+                  r.spreadsheetUrl
+                    ? `<button class="mini" type="button" data-table-open="${idx}">열기</button>`
+                    : ''
+                }
+              </td>
+            </tr>
+          `).join('')
+        }
+      </tbody>
+    </table>
+  `;
 
   el.querySelectorAll('[data-table-open]').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      const row = arr[Number(btn.dataset.tableOpen)];
-      if(row && row.spreadsheetUrl){
+      const row=arr[Number(btn.dataset.tableOpen)];
+
+      if(row&&row.spreadsheetUrl){
         openSheetWithPassword(row.spreadsheetUrl);
       }
     });
   });
 }
 
-function render(){const arr=filtered();renderList(arr);renderTable(arr);}
-function setView(v){currentView=v;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===v));document.getElementById('listView').style.display=v==='list'?'block':'none';document.getElementById('tableView').style.display=v==='table'?'block':'none';}
+function render(){
+  const arr=filtered();
 
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>setView(t.dataset.view)));
+  renderList(arr);
+  renderTable(arr);
+}
+
+function setView(v){
+  currentView=v;
+
+  document.querySelectorAll('.tab').forEach(t=>
+    t.classList.toggle(
+      'active',
+      t.dataset.view===v
+    )
+  );
+
+  document.getElementById('listView').style.display=
+    v==='list'?'block':'none';
+
+  document.getElementById('tableView').style.display=
+    v==='table'?'block':'none';
+}
+
+document.querySelectorAll('.tab').forEach(t=>
+  t.addEventListener(
+    'click',
+    ()=>setView(t.dataset.view)
+  )
+);
+
 document.getElementById('search').addEventListener('input',render);
 document.getElementById('refreshBtn').addEventListener('click',loadData);
-setView('list'); loadData();
+
+setView('list');
+loadData();
 </script>
 </body>
 </html>
