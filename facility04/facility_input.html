@@ -9,10 +9,12 @@
 :root{--ink:#1c2530;--paper:#f6f4ee;--line:#cfc9bb;--amber:#e2a63b;--steel:#6b7785;--ok:#3f7d68;--bad:#c1443c;}
 *{box-sizing:border-box}body{margin:0;background:#e8ecf3;font-family:"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif;color:var(--ink)}
 .app{max-width:820px;margin:0 auto;padding-bottom:90px}
-  .head{background:#1e3a8a;color:#fff;padding:20px}
+  .head{background:#18317a;color:#fff;padding:20px}
   .head h1{margin:0;font-size:24px}
   .head p{margin:5px 0 0;color:#ddd;font-size:12px}
 .panel{margin:14px;background:#fff;border-radius:10px;padding:14px}
+.edit-banner{display:none;margin:14px;background:#fff3cd;border:1px solid #e2b861;color:#6b4b00;border-radius:9px;padding:11px 13px;font-weight:700}
+.edit-banner.show{display:block}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .field{margin-bottom:10px}
   .field label{display:block;font-size:1.0rem;font-weight:700;color:#000 ;margin-bottom:5px}
@@ -109,7 +111,8 @@
 <body>
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서 수정</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 저장하면 같은 Google 시트에 덮어씁니다.</div>
 
   <section class="panel">
     <div class="grid">
@@ -179,8 +182,12 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbz339PVyhGzF-uNVR7xi25LWPWBZc-g0HTp9cbNFjHbiwU97-QIsxJggUAmfUtA_5T_/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyu0jfCl6Om7C49llpCq-9QkpCSVyquMw0lFhbhq4jg-jESLzAws3O-oLUmeJpBeFbT/exec';
 const REQUIRED_BACKEND_VERSION='2.1.0';
+
+const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
+let editMode=false;
+let editingReport=null;
 const MAX_ITEMS=30;
 let items=[];
 let nextId=1;
@@ -189,7 +196,7 @@ let nextId=1;
 const DRAFT_DB_NAME='facility_report_draft_db';
 const DRAFT_DB_VERSION=1;
 const DRAFT_STORE='drafts';
-const DRAFT_KEY='current_report';
+const DRAFT_KEY=EDIT_REPORT_ID ? 'edit_'+EDIT_REPORT_ID : 'current_report';
 let draftAutoTimer=null;
 let draftRestoring=false;
 let draftInitialized=false;
@@ -248,7 +255,7 @@ function collectDraftData(){
     siteName:getFieldValue('siteName','서울숲엘타워'),
     inspector:getFieldValue('inspector',''),
     nextId:nextId,
-    items:items.map(x=>({id:x.id,text:x.text||'',photo:x.photo||''}))
+    items:items.map(x=>({id:x.id,text:x.text||'',photo:x.photo||'',photoId:x.photoId||''}))
   };
 }
 
@@ -292,7 +299,8 @@ async function restoreDraft(draft,showMessage=true){
     items=Array.isArray(draft.items)?draft.items.map((x,i)=>({
       id:Number(x.id)||i+1,
       text:String(x.text||''),
-      photo:String(x.photo||'')
+      photo:String(x.photo||''),
+      photoId:String(x.photoId||'')
     })):[];
     nextId=Math.max(Number(draft.nextId)||1,...items.map(x=>Number(x.id)||0),0)+1;
 
@@ -341,13 +349,109 @@ function initializeBlankReport(){
   updatePreview();
 }
 
+async function loadReportForEdit(){
+  if(!EDIT_REPORT_ID)return false;
+
+  showStatus('기존 보고서를 불러오는 중입니다...','wait');
+
+  const res=await fetch(
+    WEBAPP_URL+'?action=detail&id='+encodeURIComponent(EDIT_REPORT_ID)+'&_='+Date.now(),
+    {method:'GET',cache:'no-store',redirect:'follow'}
+  );
+
+  if(!res.ok)throw new Error('HTTP '+res.status);
+
+  const text=await res.text();
+  let json;
+
+  try{
+    json=JSON.parse(text);
+  }catch(e){
+    throw new Error('보고서 상세 응답이 JSON이 아닙니다.');
+  }
+
+  if(json.result!=='success'){
+    throw new Error(json.message||'기존 보고서를 불러오지 못했습니다.');
+  }
+
+  const report=json.report||{};
+  editingReport=report;
+  editMode=true;
+
+  const setValue=(id,value)=>{
+    const el=document.getElementById(id);
+    if(el)el.value=value||'';
+  };
+
+  setValue('title',report.title||'작업(공사) 보고서');
+  setValue('inspectDate',report.date||'');
+  setValue('jobName',report.jobName||'');
+  setValue('details',report.details||'');
+  setValue('vendor',report.vendor||'');
+  setValue('siteName',report.siteName||'서울숲엘타워');
+  setValue('inspector',report.inspector||'');
+
+  items=Array.isArray(report.items)
+    ? report.items.map((x,i)=>({
+        id:i+1,
+        text:String(x.text||''),
+        photo:String(x.photoUrl||''),
+        photoId:String(x.photoId||'')
+      }))
+    : [];
+
+  nextId=items.length+1;
+
+  if(!items.length){
+    for(let i=0;i<4;i++){
+      items.push({id:nextId++,text:'',photo:'',photoId:''});
+    }
+  }
+
+  renderItems();
+  updatePreview();
+
+  const banner=document.getElementById('editBanner');
+  if(banner)banner.classList.add('show');
+
+  const saveBtn=document.getElementById('saveBtn');
+  if(saveBtn)saveBtn.textContent='수정 저장';
+
+  document.title='보고서 수정';
+
+  showStatus('기존 보고서를 불러왔습니다. 수정 후 "수정 저장"을 누르세요.','ok');
+  return true;
+}
+
 async function initializeDraftSystem(){
   try{
+    if(EDIT_REPORT_ID){
+      await loadReportForEdit();
+
+      const draft=await getDraft();
+      if(draft){
+        await updateDraftInfo(draft);
+        const d=new Date(draft.savedAt);
+        const when=Number.isNaN(d.getTime())?'이전':d.toLocaleString('ko-KR');
+
+        if(confirm(
+          when+'에 이 보고서를 수정하다 임시저장한 내용이 있습니다.\n\n'+
+          '임시저장본을 불러오시겠습니까?'
+        )){
+          await restoreDraft(draft,false);
+          showStatus('수정중 임시저장본을 복구했습니다.','ok');
+        }
+      }
+      return;
+    }
+
     const draft=await getDraft();
+
     if(draft){
       await updateDraftInfo(draft);
       const d=new Date(draft.savedAt);
       const when=Number.isNaN(d.getTime())?'이전':d.toLocaleString('ko-KR');
+
       if(confirm(when+'에 임시저장한 작성중 보고서가 있습니다.\n\n불러오시겠습니까?')){
         await restoreDraft(draft,false);
         showStatus('임시저장본을 복구했습니다.','ok');
@@ -358,11 +462,17 @@ async function initializeDraftSystem(){
       initializeBlankReport();
       await updateDraftInfo();
     }
+
   }catch(err){
     console.error(err);
-    initializeBlankReport();
-    const info=document.getElementById('draftInfo');
-    if(info)info.textContent='임시저장 기능 초기화 실패: '+err.message;
+
+    if(EDIT_REPORT_ID){
+      showStatus('기존 보고서 불러오기 실패: '+err.message,'err');
+    }else{
+      initializeBlankReport();
+      const info=document.getElementById('draftInfo');
+      if(info)info.textContent='임시저장 기능 초기화 실패: '+err.message;
+    }
   }finally{
     draftInitialized=true;
   }
@@ -431,6 +541,7 @@ function renderItems(){
 
       try{
         it.photo=await compressImage(f);
+        it.photoId='';
         renderItems();
         scheduleDraftSave();
       }catch(err){
@@ -609,7 +720,7 @@ async function saveReport(){
   const btn=document.getElementById('saveBtn');
   if(!(await checkBackend())) return;
   const payload={
-    action:'saveReport',
+    action:editMode?'updateReport':'saveReport',
     siteName:getFieldValue('siteName','서울숲엘타워'),
     inspector:getFieldValue('inspector',''),
     date:getFieldValue('inspectDate',''),
@@ -617,7 +728,9 @@ async function saveReport(){
     jobName:getFieldValue('jobName',''),
     details:getFieldValue('details',''),
     vendor:getFieldValue('vendor',''),
-    items:items.map(x=>({text:x.text,photo:x.photo}))
+    reportId:editMode&&editingReport?editingReport.reportId:'',
+    spreadsheetId:editMode&&editingReport?editingReport.spreadsheetId:'',
+    items:items.map(x=>({text:x.text,photo:x.photo,photoId:x.photoId||''}))
   };
   if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
@@ -627,7 +740,7 @@ async function saveReport(){
     const res=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(payload)});
     const text=await res.text();let json;try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹 앱 배포 권한을 확인하세요.');}
     if(json.result!=='success')throw new Error(json.message||'저장 실패');if(json.version!==REQUIRED_BACKEND_VERSION)throw new Error('Apps Script 구버전 응답입니다. 새 버전으로 재배포하세요.');
-    showStatus('저장 완료: '+json.fileName,'ok');
+    showStatus((editMode?'수정 저장 완료: ':'저장 완료: ')+json.fileName,'ok');
     try{
       await deleteDraft();
       await updateDraftInfo();
@@ -636,7 +749,7 @@ async function saveReport(){
     }
     if(json.spreadsheetUrl){setTimeout(()=>{if(confirm('저장되었습니다. 생성된 구글시트를 바로 열까요?'))window.open(json.spreadsheetUrl,'_blank');},200);}
   }catch(err){showStatus('저장 실패: '+err.message,'err');}
-  finally{btn.disabled=false;btn.textContent='날짜별 구글시트로 저장';}
+  finally{btn.disabled=false;btn.textContent=editMode?'수정 저장':'날짜별 구글시트로 저장';}
 }
 
 
@@ -716,7 +829,7 @@ async function saveAsPdf(){
     jobName:getFieldValue('jobName',''),
     details:getFieldValue('details',''),
     vendor:getFieldValue('vendor',''),
-    items:items.map(x=>({text:x.text,photo:x.photo}))
+    items:items.map(x=>({text:x.text,photo:x.photo,photoId:x.photoId||''}))
   };
 
   if(!payload.date){
