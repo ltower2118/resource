@@ -28,13 +28,13 @@
   .meta-value{padding:10px;white-space:pre-wrap;min-height:40px}
 .items-title{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px}
   .items-title h2{font-size:16px;margin:0}
-  .add-btn,.save-btn,.link-btn,.draft-btn{border:0;border-radius:7px;padding:8px 14px;font-weight:700;cursor:pointer}
+  .add-btn,.save-btn,.link-btn{border:0;border-radius:7px;padding:8px 14px;font-weight:700;cursor:pointer}
   .add-btn{background:#95c86a;color:var(--ink)}.save-btn{background:var(--ink);color:#fff;width:100%;font-size:15px}
   .link-btn{background:#fff;border:1px solid var(--line);color:var(--ink)}
-.draft-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.draft-btn{background:#fff7e6;color:#7a5200;border:1px solid #e2b861}
-.draft-btn.load{background:#eaf0ff;color:#18317a;border-color:#9eb0df}
-.draft-btn.delete{background:#fff;color:var(--bad);border-color:#e2b3af}
+
+
+
+
 .draft-info{font-size:.82rem;color:var(--steel);margin-top:7px}
 .item-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #333;border-left:1px solid #333}
   .item-card{border-right:1px solid #333;border-bottom:1px solid #333;background:#fff}.photo-box{height:230px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#fafafa}.photo-box img{width:100%;height:100%;object-fit:contain}.photo-box input{display:none}
@@ -137,12 +137,7 @@
     <div class="items-title"><h2>사진 / 내용 항목</h2><button class="add-btn" id="addItemBtn">+ 항목 추가</button></div>
     <div class="item-grid" id="itemGrid"></div>
     <div id="status" class="status"></div>
-    <div class="draft-tools">
-      <button type="button" class="draft-btn" id="draftSaveBtn">임시저장</button>
-      <button type="button" class="draft-btn load" id="draftLoadBtn">임시저장 불러오기</button>
-      <button type="button" class="draft-btn delete" id="draftDeleteBtn">임시저장 삭제</button>
-    </div>
-    <div class="draft-info" id="draftInfo">임시저장 확인 중...</div>
+    <div class="draft-info" id="draftInfo">자동 임시저장 확인 중...</div>
   </section>
 </div>
 
@@ -192,7 +187,7 @@ const MAX_ITEMS=30;
 let items=[];
 let nextId=1;
 
-/* ===== 작성중 보고서 임시저장: IndexedDB ===== */
+/* ===== 작성중 보고서 자동 임시저장/자동복구: IndexedDB ===== */
 const DRAFT_DB_NAME='facility_report_draft_db';
 const DRAFT_DB_VERSION=1;
 const DRAFT_STORE='drafts';
@@ -323,11 +318,11 @@ async function updateDraftInfo(knownDraft=null){
   if(!el)return;
   try{
     const draft=knownDraft||await getDraft();
-    if(!draft){el.textContent='저장된 임시보고서가 없습니다.';return;}
+    if(!draft){el.textContent='자동 임시저장본이 없습니다.';return;}
     const d=new Date(draft.savedAt);
     const when=Number.isNaN(d.getTime())?'시간 정보 없음':d.toLocaleString('ko-KR');
     const photoCount=(draft.items||[]).filter(x=>x.photo).length;
-    el.textContent='임시저장: '+when+' · 사진 '+photoCount+'장 · 항목 '+((draft.items||[]).length)+'개';
+    el.textContent='자동 임시저장: '+when+' · 사진 '+photoCount+'장 · 항목 '+((draft.items||[]).length)+'개';
   }catch(err){
     el.textContent='임시저장 상태 확인 실패';
   }
@@ -435,11 +430,11 @@ async function initializeDraftSystem(){
         const when=Number.isNaN(d.getTime())?'이전':d.toLocaleString('ko-KR');
 
         if(confirm(
-          when+'에 이 보고서를 수정하다 임시저장한 내용이 있습니다.\n\n'+
-          '임시저장본을 불러오시겠습니까?'
+          when+'에 이 보고서를 수정하다 자동 임시저장된 내용이 있습니다.\n\n'+
+          '자동 임시저장본을 복구하시겠습니까?'
         )){
           await restoreDraft(draft,false);
-          showStatus('수정중 임시저장본을 복구했습니다.','ok');
+          showStatus('수정중 자동 임시저장본을 복구했습니다.','ok');
         }
       }
       return;
@@ -452,9 +447,9 @@ async function initializeDraftSystem(){
       const d=new Date(draft.savedAt);
       const when=Number.isNaN(d.getTime())?'이전':d.toLocaleString('ko-KR');
 
-      if(confirm(when+'에 임시저장한 작성중 보고서가 있습니다.\n\n불러오시겠습니까?')){
+      if(confirm(when+'에 자동 임시저장된 작성중 보고서가 있습니다.\n\n복구하시겠습니까?')){
         await restoreDraft(draft,false);
-        showStatus('임시저장본을 복구했습니다.','ok');
+        showStatus('자동 임시저장본을 복구했습니다.','ok');
       }else{
         initializeBlankReport();
       }
@@ -899,31 +894,6 @@ async function saveAsPdf(){
 document.getElementById('addItemBtn').addEventListener('click',createItem);
 document.getElementById('saveBtn').addEventListener('click',saveReport);
 document.getElementById('pdfBtn').addEventListener('click',saveAsPdf);
-
-document.getElementById('draftSaveBtn').addEventListener('click',()=>saveDraft(true));
-
-document.getElementById('draftLoadBtn').addEventListener('click',async()=>{
-  try{
-    const draft=await getDraft();
-    if(!draft){showStatus('불러올 임시저장본이 없습니다.','err');return;}
-    if(confirm('현재 작성중인 내용을 임시저장본으로 교체하시겠습니까?')){
-      await restoreDraft(draft,true);
-    }
-  }catch(err){
-    showStatus('임시저장 불러오기 실패: '+err.message,'err');
-  }
-});
-
-document.getElementById('draftDeleteBtn').addEventListener('click',async()=>{
-  if(!confirm('저장된 임시보고서를 삭제하시겠습니까?'))return;
-  try{
-    await deleteDraft();
-    await updateDraftInfo();
-    showStatus('임시저장본을 삭제했습니다.','ok');
-  }catch(err){
-    showStatus('임시저장 삭제 실패: '+err.message,'err');
-  }
-});
 
 ['title','inspectDate','jobName','details','vendor'].forEach(id=>{
   const el=document.getElementById(id);
