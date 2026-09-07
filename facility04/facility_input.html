@@ -105,10 +105,29 @@
 }
 
 @media(max-width:600px){.grid{grid-template-columns:1fr}.item-grid{grid-template-columns:1fr}.photo-box{height:210px}.meta-row{grid-template-columns:90px 1fr}.head h1{font-size:21px}}
+
+/* 처리중 전체화면 표시 */
+.busy-overlay{display:none;position:fixed;inset:0;z-index:99999;background:rgba(10,22,50,.45);backdrop-filter:blur(2px);align-items:center;justify-content:center;padding:20px}
+.busy-overlay.show{display:flex}
+.busy-box{min-width:210px;max-width:88vw;background:#fff;border-radius:14px;padding:24px 26px;box-shadow:0 14px 45px rgba(0,0,0,.28);text-align:center}
+.busy-spinner{width:48px;height:48px;margin:0 auto 14px;border:5px solid #dbe2ef;border-top-color:#0e2568;border-radius:50%;animation:busySpin .85s linear infinite}
+.busy-text{font-size:1rem;font-weight:700;color:#1c2530;line-height:1.45}
+.busy-sub{margin-top:6px;font-size:.8rem;color:#6b7785}
+@keyframes busySpin{to{transform:rotate(360deg)}}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+
+<div id="busyOverlay" class="busy-overlay" aria-live="polite" aria-busy="true">
+  <div class="busy-box">
+    <div class="busy-spinner"></div>
+    <div id="busyText" class="busy-text">처리 중...</div>
+    <div id="busySub" class="busy-sub">잠시만 기다려 주세요.</div>
+  </div>
+</div>
+
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
   <header class="head"><h1>작업(공사) 보고서 수정</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
@@ -348,6 +367,7 @@ async function loadReportForEdit(){
   if(!EDIT_REPORT_ID)return false;
 
   showStatus('기존 보고서를 불러오는 중입니다...','wait');
+  showBusy('기존 보고서 불러오는 중...','저장된 사진과 내용을 불러오고 있습니다.');
 
   const res=await fetch(
     WEBAPP_URL+'?action=detail&id='+encodeURIComponent(EDIT_REPORT_ID)+'&_='+Date.now(),
@@ -415,6 +435,7 @@ async function loadReportForEdit(){
   document.title='보고서 수정';
 
   showStatus('기존 보고서를 불러왔습니다. 수정 후 "수정 저장"을 누르세요.','ok');
+  hideBusy();
   return true;
 }
 
@@ -462,6 +483,7 @@ async function initializeDraftSystem(){
     console.error(err);
 
     if(EDIT_REPORT_ID){
+      hideBusy();
       showStatus('기존 보고서 불러오기 실패: '+err.message,'err');
     }else{
       initializeBlankReport();
@@ -692,6 +714,20 @@ function setTextIfExists(id, value){
   if(el) el.textContent=value;
 }
 
+
+function showBusy(text,sub){
+  const overlay=document.getElementById('busyOverlay');
+  const textEl=document.getElementById('busyText');
+  const subEl=document.getElementById('busySub');
+  if(textEl) textEl.textContent=text||'처리 중...';
+  if(subEl) subEl.textContent=sub||'잠시만 기다려 주세요.';
+  if(overlay) overlay.classList.add('show');
+}
+function hideBusy(){
+  const overlay=document.getElementById('busyOverlay');
+  if(overlay) overlay.classList.remove('show');
+}
+
 async function checkBackend(){
   try{
     const res=await fetch(WEBAPP_URL+'?action=health&_='+Date.now());
@@ -731,6 +767,7 @@ async function saveReport(){
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
   if(!payload.items.length){showStatus('사진/내용 항목을 추가하세요.','err');return;}
   btn.disabled=true;btn.textContent='저장 중...';showStatus('Google Drive와 시트에 저장 중입니다. 사진이 많으면 잠시 걸릴 수 있습니다.','wait');
+  showBusy(editMode?'수정 저장 중...':'Google 시트 저장 중...','사진 업로드와 시트 생성을 처리하고 있습니다.');
   try{
     const res=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(payload)});
     const text=await res.text();let json;try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹 앱 배포 권한을 확인하세요.');}
@@ -744,7 +781,7 @@ async function saveReport(){
     }
     if(json.spreadsheetUrl){setTimeout(()=>{if(confirm('저장되었습니다. 생성된 구글시트를 바로 열까요?'))window.open(json.spreadsheetUrl,'_blank');},200);}
   }catch(err){showStatus('저장 실패: '+err.message,'err');}
-  finally{btn.disabled=false;btn.textContent=editMode?'수정 저장':'날짜별 구글시트로 저장';}
+  finally{hideBusy();btn.disabled=false;btn.textContent=editMode?'수정 저장':'날짜별 구글시트로 저장';}
 }
 
 
@@ -844,6 +881,7 @@ async function saveAsPdf(){
 
   btn.disabled=true;
   btn.textContent='PDF 생성 중...';
+  showBusy('PDF 생성 중...','Google 시트 형식으로 PDF를 만들고 있습니다.');
   showStatus('Google 시트 형식으로 보고서를 만든 뒤 동일한 형태의 PDF로 변환 중입니다...','wait');
 
   try{
@@ -885,6 +923,7 @@ async function saveAsPdf(){
     console.error(err);
     showStatus('PDF 저장 실패: '+err.message,'err');
   }finally{
+    hideBusy();
     btn.disabled=false;
     btn.textContent='PDF로 저장하기';
   }

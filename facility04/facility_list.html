@@ -44,9 +44,28 @@
       .head h1{font-size:21px}
       .card-top{flex-direction:column}
       .date{white-space:normal}}
+
+/* 처리중 전체화면 표시 */
+.busy-overlay{display:none;position:fixed;inset:0;z-index:99999;background:rgba(10,22,50,.45);backdrop-filter:blur(2px);align-items:center;justify-content:center;padding:20px}
+.busy-overlay.show{display:flex}
+.busy-box{min-width:210px;max-width:88vw;background:#fff;border-radius:14px;padding:24px 26px;box-shadow:0 14px 45px rgba(0,0,0,.28);text-align:center}
+.busy-spinner{width:48px;height:48px;margin:0 auto 14px;border:5px solid #dbe2ef;border-top-color:#0e2568;border-radius:50%;animation:busySpin .85s linear infinite}
+.busy-text{font-size:1rem;font-weight:700;color:#1c2530;line-height:1.45}
+.busy-sub{margin-top:6px;font-size:.8rem;color:#6b7785}
+@keyframes busySpin{to{transform:rotate(360deg)}}
+
 </style>
 </head>
 <body>
+
+<div id="busyOverlay" class="busy-overlay" aria-live="polite" aria-busy="true">
+  <div class="busy-box">
+    <div class="busy-spinner"></div>
+    <div id="busyText" class="busy-text">처리 중...</div>
+    <div id="busySub" class="busy-sub">잠시만 기다려 주세요.</div>
+  </div>
+</div>
+
 <div class="app">
   <header class="head">
     <h2>작업(공사) 보고서수정</h2>
@@ -98,6 +117,20 @@ function esc(s){
   }[c]));
 }
 
+
+function showBusy(text,sub){
+  const overlay=document.getElementById('busyOverlay');
+  const textEl=document.getElementById('busyText');
+  const subEl=document.getElementById('busySub');
+  if(textEl) textEl.textContent=text||'처리 중...';
+  if(subEl) subEl.textContent=sub||'잠시만 기다려 주세요.';
+  if(overlay) overlay.classList.add('show');
+}
+function hideBusy(){
+  const overlay=document.getElementById('busyOverlay');
+  if(overlay) overlay.classList.remove('show');
+}
+
 function openSheetWithPassword(url){
   const pw=prompt('구글시트를 보려면 비밀번호를 입력하세요.');
 
@@ -146,6 +179,8 @@ async function deleteReport(report){
     return;
   }
 
+  showBusy('보고서 삭제 중...','Google Drive와 목록을 정리하고 있습니다.');
+
   const status=document.getElementById('status');
   status.style.display='block';
   status.className='status';
@@ -176,15 +211,18 @@ async function deleteReport(report){
     }
 
     alert('삭제되었습니다.');
+    hideBusy();
     await loadData();
 
   }catch(err){
+    hideBusy();
     status.className='status error';
     status.textContent='삭제 실패: '+err.message;
   }
 }
 
 async function loadData(){
+  showBusy('보고서 목록 불러오는 중...','report 폴더를 확인하고 있습니다.');
   const status=document.getElementById('status');
 
   status.style.display='block';
@@ -236,8 +274,10 @@ async function loadData(){
     },1200);
 
     render();
+    hideBusy();
 
   }catch(err){
+    hideBusy();
     showLoadError(err.message);
   }
 }
