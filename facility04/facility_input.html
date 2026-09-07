@@ -29,7 +29,7 @@
 .items-title{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px}
   .items-title h2{font-size:16px;margin:0}
   .add-btn,.save-btn,.link-btn{border:0;border-radius:7px;padding:8px 14px;font-weight:700;cursor:pointer}
-  .add-btn{background:#95c86a;color:var(--ink)}.save-btn{background:var(--ink);color:#fff;width:100%;font-size:15px}
+  .add-btn{display:none;background:#95c86a;color:var(--ink)}.save-btn{background:var(--ink);color:#fff;width:100%;font-size:15px}
   .link-btn{background:#fff;border:1px solid var(--line);color:var(--ink)}
 
 
@@ -71,17 +71,17 @@
 
 /* PDF 생성 시 실제로 렌더링할 복제 영역 */
 .pdf-render-root{position:absolute;left:0;top:0;width:794px;background:#fff;color:#000;z-index:99999;pointer-events:none}
-.pdf-render-root .print-page{width:754px;max-width:754px;overflow:hidden;margin:0 auto;font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;background:#fff}
+.pdf-render-root .print-page{width:782px;margin:0 auto;font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;background:#fff}
 .pdf-render-root .print-title{text-align:center;font-size:23px;font-weight:700;padding:18px 0 12px;border-bottom:1px solid #000}
 .pdf-render-root .print-meta{border-left:1px solid #000;border-top:1px solid #000}
 .pdf-render-root .print-meta-row{display:grid;grid-template-columns:115px 1fr;border-bottom:1px solid #000}
 .pdf-render-root .print-meta-label{font-weight:700;text-align:center;padding:8px;border-right:1px solid #000}
 .pdf-render-root .print-meta-value{padding:8px;white-space:pre-wrap;word-break:break-word;min-height:34px}
-.pdf-render-root .print-items{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;border-left:1px solid #000;border-top:1px solid #000;margin-top:7px}
+.pdf-render-root .print-items{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #000;border-top:1px solid #000;margin-top:7px}
 .pdf-render-root .print-item{border-right:1px solid #000;border-bottom:1px solid #000;break-inside:avoid;page-break-inside:avoid;background:#fff}
-.pdf-render-root .print-photo{height:260px;display:flex;align-items:center;justify-content:center;padding:4px;overflow:hidden;background:#fff}
+.pdf-render-root .print-photo{height:188px;display:flex;align-items:center;justify-content:center;padding:4px;overflow:hidden;background:#fff}
 .pdf-render-root .print-photo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
-.pdf-render-root .print-text{border-top:1px solid #000;padding:8px;min-height:48px;white-space:pre-wrap;font-size:12px;word-break:break-word}
+.pdf-render-root .print-text{border-top:1px solid #000;padding:7px;min-height:42px;white-space:pre-wrap;font-size:12px;word-break:break-word}
 .pdf-render-root .print-no{font-size:11px;color:#555;margin-bottom:5px}
 
 
@@ -92,17 +92,17 @@
   body{background:#fff}
   body > *:not(#printReport){display:none !important}
   #printReport{display:block !important;background:#fff;color:#000}
-  .print-page{width:198mm;max-width:198mm;overflow:hidden;margin:0 auto;font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif}
+  .print-page{width:200mm;margin:0 auto;font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif}
   .print-title{text-align:center;font-size:19pt;font-weight:700;padding:3.5mm 0 2.5mm;border-bottom:1px solid #000}
   .print-meta{border-left:1px solid #000;border-top:1px solid #000}
   .print-meta-row{display:grid;grid-template-columns:26mm 1fr;border-bottom:1px solid #000}
   .print-meta-label{font-weight:700;text-align:center;padding:1.7mm;border-right:1px solid #000;font-size:9.5pt}
   .print-meta-value{padding:1.7mm;white-space:pre-wrap;font-size:9.5pt;min-height:7mm}
-  .print-items{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;border-left:1px solid #000;border-top:1px solid #000;margin-top:1.5mm}
+  .print-items{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #000;border-top:1px solid #000;margin-top:1.5mm}
   .print-item{border-right:1px solid #000;border-bottom:1px solid #000;break-inside:avoid}
-  .print-photo{height:68mm;display:flex;align-items:center;justify-content:center;padding:1mm}
+  .print-photo{height:47mm;display:flex;align-items:center;justify-content:center;padding:1mm}
   .print-photo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
-  .print-text{border-top:1px solid #000;padding:1.6mm;min-height:11mm;white-space:pre-wrap;font-size:9pt}
+  .print-text{border-top:1px solid #000;padding:1.4mm;min-height:9mm;white-space:pre-wrap;font-size:9pt}
   .print-no{font-size:7pt;color:#555;margin-bottom:.5mm}
   .print-footer{text-align:center;font-size:8pt;color:#555;margin-top:1mm;padding-top:1mm;border-top:1px solid #999}
 }
@@ -118,19 +118,6 @@
 .busy-sub{margin-top:6px;font-size:.8rem;color:#6b7785}
 @keyframes busySpin{to{transform:rotate(360deg)}}
 
-
-.pdf-render-root .print-page,
-.pdf-render-root .print-meta,
-.pdf-render-root .print-items,
-.pdf-render-root .print-item,
-.pdf-render-root .print-photo,
-.pdf-render-root .print-text{box-sizing:border-box;max-width:100%}
-@media print{
-  .print-page,.print-meta,.print-items,.print-item,.print-photo,.print-text{
-    box-sizing:border-box;
-    max-width:100%;
-  }
-}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -146,7 +133,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 2.2.0-ADD-ITEMS</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서 수정</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 저장하면 같은 Google 시트에 덮어씁니다.</div>
 
   <section class="panel">
@@ -213,14 +200,14 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycby5jYbxbRCMrfUooDaFubtyDd4hJK7E1db7XPvn__M27CZD-S-DLxfe97_yJgASLuX9/exec';
-const REQUIRED_BACKEND_VERSION='2.2.0-ADD-ITEMS';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyyH1eCt9uXcLGOoiyRbSanrMrImElI7LriRhnuKSugl_5bRj_UD5JCswbFkxfMBq2H/exec';
+const REQUIRED_BACKEND_VERSION='2.1.0';
 
 const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
 let editMode=false;
 let editingReport=null;
-const MAX_ITEMS=30;
-const INITIAL_ITEM_COUNT=4;
+const MAX_ITEMS=6;
+const REPORT_ITEM_COUNT=6;
 let items=[];
 let nextId=1;
 
@@ -334,14 +321,14 @@ async function restoreDraft(draft,showMessage=true){
       photo:String(x.photo||''),
       photoId:String(x.photoId||'')
     })):[];
-    
-    while(items.length<INITIAL_ITEM_COUNT){
+    items=items.slice(0,REPORT_ITEM_COUNT);
+    while(items.length<REPORT_ITEM_COUNT){
       items.push({id:items.length+1,text:'',photo:'',photoId:''});
     }
-    nextId=Math.max(1,...items.map(x=>Number(x.id)||0))+1;
+    nextId=REPORT_ITEM_COUNT+1;
 
     if(!items.length){
-      for(let i=0;i<INITIAL_ITEM_COUNT;i++)items.push({id:nextId++,text:'',photo:'',photoId:''});
+      for(let i=0;i<REPORT_ITEM_COUNT;i++)items.push({id:nextId++,text:'',photo:'',photoId:''});
     }
 
     renderItems();
@@ -380,7 +367,7 @@ function initializeBlankReport(){
     const d=String(now.getDate()).padStart(2,'0');
     dateInput.value=`${y}-${m}-${d}`;
   }
-  for(let i=0;i<INITIAL_ITEM_COUNT;i++)items.push({id:nextId++,text:'',photo:'',photoId:''});
+  for(let i=0;i<REPORT_ITEM_COUNT;i++)items.push({id:nextId++,text:'',photo:'',photoId:''});
   renderItems();
   updatePreview();
 }
@@ -437,11 +424,11 @@ async function loadReportForEdit(){
       }))
     : [];
 
-  
-  while(items.length<INITIAL_ITEM_COUNT){
+  items=items.slice(0,REPORT_ITEM_COUNT);
+  while(items.length<REPORT_ITEM_COUNT){
     items.push({id:items.length+1,text:'',photo:'',photoId:''});
   }
-  nextId=Math.max(1,...items.map(x=>Number(x.id)||0))+1;
+  nextId=REPORT_ITEM_COUNT+1;
 
   if(!items.length){
     for(let i=0;i<REPORT_ITEM_COUNT;i++){
@@ -521,26 +508,32 @@ async function initializeDraftSystem(){
   }
 }
 
-function getReportItems(){
-  return items.map(x=>({
+function getSixReportItems(){
+  const out=items.slice(0,REPORT_ITEM_COUNT).map(x=>({
     text:String(x.text||''),
     photo:String(x.photo||''),
     photoId:String(x.photoId||'')
   }));
+
+  while(out.length<REPORT_ITEM_COUNT){
+    out.push({text:'',photo:'',photoId:''});
+  }
+  return out;
 }
 
 function createItem(){
-  if(items.length>=MAX_ITEMS){showStatus('최대 '+MAX_ITEMS+'개까지 추가할 수 있습니다.','err');return;}
+  if(items.length>=MAX_ITEMS){showStatus('보고서 항목은 6개로 고정되어 있습니다.','err');return;}
   items.push({id:nextId++,text:'',photo:''});
   renderItems();
   scheduleDraftSave();
 }
 function removeItem(id){
-  if(items.length<=1){
-    showStatus('항목은 최소 1개가 필요합니다.','err');
-    return;
+  const it=items.find(x=>x.id===id);
+  if(it){
+    it.text='';
+    it.photo='';
+    it.photoId='';
   }
-  items=items.filter(x=>x.id!==id);
   renderItems();
   scheduleDraftSave();
 }
@@ -803,7 +796,7 @@ async function saveReport(){
     vendor:getFieldValue('vendor',''),
     reportId:editMode&&editingReport?editingReport.reportId:'',
     spreadsheetId:editMode&&editingReport?editingReport.spreadsheetId:'',
-    items:getReportItems()
+    items:getSixReportItems()
   };
   if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
@@ -883,7 +876,7 @@ function buildPrintReport(){
   const prItems=document.getElementById('prItems');
   if(!prItems) return;
 
-  prItems.innerHTML=getReportItems().map((it,i)=>`
+  prItems.innerHTML=getSixReportItems().map((it,i)=>`
     <div class="print-item">
       <div class="print-photo">${it.photo?`<img src="${it.photo}" alt="사진 ${i+1}">`:'<span>사진 없음</span>'}</div>
       <div class="print-text"><div class="print-no">text${i+1}</div>${escapeHtml(it.text||'')}</div>
@@ -903,7 +896,7 @@ async function saveAsPdf(){
     jobName:getFieldValue('jobName',''),
     details:getFieldValue('details',''),
     vendor:getFieldValue('vendor',''),
-    items:getReportItems()
+    items:getSixReportItems()
   };
 
   if(!payload.date){
