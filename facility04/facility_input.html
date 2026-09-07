@@ -43,6 +43,21 @@
 .photo-action-btn{display:inline-flex;align-items:center;justify-content:center;min-width:120px;padding:10px 12px;border-radius:7px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:13px;font-weight:700;cursor:pointer}
 .photo-action-btn.camera{background:var(--ink);color:#fff;border-color:var(--ink)}
 .photo-action-btn.gallery{background:#fff;color:var(--ink)}
+.photo-change-btn{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  z-index:3;
+  border:1px solid rgba(255,255,255,.75);
+  background:rgba(28,37,48,.88);
+  color:#fff;
+  border-radius:7px;
+  padding:9px 12px;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.22)
+}
 .photo-choice-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:9999;align-items:flex-end;justify-content:center;padding:14px}
 .photo-choice-modal.show{display:flex}
 .photo-choice-sheet{width:100%;max-width:520px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 12px 35px rgba(0,0,0,.25)}
@@ -552,7 +567,15 @@ function renderItems(){
       <div class="photo-box" id="photoBox-${it.id}">
         ${
           it.photo
-          ? `<img src="${it.photo}" alt="선택한 사진">`
+          ? `
+            <img src="${it.photo}" alt="선택한 사진">
+            <button
+              type="button"
+              class="photo-change-btn photo-choice-btn"
+              data-photo-choice="${it.id}">
+              이미지 변경
+            </button>
+          `
           : `
             <div class="photo-actions">
               <button type="button" class="photo-action-btn camera photo-choice-btn" data-photo-choice="${it.id}">
