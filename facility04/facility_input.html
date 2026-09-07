@@ -29,7 +29,7 @@
 .items-title{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px}
   .items-title h2{font-size:16px;margin:0}
   .add-btn,.save-btn,.link-btn{border:0;border-radius:7px;padding:8px 14px;font-weight:700;cursor:pointer}
-  .add-btn{background:#95c86a;color:var(--ink)}.save-btn{background:var(--ink);color:#fff;width:100%;font-size:15px}
+  .add-btn{display:none;background:#95c86a;color:var(--ink)}.save-btn{background:var(--ink);color:#fff;width:100%;font-size:15px}
   .link-btn{background:#fff;border:1px solid var(--line);color:var(--ink)}
 
 
@@ -72,36 +72,39 @@
 /* PDF 생성 시 실제로 렌더링할 복제 영역 */
 .pdf-render-root{position:absolute;left:0;top:0;width:794px;background:#fff;color:#000;z-index:99999;pointer-events:none}
 .pdf-render-root .print-page{width:754px;margin:0 auto;font-family:"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif;background:#fff}
-.pdf-render-root .print-title{text-align:center;font-size:22px;font-weight:700;padding:30px 0 18px;border-bottom:1px solid #000}
+.pdf-render-root .print-title{text-align:center;font-size:20px;font-weight:700;padding:12px 0 8px;border-bottom:1px solid #000}
 .pdf-render-root .print-meta{border-left:1px solid #000;border-top:1px solid #000}
 .pdf-render-root .print-meta-row{display:grid;grid-template-columns:115px 1fr;border-bottom:1px solid #000}
-.pdf-render-root .print-meta-label{font-weight:700;text-align:center;padding:12px;border-right:1px solid #000}
-.pdf-render-root .print-meta-value{padding:12px;white-space:pre-wrap;word-break:break-word;min-height:42px}
-.pdf-render-root .print-items{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #000;border-top:1px solid #000;margin-top:16px}
+.pdf-render-root .print-meta-label{font-weight:700;text-align:center;padding:6px;border-right:1px solid #000}
+.pdf-render-root .print-meta-value{padding:6px;white-space:pre-wrap;word-break:break-word;min-height:28px}
+.pdf-render-root .print-items{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #000;border-top:1px solid #000;margin-top:7px}
 .pdf-render-root .print-item{border-right:1px solid #000;border-bottom:1px solid #000;break-inside:avoid;page-break-inside:avoid;background:#fff}
-.pdf-render-root .print-photo{height:270px;display:flex;align-items:center;justify-content:center;padding:8px;overflow:hidden;background:#fff}
+.pdf-render-root .print-photo{height:150px;display:flex;align-items:center;justify-content:center;padding:4px;overflow:hidden;background:#fff}
 .pdf-render-root .print-photo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
-.pdf-render-root .print-text{border-top:1px solid #000;padding:12px;min-height:62px;white-space:pre-wrap;font-size:14px;word-break:break-word}
+.pdf-render-root .print-text{border-top:1px solid #000;padding:5px;min-height:32px;white-space:pre-wrap;font-size:11px;word-break:break-word}
 .pdf-render-root .print-no{font-size:11px;color:#555;margin-bottom:5px}
 
 
-@page{size:A4 portrait;margin:10mm}
+.pdf-render-root .print-footer{text-align:center;font-size:11px;color:#555;margin-top:5px;padding-top:5px;border-top:1px solid #aaa}
+
+@page{size:A4 portrait;margin:7mm}
 @media print{
   body{background:#fff}
   body > *:not(#printReport){display:none !important}
   #printReport{display:block !important;background:#fff;color:#000}
-  .print-page{width:190mm;margin:0 auto;font-family:"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif}
-  .print-title{text-align:center;font-size:22px;font-weight:700;padding:8mm 0 5mm;border-bottom:1px solid #000}
+  .print-page{width:196mm;margin:0 auto;font-family:"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif}
+  .print-title{text-align:center;font-size:18pt;font-weight:700;padding:2.5mm 0 2mm;border-bottom:1px solid #000}
   .print-meta{border-left:1px solid #000;border-top:1px solid #000}
-  .print-meta-row{display:grid;grid-template-columns:30mm 1fr;border-bottom:1px solid #000}
-  .print-meta-label{font-weight:700;text-align:center;padding:3mm;border-right:1px solid #000}
-  .print-meta-value{padding:3mm;white-space:pre-wrap}
-  .print-items{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #000;border-top:1px solid #000;margin-top:4mm}
+  .print-meta-row{display:grid;grid-template-columns:26mm 1fr;border-bottom:1px solid #000}
+  .print-meta-label{font-weight:700;text-align:center;padding:1.3mm;border-right:1px solid #000;font-size:9pt}
+  .print-meta-value{padding:1.3mm;white-space:pre-wrap;font-size:9pt;min-height:6mm}
+  .print-items{display:grid;grid-template-columns:1fr 1fr;border-left:1px solid #000;border-top:1px solid #000;margin-top:1.5mm}
   .print-item{border-right:1px solid #000;border-bottom:1px solid #000;break-inside:avoid}
-  .print-photo{height:72mm;display:flex;align-items:center;justify-content:center;padding:2mm}
+  .print-photo{height:39mm;display:flex;align-items:center;justify-content:center;padding:1mm}
   .print-photo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
-  .print-text{border-top:1px solid #000;padding:3mm;min-height:16mm;white-space:pre-wrap;font-size:11pt}
-  .print-no{font-size:8pt;color:#555;margin-bottom:1mm}
+  .print-text{border-top:1px solid #000;padding:1.2mm;min-height:8mm;white-space:pre-wrap;font-size:8.5pt}
+  .print-no{font-size:7pt;color:#555;margin-bottom:.5mm}
+  .print-footer{text-align:center;font-size:8pt;color:#555;margin-top:1mm;padding-top:1mm;border-top:1px solid #999}
 }
 
 @media(max-width:600px){.grid{grid-template-columns:1fr}.item-grid{grid-template-columns:1fr}.photo-box{height:210px}.meta-row{grid-template-columns:90px 1fr}.head h1{font-size:21px}}
@@ -186,6 +189,7 @@
       <div class="print-meta-row"><div class="print-meta-label">업체(작업자)</div><div class="print-meta-value" id="prVendor"></div></div>
     </div>
     <div class="print-items" id="prItems"></div>
+    <div class="print-footer">서울숲엘타워</div>
   </div>
 </div>
 
@@ -196,13 +200,14 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyu0jfCl6Om7C49llpCq-9QkpCSVyquMw0lFhbhq4jg-jESLzAws3O-oLUmeJpBeFbT/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxzumf2X5jZDLsPvf80DIg4qnimnTTwFaTV_P2f-vCufhxi02ompJzyzMqnRY6VCDJr/exec';
 const REQUIRED_BACKEND_VERSION='2.1.0';
 
 const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
 let editMode=false;
 let editingReport=null;
-const MAX_ITEMS=30;
+const MAX_ITEMS=6;
+const REPORT_ITEM_COUNT=6;
 let items=[];
 let nextId=1;
 
@@ -316,10 +321,14 @@ async function restoreDraft(draft,showMessage=true){
       photo:String(x.photo||''),
       photoId:String(x.photoId||'')
     })):[];
-    nextId=Math.max(Number(draft.nextId)||1,...items.map(x=>Number(x.id)||0),0)+1;
+    items=items.slice(0,REPORT_ITEM_COUNT);
+    while(items.length<REPORT_ITEM_COUNT){
+      items.push({id:items.length+1,text:'',photo:'',photoId:''});
+    }
+    nextId=REPORT_ITEM_COUNT+1;
 
     if(!items.length){
-      for(let i=0;i<4;i++)items.push({id:nextId++,text:'',photo:''});
+      for(let i=0;i<REPORT_ITEM_COUNT;i++)items.push({id:nextId++,text:'',photo:'',photoId:''});
     }
 
     renderItems();
@@ -358,7 +367,7 @@ function initializeBlankReport(){
     const d=String(now.getDate()).padStart(2,'0');
     dateInput.value=`${y}-${m}-${d}`;
   }
-  for(let i=0;i<4;i++)items.push({id:nextId++,text:'',photo:''});
+  for(let i=0;i<REPORT_ITEM_COUNT;i++)items.push({id:nextId++,text:'',photo:'',photoId:''});
   renderItems();
   updatePreview();
 }
@@ -415,10 +424,14 @@ async function loadReportForEdit(){
       }))
     : [];
 
-  nextId=items.length+1;
+  items=items.slice(0,REPORT_ITEM_COUNT);
+  while(items.length<REPORT_ITEM_COUNT){
+    items.push({id:items.length+1,text:'',photo:'',photoId:''});
+  }
+  nextId=REPORT_ITEM_COUNT+1;
 
   if(!items.length){
-    for(let i=0;i<4;i++){
+    for(let i=0;i<REPORT_ITEM_COUNT;i++){
       items.push({id:nextId++,text:'',photo:'',photoId:''});
     }
   }
@@ -495,13 +508,35 @@ async function initializeDraftSystem(){
   }
 }
 
+function getSixReportItems(){
+  const out=items.slice(0,REPORT_ITEM_COUNT).map(x=>({
+    text:String(x.text||''),
+    photo:String(x.photo||''),
+    photoId:String(x.photoId||'')
+  }));
+
+  while(out.length<REPORT_ITEM_COUNT){
+    out.push({text:'',photo:'',photoId:''});
+  }
+  return out;
+}
+
 function createItem(){
-  if(items.length>=MAX_ITEMS){showStatus('최대 '+MAX_ITEMS+'개까지 추가할 수 있습니다.','err');return;}
+  if(items.length>=MAX_ITEMS){showStatus('보고서 항목은 6개로 고정되어 있습니다.','err');return;}
   items.push({id:nextId++,text:'',photo:''});
   renderItems();
   scheduleDraftSave();
 }
-function removeItem(id){items=items.filter(x=>x.id!==id);renderItems();scheduleDraftSave();}
+function removeItem(id){
+  const it=items.find(x=>x.id===id);
+  if(it){
+    it.text='';
+    it.photo='';
+    it.photoId='';
+  }
+  renderItems();
+  scheduleDraftSave();
+}
 function renderItems(){
   const grid=document.getElementById('itemGrid');
 
@@ -761,7 +796,7 @@ async function saveReport(){
     vendor:getFieldValue('vendor',''),
     reportId:editMode&&editingReport?editingReport.reportId:'',
     spreadsheetId:editMode&&editingReport?editingReport.spreadsheetId:'',
-    items:items.map(x=>({text:x.text,photo:x.photo,photoId:x.photoId||''}))
+    items:getSixReportItems()
   };
   if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
@@ -841,7 +876,7 @@ function buildPrintReport(){
   const prItems=document.getElementById('prItems');
   if(!prItems) return;
 
-  prItems.innerHTML=items.map((it,i)=>`
+  prItems.innerHTML=getSixReportItems().map((it,i)=>`
     <div class="print-item">
       <div class="print-photo">${it.photo?`<img src="${it.photo}" alt="사진 ${i+1}">`:'<span>사진 없음</span>'}</div>
       <div class="print-text"><div class="print-no">text${i+1}</div>${escapeHtml(it.text||'')}</div>
@@ -861,7 +896,7 @@ async function saveAsPdf(){
     jobName:getFieldValue('jobName',''),
     details:getFieldValue('details',''),
     vendor:getFieldValue('vendor',''),
-    items:items.map(x=>({text:x.text,photo:x.photo,photoId:x.photoId||''}))
+    items:getSixReportItems()
   };
 
   if(!payload.date){
