@@ -23,6 +23,14 @@
         margin-right: auto;
         /* height와 overflow 제거 → body가 스크롤 담당 */
         }
+  .box{
+  background:#ae9b9b;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:11px;
+}
+  
   /* 상단 앱바 */
           header {
     position: fixed;
@@ -89,11 +97,12 @@
       </svg>
     </a>
   </header><br><br><br><br>
-  <div class="title">일일 점검일지 검색</div><br>
+  <div class="box"><div class="title">일일 점검일지 검색</div><br>
   <div class="form-field">
     <input type="text" id="searchBox" placeholder="검색어 입력...    예: 301호  " onkeydown="if(event.key==='Enter') searchData()">
     <button class="btn" onclick="searchData()">검색</button>
     
+  </div>
   </div>
  
   <div id="subSearchBox" style="display:none; flex-direction:column; gap:8px; margin-bottom:16px;">
