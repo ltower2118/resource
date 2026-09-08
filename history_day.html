@@ -4,245 +4,1198 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>서울숲엘타워</title>
+
 <style>
-  body { font-family: "Pretendard Variable", "Noto Sans KR", sans-serif; padding: 20px; }
-          * { box-sizing: border-box; font-family: "Pretendard Variable", Pretendard,"Noto Sans KR", -apple-system, BlinkMacSystemFont,"Malgun Gothic", Roboto, sans-serif; }
-        body { background-color: #e8ecf3; padding: 10px; margin: 0; color: #1e293b; }
-        .container { max-width: 540px; margin: 0 auto; }
-        
-        /* 헤더 섹션 */
-        .header-title { background: #01438a; color: #f8fafc; padding: 14px 10px; border-radius: 8px; text-align: center; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .emergency-banner { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 0.9rem; margin-bottom: 12px; }
-       
-          /* 메인 영역 */
-        main {
-        margin-top: 0px; /* 헤더 높이만큼 여백 */
-        padding: 1rem;
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
-        /* height와 overflow 제거 → body가 스크롤 담당 */
-        }
-  .box{
-  background:#ffffff;
-    width: 90%
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:20px;
-  margin-bottom:11px;
-}
-  
+  * {
+    box-sizing: border-box;
+    font-family: "Pretendard Variable", Pretendard, "Noto Sans KR",
+                 -apple-system, BlinkMacSystemFont, "Malgun Gothic",
+                 Roboto, sans-serif;
+  }
+
+  body {
+    background-color: #e8ecf3;
+    padding: 10px;
+    margin: 0;
+    color: #1e293b;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
   /* 상단 앱바 */
-          header {
+  header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 60px;
     background-color: white;
-    border-bottom: 1px solid #d5d5d5; /* 사방 테두리(border) 대신 하단 테두리만 설정 */
+    border-bottom: 1px solid #d5d5d5;
     color: black;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    box-shadow: 0 0px 0px rgba(0,0,0,0.1);
     z-index: 1000;
   }
-          header h1 {
-          font-size: 20px;
-          font-weight: 700;
-        }
 
-        header .icon {
-          font-size: 22px;
-        }
-           .title {
-          font-weight: bold;
-          font-size: 1.5rem;
-             text-align: center; 
-          color: #1e3a8a;
-        }
-          .title2 {
-          font-weight: bold;
-          font-size: 1.3rem;
-          color: #1e3a8a;
-        }
-        .text {
-          font-size: 0.9rem;
-          color: #444;
-        }
-         .section-title {
-          font-weight: bold;
-          font-size: 1.1rem;
-          color: #1e3a8a;
-        }
-  .form-field { display: flex; gap: 8px; margin-bottom: 16px; }
-  .form-field input { flex: 1; padding: 9px 10px; border: 1px solid #dfe3e2; border-radius: 4px; font-size: 1.0rem; }
-  .btn { background: #1e3a8a; color: #fff; border: none; padding: 10px 18px; border-radius: 4px; font-size: 1.0rem; font-weight: 700; cursor: pointer; }
-  .btn:hover { background: #527cf6; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; border-bottom: 2px solid #1c2b39; padding: 8px; }
-  td { padding: 10px 8px; border-bottom: 1px solid #bebebe; vertical-align: top; }
-  mark { background: #fdecc8; }
-   /* foot 섹션 */
-        .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
+  header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .home-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  main {
+    margin-top: 70px;
+    padding: 1rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .box {
+    background: #ffffff;
+    width: 100%;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 11px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #1e3a8a;
+  }
+
+  .form-field {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .form-field input {
+    flex: 1;
+    padding: 10px 11px;
+    border: 1px solid #dfe3e2;
+    border-radius: 6px;
+    font-size: 1rem;
+    min-width: 0;
+  }
+
+  .btn {
+    background: #1e3a8a;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background: #527cf6;
+  }
+
+  .btn.gray {
+    background: #888;
+  }
+
+  /* 세부검색 */
+  #subSearchBox {
+    display: none;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  #subSearchInput {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 10px;
+    border: 1px solid #dfe3e2;
+    border-radius: 6px;
+    font-size: .95rem;
+  }
+
+  #resultCount {
+    margin-bottom: 10px;
+    color: #5c7080;
+    font-size: .95rem;
+  }
+
+  /* 결과 테이블 */
+  .result-box {
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 11px;
+  }
+
+  .table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid #dfe3e8;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: #fff;
+  }
+
+  th {
+    text-align: left;
+    border-bottom: 2px solid #1c2b39;
+    padding: 9px;
+    background: #eef2f7;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #bebebe;
+    vertical-align: top;
+    min-width: 90px;
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    min-width: 110px;
+    white-space: nowrap;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    min-width: 70px;
+    white-space: nowrap;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    min-width: 100px;
+    white-space: nowrap;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+    min-width: 520px;
+  }
+
+  th:nth-child(5),
+  td:nth-child(5) {
+    min-width: 300px;
+  }
+
+  tr:hover td {
+    background: #f8fbfd;
+  }
+
+  mark {
+    background: #fdecc8;
+  }
+
+  /* 로딩 애니메이션 */
+  .loading-box {
+    padding: 40px 20px;
+    text-align: center;
+    color: #64748b;
+  }
+
+  .loader {
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 14px;
+    border: 5px solid #dce3ea;
+    border-top-color: #01438a;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e3a8a;
+  }
+
+  .loading-sub {
+    margin-top: 6px;
+    font-size: .82rem;
+    color: #7c8795;
+  }
+
+  .loading-error {
+    color: #b42318;
+    font-weight: 700;
+  }
+
+  .copyright {
+    font-size: .9rem;
+    color: #969697;
+    margin: 0 0 12px 0;
+    padding-bottom: 6px;
+    text-align: center;
+  }
+
+  @media(max-width:700px) {
+    body {
+      padding: 6px;
+    }
+
+    main {
+      padding: .5rem;
+      margin-top: 65px;
+    }
+
+    .box {
+      padding: 12px;
+    }
+
+    .form-field {
+      flex-direction: column;
+    }
+
+    .form-field .btn {
+      width: 100%;
+    }
+
+    #subSearchBox {
+      flex-direction: column;
+    }
+
+    .title {
+      font-size: 1.3rem;
+    }
+  }
 </style>
 </head>
+
 <body>
-      <header>
-    <h1>서울숲엘타워</h1>
-    <a href="index.html" class="home-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
-      </svg>
-    </a>
-  </header><br><br><br><br>
-  <div class="box"><div class="title">일일 점검일지 검색</div><br>
-  <div class="form-field">
-    <input type="text" id="searchBox" placeholder="검색어 입력...    예: 301호  " onkeydown="if(event.key==='Enter') searchData()">
-    <button class="btn" onclick="searchData()">검색</button>
-    
+
+<header>
+  <h1>서울숲엘타워</h1>
+
+  <a href="index.html" class="home-btn">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="28"
+         height="28"
+         fill="none"
+         stroke="black"
+         stroke-width="2"
+         viewBox="0 0 24 24">
+      <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+    </svg>
+  </a>
+</header>
+
+<main>
+
+  <!-- 검색 -->
+  <div class="box">
+    <div class="title">일일 점검일지 검색</div>
+
+    <br>
+
+    <div class="form-field">
+      <input
+        type="text"
+        id="searchBox"
+        placeholder="검색어 입력... 예: 301호"
+        onkeydown="if(event.key==='Enter') searchData()"
+      >
+
+      <button
+        class="btn"
+        onclick="searchData()"
+      >
+        검색
+      </button>
+    </div>
   </div>
+
+
+  <!-- 세부검색 -->
+  <div id="subSearchBox">
+
+    <input
+      type="text"
+      id="subSearchInput"
+      placeholder="현재 검색결과 내에서 세부검색..."
+      onkeydown="if(event.key==='Enter') subSearchData()"
+    >
+
+    <button
+      class="btn"
+      onclick="subSearchData()"
+    >
+      세부검색
+    </button>
+
+    <button
+      class="btn gray"
+      onclick="resetSearch()"
+    >
+      검색초기화
+    </button>
+
   </div>
- 
-  <div id="subSearchBox" style="display:none; flex-direction:column; gap:8px; margin-bottom:16px;">
-    <input type="text" id="subSearchInput" placeholder="검색 결과 내에서 세부검색..." style="width:100%; padding:9px 10px; border:1px solid #dfe3e2; border-radius:4px; font-size:1.1rem;" onkeydown="if(event.key==='Enter') subSearchData()">
-    <button class="btn" onclick="subSearchData()">세부검색</button>
-    <button class="btn" style="background:#888;" onclick="resetSearch()">검색초기화</button>
+
+
+  <div id="resultCount"></div>
+
+
+  <!-- 검색 결과 -->
+  <div class="result-box">
+
+    <!-- 처음 데이터 로딩 -->
+    <div id="loadingBox" class="loading-box">
+
+      <div class="loader"></div>
+
+      <div class="loading-title">
+        일일 점검일지를 불러오는 중...
+      </div>
+
+      <div class="loading-sub">
+        Google Sheet 데이터를 확인하고 있습니다.
+      </div>
+
+    </div>
+
+
+    <div
+      id="tableScroll"
+      class="table-scroll"
+      style="display:none;"
+    >
+
+      <table id="logTable">
+
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>요일</th>
+            <th>작성자</th>
+            <th>업무사항</th>
+            <th>향후 추진사항</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableBody"></tbody>
+
+      </table>
+
+    </div>
+
   </div>
-  <div id="resultCount" style="margin-bottom:10px; color:#5c7080; font-size:0.95rem;"></div>
- 
-  <table id="logTable" style="display:none;">
-    <thead>
-      <tr>
-        <th>날짜</th>
-        <th>요일</th>
-        <th>작성자</th>
-        <th>업무사항</th>
-        <th>향후 추진사항</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody"></tbody>
-  </table>
-<br><br><br><div class="copyright">Made by ai & ha you sin</div><br>
-  <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/10jiv1BSN8DzlEcXxIoThB8qQi3kbnP_NNjShQLGGEs4/gviz/tq?tqx=out:json";
- 
-    // 구글 시트가 날짜 셀을 "Date(2018,1,22,0,0,0)" 형태 문자열로 주는 걸
-    // "2018.2.22" 형태로 바꿔주는 함수 (월은 0부터 시작하므로 +1 필요)
-    function parseGoogleDate(value) {
-      if (typeof value !== "string" || !value.startsWith("Date(")) {
-        return value; // 날짜 타입이 아니면 원본 그대로 반환
+
+
+  <br><br>
+
+  <div class="copyright">
+    Made by ai & ha you sin
+  </div>
+
+  <br>
+
+</main>
+
+
+<script>
+
+/* =============================================
+   Google Sheet
+   ============================================= */
+
+const sheetUrl =
+"https://docs.google.com/spreadsheets/d/10jiv1BSN8DzlEcXxIoThB8qQi3kbnP_NNjShQLGGEs4/gviz/tq?tqx=out:json";
+
+
+let allRows = [];
+
+let firstSearchResults = [];
+
+let firstKeyword = "";
+
+
+/* =============================================
+   HTML 이스케이프
+   ============================================= */
+
+function esc(value) {
+
+  return String(value ?? "")
+    .replace(
+      /[&<>"']/g,
+      c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[c])
+    );
+
+}
+
+
+/* =============================================
+   Google Date 변환
+   ============================================= */
+
+function parseGoogleDate(value) {
+
+  if(
+    typeof value !== "string" ||
+    !value.startsWith("Date(")
+  ) {
+    return value;
+  }
+
+  const matched =
+    value.match(/\d+/g);
+
+  if(!matched) {
+    return value;
+  }
+
+  const nums =
+    matched.map(Number);
+
+  const [
+    y,
+    m,
+    d
+  ] = nums;
+
+
+  return (
+    y +
+    "." +
+    (m + 1) +
+    "." +
+    d
+  );
+
+}
+
+
+/* =============================================
+   업무내용 번호 줄바꿈
+   ============================================= */
+
+function formatTasks(text) {
+
+  if(!text) {
+    return "";
+  }
+
+  return esc(text)
+    .replace(
+      /(\d+\.)/g,
+      "<br>$1"
+    )
+    .replace(
+      /^<br>/,
+      ""
+    );
+
+}
+
+
+/* =============================================
+   검색어 정규식 보호
+   ============================================= */
+
+function escapeRegExp(text) {
+
+  return String(text)
+    .replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+
+}
+
+
+/* =============================================
+   검색어 강조
+   ============================================= */
+
+function highlightText(text, keyword) {
+
+  let value =
+    String(text ?? "");
+
+
+  if(!keyword) {
+    return value;
+  }
+
+
+  const safeKeyword =
+    escapeRegExp(keyword);
+
+
+  const regex =
+    new RegExp(
+      "(" +
+      safeKeyword +
+      ")",
+      "gi"
+    );
+
+
+  return value.replace(
+    regex,
+    "<mark>$1</mark>"
+  );
+
+}
+
+
+/* =============================================
+   Google Sheet 전체 데이터 읽기
+   최초 한 번만 fetch
+   ============================================= */
+
+async function loadAllRows() {
+
+  if(
+    allRows.length > 0
+  ) {
+
+    return allRows;
+
+  }
+
+
+  const res =
+    await fetch(
+      sheetUrl,
+      {
+        cache:"no-store"
       }
-      const nums = value.match(/\d+/g).map(Number);
-      const [y, m, d] = nums; // m은 0-indexed
-      return `${y}.${m + 1}.${d}`;
+    );
+
+
+  if(!res.ok) {
+
+    throw new Error(
+      "HTTP " +
+      res.status
+    );
+
+  }
+
+
+  const text =
+    await res.text();
+
+
+  /*
+   * GViz 응답:
+   * google.visualization.Query.setResponse(...)
+   */
+
+  const start =
+    text.indexOf("{");
+
+
+  const end =
+    text.lastIndexOf("}");
+
+
+  if(
+    start < 0 ||
+    end < 0
+  ) {
+
+    throw new Error(
+      "Google Sheet 응답을 해석할 수 없습니다."
+    );
+
+  }
+
+
+  const json =
+    JSON.parse(
+      text.substring(
+        start,
+        end + 1
+      )
+    );
+
+
+  const rows =
+    json?.table?.rows || [];
+
+
+  allRows =
+    rows.map(
+      r => ({
+
+        date:
+          parseGoogleDate(
+            r.c?.[0]?.v || ""
+          ),
+
+        day:
+          r.c?.[1]?.v || "",
+
+        author:
+          r.c?.[2]?.v || "",
+
+        task:
+          r.c?.[3]?.v || "",
+
+        next:
+          r.c?.[4]?.v || ""
+
+      })
+    );
+
+
+  return allRows;
+
+}
+
+
+/* =============================================
+   행 검색
+   ============================================= */
+
+function rowMatches(
+  row,
+  keyword
+) {
+
+  if(
+    !keyword
+  ) {
+
+    return true;
+
+  }
+
+
+  const rowText = (
+
+    row.date +
+    " " +
+
+    row.day +
+    " " +
+
+    row.author +
+    " " +
+
+    row.task +
+    " " +
+
+    row.next
+
+  ).toLowerCase();
+
+
+  return rowText.includes(
+    keyword.toLowerCase()
+  );
+
+}
+
+
+/* =============================================
+   테이블 표시
+   ============================================= */
+
+function renderRows(
+  rows,
+  keywords
+) {
+
+  let html = "";
+
+
+  rows.forEach(
+    row => {
+
+      let dateHtml =
+        esc(row.date);
+
+      let dayHtml =
+        esc(row.day);
+
+      let authorHtml =
+        esc(row.author);
+
+      let taskHtml =
+        formatTasks(
+          row.task
+        );
+
+      let nextHtml =
+        esc(row.next);
+
+
+      keywords.forEach(
+        kw => {
+
+          if(!kw) {
+            return;
+          }
+
+
+          dateHtml =
+            highlightText(
+              dateHtml,
+              kw
+            );
+
+
+          dayHtml =
+            highlightText(
+              dayHtml,
+              kw
+            );
+
+
+          authorHtml =
+            highlightText(
+              authorHtml,
+              kw
+            );
+
+
+          taskHtml =
+            highlightText(
+              taskHtml,
+              kw
+            );
+
+
+          nextHtml =
+            highlightText(
+              nextHtml,
+              kw
+            );
+
+        }
+      );
+
+
+      html += `
+
+        <tr>
+
+          <td>
+            ${dateHtml}
+          </td>
+
+          <td>
+            ${dayHtml}
+          </td>
+
+          <td>
+            ${authorHtml}
+          </td>
+
+          <td>
+            ${taskHtml}
+          </td>
+
+          <td>
+            ${nextHtml}
+          </td>
+
+        </tr>
+
+      `;
+
     }
- 
-    function formatTasks(text) {
-      if (!text) return "";
-      // 각 번호(1. 2. 3. ...) 앞에 줄바꿈을 넣어 항목별로 줄이 나뉘게 함
-      return String(text).replace(/(\d+\.)/g, "<br>$1").replace(/^<br>/, "");
-    }
- 
-    function highlightText(text, keyword) {
-      if (!keyword) return text;
-      const regex = new RegExp(`(${keyword})`, "gi");
-      return String(text).replace(regex, "<mark>$1</mark>");
-    }
- 
-    // 시트 전체 데이터를 파싱해서 배열로 보관 (매 검색마다 다시 fetch하지 않도록)
-    let allRows = [];
-    let firstSearchResults = []; // 1차 검색 결과 (세부검색의 대상이 됨)
-    let firstKeyword = "";
- 
-    function loadAllRows() {
-      if (allRows.length > 0) {
-        return Promise.resolve(allRows);
-      }
-      return fetch(sheetUrl)
-        .then(res => res.text())
-        .then(data => {
-          const json = JSON.parse(data.substr(47).slice(0, -2));
-          allRows = json.table.rows.map(r => ({
-            date: parseGoogleDate(r.c[0]?.v || ""),
-            day: r.c[1]?.v || "",
-            author: r.c[2]?.v || "",
-            task: r.c[3]?.v || "",
-            next: r.c[4]?.v || ""
-          }));
-          return allRows;
-        });
-    }
- 
-    function rowMatches(row, keyword) {
-      const rowText = `${row.date} ${row.day} ${row.author} ${row.task} ${row.next}`.toLowerCase();
-      return rowText.includes(keyword);
-    }
- 
-    function renderRows(rows, keywords) {
-      let html = "";
-      rows.forEach(row => {
-        let dateHtml = row.date, dayHtml = row.day, authorHtml = row.author,
-            taskHtml = formatTasks(row.task), nextHtml = row.next;
-        keywords.forEach(kw => {
-          if (!kw) return;
-          dateHtml = highlightText(dateHtml, kw);
-          dayHtml = highlightText(dayHtml, kw);
-          authorHtml = highlightText(authorHtml, kw);
-          taskHtml = highlightText(taskHtml, kw);
-          nextHtml = highlightText(nextHtml, kw);
-        });
-        html += `<tr>
-          <td>${dateHtml}</td>
-          <td>${dayHtml}</td>
-          <td>${authorHtml}</td>
-          <td>${taskHtml}</td>
-          <td>${nextHtml}</td>
-        </tr>`;
-      });
-      document.getElementById("tableBody").innerHTML = html;
-      document.getElementById("logTable").style.display = html ? "table" : "none";
-      document.getElementById("resultCount").textContent = rows.length ? `검색결과 ${rows.length}건` : "검색결과 없음";
-    }
- 
-    function searchData() {
-      const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
-      firstKeyword = keyword;
-      loadAllRows().then(rows => {
-        firstSearchResults = rows.filter(row => rowMatches(row, keyword));
-        renderRows(firstSearchResults, [keyword]);
-        // 결과가 있으면 세부검색창 표시, 세부검색 입력값 초기화
-        document.getElementById("subSearchInput").value = "";
-        document.getElementById("subSearchBox").style.display = firstSearchResults.length ? "flex" : "none";
-      });
-    }
- 
-    function subSearchData() {
-      const subKeyword = document.getElementById("subSearchInput").value.trim().toLowerCase();
-      const filtered = subKeyword
-        ? firstSearchResults.filter(row => rowMatches(row, subKeyword))
-        : firstSearchResults;
-      renderRows(filtered, [firstKeyword, subKeyword]);
-    }
- 
-    function resetSubSearch() {
-      document.getElementById("subSearchInput").value = "";
-      renderRows(firstSearchResults, [firstKeyword]);
-    }
- 
-    function resetSearch() {
-      // 검색어, 결과, 세부검색창까지 전부 지우고 초기 화면으로 되돌림
-      document.getElementById("searchBox").value = "";
-      document.getElementById("subSearchInput").value = "";
-      document.getElementById("subSearchBox").style.display = "none";
-      document.getElementById("tableBody").innerHTML = "";
-      document.getElementById("logTable").style.display = "none";
-      document.getElementById("resultCount").textContent = "";
-      firstSearchResults = [];
-      firstKeyword = "";
-    }
-  </script>
+  );
+
+
+  document.getElementById(
+    "tableBody"
+  ).innerHTML =
+    html;
+
+
+  document.getElementById(
+    "tableScroll"
+  ).style.display =
+    rows.length
+      ? "block"
+      : "none";
+
+
+  document.getElementById(
+    "resultCount"
+  ).textContent =
+
+    rows.length
+
+      ?
+
+      "검색결과 " +
+      rows.length +
+      "건"
+
+      :
+
+      "검색결과 없음";
+
+}
+
+
+/* =============================================
+   처음 페이지 접속
+   전체 데이터 자동 표시
+   ============================================= */
+
+async function initialLoad() {
+
+  const loading =
+    document.getElementById(
+      "loadingBox"
+    );
+
+
+  loading.style.display =
+    "block";
+
+
+  document.getElementById(
+    "tableScroll"
+  ).style.display =
+    "none";
+
+
+  try {
+
+    const rows =
+      await loadAllRows();
+
+
+    /*
+     * 검색 전에는 전체 데이터를
+     * 1차 검색결과로 설정
+     */
+
+    firstSearchResults =
+      rows;
+
+
+    firstKeyword =
+      "";
+
+
+    renderRows(
+      rows,
+      []
+    );
+
+
+    /*
+     * 전체 데이터가 있으므로
+     * 바로 세부검색 사용 가능
+     */
+
+    document.getElementById(
+      "subSearchBox"
+    ).style.display =
+      rows.length
+        ? "flex"
+        : "none";
+
+
+    document.getElementById(
+      "subSearchInput"
+    ).value =
+      "";
+
+
+    loading.style.display =
+      "none";
+
+
+  }
+  catch(error) {
+
+    console.error(
+      error
+    );
+
+
+    loading.innerHTML = `
+
+      <div
+        style="
+          font-size:32px;
+          margin-bottom:8px;
+          color:#b42318;
+        "
+      >
+        ⚠
+      </div>
+
+      <div class="loading-error">
+
+        데이터 불러오기 실패
+
+      </div>
+
+      <div
+        style="
+          margin-top:7px;
+          font-size:12px;
+          color:#64748b;
+        "
+      >
+
+        ${esc(
+          error.message
+        )}
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =============================================
+   1차 검색
+   ============================================= */
+
+async function searchData() {
+
+  const keyword =
+    document
+      .getElementById(
+        "searchBox"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  firstKeyword =
+    keyword;
+
+
+  try {
+
+    const rows =
+      await loadAllRows();
+
+
+    /*
+     * 검색어가 비어있으면 전체표시
+     */
+
+    firstSearchResults =
+
+      keyword
+
+        ?
+
+        rows.filter(
+          row =>
+            rowMatches(
+              row,
+              keyword
+            )
+        )
+
+        :
+
+        rows;
+
+
+    renderRows(
+
+      firstSearchResults,
+
+      keyword
+        ? [keyword]
+        : []
+
+    );
+
+
+    document.getElementById(
+      "subSearchInput"
+    ).value =
+      "";
+
+
+    document.getElementById(
+      "subSearchBox"
+    ).style.display =
+
+      firstSearchResults.length
+
+        ?
+
+        "flex"
+
+        :
+
+        "none";
+
+
+  }
+  catch(error) {
+
+    alert(
+      "검색 실패: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =============================================
+   결과 내 세부검색
+   ============================================= */
+
+function subSearchData() {
+
+  const subKeyword =
+
+    document
+      .getElementById(
+        "subSearchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const filtered =
+
+    subKeyword
+
+      ?
+
+      firstSearchResults.filter(
+        row =>
+          rowMatches(
+            row,
+            subKeyword
+          )
+      )
+
+      :
+
+      firstSearchResults;
+
+
+  renderRows(
+
+    filtered,
+
+    [
+      firstKeyword,
+      subKeyword
+    ]
+
+  );
+
+}
+
+
+/* =============================================
+   검색 초기화
+   초기 상태 = 전체 데이터 표시
+   ============================================= */
+
+function resetSearch() {
+
+  document.getElementById(
+    "searchBox"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "subSearchInput"
+  ).value =
+    "";
+
+
+  firstSearchResults =
+    allRows;
+
+
+  firstKeyword =
+    "";
+
+
+  renderRows(
+    allRows,
+    []
+  );
+
+
+  document.getElementById(
+    "subSearchBox"
+  ).style.display =
+
+    allRows.length
+
+      ?
+
+      "flex"
+
+      :
+
+      "none";
+
+}
+
+
+/* =============================================
+   시작
+   ============================================= */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  initialLoad
+);
+
+</script>
+
 </body>
 </html>
