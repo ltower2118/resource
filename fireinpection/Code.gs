@@ -1,57 +1,172 @@
 /**
- * 서울숲엘타워 소방점검 DB - Google Apps Script API
- * 대상 시트: 검색용_DB
+ * 서울숲엘타워 소방점검 통합DB API
  *
- * 배포:
- * 1) 구글시트 > 확장 프로그램 > Apps Script
- * 2) 이 파일을 Code.gs에 붙여넣고 저장
- * 3) 배포 > 새 배포 > 웹 앱
- * 4) 실행 사용자: 나 / 액세스 권한: 링크를 가진 모든 사용자(또는 사용 가능한 공개 옵션)
- * 5) 배포된 /exec URL을 GitHub index.html의 APP_SCRIPT_URL에 입력
+ * 대상:
+ * 서울숲엘타워_소방점검_2017_2025_통합DB_AI
+ * └─ 전체DB
+ *
+ * 특징:
+ * - 전체DB 마지막 행까지 자동 조회
+ * - 2026, 2027, 2028... 추가해도 자동 반영
+ * - 연도 제한 없음
+ * - 빈 행 자동 제외
  */
 
-const SHEET_NAME = '검색용_DB';
+const SHEET_ID = '여기에_통합DB_구글시트_ID';
+const SHEET_NAME = '전체DB';
 
 function doGet(e) {
   try {
     const result = getFireInspectionData_();
+
     return ContentService
       .createTextOutput(JSON.stringify(result))
       .setMimeType(ContentService.MimeType.JSON);
+
   } catch (err) {
+
     return ContentService
       .createTextOutput(JSON.stringify({
         ok: false,
-        error: String(err && err.message ? err.message : err)
+        error: String(
+          err && err.message
+            ? err.message
+            : err
+        )
       }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
+
 function getFireInspectionData_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  /* 지정한 Google 시트를 직접 엽니다. */
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+
   const sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) throw new Error('시트 "' + SHEET_NAME + '"을 찾을 수 없습니다.');
 
-  const values = sheet.getDataRange().getDisplayValues();
-  if (values.length < 1) return { ok:true, headers:[], data:[], count:0 };
+  if (!sheet) {
+    throw new Error(
+      '시트 "' +
+      SHEET_NAME +
+      '"을 찾을 수 없습니다.'
+    );
+  }
 
-  const headers = values[0].map(v => String(v).trim());
-  const data = values.slice(1)
-    .filter(row => row.some(v => String(v).trim() !== ''))
-    .map(row => {
+
+  /* 실제 데이터 마지막 행/열 */
+  const lastRow = sheet.getLastRow();
+  const lastColumn = sheet.getLastColumn();
+
+
+  if (lastRow < 1 || lastColumn < 1) {
+    return {
+      ok: true,
+      title: ss.getName(),
+      sheet: SHEET_NAME,
+      headers: [],
+      data: [],
+      count: 0
+    };
+  }
+
+
+  /*
+   * A1부터 실제 마지막 행/열까지 읽습니다.
+   *
+   * 2026 이후 자료를 추가해도
+   * 자동으로 범위가 늘어납니다.
+   */
+  const values = sheet
+    .getRange(
+      1,
+      1,
+      lastRow,
+      lastColumn
+    )
+    .getDisplayValues();
+
+
+  /* 첫 번째 행 = 제목 */
+  const headers = values[0].map(function(v) {
+    return String(v).trim();
+  });
+
+
+  /*
+   * 데이터 변환
+   *
+   * 빈 행은 제외
+   */
+  const data = values
+    .slice(1)
+
+    .filter(function(row) {
+
+      return row.some(function(v) {
+        return String(v).trim() !== '';
+      });
+
+    })
+
+    .map(function(row) {
+
       const obj = {};
-      headers.forEach((h, i) => obj[h] = row[i] || '');
+
+      headers.forEach(function(h, i) {
+
+        if (!h) return;
+
+        obj[h] =
+          row[i] !== undefined
+            ? row[i]
+            : '';
+
+      });
+
       return obj;
+
     });
 
+
+  /*
+   * 실제 포함된 연도 확인
+   */
+  const years = [
+    ...new Set(
+      data
+        .map(function(x) {
+          return String(x['연도'] || '').trim();
+        })
+        .filter(Boolean)
+    )
+  ].sort(function(a, b) {
+    return Number(a) - Number(b);
+  });
+
+
   return {
+
     ok: true,
+
     title: ss.getName(),
+
     sheet: SHEET_NAME,
-    updatedAt: Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss'),
+
+    updatedAt: Utilities.formatDate(
+      new Date(),
+      'Asia/Seoul',
+      'yyyy-MM-dd HH:mm:ss'
+    ),
+
     headers: headers,
+
     count: data.length,
+
+    years: years,
+
     data: data
+
   };
 }
