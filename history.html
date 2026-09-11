@@ -305,6 +305,120 @@
     margin-bottom: 18px;
   }
 
+
+  /* ---------- 이력조회 테이블 내부 스크롤 ---------- */
+  .history-table-wrap{
+    width:100%;
+    max-height:58vh;
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+    border:1px solid var(--color-line);
+    border-radius:6px;
+    background:#fff;
+    position:relative;
+  }
+
+  .history-table-wrap table.data-table{
+    min-width:980px;
+  }
+
+  .history-table-wrap table.data-table thead th{
+    position:sticky;
+    top:0;
+    z-index:3;
+    background:#f3f6f9;
+  }
+
+  /* ---------- 로딩 애니메이션 ---------- */
+  .loading-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:rgba(20,32,48,.38);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+
+  .loading-overlay.show{
+    display:flex;
+  }
+
+  .loading-card{
+    min-width:220px;
+    max-width:90vw;
+    padding:24px 26px;
+    border-radius:12px;
+    background:#fff;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+  }
+
+  .loader{
+    width:46px;
+    height:46px;
+    margin:0 auto 13px;
+    border:5px solid #dce3ea;
+    border-top-color:#1e3a8a;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+  }
+
+  @keyframes spin{
+    to{transform:rotate(360deg);}
+  }
+
+  .loading-title{
+    font-size:1rem;
+    font-weight:700;
+    color:#1e3a8a;
+  }
+
+  .loading-sub{
+    margin-top:6px;
+    font-size:.82rem;
+    color:#6b7280;
+  }
+
+  /* ---------- 테이블 내부 맨 위로 버튼 ---------- */
+  .history-top-btn{
+    position:fixed;
+    right:16px;
+    bottom:18px;
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:50%;
+    background:#1e3a8a;
+    color:#fff;
+    font-size:22px;
+    font-weight:700;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.24);
+    z-index:10000;
+  }
+
+  .history-top-btn.show{
+    display:flex;
+  }
+
+  @media(max-width:700px){
+    .history-table-wrap{
+      max-height:62vh;
+    }
+
+    .history-top-btn{
+      right:12px;
+      bottom:14px;
+      width:42px;
+      height:42px;
+    }
+  }
+
    /* foot 섹션 */
         .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
 </style>
@@ -415,29 +529,88 @@
     <input type="search" id="searchBox" placeholder="위치/작업내용/작업자 검색" style="min-width:220px">
     <button class="btn secondary" id="refreshBtn" type="button">새로고침</button>
   </div>
-  <table class="data-table">
-    <thead>
-      <tr>
-        <th>날짜</th>
-        <th>구분</th>
-        <th>위치 / 내용</th>
-        <th>작업내용</th>
-        <th>작업자</th>
-        <th>비고</th>
-      </tr>
-    </thead>
-    <tbody id="listBody"></tbody>
-  </table></div>
+  <div class="history-table-wrap" id="historyTableWrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>날짜</th>
+          <th>구분</th>
+          <th>위치 / 내용</th>
+          <th>작업내용</th>
+          <th>작업자</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody id="listBody"></tbody>
+    </table>
+  </div>
+</div>
   </main>
   <div class="empty-state" id="emptyState" style="display:none;">등록된 이력이 없습니다.</div>
 
 
 <br><br><br><div class="copyright">Made by ai & ha you sin</div><br>
 
+
+<div id="loadingOverlay" class="loading-overlay" aria-live="polite" aria-busy="true">
+  <div class="loading-card">
+    <div class="loader"></div>
+    <div id="loadingTitle" class="loading-title">이력 불러오는 중...</div>
+    <div id="loadingSub" class="loading-sub">잠시만 기다려 주세요.</div>
+  </div>
+</div>
+
+<button
+  id="historyTopBtn"
+  class="history-top-btn"
+  type="button"
+  aria-label="이력 테이블 맨 위로 이동"
+  onclick="scrollHistoryTop()"
+>↑</button>
+
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweYKQzJozN4HtV1HZbnFtbM7FcqTz491aK-EnRmEBVk_NflVxD7fxMAs8740prwVgZ-g/exec";
 
 const badgeClass = { "전기": "elec", "소방": "fire", "통신": "comm", "기계": "mech", "기타": "" };
+
+
+function showLoading(title, sub) {
+  const overlay = document.getElementById('loadingOverlay');
+  const titleEl = document.getElementById('loadingTitle');
+  const subEl = document.getElementById('loadingSub');
+
+  if (titleEl) titleEl.textContent = title || '처리 중...';
+  if (subEl) subEl.textContent = sub || '잠시만 기다려 주세요.';
+  if (overlay) overlay.classList.add('show');
+}
+
+function hideLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  if (overlay) overlay.classList.remove('show');
+}
+
+function scrollHistoryTop() {
+  const wrap = document.getElementById('historyTableWrap');
+  if (!wrap) return;
+
+  wrap.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+function updateHistoryTopBtn() {
+  const wrap = document.getElementById('historyTableWrap');
+  const btn = document.getElementById('historyTopBtn');
+
+  if (!wrap || !btn) return;
+
+  if (wrap.scrollTop > 120) {
+    btn.classList.add('show');
+  } else {
+    btn.classList.remove('show');
+  }
+}
 
 function formatDateOnly(value) {
   if (!value) return '';
@@ -465,10 +638,16 @@ let allRows = [];
 async function loadHistory() {
   const listBody = document.getElementById('listBody');
   const emptyState = document.getElementById('emptyState');
+
+  showLoading(
+    '이력 불러오는 중...',
+    'Google Sheet 작업이력을 확인하고 있습니다.'
+  );
   if (!isConfigured()) {
     listBody.innerHTML = '';
     emptyState.style.display = 'block';
     emptyState.textContent = 'SCRIPT_URL 설정 후 이력이 표시됩니다.';
+    hideLoading();
     return;
   }
   try {
@@ -481,6 +660,8 @@ async function loadHistory() {
     listBody.innerHTML = '';
     emptyState.style.display = 'block';
     emptyState.textContent = '이력을 불러오지 못했습니다 (' + err.message + ')';
+  } finally {
+    hideLoading();
   }
 }
 
@@ -549,6 +730,11 @@ document.getElementById('historyForm').addEventListener('submit', async function
   statusEl.className = 'status-msg pending';
   statusEl.textContent = '저장 중...';
 
+  showLoading(
+    '작업이력 저장 중...',
+    'Google Sheet에 내용을 저장하고 있습니다.'
+  );
+
   try {
     const res = await fetch(SCRIPT_URL, {
       method: 'POST',
@@ -566,8 +752,24 @@ document.getElementById('historyForm').addEventListener('submit', async function
     statusEl.className = 'status-msg err';
     statusEl.textContent = '저장 중 오류가 발생했습니다: ' + err.message;
   } finally {
+    hideLoading();
     submitBtn.disabled = false;
   }
+});
+
+// 이력 테이블 내부 스크롤 감지
+window.addEventListener('DOMContentLoaded', function () {
+  const wrap = document.getElementById('historyTableWrap');
+
+  if (wrap) {
+    wrap.addEventListener(
+      'scroll',
+      updateHistoryTopBtn,
+      { passive: true }
+    );
+  }
+
+  updateHistoryTopBtn();
 });
 
 // 초기화
