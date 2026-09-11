@@ -211,6 +211,36 @@ mark{
   color:#7a8793;
 }
 
+
+/* 우측 하단 맨 위로 이동 버튼 */
+.top-btn{
+  position:fixed;
+  right:18px;
+  bottom:22px;
+  width:44px;
+  height:44px;
+  border:none;
+  border-radius:50%;
+  background:#0e2568;
+  color:#fff;
+  font-size:22px;
+  font-weight:700;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.22);
+  z-index:1500;
+}
+
+.top-btn.show{
+  display:flex;
+}
+
+.top-btn:hover{
+  opacity:.92;
+}
+
 /* 모바일 */
 @media(max-width:800px){
 
@@ -231,6 +261,13 @@ mark{
   }
 
   .loader{
+    width:42px;
+    height:42px;
+  }
+
+  .top-btn{
+    right:12px;
+    bottom:16px;
     width:42px;
     height:42px;
   }
@@ -431,6 +468,17 @@ Apps Script URL을 코드에 직접 넣기 때문에
 </div>
 
 </main>
+
+
+<button
+  id="topBtn"
+  class="top-btn"
+  type="button"
+  aria-label="맨 위로 이동"
+  onclick="scrollToTop()"
+>
+  ↑
+</button>
 
 
 <script>
@@ -1087,6 +1135,38 @@ function exportCsv(){
   );
 
 }
+
+
+/* =========================================
+   맨 위로 이동 버튼
+   ========================================= */
+
+function scrollToTop(){
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+}
+
+function updateTopButton(){
+  const btn=document.getElementById('topBtn');
+
+  if(!btn){
+    return;
+  }
+
+  if(window.scrollY > 350){
+    btn.classList.add('show');
+  }else{
+    btn.classList.remove('show');
+  }
+}
+
+window.addEventListener(
+  'scroll',
+  updateTopButton,
+  {passive:true}
+);
 
 
 /* =========================================
