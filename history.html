@@ -99,16 +99,12 @@
   .panel {
     background: var(--color-surface);
     border-radius: var(--radius);
-    padding: 18px 18px 18px;
+    padding: 18px 10px 18px;
     margin-bottom: 22px;
     border: 1px solid rgba(0, 0, 0, 0.20);
   }
 
-  .panel_wide {
-    background: #f1f1f1;
-    padding: 18px 22px 18px;
-    margin-bottom: 22px;
-  }
+ 
 
   .form-grid {
     display: grid;
@@ -343,7 +339,7 @@
       <div class="form-grid">
         <div class="form-field">
           <label for="date">날짜*</label>
-          <div style="height: 3px; background-color: #383434; margin: 0px 0;"></div>
+         
           
           <!-- 우측 날짜 선택 도구 아이콘 포함 패널 -->
           <div class="date-input-wrapper">
@@ -364,7 +360,7 @@
 
         <div class="form-field">
           <label for="category">구분*</label>
-          <div style="height: 1px; background-color: #383434; margin: 0px 0;"></div>
+         
           <select id="category" required>
             <option value="">선택</option>
             <option value="전기">전기</option>
@@ -377,22 +373,22 @@
         
         <div class="form-field">
           <label for="location">위치 / 내용*</label>
-          <div style="height: 1px; background-color: #383434; margin: 0px 0;"></div>
+          
           <input type="text" id="location" placeholder="예: 옥상 / 전기실 / 지하2층 주차장" required>
         </div>
         <div class="form-field full">
           <label for="content">작업내용*</label>
-          <div style="height: 1px; background-color: #383434; margin: 0px 0;"></div>
+         <!--  라인 <div style="height: 1px; background-color: #383434; margin: 0px 0;"></div>  -->
           <textarea id="content" placeholder="점검/고장/조치 내용을 입력하세요" required></textarea>
         </div>
         <div class="form-field">
           <label for="handler">작업자*</label>
-          <div style="height: 1px; background-color: #383434; margin: 0px 0;"></div>
+       
           <input type="text" id="handler" placeholder="예: 홍길동" required>
         </div>
         <div class="form-field full">
           <label for="note">비고</label>
-          <div style="height: 1px; background-color: #383434; margin: 0px 0;"></div>
+          
           <textarea id="note" placeholder="특이사항, 후속조치 필요 여부 등 (선택)"></textarea>
         </div>
       </div>
@@ -402,9 +398,8 @@
       <div class="status-msg" id="formStatus"></div>
     </form>
   </div>
-</main>
 
-<div class="panel_wide" style="max-width: 1080px; margin: 0 auto 22px;">
+<div class="panel">
   <div class="title">이력조회하기</div>
   <p class="text2">아래 목록에서 바로 조회할 수 있습니다.</p>
   <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div>
@@ -432,9 +427,10 @@
       </tr>
     </thead>
     <tbody id="listBody"></tbody>
-  </table>
+  </table></div>
+  </main>
   <div class="empty-state" id="emptyState" style="display:none;">등록된 이력이 없습니다.</div>
-</div>
+
 
 <br><br><br><div class="copyright">Made by ai & ha you sin</div><br>
 
