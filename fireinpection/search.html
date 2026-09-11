@@ -230,7 +230,8 @@ mark{
   align-items:center;
   justify-content:center;
   box-shadow:0 4px 12px rgba(0,0,0,.22);
-  z-index:1500;
+  z-index:9999;
+  opacity:.94;
 }
 
 .top-btn.show{
@@ -1141,7 +1142,21 @@ function exportCsv(){
    맨 위로 이동 버튼
    ========================================= */
 
+function getTableScroller(){
+  return document.querySelector('.tablewrap');
+}
+
 function scrollToTop(){
+  const scroller=getTableScroller();
+
+  if(scroller && scroller.scrollTop > 0){
+    scroller.scrollTo({
+      top:0,
+      behavior:'smooth'
+    });
+    return;
+  }
+
   window.scrollTo({
     top:0,
     behavior:'smooth'
@@ -1150,12 +1165,19 @@ function scrollToTop(){
 
 function updateTopButton(){
   const btn=document.getElementById('topBtn');
+  const scroller=getTableScroller();
 
   if(!btn){
     return;
   }
 
-  if(window.scrollY > 350){
+  const tableScrolled =
+    scroller ? scroller.scrollTop > 120 : false;
+
+  const pageScrolled =
+    window.scrollY > 350;
+
+  if(tableScrolled || pageScrolled){
     btn.classList.add('show');
   }else{
     btn.classList.remove('show');
@@ -1166,6 +1188,23 @@ window.addEventListener(
   'scroll',
   updateTopButton,
   {passive:true}
+);
+
+window.addEventListener(
+  'DOMContentLoaded',
+  ()=>{
+    const scroller=getTableScroller();
+
+    if(scroller){
+      scroller.addEventListener(
+        'scroll',
+        updateTopButton,
+        {passive:true}
+      );
+    }
+
+    updateTopButton();
+  }
 );
 
 
