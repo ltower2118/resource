@@ -376,7 +376,7 @@
 
   <!-- 검색 -->
   <div class="box">
-    <div class="title">일일 점검일지 검색top</div>
+    <div class="title">일일 점검일지 검색</div>
 
     <br>
 
@@ -396,6 +396,14 @@
       </button>
     </div>
  
+
+
+    <!-- 연도 선택 -->
+    <div class="filter-row">
+      <select id="yearSelect" class="year-select" onchange="applyYearFilter()">
+        <option value="">전체 연도</option>
+      </select>
+    </div>
 
   <!-- 세부검색 -->
    <div id="subSearchBox">
@@ -757,6 +765,12 @@ function getYearFromDate(dateText) {
 
 function populateYearSelect(rows) {
   const select = document.getElementById("yearSelect");
+
+  if(!select) {
+    console.warn("yearSelect 요소를 찾을 수 없습니다.");
+    return;
+  }
+
   const years = [...new Set(
     rows.map(r => getYearFromDate(r.date)).filter(Boolean)
   )].sort((a,b)=>Number(b)-Number(a));
@@ -776,7 +790,10 @@ function filterByYear(rows) {
 }
 
 function applyYearFilter() {
-  selectedYear = document.getElementById("yearSelect").value;
+  const yearSelect = document.getElementById("yearSelect");
+  if(!yearSelect) return;
+
+  selectedYear = yearSelect.value;
 
   const keyword =
     document.getElementById("searchBox").value.trim().toLowerCase();
