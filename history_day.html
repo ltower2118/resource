@@ -255,6 +255,48 @@
     font-weight: 700;
   }
 
+
+  .filter-row {
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+
+  .year-select {
+    min-width:150px;
+    padding:10px 11px;
+    border:1px solid #dfe3e2;
+    border-radius:6px;
+    font-size:0.95rem;
+    background:#fff;
+    color:#1e293b;
+  }
+
+  .top-btn {
+    position:fixed;
+    right:18px;
+    bottom:22px;
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:50%;
+    background:#1e3a8a;
+    color:#fff;
+    font-size:22px;
+    font-weight:700;
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.22);
+    z-index:1500;
+  }
+
+  .top-btn.show { display:flex; }
+  .top-btn:hover { background:#527cf6; }
+
   .copyright {
     font-size: .9rem;
     color: #969697;
@@ -291,6 +333,22 @@
 
     .title {
       font-size: 1.3rem;
+    }
+
+    .filter-row {
+      flex-direction:column;
+      align-items:stretch;
+    }
+
+    .year-select {
+      width:100%;
+    }
+
+    .top-btn {
+      right:12px;
+      bottom:16px;
+      width:42px;
+      height:42px;
     }
   }
 </style>
@@ -425,6 +483,7 @@
 
 </main>
 
+<button id="topBtn" class="top-btn" type="button" aria-label="맨 위로 이동" onclick="scrollToTop()">↑</button>
 
 <script>
 
@@ -441,6 +500,7 @@ let allRows = [];
 let firstSearchResults = [];
 
 let firstKeyword = "";
+let selectedYear = "";
 
 
 /* =============================================
@@ -687,6 +747,60 @@ async function loadAllRows() {
 
 
 /* =============================================
+   연도 필터
+   ============================================= */
+
+function getYearFromDate(dateText) {
+  const m = String(dateText || "").match(/(19|20)\d{2}/);
+  return m ? m[0] : "";
+}
+
+function populateYearSelect(rows) {
+  const select = document.getElementById("yearSelect");
+  const years = [...new Set(
+    rows.map(r => getYearFromDate(r.date)).filter(Boolean)
+  )].sort((a,b)=>Number(b)-Number(a));
+
+  select.innerHTML =
+    '<option value="">전체 연도</option>' +
+    years.map(y => `<option value="${y}">${y}년</option>`).join('');
+
+  if(selectedYear && years.includes(selectedYear)) {
+    select.value = selectedYear;
+  }
+}
+
+function filterByYear(rows) {
+  if(!selectedYear) return rows;
+  return rows.filter(row => getYearFromDate(row.date) === selectedYear);
+}
+
+function applyYearFilter() {
+  selectedYear = document.getElementById("yearSelect").value;
+
+  const keyword =
+    document.getElementById("searchBox").value.trim().toLowerCase();
+
+  firstKeyword = keyword;
+
+  const baseRows = filterByYear(allRows);
+
+  firstSearchResults = keyword
+    ? baseRows.filter(row => rowMatches(row, keyword))
+    : baseRows;
+
+  document.getElementById("subSearchInput").value = "";
+
+  renderRows(
+    firstSearchResults,
+    keyword ? [keyword] : []
+  );
+
+  document.getElementById("subSearchBox").style.display =
+    firstSearchResults.length ? "flex" : "none";
+}
+
+/* =============================================
    행 검색
    ============================================= */
 
@@ -903,13 +1017,14 @@ async function initialLoad() {
       await loadAllRows();
 
 
+    populateYearSelect(rows);
+
     /*
-     * 검색 전에는 전체 데이터를
-     * 1차 검색결과로 설정
+     * 검색 전에는 선택된 연도 기준 전체 데이터를 표시
      */
 
     firstSearchResults =
-      rows;
+      filterByYear(rows);
 
 
     firstKeyword =
@@ -917,7 +1032,7 @@ async function initialLoad() {
 
 
     renderRows(
-      rows,
+      firstSearchResults,
       []
     );
 
@@ -930,7 +1045,7 @@ async function initialLoad() {
     document.getElementById(
       "subSearchBox"
     ).style.display =
-      rows.length
+      firstSearchResults.length
         ? "flex"
         : "none";
 
@@ -1022,13 +1137,16 @@ async function searchData() {
      * 검색어가 비어있으면 전체표시
      */
 
+    const yearRows =
+      filterByYear(rows);
+
     firstSearchResults =
 
       keyword
 
         ?
 
-        rows.filter(
+        yearRows.filter(
           row =>
             rowMatches(
               row,
@@ -1038,7 +1156,7 @@ async function searchData() {
 
         :
 
-        rows;
+        yearRows;
 
 
     renderRows(
@@ -1155,6 +1273,11 @@ function resetSearch() {
     "";
 
 
+  selectedYear = "";
+
+  const yearSelect = document.getElementById("yearSelect");
+  if(yearSelect) yearSelect.value = "";
+
   firstSearchResults =
     allRows;
 
@@ -1185,6 +1308,30 @@ function resetSearch() {
 
 }
 
+
+/* =============================================
+   맨 위로 이동 버튼
+   ============================================= */
+
+function scrollToTop() {
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function updateTopButton() {
+  const btn = document.getElementById("topBtn");
+  if(!btn) return;
+
+  if(window.scrollY > 350) {
+    btn.classList.add("show");
+  } else {
+    btn.classList.remove("show");
+  }
+}
+
+window.addEventListener("scroll", updateTopButton, {passive:true});
 
 /* =============================================
    시작
