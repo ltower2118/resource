@@ -68,7 +68,7 @@
 
 <div class="app">
   <header class="head">
-    <h2>작업(공사) 보고서수정</h2>
+    <h2>작업(공사) 보고서 목록1</h2>
     <!-- <p>마스터 Google 시트의 '점검목록'을 JSONP 방식으로 직접 읽습니다. fetch/CORS 오류를 사용하지 않습니다.</p> -->
   </header>
 
@@ -97,8 +97,8 @@
  * Apps Script의 action=list를 호출해서
  * report 폴더 안에 현재 실제 존재하는 보고서만 표시합니다.
  */
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyJoWKFsbszzFDsfnInYpuV12thtyXEUMJELHRMSPLTqjuspD6BLbCdgI08E67Dtdlv/exec';
-const REQUIRED_BACKEND_VERSION='2.1.0';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbwbOJyP6-ang6zATpKRCK-DFaKMeoVYc26nhG-IgG7OUs6lmhu8Lmq9P9AIW3mpuOLh/exec';
+const REQUIRED_BACKEND_VERSION='2.9.1-FAST-LIST';
 
 // 구글시트 열기 비밀번호
 const SHEET_OPEN_PASSWORD='1234';
@@ -106,6 +106,7 @@ const DELETE_PASSWORD='1234';
 
 let reports=[];
 let currentView='list';
+let listLoading=false;
 
 function esc(s){
   return String(s??'').replace(/[&<>"']/g,c=>({
@@ -222,12 +223,15 @@ async function deleteReport(report){
 }
 
 async function loadData(){
-  showBusy('보고서 목록 불러오는 중...','report 폴더를 확인하고 있습니다.');
+  if(listLoading) return;
+  listLoading=true;
+
+  showBusy('보고서 목록 불러오는 중...','저장된 목록을 빠르게 불러오고 있습니다.');
   const status=document.getElementById('status');
 
   status.style.display='block';
   status.className='status';
-  status.textContent='report 폴더의 보고서 목록 불러오는 중...';
+  status.textContent='보고서 목록 불러오는 중...';
 
   try{
     const url=WEBAPP_URL+'?action=list&_='+Date.now();
@@ -267,7 +271,7 @@ async function loadData(){
     reports=Array.isArray(json.reports)?json.reports:[];
 
     status.className='status ok';
-    status.textContent='report 폴더 보고서 · '+reports.length+'건';
+    status.textContent='보고서 · '+reports.length+'건';
 
     setTimeout(()=>{
       status.style.display='none';
@@ -279,6 +283,8 @@ async function loadData(){
   }catch(err){
     hideBusy();
     showLoadError(err.message);
+  }finally{
+    listLoading=false;
   }
 }
 
