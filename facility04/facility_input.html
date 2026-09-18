@@ -173,7 +173,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 이미지폴더18</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서 이미지폴더17</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -240,8 +240,8 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxgq2NtX1G8Y2Xr87VDOSOtTIaS_kXzSNEhVAKygdgfrUtFejGt30_4fQvSn6jyqiIM/exec';
-const REQUIRED_BACKEND_VERSION='2.9.2-ROOT-FAST-LIST';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbzbNZ-3I6p52o-ECUJE8chBVSouL2rxKk1HFhXeutfUtFHRu8a9O7goeGbHqzv_PIXq/exec';
+const REQUIRED_BACKEND_VERSION='2.9.3-EDIT-IMAGE-LOAD';
 
 const PAGE_PARAMS=new URLSearchParams(location.search);
 const EDIT_REPORT_ID=PAGE_PARAMS.get('edit')||'';
@@ -551,7 +551,7 @@ async function loadReportForEdit(){
     ? report.items.map((x,i)=>({
         id:i+1,
         text:String(x.text||''),
-        photo:String(x.photoUrl||''),
+        photo:String(x.photoDataUrl||x.photoUrl||''),
         photoId:String(x.photoId||'')
       }))
     : [];
@@ -1079,7 +1079,7 @@ async function checkBackend(){
     try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다.');}
     if(json.result!=='success')throw new Error(json.message||'서버 확인 실패');
     if(json.version!==REQUIRED_BACKEND_VERSION){
-      showStatus('저장 중지: HTML과 Code.gs 버전이 다릅니다. 현재 서버 '+(json.version||'구버전')+' / 필요한 버전 '+REQUIRED_BACKEND_VERSION+' — 최신 Code.gs를 저장한 뒤 새 버전으로 재배포하세요.','err');
+      showStatus('저장 중지: Apps Script 배포 버전이 다릅니다. 현재 서버 '+(json.version||'구버전')+' / 필요한 버전 '+REQUIRED_BACKEND_VERSION+' — Code.gs 저장 후 반드시 새 버전으로 재배포하세요.','err');
       return false;
     }
     showStatus(
@@ -1202,32 +1202,9 @@ async function saveReport(){
     spreadsheetId:isEditing?originalSpreadsheetId:'',
     items:getReportItems()
   };
-  if(!payload.date){
-    showStatus('점검일을 입력하세요.','err');
-    hideBusy();
-    btn.disabled=false;
-    btn.classList.remove('saving');
-    btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');
-    return;
-  }
-
-  if(!payload.jobName){
-    showStatus('작업명을 입력하세요.','err');
-    hideBusy();
-    btn.disabled=false;
-    btn.classList.remove('saving');
-    btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');
-    return;
-  }
-
-  if(!payload.items.length){
-    showStatus('사진/내용 항목을 추가하세요.','err');
-    hideBusy();
-    btn.disabled=false;
-    btn.classList.remove('saving');
-    btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');
-    return;
-  }
+  if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
+  if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
+  if(!payload.items.length){showStatus('사진/내용 항목을 추가하세요.','err');return;}
   btn.textContent=isEditing?'수정 저장 중...':'구글시트 저장 중...';
   showStatus(
     isEditing
