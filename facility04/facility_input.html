@@ -173,7 +173,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 이미지폴더15</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서 이미지폴더17</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -243,7 +243,9 @@
 const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxgq2NtX1G8Y2Xr87VDOSOtTIaS_kXzSNEhVAKygdgfrUtFejGt30_4fQvSn6jyqiIM/exec';
 const REQUIRED_BACKEND_VERSION='2.9.0-SAME-SCREEN-REPLACE';
 
-const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
+const PAGE_PARAMS=new URLSearchParams(location.search);
+const EDIT_REPORT_ID=PAGE_PARAMS.get('edit')||'';
+const FORCE_NEW_REPORT=PAGE_PARAMS.get('new')==='1';
 let editMode=false;
 let editingReport=null;
 
@@ -279,7 +281,7 @@ function rememberCurrentSavedReport(reportId, spreadsheetId, spreadsheetUrl=''){
 }
 
 function restoreCurrentSavedReportFromSession(){
-  if(EDIT_REPORT_ID) return;
+  if(EDIT_REPORT_ID || FORCE_NEW_REPORT) return;
 
   try{
     const raw=sessionStorage.getItem(CURRENT_REPORT_SESSION_KEY);
@@ -457,6 +459,28 @@ async function updateDraftInfo(knownDraft=null){
 }
 
 function initializeBlankReport(){
+  // 새 보고서 화면에서는 수정 UI를 무조건 제거
+  editMode=false;
+  editingReport=null;
+  originalReportId='';
+  originalSpreadsheetId='';
+  editLoadedSuccessfully=false;
+
+  const editBanner=document.getElementById('editBanner');
+  if(editBanner){
+    editBanner.classList.remove('show');
+    editBanner.style.display='none';
+  }
+
+  const mainSaveBtn=document.getElementById('saveBtn');
+  if(mainSaveBtn){
+    mainSaveBtn.disabled=false;
+    mainSaveBtn.classList.remove('saving','saved');
+    mainSaveBtn.textContent='구글시트로 저장';
+  }
+
+  document.title='작업(공사) 보고서 입력';
+
   items=[];
   nextId=1;
   const dateInput=document.getElementById('inspectDate');
@@ -600,10 +624,15 @@ function openNewReportPageFromEditCancel(){
 
 async function initializeDraftSystem(){
   try{
-    // 같은 화면에서 이미 저장한 보고서가 있으면 현재 수정 대상으로 복구
-    restoreCurrentSavedReportFromSession();
+    /*
+     * 핵심 수정:
+     * 기존 보고서를 먼저 불러온 뒤 취소 여부를 묻지 않습니다.
+     * 수정 URL(?edit=...)로 들어온 경우,
+     * 임시저장본이 있으면 "불러오기 여부"를 먼저 묻고
+     * 취소하면 기존 보고서를 아예 로드하지 않고 즉시 새 보고서로 이동합니다.
+     */
+
     if(EDIT_REPORT_ID){
-      await loadReportForEdit();
 
       const draft=await getDraft();
 
@@ -616,38 +645,129 @@ async function initializeDraftSystem(){
         const resume=confirm(
           '작성중인 파일을 수정 불러오겠습니까?\n\n'+
           '임시저장 시간: '+when+'\n\n'+
-          '[확인] 작성중 내용 불러오기\n'+
+          '[확인] 작성중인 수정파일 불러오기\n'+
           '[취소] 새 보고서 작성'
         );
 
-        if(resume){
-          await restoreDraft(draft,false);
-          showStatus('작성중인 수정 내용을 불러왔습니다.','ok');
-        }else{
+        if(!resume){
           /*
-           * 사용자가 취소를 선택하면 기존 수정파일 화면에 남지 않고
-           * 완전히 새 보고서 작성 화면으로 전환합니다.
+           * 취소 시 기존 보고서는 절대로 loadReportForEdit() 하지 않습니다.
+           * 수정 상태가 화면에 표시되기 전에 완전히 신규 페이지로 이동합니다.
            */
-          openNewReportPageFromEditCancel();
+          try{
+            sessionStorage.removeItem(CURRENT_REPORT_SESSION_KEY);
+          }catch(e){}
+
+          try{
+            await deleteDraft();
+          }catch(e){}
+
+          const cleanUrl=
+            location.origin+
+            location.pathname+
+            '?new=1&t='+Date.now();
+
+          location.replace(cleanUrl);
+          return;
         }
+      }
+
+      /*
+       * 확인을 눌렀거나 임시저장본이 없을 때만
+       * 실제 기존 보고서를 서버에서 불러옵니다.
+       */
+      await loadReportForEdit();
+
+      if(draft){
+        await restoreDraft(draft,false);
+        showStatus('작성중인 수정 내용을 불러왔습니다.','ok');
       }
 
       return;
     }
 
+
+    /*
+     * ?new=1 로 진입한 경우
+     * 모든 수정 상태를 제거하고 무조건 새 보고서로 시작
+     */
+    if(FORCE_NEW_REPORT){
+
+      try{
+        sessionStorage.removeItem(CURRENT_REPORT_SESSION_KEY);
+      }catch(e){}
+
+      editMode=false;
+      editingReport=null;
+      originalReportId='';
+      originalSpreadsheetId='';
+      editLoadedSuccessfully=false;
+
+      initializeBlankReport();
+
+      const banner=document.getElementById('editBanner');
+      if(banner){
+        banner.classList.remove('show');
+        banner.style.display='none';
+      }
+
+      const saveBtn=document.getElementById('saveBtn');
+      if(saveBtn){
+        saveBtn.disabled=false;
+        saveBtn.classList.remove('saving','saved');
+        saveBtn.textContent='구글시트로 저장';
+      }
+
+      document.title='작업(공사) 보고서 입력';
+
+      try{
+        const u=new URL(location.href);
+        u.searchParams.delete('new');
+        u.searchParams.delete('t');
+        history.replaceState(null,'',u.pathname);
+      }catch(e){}
+
+      const info=document.getElementById('draftInfo');
+      if(info)info.textContent='새 보고서를 작성 중입니다.';
+
+      return;
+    }
+
+
+    // 일반 신규 페이지에서는 저장된 수정 세션을 자동 복구하지 않습니다.
+    // 이전 저장 보고서가 새 작성 화면에 붙는 현상을 방지합니다.
+    try{
+      sessionStorage.removeItem(CURRENT_REPORT_SESSION_KEY);
+    }catch(e){}
+
+    editMode=false;
+    editingReport=null;
+    originalReportId='';
+    originalSpreadsheetId='';
+    editLoadedSuccessfully=false;
+
     const draft=await getDraft();
 
     if(draft){
       await updateDraftInfo(draft);
+
       const d=new Date(draft.savedAt);
       const when=Number.isNaN(d.getTime())?'이전':d.toLocaleString('ko-KR');
 
-      if(confirm(when+'에 이전에 작성하다 저장하지 않은 보고서가 있습니다.\n\n복구하시겠습니까?')){
+      if(confirm(
+        when+
+        '에 이전에 작성하다 저장하지 않은 보고서가 있습니다.\n\n'+
+        '복구하시겠습니까?'
+      )){
         await restoreDraft(draft,false);
         showStatus('자동 임시저장본을 복구했습니다.','ok');
       }else{
+        try{
+          await deleteDraft();
+        }catch(e){}
         initializeBlankReport();
       }
+
     }else{
       initializeBlankReport();
       await updateDraftInfo();
@@ -655,15 +775,23 @@ async function initializeDraftSystem(){
 
   }catch(err){
     console.error(err);
+    hideBusy();
 
     if(EDIT_REPORT_ID){
-      hideBusy();
-      showStatus('기존 보고서 불러오기 실패: '+err.message,'err');
+      showStatus(
+        '기존 보고서 불러오기 실패: '+err.message,
+        'err'
+      );
     }else{
       initializeBlankReport();
+
       const info=document.getElementById('draftInfo');
-      if(info)info.textContent='임시저장 기능 초기화 실패: '+err.message;
+      if(info){
+        info.textContent=
+          '임시저장 기능 초기화 실패: '+err.message;
+      }
     }
+
   }finally{
     draftInitialized=true;
   }
