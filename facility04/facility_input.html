@@ -13,6 +13,7 @@
   .head h1{margin:0;font-size:24px}
   .head p{margin:5px 0 0;color:#ddd;font-size:12px}
 .panel{margin:14px;background:#fff;border-radius:10px;padding:14px}
+  .panelwide{margin:14px;background:#fff;border-radius:10px;padding:0px}
 .edit-banner{display:none;margin:14px;background:#fff3cd;border:1px solid #e2b861;color:#6b4b00;border-radius:9px;padding:11px 13px;font-weight:700}
 .edit-banner.show{display:block}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -173,7 +174,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 이미지폴더17</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -187,7 +188,7 @@
     <div class="field"><label>세부내용</label><textarea id="details" placeholder="점검 및 작업 내용을 입력하세요"></textarea></div>
     <div class="field"><label>업체(작업자)</label><input id="vendor" placeholder="예: ○○전기 / 홍길동"></div>
   </section>
-  <section class="panel">
+  <section class="panelwide">
     <div class="sheet-preview">
       <div class="sheet-title" id="pvTitle">작업(공사) 보고서</div>
       <div class="meta-row"><div class="meta-label">일시</div><div class="meta-value" id="pvDate"></div></div>
