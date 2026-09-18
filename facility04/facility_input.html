@@ -149,7 +149,7 @@
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
   <header class="head"><h1>작업(공사) 보고서 수정</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
-  <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 저장하면 같은 Google 시트에 덮어씁니다.</div>
+  <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 수정 저장 시 새 파일을 만들지 않고 불러온 동일 Google 시트에 덮어씁니다.</div>
 
   <section class="panel">
     <div class="grid">
@@ -215,12 +215,17 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbymqlG8AiN5VVqHK4k42y92D9SRFN9PEeJ3ySnZlROvLcLofkfygPzVrR7Qg9gSiVdP/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxFfAjKl5XVofNFgXmNK2ZjilHo1u2UrPemRYQ3fuqHx-_EV6pqJDyRczi7lQ0L2WAx/exec';
 const REQUIRED_BACKEND_VERSION='2.2.0-ADD-ITEMS';
 
 const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
 let editMode=false;
 let editingReport=null;
+
+// 수정 대상 원본 파일 고정
+let originalReportId='';
+let originalSpreadsheetId='';
+let editLoadedSuccessfully=false;
 const MAX_ITEMS=30;
 const INITIAL_ITEM_COUNT=6;
 let items=[];
@@ -414,8 +419,15 @@ async function loadReportForEdit(){
   }
 
   const report=json.report||{};
+
+  if(!report.reportId) throw new Error('기존 보고서 ID를 받지 못했습니다.');
+  if(!report.spreadsheetId) throw new Error('기존 Google 시트 ID를 받지 못했습니다.');
+
   editingReport=report;
   editMode=true;
+  originalReportId=String(report.reportId||'');
+  originalSpreadsheetId=String(report.spreadsheetId||'');
+  editLoadedSuccessfully=true;
 
   const setValue=(id,value)=>{
     const el=document.getElementById(id);
@@ -796,9 +808,21 @@ async function checkBackend(){
 
 async function saveReport(){
   const btn=document.getElementById('saveBtn');
+
   if(!(await checkBackend())) return;
+
+  if(EDIT_REPORT_ID && !editLoadedSuccessfully){
+    showStatus(
+      '수정 대상 원본 보고서를 확인하지 못했습니다. 새 파일 생성을 방지하기 위해 저장을 중지했습니다.',
+      'err'
+    );
+    return;
+  }
+
+  const isEditing=!!EDIT_REPORT_ID && editLoadedSuccessfully;
+
   const payload={
-    action:editMode?'updateReport':'saveReport',
+    action:isEditing?'updateReport':'saveReport',
     siteName:getFieldValue('siteName','서울숲엘타워'),
     inspector:getFieldValue('inspector',''),
     date:getFieldValue('inspectDate',''),
@@ -806,20 +830,20 @@ async function saveReport(){
     jobName:getFieldValue('jobName',''),
     details:getFieldValue('details',''),
     vendor:getFieldValue('vendor',''),
-    reportId:editMode&&editingReport?editingReport.reportId:'',
-    spreadsheetId:editMode&&editingReport?editingReport.spreadsheetId:'',
+    reportId:isEditing?originalReportId:'',
+    spreadsheetId:isEditing?originalSpreadsheetId:'',
     items:getReportItems()
   };
   if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
   if(!payload.items.length){showStatus('사진/내용 항목을 추가하세요.','err');return;}
   btn.disabled=true;btn.textContent='저장 중...';showStatus('Google Drive와 시트에 저장 중입니다. 사진이 많으면 잠시 걸릴 수 있습니다.','wait');
-  showBusy(editMode?'수정 저장 중...':'Google 시트 저장 중...','사진 업로드와 시트 생성을 처리하고 있습니다.');
+  showBusy(isEditing?'기존 보고서 수정 저장 중...':'Google 시트 저장 중...',isEditing?'불러온 동일 Google 시트에 덮어쓰고 있습니다.':'사진 업로드와 시트 생성을 처리하고 있습니다.');
   try{
     const res=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(payload)});
     const text=await res.text();let json;try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹 앱 배포 권한을 확인하세요.');}
     if(json.result!=='success')throw new Error(json.message||'저장 실패');if(json.version!==REQUIRED_BACKEND_VERSION)throw new Error('Apps Script 구버전 응답입니다. 새 버전으로 재배포하세요.');
-    showStatus((editMode?'수정 저장 완료: ':'저장 완료: ')+json.fileName,'ok');
+    showStatus((isEditing?'기존 파일 수정 완료: ':'저장 완료: ')+json.fileName,'ok');
     try{
       await deleteDraft();
       await updateDraftInfo();
@@ -828,7 +852,7 @@ async function saveReport(){
     }
     if(json.spreadsheetUrl){setTimeout(()=>{if(confirm('저장되었습니다. 생성된 구글시트를 바로 열까요?'))window.open(json.spreadsheetUrl,'_blank');},200);}
   }catch(err){showStatus('저장 실패: '+err.message,'err');}
-  finally{hideBusy();btn.disabled=false;btn.textContent=editMode?'수정 저장':'날짜별 구글시트로 저장';}
+  finally{hideBusy();btn.disabled=false;btn.textContent=(EDIT_REPORT_ID?'수정 저장':'날짜별 구글시트로 저장');}
 }
 
 
@@ -976,7 +1000,7 @@ async function saveAsPdf(){
   }
 }
 
-
+s
 document.getElementById('addItemBtn').addEventListener('click',createItem);
 document.getElementById('saveBtn').addEventListener('click',saveReport);
 document.getElementById('pdfBtn').addEventListener('click',saveAsPdf);
