@@ -111,6 +111,31 @@
 
 @media(max-width:600px){.grid{grid-template-columns:1fr}.item-grid{grid-template-columns:1fr}.photo-box{height:210px}.meta-row{grid-template-columns:90px 1fr}.head h1{font-size:21px}}
 
+
+/* 저장 버튼 상태 */
+.save-btn{
+  transition:background-color .18s ease, transform .12s ease, opacity .18s ease;
+}
+.save-btn.saving{
+  background:#e2a63b !important;
+  color:#1c2530 !important;
+}
+.save-btn.saved{
+  background:#3f7d68 !important;
+  color:#fff !important;
+}
+.save-btn:active{
+  transform:scale(.99);
+}
+
+/* 저장중 오버레이는 즉시 표시되도록 효과 최소화 */
+.busy-overlay{
+  backdrop-filter:none !important;
+}
+.busy-box{
+  transition:none !important;
+}
+
 /* 처리중 전체화면 표시 */
 .busy-overlay{display:none;position:fixed;inset:0;z-index:99999;background:rgba(10,22,50,.45);backdrop-filter:blur(2px);align-items:center;justify-content:center;padding:20px}
 .busy-overlay.show{display:flex}
@@ -148,7 +173,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 수정</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서 이미지폴더</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 수정 저장 시 기존 파일을 삭제하고 report 폴더에 교체본을 저장합니다.</div>
 
   <section class="panel">
@@ -215,7 +240,7 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxV1XOca8iIy6WdGeZThx1wokg44jc-mfFkxZb2_ump_kzJsJh_AqCOHURJ-I34Ro5T/exec';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbz22BpTlH1UBpAAqN5xNumm9q51EqXh2iA7m9BmD4QoSA3TON9YaLCYbTee0fMiWAaH/exec';
 const REQUIRED_BACKEND_VERSION='2.5.0-FLAT-REPLACE';
 
 const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
@@ -789,7 +814,24 @@ function hideBusy(){
 
 async function checkBackend(){
   try{
-    const res=await fetch(WEBAPP_URL+'?action=health&_='+Date.now());
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),5000);
+
+    let res;
+    try{
+      res=await fetch(
+        WEBAPP_URL+'?action=health&_='+Date.now(),
+        {
+          method:'GET',
+          cache:'no-store',
+          redirect:'follow',
+          signal:controller.signal
+        }
+      );
+    }finally{
+      clearTimeout(timer);
+    }
+
     const text=await res.text();
     let json;
     try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다.');}
@@ -801,7 +843,14 @@ async function checkBackend(){
     showStatus('서버 연결 정상 · 버전 '+json.version+' · 저장된 보고서 '+(json.reportCount||0)+'건','ok');
     return true;
   }catch(err){
-    showStatus('서버 연결 실패: '+err.message+' — WEBAPP_URL이 올바른 /exec 주소인지, Apps Script 웹앱이 모든 사용자 공개인지 확인하세요.','err');
+    const msg=(err && err.name==='AbortError')
+      ? '서버 확인 시간이 초과되었습니다.'
+      : '서버 연결 실패: '+err.message;
+
+    showStatus(
+      msg+' — WEBAPP_URL이 올바른 /exec 주소인지, Apps Script 웹앱이 모든 사용자 공개인지 확인하세요.',
+      'err'
+    );
     return false;
   }
 }
@@ -844,7 +893,35 @@ async function postJsonToWebApp(payload){
 async function saveReport(){
   const btn=document.getElementById('saveBtn');
 
-  if(!(await checkBackend())) return;
+  /*
+   * 클릭 즉시 사용자에게 반응을 보여줍니다.
+   * 기존 코드는 checkBackend()가 끝난 뒤에야 저장중 화면이 떠서
+   * 버튼을 눌러도 한동안 아무 반응이 없는 것처럼 보였습니다.
+   */
+  btn.disabled=true;
+  btn.classList.remove('saved');
+  btn.classList.add('saving');
+  btn.textContent='저장 준비 중...';
+
+  showBusy(
+    'Google 시트 저장 준비 중...',
+    '서버 연결을 확인하고 있습니다.'
+  );
+
+  showStatus(
+    '저장 준비 중입니다...',
+    'wait'
+  );
+
+  const backendOk=await checkBackend();
+
+  if(!backendOk){
+    hideBusy();
+    btn.disabled=false;
+    btn.classList.remove('saving');
+    btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');
+    return;
+  }
 
   if(EDIT_REPORT_ID && !editLoadedSuccessfully){
     showStatus(
@@ -872,8 +949,24 @@ async function saveReport(){
   if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
   if(!payload.items.length){showStatus('사진/내용 항목을 추가하세요.','err');return;}
-  btn.disabled=true;btn.textContent='저장 중...';showStatus('Google Drive와 시트에 저장 중입니다. 사진이 많으면 잠시 걸릴 수 있습니다.','wait');
-  showBusy(isEditing?'기존 보고서 교체 저장 중...':'Google 시트 저장 중...',isEditing?'기존 파일을 교체하고 있습니다.':'report 폴더에 저장하고 있습니다.');
+  btn.textContent=isEditing?'수정 저장 중...':'구글시트 저장 중...';
+  showStatus(
+    isEditing
+      ? '기존 보고서를 교체 저장 중입니다.'
+      : 'Google Drive와 시트에 저장 중입니다.',
+    'wait'
+  );
+
+  showBusy(
+    isEditing?'기존 보고서 수정 저장 중...':'Google 시트 저장 중...',
+    isEditing?'기존 파일을 교체하고 있습니다.':'report 폴더에 저장하고 있습니다.'
+  );
+
+  /*
+   * 브라우저가 저장중 UI를 먼저 그린 뒤 네트워크 요청을 시작하도록
+   * 한 프레임 양보합니다.
+   */
+  await new Promise(resolve=>requestAnimationFrame(()=>resolve()));
   try{
     const res=await postJsonToWebApp(payload);
     const text=await res.text();let json;try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹 앱 배포 권한을 확인하세요.');}
@@ -902,6 +995,10 @@ async function saveReport(){
       }catch(e){}
     }
 
+    btn.classList.remove('saving');
+    btn.classList.add('saved');
+    btn.textContent='저장 완료 ✓';
+
     showStatus((isEditing?'기존 파일 삭제 후 교체 완료: ':'저장 완료: ')+json.fileName,'ok');
     try{
       await deleteDraft();
@@ -910,8 +1007,23 @@ async function saveReport(){
       console.warn('임시저장 삭제 실패:',draftErr);
     }
     if(json.spreadsheetUrl){setTimeout(()=>{if(confirm('저장되었습니다. 생성된 구글시트를 바로 열까요?'))window.open(json.spreadsheetUrl,'_blank');},200);}
-  }catch(err){showStatus('저장 실패: '+err.message,'err');}
-  finally{hideBusy();btn.disabled=false;btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');}
+  }catch(err){
+    btn.classList.remove('saving','saved');
+    showStatus('저장 실패: '+err.message,'err');
+  }
+  finally{
+    hideBusy();
+    btn.disabled=false;
+
+    if(btn.classList.contains('saved')){
+      setTimeout(()=>{
+        btn.classList.remove('saved');
+        btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');
+      },1200);
+    }else{
+      btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');
+    }
+  }
 }
 
 
