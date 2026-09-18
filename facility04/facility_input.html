@@ -173,7 +173,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 이미지폴더12</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서 이미지폴더13</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -240,8 +240,8 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyxGdskMWhBIpeaaTjg1ByX2ZTL4iFr9U0QDaXykpvhp-64WZZu-658hJ6k_E7TxapG/exec';
-const REQUIRED_BACKEND_VERSION='2.8.1-FAST-HEALTH';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyxAihHvYhGExli-CVwvtW75qX_cawTQwAeccvf3kVj3q-8qns7DGaQI2M9kIIWmExS/exec';
+const REQUIRED_BACKEND_VERSION='2.9.0-SAME-SCREEN-REPLACE';
 
 const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
 let editMode=false;
@@ -251,6 +251,61 @@ let editingReport=null;
 let originalReportId='';
 let originalSpreadsheetId='';
 let editLoadedSuccessfully=false;
+
+/*
+ * 같은 화면에서 최초 저장 후 계속 수정할 때
+ * 새 파일로 저장되지 않도록 현재 저장 대상 ID를 브라우저 세션에도 보관합니다.
+ */
+const CURRENT_REPORT_SESSION_KEY='facility_current_saved_report';
+
+function rememberCurrentSavedReport(reportId, spreadsheetId, spreadsheetUrl=''){
+  originalReportId=String(reportId||'');
+  originalSpreadsheetId=String(spreadsheetId||'');
+  editLoadedSuccessfully=!!(originalReportId && originalSpreadsheetId);
+  editMode=editLoadedSuccessfully;
+
+  if(editLoadedSuccessfully){
+    try{
+      sessionStorage.setItem(
+        CURRENT_REPORT_SESSION_KEY,
+        JSON.stringify({
+          reportId:originalReportId,
+          spreadsheetId:originalSpreadsheetId,
+          spreadsheetUrl:String(spreadsheetUrl||'')
+        })
+      );
+    }catch(e){}
+  }
+}
+
+function restoreCurrentSavedReportFromSession(){
+  if(EDIT_REPORT_ID) return;
+
+  try{
+    const raw=sessionStorage.getItem(CURRENT_REPORT_SESSION_KEY);
+    if(!raw) return;
+
+    const saved=JSON.parse(raw);
+    if(saved && saved.reportId && saved.spreadsheetId){
+      rememberCurrentSavedReport(
+        saved.reportId,
+        saved.spreadsheetId,
+        saved.spreadsheetUrl||''
+      );
+
+      editingReport=editingReport||{};
+      editingReport.reportId=originalReportId;
+      editingReport.spreadsheetId=originalSpreadsheetId;
+      editingReport.spreadsheetUrl=saved.spreadsheetUrl||'';
+
+      const banner=document.getElementById('editBanner');
+      if(banner) banner.classList.add('show');
+
+      const saveBtn=document.getElementById('saveBtn');
+      if(saveBtn) saveBtn.textContent='수정 저장';
+    }
+  }catch(e){}
+}
 const MAX_ITEMS=30;
 const INITIAL_ITEM_COUNT=6;
 let items=[];
@@ -449,10 +504,11 @@ async function loadReportForEdit(){
   if(!report.spreadsheetId) throw new Error('기존 Google 시트 ID를 받지 못했습니다.');
 
   editingReport=report;
-  editMode=true;
-  originalReportId=String(report.reportId||'');
-  originalSpreadsheetId=String(report.spreadsheetId||'');
-  editLoadedSuccessfully=true;
+  rememberCurrentSavedReport(
+    report.reportId,
+    report.spreadsheetId,
+    report.spreadsheetUrl||''
+  );
 
   const setValue=(id,value)=>{
     const el=document.getElementById(id);
@@ -506,6 +562,8 @@ async function loadReportForEdit(){
 
 async function initializeDraftSystem(){
   try{
+    // 같은 화면에서 이미 저장한 보고서가 있으면 현재 수정 대상으로 복구
+    restoreCurrentSavedReportFromSession();
     if(EDIT_REPORT_ID){
       await loadReportForEdit();
 
@@ -994,10 +1052,11 @@ async function saveReport(){
 
     // 신규 저장 직후부터 같은 보고서를 계속 수정하도록 원본 ID 고정
     if(json.reportId && json.spreadsheetId){
-      originalReportId=String(json.reportId);
-      originalSpreadsheetId=String(json.spreadsheetId);
-      editLoadedSuccessfully=true;
-      editMode=true;
+      rememberCurrentSavedReport(
+        json.reportId,
+        json.spreadsheetId,
+        json.spreadsheetUrl||''
+      );
 
       editingReport=editingReport||{};
       editingReport.reportId=originalReportId;
@@ -1018,7 +1077,7 @@ async function saveReport(){
     btn.classList.add('saved');
     btn.textContent='저장 완료 ✓';
 
-    showStatus((isEditing?'기존 파일 삭제 후 교체 완료: ':'저장 완료: ')+json.fileName,'ok');
+    showStatus((isEditing?'기존 파일 삭제 후 최신본으로 교체 완료: ':'저장 완료 · 이후 수정은 이 파일을 교체 저장: ')+json.fileName,'ok');
     try{
       await deleteDraft();
       await updateDraftInfo();
@@ -1171,10 +1230,11 @@ async function saveAsPdf(){
 
     // PDF를 최초 저장으로 사용한 경우에도 현재 보고서를 수정 대상으로 고정
     if(json.reportId && json.spreadsheetId){
-      originalReportId=String(json.reportId);
-      originalSpreadsheetId=String(json.spreadsheetId);
-      editLoadedSuccessfully=true;
-      editMode=true;
+      rememberCurrentSavedReport(
+        json.reportId,
+        json.spreadsheetId,
+        json.spreadsheetUrl||''
+      );
 
       editingReport=editingReport||{};
       editingReport.reportId=originalReportId;
