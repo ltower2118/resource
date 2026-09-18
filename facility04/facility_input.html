@@ -148,8 +148,8 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 수정</h1><p>사진 + 설명을 항목별로 입력하고 날짜별 Google 시트 파일로 저장합니다.</p></header>
-  <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 수정 저장 시 새 파일을 만들지 않고 불러온 동일 Google 시트에 덮어씁니다.</div>
+  <header class="head"><h1>작업(공사) 보고서 수정</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 수정 저장 시 기존 파일을 삭제하고 report 폴더에 교체본을 저장합니다.</div>
 
   <section class="panel">
     <div class="grid">
@@ -209,14 +209,14 @@
 </div>
 
 <div class="bottom">
-  <button class="save-btn" id="saveBtn">날짜별 구글시트로 저장</button>
+  <button class="save-btn" id="saveBtn">구글시트로 저장</button>
   <button class="pdf-btn" id="pdfBtn">PDF로 저장하기</button>
   <button class="link-btn" onclick="location.href='facility_list.html'">목록 보기</button>
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbzq84WyNC5ccZobnh2k70Gki6KFUBGvdurs77S9E5zztmYcOV3YLZIczC46UJyP1eUd/exec';
-const REQUIRED_BACKEND_VERSION='2.4.1-EDIT-FETCH-FIX';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyM8cV6x7sIKJ9uKmWL4s-uIuNFITRQQ_JlCR2C5FGBrhROvq3ugWeanN7kk6AZJ24S/exec';
+const REQUIRED_BACKEND_VERSION='2.5.0-FLAT-REPLACE';
 
 const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
 let editMode=false;
@@ -873,7 +873,7 @@ async function saveReport(){
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
   if(!payload.items.length){showStatus('사진/내용 항목을 추가하세요.','err');return;}
   btn.disabled=true;btn.textContent='저장 중...';showStatus('Google Drive와 시트에 저장 중입니다. 사진이 많으면 잠시 걸릴 수 있습니다.','wait');
-  showBusy(isEditing?'기존 보고서 수정 저장 중...':'Google 시트 저장 중...',isEditing?'불러온 동일 Google 시트에 덮어쓰고 있습니다.':'사진 업로드와 시트 생성을 처리하고 있습니다.');
+  showBusy(isEditing?'기존 보고서 교체 저장 중...':'Google 시트 저장 중...',isEditing?'기존 파일을 교체하고 있습니다.':'report 폴더에 저장하고 있습니다.');
   try{
     const res=await postJsonToWebApp(payload);
     const text=await res.text();let json;try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹 앱 배포 권한을 확인하세요.');}
@@ -902,7 +902,7 @@ async function saveReport(){
       }catch(e){}
     }
 
-    showStatus((isEditing?'기존 파일 수정 완료: ':'저장 완료 · 이후 수정은 같은 파일에 덮어쓰기: ')+json.fileName,'ok');
+    showStatus((isEditing?'기존 파일 삭제 후 교체 완료: ':'저장 완료: ')+json.fileName,'ok');
     try{
       await deleteDraft();
       await updateDraftInfo();
@@ -911,7 +911,7 @@ async function saveReport(){
     }
     if(json.spreadsheetUrl){setTimeout(()=>{if(confirm('저장되었습니다. 생성된 구글시트를 바로 열까요?'))window.open(json.spreadsheetUrl,'_blank');},200);}
   }catch(err){showStatus('저장 실패: '+err.message,'err');}
-  finally{hideBusy();btn.disabled=false;btn.textContent=(editLoadedSuccessfully?'수정 저장':'날짜별 구글시트로 저장');}
+  finally{hideBusy();btn.disabled=false;btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');}
 }
 
 
