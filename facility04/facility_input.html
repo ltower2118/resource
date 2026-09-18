@@ -215,8 +215,8 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxUZkOUBDhRNoF07uFmmb19fwApmbNOLnWc7vqrMxF3Dt-Rjx-_x0SVb8VxMjvmxmXH/exec';
-const REQUIRED_BACKEND_VERSION='2.2.0-ADD-ITEMS';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbzLj39B_DwFXQ1TYtBQl3s6TAH_OBh5legKH-ruo4oxD8qQwmcCyL-pOBe6oia5TRvH/exec';
+const REQUIRED_BACKEND_VERSION='2.4.0-OVERWRITE-IN-PLACE';
 
 const EDIT_REPORT_ID=new URLSearchParams(location.search).get('edit')||'';
 let editMode=false;
@@ -819,7 +819,7 @@ async function saveReport(){
     return;
   }
 
-  const isEditing=!!EDIT_REPORT_ID && editLoadedSuccessfully;
+  const isEditing=!!(editLoadedSuccessfully && originalReportId && originalSpreadsheetId);
 
   const payload={
     action:isEditing?'updateReport':'saveReport',
@@ -842,8 +842,32 @@ async function saveReport(){
   try{
     const res=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(payload)});
     const text=await res.text();let json;try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹 앱 배포 권한을 확인하세요.');}
-    if(json.result!=='success')throw new Error(json.message||'저장 실패');if(json.version!==REQUIRED_BACKEND_VERSION)throw new Error('Apps Script 구버전 응답입니다. 새 버전으로 재배포하세요.');
-    showStatus((isEditing?'기존 파일 수정 완료: ':'저장 완료: ')+json.fileName,'ok');
+    if(json.result!=='success')throw new Error(json.message||'저장 실패');
+    if(json.version!==REQUIRED_BACKEND_VERSION)throw new Error('Apps Script 구버전 응답입니다. 새 버전으로 재배포하세요.');
+
+    // 신규 저장 직후부터 같은 보고서를 계속 수정하도록 원본 ID 고정
+    if(json.reportId && json.spreadsheetId){
+      originalReportId=String(json.reportId);
+      originalSpreadsheetId=String(json.spreadsheetId);
+      editLoadedSuccessfully=true;
+      editMode=true;
+
+      editingReport=editingReport||{};
+      editingReport.reportId=originalReportId;
+      editingReport.spreadsheetId=originalSpreadsheetId;
+      editingReport.spreadsheetUrl=json.spreadsheetUrl||editingReport.spreadsheetUrl||'';
+
+      const banner=document.getElementById('editBanner');
+      if(banner)banner.classList.add('show');
+
+      try{
+        const u=new URL(location.href);
+        u.searchParams.set('edit',originalReportId);
+        history.replaceState(null,'',u.toString());
+      }catch(e){}
+    }
+
+    showStatus((isEditing?'기존 파일 수정 완료: ':'저장 완료 · 이후 수정은 같은 파일에 덮어쓰기: ')+json.fileName,'ok');
     try{
       await deleteDraft();
       await updateDraftInfo();
@@ -852,7 +876,7 @@ async function saveReport(){
     }
     if(json.spreadsheetUrl){setTimeout(()=>{if(confirm('저장되었습니다. 생성된 구글시트를 바로 열까요?'))window.open(json.spreadsheetUrl,'_blank');},200);}
   }catch(err){showStatus('저장 실패: '+err.message,'err');}
-  finally{hideBusy();btn.disabled=false;btn.textContent=(EDIT_REPORT_ID?'수정 저장':'날짜별 구글시트로 저장');}
+  finally{hideBusy();btn.disabled=false;btn.textContent=(editLoadedSuccessfully?'수정 저장':'날짜별 구글시트로 저장');}
 }
 
 
@@ -923,6 +947,8 @@ function buildPrintReport(){
 async function saveAsPdf(){
   const btn=document.getElementById('pdfBtn');
 
+  const isEditing=!!(editLoadedSuccessfully && originalReportId && originalSpreadsheetId);
+
   const payload={
     action:'savePdf',
     siteName:getFieldValue('siteName','서울숲엘타워'),
@@ -932,6 +958,8 @@ async function saveAsPdf(){
     jobName:getFieldValue('jobName',''),
     details:getFieldValue('details',''),
     vendor:getFieldValue('vendor',''),
+    reportId:isEditing?originalReportId:'',
+    spreadsheetId:isEditing?originalSpreadsheetId:'',
     items:getReportItems()
   };
 
@@ -978,7 +1006,37 @@ async function saveAsPdf(){
       throw new Error('PDF 다운로드 주소를 받지 못했습니다.');
     }
 
-    showStatus('PDF 생성 완료: '+(json.pdfFileName||'보고서.pdf'),'ok');
+    // PDF를 최초 저장으로 사용한 경우에도 현재 보고서를 수정 대상으로 고정
+    if(json.reportId && json.spreadsheetId){
+      originalReportId=String(json.reportId);
+      originalSpreadsheetId=String(json.spreadsheetId);
+      editLoadedSuccessfully=true;
+      editMode=true;
+
+      editingReport=editingReport||{};
+      editingReport.reportId=originalReportId;
+      editingReport.spreadsheetId=originalSpreadsheetId;
+      editingReport.spreadsheetUrl=json.spreadsheetUrl||editingReport.spreadsheetUrl||'';
+
+      const banner=document.getElementById('editBanner');
+      if(banner)banner.classList.add('show');
+
+      const saveBtn=document.getElementById('saveBtn');
+      if(saveBtn)saveBtn.textContent='수정 저장';
+
+      try{
+        const u=new URL(location.href);
+        u.searchParams.set('edit',originalReportId);
+        history.replaceState(null,'',u.toString());
+      }catch(e){}
+    }
+
+    showStatus(
+      isEditing
+        ? '기존 보고서와 PDF를 최신 내용으로 교체했습니다.'
+        : 'PDF 생성 완료 · 이후 수정은 같은 보고서 파일에 덮어씁니다: '+(json.pdfFileName||'보고서.pdf'),
+      'ok'
+    );
 
     // 모바일/PC 공통: 생성된 PDF 직접 다운로드
     const a=document.createElement('a');
