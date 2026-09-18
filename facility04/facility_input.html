@@ -173,7 +173,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 이미지폴더13</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서 이미지폴더14</h1><p>사진 + 설명을 항목별로 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -560,6 +560,44 @@ async function loadReportForEdit(){
   return true;
 }
 
+
+function openNewReportPageFromEditCancel(){
+  /*
+   * 수정 불러오기 확인창에서 '취소'를 누른 경우:
+   * - 수정 대상 ID 해제
+   * - 같은 화면 저장 대상 세션 해제
+   * - 신규 보고서 빈 화면으로 초기화
+   * - URL의 ?edit=... 제거
+   */
+  try{
+    sessionStorage.removeItem(CURRENT_REPORT_SESSION_KEY);
+  }catch(e){}
+
+  originalReportId='';
+  originalSpreadsheetId='';
+  editLoadedSuccessfully=false;
+  editMode=false;
+  editingReport=null;
+
+  const banner=document.getElementById('editBanner');
+  if(banner) banner.classList.remove('show');
+
+  const saveBtn=document.getElementById('saveBtn');
+  if(saveBtn) saveBtn.textContent='구글시트로 저장';
+
+  document.title='작업(공사) 보고서 입력';
+
+  try{
+    const u=new URL(location.href);
+    u.searchParams.delete('edit');
+    history.replaceState(null,'',u.pathname+u.search+u.hash);
+  }catch(e){}
+
+  initializeBlankReport();
+  showStatus('새 보고서 작성 화면으로 전환했습니다.','ok');
+}
+
+
 async function initializeDraftSystem(){
   try{
     // 같은 화면에서 이미 저장한 보고서가 있으면 현재 수정 대상으로 복구
@@ -568,19 +606,32 @@ async function initializeDraftSystem(){
       await loadReportForEdit();
 
       const draft=await getDraft();
+
       if(draft){
         await updateDraftInfo(draft);
+
         const d=new Date(draft.savedAt);
         const when=Number.isNaN(d.getTime())?'이전':d.toLocaleString('ko-KR');
 
-        if(confirm(
-          when+'에 이 보고서를 수정하다 자동 임시저장된 내용이 있습니다.\n\n'+
-          '이어서 작성하시겠습니까?'
-        )){
+        const resume=confirm(
+          '작성중인 파일을 수정 불러오겠습니까?\n\n'+
+          '임시저장 시간: '+when+'\n\n'+
+          '[확인] 작성중 내용 불러오기\n'+
+          '[취소] 새 보고서 작성'
+        );
+
+        if(resume){
           await restoreDraft(draft,false);
-          showStatus('수정중 자동 임시저장본을 복구했습니다.','ok');
+          showStatus('작성중인 수정 내용을 불러왔습니다.','ok');
+        }else{
+          /*
+           * 사용자가 취소를 선택하면 기존 수정파일 화면에 남지 않고
+           * 완전히 새 보고서 작성 화면으로 전환합니다.
+           */
+          openNewReportPageFromEditCancel();
         }
       }
+
       return;
     }
 
