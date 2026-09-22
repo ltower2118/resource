@@ -68,7 +68,7 @@ main{max-width:1100px;margin:auto;padding:14px}
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .summary{
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:repeat(3,1fr);
   gap:8px;margin-bottom:12px
 }
 .summary-card{
@@ -124,8 +124,8 @@ mark{background:#fff09a}
 
 
   <section class="search-card">
-      <div class="title">시설관리 통합검색1</div>
-      <div class="status">일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 곳에서 검색합니다.</div><br>
+      <div class="title">시설관리 통합검색</div>
+      <div class="status">일일점검 · 작업이력 · 소방점검을 한 곳에서 검색합니다.</div><br>
     <div class="search-row">
       <input id="q" placeholder="예: 301호, 배수펌프, 감지기, 스프링클러, 정전..." onkeydown="if(event.key==='Enter')searchAll()">
       <button onclick="searchAll()">검색</button>
@@ -139,7 +139,7 @@ mark{background:#fff09a}
       <button class="filter-btn" onclick="chooseSource('daily',this)">일일점검</button>
       <button class="filter-btn" onclick="chooseSource('work',this)">작업이력</button>
       <button class="filter-btn" onclick="chooseSource('fire',this)">소방점검</button>
-      <button class="filter-btn" onclick="chooseSource('report',this)">작업보고서</button>
+      
     </div>
 
     <div class="loading" id="loading"><span class="spinner"></span>자료 검색 중...</div>
@@ -173,7 +173,6 @@ const PAGE_LINKS={
   daily:"daily_search.html",
   work:"work_input.html",
   fire:"fire_search.html",
-  report:"facility_list.html"
 };
 
 let selectedSource="all";
@@ -184,7 +183,6 @@ const sourceCache = {
   daily:  { loaded:false, loadedAt:0, data:[], error:"" },
   work:   { loaded:false, loadedAt:0, data:[], error:"" },
   fire:   { loaded:false, loadedAt:0, data:[], error:"" },
-  report: { loaded:false, loadedAt:0, data:[], error:"" }
 };
 
 function cacheFresh(key){
@@ -274,32 +272,6 @@ async function getWork(q,force=false){
 }
 
 /* ===== 작업보고서 ===== */
-async function loadReportData(force=false){
-  if(!force && cacheFresh("report")) return sourceCache.report.data;
-
-  const json=await getJson(REPORT_URL+"?action=list&_="+Date.now());
-  if(json.result!=="success")throw new Error(json.message||"조회 실패");
-
-  const rows=Array.isArray(json.reports)?json.reports:[];
-  sourceCache.report={loaded:true,loadedAt:Date.now(),data:rows,error:""};
-  return rows;
-}
-
-async function getReports(q,force=false){
-  const rows=await loadReportData(force);
-
-  return rows
-    .filter(r=>contains([
-      r.date,r.title,r.jobName,r.details,r.vendor,r.siteName,r.inspector
-    ],q))
-    .map(r=>({
-      title:r.jobName||r.title||"작업보고서",
-      meta:[r.date,r.vendor,"사진 "+(r.itemCount||0)+"개"].filter(Boolean).join(" · "),
-      body:r.details||"",
-      link:r.spreadsheetUrl||PAGE_LINKS.report
-    }));
-}
-
 /* ===== 일일점검 ===== */
 function parseGoogleDate(value){
   if(typeof value!=="string"||!value.startsWith("Date("))return value||"";
