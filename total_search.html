@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>서울숲엘타워 통합자료 검색</title>
+<style>
+:root{
+  --navy:#173e63;
+  --navy2:#0e2568;
+  --bg:#e8ecf3;
+  --line:#dce3ea;
+  --muted:#66727e;
+  --green:#1d8c3a;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:#17202a;
+  font-family:"Pretendard Variable","Noto Sans KR","Malgun Gothic",Arial,sans-serif;
+}
+header{
+  position:sticky;top:0;z-index:30;
+  background:#fff;border-bottom:1px solid #d5d5d5;
+}
+.header-inner{
+  max-width:1100px;margin:auto;height:60px;padding:0 15px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-inner h1{margin:0;font-size:20px}
+.home{
+  width:40px;height:40px;border:0;background:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center
+}
+main{max-width:1100px;margin:auto;padding:14px}
+.hero{
+  background:#153584;color:#fff;border-radius:13px;
+  padding:18px;margin-bottom:12px
+}
+.hero h2{font-size:22px;margin:0 0 6px}
+.hero p{font-size:13px;opacity:.9;margin:0}
+.search-card{
+  background:#fff;border:1px solid var(--line);
+  padding:13px;border-radius:13px;margin-bottom:12px
+}
+.search-row{display:grid;grid-template-columns:1fr 100px;gap:8px}
+.search-row input{
+  width:100%;font-size:1rem;padding:13px;
+  border:1px solid #cbd5df;border-radius:9px
+}
+.search-row button{
+  border:0;border-radius:9px;background:#153584;color:#fff;
+  font-size:1rem;font-weight:700;cursor:pointer
+}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.filter-btn{
+  padding:7px 11px;border:1px solid #d4dae0;border-radius:20px;
+  background:#fff;font-size:12px;cursor:pointer
+}
+.filter-btn.active{background:#e8eefc;color:#153584;border-color:#93a8de;font-weight:700}
+.status{margin-top:10px;font-size:13px;color:var(--muted)}
+.loading{display:none;margin-top:10px;align-items:center;gap:8px;color:#153584;font-size:13px;font-weight:700}
+.loading.show{display:flex}
+.spinner{
+  width:21px;height:21px;border:3px solid #dce3ea;
+  border-top-color:#153584;border-radius:50%;animation:spin .8s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.summary{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:8px;margin-bottom:12px
+}
+.summary-card{
+  background:#fff;border:1px solid var(--line);
+  border-radius:11px;padding:10px;text-align:center
+}
+.summary-card strong{display:block;font-size:20px;color:#153584}
+.summary-card span{font-size:11px;color:var(--muted)}
+.group{
+  background:#fff;border:1px solid var(--line);
+  border-radius:13px;overflow:hidden;margin-bottom:12px
+}
+.group-head{
+  padding:12px 14px;background:#f6f8fb;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between
+}
+.group-head h3{margin:0;font-size:16px}
+.count{padding:4px 8px;border-radius:14px;background:#eaf0f6;font-size:12px}
+.result{padding:12px 14px;border-bottom:1px solid #edf0f3}
+.result:last-child{border-bottom:0}
+.result-title{font-size:15px;font-weight:700;margin-bottom:5px}
+.result-meta{font-size:12px;color:var(--muted);margin-bottom:5px}
+.result-body{font-size:13px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.open-link{
+  display:inline-block;margin-top:7px;
+  font-size:12px;color:#153584;font-weight:700;text-decoration:none
+}
+.empty{padding:25px 12px;text-align:center;color:#71808e}
+.error{color:#b42318}
+mark{background:#fff09a}
+@media(max-width:700px){
+  main{padding:10px}
+  .search-row{grid-template-columns:1fr 82px}
+  .summary{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <h1>서울숲엘타워 통합자료</h1>
+    <button class="home" onclick="location.href='index.html'" aria-label="홈">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H10v7H5a1 1 0 0 1-1-1V9.5z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h2>시설관리 통합검색</h2>
+    <p>일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 곳에서 검색합니다.</p>
+  </section>
+
+  <section class="search-card">
+    <div class="search-row">
+      <input id="q" placeholder="예: 301호, 배수펌프, 감지기, 스프링클러, 정전..." onkeydown="if(event.key==='Enter')searchAll()">
+      <button onclick="searchAll()">검색</button>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" onclick="chooseSource('all',this)">전체</button>
+      <button class="filter-btn" onclick="chooseSource('daily',this)">일일점검</button>
+      <button class="filter-btn" onclick="chooseSource('work',this)">작업이력</button>
+      <button class="filter-btn" onclick="chooseSource('fire',this)">소방점검</button>
+      <button class="filter-btn" onclick="chooseSource('report',this)">작업보고서</button>
+    </div>
+
+    <div class="loading" id="loading"><span class="spinner"></span>자료 검색 중...</div>
+    <div class="status" id="status">검색어를 입력하고 검색 버튼을 누르세요.</div>
+  </section>
+
+  <div class="summary" id="summary" style="display:none"></div>
+  <div id="results"></div>
+</main>
+
+<script>
+"use strict";
+
+/* ===== 현재 사용 중인 데이터 주소 ===== */
+const WORK_HISTORY_URL =
+"https://script.google.com/macros/s/AKfycbweYKQzJozN4HtV1HZbnFtbM7FcqTz491aK-EnRmEBVk_NflVxD7fxMAs8740prwVgZ-g/exec";
+
+const REPORT_URL =
+"https://script.google.com/macros/s/AKfycbxgq2NtX1G8Y2Xr87VDOSOtTIaS_kXzSNEhVAKygdgfrUtFejGt30_4fQvSn6jyqiIM/exec";
+
+const FIRE_URL =
+"https://script.google.com/macros/s/AKfycbxdOkiFs0HIwbnv2i2T9sSNCNNJl-DHw513qblVXMS1fdFSFcJq2tTAcZHk7Jh2an3u/exec";
+
+const DAILY_URL =
+"https://docs.google.com/spreadsheets/d/10jiv1BSN8DzlEcXxIoThB8qQi3kbnP_NNjShQLGGEs4/gviz/tq?tqx=out:json";
+
+/*
+ * 실제 GitHub 파일명과 다르면 아래 4개만 바꾸면 됩니다.
+ */
+const PAGE_LINKS={
+  daily:"daily_search.html",
+  work:"work_input.html",
+  fire:"fire_search.html",
+  report:"facility_list.html"
+};
+
+let selectedSource="all";
+
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function hi(v,q){
+  let s=esc(v);
+  if(!q)return s;
+  const z=q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  return s.replace(new RegExp(z,"gi"),m=>"<mark>"+m+"</mark>");
+}
+
+function chooseSource(source,btn){
+  selectedSource=source;
+  document.querySelectorAll(".filter-btn").forEach(x=>x.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function contains(values,q){
+  const needle=q.toLowerCase();
+  return values.some(v=>String(v??"").toLowerCase().includes(needle));
+}
+
+async function getJson(url){
+  const res=await fetch(url,{method:"GET",cache:"no-store",redirect:"follow"});
+  if(!res.ok)throw new Error("HTTP "+res.status);
+  return await res.json();
+}
+
+/* ===== 작업이력 ===== */
+async function getWork(q){
+  const json=await getJson(WORK_HISTORY_URL+"?action=list&_="+Date.now());
+  if(!json.success)throw new Error(json.error||"조회 실패");
+
+  const rows=Array.isArray(json.data)?json.data:[];
+
+  return rows
+    .filter(r=>contains([
+      r["날짜"],r["구분"],r["위치/내용"],r["작업내용"],r["작업자"],r["비고"]
+    ],q))
+    .map(r=>({
+      title:[r["구분"],r["위치/내용"]].filter(Boolean).join(" · "),
+      meta:[r["날짜"],r["작업자"]].filter(Boolean).join(" · "),
+      body:[r["작업내용"],r["비고"]].filter(Boolean).join("\n"),
+      link:PAGE_LINKS.work
+    }));
+}
+
+/* ===== 작업보고서 ===== */
+async function getReports(q){
+  const json=await getJson(REPORT_URL+"?action=list&_="+Date.now());
+  if(json.result!=="success")throw new Error(json.message||"조회 실패");
+
+  const rows=Array.isArray(json.reports)?json.reports:[];
+
+  return rows
+    .filter(r=>contains([
+      r.date,r.title,r.jobName,r.details,r.vendor,r.siteName,r.inspector
+    ],q))
+    .map(r=>({
+      title:r.jobName||r.title||"작업보고서",
+      meta:[r.date,r.vendor,"사진 "+(r.itemCount||0)+"개"].filter(Boolean).join(" · "),
+      body:r.details||"",
+      link:r.spreadsheetUrl||PAGE_LINKS.report
+    }));
+}
+
+/* ===== 일일점검 ===== */
+function parseGoogleDate(value){
+  if(typeof value!=="string"||!value.startsWith("Date("))return value||"";
+  const nums=value.match(/\d+/g).map(Number);
+  return `${nums[0]}.${nums[1]+1}.${nums[2]}`;
+}
+
+async function getDaily(q){
+  const res=await fetch(DAILY_URL,{cache:"no-store"});
+  if(!res.ok)throw new Error("HTTP "+res.status);
+
+  const text=await res.text();
+  const json=JSON.parse(text.substring(47).slice(0,-2));
+
+  const rows=(json.table.rows||[]).map(r=>({
+    date:parseGoogleDate(r.c[0]?.v||""),
+    day:r.c[1]?.v||"",
+    author:r.c[2]?.v||"",
+    task:r.c[3]?.v||"",
+    next:r.c[4]?.v||""
+  }));
+
+  return rows
+    .filter(r=>contains([r.date,r.day,r.author,r.task,r.next],q))
+    .map(r=>({
+      title:[r.date,r.day].filter(Boolean).join(" · "),
+      meta:r.author?"작성자 "+r.author:"",
+      body:[r.task,r.next?("향후 추진사항: "+r.next):""].filter(Boolean).join("\n"),
+      link:PAGE_LINKS.daily
+    }));
+}
+
+/* ===== 소방점검 ===== */
+async function getFire(q){
+  const json=await getJson(FIRE_URL);
+
+  if(!json.ok)throw new Error(json.error||"조회 실패");
+
+  const rows=Array.isArray(json.data)?json.data:[];
+
+  const keys=[
+    "연도","점검종류","신고구분","구분","상세구분",
+    "점검내역","보완대책","관련법규","원본파일","처리상태","비고"
+  ];
+
+  return rows
+    .filter(r=>contains(keys.map(k=>r[k]),q))
+    .map(r=>({
+      title:[r["연도"],r["구분"],r["상세구분"]].filter(Boolean).join(" · "),
+      meta:[r["점검종류"],r["신고구분"],r["처리상태"]].filter(Boolean).join(" · "),
+      body:[r["점검내역"],r["보완대책"],r["관련법규"]].filter(Boolean).join("\n"),
+      link:PAGE_LINKS.fire
+    }));
+}
+
+function sectionHtml(label,items,q,error){
+  if(error){
+    return `<section class="group">
+      <div class="group-head"><h3>${esc(label)}</h3><span class="count">연결 오류</span></div>
+      <div class="empty error">${esc(error)}</div>
+    </section>`;
+  }
+
+  if(!items.length)return "";
+
+  return `<section class="group">
+    <div class="group-head">
+      <h3>${esc(label)}</h3>
+      <span class="count">${items.length}건</span>
+    </div>
+
+    ${items.slice(0,100).map(item=>`
+      <article class="result">
+        <div class="result-title">${hi(item.title,q)}</div>
+        ${item.meta?`<div class="result-meta">${hi(item.meta,q)}</div>`:""}
+        ${item.body?`<div class="result-body">${hi(item.body,q)}</div>`:""}
+        ${item.link?`<a class="open-link" href="${esc(item.link)}" target="_blank" rel="noopener">원본 / 상세페이지 열기 →</a>`:""}
+      </article>
+    `).join("")}
+
+    ${items.length>100?`<div class="empty">검색결과가 많아 상위 100건만 표시합니다.</div>`:""}
+  </section>`;
+}
+
+async function searchAll(){
+  const q=document.getElementById("q").value.trim();
+  const loading=document.getElementById("loading");
+  const status=document.getElementById("status");
+  const results=document.getElementById("results");
+  const summary=document.getElementById("summary");
+
+  if(!q){
+    status.textContent="검색어를 입력하세요.";
+    results.innerHTML="";
+    summary.style.display="none";
+    return;
+  }
+
+  loading.classList.add("show");
+  status.textContent="통합검색 중...";
+  results.innerHTML="";
+  summary.style.display="none";
+
+  const sources=[
+    ["daily","일일점검",getDaily],
+    ["work","작업이력",getWork],
+    ["fire","소방점검",getFire],
+    ["report","작업보고서",getReports]
+  ].filter(x=>selectedSource==="all"||x[0]===selectedSource);
+
+  const settled=await Promise.allSettled(
+    sources.map(async ([key,label,fn])=>({
+      key,label,items:await fn(q)
+    }))
+  );
+
+  const groups=settled.map((r,i)=>{
+    const [key,label]=sources[i];
+
+    return r.status==="fulfilled"
+      ? {key,label,items:r.value.items,error:""}
+      : {key,label,items:[],error:r.reason?.message||"조회 실패"};
+  });
+
+  const total=groups.reduce((sum,g)=>sum+g.items.length,0);
+  const errors=groups.filter(g=>g.error).length;
+
+  summary.innerHTML=groups.map(g=>`
+    <div class="summary-card">
+      <strong>${g.error?"-":g.items.length}</strong>
+      <span>${esc(g.label)}</span>
+    </div>
+  `).join("");
+  summary.style.display="grid";
+
+  results.innerHTML=groups.map(g=>
+    sectionHtml(g.label,g.items,q,g.error)
+  ).join("");
+
+  if(total===0 && errors===0){
+    results.innerHTML='<section class="group"><div class="empty">검색 결과가 없습니다.</div></section>';
+  }
+
+  status.textContent=
+    "전체 검색결과 "+total+"건"+
+    (errors?" · 연결 실패 "+errors+"개":"");
+
+  loading.classList.remove("show");
+}
+
+window.addEventListener("DOMContentLoaded",()=>{
+  const params=new URLSearchParams(location.search);
+  const q=params.get("q")||"";
+  if(q){
+    document.getElementById("q").value=q;
+    searchAll();
+  }
+});
+
+</script>
+</body>
+</html>
