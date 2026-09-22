@@ -60,10 +60,10 @@ main{max-width:1100px;margin:auto;padding:14px}
 }
 .filter-btn.active{background:#e8eefc;color:#153584;border-color:#93a8de;font-weight:700}
 .status{margin-top:10px;font-size:13px;color:var(--muted)}
-.loading{display:none;margin-top:10px;align-items:center;gap:8px;color:#153584;font-size:13px;font-weight:700}
+.loading{display:none;margin-top:10px;align-items:center;gap:8px;color:#153584;font-size:1.3rem;font-weight:700}
 .loading.show{display:flex}
 .spinner{
-  width:21px;height:21px;border:3px solid #dce3ea;
+  width:30px;height:30px;border:3px solid #dce3ea;
   border-top-color:#153584;border-radius:50%;animation:spin .8s linear infinite
 }
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -104,10 +104,12 @@ mark{background:#fff09a}
   .search-row{grid-template-columns:1fr 82px}
   .summary{grid-template-columns:1fr 1fr}
 }
+.title {font-size: 1.5rem;color:#153584;font-weight:700;text-decoration:none;}
+    
 </style>
 </head>
 <body>
-<!-- <header>
+<header>
   <div class="header-inner">
     <h1>서울숲엘타워</h1>
     <button class="home" onclick="location.href='index.html'" aria-label="홈">
@@ -117,14 +119,13 @@ mark{background:#fff09a}
     </button>
   </div>
 </header>
- -->
+
 <main>
-  <section class="hero">
-    <h2>시설관리 통합검색</h2>
-    <p>일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 곳에서 검색합니다.</p>
-  </section>
+
 
   <section class="search-card">
+      <div class="title">시설관리 통합검색</div>
+      <div class="status">일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 곳에서 검색합니다.</div><br>
     <div class="search-row">
       <input id="q" placeholder="예: 301호, 배수펌프, 감지기, 스프링클러, 정전..." onkeydown="if(event.key==='Enter')searchAll()">
       <button onclick="searchAll()">검색</button>
@@ -139,7 +140,7 @@ mark{background:#fff09a}
     </div>
 
     <div class="loading" id="loading"><span class="spinner"></span>자료 검색 중...</div>
-    <div class="status" id="status">검색어를 입력하고 검색 버튼을 누르세요.</div>
+
   </section>
 
   <div class="summary" id="summary" style="display:none"></div>
