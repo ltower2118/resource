@@ -5,107 +5,131 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>서울숲엘타워 지식산업센터</title>
 <style>
-:root{
-  --navy:#173e63;
-  --navy2:#0e2568;
-  --bg:#e8ecf3;
-  --line:#dce3ea;
-  --muted:#66727e;
-  --green:#1d8c3a;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:var(--bg);
-  color:#17202a;
-  font-family:"Pretendard Variable","Noto Sans KR","Malgun Gothic",Arial,sans-serif;
-}
-header{
-  position:sticky;top:0;z-index:30;
-  background:#fff;border-bottom:1px solid #d5d5d5;
-}
-.header-inner{
-  max-width:1100px;margin:auto;height:60px;padding:0 15px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.header-inner h1{margin:0;font-size:20px}
-.home{
-  width:40px;height:40px;border:0;background:#fff;cursor:pointer;
-  display:flex;align-items:center;justify-content:center
-}
-main{max-width:1100px;margin:auto;padding:14px}
-.hero{
-  background:#153584;color:#fff;border-radius:13px;
-  padding:18px;margin-bottom:12px
-}
-.hero h2{font-size:22px;margin:0 0 6px}
-.hero p{font-size:13px;opacity:.9;margin:0}
-.search-card{
-  background:#fff;border:1px solid var(--line);
-  padding:13px;border-radius:13px;margin-bottom:12px
-}
-.search-row{display:grid;grid-template-columns:1fr 100px;gap:8px}
-.search-row input{
-  width:100%;font-size:1rem;padding:13px;
-  border:1px solid #cbd5df;border-radius:9px
-}
-.search-row button{
-  border:0;border-radius:9px;background:#153584;color:#fff;
-  font-size:0.8rem;font-weight:700;cursor:pointer
-}
-.filters{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.filter-btn{
-  padding:7px 11px;border:1px solid #d4dae0;border-radius:20px;
-  background:#fff;font-size:1.0rem;cursor:pointer
-}
-.filter-btn.active{background:#e8eefc;color:#153584;border-color:#93a8de;font-weight:700}
-.status{margin-top:10px;font-size:13px;color:var(--muted)}
-.loading{display:none;margin-top:10px;align-items:center;gap:8px;color:#153584;font-size:1.3rem;font-weight:700}
-.loading.show{display:flex}
-.spinner{
-  width:30px;height:30px;border:3px solid #dce3ea;
-  border-top-color:#153584;border-radius:50%;animation:spin .8s linear infinite
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.summary{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:8px;margin-bottom:12px
-}
-.summary-card{
-  background:#fff;border:1px solid var(--line);
-  border-radius:11px;padding:10px;text-align:center
-}
-.summary-card strong{display:block;font-size:1.5rem;color:#153584}
-.summary-card span{font-size:11px;color:var(--muted)}
-.group{
-  background:#fff;border:1px solid var(--line);
-  border-radius:13px;overflow:hidden;margin-bottom:12px
-}
-.group-head{
-  padding:12px 14px;background:#dce3ea;border-bottom:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between
-}
-.group-head h3{margin:0;font-size:1.4rem}
-.count{padding:4px 8px;border-radius:24px;background:#eaf0f6;font-size:0.9rem}
-.result{padding:12px 14px;border-bottom:1px solid #edf0f3}
-.result:last-child{border-bottom:0}
-.result-title{font-size:1.3rem;font-weight:700;margin-bottom:5px}
-.result-meta{font-size:12px;color:var(--muted);margin-bottom:5px}
-.result-body{font-size:1.0rem;line-height:1.55;white-space:pre-wrap;word-break:break-word}
-.open-link{
-  display:inline-block;margin-top:7px;
-  font-size:12px;color:#153584;font-weight:700;text-decoration:none
-}
-.empty{padding:25px 12px;text-align:center;color:#71808e}
-.error{color:#b42318}
-mark{background:#fff09a}
-@media(max-width:700px){
-  main{padding:10px}
-  .search-row{grid-template-columns:1fr 82px}
-  .summary{grid-template-columns:1fr 1fr}
-}
-.title {font-size: 1.5rem;color:#153584;font-weight:700;text-decoration:none;}
-    
+    :root{
+      --navy:#173e63;
+      --navy2:#0e2568;
+      --bg:#e8ecf3;
+      --line:#dce3ea;
+      --muted:#66727e;
+      --green:#1d8c3a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:#17202a;
+      font-family:"Pretendard Variable","Noto Sans KR","Malgun Gothic",Arial,sans-serif;
+    }
+    header{
+      position:sticky;top:0;z-index:30;
+      background:#fff;border-bottom:1px solid #d5d5d5;
+    }
+    .header-inner{
+      max-width:1100px;margin:auto;height:60px;padding:0 15px;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .header-inner h1{margin:0;font-size:20px}
+    .home{
+      width:40px;height:40px;border:0;background:#fff;cursor:pointer;
+      display:flex;align-items:center;justify-content:center
+    }
+    main{max-width:1100px;margin:auto;padding:14px}
+    .hero{
+      background:#153584;color:#fff;border-radius:13px;
+      padding:18px;margin-bottom:12px
+    }
+    .hero h2{font-size:22px;margin:0 0 6px}
+    .hero p{font-size:13px;opacity:.9;margin:0}
+    .search-card{
+      background:#fff;border:1px solid var(--line);
+      padding:13px;border-radius:13px;margin-bottom:12px
+    }
+    .search-row{display:grid;grid-template-columns:1fr 100px;gap:8px}
+    .search-row input{
+      width:100%;font-size:1rem;padding:13px;
+      border:1px solid #cbd5df;border-radius:9px
+    }
+    .search-row button{
+      border:0;border-radius:9px;background:#153584;color:#fff;
+      font-size:0.8rem;font-weight:700;cursor:pointer
+    }
+    .filters{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+    .filter-btn{
+      padding:7px 11px;border:1px solid #d4dae0;border-radius:20px;
+      background:#fff;font-size:0.8rem;cursor:pointer
+    }
+    .filter-btn.active{background:#e8eefc;color:#153584;border-color:#93a8de;font-weight:700}
+    .status{margin-top:10px;font-size:13px;color:var(--muted)}
+    .loading{display:none;margin-top:10px;align-items:center;gap:8px;color:#153584;font-size:1.3rem;font-weight:700}
+    .loading.show{display:flex}
+    .spinner{
+      width:30px;height:30px;border:3px solid #dce3ea;
+      border-top-color:#153584;border-radius:50%;animation:spin .8s linear infinite
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .summary{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:8px;margin-bottom:12px
+    }
+    .summary-card{
+      background:#fff;border:1px solid var(--line);
+      border-radius:11px;padding:10px;text-align:center
+    }
+    .summary-card strong{display:block;font-size:0.8rem;color:#153584}
+    .summary-card span{font-size:11px;color:var(--muted)}
+    .group{
+      background:#fff;border:1px solid var(--line);
+      border-radius:13px;overflow:hidden;margin-bottom:12px
+    }
+    .group-head{
+      padding:12px 14px;background:#dce3ea;border-bottom:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between
+    }
+    .group-head h3{margin:0;font-size:1.2rem}
+    .count{padding:4px 8px;border-radius:24px;background:#eaf0f6;font-size:0.9rem}
+    .result{padding:12px 14px;border-bottom:1px solid #edf0f3}
+    .result:last-child{border-bottom:0}
+    .result-title{font-size:1.2rem;font-weight:700;margin-bottom:5px}
+    .result-meta{font-size:12px;color:var(--muted);margin-bottom:5px}
+    .result-body{font-size:1.0rem;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+    .open-link{
+      display:inline-block;margin-top:7px;
+      font-size:12px;color:#153584;font-weight:700;text-decoration:none
+    }
+    .empty{padding:25px 12px;text-align:center;color:#71808e}
+    .error{color:#b42318}
+    mark{background:#fff09a}
+
+    .refresh-full-btn{
+      width:100%;
+      margin-top:10px;
+      padding:11px 14px;
+      background:#fff;
+      color:#111;
+      border:1px solid #111;
+      border-radius:9px;
+      font-size:0.95rem;
+      font-weight:700;
+      cursor:pointer;
+      transition:background .15s ease, transform .05s ease;
+    }
+
+    .refresh-full-btn:hover{
+      background:#f7f7f7;
+    }
+
+    .refresh-full-btn:active{
+      background:#eeeeee;
+      transform:translateY(1px);
+    }
+
+    @media(max-width:700px){
+      main{padding:10px}
+      .search-row{grid-template-columns:1fr 82px}
+      .summary{grid-template-columns:1fr 1fr}
+    }
+    .title {font-size: 1.5rem;color:#153584;font-weight:700;text-decoration:none;}
+
 </style>
 </head>
 <body>
@@ -124,16 +148,12 @@ mark{background:#fff09a}
 
 
   <section class="search-card">
-      <div class="title">시설관리 통합검색5</div>
+      <div class="title">시설관리 통합검색</div>
       <div class="status" id="status">일일점검 · 작업이력 · 소방점검을 한 곳에서 검색합니다.</div><br>
     <div class="search-row">
       <input id="q" placeholder="예: 301호, 배수펌프, 감지기, 스프링클러, 정전..." onkeydown="if(event.key==='Enter')searchAll()">
       <button onclick="searchAll()">검색</button>
     </div>
-    <div style="margin-top:8px;text-align:right">
-      <button type="button" onclick="refreshAllData()" style="background: #1e3a8a;color: #fff;border: none;padding: 10px 18px;border-radius: 6px;font-size: 1rem;font-weight: 700;cursor: pointer;">최신자료 새로고침</button>
-    </div>
-
     <div class="filters">
       <button class="filter-btn active" onclick="chooseSource('all',this)">전체</button>
       <button class="filter-btn" onclick="chooseSource('daily',this)">일일점검</button>
@@ -172,7 +192,7 @@ const DAILY_URL =
 const PAGE_LINKS={
   daily:"history_day.html",
   work:"history.html",
-  fire:"fireinpection/search.html.html",
+  fire:"fireinpection/search.html",
 };
 
 let selectedSource="all";
