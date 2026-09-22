@@ -460,7 +460,7 @@
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
-    <br>
+    <br><br>
         <!-- 통합검색 -->
     <div class="integrated-search-box">
         <div class="integrated-search-title">통합검색</div>
@@ -472,9 +472,6 @@
                 autocomplete="off"
                 onkeydown="if(event.key==='Enter'){openIntegratedSearch();}">
             <button type="button" onclick="openIntegratedSearch()">검색</button>
-        </div>
-        <div class="integrated-search-help">
-            일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 번에 검색합니다.
         </div>
     </div>
      <!--
@@ -599,7 +596,7 @@ function openIntegratedSearch(){
     const input=document.getElementById('mainIntegratedSearch');
     const q=input ? input.value.trim() : '';
 
-    let url='seoulforest_unified_search.html';
+    let url='total_search.html';
     if(q){
         url += '?q=' + encodeURIComponent(q);
     }
