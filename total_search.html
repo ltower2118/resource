@@ -124,8 +124,8 @@ mark{background:#fff09a}
 
 
   <section class="search-card">
-      <div class="title">시설관리 통합검색</div>
-      <div class="status">일일점검 · 작업이력 · 소방점검을 한 곳에서 검색합니다.</div><br>
+      <div class="title">시설관리 통합검색2</div>
+      <div class="status" id="status">일일점검 · 작업이력 · 소방점검을 한 곳에서 검색합니다.</div><br>
     <div class="search-row">
       <input id="q" placeholder="예: 301호, 배수펌프, 감지기, 스프링클러, 정전..." onkeydown="if(event.key==='Enter')searchAll()">
       <button onclick="searchAll()">검색</button>
@@ -220,7 +220,7 @@ function contains(values,q){
   return values.some(v=>String(v??"").toLowerCase().includes(needle));
 }
 
-async function fetchWithTimeout(url, options={}, timeoutMs=12000){
+async function fetchWithTimeout(url, options={}, timeoutMs=6000){
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),timeoutMs);
   try{
@@ -235,7 +235,7 @@ async function fetchWithTimeout(url, options={}, timeoutMs=12000){
   }
 }
 
-async function getJson(url, timeoutMs=12000){
+async function getJson(url, timeoutMs=6000){
   const res=await fetchWithTimeout(
     url,
     {method:"GET",cache:"no-store",redirect:"follow"},
@@ -285,7 +285,7 @@ async function loadDailyData(force=false){
   const res=await fetchWithTimeout(
     DAILY_URL,
     {method:"GET",cache:"no-store",redirect:"follow"},
-    12000
+    6000
   );
 
   const text=await res.text();
@@ -396,59 +396,71 @@ async function searchAll(force=false){
   }
 
   if(loading) loading.classList.add("show");
-  if(status) status.textContent=force ? "최신자료를 다시 불러오는 중..." : "통합검색 중...";
+  if(status) status.textContent=force ? "최신자료 확인 중..." : "자료 검색 중...";
   if(results) results.innerHTML="";
   if(summary) summary.style.display="none";
 
-  const sources=[
-    ["daily","일일점검",getDaily],
-    ["work","작업이력",getWork],
-    ["fire","소방점검",getFire],
-    ["report","작업보고서",getReports]
-  ].filter(x=>selectedSource==="all"||x[0]===selectedSource);
-
-  const groups=sources.map(([key,label])=>({
-    key,label,items:[],error:"",done:false
-  }));
-
-  function renderProgress(){
-    const doneGroups=groups.filter(g=>g.done);
-    const total=doneGroups.reduce((sum,g)=>sum+g.items.length,0);
-    const errors=doneGroups.filter(g=>g.error).length;
-
-    if(summary){
-      summary.innerHTML=groups.map(g=>`
-        <div class="summary-card">
-          <strong>${g.done ? (g.error ? "-" : g.items.length) : "…"}</strong>
-          <span>${esc(g.label)}</span>
-        </div>
-      `).join("");
-      summary.style.display="grid";
-    }
-
-    if(results){
-      results.innerHTML=doneGroups.map(g=>
-        sectionHtml(g.label,g.items,q,g.error)
-      ).join("");
-
-      if(doneGroups.length && total===0 && errors===0 && doneGroups.length===groups.length){
-        results.innerHTML='<section class="group"><div class="empty">검색 결과가 없습니다.</div></section>';
-      }
-    }
-
-    if(status){
-      if(doneGroups.length===groups.length){
-        status.textContent=
-          "전체 검색결과 "+total+"건"+
-          (errors ? " · 일부 자료 연결 실패 "+errors+"개" : "");
-      }else{
-        status.textContent=
-          "검색 중 · "+doneGroups.length+"/"+groups.length+"개 자료 확인 완료";
-      }
-    }
-  }
-
   try{
+    /*
+     * 작업보고서는 통합검색에서 제외.
+     * 일일점검 / 작업이력 / 소방점검 3개만 조회.
+     */
+    const sources=[
+      ["daily","일일점검",getDaily],
+      ["work","작업이력",getWork],
+      ["fire","소방점검",getFire]
+    ].filter(x=>selectedSource==="all"||x[0]===selectedSource);
+
+    const groups=sources.map(([key,label])=>({
+      key,
+      label,
+      items:[],
+      error:"",
+      done:false
+    }));
+
+    function renderProgress(){
+      const doneGroups=groups.filter(g=>g.done);
+      const total=doneGroups.reduce((sum,g)=>sum+g.items.length,0);
+      const errors=doneGroups.filter(g=>g.error).length;
+
+      if(summary){
+        summary.innerHTML=groups.map(g=>`
+          <div class="summary-card">
+            <strong>${g.done ? (g.error ? "-" : g.items.length) : "…"}</strong>
+            <span>${esc(g.label)}</span>
+          </div>
+        `).join("");
+        summary.style.display="grid";
+      }
+
+      if(results){
+        results.innerHTML=doneGroups
+          .map(g=>sectionHtml(g.label,g.items,q,g.error))
+          .join("");
+
+        if(
+          doneGroups.length===groups.length &&
+          total===0 &&
+          errors===0
+        ){
+          results.innerHTML=
+            '<section class="group"><div class="empty">검색 결과가 없습니다.</div></section>';
+        }
+      }
+
+      if(status){
+        if(doneGroups.length===groups.length){
+          status.textContent=
+            "전체 검색결과 "+total+"건"+
+            (errors ? " · 일부 자료 연결 실패 "+errors+"개" : "");
+        }else{
+          status.textContent=
+            "검색 중 · "+doneGroups.length+"/"+groups.length+"개 확인";
+        }
+      }
+    }
+
     const jobs=sources.map(async ([key,label,fn],idx)=>{
       try{
         groups[idx].items=await fn(q,force);
@@ -464,8 +476,24 @@ async function searchAll(force=false){
 
     await Promise.all(jobs);
 
+  }catch(err){
+    const msg=(err && err.message) ? err.message : String(err);
+
+    if(status){
+      status.textContent="통합검색 오류: "+msg;
+    }
+
+    if(results){
+      results.innerHTML=
+        '<section class="group"><div class="empty error">'+
+        esc(msg)+
+        '</div></section>';
+    }
+
   }finally{
-    if(loading) loading.classList.remove("show");
+    if(loading){
+      loading.classList.remove("show");
+    }
   }
 }
 
