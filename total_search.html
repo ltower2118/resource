@@ -124,11 +124,14 @@ mark{background:#fff09a}
 
 
   <section class="search-card">
-      <div class="title">시설관리 통합검색</div>
-      <div class="status" id="status">일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 곳에서 검색합니다.</div><br>
+      <div class="title">시설관리 통합검색1</div>
+      <div class="status">일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 곳에서 검색합니다.</div><br>
     <div class="search-row">
       <input id="q" placeholder="예: 301호, 배수펌프, 감지기, 스프링클러, 정전..." onkeydown="if(event.key==='Enter')searchAll()">
       <button onclick="searchAll()">검색</button>
+    </div>
+    <div style="margin-top:8px;text-align:right">
+      <button type="button" onclick="refreshAllData()" style="padding:7px 11px;border:1px solid #b7c1cc;border-radius:7px;background:#fff;color:#153584;font-weight:700;cursor:pointer">최신자료 새로고침</button>
     </div>
 
     <div class="filters">
@@ -167,13 +170,33 @@ const DAILY_URL =
  * 실제 GitHub 파일명과 다르면 아래 4개만 바꾸면 됩니다.
  */
 const PAGE_LINKS={
-  daily:"history_day.html",              // 일일점검일지 조회
-  work:"history.html",                   // 작업이력 입력/조회
-  fire:"fireinpection/search.html",      // 소방점검 조회
-  report:"facility04/facility_list.html" // 작업보고서 목록
+  daily:"daily_search.html",
+  work:"work_input.html",
+  fire:"fire_search.html",
+  report:"facility_list.html"
 };
 
 let selectedSource="all";
+
+/* 통합검색 데이터 캐시 */
+const DATA_CACHE_TTL = 5 * 60 * 1000; // 5분
+const sourceCache = {
+  daily:  { loaded:false, loadedAt:0, data:[], error:"" },
+  work:   { loaded:false, loadedAt:0, data:[], error:"" },
+  fire:   { loaded:false, loadedAt:0, data:[], error:"" },
+  report: { loaded:false, loadedAt:0, data:[], error:"" }
+};
+
+function cacheFresh(key){
+  const c=sourceCache[key];
+  return c.loaded && (Date.now()-c.loadedAt < DATA_CACHE_TTL);
+}
+
+function clearSearchCache(){
+  Object.keys(sourceCache).forEach(key=>{
+    sourceCache[key]={loaded:false,loadedAt:0,data:[],error:""};
+  });
+}
 
 function esc(v){
   return String(v??"").replace(/[&<>"']/g,c=>({
@@ -224,11 +247,19 @@ async function getJson(url, timeoutMs=12000){
 }
 
 /* ===== 작업이력 ===== */
-async function getWork(q){
+async function loadWorkData(force=false){
+  if(!force && cacheFresh("work")) return sourceCache.work.data;
+
   const json=await getJson(WORK_HISTORY_URL+"?action=list&_="+Date.now());
   if(!json.success)throw new Error(json.error||"조회 실패");
 
   const rows=Array.isArray(json.data)?json.data:[];
+  sourceCache.work={loaded:true,loadedAt:Date.now(),data:rows,error:""};
+  return rows;
+}
+
+async function getWork(q,force=false){
+  const rows=await loadWorkData(force);
 
   return rows
     .filter(r=>contains([
@@ -243,11 +274,19 @@ async function getWork(q){
 }
 
 /* ===== 작업보고서 ===== */
-async function getReports(q){
+async function loadReportData(force=false){
+  if(!force && cacheFresh("report")) return sourceCache.report.data;
+
   const json=await getJson(REPORT_URL+"?action=list&_="+Date.now());
   if(json.result!=="success")throw new Error(json.message||"조회 실패");
 
   const rows=Array.isArray(json.reports)?json.reports:[];
+  sourceCache.report={loaded:true,loadedAt:Date.now(),data:rows,error:""};
+  return rows;
+}
+
+async function getReports(q,force=false){
+  const rows=await loadReportData(force);
 
   return rows
     .filter(r=>contains([
@@ -268,7 +307,9 @@ function parseGoogleDate(value){
   return `${nums[0]}.${nums[1]+1}.${nums[2]}`;
 }
 
-async function getDaily(q){
+async function loadDailyData(force=false){
+  if(!force && cacheFresh("daily")) return sourceCache.daily.data;
+
   const res=await fetchWithTimeout(
     DAILY_URL,
     {method:"GET",cache:"no-store",redirect:"follow"},
@@ -286,6 +327,13 @@ async function getDaily(q){
     next:r.c[4]?.v||""
   }));
 
+  sourceCache.daily={loaded:true,loadedAt:Date.now(),data:rows,error:""};
+  return rows;
+}
+
+async function getDaily(q,force=false){
+  const rows=await loadDailyData(force);
+
   return rows
     .filter(r=>contains([r.date,r.day,r.author,r.task,r.next],q))
     .map(r=>({
@@ -297,12 +345,19 @@ async function getDaily(q){
 }
 
 /* ===== 소방점검 ===== */
-async function getFire(q){
-  const json=await getJson(FIRE_URL);
+async function loadFireData(force=false){
+  if(!force && cacheFresh("fire")) return sourceCache.fire.data;
 
+  const json=await getJson(FIRE_URL);
   if(!json.ok)throw new Error(json.error||"조회 실패");
 
   const rows=Array.isArray(json.data)?json.data:[];
+  sourceCache.fire={loaded:true,loadedAt:Date.now(),data:rows,error:""};
+  return rows;
+}
+
+async function getFire(q,force=false){
+  const rows=await loadFireData(force);
 
   const keys=[
     "연도","점검종류","신고구분","구분","상세구분",
@@ -351,7 +406,7 @@ function sectionHtml(label,items,q,error){
   </section>`;
 }
 
-async function searchAll(){
+async function searchAll(force=false){
   const qEl=document.getElementById("q");
   const loading=document.getElementById("loading");
   const status=document.getElementById("status");
@@ -369,111 +424,90 @@ async function searchAll(){
   }
 
   if(loading) loading.classList.add("show");
-  if(status) status.textContent="통합검색 중...";
+  if(status) status.textContent=force ? "최신자료를 다시 불러오는 중..." : "통합검색 중...";
   if(results) results.innerHTML="";
   if(summary) summary.style.display="none";
 
-  try{
-    const sources=[
-      ["daily","일일점검",getDaily],
-      ["work","작업이력",getWork],
-      ["fire","소방점검",getFire],
-      ["report","작업보고서",getReports]
-    ].filter(x=>selectedSource==="all"||x[0]===selectedSource);
+  const sources=[
+    ["daily","일일점검",getDaily],
+    ["work","작업이력",getWork],
+    ["fire","소방점검",getFire],
+    ["report","작업보고서",getReports]
+  ].filter(x=>selectedSource==="all"||x[0]===selectedSource);
 
-    const settled=await Promise.allSettled(
-      sources.map(async ([key,label,fn])=>{
-        try{
-          const items=await fn(q);
-          return {key,label,items};
-        }catch(err){
-          throw new Error(
-            label+" 조회 실패: "+
-            (err && err.message ? err.message : "알 수 없는 오류")
-          );
-        }
-      })
-    );
+  const groups=sources.map(([key,label])=>({
+    key,label,items:[],error:"",done:false
+  }));
 
-    const groups=settled.map((r,i)=>{
-      const [key,label]=sources[i];
-
-      return r.status==="fulfilled"
-        ? {key,label,items:r.value.items,error:""}
-        : {
-            key,
-            label,
-            items:[],
-            error:(r.reason && r.reason.message) ? r.reason.message : "조회 실패"
-          };
-    });
-
-    const total=groups.reduce((sum,g)=>sum+g.items.length,0);
-    const errors=groups.filter(g=>g.error).length;
+  function renderProgress(){
+    const doneGroups=groups.filter(g=>g.done);
+    const total=doneGroups.reduce((sum,g)=>sum+g.items.length,0);
+    const errors=doneGroups.filter(g=>g.error).length;
 
     if(summary){
       summary.innerHTML=groups.map(g=>`
         <div class="summary-card">
-          <strong>${g.error?"-":g.items.length}</strong>
+          <strong>${g.done ? (g.error ? "-" : g.items.length) : "…"}</strong>
           <span>${esc(g.label)}</span>
         </div>
       `).join("");
-
       summary.style.display="grid";
     }
 
     if(results){
-      results.innerHTML=groups
-        .map(g=>sectionHtml(g.label,g.items,q,g.error))
-        .join("");
+      results.innerHTML=doneGroups.map(g=>
+        sectionHtml(g.label,g.items,q,g.error)
+      ).join("");
 
-      if(total===0 && errors===0){
-        results.innerHTML=
-          '<section class="group"><div class="empty">검색 결과가 없습니다.</div></section>';
+      if(doneGroups.length && total===0 && errors===0 && doneGroups.length===groups.length){
+        results.innerHTML='<section class="group"><div class="empty">검색 결과가 없습니다.</div></section>';
       }
     }
 
     if(status){
-      status.textContent=
-        "전체 검색결과 "+total+"건"+
-        (errors ? " · 일부 자료 연결 실패 "+errors+"개" : "");
-    }
-
-  }catch(err){
-    const msg=(err && err.message) ? err.message : String(err);
-
-    if(status){
-      status.textContent="통합검색 오류: "+msg;
-    }
-
-    if(results){
-      results.innerHTML=
-        '<section class="group"><div class="empty error">'+
-        esc(msg)+
-        '</div></section>';
-    }
-
-  }finally{
-    /*
-     * 어떤 오류가 발생해도 반드시 로딩을 종료
-     */
-    if(loading){
-      loading.classList.remove("show");
+      if(doneGroups.length===groups.length){
+        status.textContent=
+          "전체 검색결과 "+total+"건"+
+          (errors ? " · 일부 자료 연결 실패 "+errors+"개" : "");
+      }else{
+        status.textContent=
+          "검색 중 · "+doneGroups.length+"/"+groups.length+"개 자료 확인 완료";
+      }
     }
   }
+
+  try{
+    const jobs=sources.map(async ([key,label,fn],idx)=>{
+      try{
+        groups[idx].items=await fn(q,force);
+      }catch(err){
+        groups[idx].error=
+          label+" 조회 실패: "+
+          (err && err.message ? err.message : "알 수 없는 오류");
+      }finally{
+        groups[idx].done=true;
+        renderProgress();
+      }
+    });
+
+    await Promise.all(jobs);
+
+  }finally{
+    if(loading) loading.classList.remove("show");
+  }
+}
+
+async function refreshAllData(){
+  clearSearchCache();
+  await searchAll(true);
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
   const params=new URLSearchParams(location.search);
   const q=params.get("q")||"";
-  const input=document.getElementById("q");
-
-  if(q && input){
-    input.value=q;
+  if(q){
+    document.getElementById("q").value=q;
     searchAll();
-  }else{
-    const loading=document.getElementById("loading");
-    if(loading) loading.classList.remove("show");
   }
 });
 
