@@ -370,7 +370,7 @@ function sectionHtml(label,items,q,error){
         <div class="result-title">${hi(item.title,q)}</div>
         ${item.meta?`<div class="result-meta">${hi(item.meta,q)}</div>`:""}
         ${item.body?`<div class="result-body">${hi(item.body,q)}</div>`:""}
-        ${item.link?`<a class="open-link" href="${esc(item.link)}" target="_blank" rel="noopener">원본 / 상세페이지 열기 →</a>`:""}
+        ${item.link?`<a class="open-link" href="${esc(item.link)}" target="_blank" rel="noopener"></a>`:""}
       </article>
     `).join("")}
 
