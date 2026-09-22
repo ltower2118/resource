@@ -338,6 +338,61 @@
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
         
      
+
+        /* 통합검색 */
+        .integrated-search-box{
+            background:#ffffff;
+            border:1px solid #dfe3e8;
+            border-radius:14px;
+            padding:14px;
+            margin:0 0 22px 0;
+            box-shadow:0 2px 7px rgba(0,0,0,0.04);
+        }
+        .integrated-search-title{
+            font-size:1.05rem;
+            font-weight:800;
+            color:#18317a;
+            margin-bottom:8px;
+        }
+        .integrated-search-row{
+            display:grid;
+            grid-template-columns:1fr 86px;
+            gap:8px;
+        }
+        .integrated-search-row input{
+            width:100%;
+            min-width:0;
+            padding:12px 13px;
+            border:1px solid #cbd5df;
+            border-radius:9px;
+            font-size:0.98rem;
+            color:#222;
+            background:#fff;
+            outline:none;
+        }
+        .integrated-search-row input:focus{
+            border-color:#18317a;
+            box-shadow:0 0 0 2px rgba(24,49,122,.08);
+        }
+        .integrated-search-row button{
+            border:0;
+            border-radius:9px;
+            background:#18317a;
+            color:#fff;
+            font-size:0.96rem;
+            font-weight:800;
+            cursor:pointer;
+        }
+        .integrated-search-row button:active{
+            background:#102660;
+        }
+        .integrated-search-help{
+            margin-top:7px;
+            font-size:0.8rem;
+            color:#737373;
+            line-height:1.45;
+        }
+
         /* foot 섹션 */
         .copyright { font-size: 0.9rem; color: #969697; margin: 0 0 12px 0;  border-bottom: 2px ; padding-bottom: 6px; text-align: center;}
 
@@ -380,6 +435,7 @@
     </header>
     <main>
             <p>본 자료는 내부직원 정보공유를 위해 만든 자료입니다.</p><br>
+
      <!-- 기존 카드 섹션 -->
     <div class="menu-grid horizontal-scroll" id="scrollMenu">
         <a href="emergency_contact.html" class="menu-card">
@@ -405,6 +461,22 @@
         <span class="dot"></span>
     </div>
     <br>
+        <!-- 통합검색 -->
+    <div class="integrated-search-box">
+        <div class="integrated-search-title">통합검색</div>
+        <div class="integrated-search-row">
+            <input
+                type="search"
+                id="mainIntegratedSearch"
+                placeholder="301호, 배수펌프, 스프링클러, 정전..."
+                autocomplete="off"
+                onkeydown="if(event.key==='Enter'){openIntegratedSearch();}">
+            <button type="button" onclick="openIntegratedSearch()">검색</button>
+        </div>
+        <div class="integrated-search-help">
+            일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 번에 검색합니다.
+        </div>
+    </div>
      <!--
         <div class="section-title">가이드및 메뉴얼 기타</div>
            <div style="height: 1px; background-color: #ccc; margin: 20px 0;"></div><br>
@@ -443,7 +515,8 @@
          <a href="history.html" class="emergency-shortcut2">작업이력 입력 / 조회 </a> 
         <a href="facility04/facility_input.html" class="emergency-shortcut2">작업(공사)보고서 작성</a><br> 
         <a href="history_day.html" class="emergency-shortcut3">일일점검일지 조회</a>
-        <a href="fireinpection/search.html" class="emergency-shortcut3">소방종합작동점검 보완지적 내역조회</a> 
+        <a href="fireinpection/search.html" class="emergency-shortcut3">소방종합작동점검 보완지적 내역조회</a>
+         <!-- <a href="total_search.html" class="emergency-shortcut3">통합검색</a>  -->
 
          
     <br><br>
@@ -522,6 +595,18 @@
 </body>
 </html>
 <script>
+function openIntegratedSearch(){
+    const input=document.getElementById('mainIntegratedSearch');
+    const q=input ? input.value.trim() : '';
+
+    let url='seoulforest_unified_search.html';
+    if(q){
+        url += '?q=' + encodeURIComponent(q);
+    }
+
+    location.href=url;
+}
+
 const scrollMenu = document.getElementById('scrollMenu');
 const dots = document.querySelectorAll('.scroll-indicator .dot');
 const cards = scrollMenu.querySelectorAll('.menu-card');
