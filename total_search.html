@@ -125,7 +125,7 @@ mark{background:#fff09a}
 
   <section class="search-card">
       <div class="title">시설관리 통합검색</div>
-      <div class="status">일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 곳에서 검색합니다.</div><br>
+      <div class="status" id="status">일일점검 · 작업이력 · 소방점검 · 작업보고서를 한 곳에서 검색합니다.</div><br>
     <div class="search-row">
       <input id="q" placeholder="예: 301호, 배수펌프, 감지기, 스프링클러, 정전..." onkeydown="if(event.key==='Enter')searchAll()">
       <button onclick="searchAll()">검색</button>
@@ -352,24 +352,26 @@ function sectionHtml(label,items,q,error){
 }
 
 async function searchAll(){
-  const q=document.getElementById("q").value.trim();
+  const qEl=document.getElementById("q");
   const loading=document.getElementById("loading");
   const status=document.getElementById("status");
   const results=document.getElementById("results");
   const summary=document.getElementById("summary");
 
+  const q=qEl ? qEl.value.trim() : "";
+
   if(!q){
-    status.textContent="검색어를 입력하세요.";
-    results.innerHTML="";
-    summary.style.display="none";
-    loading.classList.remove("show");
+    if(status) status.textContent="검색어를 입력하세요.";
+    if(results) results.innerHTML="";
+    if(summary) summary.style.display="none";
+    if(loading) loading.classList.remove("show");
     return;
   }
 
-  loading.classList.add("show");
-  status.textContent="통합검색 중...";
-  results.innerHTML="";
-  summary.style.display="none";
+  if(loading) loading.classList.add("show");
+  if(status) status.textContent="통합검색 중...";
+  if(results) results.innerHTML="";
+  if(summary) summary.style.display="none";
 
   try{
     const sources=[
@@ -385,53 +387,93 @@ async function searchAll(){
           const items=await fn(q);
           return {key,label,items};
         }catch(err){
-          throw new Error(label+" 조회 실패: "+(err?.message||"알 수 없는 오류"));
+          throw new Error(
+            label+" 조회 실패: "+
+            (err && err.message ? err.message : "알 수 없는 오류")
+          );
         }
       })
     );
 
     const groups=settled.map((r,i)=>{
       const [key,label]=sources[i];
+
       return r.status==="fulfilled"
         ? {key,label,items:r.value.items,error:""}
-        : {key,label,items:[],error:r.reason?.message||"조회 실패"};
+        : {
+            key,
+            label,
+            items:[],
+            error:(r.reason && r.reason.message) ? r.reason.message : "조회 실패"
+          };
     });
 
     const total=groups.reduce((sum,g)=>sum+g.items.length,0);
     const errors=groups.filter(g=>g.error).length;
 
-    summary.innerHTML=groups.map(g=>`
-      <div class="summary-card">
-        <strong>${g.error?"-":g.items.length}</strong>
-        <span>${esc(g.label)}</span>
-      </div>
-    `).join("");
-    summary.style.display="grid";
+    if(summary){
+      summary.innerHTML=groups.map(g=>`
+        <div class="summary-card">
+          <strong>${g.error?"-":g.items.length}</strong>
+          <span>${esc(g.label)}</span>
+        </div>
+      `).join("");
 
-    results.innerHTML=groups.map(g=>sectionHtml(g.label,g.items,q,g.error)).join("");
-
-    if(total===0 && errors===0){
-      results.innerHTML='<section class="group"><div class="empty">검색 결과가 없습니다.</div></section>';
+      summary.style.display="grid";
     }
 
-    status.textContent=
-      "전체 검색결과 "+total+"건"+
-      (errors?" · 일부 자료 연결 실패 "+errors+"개":"");
+    if(results){
+      results.innerHTML=groups
+        .map(g=>sectionHtml(g.label,g.items,q,g.error))
+        .join("");
+
+      if(total===0 && errors===0){
+        results.innerHTML=
+          '<section class="group"><div class="empty">검색 결과가 없습니다.</div></section>';
+      }
+    }
+
+    if(status){
+      status.textContent=
+        "전체 검색결과 "+total+"건"+
+        (errors ? " · 일부 자료 연결 실패 "+errors+"개" : "");
+    }
 
   }catch(err){
-    status.textContent="통합검색 오류: "+(err?.message||err);
-    results.innerHTML='<section class="group"><div class="empty error">'+esc(err?.message||err)+'</div></section>';
+    const msg=(err && err.message) ? err.message : String(err);
+
+    if(status){
+      status.textContent="통합검색 오류: "+msg;
+    }
+
+    if(results){
+      results.innerHTML=
+        '<section class="group"><div class="empty error">'+
+        esc(msg)+
+        '</div></section>';
+    }
+
   }finally{
-    loading.classList.remove("show");
+    /*
+     * 어떤 오류가 발생해도 반드시 로딩을 종료
+     */
+    if(loading){
+      loading.classList.remove("show");
+    }
   }
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
   const params=new URLSearchParams(location.search);
   const q=params.get("q")||"";
-  if(q){
-    document.getElementById("q").value=q;
+  const input=document.getElementById("q");
+
+  if(q && input){
+    input.value=q;
     searchAll();
+  }else{
+    const loading=document.getElementById("loading");
+    if(loading) loading.classList.remove("show");
   }
 });
 
