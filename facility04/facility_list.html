@@ -40,6 +40,18 @@
       .sheet-table th{background:#eef1f4;position:sticky;top:0;z-index:1}
       .sheet-table a{color:#0b57d0}
     .note{margin:12px 14px 0;padding:10px 12px;border-radius:8px;background:#fff7e6;border:1px solid #ead2a0;color:#795300;font-size:12px;line-height:1.5}
+
+    /* 목록 불러오기 애니메이션 */
+    .loading-wrap{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:10px;padding:30px 14px;color:var(--steel);font-size:.9rem
+    }
+    .loading-spinner{
+      width:38px;height:38px;border:4px solid #d9e0ea;
+      border-top-color:#0e2568;border-radius:50%;
+      animation:listSpin .8s linear infinite
+    }
+    @keyframes listSpin{to{transform:rotate(360deg)}}
     @media(max-width:600px){
       .head h1{font-size:21px}
       .card-top{flex-direction:column}
@@ -49,7 +61,7 @@
 <body>
 <div class="app">
   <header class="head">
-    <h2>작업(공사) 보고서 목록31</h2>
+    <h2>작업(공사) 보고서 목록34</h2>
     <!-- <p>마스터 Google 시트의 '점검목록'을 JSONP 방식으로 직접 읽습니다. fetch/CORS 오류를 사용하지 않습니다.</p> -->
   </header>
 
@@ -190,12 +202,28 @@ async function deleteReport(report){
   }
 }
 
-async function loadData(){
+function showListLoading(message='보고서 목록 불러오는 중...'){
   const status=document.getElementById('status');
-
   status.style.display='block';
   status.className='status';
-  status.textContent='report 폴더의 보고서 목록 불러오는 중...';
+  status.innerHTML=`
+    <div class="loading-wrap">
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <div>${esc(message)}</div>
+    </div>
+  `;
+}
+
+async function loadData(){
+  const status=document.getElementById('status');
+  const refreshBtn=document.getElementById('refreshBtn');
+
+  if(refreshBtn){
+    refreshBtn.disabled=true;
+    refreshBtn.textContent='불러오는 중...';
+  }
+
+  showListLoading('report 폴더의 보고서 목록 불러오는 중...');
 
   try{
     const url=WEBAPP_URL+'?action=list&_='+Date.now();
@@ -245,6 +273,11 @@ async function loadData(){
 
   }catch(err){
     showLoadError(err.message);
+  }finally{
+    if(refreshBtn){
+      refreshBtn.disabled=false;
+      refreshBtn.textContent='새로고침';
+    }
   }
 }
 
