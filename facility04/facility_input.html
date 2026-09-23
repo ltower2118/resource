@@ -38,7 +38,24 @@
 
 .draft-info{font-size:.82rem;color:var(--steel);margin-top:7px}
 .item-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #333;border-left:1px solid #333}
-  .item-card{border-right:1px solid #333;border-bottom:1px solid #333;background:#fff}.photo-box{height:230px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#fafafa}.photo-box img{width:100%;height:100%;object-fit:contain}
+  .item-card{border-right:1px solid #333;border-bottom:1px solid #333;background:#fff}.photo-box{
+  min-height:0;
+  height:auto;
+  display:flex;
+  align-items:stretch;
+  justify-content:stretch;
+  position:relative;
+  overflow:hidden;
+  background:#fff;
+}
+.photo-box img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:cover;
+  margin:0;
+  padding:0;
+}
 .photo-multi-note{width:100%;text-align:center;color:var(--steel);font-size:.78rem;margin-top:4px}.photo-box input{display:none}
 .photo-select{cursor:pointer;text-align:center;color:var(--steel);font-size:13px;padding:20px}
 .photo-actions{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;padding:16px}
@@ -83,8 +100,8 @@
 .pdf-render-root .print-meta-value{padding:8px;white-space:pre-wrap;word-break:break-word;min-height:34px}
 .pdf-render-root .print-items{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;border-left:1px solid #000;border-top:1px solid #000;margin-top:7px}
 .pdf-render-root .print-item{border-right:1px solid #000;border-bottom:1px solid #000;break-inside:avoid;page-break-inside:avoid;background:#fff}
-.pdf-render-root .print-photo{height:260px;display:flex;align-items:center;justify-content:center;padding:4px;overflow:hidden;background:#fff}
-.pdf-render-root .print-photo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.pdf-render-root .print-photo{height:auto;min-height:0;display:block;padding:0;overflow:hidden;background:#fff}
+.pdf-render-root .print-photo img{width:100%;height:auto;object-fit:cover;display:block;margin:0;padding:0}
 .pdf-render-root .print-text{border-top:1px solid #000;padding:8px;min-height:48px;white-space:pre-wrap;font-size:12px;word-break:break-word}
 .pdf-render-root .print-no{font-size:11px;color:#555;margin-bottom:5px}
 
@@ -104,14 +121,14 @@
   .print-meta-value{padding:1.7mm;white-space:pre-wrap;font-size:9.5pt;min-height:7mm}
   .print-items{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;border-left:1px solid #000;border-top:1px solid #000;margin-top:1.5mm}
   .print-item{border-right:1px solid #000;border-bottom:1px solid #000;break-inside:avoid}
-  .print-photo{height:68mm;display:flex;align-items:center;justify-content:center;padding:1mm}
-  .print-photo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+  .print-photo{height:auto;min-height:0;display:block;padding:0;overflow:hidden}
+  .print-photo img{width:100%;height:auto;object-fit:cover;display:block;margin:0;padding:0}
   .print-text{border-top:1px solid #000;padding:1.6mm;min-height:11mm;white-space:pre-wrap;font-size:9pt}
   .print-no{font-size:7pt;color:#555;margin-bottom:.5mm}
   .print-footer{text-align:center;font-size:8pt;color:#555;margin-top:1mm;padding-top:1mm;border-top:1px solid #999}
 }
 
-@media(max-width:600px){.grid{grid-template-columns:1fr}.item-grid{grid-template-columns:1fr}.photo-box{height:210px}.meta-row{grid-template-columns:90px 1fr}.head h1{font-size:21px}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.item-grid{grid-template-columns:1fr}.photo-box{height:auto;min-height:0}.meta-row{grid-template-columns:90px 1fr}.head h1{font-size:21px}}
 
 
 /* 저장 버튼 상태 */
@@ -175,7 +192,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서2</h1><p>사진(항목당 최대 6장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서3</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -208,7 +225,7 @@
 
 <div class="photo-choice-modal" id="photoChoiceModal">
   <div class="photo-choice-sheet">
-    <div class="photo-choice-title">사진 입력 방법 선택<br><span style="font-size:12px;font-weight:400;color:#6b7785">갤러리는 한 항목에 최대 6장까지 선택할 수 있습니다.</span></div>
+    <div class="photo-choice-title">사진 입력 방법 선택<br><span style="font-size:12px;font-weight:400;color:#6b7785">갤러리는 한 항목에 최대 2장까지 선택할 수 있습니다.</span></div>
     <button type="button" class="photo-choice-option primary" id="chooseCameraBtn">📷 사진 촬영</button>
     <button type="button" class="photo-choice-option" id="chooseGalleryBtn">🖼 갤러리에서 여러장 선택</button>
     <button type="button" class="photo-choice-cancel" id="closePhotoChoiceBtn">취소</button>
@@ -881,8 +898,8 @@ function renderItems(){
       if(!files.length) return;
 
       try{
-        if(files.length>6){
-          showStatus('한 항목에는 사진을 최대 6장까지 넣을 수 있습니다. 앞의 6장만 사용합니다.','wait');
+        if(files.length>2){
+          showStatus('한 항목에는 사진을 최대 2장까지 넣을 수 있습니다. 앞의 2장만 사용합니다.','wait');
         }
 
         showBusy(
@@ -939,12 +956,12 @@ function renderItems(){
 }
 
 /*
- * 여러 이미지를 한 개의 콜라주 이미지로 합칩니다.
+ * 최대 2장의 이미지를 한 개의 콜라주 이미지로 합칩니다.
  * 기존 서버/Google Sheet 구조는 photo 1개를 받으므로
  * 여러 사진을 브라우저에서 하나의 이미지로 합쳐 저장합니다.
  */
 async function compressMultipleImages(files){
-  const list=Array.from(files||[]).slice(0,6);
+  const list=Array.from(files||[]).slice(0,2);
 
   if(!list.length){
     throw new Error('선택된 이미지가 없습니다.');
@@ -968,37 +985,51 @@ async function compressMultipleImages(files){
     }))
   );
 
+  /*
+   * 최대 2장:
+   * - 1장: 원본 압축 이미지를 그대로 사용
+   * - 2장: 좌우 2분할, 사이 간격 0
+   * 위/아래 여백이 생기지 않도록 각 칸을 cover 방식으로 꽉 채웁니다.
+   */
   const cols=2;
-  const rows=Math.ceil(images.length/cols);
   const cellW=500;
   const cellH=380;
-  const gap=8;
 
   const canvas=document.createElement('canvas');
-  canvas.width=(cellW*cols)+(gap*(cols-1));
-  canvas.height=(cellH*rows)+(gap*(rows-1));
+  canvas.width=cellW*cols;
+  canvas.height=cellH;
 
   const ctx=canvas.getContext('2d');
   ctx.fillStyle='#ffffff';
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
   images.forEach((img,index)=>{
-    const col=index%cols;
-    const row=Math.floor(index/cols);
-    const x=col*(cellW+gap);
-    const y=row*(cellH+gap);
+    const x=index*cellW;
+    const y=0;
 
-    const scale=Math.min(
+    const scale=Math.max(
       cellW/img.width,
       cellH/img.height
     );
 
     const w=Math.round(img.width*scale);
     const h=Math.round(img.height*scale);
-    const dx=x+Math.round((cellW-w)/2);
-    const dy=y+Math.round((cellH-h)/2);
 
-    ctx.drawImage(img,dx,dy,w,h);
+    const sx=Math.max(0,Math.round((w-cellW)/2));
+    const sy=Math.max(0,Math.round((h-cellH)/2));
+
+    const tmp=document.createElement('canvas');
+    tmp.width=w;
+    tmp.height=h;
+
+    const tctx=tmp.getContext('2d');
+    tctx.drawImage(img,0,0,w,h);
+
+    ctx.drawImage(
+      tmp,
+      sx,sy,cellW,cellH,
+      x,y,cellW,cellH
+    );
   });
 
   let quality=.72;
