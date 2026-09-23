@@ -38,7 +38,8 @@
 
 .draft-info{font-size:.82rem;color:var(--steel);margin-top:7px}
 .item-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #333;border-left:1px solid #333}
-  .item-card{border-right:1px solid #333;border-bottom:1px solid #333;background:#fff}.photo-box{
+  .item-card{border-right:1px solid #333;border-bottom:1px solid #333;background:#fff}
+  .photo-box{
   min-height:300px;
   height:300px;
   display:flex;
@@ -47,6 +48,10 @@
   position:relative;
   overflow:hidden;
   background:#fff;
+}
+  .photo-box:has(.photo-actions){
+  height:250px;
+  min-height:250px;
 }
 .photo-box img{
   display:block;
