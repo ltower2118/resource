@@ -197,8 +197,8 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서25</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
-  <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
+  <header class="head"><h1>작업(공사) 보고서26</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 같은 Google 시트 파일에 최신 내용이 반영되고, 교체된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
     <div class="grid">
@@ -264,8 +264,8 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbwjIJxb4zmBRTWwkLjjqybGNv22CTr23_1sDbVl8CkGSk5ZO3zhSzizoAxj357C3VyM/exec';
-const REQUIRED_BACKEND_VERSION='2.9.3-EDIT-IMAGE-LOAD';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxhXhQbDV0rr_D-h8tP9z5fo-LukQrWFNq6rzVNABXW7TKTDAzNHNVgNF4DhQj69UhD/exec';
+const REQUIRED_BACKEND_VERSION='2.9.5-ULTRAFAST-SAVE';
 
 const PAGE_PARAMS=new URLSearchParams(location.search);
 const EDIT_REPORT_ID=PAGE_PARAMS.get('edit')||'';
@@ -544,6 +544,14 @@ async function loadReportForEdit(){
 
   if(json.result!=='success'){
     throw new Error(json.message||'기존 보고서를 불러오지 못했습니다.');
+  }
+
+  if(json.version && json.version!==REQUIRED_BACKEND_VERSION){
+    throw new Error(
+      '현재 연결된 Apps Script 버전은 '+json.version+
+      ' 입니다. 필요한 버전은 '+REQUIRED_BACKEND_VERSION+
+      ' 입니다. 같은 웹앱 배포를 새 버전으로 갱신하세요.'
+    );
   }
 
   const report=json.report||{};
@@ -1199,7 +1207,14 @@ async function checkBackend(){
     try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다.');}
     if(json.result!=='success')throw new Error(json.message||'서버 확인 실패');
     if(json.version!==REQUIRED_BACKEND_VERSION){
-      showStatus('저장 중지: Apps Script 배포 버전이 다릅니다. 현재 서버 '+(json.version||'구버전')+' / 필요한 버전 '+REQUIRED_BACKEND_VERSION+' — Code.gs 저장 후 반드시 새 버전으로 재배포하세요.','err');
+      showStatus(
+        'Apps Script 배포 버전이 다릅니다. 현재 서버 '+
+        (json.version||'구버전')+
+        ' / 필요한 버전 '+
+        REQUIRED_BACKEND_VERSION+
+        ' — 같은 웹앱 배포를 새 버전으로 갱신하세요.',
+        'err'
+      );
       return false;
     }
     showStatus(
@@ -1353,6 +1368,14 @@ async function saveReport(){
 
       if(json.result!=='success'){
         throw new Error(json.message||'저장 실패');
+      }
+
+      if(json.version && json.version!==REQUIRED_BACKEND_VERSION){
+        throw new Error(
+          '저장 서버 버전 불일치: 현재 '+json.version+
+          ' / 필요 '+REQUIRED_BACKEND_VERSION+
+          '. 같은 웹앱 배포를 새 버전으로 갱신하세요.'
+        );
       }
 
     }catch(err){
