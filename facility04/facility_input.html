@@ -197,7 +197,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서22</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서24</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -1232,77 +1232,76 @@ async function checkBackend(){
 }
 
 
-async function postJsonToWebApp(payload){
-  const body=JSON.stringify(payload);
-
-  const request=()=>fetch(WEBAPP_URL,{
-    method:'POST',
-    cache:'no-store',
-    redirect:'follow',
-    headers:{
-      'Content-Type':'text/plain;charset=utf-8'
-    },
-    body:body
-  });
-
+async function postJsonToWebApp(payload, timeoutMs=18000){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),timeoutMs);
   try{
-    return await request();
-  }catch(firstErr){
-    console.warn('첫 번째 POST 실패, 1회 재시도:',firstErr);
+    return await fetch(WEBAPP_URL,{
+      method:'POST',
+      cache:'no-store',
+      redirect:'follow',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(payload),
+      signal:controller.signal
+    });
+  }finally{
+    clearTimeout(timer);
+  }
+}
 
-    // 모바일 네트워크/Apps Script 리다이렉트가 일시적으로 끊기는 경우 대비
-    await new Promise(resolve=>setTimeout(resolve,900));
+async function verifySavedReport(payload, saveStartedAt){
+  const isEditing=!!(payload.reportId && payload.spreadsheetId);
+
+  for(let attempt=0;attempt<4;attempt++){
+    if(attempt>0) await new Promise(r=>setTimeout(r,1800));
 
     try{
-      return await request();
-    }catch(secondErr){
-      throw new Error(
-        'Apps Script 연결이 중간에 끊겼습니다. 저장은 완료됐을 수도 있으므로 목록에서 먼저 확인한 뒤 다시 시도하세요. ('+
-        (secondErr && secondErr.message ? secondErr.message : 'Failed to fetch')+
-        ')'
+      const res=await fetch(
+        WEBAPP_URL+'?action=list&_='+Date.now(),
+        {method:'GET',cache:'no-store',redirect:'follow'}
       );
-    }
+      if(!res.ok) continue;
+
+      const json=await res.json();
+      if(json.result!=='success'||!Array.isArray(json.reports)) continue;
+
+      let found=null;
+
+      if(isEditing){
+        found=json.reports.find(r=>
+          String(r.reportId||'')===String(payload.reportId||'')
+        )||null;
+      }else{
+        found=json.reports.find(r=>{
+          if(String(r.date||'')!==String(payload.date||'')) return false;
+          if(String(r.jobName||'')!==String(payload.jobName||'')) return false;
+          if(String(r.title||'')!==String(payload.title||'')) return false;
+          if(String(r.vendor||'')!==String(payload.vendor||'')) return false;
+
+          const createdMs=Date.parse(String(r.createdAt||'').replace(' ','T'));
+          return !Number.isFinite(createdMs)||createdMs>=(saveStartedAt-120000);
+        })||null;
+      }
+
+      if(found){
+        return {
+          result:'success',
+          version:REQUIRED_BACKEND_VERSION,
+          reportId:found.reportId||payload.reportId||'',
+          spreadsheetId:found.spreadsheetId||payload.spreadsheetId||'',
+          spreadsheetUrl:found.spreadsheetUrl||'',
+          fileName:(found.date||payload.date||'')+'_'+(found.jobName||payload.jobName||'')
+        };
+      }
+    }catch(e){}
   }
+  return null;
 }
 
 
 async function saveReport(){
   const btn=document.getElementById('saveBtn');
-
-  /*
-   * 클릭 즉시 사용자에게 반응을 보여줍니다.
-   * 기존 코드는 checkBackend()가 끝난 뒤에야 저장중 화면이 떠서
-   * 버튼을 눌러도 한동안 아무 반응이 없는 것처럼 보였습니다.
-   */
-  btn.disabled=true;
-  btn.classList.remove('saved');
-  btn.classList.add('saving');
-  btn.textContent='구글시트 저장 중...';
-
-  showBusy(
-    'Google 시트 저장 중...',
-    'report 폴더에 보고서를 저장하고 있습니다.'
-  );
-
-  showStatus(
-    'Google Drive와 시트에 저장 중입니다.',
-    'wait'
-  );
-
-  /*
-   * 저장 속도 개선:
-   * 저장 클릭 때 health 사전확인을 기다리지 않고 즉시 실제 저장을 시작합니다.
-   * 페이지 최초 로딩의 checkBackend()는 그대로 유지합니다.
-   */
-  if(EDIT_REPORT_ID && !editLoadedSuccessfully){
-    showStatus(
-      '수정 대상 원본 보고서를 확인하지 못했습니다. 새 파일 생성을 방지하기 위해 저장을 중지했습니다.',
-      'err'
-    );
-    return;
-  }
-
-  const isEditing=!!(editLoadedSuccessfully && originalReportId && originalSpreadsheetId);
+  const isEditing=!!(editLoadedSuccessfully&&originalReportId&&originalSpreadsheetId);
 
   const payload={
     action:isEditing?'updateReport':'saveReport',
@@ -1317,35 +1316,68 @@ async function saveReport(){
     spreadsheetId:isEditing?originalSpreadsheetId:'',
     items:getReportItems()
   };
+
   if(!payload.date){showStatus('점검일을 입력하세요.','err');return;}
   if(!payload.jobName){showStatus('작업명을 입력하세요.','err');return;}
   if(!payload.items.length){showStatus('사진/내용 항목을 추가하세요.','err');return;}
+
+  if(EDIT_REPORT_ID&&!editLoadedSuccessfully){
+    showStatus('수정 대상 원본 보고서를 확인하지 못했습니다. 저장을 중지했습니다.','err');
+    return;
+  }
+
+  btn.disabled=true;
+  btn.classList.remove('saved');
+  btn.classList.add('saving');
   btn.textContent=isEditing?'수정 저장 중...':'구글시트 저장 중...';
-  showStatus(
-    isEditing
-      ? '기존 보고서를 교체 저장 중입니다.'
-      : 'Google Drive와 시트에 저장 중입니다.',
-    'wait'
-  );
 
   showBusy(
     isEditing?'기존 보고서 수정 저장 중...':'Google 시트 저장 중...',
-    isEditing?'기존 파일을 교체하고 있습니다.':'report 폴더에 저장하고 있습니다.'
+    '저장 완료 여부를 자동으로 확인합니다.'
+  );
+  showStatus(
+    isEditing?'기존 보고서를 저장 중입니다.':'Google Drive와 시트에 저장 중입니다.',
+    'wait'
   );
 
-  /*
-   * 브라우저가 저장중 UI를 먼저 그린 뒤 네트워크 요청을 시작하도록
-   * 한 프레임 양보합니다.
-   */
-  await new Promise(resolve=>requestAnimationFrame(()=>resolve()));
-  try{
-    const res=await postJsonToWebApp(payload);
-    const text=await res.text();let json;try{json=JSON.parse(text);}catch(e){throw new Error('Apps Script 응답이 JSON이 아닙니다. 웹 앱 배포 권한을 확인하세요.');}
-    if(json.result!=='success')throw new Error(json.message||'저장 실패');
-    if(json.version!==REQUIRED_BACKEND_VERSION)throw new Error('Apps Script 구버전 응답입니다. 새 버전으로 재배포하세요.');
+  const saveStartedAt=Date.now();
+  let json=null;
 
-    // 신규 저장 직후부터 같은 보고서를 계속 수정하도록 원본 ID 고정
-    if(json.reportId && json.spreadsheetId){
+  try{
+    await new Promise(r=>requestAnimationFrame(r));
+
+    try{
+      const res=await postJsonToWebApp(payload,18000);
+      const text=await res.text();
+      json=JSON.parse(text);
+
+      if(json.result!=='success'){
+        throw new Error(json.message||'저장 실패');
+      }
+
+    }catch(err){
+      const msg=String((err&&err.message)||err);
+      const uncertain=
+        (err&&err.name==='AbortError')||
+        msg.includes('Failed to fetch')||
+        msg.includes('NetworkError');
+
+      if(!uncertain) throw err;
+
+      btn.textContent='저장 완료 확인 중...';
+      showBusy('저장 완료 확인 중...','서버에 이미 저장됐는지 확인하고 있습니다.');
+      showStatus('중복 저장하지 않고 실제 저장 완료 여부를 확인 중입니다.','wait');
+
+      json=await verifySavedReport(payload,saveStartedAt);
+
+      if(!json){
+        throw new Error(
+          '저장 요청은 이미 전송되었습니다. 중복 저장 방지를 위해 다시 누르지 말고 목록에서 확인하세요.'
+        );
+      }
+    }
+
+    if(json.reportId&&json.spreadsheetId){
       rememberCurrentSavedReport(
         json.reportId,
         json.spreadsheetId,
@@ -1371,29 +1403,32 @@ async function saveReport(){
     btn.classList.add('saved');
     btn.textContent='저장 완료 ✓';
 
-    showStatus((isEditing?'기존 파일 삭제 후 최신본으로 교체 완료: ':'저장 완료 · 이후 수정은 이 파일을 교체 저장: ')+json.fileName,'ok');
+    showStatus(
+      isEditing?'수정 저장 완료 · 최신 내용으로 반영되었습니다.':'저장 완료 · 보고서가 생성되었습니다.',
+      'ok'
+    );
+
     try{
       await deleteDraft();
       await updateDraftInfo();
-    }catch(draftErr){
-      console.warn('임시저장 삭제 실패:',draftErr);
-    }
-    if(json.spreadsheetUrl){setTimeout(()=>{if(confirm('저장되었습니다. 생성된 구글시트를 바로 열까요?'))window.open(json.spreadsheetUrl,'_blank');},200);}
+    }catch(e){}
+
   }catch(err){
+    console.error(err);
     btn.classList.remove('saving','saved');
-    showStatus('저장 실패: '+err.message,'err');
-  }
-  finally{
+    showStatus((err&&err.message)||'저장 상태를 확인하지 못했습니다.','err');
+
+  }finally{
     hideBusy();
     btn.disabled=false;
 
     if(btn.classList.contains('saved')){
       setTimeout(()=>{
         btn.classList.remove('saved');
-        btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');
-      },1200);
+        btn.textContent=editLoadedSuccessfully?'수정 저장':'구글시트로 저장';
+      },1400);
     }else{
-      btn.textContent=(editLoadedSuccessfully?'수정 저장':'구글시트로 저장');
+      btn.textContent=editLoadedSuccessfully?'수정 저장':'구글시트로 저장';
     }
   }
 }
