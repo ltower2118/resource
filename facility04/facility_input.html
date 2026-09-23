@@ -197,7 +197,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서16</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서20</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 기존 시트는 교체되고, 변경된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -264,8 +264,8 @@
 </div>
 
 <script>
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbzGDzMnUF6vyOAnew3DaxSgXa1hGdRccxaYstmYhHJphh-tkOe5k8l08rbNeDknFCk/exec';
-const REQUIRED_BACKEND_VERSION='2.9.3-EDIT-IMAGE-LOAD';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbwfmeNz6IMjecRlfDdtLQLqlOJNbHJbvZpkmiriNyaePkyZbBFclQeGaDUm-hSAf7dg/exec';
+const REQUIRED_BACKEND_VERSION='2.9.5-ULTRAFAST-SAVE';
 
 const PAGE_PARAMS=new URLSearchParams(location.search);
 const EDIT_REPORT_ID=PAGE_PARAMS.get('edit')||'';
@@ -997,8 +997,8 @@ async function compressMultipleImages(files){
    * - 자르지 않고 contain 방식으로 각 칸 안에 최대한 크게 표시
    */
   const cols=2;
-  const cellW=500;
-  const cellH=500;
+  const cellW=360;
+  const cellH=360;
 
   const canvas=document.createElement('canvas');
   canvas.width=cellW*cols;
@@ -1029,10 +1029,10 @@ async function compressMultipleImages(files){
     );
   });
 
-  let quality=.72;
+  let quality=.52;
   let result=canvas.toDataURL('image/jpeg',quality);
 
-  while(result.length>1050000 && quality>.30){
+  while(result.length>450000 && quality>.30){
     quality-=.08;
     result=canvas.toDataURL('image/jpeg',quality);
   }
@@ -1052,8 +1052,8 @@ function compressImage(file){
       img.onload = () => {
 
         // Google Sheet insertImage의 2MB 제한을 고려
-        const MAX_WIDTH = 760;
-        const MAX_HEIGHT = 760;
+        const MAX_WIDTH = 520;
+        const MAX_HEIGHT = 520;
 
         let width = img.width;
         let height = img.height;
@@ -1093,7 +1093,7 @@ function compressImage(file){
           height
         );
 
-        let quality = 0.58;
+        let quality = 0.46;
 
         let dataUrl =
           canvas.toDataURL(
@@ -1106,7 +1106,7 @@ function compressImage(file){
          * 만들기 위해 품질을 단계적으로 감소
          */
         while(
-          dataUrl.length > 1050000 &&
+          dataUrl.length > 420000 &&
           quality > 0.30
         ){
           quality -= 0.08;
