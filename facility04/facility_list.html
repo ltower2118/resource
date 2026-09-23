@@ -44,31 +44,12 @@
       .head h1{font-size:21px}
       .card-top{flex-direction:column}
       .date{white-space:normal}}
-
-/* 처리중 전체화면 표시 */
-.busy-overlay{display:none;position:fixed;inset:0;z-index:99999;background:rgba(10,22,50,.45);backdrop-filter:blur(2px);align-items:center;justify-content:center;padding:20px}
-.busy-overlay.show{display:flex}
-.busy-box{min-width:210px;max-width:88vw;background:#fff;border-radius:14px;padding:24px 26px;box-shadow:0 14px 45px rgba(0,0,0,.28);text-align:center}
-.busy-spinner{width:48px;height:48px;margin:0 auto 14px;border:5px solid #dbe2ef;border-top-color:#0e2568;border-radius:50%;animation:busySpin .85s linear infinite}
-.busy-text{font-size:1rem;font-weight:700;color:#1c2530;line-height:1.45}
-.busy-sub{margin-top:6px;font-size:.8rem;color:#6b7785}
-@keyframes busySpin{to{transform:rotate(360deg)}}
-
 </style>
 </head>
 <body>
-
-<div id="busyOverlay" class="busy-overlay" aria-live="polite" aria-busy="true">
-  <div class="busy-box">
-    <div class="busy-spinner"></div>
-    <div id="busyText" class="busy-text">처리 중...</div>
-    <div id="busySub" class="busy-sub">잠시만 기다려 주세요.</div>
-  </div>
-</div>
-
 <div class="app">
   <header class="head">
-    <h2>작업(공사) 보고서 목록2</h2>
+    <h2>작업(공사) 보고서 목록</h2>
     <!-- <p>마스터 Google 시트의 '점검목록'을 JSONP 방식으로 직접 읽습니다. fetch/CORS 오류를 사용하지 않습니다.</p> -->
   </header>
 
@@ -97,8 +78,8 @@
  * Apps Script의 action=list를 호출해서
  * report 폴더 안에 현재 실제 존재하는 보고서만 표시합니다.
  */
-const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxgq2NtX1G8Y2Xr87VDOSOtTIaS_kXzSNEhVAKygdgfrUtFejGt30_4fQvSn6jyqiIM/exec';
-const REQUIRED_BACKEND_VERSION='2.9.2-ROOT-FAST-LIST';
+const WEBAPP_URL='https://script.google.com/macros/s/AKfycbyK12PupCgE91Rd47rVGYGFF_WJfLFcT25JeMmLFUn9uZnIJ34b5MSl7hTUbKTbFala/exec';
+const REQUIRED_BACKEND_VERSION='2.9.5-ULTRAFAST-SAVE';
 
 // 구글시트 열기 비밀번호
 const SHEET_OPEN_PASSWORD='1234';
@@ -106,11 +87,6 @@ const DELETE_PASSWORD='1234';
 
 let reports=[];
 let currentView='list';
-let listLoading=false;
-
-// 즉시 표시용 브라우저 캐시
-const LIST_LOCAL_CACHE_KEY='facility_report_list_root_fast_v1';
-const LIST_LOCAL_CACHE_MAX_AGE=5*60*1000; // 5분
 
 function esc(s){
   return String(s??'').replace(/[&<>"']/g,c=>({
@@ -120,20 +96,6 @@ function esc(s){
     '"':'&quot;',
     "'":'&#39;'
   }[c]));
-}
-
-
-function showBusy(text,sub){
-  const overlay=document.getElementById('busyOverlay');
-  const textEl=document.getElementById('busyText');
-  const subEl=document.getElementById('busySub');
-  if(textEl) textEl.textContent=text||'처리 중...';
-  if(subEl) subEl.textContent=sub||'잠시만 기다려 주세요.';
-  if(overlay) overlay.classList.add('show');
-}
-function hideBusy(){
-  const overlay=document.getElementById('busyOverlay');
-  if(overlay) overlay.classList.remove('show');
 }
 
 function openSheetWithPassword(url){
@@ -155,8 +117,14 @@ function editReport(report){
     return;
   }
 
-  const url='facility_input.html?edit='+encodeURIComponent(report.reportId);
-  location.href=url;
+  const params=new URLSearchParams();
+  params.set('edit',String(report.reportId));
+
+  if(report.spreadsheetId){
+    params.set('sheet',String(report.spreadsheetId));
+  }
+
+  location.href='facility_input.html?'+params.toString();
 }
 
 async function deleteReport(report){
@@ -183,8 +151,6 @@ async function deleteReport(report){
   )){
     return;
   }
-
-  showBusy('보고서 삭제 중...','Google Drive와 목록을 정리하고 있습니다.');
 
   const status=document.getElementById('status');
   status.style.display='block';
@@ -216,96 +182,23 @@ async function deleteReport(report){
     }
 
     alert('삭제되었습니다.');
-    hideBusy();
     await loadData();
 
   }catch(err){
-    hideBusy();
     status.className='status error';
     status.textContent='삭제 실패: '+err.message;
   }
 }
 
-
-function saveListLocalCache(list){
-  try{
-    localStorage.setItem(
-      LIST_LOCAL_CACHE_KEY,
-      JSON.stringify({
-        savedAt:Date.now(),
-        reports:Array.isArray(list)?list:[]
-      })
-    );
-  }catch(e){}
-}
-
-function loadListLocalCache(){
-  try{
-    const raw=localStorage.getItem(LIST_LOCAL_CACHE_KEY);
-    if(!raw) return null;
-
-    const obj=JSON.parse(raw);
-    if(!obj || !Array.isArray(obj.reports)) return null;
-
-    if(Date.now()-Number(obj.savedAt||0)>LIST_LOCAL_CACHE_MAX_AGE){
-      return null;
-    }
-
-    return obj.reports;
-  }catch(e){
-    return null;
-  }
-}
-
-function clearListLocalCache(){
-  try{
-    localStorage.removeItem(LIST_LOCAL_CACHE_KEY);
-  }catch(e){}
-}
-
-async function loadData(forceFresh=false){
-  if(listLoading) return;
-  listLoading=true;
-
+async function loadData(){
   const status=document.getElementById('status');
 
-  /*
-   * 첫 화면은 브라우저에 저장된 최근 목록이 있으면 즉시 표시합니다.
-   * 그 뒤 서버 목록을 백그라운드에서 갱신합니다.
-   */
-  if(!forceFresh && !reports.length){
-    const cached=loadListLocalCache();
-
-    if(cached && cached.length){
-      reports=cached;
-      render();
-
-      status.style.display='block';
-      status.className='status';
-      status.textContent='최근 목록 먼저 표시 · 최신 상태 확인 중...';
-    }else{
-      showBusy('보고서 목록 불러오는 중...','report 폴더의 Google 시트만 확인하고 있습니다.');
-      status.style.display='block';
-      status.className='status';
-      status.textContent='보고서 목록 불러오는 중...';
-    }
-  }else{
-    showBusy(
-      forceFresh?'보고서 목록 새로고침 중...':'보고서 목록 불러오는 중...',
-      'report 폴더의 Google 시트만 빠르게 확인하고 있습니다.'
-    );
-
-    status.style.display='block';
-    status.className='status';
-    status.textContent='보고서 목록 확인 중...';
-  }
+  status.style.display='block';
+  status.className='status';
+  status.textContent='report 폴더의 보고서 목록 불러오는 중...';
 
   try{
-    const url=
-      WEBAPP_URL+
-      '?action=list'+
-      (forceFresh?'&fresh=1':'')+
-      '&_='+Date.now();
+    const url=WEBAPP_URL+'?action=list&_='+Date.now();
 
     const res=await fetch(url,{
       method:'GET',
@@ -318,6 +211,7 @@ async function loadData(forceFresh=false){
     }
 
     const text=await res.text();
+
     let json;
 
     try{
@@ -339,36 +233,18 @@ async function loadData(forceFresh=false){
     }
 
     reports=Array.isArray(json.reports)?json.reports:[];
-    saveListLocalCache(reports);
 
     status.className='status ok';
-    status.textContent=
-      'report 폴더 Google 시트 · '+
-      reports.length+
-      '건'+
-      (json.cached?' · 캐시':' · 최신');
-
-    render();
-    hideBusy();
+    status.textContent='report 폴더 보고서 · '+reports.length+'건';
 
     setTimeout(()=>{
       status.style.display='none';
-    },900);
+    },1200);
+
+    render();
 
   }catch(err){
-    hideBusy();
-
-    // 이미 브라우저 캐시가 화면에 보이는 경우에는 화면을 지우지 않습니다.
-    if(reports.length){
-      status.style.display='block';
-      status.className='status error';
-      status.textContent='최신 목록 확인 실패 · 최근 목록을 표시 중: '+err.message;
-    }else{
-      showLoadError(err.message);
-    }
-
-  }finally{
-    listLoading=false;
+    showLoadError(err.message);
   }
 }
 
@@ -586,10 +462,7 @@ document.querySelectorAll('.tab').forEach(t=>
 );
 
 document.getElementById('search').addEventListener('input',render);
-document.getElementById('refreshBtn').addEventListener('click',()=>{
-  clearListLocalCache();
-  loadData(true);
-});
+document.getElementById('refreshBtn').addEventListener('click',loadData);
 
 setView('list');
 loadData();
