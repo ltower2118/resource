@@ -199,6 +199,25 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .modal-actions button{padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:700}
 .modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
 
+
+/* 후리가나(루비) 표시 */
+.jp ruby{ruby-position:over}
+.jp rt{
+  font-size:.34em;
+  font-weight:600;
+  color:#6b7280;
+  letter-spacing:.03em;
+}
+.auto-reading{
+  display:flex;align-items:center;gap:8px;margin-top:6px;
+  font-size:12px;color:var(--muted);
+}
+.auto-reading button{
+  border:1px solid #cbd5e1;background:#fff;border-radius:8px;
+  padding:6px 9px;font-size:12px;font-weight:700;
+}
+.auto-state{font-size:12px;color:var(--muted)}
+
 @media(max-width:520px){
   .stage{padding:6px}
   .flash{border-radius:20px;padding:24px 16px}
@@ -211,7 +230,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 <body>
 <div class="app">
   <header class="topbar">
-    <div class="title">🇯🇵 일본어3</div>
+    <div class="title">🇯🇵 일본어4</div>
     <div class="top-right">
       <button id="counter" class="counter counter-btn" type="button" onclick="openJump()">0 / 0</button>
       <button class="icon-btn" aria-label="메뉴" onclick="toggleMenu()">☰</button>
@@ -282,13 +301,18 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 <form class="modal" onsubmit="saveCard(event)">
   <h2 id="editorTitle">새 카드</h2>
   <input id="id" type="hidden">
+  <input id="furigana" type="hidden">
   <div class="field">
     <label>종류</label>
     <select id="type"><option>단어</option><option>문장</option></select>
   </div>
   <div class="field">
     <label>일본어 *</label>
-    <input id="jp" required placeholder="例: おはようございます">
+    <input id="jp" required placeholder="例: 日本語を勉強します">
+    <div class="auto-reading">
+      <button type="button" onclick="makeReading()">あ 자동 읽기</button>
+      <span id="readingState" class="auto-state">한자가 있으면 후리가나와 한글 읽기를 만듭니다.</span>
+    </div>
   </div>
   <div class="field">
     <label>읽는 법</label>
@@ -309,6 +333,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 </form>
 </dialog>
 
+<script src="https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js"></script>
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbziWdsXY6rd_z9vfIgoNoyoSDbji3MxYICyXD-eROIQ6pe3cM6EittZSxnX7KDx3vg/exec';
 
@@ -316,6 +341,124 @@ let cards=[], viewCards=[], current=0;
 let startX=0,startY=0,currentX=0;
 let dragging=false,moved=false,animating=false;
 const $=id=>document.getElementById(id);
+
+let tokenizer=null;
+let tokenizerLoading=null;
+
+function hasKanji(text){
+  return /[\u3400-\u4DBF\u4E00-\u9FFF々〆ヵヶ]/.test(text||'');
+}
+function kataToHira(s=''){
+  return s.replace(/[\u30A1-\u30F6]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));
+}
+function escapeRuby(s=''){
+  return String(s).replace(/[&<>"']/g,m=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+}
+function getTokenizer(){
+  if(tokenizer) return Promise.resolve(tokenizer);
+  if(tokenizerLoading) return tokenizerLoading;
+  tokenizerLoading=new Promise((resolve,reject)=>{
+    if(typeof kuromoji==='undefined'){
+      reject(new Error('일본어 분석기를 불러오지 못했습니다.'));
+      return;
+    }
+    kuromoji.builder({
+      dicPath:'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/'
+    }).build((err,t)=>{
+      if(err){reject(err);return;}
+      tokenizer=t; resolve(t);
+    });
+  });
+  return tokenizerLoading;
+}
+
+/* 가나를 한국어식 읽기 표기로 변환하는 학습용 간이 변환 */
+const KANA_KO={
+'あ':'아','い':'이','う':'우','え':'에','お':'오',
+'か':'카','き':'키','く':'쿠','け':'케','こ':'코',
+'が':'가','ぎ':'기','ぐ':'구','げ':'게','ご':'고',
+'さ':'사','し':'시','す':'스','せ':'세','そ':'소',
+'ざ':'자','じ':'지','ず':'즈','ぜ':'제','ぞ':'조',
+'た':'타','ち':'치','つ':'츠','て':'테','と':'토',
+'だ':'다','ぢ':'지','づ':'즈','で':'데','ど':'도',
+'な':'나','に':'니','ぬ':'누','ね':'네','の':'노',
+'は':'하','ひ':'히','ふ':'후','へ':'헤','ほ':'호',
+'ば':'바','び':'비','ぶ':'부','べ':'베','ぼ':'보',
+'ぱ':'파','ぴ':'피','ぷ':'푸','ぺ':'페','ぽ':'포',
+'ま':'마','み':'미','む':'무','め':'메','も':'모',
+'や':'야','ゆ':'유','よ':'요',
+'ら':'라','り':'리','る':'루','れ':'레','ろ':'로',
+'わ':'와','を':'오','ん':'ㄴ',
+'きゃ':'캬','きゅ':'큐','きょ':'쿄',
+'ぎゃ':'갸','ぎゅ':'규','ぎょ':'교',
+'しゃ':'샤','しゅ':'슈','しょ':'쇼',
+'じゃ':'자','じゅ':'주','じょ':'조',
+'ちゃ':'차','ちゅ':'추','ちょ':'초',
+'にゃ':'냐','にゅ':'뉴','にょ':'뇨',
+'ひゃ':'햐','ひゅ':'휴','ひょ':'효',
+'びゃ':'뱌','びゅ':'뷰','びょ':'뵤',
+'ぴゃ':'퍄','ぴゅ':'퓨','ぴょ':'표',
+'みゃ':'먀','みゅ':'뮤','みょ':'묘',
+'りゃ':'랴','りゅ':'류','りょ':'료',
+'ふぁ':'파','ふぃ':'피','ふぇ':'페','ふぉ':'포',
+'てぃ':'티','でぃ':'디','うぃ':'위','うぇ':'웨','うぉ':'워',
+'ヴぁ':'바','ヴぃ':'비','ヴ':'부','ヴぇ':'베','ヴぉ':'보'
+};
+function kanaToKorean(input=''){
+  let s=kataToHira(input);
+  let out='';
+  for(let i=0;i<s.length;){
+    const two=s.slice(i,i+2);
+    if(KANA_KO[two]){out+=KANA_KO[two];i+=2;continue;}
+    const ch=s[i];
+    if(ch==='っ'){
+      /* 촉음은 다음 음절을 강조하지만 한글 표기는 간단히 생략 */
+      i++;continue;
+    }
+    if(ch==='ー'){
+      out+='-';i++;continue;
+    }
+    if(ch===' '||/[、。！？,.!?]/.test(ch)){out+=ch;i++;continue;}
+    out+=KANA_KO[ch]||ch;
+    i++;
+  }
+  return out.replace(/ㄴ(?=[가-힣])/g,'ㄴ').trim();
+}
+async function analyzeJapanese(text){
+  const t=await getTokenizer();
+  const tokens=t.tokenize(text);
+  let ruby='', kana='';
+  for(const tok of tokens){
+    const surface=tok.surface_form||'';
+    const reading=kataToHira(tok.reading||surface);
+    kana+=reading;
+    if(hasKanji(surface) && reading && reading!==surface){
+      ruby+=`<ruby>${escapeRuby(surface)}<rt>${escapeRuby(reading)}</rt></ruby>`;
+    }else{
+      ruby+=escapeRuby(surface);
+    }
+  }
+  return {ruby,kana,korean:kanaToKorean(kana)};
+}
+async function makeReading(){
+  const text=$('jp').value.trim();
+  if(!text)return;
+  $('readingState').textContent='읽는 법 만드는 중…';
+  try{
+    const r=await analyzeJapanese(text);
+    $('furigana').value=r.ruby;
+    $('reading').value=r.korean;
+    $('readingState').textContent=hasKanji(text)
+      ?`후리가나: ${r.kana}`
+      :'한글 읽기를 자동 입력했습니다.';
+  }catch(e){
+    $('readingState').textContent='자동 변환 실패';
+    alert('자동 읽기 생성에 실패했습니다. 인터넷 연결 후 다시 시도해 주세요.');
+  }
+}
+
 
 function apiReady(){
   return API_URL.startsWith('https://script.google.com/macros/s/');
@@ -369,7 +512,7 @@ function render(){
   $('empty').classList.add('hidden');
   flash.classList.remove('hidden');
   $('cardType').textContent=c.type||'단어';
-  $('cardJp').textContent=c.jp||'';
+  $('cardJp').innerHTML=c.furigana||escapeRuby(c.jp||'');
   $('cardReading').textContent=c.reading||'';
   $('cardKo').textContent=c.ko||'';
   $('cardMemo').textContent=c.memo||'';
@@ -442,7 +585,7 @@ function goBySwipe(direction){
 
     const c=viewCards[current];
     $('cardType').textContent=c.type||'단어';
-    $('cardJp').textContent=c.jp||'';
+    $('cardJp').innerHTML=c.furigana||escapeRuby(c.jp||'');
     $('cardReading').textContent=c.reading||'';
     $('cardKo').textContent=c.ko||'';
     $('cardMemo').textContent=c.memo||'';
@@ -526,7 +669,7 @@ $('jumpInput')?.addEventListener('keydown',e=>{
 function openAdd(){
   $('menu').classList.add('hidden');
   $('editorTitle').textContent='새 카드';
-  ['id','jp','reading','ko','memo'].forEach(x=>$(x).value='');
+  ['id','jp','reading','ko','memo','furigana'].forEach(x=>$(x).value='');
   $('type').value='단어';
   editor.showModal();
 }
@@ -542,17 +685,27 @@ function openEdit(id){
   $('type').value=c.type||'단어';
   $('jp').value=c.jp||'';
   $('reading').value=c.reading||'';
+  $('furigana').value=c.furigana||'';
   $('ko').value=c.ko||'';
   $('memo').value=c.memo||'';
   editor.showModal();
 }
 async function saveCard(e){
   e.preventDefault();
+  const jpText=$('jp').value.trim();
+  if(jpText && (!$('reading').value.trim() || (hasKanji(jpText) && !$('furigana').value))){
+    try{
+      const auto=await analyzeJapanese(jpText);
+      if(!$('reading').value.trim()) $('reading').value=auto.korean;
+      if(hasKanji(jpText) && !$('furigana').value) $('furigana').value=auto.ruby;
+    }catch(_){}
+  }
   const card={
     id:$('id').value,
     type:$('type').value,
-    jp:$('jp').value.trim(),
+    jp:jpText,
     reading:$('reading').value.trim(),
+    furigana:$('furigana').value,
     ko:$('ko').value.trim(),
     memo:$('memo').value.trim()
   };
@@ -599,6 +752,16 @@ function esc(s=''){
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
   }[m]));
 }
+
+
+let readingTimer=null;
+$('jp').addEventListener('input',()=>{
+  $('furigana').value='';
+  clearTimeout(readingTimer);
+  readingTimer=setTimeout(()=>{
+    if($('jp').value.trim()) makeReading();
+  },700);
+});
 
 $('search').addEventListener('input',applyFilter);
 $('filter').addEventListener('change',applyFilter);
