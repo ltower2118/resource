@@ -35,7 +35,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90dvh;box-shadow:0 20px 60px rgba(0,0,0,.28)}dialog::backdrop{background:rgba(0,0,0,.45)}
 .modal,.jump-box{padding:20px;overflow:auto}.modal h2,.jump-box h2{margin:0 0 12px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px 12px}.field textarea{min-height:76px;resize:vertical}
 .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.modal-actions button{padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:700}.modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
-.auto-reading{display:flex;align-items:center;gap:8px;margin-top:6px}.auto-reading button{border:1px solid #cbd5e1;background:#fff;border-radius:8px;padding:6px 9px;font-size:12px;font-weight:700}.auto-state{font-size:12px;color:var(--muted)}
+
 .jump-controls{display:grid;grid-template-columns:1fr auto;gap:8px}.jump-controls input{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:13px;font-size:18px;text-align:center}.jump-controls button{border:0;border-radius:11px;padding:0 18px;background:var(--main);color:#fff;font-weight:800}
 .quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}.quick-numbers button{border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:42px;font-weight:700}.quick-numbers button.current{background:var(--main);color:#fff;border-color:var(--main)}.jump-close{width:100%;margin-top:12px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
 @media(max-width:520px){.stage{padding:5px}.flash{border-radius:19px;padding:24px 14px}.jp{font-size:clamp(36px,11vw,56px)}}
@@ -43,7 +43,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어5</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어6</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -66,9 +66,9 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <dialog id="jumpDialog"><div class="jump-box"><h2>카드 번호 이동</h2><div class="jump-controls"><input id="jumpInput" type="number" min="1" inputmode="numeric"><button onclick="jumpFromInput()">이동</button></div><div id="quickNumbers" class="quick-numbers"></div><button class="jump-close" onclick="jumpDialog.close()">닫기</button></div></dialog>
 
 <dialog id="editor"><form class="modal" onsubmit="saveCard(event)">
-<h2 id="editorTitle">새 카드</h2><input id="id" type="hidden"><input id="furigana" type="hidden">
+<h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
 <div class="field"><label>종류</label><select id="type"><option>단어</option><option>문장</option></select></div>
-<div class="field"><label>일본어 *</label><input id="jp" required placeholder="例: 日本語"><div class="auto-reading"><button id="readingBtn" type="button" onclick="makeReading()">あ 자동 읽기</button><span id="readingState" class="auto-state">필요할 때만 실행</span></div></div>
+<div class="field"><label>일본어 *</label><input id="jp" required placeholder="例: 日本語"></div>
 <div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
 <div class="field"><label>한국어 뜻 *</label><input id="ko" required placeholder="예: 일본어"></div>
 <div class="field"><label>메모</label><textarea id="memo"></textarea></div>
@@ -76,11 +76,10 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbxfKLAEmQ54fGB-RLkki_LrxGghLYDVT2QLtnj54WG5ugYrQvVwiTbC2a3EicpmoKG-/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbyRZ67i57Uk0Ew6vy-u0RyvW0tM8YNDU31f7gBc6aihFZaIuCcrduW1H9C1VjAJMigE/exec';
 const CACHE_KEY='jp_flashcards_cache_v4';
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
-let tokenizer=null,tokenizerPromise=null,kuromojiPromise=null;
 const $=id=>document.getElementById(id);
 
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -123,13 +122,14 @@ function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$
 function jumpFromInput(){const n=parseInt($('jumpInput').value,10);if(n>=1&&n<=viewCards.length)jumpTo(n)}
 function jumpTo(n){current=n-1;render();jumpDialog.close()}
 
-function openAdd(){$('menu').classList.add('hidden');$('editorTitle').textContent='새 카드';['id','jp','reading','ko','memo','furigana'].forEach(x=>$(x).value='');$('type').value='단어';$('readingState').textContent='필요할 때만 실행';editor.showModal()}
+function openAdd(){$('menu').classList.add('hidden');$('editorTitle').textContent='새 카드';['id','jp','reading','ko','memo'].forEach(x=>$(x).value='');$('type').value='단어';editor.showModal()}
 function editCurrent(){$('menu').classList.add('hidden');if(viewCards.length)openEdit(viewCards[current].id)}
-function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)return;$('editorTitle').textContent='카드 수정';$('id').value=c.id;$('type').value=c.type||'단어';$('jp').value=c.jp||'';$('reading').value=c.reading||'';$('furigana').value=c.furigana||'';$('ko').value=c.ko||'';$('memo').value=c.memo||'';$('readingState').textContent='필요하면 자동 읽기 실행';editor.showModal()}
+function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)return;$('editorTitle').textContent='카드 수정';$('id').value=c.id;$('type').value=c.type||'단어';$('jp').value=c.jp||'';$('reading').value=c.reading||'';$('ko').value=c.ko||'';$('memo').value=c.memo||'';editor.showModal()}
 
 async function saveCard(e){
  e.preventDefault();
- const card={id:$('id').value,type:$('type').value,jp:$('jp').value.trim(),reading:$('reading').value.trim(),furigana:$('furigana').value,ko:$('ko').value.trim(),memo:$('memo').value.trim()};
+ const oldCard=$('id').value?cards.find(x=>String(x.id)===String($('id').value)):null;
+ const card={id:$('id').value,type:$('type').value,jp:$('jp').value.trim(),reading:$('reading').value.trim(),furigana:oldCard?.furigana||'',ko:$('ko').value.trim(),memo:$('memo').value.trim()};
  try{
    const action=card.id?'update':'add';const j=await request(action,{card});
    if(action==='add')card.id=j.card.id;
@@ -145,37 +145,6 @@ function showList(){$('menu').classList.add('hidden');renderList();$('listView')
 function hideList(){$('listView').classList.add('hidden')}
 function renderList(){const box=$('list');if(!viewCards.length){box.innerHTML='<div class="listItem">카드가 없습니다.</div>';return}box.innerHTML=viewCards.map(c=>`<div class="listItem"><div class="listText"><b>${esc(c.jp)}</b><div>${esc(c.ko)}</div><div class="small">${esc(c.type||'단어')} ${c.reading?'· '+esc(c.reading):''}</div></div><button class="mini" onclick="openEdit('${c.id}')">수정</button><button class="mini danger" onclick="deleteCard('${c.id}')">삭제</button></div>`).join('')}
 
-/* 자동 읽기는 버튼을 눌렀을 때만 아래 라이브러리/사전을 지연 로딩 */
-function loadKuromojiScript(){
- if(window.kuromoji)return Promise.resolve();
- if(kuromojiPromise)return kuromojiPromise;
- kuromojiPromise=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js';s.onload=resolve;s.onerror=()=>{kuromojiPromise=null;reject(new Error('자동 읽기 모듈 로드 실패'))};document.head.appendChild(s)});
- return kuromojiPromise;
-}
-async function getTokenizer(){
- if(tokenizer)return tokenizer;
- if(tokenizerPromise)return tokenizerPromise;
- await loadKuromojiScript();
- tokenizerPromise=new Promise((resolve,reject)=>{kuromoji.builder({dicPath:'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/'}).build((err,t)=>{if(err){tokenizerPromise=null;reject(err)}else{tokenizer=t;resolve(t)}})});
- return tokenizerPromise;
-}
-function kataToHira(s=''){return s.replace(/[\u30A1-\u30F6]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60))}
-function hasKanji(s=''){return /[\u3400-\u4DBF\u4E00-\u9FFF々〆ヵヶ]/.test(s)}
-const KK={'あ':'아','い':'이','う':'우','え':'에','お':'오','か':'카','き':'키','く':'쿠','け':'케','こ':'코','が':'가','ぎ':'기','ぐ':'구','げ':'게','ご':'고','さ':'사','し':'시','す':'스','せ':'세','そ':'소','ざ':'자','じ':'지','ず':'즈','ぜ':'제','ぞ':'조','た':'타','ち':'치','つ':'츠','て':'테','と':'토','だ':'다','ぢ':'지','づ':'즈','で':'데','ど':'도','な':'나','に':'니','ぬ':'누','ね':'네','の':'노','は':'하','ひ':'히','ふ':'후','へ':'헤','ほ':'호','ば':'바','び':'비','ぶ':'부','べ':'베','ぼ':'보','ぱ':'파','ぴ':'피','ぷ':'푸','ぺ':'페','ぽ':'포','ま':'마','み':'미','む':'무','め':'메','も':'모','や':'야','ゆ':'유','よ':'요','ら':'라','り':'리','る':'루','れ':'레','ろ':'로','わ':'와','を':'오','ん':'ㄴ','きゃ':'캬','きゅ':'큐','きょ':'쿄','しゃ':'샤','しゅ':'슈','しょ':'쇼','ちゃ':'차','ちゅ':'추','ちょ':'초','じゃ':'자','じゅ':'주','じょ':'조','りゃ':'랴','りゅ':'류','りょ':'료'};
-function kanaKo(s=''){s=kataToHira(s);let o='';for(let i=0;i<s.length;){const t=s.slice(i,i+2);if(KK[t]){o+=KK[t];i+=2}else if(s[i]==='っ'){i++}else if(s[i]==='ー'){o+='-';i++}else{o+=KK[s[i]]||s[i];i++}}return o}
-async function makeReading(){
- const text=$('jp').value.trim();if(!text)return;
- const btn=$('readingBtn');btn.disabled=true;$('readingState').textContent='자동 읽기 불러오는 중…';
- try{
-  const t=await getTokenizer();$('readingState').textContent='읽는 법 생성 중…';
-  const tokens=t.tokenize(text);let kana='',ruby='';
-  for(const x of tokens){const surface=x.surface_form||'',read=kataToHira(x.reading||surface);kana+=read;ruby+=hasKanji(surface)&&read!==surface?`<ruby>${esc(surface)}<rt>${esc(read)}</rt></ruby>`:esc(surface)}
-  $('reading').value=kanaKo(kana);$('furigana').value=ruby;$('readingState').textContent='자동 읽기 완료';
- }catch(e){$('readingState').textContent='자동 읽기 실패 · 직접 입력 가능';alert('자동 읽기 모듈을 불러오지 못했습니다. 카드 저장은 정상적으로 사용할 수 있습니다.')}
- finally{btn.disabled=false}
-}
-
-$('jp').addEventListener('input',()=>{$('furigana').value='';$('readingState').textContent='필요할 때만 실행'});
 $('search').addEventListener('input',applyFilter);$('filter').addEventListener('change',applyFilter);
 
 /* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
