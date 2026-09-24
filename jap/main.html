@@ -5,365 +5,512 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>일본어 플래시카드</title>
 <style>
-:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;--main:#2563eb;--danger:#dc2626;--ok:#16a34a;--line:#e5e7eb}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--ink)}
-header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:14px 16px}
-.head{max-width:850px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
-h1{font-size:20px;margin:0}
-.wrap{max-width:850px;margin:auto;padding:16px}
-.toolbar,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row>*{flex:1;min-width:120px}
-input,select,textarea,button{font:inherit;border-radius:10px;border:1px solid #cbd5e1;padding:11px 12px}
-textarea{width:100%;min-height:72px;resize:vertical}
-button{cursor:pointer;background:#fff;font-weight:700}
-button.primary{background:var(--main);border-color:var(--main);color:#fff}
-button.ok{background:var(--ok);border-color:var(--ok);color:#fff}
-button.danger{background:var(--danger);border-color:var(--danger);color:#fff}
-
-/* 카드 영역 */
-.flash-wrap{
-  overflow:hidden;
-  border-radius:22px;
-  touch-action:pan-y;
+:root{
+  --bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;
+  --main:#2563eb;--danger:#dc2626;--line:#e5e7eb;
 }
-.flash{
-  min-height:330px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:28px 22px;
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{
+  font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;
+  background:var(--bg);color:var(--ink);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.app{
+  height:100dvh;
   display:flex;
   flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right)
+          env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* 최소 상단바 */
+.topbar{
+  height:54px;flex:0 0 54px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 12px;
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(10px);
+  z-index:10;
+}
+.title{font-size:17px;font-weight:800;white-space:nowrap}
+.top-right{display:flex;align-items:center;gap:6px}
+.counter{font-size:13px;color:var(--muted);min-width:44px;text-align:right}
+.icon-btn{
+  width:40px;height:40px;border:0;border-radius:12px;
+  background:transparent;font-size:22px;display:grid;place-items:center;
+}
+.icon-btn:active{background:#eef2f7}
+
+/* 카드가 화면을 최대한 채움 */
+.stage{
+  position:relative;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+  padding:10px;
+  touch-action:pan-y;
+}
+.track{
+  position:relative;
+  width:100%;height:100%;
+}
+.flash{
+  position:absolute;inset:0;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:0 6px 24px rgba(0,0,0,.06);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
   text-align:center;
-  cursor:pointer;
-  box-shadow:0 6px 24px rgba(0,0,0,.05);
-  user-select:none;
+  padding:30px 22px;
+  user-select:none;-webkit-user-select:none;
+  touch-action:pan-y;
   will-change:transform,opacity;
+  transition:transform .24s cubic-bezier(.22,.61,.36,1),opacity .24s ease;
 }
-
-/* 버튼으로 다음/이전 이동할 때의 부드러운 슬라이드 */
-.flash.slide-out-left{animation:slideOutLeft .18s ease-in forwards}
-.flash.slide-in-right{animation:slideInRight .26s cubic-bezier(.22,.61,.36,1)}
-.flash.slide-out-right{animation:slideOutRight .18s ease-in forwards}
-.flash.slide-in-left{animation:slideInLeft .26s cubic-bezier(.22,.61,.36,1)}
-
-@keyframes slideOutLeft{
-  from{transform:translateX(0);opacity:1}
-  to{transform:translateX(-24%);opacity:0}
+.flash.dragging{transition:none}
+.type{
+  position:absolute;top:18px;left:20px;
+  font-size:12px;color:var(--main);font-weight:800;
+  padding:5px 9px;background:#eff6ff;border-radius:999px;
 }
-@keyframes slideInRight{
-  from{transform:translateX(24%);opacity:0}
-  to{transform:translateX(0);opacity:1}
+.jp{
+  font-size:clamp(38px,9vw,72px);
+  font-weight:800;line-height:1.35;
+  word-break:keep-all;
 }
-@keyframes slideOutRight{
-  from{transform:translateX(0);opacity:1}
-  to{transform:translateX(24%);opacity:0}
+.reading{
+  font-size:clamp(17px,3vw,23px);
+  color:var(--muted);margin-top:14px;
 }
-@keyframes slideInLeft{
-  from{transform:translateX(-24%);opacity:0}
-  to{transform:translateX(0);opacity:1}
+.answer{
+  display:none;
+  width:min(92%,700px);
+  margin-top:28px;padding-top:24px;
+  border-top:1px solid var(--line);
 }
-
-.type{font-size:13px;color:var(--main);font-weight:800;margin-bottom:18px}
-.jp{font-size:clamp(30px,7vw,50px);font-weight:800;line-height:1.35}
-.reading{font-size:18px;color:var(--muted);margin-top:12px}
-.answer{display:none;margin-top:24px;padding-top:20px;border-top:1px solid var(--line);width:100%}
 .answer.show{display:block}
-.ko{font-size:24px;font-weight:750}
-.memo{color:var(--muted);margin-top:10px;white-space:pre-wrap}
-.hint{color:var(--muted);font-size:13px;margin-top:18px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
-.stats{text-align:center;color:var(--muted);font-size:14px;margin:10px}
-.listItem{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;display:flex;gap:10px;align-items:center}
+.ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}
+.memo{font-size:16px;color:var(--muted);margin-top:12px;white-space:pre-wrap;line-height:1.55}
+.hint{
+  position:absolute;bottom:18px;left:0;right:0;
+  font-size:12px;color:#9ca3af;
+}
+.empty{
+  position:absolute;inset:0;display:grid;place-items:center;
+  text-align:center;color:var(--muted);padding:30px;
+  background:#fff;border:1px solid var(--line);border-radius:24px;
+}
+.hidden{display:none!important}
+
+/* 메뉴 */
+.menu{
+  position:fixed;top:58px;right:10px;z-index:30;
+  width:min(92vw,340px);
+  background:#fff;border:1px solid var(--line);
+  border-radius:18px;padding:12px;
+  box-shadow:0 18px 50px rgba(0,0,0,.18);
+}
+.menu-row{display:flex;gap:8px;margin-bottom:8px}
+.menu-row:last-child{margin-bottom:0}
+.menu input,.menu select,.menu button{
+  width:100%;border:1px solid #cbd5e1;border-radius:11px;
+  padding:11px;background:#fff;
+}
+.menu button{font-weight:700}
+.menu button.primary{background:var(--main);color:#fff;border-color:var(--main)}
+.status{font-size:12px;color:var(--muted);padding:6px 3px 2px}
+
+/* 목록 화면 */
+.list-screen{
+  position:fixed;inset:54px 0 0 0;z-index:20;
+  background:var(--bg);overflow:auto;padding:10px;
+}
+.list-head{
+  position:sticky;top:-10px;z-index:2;
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--bg);padding:8px 2px 10px;
+}
+.list-head b{font-size:18px}
+.close-btn{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:8px 12px;font-weight:700}
+.listItem{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:13px;margin-bottom:8px;display:flex;gap:8px;align-items:center;
+}
 .listText{flex:1;min-width:0}
 .listText b{font-size:18px}
-.small{font-size:13px;color:var(--muted)}
-.mini{padding:7px 9px;font-size:13px;flex:none}
-.hidden{display:none!important}
-.status{font-size:13px;color:var(--muted)}
-dialog{border:0;border-radius:18px;padding:0;width:min(92vw,600px);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.small{font-size:13px;color:var(--muted);margin-top:4px}
+.mini{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:8px 9px;font-size:13px;font-weight:700}
+.danger{color:var(--danger)}
+
+/* 편집창 */
+dialog{
+  border:0;border-radius:20px;padding:0;
+  width:min(94vw,600px);max-height:90dvh;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
 dialog::backdrop{background:rgba(0,0,0,.45)}
-.modal{padding:20px}
-.modal h2{margin-top:0}
+.modal{padding:20px;overflow:auto}
+.modal h2{margin:0 0 14px}
 .field{margin:10px 0}
 .field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
-.field input,.field select{width:100%}
-@media(max-width:520px){
-  .wrap{padding:10px}
-  .actions{grid-template-columns:1fr 1fr}
-  .flash{min-height:300px}
-  .jp{font-size:36px}
+.field input,.field select,.field textarea{
+  width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px 12px;
 }
-@media(prefers-reduced-motion:reduce){
-  .flash.slide-out-left,.flash.slide-in-right,.flash.slide-out-right,.flash.slide-in-left{animation-duration:.01ms}
+.field textarea{min-height:78px;resize:vertical}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.modal-actions button{padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:700}
+.modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
+
+@media(max-width:520px){
+  .stage{padding:6px}
+  .flash{border-radius:20px;padding:24px 16px}
+  .jp{font-size:clamp(36px,11vw,56px)}
+  .type{top:14px;left:14px}
+  .hint{bottom:14px}
 }
 </style>
 </head>
 <body>
-<header><div class="head"><h1>🇯🇵 일본어 플래시카드2</h1><span id="syncStatus" class="status">준비</span></div></header>
-<main class="wrap">
-  <section class="toolbar">
-    <div class="row">
-      <input id="search" placeholder="일본어·뜻·읽는 법 검색">
-      <select id="filter"><option value="all">전체</option><option value="단어">단어</option><option value="문장">문장</option></select>
-      <button class="primary" onclick="openAdd()">＋ 새 카드</button>
+<div class="app">
+  <header class="topbar">
+    <div class="title">🇯🇵 일본어</div>
+    <div class="top-right">
+      <span id="counter" class="counter">0 / 0</span>
+      <button class="icon-btn" aria-label="메뉴" onclick="toggleMenu()">☰</button>
     </div>
-  </section>
+  </header>
 
-  <section id="studyView">
-    <div class="flash-wrap">
-      <div id="flash" class="flash" onclick="flipCard()">
-        <div id="empty">카드를 불러오는 중입니다…</div>
-        <div id="cardBody" class="hidden">
-          <div id="cardType" class="type"></div>
-          <div id="cardJp" class="jp"></div>
-          <div id="cardReading" class="reading"></div>
-          <div id="answer" class="answer">
-            <div id="cardKo" class="ko"></div>
-            <div id="cardMemo" class="memo"></div>
-          </div>
-          <div class="hint">카드를 눌러 뜻 보기</div>
+  <main id="stage" class="stage">
+    <div class="track">
+      <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
+      <div id="flash" class="flash hidden">
+        <div id="cardType" class="type"></div>
+        <div id="cardJp" class="jp"></div>
+        <div id="cardReading" class="reading"></div>
+        <div id="answer" class="answer">
+          <div id="cardKo" class="ko"></div>
+          <div id="cardMemo" class="memo"></div>
         </div>
+        <div class="hint">터치: 뜻 보기 · 좌우로 밀기: 카드 이동</div>
       </div>
     </div>
+  </main>
+</div>
 
-    <div class="actions">
-      <button onclick="prevCard()">← 이전</button>
-      <button onclick="nextCard()">다음 →</button>
-    </div>
-    <div class="row"><button onclick="editCurrent()">✏️ 현재 카드 수정</button></div>
-    <div id="stats" class="stats"></div>
-  </section>
+<div id="menu" class="menu hidden">
+  <div class="menu-row">
+    <input id="search" placeholder="검색">
+  </div>
+  <div class="menu-row">
+    <select id="filter">
+      <option value="all">전체</option>
+      <option value="단어">단어</option>
+      <option value="문장">문장</option>
+    </select>
+  </div>
+  <div class="menu-row">
+    <button class="primary" onclick="openAdd()">＋ 새 카드</button>
+    <button onclick="editCurrent()">수정</button>
+  </div>
+  <div class="menu-row">
+    <button onclick="showList()">목록 관리</button>
+    <button onclick="loadCards()">↻ 새로고침</button>
+  </div>
+  <div id="syncStatus" class="status">준비</div>
+</div>
 
-  <section class="panel">
-    <div class="row">
-      <button id="studyBtn" class="primary" onclick="showStudy()">암기 화면</button>
-      <button id="listBtn" onclick="showList()">목록 관리</button>
-      <button onclick="loadCards()">↻ 시트 새로고침</button>
-    </div>
-  </section>
-  <section id="listView" class="hidden"><div id="list"></div></section>
-</main>
+<section id="listView" class="list-screen hidden">
+  <div class="list-head">
+    <b>카드 목록</b>
+    <button class="close-btn" onclick="hideList()">닫기</button>
+  </div>
+  <div id="list"></div>
+</section>
 
 <dialog id="editor">
 <form class="modal" onsubmit="saveCard(event)">
-<h2 id="editorTitle">새 카드</h2>
-<input id="id" type="hidden">
-<div class="field"><label>종류</label><select id="type"><option>단어</option><option>문장</option></select></div>
-<div class="field"><label>일본어 *</label><input id="jp" required placeholder="例: おはようございます"></div>
-<div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 오하요- 고자이마스"></div>
-<div class="field"><label>한국어 뜻 *</label><input id="ko" required placeholder="예: 안녕하세요 (아침 인사)"></div>
-<div class="field"><label>메모</label><textarea id="memo" placeholder="예문, 주의점 등을 입력"></textarea></div>
-<div class="row"><button type="button" onclick="editor.close()">취소</button><button class="primary" type="submit">저장</button></div>
+  <h2 id="editorTitle">새 카드</h2>
+  <input id="id" type="hidden">
+  <div class="field">
+    <label>종류</label>
+    <select id="type"><option>단어</option><option>문장</option></select>
+  </div>
+  <div class="field">
+    <label>일본어 *</label>
+    <input id="jp" required placeholder="例: おはようございます">
+  </div>
+  <div class="field">
+    <label>읽는 법</label>
+    <input id="reading" placeholder="예: 오하요- 고자이마스">
+  </div>
+  <div class="field">
+    <label>한국어 뜻 *</label>
+    <input id="ko" required placeholder="예: 안녕하세요">
+  </div>
+  <div class="field">
+    <label>메모</label>
+    <textarea id="memo" placeholder="예문, 주의점 등을 입력"></textarea>
+  </div>
+  <div class="modal-actions">
+    <button type="button" onclick="editor.close()">취소</button>
+    <button class="primary" type="submit">저장</button>
+  </div>
 </form>
 </dialog>
 
 <script>
-// Apps Script 웹앱 주소
 const API_URL = 'https://script.google.com/macros/s/AKfycbziWdsXY6rd_z9vfIgoNoyoSDbji3MxYICyXD-eROIQ6pe3cM6EittZSxnX7KDx3vg/exec';
 
 let cards=[], viewCards=[], current=0;
-let isSliding=false;
-
+let startX=0,startY=0,currentX=0;
+let dragging=false,moved=false,animating=false;
 const $=id=>document.getElementById(id);
 
 function apiReady(){
- return API_URL.startsWith('https://script.google.com/macros/s/AKfycbziWdsXY6rd_z9vfIgoNoyoSDbji3MxYICyXD-eROIQ6pe3cM6EittZSxnX7KDx3vg/exec');
+  return API_URL.startsWith('https://script.google.com/macros/s/');
 }
-
 async function request(action,data={}){
- if(!apiReady()) throw new Error('index.html의 API_URL에 Apps Script 웹앱 주소를 입력하세요.');
- const r=await fetch(API_URL,{
-   method:'POST',
-   headers:{'Content-Type':'text/plain;charset=utf-8'},
-   body:JSON.stringify({action,...data})
- });
- const j=await r.json();
- if(!j.ok) throw new Error(j.error||'요청 실패');
- return j;
+  if(!apiReady()) throw new Error('Apps Script 웹앱 주소를 확인하세요.');
+  const r=await fetch(API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({action,...data})
+  });
+  const j=await r.json();
+  if(!j.ok) throw new Error(j.error||'요청 실패');
+  return j;
 }
-
 async function loadCards(){
- $('syncStatus').textContent='동기화 중…';
- try{
-   const j=await request('list');
-   cards=j.cards||[];
-   $('syncStatus').textContent='시트 동기화 완료';
-   applyFilter();
- }catch(e){
-   $('syncStatus').textContent='연결 필요';
-   $('empty').innerHTML=`${e.message}<br><br><small>아래 안내대로 Apps Script를 먼저 배포하세요.</small>`;
-   $('cardBody').classList.add('hidden');
-   $('empty').classList.remove('hidden');
- }
+  $('syncStatus').textContent='동기화 중…';
+  try{
+    const j=await request('list');
+    cards=j.cards||[];
+    $('syncStatus').textContent='시트 동기화 완료';
+    applyFilter();
+  }catch(e){
+    $('syncStatus').textContent='연결 필요';
+    $('empty').textContent=e.message;
+    $('empty').classList.remove('hidden');
+    $('flash').classList.add('hidden');
+  }
 }
-
 function applyFilter(){
- const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
- viewCards=cards.filter(c=>{
-   const hit=!q||[c.jp,c.ko,c.reading,c.memo].join(' ').toLowerCase().includes(q);
-   const type=f==='all'||c.type===f;
-   return hit&&type;
- });
- current=Math.min(current,Math.max(0,viewCards.length-1));
- render();
- renderList();
+  const q=$('search').value.trim().toLowerCase();
+  const f=$('filter').value;
+  viewCards=cards.filter(c=>{
+    const hit=!q||[c.jp,c.ko,c.reading,c.memo].join(' ').toLowerCase().includes(q);
+    return hit&&(f==='all'||c.type===f);
+  });
+  current=Math.min(current,Math.max(0,viewCards.length-1));
+  render();
+  renderList();
 }
-
 function render(){
- if(!viewCards.length){
-   $('empty').textContent='표시할 카드가 없습니다.';
-   $('empty').classList.remove('hidden');
-   $('cardBody').classList.add('hidden');
-   $('stats').textContent=`전체 ${cards.length}개`;
-   return;
- }
- const c=viewCards[current];
- $('empty').classList.add('hidden');
- $('cardBody').classList.remove('hidden');
- $('cardType').textContent=c.type||'단어';
- $('cardJp').textContent=c.jp;
- $('cardReading').textContent=c.reading||'';
- $('cardKo').textContent=c.ko;
- $('cardMemo').textContent=c.memo||'';
- $('answer').classList.remove('show');
- $('stats').textContent=`${current+1} / ${viewCards.length}`;
+  const flash=$('flash');
+  if(!viewCards.length){
+    $('empty').textContent='표시할 카드가 없습니다.';
+    $('empty').classList.remove('hidden');
+    flash.classList.add('hidden');
+    $('counter').textContent='0 / 0';
+    return;
+  }
+  const c=viewCards[current];
+  $('empty').classList.add('hidden');
+  flash.classList.remove('hidden');
+  $('cardType').textContent=c.type||'단어';
+  $('cardJp').textContent=c.jp||'';
+  $('cardReading').textContent=c.reading||'';
+  $('cardKo').textContent=c.ko||'';
+  $('cardMemo').textContent=c.memo||'';
+  $('answer').classList.remove('show');
+  $('counter').textContent=`${current+1} / ${viewCards.length}`;
+  flash.style.transform='translateX(0)';
+  flash.style.opacity='1';
 }
-
 function flipCard(){
- if(!isSliding) $('answer').classList.toggle('show');
+  if(!animating&&!moved) $('answer').classList.toggle('show');
 }
 
-/* 슬라이드 이동 */
-function slideCard(direction){
- if(!viewCards.length || isSliding) return;
- isSliding=true;
+/* 손가락/마우스로 직접 끌어 넘기기 */
+const flash=$('flash');
 
- const flash=$('flash');
- const isNext=direction==='next';
- const outClass=isNext?'slide-out-left':'slide-out-right';
- const inClass=isNext?'slide-in-right':'slide-in-left';
+function pointerDown(e){
+  if(animating||!viewCards.length)return;
+  dragging=true;moved=false;
+  startX=e.clientX;startY=e.clientY;currentX=0;
+  flash.classList.add('dragging');
+  try{flash.setPointerCapture(e.pointerId)}catch(_){}
+}
+function pointerMove(e){
+  if(!dragging)return;
+  const dx=e.clientX-startX;
+  const dy=e.clientY-startY;
 
- flash.classList.remove('slide-out-left','slide-out-right','slide-in-left','slide-in-right');
- flash.classList.add(outClass);
+  /* 세로 스크롤 의도는 방해하지 않음 */
+  if(!moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){
+    dragging=false;
+    flash.classList.remove('dragging');
+    return;
+  }
+  if(Math.abs(dx)>6)moved=true;
+  currentX=dx;
+  const width=flash.clientWidth||1;
+  const opacity=Math.max(.55,1-Math.abs(dx)/(width*1.4));
+  flash.style.transform=`translateX(${dx}px) rotate(${dx/80}deg)`;
+  flash.style.opacity=opacity;
+}
+function pointerUp(e){
+  if(!dragging)return;
+  dragging=false;
+  flash.classList.remove('dragging');
 
- setTimeout(()=>{
-   if(isNext){
-     current=(current+1)%viewCards.length;
-   }else{
-     current=(current-1+viewCards.length)%viewCards.length;
-   }
+  const dx=currentX;
+  const threshold=Math.min(100,flash.clientWidth*.18);
 
-   render();
+  if(Math.abs(dx)>=threshold){
+    goBySwipe(dx<0?'next':'prev');
+  }else{
+    flash.style.transform='translateX(0)';
+    flash.style.opacity='1';
+    if(!moved) flipCard();
+    setTimeout(()=>{moved=false},0);
+  }
+}
+function goBySwipe(direction){
+  if(animating||!viewCards.length)return;
+  animating=true;
+  const width=flash.clientWidth;
+  const next=direction==='next';
+  flash.style.transform=`translateX(${next?-width:width}px)`;
+  flash.style.opacity='0';
 
-   flash.classList.remove(outClass);
-   void flash.offsetWidth;
-   flash.classList.add(inClass);
+  setTimeout(()=>{
+    current=next
+      ?(current+1)%viewCards.length
+      :(current-1+viewCards.length)%viewCards.length;
 
-   setTimeout(()=>{
-     flash.classList.remove(inClass);
-     isSliding=false;
-   },270);
- },180);
+    const c=viewCards[current];
+    $('cardType').textContent=c.type||'단어';
+    $('cardJp').textContent=c.jp||'';
+    $('cardReading').textContent=c.reading||'';
+    $('cardKo').textContent=c.ko||'';
+    $('cardMemo').textContent=c.memo||'';
+    $('answer').classList.remove('show');
+    $('counter').textContent=`${current+1} / ${viewCards.length}`;
+
+    flash.classList.add('dragging');
+    flash.style.transform=`translateX(${next?width:-width}px)`;
+    flash.style.opacity='0';
+    void flash.offsetWidth;
+    flash.classList.remove('dragging');
+
+    requestAnimationFrame(()=>{
+      flash.style.transform='translateX(0)';
+      flash.style.opacity='1';
+    });
+
+    setTimeout(()=>{
+      animating=false;
+      moved=false;
+    },250);
+  },220);
 }
 
-function nextCard(){slideCard('next')}
-function prevCard(){slideCard('prev')}
+flash.addEventListener('pointerdown',pointerDown);
+flash.addEventListener('pointermove',pointerMove);
+flash.addEventListener('pointerup',pointerUp);
+flash.addEventListener('pointercancel',pointerUp);
 
+/* 메뉴 */
+function toggleMenu(){$('menu').classList.toggle('hidden')}
+document.addEventListener('pointerdown',e=>{
+  const menu=$('menu');
+  if(menu.classList.contains('hidden'))return;
+  if(!menu.contains(e.target)&&!e.target.closest('.icon-btn'))menu.classList.add('hidden');
+});
+
+/* 카드 등록/수정/삭제 */
 function openAdd(){
- $('editorTitle').textContent='새 카드';
- ['id','jp','reading','ko','memo'].forEach(x=>$(x).value='');
- $('type').value='단어';
- editor.showModal();
+  $('menu').classList.add('hidden');
+  $('editorTitle').textContent='새 카드';
+  ['id','jp','reading','ko','memo'].forEach(x=>$(x).value='');
+  $('type').value='단어';
+  editor.showModal();
 }
-
 function editCurrent(){
- if(viewCards.length) openEdit(viewCards[current].id);
+  $('menu').classList.add('hidden');
+  if(viewCards.length)openEdit(viewCards[current].id);
 }
-
 function openEdit(id){
- const c=cards.find(x=>String(x.id)===String(id));
- if(!c)return;
- $('editorTitle').textContent='카드 수정';
- $('id').value=c.id;
- $('type').value=c.type||'단어';
- $('jp').value=c.jp||'';
- $('reading').value=c.reading||'';
- $('ko').value=c.ko||'';
- $('memo').value=c.memo||'';
- editor.showModal();
+  const c=cards.find(x=>String(x.id)===String(id));
+  if(!c)return;
+  $('editorTitle').textContent='카드 수정';
+  $('id').value=c.id;
+  $('type').value=c.type||'단어';
+  $('jp').value=c.jp||'';
+  $('reading').value=c.reading||'';
+  $('ko').value=c.ko||'';
+  $('memo').value=c.memo||'';
+  editor.showModal();
 }
-
 async function saveCard(e){
- e.preventDefault();
- const card={
-   id:$('id').value,
-   type:$('type').value,
-   jp:$('jp').value.trim(),
-   reading:$('reading').value.trim(),
-   ko:$('ko').value.trim(),
-   memo:$('memo').value.trim()
- };
- try{
-   await request(card.id?'update':'add',{card});
-   editor.close();
-   await loadCards();
- }catch(err){
-   alert(err.message);
- }
+  e.preventDefault();
+  const card={
+    id:$('id').value,
+    type:$('type').value,
+    jp:$('jp').value.trim(),
+    reading:$('reading').value.trim(),
+    ko:$('ko').value.trim(),
+    memo:$('memo').value.trim()
+  };
+  try{
+    await request(card.id?'update':'add',{card});
+    editor.close();
+    await loadCards();
+  }catch(err){alert(err.message)}
 }
-
 async function deleteCard(id){
- if(!confirm('이 카드를 삭제할까요?'))return;
- try{
-   await request('delete',{id});
-   await loadCards();
- }catch(e){
-   alert(e.message);
- }
+  if(!confirm('이 카드를 삭제할까요?'))return;
+  try{
+    await request('delete',{id});
+    await loadCards();
+  }catch(e){alert(e.message)}
 }
 
-function renderList(){
- const box=$('list');
- if(!viewCards.length){
-   box.innerHTML='<div class="panel">카드가 없습니다.</div>';
-   return;
- }
- box.innerHTML=viewCards.map(c=>`
- <div class="listItem">
-   <div class="listText">
-     <b>${esc(c.jp)}</b>
-     <div>${esc(c.ko)}</div>
-     <div class="small">${esc(c.type)} ${c.reading?'· '+esc(c.reading):''}</div>
-   </div>
-   <button class="mini" onclick="openEdit('${c.id}')">수정</button>
-   <button class="mini danger" onclick="deleteCard('${c.id}')">삭제</button>
- </div>`).join('');
-}
-
-function esc(s=''){
- return String(s).replace(/[&<>"']/g,m=>({
-   '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
- }[m]));
-}
-
-function showStudy(){
- $('studyView').classList.remove('hidden');
- $('listView').classList.add('hidden');
- $('studyBtn').className='primary';
- $('listBtn').className='';
-}
-
+/* 목록 */
 function showList(){
- $('studyView').classList.add('hidden');
- $('listView').classList.remove('hidden');
- $('listBtn').className='primary';
- $('studyBtn').className='';
- renderList();
+  $('menu').classList.add('hidden');
+  renderList();
+  $('listView').classList.remove('hidden');
+}
+function hideList(){$('listView').classList.add('hidden')}
+function renderList(){
+  const box=$('list');
+  if(!viewCards.length){
+    box.innerHTML='<div class="listItem">카드가 없습니다.</div>';
+    return;
+  }
+  box.innerHTML=viewCards.map(c=>`
+    <div class="listItem">
+      <div class="listText">
+        <b>${esc(c.jp)}</b>
+        <div>${esc(c.ko)}</div>
+        <div class="small">${esc(c.type)} ${c.reading?'· '+esc(c.reading):''}</div>
+      </div>
+      <button class="mini" onclick="openEdit('${c.id}')">수정</button>
+      <button class="mini danger" onclick="deleteCard('${c.id}')">삭제</button>
+    </div>`).join('');
+}
+function esc(s=''){
+  return String(s).replace(/[&<>"']/g,m=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
 }
 
 $('search').addEventListener('input',applyFilter);
