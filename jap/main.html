@@ -20,7 +20,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .flash{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;user-select:none;-webkit-user-select:none;touch-action:pan-y;will-change:transform,opacity;transition:transform .22s cubic-bezier(.22,.61,.36,1),opacity .22s ease}
 .flash.dragging{transition:none}.hidden{display:none!important}
 .type{position:absolute;top:15px;left:15px;font-size:12px;color:var(--main);font-weight:800;padding:5px 9px;background:#eff6ff;border-radius:999px}
-.jp{font-size:clamp(38px,9vw,72px);font-weight:800;line-height:1.5;word-break:keep-all}.jp ruby{ruby-position:over}.jp rt{font-size:.34em;font-weight:600;color:#6b7280}
+.jp{font-size:clamp(38px,9vw,72px);font-weight:800;line-height:1.5;word-break:keep-all}
 .reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
 .answer{display:none;width:min(92%,700px);margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}.answer.show{display:block}
 .ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}.memo{font-size:16px;color:var(--muted);margin-top:10px;white-space:pre-wrap}
@@ -43,7 +43,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어6</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어7</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -77,7 +77,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbyRZ67i57Uk0Ew6vy-u0RyvW0tM8YNDU31f7gBc6aihFZaIuCcrduW1H9C1VjAJMigE/exec';
-const CACHE_KEY='jp_flashcards_cache_v4';
+const CACHE_KEY='jp_flashcards_cache_v5';
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
 const $=id=>document.getElementById(id);
@@ -103,7 +103,7 @@ function applyFilter(){
 function render(){
  if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
- $('cardType').textContent=c.type||'단어';$('cardJp').innerHTML=c.furigana||esc(c.jp||'');$('cardReading').textContent=c.reading||'';$('cardKo').textContent=c.ko||'';$('cardMemo').textContent=c.memo||'';$('answer').classList.remove('show');$('counter').textContent=`${current+1} / ${viewCards.length}`;
+ $('cardType').textContent=c.type||'단어';$('cardJp').textContent=c.jp||'';$('cardReading').textContent=c.reading||'';$('cardKo').textContent=c.ko||'';$('cardMemo').textContent=c.memo||'';$('answer').classList.remove('show');$('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
 }
 function flipCard(){if(!animating&&!moved)$('answer').classList.toggle('show')}
@@ -128,8 +128,7 @@ function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)ret
 
 async function saveCard(e){
  e.preventDefault();
- const oldCard=$('id').value?cards.find(x=>String(x.id)===String($('id').value)):null;
- const card={id:$('id').value,type:$('type').value,jp:$('jp').value.trim(),reading:$('reading').value.trim(),furigana:oldCard?.furigana||'',ko:$('ko').value.trim(),memo:$('memo').value.trim()};
+ const card={id:$('id').value,type:$('type').value,jp:$('jp').value.trim(),reading:$('reading').value.trim(),ko:$('ko').value.trim(),memo:$('memo').value.trim()};
  try{
    const action=card.id?'update':'add';const j=await request(action,{card});
    if(action==='add')card.id=j.card.id;
