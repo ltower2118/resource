@@ -200,7 +200,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
 
 
-/* 후리가나(루비) 표시 */
+/* 후리가나 표시 */
 .jp ruby{ruby-position:over}
 .jp rt{
   font-size:.34em;
@@ -310,8 +310,8 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
     <label>일본어 *</label>
     <input id="jp" required placeholder="例: 日本語を勉強します">
     <div class="auto-reading">
-      <button type="button" onclick="makeReading()">あ 자동 읽기</button>
-      <span id="readingState" class="auto-state">한자가 있으면 후리가나와 한글 읽기를 만듭니다.</span>
+      <button type="button" id="readingBtn" onclick="makeReading()">あ 자동 읽기</button>
+      <span id="readingState" class="auto-state">저장할 때 자동 생성</span>
     </div>
   </div>
   <div class="field">
@@ -335,7 +335,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 
 <script src="https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js"></script>
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbziWdsXY6rd_z9vfIgoNoyoSDbji3MxYICyXD-eROIQ6pe3cM6EittZSxnX7KDx3vg/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxonM8oUdBcsa94KUzJcnYr5wT0TPkwJlzXefArWXy44eFpihyOwsy9AdXjDW4DCFx-/exec';
 
 let cards=[], viewCards=[], current=0;
 let startX=0,startY=0,currentX=0;
@@ -359,6 +359,7 @@ function escapeRuby(s=''){
 function getTokenizer(){
   if(tokenizer) return Promise.resolve(tokenizer);
   if(tokenizerLoading) return tokenizerLoading;
+
   tokenizerLoading=new Promise((resolve,reject)=>{
     if(typeof kuromoji==='undefined'){
       reject(new Error('일본어 분석기를 불러오지 못했습니다.'));
@@ -367,14 +368,18 @@ function getTokenizer(){
     kuromoji.builder({
       dicPath:'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/'
     }).build((err,t)=>{
-      if(err){reject(err);return;}
-      tokenizer=t; resolve(t);
+      if(err){
+        tokenizerLoading=null;
+        reject(err);
+        return;
+      }
+      tokenizer=t;
+      resolve(t);
     });
   });
   return tokenizerLoading;
 }
 
-/* 가나를 한국어식 읽기 표기로 변환하는 학습용 간이 변환 */
 const KANA_KO={
 'あ':'아','い':'이','う':'우','え':'에','お':'오',
 'か':'카','き':'키','く':'쿠','け':'케','こ':'코',
@@ -403,59 +408,74 @@ const KANA_KO={
 'みゃ':'먀','みゅ':'뮤','みょ':'묘',
 'りゃ':'랴','りゅ':'류','りょ':'료',
 'ふぁ':'파','ふぃ':'피','ふぇ':'페','ふぉ':'포',
-'てぃ':'티','でぃ':'디','うぃ':'위','うぇ':'웨','うぉ':'워',
-'ヴぁ':'바','ヴぃ':'비','ヴ':'부','ヴぇ':'베','ヴぉ':'보'
+'てぃ':'티','でぃ':'디','うぃ':'위','うぇ':'웨','うぉ':'워'
 };
+
 function kanaToKorean(input=''){
-  let s=kataToHira(input);
+  const s=kataToHira(input);
   let out='';
   for(let i=0;i<s.length;){
     const two=s.slice(i,i+2);
-    if(KANA_KO[two]){out+=KANA_KO[two];i+=2;continue;}
+    if(KANA_KO[two]){
+      out+=KANA_KO[two];
+      i+=2;
+      continue;
+    }
     const ch=s[i];
-    if(ch==='っ'){
-      /* 촉음은 다음 음절을 강조하지만 한글 표기는 간단히 생략 */
-      i++;continue;
-    }
-    if(ch==='ー'){
-      out+='-';i++;continue;
-    }
+    if(ch==='っ'){i++;continue;}
+    if(ch==='ー'){out+='-';i++;continue;}
     if(ch===' '||/[、。！？,.!?]/.test(ch)){out+=ch;i++;continue;}
     out+=KANA_KO[ch]||ch;
     i++;
   }
-  return out.replace(/ㄴ(?=[가-힣])/g,'ㄴ').trim();
+  return out.trim();
 }
+
 async function analyzeJapanese(text){
   const t=await getTokenizer();
   const tokens=t.tokenize(text);
-  let ruby='', kana='';
+  let ruby='',kana='';
+
   for(const tok of tokens){
     const surface=tok.surface_form||'';
     const reading=kataToHira(tok.reading||surface);
     kana+=reading;
+
     if(hasKanji(surface) && reading && reading!==surface){
       ruby+=`<ruby>${escapeRuby(surface)}<rt>${escapeRuby(reading)}</rt></ruby>`;
     }else{
       ruby+=escapeRuby(surface);
     }
   }
-  return {ruby,kana,korean:kanaToKorean(kana)};
+
+  return {
+    ruby:ruby,
+    kana:kana,
+    korean:kanaToKorean(kana)
+  };
 }
+
 async function makeReading(){
   const text=$('jp').value.trim();
-  if(!text)return;
+  if(!text)return false;
+
+  const btn=$('readingBtn');
   $('readingState').textContent='읽는 법 만드는 중…';
+  if(btn)btn.disabled=true;
+
   try{
     const r=await analyzeJapanese(text);
     $('furigana').value=r.ruby;
     $('reading').value=r.korean;
     $('readingState').textContent=hasKanji(text)
-      ?`후리가나: ${r.kana}`
-      :'한글 읽기를 자동 입력했습니다.';
+      ?`완료 · ${r.kana}`
+      :'읽는 법 생성 완료';
+    return true;
   }catch(e){
-    $('readingState').textContent='자동 변환 실패';
-    alert('자동 읽기 생성에 실패했습니다. 인터넷 연결 후 다시 시도해 주세요.');
+    $('readingState').textContent='자동 생성 실패 · 직접 입력 가능';
+    return false;
+  }finally{
+    if(btn)btn.disabled=false;
   }
 }
 
@@ -671,6 +691,7 @@ function openAdd(){
   $('editorTitle').textContent='새 카드';
   ['id','jp','reading','ko','memo','furigana'].forEach(x=>$(x).value='');
   $('type').value='단어';
+  $('readingState').textContent='저장할 때 자동 생성';
   editor.showModal();
 }
 function editCurrent(){
@@ -688,18 +709,43 @@ function openEdit(id){
   $('furigana').value=c.furigana||'';
   $('ko').value=c.ko||'';
   $('memo').value=c.memo||'';
+  $('readingState').textContent='필요하면 자동 읽기를 다시 만들 수 있습니다.';
   editor.showModal();
 }
 async function saveCard(e){
   e.preventDefault();
+
   const jpText=$('jp').value.trim();
-  if(jpText && (!$('reading').value.trim() || (hasKanji(jpText) && !$('furigana').value))){
+  const oldCard=$('id').value
+    ?cards.find(x=>String(x.id)===String($('id').value))
+    :null;
+  const japaneseChanged=!!oldCard && String(oldCard.jp||'')!==jpText;
+
+  /*
+   * 입력 중에는 분석하지 않습니다.
+   * 새 카드 또는 일본어가 변경된 카드에서 읽는법/후리가나가 필요할 때
+   * 저장 시 딱 한 번만 자동 생성합니다.
+   */
+  if(jpText && (
+      !$('reading').value.trim() ||
+      (hasKanji(jpText) && (!$('furigana').value || japaneseChanged))
+    )){
+    $('readingState').textContent='저장 전 자동 읽기 생성 중…';
     try{
       const auto=await analyzeJapanese(jpText);
-      if(!$('reading').value.trim()) $('reading').value=auto.korean;
-      if(hasKanji(jpText) && !$('furigana').value) $('furigana').value=auto.ruby;
-    }catch(_){}
+      if(!$('reading').value.trim() || japaneseChanged){
+        $('reading').value=auto.korean;
+      }
+      if(hasKanji(jpText)){
+        $('furigana').value=auto.ruby;
+      }else{
+        $('furigana').value='';
+      }
+    }catch(_){
+      /* 자동 생성 실패 시에도 사용자가 직접 입력한 내용으로 저장 가능 */
+    }
   }
+
   const card={
     id:$('id').value,
     type:$('type').value,
@@ -709,6 +755,7 @@ async function saveCard(e){
     ko:$('ko').value.trim(),
     memo:$('memo').value.trim()
   };
+
   try{
     await request(card.id?'update':'add',{card});
     editor.close();
@@ -754,13 +801,10 @@ function esc(s=''){
 }
 
 
-let readingTimer=null;
+/* 일본어를 입력하는 동안에는 자동 분석하지 않습니다. */
 $('jp').addEventListener('input',()=>{
   $('furigana').value='';
-  clearTimeout(readingTimer);
-  readingTimer=setTimeout(()=>{
-    if($('jp').value.trim()) makeReading();
-  },700);
+  $('readingState').textContent='저장할 때 자동 생성';
 });
 
 $('search').addEventListener('input',applyFilter);
