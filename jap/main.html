@@ -50,24 +50,50 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 }
 .select-tools button:active{transform:scale(.96)}
 
+
+.lookup-box{
+  position:fixed;z-index:70;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:min(90vw,420px);background:#fff;border:1px solid var(--line);
+  border-radius:18px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
+.lookup-word{font-size:30px;font-weight:800;margin-bottom:8px}
+.lookup-kana{font-size:22px;color:var(--main);font-weight:750;margin-bottom:10px}
+.lookup-meaning{font-size:18px;line-height:1.5;margin-bottom:14px}
+.lookup-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lookup-actions button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:10px;font-weight:700}
+.lookup-loading{color:var(--muted);font-size:14px}
+
 @media(max-width:520px){.stage{padding:5px}.flash{border-radius:19px;padding:24px 14px}.jp{font-size:clamp(36px,11vw,56px)}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어8</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어9</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
 <div id="cardType" class="type"></div><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
-<div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동</div>
+<div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동<br> Made by Ai & Ha you sin</div>
 </div></div></main>
 </div>
 
 <div id="selectTools" class="select-tools hidden">
   <button type="button" onclick="speakSelected()">🔊 발음</button>
-  <button type="button" onclick="translateSelected()">번역</button>
+  <button type="button" onclick="lookupSelected()">あ 히라가나·뜻</button>
+  <button type="button" onclick="translateSelected()">Google 번역</button>
+</div>
+
+<div id="lookupBox" class="lookup-box hidden">
+  <div id="lookupWord" class="lookup-word"></div>
+  <div id="lookupKana" class="lookup-kana"></div>
+  <div id="lookupMeaning" class="lookup-meaning"></div>
+  <div id="lookupLoading" class="lookup-loading hidden">불러오는 중…</div>
+  <div class="lookup-actions">
+    <button type="button" onclick="speakLookup()">🔊 발음 듣기</button>
+    <button type="button" onclick="closeLookup()">닫기</button>
+  </div>
 </div>
 
 <div id="menu" class="menu hidden">
@@ -93,8 +119,8 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbyRZ67i57Uk0Ew6vy-u0RyvW0tM8YNDU31f7gBc6aihFZaIuCcrduW1H9C1VjAJMigE/exec';
-const CACHE_KEY='jp_flashcards_cache_v7';
+const API_URL='https://script.google.com/macros/s/AKfycbzYfj2HR1ZDEZouWWRmi3n2p90C6zwGYOVo35n-Gom2-bvHRxc9e8RQwtkXYXK5GRo/exec';
+const CACHE_KEY='jp_flashcards_cache_v8';
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
 let selectedJapanese='';
@@ -186,6 +212,45 @@ function speakSelected(){
   );
   if(ja)u.voice=ja;
 
+  speechSynthesis.speak(u);
+}
+
+
+let lookupText='';
+
+async function lookupSelected(){
+  const text=selectedJapanese||getSelectedJapanese();
+  if(!text)return;
+  hideSelectTools();
+  lookupText=text;
+
+  $('lookupWord').textContent=text;
+  $('lookupKana').textContent='';
+  $('lookupMeaning').textContent='';
+  $('lookupLoading').classList.remove('hidden');
+  $('lookupBox').classList.remove('hidden');
+
+  try{
+    const j=await request('lookup',{text:text});
+    $('lookupKana').textContent=j.kana||'';
+    $('lookupMeaning').textContent=j.meaning||'';
+  }catch(e){
+    $('lookupMeaning').textContent='히라가나/뜻을 불러오지 못했습니다.';
+  }finally{
+    $('lookupLoading').classList.add('hidden');
+  }
+}
+
+function closeLookup(){
+  $('lookupBox').classList.add('hidden');
+}
+
+function speakLookup(){
+  if(!lookupText||!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(lookupText);
+  u.lang='ja-JP';
+  u.rate=.85;
   speechSynthesis.speak(u);
 }
 
