@@ -20,7 +20,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .flash{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;user-select:none;-webkit-user-select:none;touch-action:pan-y;will-change:transform,opacity;transition:transform .22s cubic-bezier(.22,.61,.36,1),opacity .22s ease}
 .flash.dragging{transition:none}.hidden{display:none!important}
 .type{position:absolute;top:15px;left:15px;font-size:12px;color:var(--main);font-weight:800;padding:5px 9px;background:#eff6ff;border-radius:999px}
-.jp{font-size:clamp(38px,9vw,72px);font-weight:800;line-height:1.5;word-break:keep-all}
+.jp{font-size:clamp(38px,9vw,72px);font-weight:800;line-height:1.5;word-break:keep-all;user-select:text;-webkit-user-select:text;cursor:text}
 .reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
 .answer{display:none;width:min(92%,700px);margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}.answer.show{display:block}
 .ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}.memo{font-size:16px;color:var(--muted);margin-top:10px;white-space:pre-wrap}
@@ -38,12 +38,24 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 .jump-controls{display:grid;grid-template-columns:1fr auto;gap:8px}.jump-controls input{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:13px;font-size:18px;text-align:center}.jump-controls button{border:0;border-radius:11px;padding:0 18px;background:var(--main);color:#fff;font-weight:800}
 .quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}.quick-numbers button{border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:42px;font-weight:700}.quick-numbers button.current{background:var(--main);color:#fff;border-color:var(--main)}.jump-close{width:100%;margin-top:12px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
+
+.select-tools{
+  position:fixed;z-index:60;display:flex;gap:6px;
+  background:#17202a;padding:6px;border-radius:12px;
+  box-shadow:0 8px 28px rgba(0,0,0,.28);
+}
+.select-tools button{
+  border:0;background:#fff;color:#17202a;border-radius:8px;
+  padding:8px 10px;font-size:13px;font-weight:800;white-space:nowrap;
+}
+.select-tools button:active{transform:scale(.96)}
+
 @media(max-width:520px){.stage{padding:5px}.flash{border-radius:19px;padding:24px 14px}.jp{font-size:clamp(36px,11vw,56px)}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어7</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어8</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -51,6 +63,11 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동</div>
 </div></div></main>
+</div>
+
+<div id="selectTools" class="select-tools hidden">
+  <button type="button" onclick="speakSelected()">🔊 발음</button>
+  <button type="button" onclick="translateSelected()">번역</button>
 </div>
 
 <div id="menu" class="menu hidden">
@@ -77,9 +94,10 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbyRZ67i57Uk0Ew6vy-u0RyvW0tM8YNDU31f7gBc6aihFZaIuCcrduW1H9C1VjAJMigE/exec';
-const CACHE_KEY='jp_flashcards_cache_v5';
+const CACHE_KEY='jp_flashcards_cache_v7';
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
+let selectedJapanese='';
 const $=id=>document.getElementById(id);
 
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -101,11 +119,110 @@ function applyFilter(){
  current=Math.min(current,Math.max(0,viewCards.length-1));render();renderList();
 }
 function render(){
+ hideSelectTools();
  if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'단어';$('cardJp').textContent=c.jp||'';$('cardReading').textContent=c.reading||'';$('cardKo').textContent=c.ko||'';$('cardMemo').textContent=c.memo||'';$('answer').classList.remove('show');$('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
 }
+
+function hideSelectTools(){
+  $('selectTools').classList.add('hidden');
+}
+function getSelectedJapanese(){
+  const sel=window.getSelection();
+  if(!sel||sel.rangeCount===0)return '';
+  const text=sel.toString().trim();
+  if(!text)return '';
+  const range=sel.getRangeAt(0);
+  const node=range.commonAncestorContainer.nodeType===1
+    ?range.commonAncestorContainer
+    :range.commonAncestorContainer.parentElement;
+  if(!node||!$('cardJp').contains(node))return '';
+  return text;
+}
+function showSelectionTools(){
+  setTimeout(()=>{
+    const text=getSelectedJapanese();
+    if(!text){hideSelectTools();return;}
+    selectedJapanese=text;
+    const sel=window.getSelection();
+    const rect=sel.getRangeAt(0).getBoundingClientRect();
+    const box=$('selectTools');
+    box.classList.remove('hidden');
+
+    const boxW=box.offsetWidth||150;
+    const boxH=box.offsetHeight||44;
+    let left=rect.left+(rect.width/2)-(boxW/2);
+    let top=rect.top-boxH-10;
+
+    left=Math.max(8,Math.min(window.innerWidth-boxW-8,left));
+    if(top<8)top=Math.min(window.innerHeight-boxH-8,rect.bottom+10);
+
+    box.style.left=left+'px';
+    box.style.top=top+'px';
+  },30);
+}
+
+/* 스마트폰/브라우저 내장 일본어 음성: 별도 다운로드 없음 */
+function speakSelected(){
+  const text=selectedJapanese||getSelectedJapanese();
+  if(!text)return;
+  hideSelectTools();
+
+  if(!('speechSynthesis' in window)){
+    alert('이 브라우저에서는 음성 읽기를 지원하지 않습니다.');
+    return;
+  }
+
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ja-JP';
+  u.rate=.85;
+
+  const voices=speechSynthesis.getVoices();
+  const ja=voices.find(v=>
+    String(v.lang||'').toLowerCase().startsWith('ja')
+  );
+  if(ja)u.voice=ja;
+
+  speechSynthesis.speak(u);
+}
+
+/* 선택한 일본어만 Google 번역 새 창으로 열기 */
+function translateSelected(){
+  const text=selectedJapanese||getSelectedJapanese();
+  if(!text)return;
+  hideSelectTools();
+  const url='https://translate.google.com/?sl=ja&tl=ko&text='+
+    encodeURIComponent(text)+'&op=translate';
+  window.open(url,'_blank','noopener,noreferrer');
+}
+
+$('cardJp').addEventListener('pointerup',e=>{
+  /* 텍스트 선택이 있으면 카드 뒤집기/스와이프보다 선택 도구 우선 */
+  setTimeout(()=>{
+    if(getSelectedJapanese()){
+      moved=true;
+      showSelectionTools();
+    }
+  },0);
+});
+
+$('cardJp').addEventListener('touchend',()=>{
+  setTimeout(()=>{
+    if(getSelectedJapanese()){
+      moved=true;
+      showSelectionTools();
+    }
+  },120);
+});
+
+document.addEventListener('selectionchange',()=>{
+  const text=getSelectedJapanese();
+  if(!text)hideSelectTools();
+});
+
 function flipCard(){if(!animating&&!moved)$('answer').classList.toggle('show')}
 
 const flash=$('flash');
@@ -115,7 +232,7 @@ flash.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;flash
 flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remove('dragging');flash.style.transform='translateX(0)';flash.style.opacity='1'});
 function swipe(step){if(animating)return;animating=true;const w=flash.clientWidth;flash.style.transform=`translateX(${step>0?-w:w}px)`;flash.style.opacity='0';setTimeout(()=>{current=(current+step+viewCards.length)%viewCards.length;render();flash.classList.add('dragging');flash.style.transform=`translateX(${step>0?w:-w}px)`;flash.style.opacity='0';void flash.offsetWidth;flash.classList.remove('dragging');requestAnimationFrame(()=>{flash.style.transform='translateX(0)';flash.style.opacity='1'});setTimeout(()=>{animating=false;moved=false},230)},190)}
 
-function toggleMenu(){$('menu').classList.toggle('hidden')}
+function toggleMenu(){hideSelectTools();$('menu').classList.toggle('hidden')}
 document.addEventListener('pointerdown',e=>{if(!$('menu').classList.contains('hidden')&&!$('menu').contains(e.target)&&!e.target.closest('.icon-btn'))$('menu').classList.add('hidden')});
 
 function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$('jumpInput').max=viewCards.length;$('quickNumbers').innerHTML=Array.from({length:viewCards.length},(_,i)=>`<button class="${i===current?'current':''}" onclick="jumpTo(${i+1})">${i+1}</button>`).join('');jumpDialog.showModal();setTimeout(()=>$('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'}),20)}
