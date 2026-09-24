@@ -52,7 +52,7 @@ header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid v
 <div class="row"><button type="button" onclick="editor.close()">취소</button><button class="primary" type="submit">저장</button></div></form></dialog>
 <script>
 // Apps Script 웹앱 배포 후 아래 주소만 바꾸세요.
-const API_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+const API_URL = 'https://script.google.com/macros/s/AKfycbziWdsXY6rd_z9vfIgoNoyoSDbji3MxYICyXD-eROIQ6pe3cM6EittZSxnX7KDx3vg/exec';
 let cards=[], viewCards=[], current=0;
 const $=id=>document.getElementById(id);
 function apiReady(){return API_URL.startsWith('https://script.google.com/');}
