@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>일본어 플래시카드</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;--main:#2563eb;--danger:#dc2626;--ok:#16a34a;--line:#e5e7eb}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:14px 16px}.head{max-width:850px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}h1{font-size:20px;margin:0}.wrap{max-width:850px;margin:auto;padding:16px}.toolbar,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:120px}input,select,textarea,button{font:inherit;border-radius:10px;border:1px solid #cbd5e1;padding:11px 12px}textarea{width:100%;min-height:72px;resize:vertical}button{cursor:pointer;background:#fff;font-weight:700}button.primary{background:var(--main);border-color:var(--main);color:#fff}button.ok{background:var(--ok);border-color:var(--ok);color:#fff}button.danger{background:var(--danger);border-color:var(--danger);color:#fff}.flash{min-height:330px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.05);user-select:none}.type{font-size:13px;color:var(--main);font-weight:800;margin-bottom:18px}.jp{font-size:clamp(30px,7vw,50px);font-weight:800;line-height:1.35}.reading{font-size:18px;color:var(--muted);margin-top:12px}.answer{display:none;margin-top:24px;padding-top:20px;border-top:1px solid var(--line);width:100%}.answer.show{display:block}.ko{font-size:24px;font-weight:750}.memo{color:var(--muted);margin-top:10px;white-space:pre-wrap}.hint{color:var(--muted);font-size:13px;margin-top:18px}.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}.stats{text-align:center;color:var(--muted);font-size:14px;margin:10px}.listItem{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;display:flex;gap:10px;align-items:center}.listText{flex:1;min-width:0}.listText b{font-size:18px}.small{font-size:13px;color:var(--muted)}.mini{padding:7px 9px;font-size:13px;flex:none}.hidden{display:none!important}.status{font-size:13px;color:var(--muted)}dialog{border:0;border-radius:18px;padding:0;width:min(92vw,600px);box-shadow:0 20px 60px rgba(0,0,0,.25)}dialog::backdrop{background:rgba(0,0,0,.45)}.modal{padding:20px}.modal h2{margin-top:0}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field input,.field select{width:100%}@media(max-width:520px){.wrap{padding:10px}.actions{grid-template-columns:1fr 1fr}.actions button:first-child{grid-column:1/-1}.flash{min-height:300px}.jp{font-size:36px}}
+</style>
+</head>
+<body>
+<header><div class="head"><h1>🇯🇵 일본어 플래시카드</h1><span id="syncStatus" class="status">준비</span></div></header>
+<main class="wrap">
+  <section class="toolbar">
+    <div class="row">
+      <input id="search" placeholder="일본어·뜻·읽는 법 검색">
+      <select id="filter"><option value="all">전체</option><option value="단어">단어</option><option value="문장">문장</option><option value="missed">복습 필요</option></select>
+      <button class="primary" onclick="openAdd()">＋ 새 카드</button>
+    </div>
+  </section>
+
+  <section id="studyView">
+    <div id="flash" class="flash" onclick="flipCard()">
+      <div id="empty">카드를 불러오는 중입니다…</div>
+      <div id="cardBody" class="hidden">
+        <div id="cardType" class="type"></div><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
+        <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
+        <div class="hint">카드를 눌러 뜻 보기</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button onclick="prevCard()">← 이전</button><button class="danger" onclick="rate(false)">✕ 모름</button><button class="ok" onclick="rate(true)">✓ 알고 있음</button>
+    </div>
+    <div class="row"><button onclick="nextCard()">다음 →</button><button onclick="shuffleCards()">🔀 랜덤</button><button onclick="editCurrent()">✏️ 현재 카드 수정</button></div>
+    <div id="stats" class="stats"></div>
+  </section>
+
+  <section class="panel">
+    <div class="row"><button id="studyBtn" class="primary" onclick="showStudy()">암기 화면</button><button id="listBtn" onclick="showList()">목록 관리</button><button onclick="loadCards()">↻ 시트 새로고침</button></div>
+  </section>
+  <section id="listView" class="hidden"><div id="list"></div></section>
+</main>
+
+<dialog id="editor"><form class="modal" onsubmit="saveCard(event)"><h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
+<div class="field"><label>종류</label><select id="type"><option>단어</option><option>문장</option></select></div>
+<div class="field"><label>일본어 *</label><input id="jp" required placeholder="例: おはようございます"></div>
+<div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 오하요- 고자이마스"></div>
+<div class="field"><label>한국어 뜻 *</label><input id="ko" required placeholder="예: 안녕하세요 (아침 인사)"></div>
+<div class="field"><label>메모</label><textarea id="memo" placeholder="예문, 주의점 등을 입력"></textarea></div>
+<div class="row"><button type="button" onclick="editor.close()">취소</button><button class="primary" type="submit">저장</button></div></form></dialog>
+<script>
+// Apps Script 웹앱 배포 후 아래 주소만 바꾸세요.
+const API_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+let cards=[], viewCards=[], current=0;
+const $=id=>document.getElementById(id);
+function apiReady(){return API_URL.startsWith('https://script.google.com/');}
+async function request(action,data={}){
+ if(!apiReady()) throw new Error('index.html의 API_URL에 Apps Script 웹앱 주소를 입력하세요.');
+ const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data})});
+ const j=await r.json(); if(!j.ok) throw new Error(j.error||'요청 실패'); return j;
+}
+async function loadCards(){
+ $('syncStatus').textContent='동기화 중…';
+ try{const j=await request('list');cards=j.cards||[];$('syncStatus').textContent='시트 동기화 완료';applyFilter();}
+ catch(e){$('syncStatus').textContent='연결 필요';$('empty').innerHTML=`${e.message}<br><br><small>아래 안내대로 Apps Script를 먼저 배포하세요.</small>`;$('cardBody').classList.add('hidden');$('empty').classList.remove('hidden');}
+}
+function applyFilter(){const q=$('search').value.trim().toLowerCase(),f=$('filter').value;viewCards=cards.filter(c=>{const hit=!q||[c.jp,c.ko,c.reading,c.memo].join(' ').toLowerCase().includes(q);const type=f==='all'||(f==='missed'?Number(c.wrong)>Number(c.correct):c.type===f);return hit&&type});current=Math.min(current,Math.max(0,viewCards.length-1));render();renderList();}
+function render(){if(!viewCards.length){$('empty').textContent='표시할 카드가 없습니다.';$('empty').classList.remove('hidden');$('cardBody').classList.add('hidden');$('stats').textContent=`전체 ${cards.length}개`;return}const c=viewCards[current];$('empty').classList.add('hidden');$('cardBody').classList.remove('hidden');$('cardType').textContent=c.type||'단어';$('cardJp').textContent=c.jp;$('cardReading').textContent=c.reading||'';$('cardKo').textContent=c.ko;$('cardMemo').textContent=c.memo||'';$('answer').classList.remove('show');$('stats').textContent=`${current+1} / ${viewCards.length} · ✓ ${c.correct||0} · ✕ ${c.wrong||0}`;}
+function flipCard(){$('answer').classList.toggle('show')}
+function nextCard(){if(viewCards.length){current=(current+1)%viewCards.length;render()}}
+function prevCard(){if(viewCards.length){current=(current-1+viewCards.length)%viewCards.length;render()}}
+function shuffleCards(){viewCards.sort(()=>Math.random()-.5);current=0;render()}
+async function rate(known){if(!viewCards.length)return;const c=viewCards[current];try{await request('rate',{id:c.id,known});known?c.correct++:c.wrong++;c.lastStudy=new Date().toISOString();nextCard();}catch(e){alert(e.message)}}
+function openAdd(){$('editorTitle').textContent='새 카드';['id','jp','reading','ko','memo'].forEach(x=>$(x).value='');$('type').value='단어';editor.showModal()}
+function editCurrent(){if(viewCards.length)openEdit(viewCards[current].id)}
+function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)return;$('editorTitle').textContent='카드 수정';$('id').value=c.id;$('type').value=c.type||'단어';$('jp').value=c.jp||'';$('reading').value=c.reading||'';$('ko').value=c.ko||'';$('memo').value=c.memo||'';editor.showModal()}
+async function saveCard(e){e.preventDefault();const card={id:$('id').value,type:$('type').value,jp:$('jp').value.trim(),reading:$('reading').value.trim(),ko:$('ko').value.trim(),memo:$('memo').value.trim()};try{await request(card.id?'update':'add',{card});editor.close();await loadCards()}catch(err){alert(err.message)}}
+async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});await loadCards()}catch(e){alert(e.message)}}
+function renderList(){const box=$('list');if(!viewCards.length){box.innerHTML='<div class="panel">카드가 없습니다.</div>';return}box.innerHTML=viewCards.map(c=>`<div class="listItem"><div class="listText"><b>${esc(c.jp)}</b><div>${esc(c.ko)}</div><div class="small">${esc(c.type)} ${c.reading?'· '+esc(c.reading):''} · ✓ ${c.correct||0} / ✕ ${c.wrong||0}</div></div><button class="mini" onclick="openEdit('${c.id}')">수정</button><button class="mini danger" onclick="deleteCard('${c.id}')">삭제</button></div>`).join('')}
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function showStudy(){$('studyView').classList.remove('hidden');$('listView').classList.add('hidden');$('studyBtn').className='primary';$('listBtn').className=''}
+function showList(){$('studyView').classList.add('hidden');$('listView').classList.remove('hidden');$('listBtn').className='primary';$('studyBtn').className='';renderList()}
+$('search').addEventListener('input',applyFilter);$('filter').addEventListener('change',applyFilter);loadCards();
+</script>
+</body></html>
