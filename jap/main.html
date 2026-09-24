@@ -20,7 +20,22 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .flash{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;user-select:none;-webkit-user-select:none;touch-action:pan-y;will-change:transform,opacity;transition:transform .22s cubic-bezier(.22,.61,.36,1),opacity .22s ease}
 .flash.dragging{transition:none}.hidden{display:none!important}
 .type{position:absolute;top:15px;left:15px;font-size:12px;color:var(--main);font-weight:800;padding:5px 9px;background:#eff6ff;border-radius:999px}
-.jp{font-size:clamp(38px,9vw,72px);font-weight:800;line-height:1.5;word-break:keep-all;user-select:text;-webkit-user-select:text;cursor:text}
+.jp{
+  width:100%;
+  max-width:100%;
+  max-height:52vh;
+  overflow:auto;
+  padding:8px 4px;
+  font-size:clamp(24px,9vw,72px);
+  font-weight:800;
+  line-height:1.45;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  user-select:text;
+  -webkit-user-select:text;
+  cursor:text;
+}
 .reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
 .answer{display:none;width:min(92%,700px);margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}.answer.show{display:block}
 .ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}.memo{font-size:16px;color:var(--muted);margin-top:10px;white-space:pre-wrap}
@@ -64,18 +79,23 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 .lookup-actions button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:10px;font-weight:700}
 .lookup-loading{color:var(--muted);font-size:14px}
 
-@media(max-width:520px){.stage{padding:5px}.flash{border-radius:19px;padding:24px 14px}.jp{font-size:clamp(36px,11vw,56px)}}
+
+.jp.jp-medium{font-size:clamp(26px,6.5vw,50px)}
+.jp.jp-long{font-size:clamp(20px,4.8vw,38px)}
+.jp.jp-xlong{font-size:clamp(17px,3.8vw,30px);line-height:1.55}
+
+@media(max-width:520px){.stage{padding:5px}.flash{border-radius:19px;padding:24px 14px}.jp{font-size:clamp(22px,10vw,54px);max-height:50vh}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어10</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어9</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
 <div id="cardType" class="type"></div><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
-<div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동<br> Made by Ai & Ha you sin</div>
+<div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동</div>
 </div></div></main>
 </div>
 
@@ -119,8 +139,8 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbzEcZEzQGumvzCImK_oWtOJsVrJfDM4Uf5tNAHN7r5VbHvolxJWXNJvQYIhBRPJy3F7/exec';
-const CACHE_KEY='jp_flashcards_cache_v8';
+const API_URL='https://script.google.com/macros/s/AKfycbyRZ67i57Uk0Ew6vy-u0RyvW0tM8YNDU31f7gBc6aihFZaIuCcrduW1H9C1VjAJMigE/exec';
+const CACHE_KEY='jp_flashcards_cache_v9';
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
 let selectedJapanese='';
@@ -144,11 +164,20 @@ function applyFilter(){
  viewCards=cards.filter(c=>{const hit=!q||[c.jp,c.ko,c.reading,c.memo].join(' ').toLowerCase().includes(q);return hit&&(f==='all'||c.type===f)});
  current=Math.min(current,Math.max(0,viewCards.length-1));render();renderList();
 }
+function fitJapaneseText(text=''){
+ const el=$('cardJp');
+ el.classList.remove('jp-medium','jp-long','jp-xlong');
+ const len=Array.from(String(text)).length;
+ if(len>80)el.classList.add('jp-xlong');
+ else if(len>45)el.classList.add('jp-long');
+ else if(len>20)el.classList.add('jp-medium');
+}
+
 function render(){
  hideSelectTools();
  if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
- $('cardType').textContent=c.type||'단어';$('cardJp').textContent=c.jp||'';$('cardReading').textContent=c.reading||'';$('cardKo').textContent=c.ko||'';$('cardMemo').textContent=c.memo||'';$('answer').classList.remove('show');$('counter').textContent=`${current+1} / ${viewCards.length}`;
+ $('cardType').textContent=c.type||'단어';$('cardJp').textContent=c.jp||'';fitJapaneseText(c.jp||'');$('cardReading').textContent=c.reading||'';$('cardKo').textContent=c.ko||'';$('cardMemo').textContent=c.memo||'';$('answer').classList.remove('show');$('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
 }
 
