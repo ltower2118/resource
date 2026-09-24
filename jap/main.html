@@ -5,811 +5,183 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>일본어 플래시카드</title>
 <style>
-:root{
-  --bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;
-  --main:#2563eb;--danger:#dc2626;--line:#e5e7eb;
-}
+:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;--main:#2563eb;--danger:#dc2626;--line:#e5e7eb}
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden}
-body{
-  font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;
-  background:var(--bg);color:var(--ink);
-}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-
-.app{
-  height:100dvh;
-  display:flex;
-  flex-direction:column;
-  padding:env(safe-area-inset-top) env(safe-area-inset-right)
-          env(safe-area-inset-bottom) env(safe-area-inset-left);
-}
-
-/* 최소 상단바 */
-.topbar{
-  height:54px;flex:0 0 54px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 12px;
-  background:rgba(255,255,255,.94);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(10px);
-  z-index:10;
-}
-.title{font-size:17px;font-weight:800;white-space:nowrap}
-.top-right{display:flex;align-items:center;gap:6px}
-.counter{font-size:13px;color:var(--muted);min-width:44px;text-align:right}
-.counter-btn{
-  border:0;background:#eef2f7;border-radius:10px;padding:8px 10px;
-  font-weight:800;color:#374151;cursor:pointer;
-}
-.counter-btn:active{transform:scale(.96)}
-.jump-box{padding:20px}
-.jump-box h2{margin:0 0 6px;font-size:20px}
-.jump-note{font-size:13px;color:var(--muted);margin-bottom:14px}
-.jump-controls{display:grid;grid-template-columns:1fr auto;gap:8px}
-.jump-controls input{
-  width:100%;border:1px solid #cbd5e1;border-radius:11px;
-  padding:13px;font-size:18px;text-align:center;
-}
-.jump-controls button{
-  border:0;border-radius:11px;padding:0 18px;
-  background:var(--main);color:#fff;font-weight:800;
-}
-.quick-numbers{
-  display:grid;grid-template-columns:repeat(5,1fr);
-  gap:7px;margin-top:14px;max-height:42vh;overflow:auto;
-}
-.quick-numbers button{
-  border:1px solid #dbe1e8;background:#fff;border-radius:10px;
-  min-height:42px;font-weight:700;
-}
-.quick-numbers button.current{
-  background:var(--main);color:#fff;border-color:var(--main);
-}
-.jump-close{
-  width:100%;margin-top:12px;border:1px solid #cbd5e1;
-  background:#fff;border-radius:10px;padding:11px;font-weight:700;
-}
-.icon-btn{
-  width:40px;height:40px;border:0;border-radius:12px;
-  background:transparent;font-size:22px;display:grid;place-items:center;
-}
-.icon-btn:active{background:#eef2f7}
-
-/* 카드가 화면을 최대한 채움 */
-.stage{
-  position:relative;
-  flex:1;
-  min-height:0;
-  overflow:hidden;
-  padding:10px;
-  touch-action:pan-y;
-}
-.track{
-  position:relative;
-  width:100%;height:100%;
-}
-.flash{
-  position:absolute;inset:0;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:24px;
-  box-shadow:0 6px 24px rgba(0,0,0,.06);
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;
-  padding:30px 22px;
-  user-select:none;-webkit-user-select:none;
-  touch-action:pan-y;
-  will-change:transform,opacity;
-  transition:transform .24s cubic-bezier(.22,.61,.36,1),opacity .24s ease;
-}
-.flash.dragging{transition:none}
-.type{
-  position:absolute;top:18px;left:20px;
-  font-size:12px;color:var(--main);font-weight:800;
-  padding:5px 9px;background:#eff6ff;border-radius:999px;
-}
-.jp{
-  font-size:clamp(38px,9vw,72px);
-  font-weight:800;line-height:1.35;
-  word-break:keep-all;
-}
-.reading{
-  font-size:clamp(17px,3vw,23px);
-  color:var(--muted);margin-top:14px;
-}
-.answer{
-  display:none;
-  width:min(92%,700px);
-  margin-top:28px;padding-top:24px;
-  border-top:1px solid var(--line);
-}
-.answer.show{display:block}
-.ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}
-.memo{font-size:16px;color:var(--muted);margin-top:12px;white-space:pre-wrap;line-height:1.55}
-.hint{
-  position:absolute;bottom:18px;left:0;right:0;
-  font-size:12px;color:#9ca3af;
-}
-.empty{
-  position:absolute;inset:0;display:grid;place-items:center;
-  text-align:center;color:var(--muted);padding:30px;
-  background:#fff;border:1px solid var(--line);border-radius:24px;
-}
-.hidden{display:none!important}
-
-/* 메뉴 */
-.menu{
-  position:fixed;top:58px;right:10px;z-index:30;
-  width:min(92vw,340px);
-  background:#fff;border:1px solid var(--line);
-  border-radius:18px;padding:12px;
-  box-shadow:0 18px 50px rgba(0,0,0,.18);
-}
-.menu-row{display:flex;gap:8px;margin-bottom:8px}
-.menu-row:last-child{margin-bottom:0}
-.menu input,.menu select,.menu button{
-  width:100%;border:1px solid #cbd5e1;border-radius:11px;
-  padding:11px;background:#fff;
-}
-.menu button{font-weight:700}
-.menu button.primary{background:var(--main);color:#fff;border-color:var(--main)}
-.status{font-size:12px;color:var(--muted);padding:6px 3px 2px}
-
-/* 목록 화면 */
-.list-screen{
-  position:fixed;inset:54px 0 0 0;z-index:20;
-  background:var(--bg);overflow:auto;padding:10px;
-}
-.list-head{
-  position:sticky;top:-10px;z-index:2;
-  display:flex;justify-content:space-between;align-items:center;
-  background:var(--bg);padding:8px 2px 10px;
-}
-.list-head b{font-size:18px}
-.close-btn{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:8px 12px;font-weight:700}
-.listItem{
-  background:#fff;border:1px solid var(--line);border-radius:14px;
-  padding:13px;margin-bottom:8px;display:flex;gap:8px;align-items:center;
-}
-.listText{flex:1;min-width:0}
-.listText b{font-size:18px}
-.small{font-size:13px;color:var(--muted);margin-top:4px}
-.mini{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:8px 9px;font-size:13px;font-weight:700}
-.danger{color:var(--danger)}
-
-/* 편집창 */
-dialog{
-  border:0;border-radius:20px;padding:0;
-  width:min(94vw,600px);max-height:90dvh;
-  box-shadow:0 20px 60px rgba(0,0,0,.28);
-}
-dialog::backdrop{background:rgba(0,0,0,.45)}
-.modal{padding:20px;overflow:auto}
-.modal h2{margin:0 0 14px}
-.field{margin:10px 0}
-.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
-.field input,.field select,.field textarea{
-  width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px 12px;
-}
-.field textarea{min-height:78px;resize:vertical}
-.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
-.modal-actions button{padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:700}
-.modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
-
-
-/* 후리가나 표시 */
-.jp ruby{ruby-position:over}
-.jp rt{
-  font-size:.34em;
-  font-weight:600;
-  color:#6b7280;
-  letter-spacing:.03em;
-}
-.auto-reading{
-  display:flex;align-items:center;gap:8px;margin-top:6px;
-  font-size:12px;color:var(--muted);
-}
-.auto-reading button{
-  border:1px solid #cbd5e1;background:#fff;border-radius:8px;
-  padding:6px 9px;font-size:12px;font-weight:700;
-}
-.auto-state{font-size:12px;color:var(--muted)}
-
-@media(max-width:520px){
-  .stage{padding:6px}
-  .flash{border-radius:20px;padding:24px 16px}
-  .jp{font-size:clamp(36px,11vw,56px)}
-  .type{top:14px;left:14px}
-  .hint{bottom:14px}
-}
+body{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.topbar{height:54px;flex:0 0 54px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);z-index:10}
+.title{font-size:17px;font-weight:800}.top-right{display:flex;align-items:center;gap:6px}
+.counter-btn{border:0;background:#eef2f7;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:800;color:#374151}
+.icon-btn{width:40px;height:40px;border:0;border-radius:12px;background:transparent;font-size:22px}
+.stage{position:relative;flex:1;min-height:0;overflow:hidden;padding:7px;touch-action:pan-y}
+.track{position:relative;width:100%;height:100%}
+.flash{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;user-select:none;-webkit-user-select:none;touch-action:pan-y;will-change:transform,opacity;transition:transform .22s cubic-bezier(.22,.61,.36,1),opacity .22s ease}
+.flash.dragging{transition:none}.hidden{display:none!important}
+.type{position:absolute;top:15px;left:15px;font-size:12px;color:var(--main);font-weight:800;padding:5px 9px;background:#eff6ff;border-radius:999px}
+.jp{font-size:clamp(38px,9vw,72px);font-weight:800;line-height:1.5;word-break:keep-all}.jp ruby{ruby-position:over}.jp rt{font-size:.34em;font-weight:600;color:#6b7280}
+.reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
+.answer{display:none;width:min(92%,700px);margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}.answer.show{display:block}
+.ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}.memo{font-size:16px;color:var(--muted);margin-top:10px;white-space:pre-wrap}
+.hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
+.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
+.menu{position:fixed;top:58px;right:10px;z-index:30;width:min(92vw,340px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
+.menu-row{display:flex;gap:8px;margin-bottom:8px}.menu input,.menu select,.menu button{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:11px;background:#fff}.menu button{font-weight:700}.menu button.primary{background:var(--main);color:#fff;border-color:var(--main)}
+.status{font-size:12px;color:var(--muted);padding:5px 3px 0}
+.list-screen{position:fixed;inset:54px 0 0;z-index:20;background:var(--bg);overflow:auto;padding:10px}
+.list-head{position:sticky;top:-10px;z-index:2;display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 2px 10px}.close-btn,.mini{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:8px 10px;font-weight:700}.danger{color:var(--danger)}
+.listItem{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:8px;display:flex;gap:8px;align-items:center}.listText{flex:1;min-width:0}.listText b{font-size:18px}.small{font-size:13px;color:var(--muted);margin-top:4px}
+dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90dvh;box-shadow:0 20px 60px rgba(0,0,0,.28)}dialog::backdrop{background:rgba(0,0,0,.45)}
+.modal,.jump-box{padding:20px;overflow:auto}.modal h2,.jump-box h2{margin:0 0 12px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px 12px}.field textarea{min-height:76px;resize:vertical}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.modal-actions button{padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:700}.modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
+.auto-reading{display:flex;align-items:center;gap:8px;margin-top:6px}.auto-reading button{border:1px solid #cbd5e1;background:#fff;border-radius:8px;padding:6px 9px;font-size:12px;font-weight:700}.auto-state{font-size:12px;color:var(--muted)}
+.jump-controls{display:grid;grid-template-columns:1fr auto;gap:8px}.jump-controls input{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:13px;font-size:18px;text-align:center}.jump-controls button{border:0;border-radius:11px;padding:0 18px;background:var(--main);color:#fff;font-weight:800}
+.quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}.quick-numbers button{border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:42px;font-weight:700}.quick-numbers button.current{background:var(--main);color:#fff;border-color:var(--main)}.jump-close{width:100%;margin-top:12px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
+@media(max-width:520px){.stage{padding:5px}.flash{border-radius:19px;padding:24px 14px}.jp{font-size:clamp(36px,11vw,56px)}}
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="topbar">
-    <div class="title">🇯🇵 일본어4</div>
-    <div class="top-right">
-      <button id="counter" class="counter counter-btn" type="button" onclick="openJump()">0 / 0</button>
-      <button class="icon-btn" aria-label="메뉴" onclick="toggleMenu()">☰</button>
-    </div>
-  </header>
-
-  <main id="stage" class="stage">
-    <div class="track">
-      <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
-      <div id="flash" class="flash hidden">
-        <div id="cardType" class="type"></div>
-        <div id="cardJp" class="jp"></div>
-        <div id="cardReading" class="reading"></div>
-        <div id="answer" class="answer">
-          <div id="cardKo" class="ko"></div>
-          <div id="cardMemo" class="memo"></div>
-        </div>
-        <div class="hint">터치: 뜻 보기 · 좌우로 밀기: 카드 이동</div>
-      </div>
-    </div>
-  </main>
+<header class="topbar"><div class="title">🇯🇵 일본어5</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<main class="stage"><div class="track">
+<div id="empty" class="empty">카드를 불러오는 중입니다…</div>
+<div id="flash" class="flash hidden">
+<div id="cardType" class="type"></div><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
+<div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
+<div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동</div>
+</div></div></main>
 </div>
 
 <div id="menu" class="menu hidden">
-  <div class="menu-row">
-    <input id="search" placeholder="검색">
-  </div>
-  <div class="menu-row">
-    <select id="filter">
-      <option value="all">전체</option>
-      <option value="단어">단어</option>
-      <option value="문장">문장</option>
-    </select>
-  </div>
-  <div class="menu-row">
-    <button class="primary" onclick="openAdd()">＋ 새 카드</button>
-    <button onclick="editCurrent()">수정</button>
-  </div>
-  <div class="menu-row">
-    <button onclick="showList()">목록 관리</button>
-    <button onclick="loadCards()">↻ 새로고침</button>
-  </div>
-  <div id="syncStatus" class="status">준비</div>
+<div class="menu-row"><input id="search" placeholder="검색"></div>
+<div class="menu-row"><select id="filter"><option value="all">전체</option><option value="단어">단어</option><option value="문장">문장</option></select></div>
+<div class="menu-row"><button class="primary" onclick="openAdd()">＋ 새 카드</button><button onclick="editCurrent()">수정</button></div>
+<div class="menu-row"><button onclick="showList()">목록</button><button onclick="syncCards(true)">↻ 동기화</button></div>
+<div id="syncStatus" class="status">준비</div>
 </div>
 
-<section id="listView" class="list-screen hidden">
-  <div class="list-head">
-    <b>카드 목록</b>
-    <button class="close-btn" onclick="hideList()">닫기</button>
-  </div>
-  <div id="list"></div>
-</section>
+<section id="listView" class="list-screen hidden"><div class="list-head"><b>카드 목록</b><button class="close-btn" onclick="hideList()">닫기</button></div><div id="list"></div></section>
 
-<dialog id="jumpDialog">
-  <div class="jump-box">
-    <h2>카드 번호 이동</h2>
-    <div id="jumpNote" class="jump-note">원하는 번호를 선택하세요.</div>
-    <div class="jump-controls">
-      <input id="jumpInput" type="number" min="1" inputmode="numeric" placeholder="번호">
-      <button type="button" onclick="jumpFromInput()">이동</button>
-    </div>
-    <div id="quickNumbers" class="quick-numbers"></div>
-    <button class="jump-close" type="button" onclick="jumpDialog.close()">닫기</button>
-  </div>
-</dialog>
+<dialog id="jumpDialog"><div class="jump-box"><h2>카드 번호 이동</h2><div class="jump-controls"><input id="jumpInput" type="number" min="1" inputmode="numeric"><button onclick="jumpFromInput()">이동</button></div><div id="quickNumbers" class="quick-numbers"></div><button class="jump-close" onclick="jumpDialog.close()">닫기</button></div></dialog>
 
-<dialog id="editor">
-<form class="modal" onsubmit="saveCard(event)">
-  <h2 id="editorTitle">새 카드</h2>
-  <input id="id" type="hidden">
-  <input id="furigana" type="hidden">
-  <div class="field">
-    <label>종류</label>
-    <select id="type"><option>단어</option><option>문장</option></select>
-  </div>
-  <div class="field">
-    <label>일본어 *</label>
-    <input id="jp" required placeholder="例: 日本語を勉強します">
-    <div class="auto-reading">
-      <button type="button" id="readingBtn" onclick="makeReading()">あ 자동 읽기</button>
-      <span id="readingState" class="auto-state">저장할 때 자동 생성</span>
-    </div>
-  </div>
-  <div class="field">
-    <label>읽는 법</label>
-    <input id="reading" placeholder="예: 오하요- 고자이마스">
-  </div>
-  <div class="field">
-    <label>한국어 뜻 *</label>
-    <input id="ko" required placeholder="예: 안녕하세요">
-  </div>
-  <div class="field">
-    <label>메모</label>
-    <textarea id="memo" placeholder="예문, 주의점 등을 입력"></textarea>
-  </div>
-  <div class="modal-actions">
-    <button type="button" onclick="editor.close()">취소</button>
-    <button class="primary" type="submit">저장</button>
-  </div>
-</form>
-</dialog>
+<dialog id="editor"><form class="modal" onsubmit="saveCard(event)">
+<h2 id="editorTitle">새 카드</h2><input id="id" type="hidden"><input id="furigana" type="hidden">
+<div class="field"><label>종류</label><select id="type"><option>단어</option><option>문장</option></select></div>
+<div class="field"><label>일본어 *</label><input id="jp" required placeholder="例: 日本語"><div class="auto-reading"><button id="readingBtn" type="button" onclick="makeReading()">あ 자동 읽기</button><span id="readingState" class="auto-state">필요할 때만 실행</span></div></div>
+<div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
+<div class="field"><label>한국어 뜻 *</label><input id="ko" required placeholder="예: 일본어"></div>
+<div class="field"><label>메모</label><textarea id="memo"></textarea></div>
+<div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button class="primary" type="submit">바로 저장</button></div>
+</form></dialog>
 
-<script src="https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js"></script>
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxonM8oUdBcsa94KUzJcnYr5wT0TPkwJlzXefArWXy44eFpihyOwsy9AdXjDW4DCFx-/exec';
-
-let cards=[], viewCards=[], current=0;
-let startX=0,startY=0,currentX=0;
-let dragging=false,moved=false,animating=false;
+const API_URL='https://script.google.com/macros/s/AKfycbxfKLAEmQ54fGB-RLkki_LrxGghLYDVT2QLtnj54WG5ugYrQvVwiTbC2a3EicpmoKG-/exec';
+const CACHE_KEY='jp_flashcards_cache_v4';
+let cards=[],viewCards=[],current=0;
+let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
+let tokenizer=null,tokenizerPromise=null,kuromojiPromise=null;
 const $=id=>document.getElementById(id);
 
-let tokenizer=null;
-let tokenizerLoading=null;
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function loadCache(){try{const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');if(Array.isArray(x)&&x.length){cards=x;applyFilter();$('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';return true}}catch(_){}return false}
+function saveCache(){try{localStorage.setItem(CACHE_KEY,JSON.stringify(cards))}catch(_){}}
 
-function hasKanji(text){
-  return /[\u3400-\u4DBF\u4E00-\u9FFF々〆ヵヶ]/.test(text||'');
-}
-function kataToHira(s=''){
-  return s.replace(/[\u30A1-\u30F6]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));
-}
-function escapeRuby(s=''){
-  return String(s).replace(/[&<>"']/g,m=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[m]));
-}
-function getTokenizer(){
-  if(tokenizer) return Promise.resolve(tokenizer);
-  if(tokenizerLoading) return tokenizerLoading;
-
-  tokenizerLoading=new Promise((resolve,reject)=>{
-    if(typeof kuromoji==='undefined'){
-      reject(new Error('일본어 분석기를 불러오지 못했습니다.'));
-      return;
-    }
-    kuromoji.builder({
-      dicPath:'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/'
-    }).build((err,t)=>{
-      if(err){
-        tokenizerLoading=null;
-        reject(err);
-        return;
-      }
-      tokenizer=t;
-      resolve(t);
-    });
-  });
-  return tokenizerLoading;
-}
-
-const KANA_KO={
-'あ':'아','い':'이','う':'우','え':'에','お':'오',
-'か':'카','き':'키','く':'쿠','け':'케','こ':'코',
-'が':'가','ぎ':'기','ぐ':'구','げ':'게','ご':'고',
-'さ':'사','し':'시','す':'스','せ':'세','そ':'소',
-'ざ':'자','じ':'지','ず':'즈','ぜ':'제','ぞ':'조',
-'た':'타','ち':'치','つ':'츠','て':'테','と':'토',
-'だ':'다','ぢ':'지','づ':'즈','で':'데','ど':'도',
-'な':'나','に':'니','ぬ':'누','ね':'네','の':'노',
-'は':'하','ひ':'히','ふ':'후','へ':'헤','ほ':'호',
-'ば':'바','び':'비','ぶ':'부','べ':'베','ぼ':'보',
-'ぱ':'파','ぴ':'피','ぷ':'푸','ぺ':'페','ぽ':'포',
-'ま':'마','み':'미','む':'무','め':'메','も':'모',
-'や':'야','ゆ':'유','よ':'요',
-'ら':'라','り':'리','る':'루','れ':'레','ろ':'로',
-'わ':'와','を':'오','ん':'ㄴ',
-'きゃ':'캬','きゅ':'큐','きょ':'쿄',
-'ぎゃ':'갸','ぎゅ':'규','ぎょ':'교',
-'しゃ':'샤','しゅ':'슈','しょ':'쇼',
-'じゃ':'자','じゅ':'주','じょ':'조',
-'ちゃ':'차','ちゅ':'추','ちょ':'초',
-'にゃ':'냐','にゅ':'뉴','にょ':'뇨',
-'ひゃ':'햐','ひゅ':'휴','ひょ':'효',
-'びゃ':'뱌','びゅ':'뷰','びょ':'뵤',
-'ぴゃ':'퍄','ぴゅ':'퓨','ぴょ':'표',
-'みゃ':'먀','みゅ':'뮤','みょ':'묘',
-'りゃ':'랴','りゅ':'류','りょ':'료',
-'ふぁ':'파','ふぃ':'피','ふぇ':'페','ふぉ':'포',
-'てぃ':'티','でぃ':'디','うぃ':'위','うぇ':'웨','うぉ':'워'
-};
-
-function kanaToKorean(input=''){
-  const s=kataToHira(input);
-  let out='';
-  for(let i=0;i<s.length;){
-    const two=s.slice(i,i+2);
-    if(KANA_KO[two]){
-      out+=KANA_KO[two];
-      i+=2;
-      continue;
-    }
-    const ch=s[i];
-    if(ch==='っ'){i++;continue;}
-    if(ch==='ー'){out+='-';i++;continue;}
-    if(ch===' '||/[、。！？,.!?]/.test(ch)){out+=ch;i++;continue;}
-    out+=KANA_KO[ch]||ch;
-    i++;
-  }
-  return out.trim();
-}
-
-async function analyzeJapanese(text){
-  const t=await getTokenizer();
-  const tokens=t.tokenize(text);
-  let ruby='',kana='';
-
-  for(const tok of tokens){
-    const surface=tok.surface_form||'';
-    const reading=kataToHira(tok.reading||surface);
-    kana+=reading;
-
-    if(hasKanji(surface) && reading && reading!==surface){
-      ruby+=`<ruby>${escapeRuby(surface)}<rt>${escapeRuby(reading)}</rt></ruby>`;
-    }else{
-      ruby+=escapeRuby(surface);
-    }
-  }
-
-  return {
-    ruby:ruby,
-    kana:kana,
-    korean:kanaToKorean(kana)
-  };
-}
-
-async function makeReading(){
-  const text=$('jp').value.trim();
-  if(!text)return false;
-
-  const btn=$('readingBtn');
-  $('readingState').textContent='읽는 법 만드는 중…';
-  if(btn)btn.disabled=true;
-
-  try{
-    const r=await analyzeJapanese(text);
-    $('furigana').value=r.ruby;
-    $('reading').value=r.korean;
-    $('readingState').textContent=hasKanji(text)
-      ?`완료 · ${r.kana}`
-      :'읽는 법 생성 완료';
-    return true;
-  }catch(e){
-    $('readingState').textContent='자동 생성 실패 · 직접 입력 가능';
-    return false;
-  }finally{
-    if(btn)btn.disabled=false;
-  }
-}
-
-
-function apiReady(){
-  return API_URL.startsWith('https://script.google.com/macros/s/');
-}
 async function request(action,data={}){
-  if(!apiReady()) throw new Error('Apps Script 웹앱 주소를 확인하세요.');
-  const r=await fetch(API_URL,{
-    method:'POST',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify({action,...data})
-  });
-  const j=await r.json();
-  if(!j.ok) throw new Error(j.error||'요청 실패');
-  return j;
+ const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data}),cache:'no-store'});
+ const j=await r.json();if(!j.ok)throw new Error(j.error||'요청 실패');return j;
 }
-async function loadCards(){
-  $('syncStatus').textContent='동기화 중…';
-  try{
-    const j=await request('list');
-    cards=j.cards||[];
-    $('syncStatus').textContent='시트 동기화 완료';
-    applyFilter();
-  }catch(e){
-    $('syncStatus').textContent='연결 필요';
-    $('empty').textContent=e.message;
-    $('empty').classList.remove('hidden');
-    $('flash').classList.add('hidden');
-  }
+async function syncCards(manual=false){
+ $('syncStatus').textContent='시트 확인 중…';
+ try{const j=await request('list');cards=j.cards||[];saveCache();applyFilter();$('syncStatus').textContent='최신 동기화 완료';}
+ catch(e){$('syncStatus').textContent=cards.length?'오프라인/연결 지연 · 저장된 카드 사용':'연결 실패';if(!cards.length){$('empty').textContent=e.message}}
 }
 function applyFilter(){
-  const q=$('search').value.trim().toLowerCase();
-  const f=$('filter').value;
-  viewCards=cards.filter(c=>{
-    const hit=!q||[c.jp,c.ko,c.reading,c.memo].join(' ').toLowerCase().includes(q);
-    return hit&&(f==='all'||c.type===f);
-  });
-  current=Math.min(current,Math.max(0,viewCards.length-1));
-  render();
-  renderList();
+ const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
+ viewCards=cards.filter(c=>{const hit=!q||[c.jp,c.ko,c.reading,c.memo].join(' ').toLowerCase().includes(q);return hit&&(f==='all'||c.type===f)});
+ current=Math.min(current,Math.max(0,viewCards.length-1));render();renderList();
 }
 function render(){
-  const flash=$('flash');
-  if(!viewCards.length){
-    $('empty').textContent='표시할 카드가 없습니다.';
-    $('empty').classList.remove('hidden');
-    flash.classList.add('hidden');
-    $('counter').textContent='0 / 0';
-    return;
-  }
-  const c=viewCards[current];
-  $('empty').classList.add('hidden');
-  flash.classList.remove('hidden');
-  $('cardType').textContent=c.type||'단어';
-  $('cardJp').innerHTML=c.furigana||escapeRuby(c.jp||'');
-  $('cardReading').textContent=c.reading||'';
-  $('cardKo').textContent=c.ko||'';
-  $('cardMemo').textContent=c.memo||'';
-  $('answer').classList.remove('show');
-  $('counter').textContent=`${current+1} / ${viewCards.length}`;
-  flash.style.transform='translateX(0)';
-  flash.style.opacity='1';
+ if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';return}
+ const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
+ $('cardType').textContent=c.type||'단어';$('cardJp').innerHTML=c.furigana||esc(c.jp||'');$('cardReading').textContent=c.reading||'';$('cardKo').textContent=c.ko||'';$('cardMemo').textContent=c.memo||'';$('answer').classList.remove('show');$('counter').textContent=`${current+1} / ${viewCards.length}`;
+ $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
 }
-function flipCard(){
-  if(!animating&&!moved) $('answer').classList.toggle('show');
-}
+function flipCard(){if(!animating&&!moved)$('answer').classList.toggle('show')}
 
-/* 손가락/마우스로 직접 끌어 넘기기 */
 const flash=$('flash');
+flash.addEventListener('pointerdown',e=>{if(animating||!viewCards.length)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;flash.classList.add('dragging');try{flash.setPointerCapture(e.pointerId)}catch(_){}});
+flash.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-startX,dy=e.clientY-startY;if(!moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){dragging=false;flash.classList.remove('dragging');return}if(Math.abs(dx)>6)moved=true;currentX=dx;flash.style.transform=`translateX(${dx}px)`;flash.style.opacity=Math.max(.55,1-Math.abs(dx)/((flash.clientWidth||1)*1.4))});
+flash.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;flash.classList.remove('dragging');const threshold=Math.min(90,flash.clientWidth*.16);if(Math.abs(currentX)>=threshold)swipe(currentX<0?1:-1);else{flash.style.transform='translateX(0)';flash.style.opacity='1';if(!moved)flipCard();setTimeout(()=>moved=false,0)}});
+flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remove('dragging');flash.style.transform='translateX(0)';flash.style.opacity='1'});
+function swipe(step){if(animating)return;animating=true;const w=flash.clientWidth;flash.style.transform=`translateX(${step>0?-w:w}px)`;flash.style.opacity='0';setTimeout(()=>{current=(current+step+viewCards.length)%viewCards.length;render();flash.classList.add('dragging');flash.style.transform=`translateX(${step>0?w:-w}px)`;flash.style.opacity='0';void flash.offsetWidth;flash.classList.remove('dragging');requestAnimationFrame(()=>{flash.style.transform='translateX(0)';flash.style.opacity='1'});setTimeout(()=>{animating=false;moved=false},230)},190)}
 
-function pointerDown(e){
-  if(animating||!viewCards.length)return;
-  dragging=true;moved=false;
-  startX=e.clientX;startY=e.clientY;currentX=0;
-  flash.classList.add('dragging');
-  try{flash.setPointerCapture(e.pointerId)}catch(_){}
-}
-function pointerMove(e){
-  if(!dragging)return;
-  const dx=e.clientX-startX;
-  const dy=e.clientY-startY;
-
-  /* 세로 스크롤 의도는 방해하지 않음 */
-  if(!moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){
-    dragging=false;
-    flash.classList.remove('dragging');
-    return;
-  }
-  if(Math.abs(dx)>6)moved=true;
-  currentX=dx;
-  const width=flash.clientWidth||1;
-  const opacity=Math.max(.55,1-Math.abs(dx)/(width*1.4));
-  flash.style.transform=`translateX(${dx}px) rotate(${dx/80}deg)`;
-  flash.style.opacity=opacity;
-}
-function pointerUp(e){
-  if(!dragging)return;
-  dragging=false;
-  flash.classList.remove('dragging');
-
-  const dx=currentX;
-  const threshold=Math.min(100,flash.clientWidth*.18);
-
-  if(Math.abs(dx)>=threshold){
-    goBySwipe(dx<0?'next':'prev');
-  }else{
-    flash.style.transform='translateX(0)';
-    flash.style.opacity='1';
-    if(!moved) flipCard();
-    setTimeout(()=>{moved=false},0);
-  }
-}
-function goBySwipe(direction){
-  if(animating||!viewCards.length)return;
-  animating=true;
-  const width=flash.clientWidth;
-  const next=direction==='next';
-  flash.style.transform=`translateX(${next?-width:width}px)`;
-  flash.style.opacity='0';
-
-  setTimeout(()=>{
-    current=next
-      ?(current+1)%viewCards.length
-      :(current-1+viewCards.length)%viewCards.length;
-
-    const c=viewCards[current];
-    $('cardType').textContent=c.type||'단어';
-    $('cardJp').innerHTML=c.furigana||escapeRuby(c.jp||'');
-    $('cardReading').textContent=c.reading||'';
-    $('cardKo').textContent=c.ko||'';
-    $('cardMemo').textContent=c.memo||'';
-    $('answer').classList.remove('show');
-    $('counter').textContent=`${current+1} / ${viewCards.length}`;
-
-    flash.classList.add('dragging');
-    flash.style.transform=`translateX(${next?width:-width}px)`;
-    flash.style.opacity='0';
-    void flash.offsetWidth;
-    flash.classList.remove('dragging');
-
-    requestAnimationFrame(()=>{
-      flash.style.transform='translateX(0)';
-      flash.style.opacity='1';
-    });
-
-    setTimeout(()=>{
-      animating=false;
-      moved=false;
-    },250);
-  },220);
-}
-
-flash.addEventListener('pointerdown',pointerDown);
-flash.addEventListener('pointermove',pointerMove);
-flash.addEventListener('pointerup',pointerUp);
-flash.addEventListener('pointercancel',pointerUp);
-
-/* 메뉴 */
 function toggleMenu(){$('menu').classList.toggle('hidden')}
-document.addEventListener('pointerdown',e=>{
-  const menu=$('menu');
-  if(menu.classList.contains('hidden'))return;
-  if(!menu.contains(e.target)&&!e.target.closest('.icon-btn'))menu.classList.add('hidden');
-});
+document.addEventListener('pointerdown',e=>{if(!$('menu').classList.contains('hidden')&&!$('menu').contains(e.target)&&!e.target.closest('.icon-btn'))$('menu').classList.add('hidden')});
 
-/* 카드 번호를 눌러 원하는 위치로 바로 이동 */
-function openJump(){
-  if(!viewCards.length)return;
-  $('menu').classList.add('hidden');
-  $('jumpInput').value=current+1;
-  $('jumpInput').max=viewCards.length;
-  $('jumpNote').textContent=`전체 ${viewCards.length}개 · 현재 ${current+1}번`;
-  renderQuickNumbers();
-  jumpDialog.showModal();
-  setTimeout(()=>{
-    $('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'});
-    $('jumpInput').select();
-  },30);
-}
-function renderQuickNumbers(){
-  const total=viewCards.length;
-  const box=$('quickNumbers');
-  box.innerHTML=Array.from({length:total},(_,i)=>{
-    const n=i+1;
-    return `<button type="button" class="${i===current?'current':''}" onclick="jumpTo(${n})">${n}</button>`;
-  }).join('');
-}
-function jumpFromInput(){
-  const n=parseInt($('jumpInput').value,10);
-  if(!Number.isInteger(n)||n<1||n>viewCards.length){
-    alert(`1부터 ${viewCards.length} 사이의 번호를 입력하세요.`);
-    return;
-  }
-  jumpTo(n);
-}
-function jumpTo(number){
-  if(!viewCards.length)return;
-  const index=number-1;
-  if(index<0||index>=viewCards.length)return;
-  current=index;
-  render();
-  jumpDialog.close();
-}
-$('jumpInput')?.addEventListener('keydown',e=>{
-  if(e.key==='Enter')jumpFromInput();
-});
+function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$('jumpInput').max=viewCards.length;$('quickNumbers').innerHTML=Array.from({length:viewCards.length},(_,i)=>`<button class="${i===current?'current':''}" onclick="jumpTo(${i+1})">${i+1}</button>`).join('');jumpDialog.showModal();setTimeout(()=>$('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'}),20)}
+function jumpFromInput(){const n=parseInt($('jumpInput').value,10);if(n>=1&&n<=viewCards.length)jumpTo(n)}
+function jumpTo(n){current=n-1;render();jumpDialog.close()}
 
-/* 카드 등록/수정/삭제 */
-function openAdd(){
-  $('menu').classList.add('hidden');
-  $('editorTitle').textContent='새 카드';
-  ['id','jp','reading','ko','memo','furigana'].forEach(x=>$(x).value='');
-  $('type').value='단어';
-  $('readingState').textContent='저장할 때 자동 생성';
-  editor.showModal();
-}
-function editCurrent(){
-  $('menu').classList.add('hidden');
-  if(viewCards.length)openEdit(viewCards[current].id);
-}
-function openEdit(id){
-  const c=cards.find(x=>String(x.id)===String(id));
-  if(!c)return;
-  $('editorTitle').textContent='카드 수정';
-  $('id').value=c.id;
-  $('type').value=c.type||'단어';
-  $('jp').value=c.jp||'';
-  $('reading').value=c.reading||'';
-  $('furigana').value=c.furigana||'';
-  $('ko').value=c.ko||'';
-  $('memo').value=c.memo||'';
-  $('readingState').textContent='필요하면 자동 읽기를 다시 만들 수 있습니다.';
-  editor.showModal();
-}
+function openAdd(){$('menu').classList.add('hidden');$('editorTitle').textContent='새 카드';['id','jp','reading','ko','memo','furigana'].forEach(x=>$(x).value='');$('type').value='단어';$('readingState').textContent='필요할 때만 실행';editor.showModal()}
+function editCurrent(){$('menu').classList.add('hidden');if(viewCards.length)openEdit(viewCards[current].id)}
+function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)return;$('editorTitle').textContent='카드 수정';$('id').value=c.id;$('type').value=c.type||'단어';$('jp').value=c.jp||'';$('reading').value=c.reading||'';$('furigana').value=c.furigana||'';$('ko').value=c.ko||'';$('memo').value=c.memo||'';$('readingState').textContent='필요하면 자동 읽기 실행';editor.showModal()}
+
 async function saveCard(e){
-  e.preventDefault();
-
-  const jpText=$('jp').value.trim();
-  const oldCard=$('id').value
-    ?cards.find(x=>String(x.id)===String($('id').value))
-    :null;
-  const japaneseChanged=!!oldCard && String(oldCard.jp||'')!==jpText;
-
-  /*
-   * 입력 중에는 분석하지 않습니다.
-   * 새 카드 또는 일본어가 변경된 카드에서 읽는법/후리가나가 필요할 때
-   * 저장 시 딱 한 번만 자동 생성합니다.
-   */
-  if(jpText && (
-      !$('reading').value.trim() ||
-      (hasKanji(jpText) && (!$('furigana').value || japaneseChanged))
-    )){
-    $('readingState').textContent='저장 전 자동 읽기 생성 중…';
-    try{
-      const auto=await analyzeJapanese(jpText);
-      if(!$('reading').value.trim() || japaneseChanged){
-        $('reading').value=auto.korean;
-      }
-      if(hasKanji(jpText)){
-        $('furigana').value=auto.ruby;
-      }else{
-        $('furigana').value='';
-      }
-    }catch(_){
-      /* 자동 생성 실패 시에도 사용자가 직접 입력한 내용으로 저장 가능 */
-    }
-  }
-
-  const card={
-    id:$('id').value,
-    type:$('type').value,
-    jp:jpText,
-    reading:$('reading').value.trim(),
-    furigana:$('furigana').value,
-    ko:$('ko').value.trim(),
-    memo:$('memo').value.trim()
-  };
-
-  try{
-    await request(card.id?'update':'add',{card});
-    editor.close();
-    await loadCards();
-  }catch(err){alert(err.message)}
+ e.preventDefault();
+ const card={id:$('id').value,type:$('type').value,jp:$('jp').value.trim(),reading:$('reading').value.trim(),furigana:$('furigana').value,ko:$('ko').value.trim(),memo:$('memo').value.trim()};
+ try{
+   const action=card.id?'update':'add';const j=await request(action,{card});
+   if(action==='add')card.id=j.card.id;
+   const i=cards.findIndex(x=>String(x.id)===String(card.id));
+   if(i>=0)cards[i]={...cards[i],...card};else cards.push(card);
+   saveCache();editor.close();applyFilter();$('syncStatus').textContent='저장 완료';
+   syncCards(false);
+ }catch(err){alert(err.message)}
 }
-async function deleteCard(id){
-  if(!confirm('이 카드를 삭제할까요?'))return;
-  try{
-    await request('delete',{id});
-    await loadCards();
-  }catch(e){alert(e.message)}
-}
+async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
 
-/* 목록 */
-function showList(){
-  $('menu').classList.add('hidden');
-  renderList();
-  $('listView').classList.remove('hidden');
-}
+function showList(){$('menu').classList.add('hidden');renderList();$('listView').classList.remove('hidden')}
 function hideList(){$('listView').classList.add('hidden')}
-function renderList(){
-  const box=$('list');
-  if(!viewCards.length){
-    box.innerHTML='<div class="listItem">카드가 없습니다.</div>';
-    return;
-  }
-  box.innerHTML=viewCards.map(c=>`
-    <div class="listItem">
-      <div class="listText">
-        <b>${esc(c.jp)}</b>
-        <div>${esc(c.ko)}</div>
-        <div class="small">${esc(c.type)} ${c.reading?'· '+esc(c.reading):''}</div>
-      </div>
-      <button class="mini" onclick="openEdit('${c.id}')">수정</button>
-      <button class="mini danger" onclick="deleteCard('${c.id}')">삭제</button>
-    </div>`).join('');
+function renderList(){const box=$('list');if(!viewCards.length){box.innerHTML='<div class="listItem">카드가 없습니다.</div>';return}box.innerHTML=viewCards.map(c=>`<div class="listItem"><div class="listText"><b>${esc(c.jp)}</b><div>${esc(c.ko)}</div><div class="small">${esc(c.type||'단어')} ${c.reading?'· '+esc(c.reading):''}</div></div><button class="mini" onclick="openEdit('${c.id}')">수정</button><button class="mini danger" onclick="deleteCard('${c.id}')">삭제</button></div>`).join('')}
+
+/* 자동 읽기는 버튼을 눌렀을 때만 아래 라이브러리/사전을 지연 로딩 */
+function loadKuromojiScript(){
+ if(window.kuromoji)return Promise.resolve();
+ if(kuromojiPromise)return kuromojiPromise;
+ kuromojiPromise=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js';s.onload=resolve;s.onerror=()=>{kuromojiPromise=null;reject(new Error('자동 읽기 모듈 로드 실패'))};document.head.appendChild(s)});
+ return kuromojiPromise;
 }
-function esc(s=''){
-  return String(s).replace(/[&<>"']/g,m=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[m]));
+async function getTokenizer(){
+ if(tokenizer)return tokenizer;
+ if(tokenizerPromise)return tokenizerPromise;
+ await loadKuromojiScript();
+ tokenizerPromise=new Promise((resolve,reject)=>{kuromoji.builder({dicPath:'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/'}).build((err,t)=>{if(err){tokenizerPromise=null;reject(err)}else{tokenizer=t;resolve(t)}})});
+ return tokenizerPromise;
+}
+function kataToHira(s=''){return s.replace(/[\u30A1-\u30F6]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60))}
+function hasKanji(s=''){return /[\u3400-\u4DBF\u4E00-\u9FFF々〆ヵヶ]/.test(s)}
+const KK={'あ':'아','い':'이','う':'우','え':'에','お':'오','か':'카','き':'키','く':'쿠','け':'케','こ':'코','が':'가','ぎ':'기','ぐ':'구','げ':'게','ご':'고','さ':'사','し':'시','す':'스','せ':'세','そ':'소','ざ':'자','じ':'지','ず':'즈','ぜ':'제','ぞ':'조','た':'타','ち':'치','つ':'츠','て':'테','と':'토','だ':'다','ぢ':'지','づ':'즈','で':'데','ど':'도','な':'나','に':'니','ぬ':'누','ね':'네','の':'노','は':'하','ひ':'히','ふ':'후','へ':'헤','ほ':'호','ば':'바','び':'비','ぶ':'부','べ':'베','ぼ':'보','ぱ':'파','ぴ':'피','ぷ':'푸','ぺ':'페','ぽ':'포','ま':'마','み':'미','む':'무','め':'메','も':'모','や':'야','ゆ':'유','よ':'요','ら':'라','り':'리','る':'루','れ':'레','ろ':'로','わ':'와','を':'오','ん':'ㄴ','きゃ':'캬','きゅ':'큐','きょ':'쿄','しゃ':'샤','しゅ':'슈','しょ':'쇼','ちゃ':'차','ちゅ':'추','ちょ':'초','じゃ':'자','じゅ':'주','じょ':'조','りゃ':'랴','りゅ':'류','りょ':'료'};
+function kanaKo(s=''){s=kataToHira(s);let o='';for(let i=0;i<s.length;){const t=s.slice(i,i+2);if(KK[t]){o+=KK[t];i+=2}else if(s[i]==='っ'){i++}else if(s[i]==='ー'){o+='-';i++}else{o+=KK[s[i]]||s[i];i++}}return o}
+async function makeReading(){
+ const text=$('jp').value.trim();if(!text)return;
+ const btn=$('readingBtn');btn.disabled=true;$('readingState').textContent='자동 읽기 불러오는 중…';
+ try{
+  const t=await getTokenizer();$('readingState').textContent='읽는 법 생성 중…';
+  const tokens=t.tokenize(text);let kana='',ruby='';
+  for(const x of tokens){const surface=x.surface_form||'',read=kataToHira(x.reading||surface);kana+=read;ruby+=hasKanji(surface)&&read!==surface?`<ruby>${esc(surface)}<rt>${esc(read)}</rt></ruby>`:esc(surface)}
+  $('reading').value=kanaKo(kana);$('furigana').value=ruby;$('readingState').textContent='자동 읽기 완료';
+ }catch(e){$('readingState').textContent='자동 읽기 실패 · 직접 입력 가능';alert('자동 읽기 모듈을 불러오지 못했습니다. 카드 저장은 정상적으로 사용할 수 있습니다.')}
+ finally{btn.disabled=false}
 }
 
+$('jp').addEventListener('input',()=>{$('furigana').value='';$('readingState').textContent='필요할 때만 실행'});
+$('search').addEventListener('input',applyFilter);$('filter').addEventListener('change',applyFilter);
 
-/* 일본어를 입력하는 동안에는 자동 분석하지 않습니다. */
-$('jp').addEventListener('input',()=>{
-  $('furigana').value='';
-  $('readingState').textContent='저장할 때 자동 생성';
-});
-
-$('search').addEventListener('input',applyFilter);
-$('filter').addEventListener('change',applyFilter);
-loadCards();
+/* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
+const hadCache=loadCache();
+if(!hadCache){$('empty').textContent='카드를 불러오는 중입니다…'}
+setTimeout(()=>syncCards(false),0);
 </script>
 </body>
 </html>
