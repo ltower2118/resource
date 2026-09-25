@@ -38,7 +38,18 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 }
 .reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
 .answer{display:none;width:min(92%,700px);margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}.answer.show{display:block}
-.ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}.memo{font-size:16px;color:var(--muted);margin-top:10px;white-space:pre-wrap}
+.ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}
+.memo{
+  width:100%;
+  font-size:16px;
+  color:var(--muted);
+  margin-top:10px;
+  white-space:pre-wrap;
+  text-align:left;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
 .hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
 .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
 .menu{position:fixed;top:58px;right:10px;z-index:30;width:min(92vw,340px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
@@ -50,6 +61,22 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90dvh;box-shadow:0 20px 60px rgba(0,0,0,.28)}dialog::backdrop{background:rgba(0,0,0,.45)}
 .modal,.jump-box{padding:20px;overflow:auto}.modal h2,.jump-box h2{margin:0 0 12px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px 12px}.field textarea{min-height:76px;resize:vertical}
 .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.modal-actions button{padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:700}.modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
+.save-btn-loading{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.save-spinner{
+  width:16px;
+  height:16px;
+  border:2px solid rgba(255,255,255,.45);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:saveSpin .7s linear infinite;
+}
+@keyframes saveSpin{to{transform:rotate(360deg)}}
+
 
 .jump-controls{display:grid;grid-template-columns:1fr auto;gap:8px}.jump-controls input{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:13px;font-size:18px;text-align:center}.jump-controls button{border:0;border-radius:11px;padding:0 18px;background:var(--main);color:#fff;font-weight:800}
 .quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}.quick-numbers button{border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:42px;font-weight:700}.quick-numbers button.current{background:var(--main);color:#fff;border-color:var(--main)}.jump-close{width:100%;margin-top:12px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
@@ -110,7 +137,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어12</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어13</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -159,7 +186,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
 <div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 일본어"></div>
 <div class="field"><label>메모</label><textarea id="memo"></textarea></div>
-<div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button class="primary" type="submit">바로 저장</button></div>
+<div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button id="saveCardBtn" class="primary" type="submit">바로 저장</button></div>
 </form></dialog>
 
 <script>
@@ -524,6 +551,8 @@ function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)ret
 async function saveCard(e){
   e.preventDefault();
 
+  const btn=$('saveCardBtn');
+
   const card={
     id:$('id').value,
     type:$('type').value,
@@ -538,6 +567,13 @@ async function saveCard(e){
     return;
   }
 
+  if(btn.disabled)return;
+
+  const originalHtml=btn.innerHTML;
+  btn.disabled=true;
+  btn.classList.add('save-btn-loading');
+  btn.innerHTML='<span class="save-spinner" aria-hidden="true"></span><span>저장 중...</span>';
+
   try{
     const action=card.id?'update':'add';
     const j=await request(action,{card});
@@ -549,19 +585,25 @@ async function saveCard(e){
     const normalized=normalizeCard(card,cards.length);
     const i=cards.findIndex(x=>String(x.id)===String(normalized.id));
 
-    if(i>=0)cards[i]={...cards[i],...normalized};
+    if(i>=0) cards[i]={...cards[i],...normalized};
     else cards.push(normalized);
 
     saveCache();
-    editor.close();
     applyFilter(false);
     $('syncStatus').textContent='저장 완료';
 
-    // 저장 직후 전체 재동기화는 잠깐 뒤에 실행하여 UI를 먼저 반응시킴
+    btn.innerHTML='<span>저장 완료 ✓</span>';
+    await new Promise(resolve=>setTimeout(resolve,400));
+
+    editor.close();
     setTimeout(()=>syncCards(false),350);
 
   }catch(err){
-    alert(err.message);
+    alert(err.message||'저장에 실패했습니다.');
+  }finally{
+    btn.disabled=false;
+    btn.classList.remove('save-btn-loading');
+    btn.innerHTML=originalHtml;
   }
 }
 async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
