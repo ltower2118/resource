@@ -184,62 +184,59 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 .kana-vowel-head{
   display:grid;
   grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:6px;
-  margin-bottom:6px;
+  gap:8px;
+  margin-bottom:8px;
 }
 .kana-vowel-head div{
   text-align:center;
-  font-size:12px;
-  font-weight:800;
-  color:#64748b;
-  padding:4px 0;
+  font-size:14px;
+  font-weight:900;
+  color:#475569;
+  padding:5px 0;
 }
 .kana-grid{
   display:grid;
   grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:6px;
+  gap:8px;
 }
 .kana-cell{
-  min-height:64px;
-  border:1px solid #e2e8f0;
-  border-radius:11px;
+  min-height:76px;
+  border:1px solid #dbe3ed;
+  border-radius:12px;
   background:#f8fafc;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  padding:6px 3px;
+  padding:7px 3px;
 }
 .kana-jp{
-  font-size:21px;
-  font-weight:800;
-  line-height:1.2;
-}
-.kana-kata{
-  font-size:15px;
-  color:#2563eb;
-  line-height:1.2;
-  margin-top:2px;
+  font-size:30px;
+  font-weight:850;
+  line-height:1.15;
+  color:#17202a;
 }
 .kana-ko{
-  font-size:11px;
-  color:#64748b;
-  margin-top:4px;
+  font-size:14px;
+  font-weight:750;
+  color:#2563eb;
+  margin-top:7px;
   line-height:1.2;
 }
 .kana-section-title{
-  margin:14px 0 8px;
-  font-size:14px;
-  font-weight:800;
+  margin:18px 0 9px;
+  font-size:17px;
+  font-weight:900;
   color:#1e3a8a;
+  padding-bottom:6px;
+  border-bottom:1px solid #e2e8f0;
 }
 @media(max-width:520px){
   .kana-card-btn{right:10px;bottom:10px}
   .kana-panel{width:100%;max-height:92dvh}
   .kana-cell{min-height:58px}
   .kana-jp{font-size:19px}
-  .kana-kata{font-size:14px}
-  .kana-ko{font-size:10px}
+    .kana-ko{font-size:10px}
 }
 
 /* Gemini AI 버튼 */
@@ -267,7 +264,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어14</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어17</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -302,29 +299,34 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div id="kanaOverlay" class="kana-overlay" aria-hidden="true">
   <div class="kana-panel" role="dialog" aria-modal="true" aria-label="히라가나 가타카나 표">
     <div class="kana-head">
-      <b>히라가나 · 가타카나 · 한글 발음</b>
+      <b>일본어 가나표 · 한글 발음</b>
       <button type="button" class="kana-close" onclick="closeKanaChart()" aria-label="닫기">×</button>
     </div>
     <div class="kana-body">
-      <p class="kana-note">한글 표기는 빠른 기억 확인용 근사 발음입니다. 실제 일본어 발음과 완전히 같지는 않습니다.</p>
-      <div class="kana-section-title">기본 50음</div>
-      <div class="kana-vowel-head">
-        <div>あ · ア · 아</div>
-        <div>い · イ · 이</div>
-        <div>う · ウ · 우</div>
-        <div>え · エ · 에</div>
-        <div>お · オ · 오</div>
-      </div>
-      <div id="kanaGridBasic" class="kana-grid"></div>
-
-      <div class="kana-section-title">탁음 · 반탁음</div>
+      <p class="kana-note">히라가나와 가타카나를 따로 표시했습니다. 파란색 한글은 읽는 법을 빠르게 확인하기 위한 근사 발음입니다.</p>
+      <div class="kana-section-title">히라가나</div>
       <div class="kana-vowel-head">
         <div>あ단</div><div>い단</div><div>う단</div><div>え단</div><div>お단</div>
       </div>
-      <div id="kanaGridVoice" class="kana-grid"></div>
+      <div id="hiraganaGrid" class="kana-grid"></div>
 
-      <div class="kana-section-title">요음</div>
-      <div id="kanaGridCombo" class="kana-grid"></div>
+      <div class="kana-section-title">가타카나</div>
+      <div class="kana-vowel-head">
+        <div>ア단</div><div>イ단</div><div>ウ단</div><div>エ단</div><div>オ단</div>
+      </div>
+      <div id="katakanaGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">탁음 · 반탁음 — 히라가나</div>
+      <div id="hiraganaVoiceGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">탁음 · 반탁음 — 가타카나</div>
+      <div id="katakanaVoiceGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">요음 — 히라가나</div>
+      <div id="hiraganaComboGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">요음 — 가타카나</div>
+      <div id="katakanaComboGrid" class="kana-grid"></div>
     </div>
   </div>
 </div>
@@ -694,16 +696,19 @@ const KANA_COMBO=[
  ['ぴゃ','ピャ','퍄'],['ぴゅ','ピュ','퓨'],['ぴょ','ピョ','표']
 ];
 
-function renderKanaGrid(id,data){
+function renderKanaGrid(id,data,scriptIndex){
   $(id).innerHTML=data.map(x=>{
     if(!x[0]){
       return '<div class="kana-cell" style="visibility:hidden"></div>';
     }
+
+    const kana=x[scriptIndex]||'';
+    const ko=x[2]||'';
+
     return `
       <div class="kana-cell">
-        <div class="kana-jp">${x[0]}</div>
-        <div class="kana-kata">${x[1]}</div>
-        <div class="kana-ko">${x[2]}</div>
+        <div class="kana-jp">${kana}</div>
+        <div class="kana-ko">${ko}</div>
       </div>
     `;
   }).join('');
@@ -711,9 +716,14 @@ function renderKanaGrid(id,data){
 
 function openKanaChart(){
   hideSelectTools();
-  renderKanaGrid('kanaGridBasic',KANA_BASIC);
-  renderKanaGrid('kanaGridVoice',KANA_VOICE);
-  renderKanaGrid('kanaGridCombo',KANA_COMBO);
+  renderKanaGrid('hiraganaGrid',KANA_BASIC,0);
+  renderKanaGrid('katakanaGrid',KANA_BASIC,1);
+
+  renderKanaGrid('hiraganaVoiceGrid',KANA_VOICE,0);
+  renderKanaGrid('katakanaVoiceGrid',KANA_VOICE,1);
+
+  renderKanaGrid('hiraganaComboGrid',KANA_COMBO,0);
+  renderKanaGrid('katakanaComboGrid',KANA_COMBO,1);
 
   const overlay=$('kanaOverlay');
   overlay.classList.add('show');
