@@ -212,7 +212,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbz8N3ge2yOEmytvCf75-8OOrTdQPxK16ZvBYQItW-osw3gegHGJ1kYlAJke8hTASanY/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
-const GEMINI_SHARE_URL='https://gemini.google.com/share/여기에_공유주소_ID';
+const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_v9';
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
@@ -524,7 +524,7 @@ function getGeminiUrl(){
 
   if(
     !url ||
-    url.includes('https://share.gemini.google/2rlZ3Js2ZL4b')
+    url.includes('여기에_공유주소_ID')
   ){
     alert(
       'HTML의 GEMINI_SHARE_URL에 실제 Gemini 공유 대화 주소를 입력하세요.'
