@@ -84,17 +84,66 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 .jp.jp-long{font-size:clamp(20px,4.8vw,38px)}
 .jp.jp-xlong{font-size:clamp(17px,3.8vw,30px);line-height:1.55}
 
+
+/* Gemini AI */
+.gemini-card-btn{
+  position:absolute;left:14px;bottom:13px;z-index:4;
+  border:1px solid #d8dee8;background:#fff;color:#445;
+  border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;
+  box-shadow:0 2px 8px rgba(0,0,0,.06)
+}
+.gemini-card-btn:active{transform:scale(.97)}
+.gemini-overlay{
+  position:fixed;inset:0;z-index:100;display:none;
+  align-items:center;justify-content:center;padding:12px;
+  background:rgba(0,0,0,.48)
+}
+.gemini-overlay.show{display:flex}
+.gemini-panel{
+  width:min(96vw,720px);height:min(88dvh,860px);
+  background:#fff;border-radius:18px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+  display:flex;flex-direction:column
+}
+.gemini-head{
+  flex:0 0 48px;display:flex;align-items:center;justify-content:space-between;
+  gap:8px;padding:0 10px 0 14px;border-bottom:1px solid var(--line);background:#fff
+}
+.gemini-title{font-size:14px;font-weight:800}
+.gemini-head-actions{display:flex;gap:6px}
+.gemini-mini-btn{
+  border:1px solid #cbd5e1;background:#fff;color:#334155;
+  border-radius:9px;padding:7px 9px;font-size:12px;font-weight:800
+}
+.gemini-close{
+  border:0;background:#eef2f7;width:34px;height:34px;
+  border-radius:10px;font-size:20px;line-height:1
+}
+.gemini-frame-wrap{position:relative;flex:1;min-height:0;background:#f8fafc}
+.gemini-frame{width:100%;height:100%;border:0;background:#fff}
+.gemini-help{
+  position:absolute;inset:auto 12px 12px 12px;padding:9px 10px;
+  border-radius:10px;background:rgba(255,255,255,.92);
+  border:1px solid #e5e7eb;color:#64748b;font-size:11px;line-height:1.45;
+  pointer-events:none
+}
+@media(max-width:520px){
+  .gemini-panel{width:100%;height:92dvh;border-radius:16px}
+  .gemini-card-btn{left:10px;bottom:10px}
+}
+
 @media(max-width:520px){.stage{padding:5px}.flash{border-radius:19px;padding:24px 14px}.jp{font-size:clamp(22px,10vw,54px);max-height:50vh}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어12</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어6</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
 <div id="cardType" class="type"></div><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
+<button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
 <div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동<br>Made by Ai & Ha You Sin</div>
 
 </div></div></main>
@@ -114,6 +163,28 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   <div class="lookup-actions">
     <button type="button" onclick="speakLookup()">🔊 발음 듣기</button>
     <button type="button" onclick="closeLookup()">닫기</button>
+  </div>
+</div>
+
+
+<div id="geminiOverlay" class="gemini-overlay" aria-hidden="true">
+  <div class="gemini-panel" role="dialog" aria-modal="true" aria-label="Gemini AI">
+    <div class="gemini-head">
+      <div class="gemini-title">✦ Gemini AI</div>
+      <div class="gemini-head-actions">
+        <button type="button" class="gemini-mini-btn" onclick="changeGeminiUrl()">주소 변경</button>
+        <button type="button" class="gemini-mini-btn" onclick="openGeminiNewWindow()">새 창</button>
+        <button type="button" class="gemini-close" onclick="closeGemini()" aria-label="닫기">×</button>
+      </div>
+    </div>
+    <div class="gemini-frame-wrap">
+      <iframe id="geminiFrame" class="gemini-frame" title="Gemini 공유 대화"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="clipboard-read; clipboard-write"></iframe>
+      <div class="gemini-help">
+        Gemini 공유대화가 이 창 안에서 열리지 않는 경우 <b>새 창</b> 버튼을 이용하세요.
+      </div>
+    </div>
   </div>
 </div>
 
@@ -141,6 +212,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbyRZ67i57Uk0Ew6vy-u0RyvW0tM8YNDU31f7gBc6aihFZaIuCcrduW1H9C1VjAJMigE/exec';
+const GEMINI_URL_KEY='jp_flashcards_gemini_share_url';
 const CACHE_KEY='jp_flashcards_cache_v9';
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
@@ -326,6 +398,102 @@ flash.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-
 flash.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;flash.classList.remove('dragging');const threshold=Math.min(90,flash.clientWidth*.16);if(Math.abs(currentX)>=threshold)swipe(currentX<0?1:-1);else{flash.style.transform='translateX(0)';flash.style.opacity='1';if(!moved)flipCard();setTimeout(()=>moved=false,0)}});
 flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remove('dragging');flash.style.transform='translateX(0)';flash.style.opacity='1'});
 function swipe(step){if(animating)return;animating=true;const w=flash.clientWidth;flash.style.transform=`translateX(${step>0?-w:w}px)`;flash.style.opacity='0';setTimeout(()=>{current=(current+step+viewCards.length)%viewCards.length;render();flash.classList.add('dragging');flash.style.transform=`translateX(${step>0?w:-w}px)`;flash.style.opacity='0';void flash.offsetWidth;flash.classList.remove('dragging');requestAnimationFrame(()=>{flash.style.transform='translateX(0)';flash.style.opacity='1'});setTimeout(()=>{animating=false;moved=false},230)},190)}
+
+
+function getSavedGeminiUrl(){
+  try{
+    return localStorage.getItem(GEMINI_URL_KEY)||'';
+  }catch(e){
+    return '';
+  }
+}
+
+function saveGeminiUrl(url){
+  try{
+    localStorage.setItem(GEMINI_URL_KEY,url);
+  }catch(e){}
+}
+
+function askGeminiUrl(){
+  const current=getSavedGeminiUrl();
+  const url=prompt(
+    'Gemini 공유 대화 주소를 입력하세요.\n\n예: https://gemini.google.com/share/...',
+    current
+  );
+
+  if(url===null)return '';
+
+  const clean=String(url||'').trim();
+  if(!clean)return '';
+
+  if(!/^https:\/\/gemini\.google\.com\//i.test(clean)){
+    alert('Gemini 공유 주소를 확인하세요.');
+    return '';
+  }
+
+  saveGeminiUrl(clean);
+  return clean;
+}
+
+function openGemini(){
+  let url=getSavedGeminiUrl();
+  if(!url){
+    url=askGeminiUrl();
+  }
+  if(!url)return;
+
+  hideSelectTools();
+
+  const overlay=$('geminiOverlay');
+  const frame=$('geminiFrame');
+
+  frame.src=url;
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden','false');
+}
+
+function closeGemini(){
+  const overlay=$('geminiOverlay');
+  const frame=$('geminiFrame');
+
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden','true');
+  frame.src='about:blank';
+}
+
+function changeGeminiUrl(){
+  const url=askGeminiUrl();
+  if(!url)return;
+
+  const frame=$('geminiFrame');
+  if(!$('geminiOverlay').classList.contains('show'))return;
+  frame.src=url;
+}
+
+function openGeminiNewWindow(){
+  let url=getSavedGeminiUrl();
+  if(!url){
+    url=askGeminiUrl();
+  }
+  if(!url)return;
+
+  window.open(url,'_blank','noopener,noreferrer');
+}
+
+$('geminiOverlay').addEventListener('pointerdown',e=>{
+  if(e.target.id==='geminiOverlay'){
+    closeGemini();
+  }
+});
+
+document.addEventListener('keydown',e=>{
+  if(
+    e.key==='Escape' &&
+    $('geminiOverlay').classList.contains('show')
+  ){
+    closeGemini();
+  }
+});
 
 function toggleMenu(){hideSelectTools();$('menu').classList.toggle('hidden')}
 document.addEventListener('pointerdown',e=>{if(!$('menu').classList.contains('hidden')&&!$('menu').contains(e.target)&&!e.target.closest('.icon-btn'))$('menu').classList.add('hidden')});
