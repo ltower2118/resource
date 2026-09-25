@@ -137,7 +137,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어6</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어8</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -203,15 +203,15 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <dialog id="editor"><form class="modal" onsubmit="saveCard(event)">
 <h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
 <div class="field"><label>종류</label><select id="type"><option>단어</option><option>문장</option></select></div>
-<div class="field"><label>일본어 *</label><input id="jp" required placeholder="例: 日本語"></div>
+<div class="field"><label>일본어</label><input id="jp" placeholder="例: 日本語"></div>
 <div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
-<div class="field"><label>한국어 뜻 *</label><input id="ko" required placeholder="예: 일본어"></div>
+<div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 일본어"></div>
 <div class="field"><label>메모</label><textarea id="memo"></textarea></div>
 <div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button class="primary" type="submit">바로 저장</button></div>
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbyRZ67i57Uk0Ew6vy-u0RyvW0tM8YNDU31f7gBc6aihFZaIuCcrduW1H9C1VjAJMigE/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbz8N3ge2yOEmytvCf75-8OOrTdQPxK16ZvBYQItW-osw3gegHGJ1kYlAJke8hTASanY/exec';
 const GEMINI_URL_KEY='jp_flashcards_gemini_share_url';
 const CACHE_KEY='jp_flashcards_cache_v9';
 let cards=[],viewCards=[],current=0;
@@ -220,22 +220,134 @@ let selectedJapanese='';
 const $=id=>document.getElementById(id);
 
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function loadCache(){try{const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');if(Array.isArray(x)&&x.length){cards=x;applyFilter();$('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';return true}}catch(_){}return false}
-function saveCache(){try{localStorage.setItem(CACHE_KEY,JSON.stringify(cards))}catch(_){}}
+let cacheSaveTimer=null;
+function loadCache(){
+  try{
+    const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+    if(Array.isArray(x)&&x.length){
+      cards=normalizeCards(x);
+      applyFilter(false);
+      $('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';
+      return true;
+    }
+  }catch(_){}
+  return false;
+}
+function saveCache(){
+  clearTimeout(cacheSaveTimer);
+  cacheSaveTimer=setTimeout(()=>{
+    try{
+      localStorage.setItem(CACHE_KEY,JSON.stringify(cards));
+    }catch(_){}
+  },250);
+}
+
+function normalizeCard(c,index=0){
+  c=c||{};
+  return {
+    id:String(c.id??c.ID??c.no??c.row??index+1),
+    type:String(c.type||c.kind||'단어').trim()||'단어',
+    jp:String(c.jp??c.japanese??c.word??'').trim(),
+    reading:String(c.reading??c.kana??c.yomi??'').trim(),
+    ko:String(c.ko??c.meaning??c.korean??'').trim(),
+    memo:String(c.memo??c.note??'').trim()
+  };
+}
+
+function normalizeCards(list){
+  if(!Array.isArray(list))return [];
+  return list
+    .map((c,i)=>normalizeCard(c,i))
+    // 한 칸이라도 내용이 있으면 카드로 유지
+    .filter(c=>c.jp||c.ko||c.reading||c.memo);
+}
+
+function cardsSignature(list){
+  if(!Array.isArray(list)||!list.length)return '0';
+  const first=list[0]||{};
+  const last=list[list.length-1]||{};
+  return [
+    list.length,
+    first.id||'',
+    first.jp||'',
+    last.id||'',
+    last.jp||''
+  ].join('|');
+}
 
 async function request(action,data={}){
  const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data}),cache:'no-store'});
  const j=await r.json();if(!j.ok)throw new Error(j.error||'요청 실패');return j;
 }
+let syncRunning=false;
+let lastSyncSignature='';
+
 async function syncCards(manual=false){
- $('syncStatus').textContent='시트 확인 중…';
- try{const j=await request('list');cards=j.cards||[];saveCache();applyFilter();$('syncStatus').textContent='최신 동기화 완료';}
- catch(e){$('syncStatus').textContent=cards.length?'오프라인/연결 지연 · 저장된 카드 사용':'연결 실패';if(!cards.length){$('empty').textContent=e.message}}
+  if(syncRunning){
+    if(manual)$('syncStatus').textContent='이미 동기화 중…';
+    return;
+  }
+
+  syncRunning=true;
+  $('syncStatus').textContent=manual?'최신 자료 동기화 중…':'시트 확인 중…';
+
+  try{
+    const j=await request('list');
+    const nextCards=normalizeCards(j.cards||[]);
+    const nextSig=cardsSignature(nextCards);
+
+    if(nextSig!==lastSyncSignature || !cards.length){
+      cards=nextCards;
+      lastSyncSignature=nextSig;
+      saveCache();
+
+      // 현재 카드만 즉시 갱신하고, 목록 화면은 열려 있을 때만 렌더링
+      applyFilter(false);
+    }
+
+    $('syncStatus').textContent='최신 동기화 완료 · '+cards.length+'개';
+
+  }catch(e){
+    $('syncStatus').textContent=
+      cards.length
+        ? '연결 지연 · 저장된 카드 사용'
+        : '연결 실패';
+
+    if(!cards.length){
+      $('empty').textContent=e.message||'카드를 불러오지 못했습니다.';
+    }
+  }finally{
+    syncRunning=false;
+  }
 }
-function applyFilter(){
- const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
- viewCards=cards.filter(c=>{const hit=!q||[c.jp,c.ko,c.reading,c.memo].join(' ').toLowerCase().includes(q);return hit&&(f==='all'||c.type===f)});
- current=Math.min(current,Math.max(0,viewCards.length-1));render();renderList();
+function applyFilter(renderListToo=true){
+  const q=$('search').value.trim().toLowerCase();
+  const f=$('filter').value;
+
+  viewCards=cards.filter(c=>{
+    const hit=!q||
+      [c.jp,c.ko,c.reading,c.memo]
+        .join(' ')
+        .toLowerCase()
+        .includes(q);
+
+    return hit&&(f==='all'||c.type===f);
+  });
+
+  current=Math.min(
+    current,
+    Math.max(0,viewCards.length-1)
+  );
+
+  render();
+
+  // 목록 화면이 실제로 열려 있을 때만 대량 DOM 생성
+  if(
+    renderListToo &&
+    !$('listView').classList.contains('hidden')
+  ){
+    renderList();
+  }
 }
 function fitJapaneseText(text=''){
  const el=$('cardJp');
@@ -250,7 +362,14 @@ function render(){
  hideSelectTools();
  if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
- $('cardType').textContent=c.type||'단어';$('cardJp').textContent=c.jp||'';fitJapaneseText(c.jp||'');$('cardReading').textContent=c.reading||'';$('cardKo').textContent=c.ko||'';$('cardMemo').textContent=c.memo||'';$('answer').classList.remove('show');$('counter').textContent=`${current+1} / ${viewCards.length}`;
+ $('cardType').textContent=c.type||'단어';
+ $('cardJp').textContent=c.jp||c.reading||c.ko||'(내용 없음)';
+ fitJapaneseText(c.jp||c.reading||c.ko||'');
+ $('cardReading').textContent=c.reading||'';
+ $('cardKo').textContent=c.ko||'';
+ $('cardMemo').textContent=c.memo||'';
+ $('answer').classList.remove('show');
+ $('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
 }
 
@@ -507,16 +626,47 @@ function editCurrent(){$('menu').classList.add('hidden');if(viewCards.length)ope
 function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)return;$('editorTitle').textContent='카드 수정';$('id').value=c.id;$('type').value=c.type||'단어';$('jp').value=c.jp||'';$('reading').value=c.reading||'';$('ko').value=c.ko||'';$('memo').value=c.memo||'';editor.showModal()}
 
 async function saveCard(e){
- e.preventDefault();
- const card={id:$('id').value,type:$('type').value,jp:$('jp').value.trim(),reading:$('reading').value.trim(),ko:$('ko').value.trim(),memo:$('memo').value.trim()};
- try{
-   const action=card.id?'update':'add';const j=await request(action,{card});
-   if(action==='add')card.id=j.card.id;
-   const i=cards.findIndex(x=>String(x.id)===String(card.id));
-   if(i>=0)cards[i]={...cards[i],...card};else cards.push(card);
-   saveCache();editor.close();applyFilter();$('syncStatus').textContent='저장 완료';
-   syncCards(false);
- }catch(err){alert(err.message)}
+  e.preventDefault();
+
+  const card={
+    id:$('id').value,
+    type:$('type').value,
+    jp:$('jp').value.trim(),
+    reading:$('reading').value.trim(),
+    ko:$('ko').value.trim(),
+    memo:$('memo').value.trim()
+  };
+
+  if(!card.jp&&!card.reading&&!card.ko&&!card.memo){
+    alert('일본어, 읽는 법, 한국어 뜻, 메모 중 하나 이상 입력하세요.');
+    return;
+  }
+
+  try{
+    const action=card.id?'update':'add';
+    const j=await request(action,{card});
+
+    if(action==='add'&&j.card&&j.card.id){
+      card.id=j.card.id;
+    }
+
+    const normalized=normalizeCard(card,cards.length);
+    const i=cards.findIndex(x=>String(x.id)===String(normalized.id));
+
+    if(i>=0)cards[i]={...cards[i],...normalized};
+    else cards.push(normalized);
+
+    saveCache();
+    editor.close();
+    applyFilter(false);
+    $('syncStatus').textContent='저장 완료';
+
+    // 저장 직후 전체 재동기화는 잠깐 뒤에 실행하여 UI를 먼저 반응시킴
+    setTimeout(()=>syncCards(false),350);
+
+  }catch(err){
+    alert(err.message);
+  }
 }
 async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
 
@@ -524,7 +674,8 @@ function showList(){$('menu').classList.add('hidden');renderList();$('listView')
 function hideList(){$('listView').classList.add('hidden')}
 function renderList(){const box=$('list');if(!viewCards.length){box.innerHTML='<div class="listItem">카드가 없습니다.</div>';return}box.innerHTML=viewCards.map(c=>`<div class="listItem"><div class="listText"><b>${esc(c.jp)}</b><div>${esc(c.ko)}</div><div class="small">${esc(c.type||'단어')} ${c.reading?'· '+esc(c.reading):''}</div></div><button class="mini" onclick="openEdit('${c.id}')">수정</button><button class="mini danger" onclick="deleteCard('${c.id}')">삭제</button></div>`).join('')}
 
-$('search').addEventListener('input',applyFilter);$('filter').addEventListener('change',applyFilter);
+$('search').addEventListener('input',()=>applyFilter(true));
+$('filter').addEventListener('change',()=>applyFilter(true));
 
 /* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
 const hadCache=loadCache();
