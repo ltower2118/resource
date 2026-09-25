@@ -112,6 +112,136 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 .jp.jp-xlong{font-size:clamp(17px,3.8vw,30px);line-height:1.55}
 
 
+
+/* 히라가나·가타카나 빠른 확인 */
+.kana-card-btn{
+  position:absolute;
+  right:14px;
+  bottom:13px;
+  z-index:4;
+  border:1px solid #d8dee8;
+  background:#fff;
+  color:#334155;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:11px;
+  font-weight:800;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.kana-card-btn:active{transform:scale(.97)}
+
+.kana-overlay{
+  position:fixed;
+  inset:0;
+  z-index:110;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  background:rgba(0,0,0,.46);
+}
+.kana-overlay.show{display:flex}
+
+.kana-panel{
+  width:min(96vw,680px);
+  max-height:90dvh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
+.kana-head{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 14px;
+  border-bottom:1px solid var(--line);
+}
+.kana-head b{font-size:16px}
+.kana-close{
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:10px;
+  background:#eef2f7;
+  font-size:20px;
+  font-weight:800;
+}
+.kana-body{
+  overflow:auto;
+  padding:12px;
+}
+.kana-note{
+  margin:0 0 10px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+.kana-vowel-head{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:6px;
+  margin-bottom:6px;
+}
+.kana-vowel-head div{
+  text-align:center;
+  font-size:12px;
+  font-weight:800;
+  color:#64748b;
+  padding:4px 0;
+}
+.kana-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:6px;
+}
+.kana-cell{
+  min-height:64px;
+  border:1px solid #e2e8f0;
+  border-radius:11px;
+  background:#f8fafc;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:6px 3px;
+}
+.kana-jp{
+  font-size:21px;
+  font-weight:800;
+  line-height:1.2;
+}
+.kana-kata{
+  font-size:15px;
+  color:#2563eb;
+  line-height:1.2;
+  margin-top:2px;
+}
+.kana-ko{
+  font-size:11px;
+  color:#64748b;
+  margin-top:4px;
+  line-height:1.2;
+}
+.kana-section-title{
+  margin:14px 0 8px;
+  font-size:14px;
+  font-weight:800;
+  color:#1e3a8a;
+}
+@media(max-width:520px){
+  .kana-card-btn{right:10px;bottom:10px}
+  .kana-panel{width:100%;max-height:92dvh}
+  .kana-cell{min-height:58px}
+  .kana-jp{font-size:19px}
+  .kana-kata{font-size:14px}
+  .kana-ko{font-size:10px}
+}
+
 /* Gemini AI 버튼 */
 .gemini-card-btn{
   position:absolute;
@@ -137,13 +267,14 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어13</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어14</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
 <div id="cardType" class="type"></div><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
+<button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
 <div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동<br>Made by Ai & Ha You Sin</div>
 
 </div></div></main>
@@ -166,6 +297,37 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   </div>
 </div>
 
+
+
+<div id="kanaOverlay" class="kana-overlay" aria-hidden="true">
+  <div class="kana-panel" role="dialog" aria-modal="true" aria-label="히라가나 가타카나 표">
+    <div class="kana-head">
+      <b>히라가나 · 가타카나 · 한글 발음</b>
+      <button type="button" class="kana-close" onclick="closeKanaChart()" aria-label="닫기">×</button>
+    </div>
+    <div class="kana-body">
+      <p class="kana-note">한글 표기는 빠른 기억 확인용 근사 발음입니다. 실제 일본어 발음과 완전히 같지는 않습니다.</p>
+      <div class="kana-section-title">기본 50음</div>
+      <div class="kana-vowel-head">
+        <div>あ · ア · 아</div>
+        <div>い · イ · 이</div>
+        <div>う · ウ · 우</div>
+        <div>え · エ · 에</div>
+        <div>お · オ · 오</div>
+      </div>
+      <div id="kanaGridBasic" class="kana-grid"></div>
+
+      <div class="kana-section-title">탁음 · 반탁음</div>
+      <div class="kana-vowel-head">
+        <div>あ단</div><div>い단</div><div>う단</div><div>え단</div><div>お단</div>
+      </div>
+      <div id="kanaGridVoice" class="kana-grid"></div>
+
+      <div class="kana-section-title">요음</div>
+      <div id="kanaGridCombo" class="kana-grid"></div>
+    </div>
+  </div>
+</div>
 
 <div id="menu" class="menu hidden">
 <div class="menu-row"><input id="search" placeholder="검색"></div>
@@ -498,6 +660,86 @@ flash.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;flash
 flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remove('dragging');flash.style.transform='translateX(0)';flash.style.opacity='1'});
 function swipe(step){if(animating)return;animating=true;const w=flash.clientWidth;flash.style.transform=`translateX(${step>0?-w:w}px)`;flash.style.opacity='0';setTimeout(()=>{current=(current+step+viewCards.length)%viewCards.length;render();flash.classList.add('dragging');flash.style.transform=`translateX(${step>0?w:-w}px)`;flash.style.opacity='0';void flash.offsetWidth;flash.classList.remove('dragging');requestAnimationFrame(()=>{flash.style.transform='translateX(0)';flash.style.opacity='1'});setTimeout(()=>{animating=false;moved=false},230)},190)}
 
+
+
+const KANA_BASIC=[
+ ['あ','ア','아'],['い','イ','이'],['う','ウ','우'],['え','エ','에'],['お','オ','오'],
+ ['か','カ','카'],['き','キ','키'],['く','ク','쿠'],['け','ケ','케'],['こ','コ','코'],
+ ['さ','サ','사'],['し','シ','시'],['す','ス','스'],['せ','セ','세'],['そ','ソ','소'],
+ ['た','タ','타'],['ち','チ','치'],['つ','ツ','츠'],['て','テ','테'],['と','ト','토'],
+ ['な','ナ','나'],['に','ニ','니'],['ぬ','ヌ','누'],['ね','ネ','네'],['の','ノ','노'],
+ ['は','ハ','하'],['ひ','ヒ','히'],['ふ','フ','후'],['へ','ヘ','헤'],['ほ','ホ','호'],
+ ['ま','マ','마'],['み','ミ','미'],['む','ム','무'],['め','メ','메'],['も','モ','모'],
+ ['や','ヤ','야'],['','',''],['ゆ','ユ','유'],['','',''],['よ','ヨ','요'],
+ ['ら','ラ','라'],['り','リ','리'],['る','ル','루'],['れ','レ','레'],['ろ','ロ','로'],
+ ['わ','ワ','와'],['','',''],['','',''],['','',''],['を','ヲ','오'],
+ ['ん','ン','응/ㄴ'],['','',''],['','',''],['','',''],['','','']
+];
+
+const KANA_VOICE=[
+ ['が','ガ','가'],['ぎ','ギ','기'],['ぐ','グ','구'],['げ','ゲ','게'],['ご','ゴ','고'],
+ ['ざ','ザ','자'],['じ','ジ','지'],['ず','ズ','즈'],['ぜ','ゼ','제'],['ぞ','ゾ','조'],
+ ['だ','ダ','다'],['ぢ','ヂ','지'],['づ','ヅ','즈'],['で','デ','데'],['ど','ド','도'],
+ ['ば','バ','바'],['び','ビ','비'],['ぶ','ブ','부'],['べ','ベ','베'],['ぼ','ボ','보'],
+ ['ぱ','パ','파'],['ぴ','ピ','피'],['ぷ','プ','푸'],['ぺ','ペ','페'],['ぽ','ポ','포']
+];
+
+const KANA_COMBO=[
+ ['きゃ','キャ','캬'],['きゅ','キュ','큐'],['きょ','キョ','쿄'],['しゃ','シャ','샤'],['しゅ','シュ','슈'],
+ ['しょ','ショ','쇼'],['ちゃ','チャ','챠'],['ちゅ','チュ','츄'],['ちょ','チョ','쵸'],['にゃ','ニャ','냐'],
+ ['にゅ','ニュ','뉴'],['にょ','ニョ','뇨'],['ひゃ','ヒャ','햐'],['ひゅ','ヒュ','휴'],['ひょ','ヒョ','효'],
+ ['みゃ','ミャ','먀'],['みゅ','ミュ','뮤'],['みょ','ミョ','묘'],['りゃ','リャ','랴'],['りゅ','リュ','류'],
+ ['りょ','リョ','료'],['ぎゃ','ギャ','갸'],['ぎゅ','ギュ','규'],['ぎょ','ギョ','교'],['じゃ','ジャ','쟈'],
+ ['じゅ','ジュ','쥬'],['じょ','ジョ','죠'],['びゃ','ビャ','뱌'],['びゅ','ビュ','뷰'],['びょ','ビョ','뵤'],
+ ['ぴゃ','ピャ','퍄'],['ぴゅ','ピュ','퓨'],['ぴょ','ピョ','표']
+];
+
+function renderKanaGrid(id,data){
+  $(id).innerHTML=data.map(x=>{
+    if(!x[0]){
+      return '<div class="kana-cell" style="visibility:hidden"></div>';
+    }
+    return `
+      <div class="kana-cell">
+        <div class="kana-jp">${x[0]}</div>
+        <div class="kana-kata">${x[1]}</div>
+        <div class="kana-ko">${x[2]}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openKanaChart(){
+  hideSelectTools();
+  renderKanaGrid('kanaGridBasic',KANA_BASIC);
+  renderKanaGrid('kanaGridVoice',KANA_VOICE);
+  renderKanaGrid('kanaGridCombo',KANA_COMBO);
+
+  const overlay=$('kanaOverlay');
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden','false');
+}
+
+function closeKanaChart(){
+  const overlay=$('kanaOverlay');
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden','true');
+}
+
+$('kanaOverlay').addEventListener('pointerdown',e=>{
+  if(e.target.id==='kanaOverlay'){
+    closeKanaChart();
+  }
+});
+
+document.addEventListener('keydown',e=>{
+  if(
+    e.key==='Escape' &&
+    $('kanaOverlay').classList.contains('show')
+  ){
+    closeKanaChart();
+  }
+});
 
 function getGeminiUrl(){
   const url=String(GEMINI_SHARE_URL||'').trim();
