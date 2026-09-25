@@ -37,18 +37,35 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   cursor:text;
 }
 .reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
-.answer{display:none;width:min(92%,700px);margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}.answer.show{display:block}
+.answer{
+  display:none;
+  width:min(92%,700px);
+  max-height:42vh;
+  margin-top:26px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  overflow:hidden;
+}
+.answer.show{
+  display:flex;
+  flex-direction:column;
+}
 .ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}
 .memo{
   width:100%;
+  max-height:26vh;
+  overflow-y:auto;
+  overflow-x:hidden;
   font-size:16px;
   color:var(--muted);
   margin-top:10px;
+  padding:4px 2px 8px;
   white-space:pre-wrap;
   text-align:left;
   line-height:1.6;
   overflow-wrap:anywhere;
   word-break:break-word;
+  -webkit-overflow-scrolling:touch;
 }
 .hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
 .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
@@ -259,12 +276,18 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   .gemini-card-btn{left:10px;bottom:10px}
 }
 
-@media(max-width:520px){.stage{padding:5px}.flash{border-radius:19px;padding:24px 14px}.jp{font-size:clamp(22px,10vw,54px);max-height:50vh}}
+@media(max-width:520px){
+  .stage{padding:5px}
+  .flash{border-radius:19px;padding:24px 14px}
+  .jp{font-size:clamp(22px,10vw,54px);max-height:46vh}
+  .answer{max-height:44vh;margin-top:18px;padding-top:16px}
+  .memo{max-height:28vh;font-size:15px}
+}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어17</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어20</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
