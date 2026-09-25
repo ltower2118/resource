@@ -137,7 +137,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어8</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어9</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -172,7 +172,6 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
     <div class="gemini-head">
       <div class="gemini-title">✦ Gemini AI</div>
       <div class="gemini-head-actions">
-        <button type="button" class="gemini-mini-btn" onclick="changeGeminiUrl()">주소 변경</button>
         <button type="button" class="gemini-mini-btn" onclick="openGeminiNewWindow()">새 창</button>
         <button type="button" class="gemini-close" onclick="closeGemini()" aria-label="닫기">×</button>
       </div>
@@ -212,7 +211,8 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbz8N3ge2yOEmytvCf75-8OOrTdQPxK16ZvBYQItW-osw3gegHGJ1kYlAJke8hTASanY/exec';
-const GEMINI_URL_KEY='jp_flashcards_gemini_share_url';
+// Gemini 공유 대화 주소를 여기에 고정 입력하세요.
+const GEMINI_SHARE_URL='https://gemini.google.com/share/여기에_공유주소_ID';
 const CACHE_KEY='jp_flashcards_cache_v9';
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
@@ -519,46 +519,24 @@ flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remov
 function swipe(step){if(animating)return;animating=true;const w=flash.clientWidth;flash.style.transform=`translateX(${step>0?-w:w}px)`;flash.style.opacity='0';setTimeout(()=>{current=(current+step+viewCards.length)%viewCards.length;render();flash.classList.add('dragging');flash.style.transform=`translateX(${step>0?w:-w}px)`;flash.style.opacity='0';void flash.offsetWidth;flash.classList.remove('dragging');requestAnimationFrame(()=>{flash.style.transform='translateX(0)';flash.style.opacity='1'});setTimeout(()=>{animating=false;moved=false},230)},190)}
 
 
-function getSavedGeminiUrl(){
-  try{
-    return localStorage.getItem(GEMINI_URL_KEY)||'';
-  }catch(e){
-    return '';
-  }
-}
+function getGeminiUrl(){
+  const url=String(GEMINI_SHARE_URL||'').trim();
 
-function saveGeminiUrl(url){
-  try{
-    localStorage.setItem(GEMINI_URL_KEY,url);
-  }catch(e){}
-}
-
-function askGeminiUrl(){
-  const current=getSavedGeminiUrl();
-  const url=prompt(
-    'Gemini 공유 대화 주소를 입력하세요.\n\n예: https://gemini.google.com/share/...',
-    current
-  );
-
-  if(url===null)return '';
-
-  const clean=String(url||'').trim();
-  if(!clean)return '';
-
-  if(!/^https:\/\/gemini\.google\.com\//i.test(clean)){
-    alert('Gemini 공유 주소를 확인하세요.');
+  if(
+    !url ||
+    url.includes('여기에_공유주소_ID')
+  ){
+    alert(
+      'HTML의 GEMINI_SHARE_URL에 실제 Gemini 공유 대화 주소를 입력하세요.'
+    );
     return '';
   }
 
-  saveGeminiUrl(clean);
-  return clean;
+  return url;
 }
 
 function openGemini(){
-  let url=getSavedGeminiUrl();
-  if(!url){
-    url=askGeminiUrl();
-  }
+  const url=getGeminiUrl();
   if(!url)return;
 
   hideSelectTools();
@@ -577,26 +555,20 @@ function closeGemini(){
 
   overlay.classList.remove('show');
   overlay.setAttribute('aria-hidden','true');
+
+  // 닫을 때 iframe 해제
   frame.src='about:blank';
 }
 
-function changeGeminiUrl(){
-  const url=askGeminiUrl();
-  if(!url)return;
-
-  const frame=$('geminiFrame');
-  if(!$('geminiOverlay').classList.contains('show'))return;
-  frame.src=url;
-}
-
 function openGeminiNewWindow(){
-  let url=getSavedGeminiUrl();
-  if(!url){
-    url=askGeminiUrl();
-  }
+  const url=getGeminiUrl();
   if(!url)return;
 
-  window.open(url,'_blank','noopener,noreferrer');
+  window.open(
+    url,
+    '_blank',
+    'noopener,noreferrer'
+  );
 }
 
 $('geminiOverlay').addEventListener('pointerdown',e=>{
