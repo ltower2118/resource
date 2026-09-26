@@ -80,6 +80,68 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   word-break:break-word;
   -webkit-overflow-scrolling:touch;
 }
+
+.memo mark{
+  background:#fff176;
+  color:inherit;
+  padding:0 .08em;
+  border-radius:3px;
+}
+.memo-toolbar{
+  display:flex;
+  gap:6px;
+  margin:6px 0 7px;
+  flex-wrap:wrap;
+}
+.memo-tool-btn{
+  border:1px solid #cbd5e1;
+  background:#fff;
+  color:#334155;
+  border-radius:9px;
+  padding:7px 10px;
+  font-size:12px;
+  font-weight:800;
+}
+.memo-tool-btn.highlight{
+  background:#fff59d;
+  border-color:#f4d03f;
+  color:#5b4a00;
+}
+.memo-tool-btn:active{transform:scale(.97)}
+.memo-editor{
+  width:100%;
+  min-height:120px;
+  max-height:240px;
+  overflow:auto;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  padding:11px 12px;
+  background:#fff;
+  line-height:1.6;
+  text-align:left;
+  white-space:pre-wrap;
+  word-break:break-word;
+  outline:none;
+}
+.memo-editor:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 2px rgba(37,99,235,.08);
+}
+.memo-editor:empty:before{
+  content:'메모 입력';
+  color:#94a3b8;
+}
+.memo-editor mark{
+  background:#fff176;
+  color:inherit;
+}
+.memo-help{
+  font-size:11px;
+  color:#94a3b8;
+  margin-top:5px;
+  line-height:1.4;
+}
+
 .hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
 .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
 .menu{position:fixed;top:58px;right:10px;z-index:30;width:min(92vw,340px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
@@ -317,7 +379,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어1</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -403,7 +465,15 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="field"><label>일본어</label><input id="jp" placeholder="例: 日本語"></div>
 <div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
 <div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 일본어"></div>
-<div class="field"><label>메모</label><textarea id="memo"></textarea></div>
+<div class="field">
+<label>메모</label>
+<div class="memo-toolbar">
+  <button type="button" class="memo-tool-btn highlight" onmousedown="event.preventDefault()" onclick="memoHighlight()">🖍 형광펜</button>
+  <button type="button" class="memo-tool-btn" onmousedown="event.preventDefault()" onclick="memoClearHighlight()">형광 제거</button>
+</div>
+<div id="memoEditor" class="memo-editor" contenteditable="true"></div>
+<div class="memo-help">메모 글자를 드래그 선택한 뒤 형광펜 버튼을 누르세요.</div>
+</div>
 <div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button id="saveCardBtn" class="primary" type="submit">바로 저장</button></div>
 </form></dialog>
 
@@ -488,6 +558,124 @@ function goRandomCard(){
 
 
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function sanitizeMemoHtml(html=''){
+  const box=document.createElement('div');
+  box.innerHTML=String(html||'');
+
+  box.querySelectorAll('*').forEach(el=>{
+    const tag=el.tagName.toLowerCase();
+
+    if(tag==='mark' || tag==='br') return;
+
+    if(tag==='div' || tag==='p'){
+      const br=document.createElement('br');
+      el.before(br);
+      el.replaceWith(...el.childNodes);
+      return;
+    }
+
+    el.replaceWith(...el.childNodes);
+  });
+
+  return box.innerHTML;
+}
+
+function memoHighlight(){
+  const editor=$('memoEditor');
+  const sel=window.getSelection();
+
+  if(!sel || sel.rangeCount===0 || sel.isCollapsed){
+    alert('형광색으로 표시할 메모 글자를 먼저 선택하세요.');
+    editor.focus();
+    return;
+  }
+
+  const range=sel.getRangeAt(0);
+
+  if(!editor.contains(range.commonAncestorContainer)){
+    alert('메모 안의 글자를 선택하세요.');
+    return;
+  }
+
+  const mark=document.createElement('mark');
+
+  try{
+    range.surroundContents(mark);
+  }catch(e){
+    const frag=range.extractContents();
+    mark.appendChild(frag);
+    range.insertNode(mark);
+  }
+
+  sel.removeAllRanges();
+  const newRange=document.createRange();
+  newRange.selectNodeContents(mark);
+  sel.addRange(newRange);
+}
+
+function memoClearHighlight(){
+  const editor=$('memoEditor');
+  const sel=window.getSelection();
+
+  if(sel && sel.rangeCount && !sel.isCollapsed){
+    const range=sel.getRangeAt(0);
+
+    [...editor.querySelectorAll('mark')].forEach(mark=>{
+      try{
+        if(range.intersectsNode(mark)){
+          mark.replaceWith(...mark.childNodes);
+        }
+      }catch(_){}
+    });
+
+    return;
+  }
+
+  if(confirm('메모의 형광 표시를 모두 제거할까요?')){
+    editor.querySelectorAll('mark').forEach(mark=>{
+      mark.replaceWith(...mark.childNodes);
+    });
+  }
+}
+
+function getMemoHtml(){
+  return sanitizeMemoHtml($('memoEditor').innerHTML);
+}
+
+function setMemoHtml(value=''){
+  const text=String(value||'');
+
+  if(/<(mark|br)\b/i.test(text)){
+    $('memoEditor').innerHTML=sanitizeMemoHtml(text);
+    return;
+  }
+
+  $('memoEditor').innerHTML=esc(text)
+    .replaceAll('[[HL]]','<mark>')
+    .replaceAll('[[/HL]]','</mark>')
+    .replace(/\n/g,'<br>');
+}
+
+function renderMemoHtml(value=''){
+  const text=String(value||'');
+
+  if(/<(mark|br)\b/i.test(text)){
+    return sanitizeMemoHtml(text);
+  }
+
+  return esc(text)
+    .replaceAll('[[HL]]','<mark>')
+    .replaceAll('[[/HL]]','</mark>')
+    .replace(/\n/g,'<br>');
+}
+
+function plainMemoText(value=''){
+  const box=document.createElement('div');
+  box.innerHTML=renderMemoHtml(value);
+  return box.textContent||'';
+}
+
 let cacheSaveTimer=null;
 function loadCache(){
   try{
@@ -594,7 +782,7 @@ function applyFilter(renderListToo=true){
 
   viewCards=cards.filter(c=>{
     const hit=!q||
-      [c.jp,c.ko,c.reading,c.memo]
+      [c.jp,c.ko,c.reading,plainMemoText(c.memo)]
         .join(' ')
         .toLowerCase()
         .includes(q);
@@ -635,7 +823,7 @@ function render(){
  fitJapaneseText(c.jp||c.reading||c.ko||'');
  $('cardReading').textContent=c.reading||'';
  $('cardKo').textContent=c.ko||'';
- $('cardMemo').textContent=c.memo||'';
+ $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
  updateFavoriteButton();
  $('answer').classList.remove('show');
  $('counter').textContent=`${current+1} / ${viewCards.length}`;
@@ -921,9 +1109,29 @@ function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$
 function jumpFromInput(){const n=parseInt($('jumpInput').value,10);if(n>=1&&n<=viewCards.length)jumpTo(n)}
 function jumpTo(n){current=n-1;render();jumpDialog.close()}
 
-function openAdd(){$('menu').classList.add('hidden');$('editorTitle').textContent='새 카드';['id','jp','reading','ko','memo'].forEach(x=>$(x).value='');$('type').value='단어';editor.showModal()}
+function openAdd(){
+  $('menu').classList.add('hidden');
+  $('editorTitle').textContent='새 카드';
+  ['id','jp','reading','ko'].forEach(x=>$(x).value='');
+  $('memoEditor').innerHTML='';
+  $('type').value='단어';
+  editor.showModal();
+}
 function editCurrent(){$('menu').classList.add('hidden');if(viewCards.length)openEdit(viewCards[current].id)}
-function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)return;$('editorTitle').textContent='카드 수정';$('id').value=c.id;$('type').value=c.type||'단어';$('jp').value=c.jp||'';$('reading').value=c.reading||'';$('ko').value=c.ko||'';$('memo').value=c.memo||'';editor.showModal()}
+function openEdit(id){
+  const c=cards.find(x=>String(x.id)===String(id));
+  if(!c)return;
+
+  $('editorTitle').textContent='카드 수정';
+  $('id').value=c.id;
+  $('type').value=c.type||'단어';
+  $('jp').value=c.jp||'';
+  $('reading').value=c.reading||'';
+  $('ko').value=c.ko||'';
+  setMemoHtml(c.memo||'');
+
+  editor.showModal();
+}
 
 async function saveCard(e){
   e.preventDefault();
@@ -936,10 +1144,10 @@ async function saveCard(e){
     jp:$('jp').value.trim(),
     reading:$('reading').value.trim(),
     ko:$('ko').value.trim(),
-    memo:$('memo').value.trim()
+    memo:getMemoHtml()
   };
 
-  if(!card.jp&&!card.reading&&!card.ko&&!card.memo){
+  if(!card.jp&&!card.reading&&!card.ko&&!plainMemoText(card.memo).trim()){
     alert('일본어, 읽는 법, 한국어 뜻, 메모 중 하나 이상 입력하세요.');
     return;
   }
