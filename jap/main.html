@@ -56,7 +56,9 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   max-height:26vh;
   overflow-y:auto;
   overflow-x:hidden;
-  font-size:20px;
+
+  font-size:20px !important;
+
   color:var(--muted);
   margin-top:10px;
   padding:4px 2px 8px;
@@ -178,7 +180,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   padding:12px 14px;
   border-bottom:1px solid var(--line);
 }
-.kana-head b{font-size:19px}
+.kana-head b{font-size:16px}
 .kana-close{
   width:36px;
   height:36px;
@@ -195,7 +197,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 .kana-note{
   margin:0 0 10px;
   color:var(--muted);
-  font-size:18px;
+  font-size:12px;
   line-height:1.5;
 }
 .kana-vowel-head{
@@ -278,10 +280,27 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 @media(max-width:520px){
   .stage{padding:5px}
-  .flash{border-radius:19px;padding:24px 14px}
-  .jp{font-size:clamp(22px,10vw,54px);max-height:46vh}
-  .answer{max-height:44vh;margin-top:18px;padding-top:16px}
-  .memo{max-height:28vh;font-size:15px}
+
+  .flash{
+    border-radius:19px;
+    padding:24px 14px;
+  }
+
+  .jp{
+    font-size:clamp(22px,10vw,54px);
+    max-height:46vh;
+  }
+
+  .answer{
+    max-height:44vh;
+    margin-top:18px;
+    padding-top:16px;
+  }
+
+  .memo{
+    max-height:28vh;
+    font-size:20px !important;
+  }
 }
 </style>
 </head>
