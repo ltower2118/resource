@@ -20,6 +20,17 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .flash{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;user-select:none;-webkit-user-select:none;touch-action:pan-y;will-change:transform,opacity;transition:transform .22s cubic-bezier(.22,.61,.36,1),opacity .22s ease}
 .flash.dragging{transition:none}.hidden{display:none!important}
 .type{position:absolute;top:15px;left:15px;font-size:12px;color:var(--main);font-weight:800;padding:5px 9px;background:#eff6ff;border-radius:999px}
+.favorite-btn{
+  position:absolute;top:12px;right:14px;z-index:5;
+  width:38px;height:38px;border:1px solid #dbe1e8;background:#fff;
+  color:#f59e0b;border-radius:50%;font-size:23px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.05)
+}
+.favorite-btn.active{background:#fff8db;border-color:#f4cf5d}
+.favorite-btn:active{transform:scale(.96)}
+.menu button.active-filter{background:#fff8db;border-color:#f4cf5d;color:#7a5b00}
+
 .jp{
   width:100%;
   max-width:100%;
@@ -69,13 +80,6 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   word-break:break-word;
   -webkit-overflow-scrolling:touch;
 }
-.memo mark{
-  background:#fff176;
-  color:inherit;
-  padding:0 .08em;
-  border-radius:3px;
-}
-
 .hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
 .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
 .menu{position:fixed;top:58px;right:10px;z-index:30;width:min(92vw,340px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
@@ -85,57 +89,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .list-head{position:sticky;top:-10px;z-index:2;display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 2px 10px}.close-btn,.mini{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:8px 10px;font-weight:700}.danger{color:var(--danger)}
 .listItem{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:8px;display:flex;gap:8px;align-items:center}.listText{flex:1;min-width:0}.listText b{font-size:18px}.small{font-size:13px;color:var(--muted);margin-top:4px}
 dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90dvh;box-shadow:0 20px 60px rgba(0,0,0,.28)}dialog::backdrop{background:rgba(0,0,0,.45)}
-.modal,.jump-box{padding:20px;overflow:auto}.modal h2,.jump-box h2{margin:0 0 12px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field input,.field select{
-  width:100%;
-  border:1px solid #cbd5e1;
-  border-radius:10px;
-  padding:11px 12px
-}
-.memo-editor{
-  width:100%;
-  min-height:120px;
-  max-height:240px;
-  overflow:auto;
-  border:1px solid #cbd5e1;
-  border-radius:10px;
-  padding:11px 12px;
-  background:#fff;
-  line-height:1.6;
-  text-align:left;
-  white-space:pre-wrap;
-  word-break:break-word;
-  outline:none;
-}
-.memo-editor:focus{
-  border-color:#2563eb;
-  box-shadow:0 0 0 2px rgba(37,99,235,.08);
-}
-.memo-editor:empty:before{
-  content:'메모 입력';
-  color:#94a3b8;
-}
-.memo-editor mark{
-  background:#fff176;
-  color:inherit;
-}
-.memo-toolbar{
-  display:flex;
-  gap:6px;
-  margin:6px 0 7px;
-}
-.memo-tool-btn{
-  border:1px solid #cbd5e1;
-  background:#fff;
-  border-radius:9px;
-  padding:7px 10px;
-  font-size:12px;
-  font-weight:800;
-}
-.memo-tool-btn.highlight{
-  background:#fff59d;
-  border-color:#f4d03f;
-}
-.memo-tool-btn:active{transform:scale(.97)}
+.modal,.jump-box{padding:20px;overflow:auto}.modal h2,.jump-box h2{margin:0 0 12px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px 12px}.field textarea{min-height:76px;resize:vertical}
 .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.modal-actions button{padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:700}.modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
 .save-btn-loading{
   display:inline-flex;
@@ -367,7 +321,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
-<div id="cardType" class="type"></div><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
+<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
@@ -435,6 +389,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="menu-row"><select id="filter"><option value="all">전체</option><option value="단어">단어</option><option value="문장">문장</option></select></div>
 <div class="menu-row"><button class="primary" onclick="openAdd()">＋ 새 카드</button><button onclick="editCurrent()">수정</button></div>
 <div class="menu-row"><button onclick="showList()">목록</button><button onclick="syncCards(true)">↻ 동기화</button></div>
+<div class="menu-row"><button id="favoriteFilterBtn" onclick="toggleFavoriteFilter()">☆ 즐겨찾기만</button><button onclick="goRandomCard()">🎲 랜덤</button></div>
 <div id="syncStatus" class="status">준비</div>
 </div>
 
@@ -448,14 +403,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="field"><label>일본어</label><input id="jp" placeholder="例: 日本語"></div>
 <div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
 <div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 일본어"></div>
-<div class="field">
-<label>메모</label>
-<div class="memo-toolbar">
-  <button type="button" class="memo-tool-btn highlight" onmousedown="event.preventDefault()" onclick="memoHighlight()">🖍 형광펜</button>
-  <button type="button" class="memo-tool-btn" onmousedown="event.preventDefault()" onclick="memoClearHighlight()">형광 제거</button>
-</div>
-<div id="memoEditor" class="memo-editor" contenteditable="true"></div>
-</div>
+<div class="field"><label>메모</label><textarea id="memo"></textarea></div>
 <div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button id="saveCardBtn" class="primary" type="submit">바로 저장</button></div>
 </form></dialog>
 
@@ -464,130 +412,82 @@ const API_URL='https://script.google.com/macros/s/AKfycbz8N3ge2yOEmytvCf75-8OOrT
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_v9';
+const FAVORITES_KEY='jp_flashcards_favorites_v1';
+let favoriteOnly=false;
+let favoriteIds=new Set();
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
 let selectedJapanese='';
 const $=id=>document.getElementById(id);
 
-function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-
-function sanitizeMemoHtml(html=''){
-  const box=document.createElement('div');
-  box.innerHTML=String(html||'');
-
-  box.querySelectorAll('*').forEach(el=>{
-    const tag=el.tagName.toLowerCase();
-
-    if(tag==='mark' || tag==='br') return;
-
-    if(tag==='div' || tag==='p'){
-      const br=document.createElement('br');
-      el.before(br);
-      el.replaceWith(...el.childNodes);
-      return;
-    }
-
-    el.replaceWith(...el.childNodes);
-  });
-
-  return box.innerHTML;
-}
-
-function memoHighlight(){
-  const editor=$('memoEditor');
-  const sel=window.getSelection();
-
-  if(!sel || sel.rangeCount===0 || sel.isCollapsed){
-    alert('형광색으로 표시할 글자를 먼저 선택하세요.');
-    editor.focus();
-    return;
-  }
-
-  const range=sel.getRangeAt(0);
-
-  if(!editor.contains(range.commonAncestorContainer)){
-    alert('메모 안의 글자를 선택하세요.');
-    return;
-  }
-
-  const mark=document.createElement('mark');
-
+function loadFavorites(){
   try{
-    range.surroundContents(mark);
-  }catch(e){
-    const frag=range.extractContents();
-    mark.appendChild(frag);
-    range.insertNode(mark);
+    const arr=JSON.parse(localStorage.getItem(FAVORITES_KEY)||'[]');
+    favoriteIds=new Set(Array.isArray(arr)?arr.map(String):[]);
+  }catch(_){
+    favoriteIds=new Set();
   }
-
-  sel.removeAllRanges();
-  const newRange=document.createRange();
-  newRange.selectNodeContents(mark);
-  sel.addRange(newRange);
 }
-
-function memoClearHighlight(){
-  const editor=$('memoEditor');
-  const sel=window.getSelection();
-
-  if(sel && sel.rangeCount && !sel.isCollapsed){
-    const range=sel.getRangeAt(0);
-    const marks=[...editor.querySelectorAll('mark')];
-
-    marks.forEach(mark=>{
-      try{
-        if(range.intersectsNode(mark)){
-          mark.replaceWith(...mark.childNodes);
-        }
-      }catch(_){}
-    });
-
+function saveFavorites(){
+  try{
+    localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favoriteIds]));
+  }catch(_){}
+}
+function isFavorite(id){
+  return favoriteIds.has(String(id||''));
+}
+function updateFavoriteButton(){
+  const btn=$('favoriteBtn');
+  if(!btn)return;
+  if(!viewCards.length){
+    btn.textContent='☆';
+    btn.classList.remove('active');
     return;
   }
-
-  editor.querySelectorAll('mark').forEach(mark=>{
-    mark.replaceWith(...mark.childNodes);
-  });
+  const id=String(viewCards[current]?.id||'');
+  const on=isFavorite(id);
+  btn.textContent=on?'★':'☆';
+  btn.classList.toggle('active',on);
+  btn.setAttribute('aria-label',on?'즐겨찾기 해제':'즐겨찾기 추가');
 }
-
-function getMemoHtml(){
-  return sanitizeMemoHtml($('memoEditor').innerHTML);
+function toggleFavorite(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  if(!viewCards.length)return;
+  const id=String(viewCards[current]?.id||'');
+  if(!id)return;
+  if(isFavorite(id)) favoriteIds.delete(id);
+  else favoriteIds.add(id);
+  saveFavorites();
+  updateFavoriteButton();
+  if(favoriteOnly) applyFilter(false);
 }
-
-function setMemoHtml(value=''){
-  const text=String(value||'');
-
-  if(/<(mark|br)\b/i.test(text)){
-    $('memoEditor').innerHTML=sanitizeMemoHtml(text);
+function toggleFavoriteFilter(){
+  favoriteOnly=!favoriteOnly;
+  const btn=$('favoriteFilterBtn');
+  if(btn){
+    btn.textContent=favoriteOnly?'★ 전체 카드 보기':'☆ 즐겨찾기만';
+    btn.classList.toggle('active-filter',favoriteOnly);
+  }
+  current=0;
+  applyFilter(false);
+}
+function goRandomCard(){
+  $('menu').classList.add('hidden');
+  if(!viewCards.length){
+    alert('표시할 카드가 없습니다.');
     return;
   }
-
-  const converted=esc(text)
-    .replaceAll('[[HL]]','<mark>')
-    .replaceAll('[[/HL]]','</mark>')
-    .replace(/\n/g,'<br>');
-
-  $('memoEditor').innerHTML=converted;
-}
-
-function renderMemoHtml(value=''){
-  const text=String(value||'');
-
-  if(/<(mark|br)\b/i.test(text)){
-    return sanitizeMemoHtml(text);
+  if(viewCards.length===1){render();return;}
+  let next=current;
+  while(next===current){
+    next=Math.floor(Math.random()*viewCards.length);
   }
-
-  return esc(text)
-    .replaceAll('[[HL]]','<mark>')
-    .replaceAll('[[/HL]]','</mark>')
-    .replace(/\n/g,'<br>');
+  current=next;
+  render();
 }
 
-function plainMemoText(value=''){
-  const box=document.createElement('div');
-  box.innerHTML=renderMemoHtml(value);
-  return box.textContent||'';
-}
+
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 let cacheSaveTimer=null;
 function loadCache(){
   try{
@@ -694,12 +594,12 @@ function applyFilter(renderListToo=true){
 
   viewCards=cards.filter(c=>{
     const hit=!q||
-      [c.jp,c.ko,c.reading,plainMemoText(c.memo)]
+      [c.jp,c.ko,c.reading,c.memo]
         .join(' ')
         .toLowerCase()
         .includes(q);
 
-    return hit&&(f==='all'||c.type===f);
+    return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id));
   });
 
   current=Math.min(
@@ -728,14 +628,15 @@ function fitJapaneseText(text=''){
 
 function render(){
  hideSelectTools();
- if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';return}
+ if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'단어';
  $('cardJp').textContent=c.jp||c.reading||c.ko||'(내용 없음)';
  fitJapaneseText(c.jp||c.reading||c.ko||'');
  $('cardReading').textContent=c.reading||'';
  $('cardKo').textContent=c.ko||'';
- $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
+ $('cardMemo').textContent=c.memo||'';
+ updateFavoriteButton();
  $('answer').classList.remove('show');
  $('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
@@ -1020,29 +921,9 @@ function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$
 function jumpFromInput(){const n=parseInt($('jumpInput').value,10);if(n>=1&&n<=viewCards.length)jumpTo(n)}
 function jumpTo(n){current=n-1;render();jumpDialog.close()}
 
-function openAdd(){
-  $('menu').classList.add('hidden');
-  $('editorTitle').textContent='새 카드';
-  ['id','jp','reading','ko'].forEach(x=>$(x).value='');
-  $('memoEditor').innerHTML='';
-  $('type').value='단어';
-  editor.showModal();
-}
+function openAdd(){$('menu').classList.add('hidden');$('editorTitle').textContent='새 카드';['id','jp','reading','ko','memo'].forEach(x=>$(x).value='');$('type').value='단어';editor.showModal()}
 function editCurrent(){$('menu').classList.add('hidden');if(viewCards.length)openEdit(viewCards[current].id)}
-function openEdit(id){
-  const c=cards.find(x=>String(x.id)===String(id));
-  if(!c)return;
-
-  $('editorTitle').textContent='카드 수정';
-  $('id').value=c.id;
-  $('type').value=c.type||'단어';
-  $('jp').value=c.jp||'';
-  $('reading').value=c.reading||'';
-  $('ko').value=c.ko||'';
-  setMemoHtml(c.memo||'');
-
-  editor.showModal();
-}
+function openEdit(id){const c=cards.find(x=>String(x.id)===String(id));if(!c)return;$('editorTitle').textContent='카드 수정';$('id').value=c.id;$('type').value=c.type||'단어';$('jp').value=c.jp||'';$('reading').value=c.reading||'';$('ko').value=c.ko||'';$('memo').value=c.memo||'';editor.showModal()}
 
 async function saveCard(e){
   e.preventDefault();
@@ -1055,7 +936,7 @@ async function saveCard(e){
     jp:$('jp').value.trim(),
     reading:$('reading').value.trim(),
     ko:$('ko').value.trim(),
-    memo:getMemoHtml()
+    memo:$('memo').value.trim()
   };
 
   if(!card.jp&&!card.reading&&!card.ko&&!card.memo){
@@ -1102,7 +983,7 @@ async function saveCard(e){
     btn.innerHTML=originalHtml;
   }
 }
-async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
+async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));favoriteIds.delete(String(id));saveFavorites();saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
 
 function showList(){$('menu').classList.add('hidden');renderList();$('listView').classList.remove('hidden')}
 function hideList(){$('listView').classList.add('hidden')}
@@ -1112,6 +993,7 @@ $('search').addEventListener('input',()=>applyFilter(true));
 $('filter').addEventListener('change',()=>applyFilter(true));
 
 /* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
+loadFavorites();
 const hadCache=loadCache();
 if(!hadCache){$('empty').textContent='카드를 불러오는 중입니다…'}
 setTimeout(()=>syncCards(false),0);
