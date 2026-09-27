@@ -460,7 +460,7 @@
 
   <div class="page-head">
     <br><br><br>
-    <div class="title">작업 입력하기 </div>
+    <div class="title">작업 입력하기1 </div>
     <p>구글시트에 자동 저장되고, 아래 목록에서 바로 조회할 수 있습니다.</p>
   </div>
 
@@ -565,9 +565,9 @@
       <tbody id="listBody"></tbody>
     </table>
   </div>
+  <div id="emptyState" class="empty-state">검색 버튼을 눌러 이력을 조회하세요.</div>
 </div>
   </main>
->
 
 
 <br><br><br><div class="copyright">Made by ai & ha you sin</div><br>
@@ -676,8 +676,16 @@ async function loadHistory() {
   try {
     const res = await fetch(SCRIPT_URL + '?action=list');
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || '조회 실패');
-    allRows = json.data || [];
+    if (json.success === false || json.ok === false) {
+      throw new Error(json.error || '조회 실패');
+    }
+
+    allRows =
+      Array.isArray(json.data) ? json.data :
+      Array.isArray(json.rows) ? json.rows :
+      Array.isArray(json.items) ? json.items :
+      Array.isArray(json.history) ? json.history :
+      [];
     if (wrap) wrap.style.display = 'block';
     renderList();
   } catch (err) {
@@ -690,53 +698,122 @@ async function loadHistory() {
   }
 }
 
+
+function escapeHtml(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function rowValue(row, keys) {
+  if (!row) return '';
+
+  for (const key of keys) {
+    if (row[key] !== undefined && row[key] !== null) {
+      return String(row[key]);
+    }
+  }
+
+  const normalized = {};
+  Object.keys(row).forEach(function(k) {
+    const nk = String(k)
+      .replace(/\s+/g, '')
+      .replace(/／/g, '/')
+      .toLowerCase();
+    normalized[nk] = row[k];
+  });
+
+  for (const key of keys) {
+    const nk = String(key)
+      .replace(/\s+/g, '')
+      .replace(/／/g, '/')
+      .toLowerCase();
+
+    if (normalized[nk] !== undefined && normalized[nk] !== null) {
+      return String(normalized[nk]);
+    }
+  }
+
+  return '';
+}
+
+function normalizeHistoryRow(row) {
+  return {
+    date: rowValue(row, ['날짜', 'date', 'Date']),
+    category: rowValue(row, ['구분', 'category', 'Category']),
+    location: rowValue(row, ['위치/내용', '위치 / 내용', '위치', 'location', 'Location']),
+    content: rowValue(row, ['작업내용', '작업 내용', 'content', 'Content']),
+    handler: rowValue(row, ['작업자', '담당자', 'handler', 'Handler']),
+    note: rowValue(row, ['비고', 'note', 'Note'])
+  };
+}
+
 function renderList() {
-  const cat = document.getElementById('catFilter').value;
+  const cat = document.getElementById('catFilter').value.trim();
   const q = document.getElementById('searchBox').value.trim().toLowerCase();
   const listBody = document.getElementById('listBody');
   const emptyState = document.getElementById('emptyState');
+  const wrap = document.getElementById('historyTableWrap');
 
-  const filtered = allRows.filter(function (row) {
-    const matchesCat = !cat || row['구분'] === cat;
-    const haystack = [row['위치/내용'], row['작업내용'], row['작업자']].join(' ').toLowerCase();
-    const matchesText = !q || haystack.includes(q);
-    return matchesCat && matchesText;
-  }).sort(function (a, b) {
-    return formatDateOnly(b['날짜']).localeCompare(formatDateOnly(a['날짜']));
-  });
+  const normalizedRows = allRows.map(normalizeHistoryRow);
+
+  const filtered = normalizedRows
+    .filter(function (row) {
+      const matchesCat = !cat || row.category.trim() === cat;
+
+      const haystack = [
+        row.location,
+        row.content,
+        row.handler,
+        row.note
+      ].join(' ').toLowerCase();
+
+      const matchesText = !q || haystack.includes(q);
+
+      return matchesCat && matchesText;
+    })
+    .sort(function (a, b) {
+      return formatDateOnly(b.date).localeCompare(formatDateOnly(a.date));
+    });
 
   listBody.innerHTML = '';
+
   if (filtered.length === 0) {
-    emptyState.style.display = 'block';
-    emptyState.textContent = '조건에 맞는 이력이 없습니다.';
+    if (wrap) wrap.style.display = 'none';
+
+    if (emptyState) {
+      emptyState.style.display = 'block';
+      emptyState.textContent = (q || cat)
+        ? '조건에 맞는 이력이 없습니다.'
+        : '저장된 이력이 없습니다.';
+    }
     return;
   }
-  emptyState.style.display = 'none';
+
+  if (wrap) wrap.style.display = 'block';
+  if (emptyState) emptyState.style.display = 'none';
 
   filtered.forEach(function (row) {
     const tr = document.createElement('tr');
-    const cls = badgeClass[row['구분']] || '';
+    const cls = badgeClass[row.category] || '';
+
     tr.innerHTML =
-      '<td>' + formatDateOnly(row['날짜']) + '</td>' +
-      '<td><span class="badge ' + cls + '">' + (row['구분'] || '') + '</span></td>' +
-      '<td>' + (row['위치/내용'] || '') + '</td>' +
-      '<td>' + (row['작업내용'] || '') + '</td>' +
-      '<td>' + (row['작업자'] || '') + '</td>' +
-      '<td>' + (row['비고'] || '') + '</td>';
+      '<td>' + formatDateOnly(row.date) + '</td>' +
+      '<td><span class="badge ' + cls + '">' + escapeHtml(row.category) + '</span></td>' +
+      '<td>' + escapeHtml(row.location) + '</td>' +
+      '<td>' + escapeHtml(row.content) + '</td>' +
+      '<td>' + escapeHtml(row.handler) + '</td>' +
+      '<td>' + escapeHtml(row.note) + '</td>';
+
     listBody.appendChild(tr);
   });
 }
 
 document.getElementById('historySearchBtn').addEventListener('click', async function () {
-  /*
-   * 첫 검색 시 서버에서 이력을 불러오고,
-   * 이미 불러온 뒤에는 현재 데이터에서 필터만 적용합니다.
-   */
-  if (!allRows.length) {
-    await loadHistory();
-  } else {
-    renderList();
-  }
+  await loadHistory();
 });
 
 document.getElementById('searchBox').addEventListener('keydown', async function (e) {
