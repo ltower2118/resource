@@ -335,6 +335,28 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
     .kana-ko{font-size:14px}
 }
 
+
+/* 현재 카드 일본어 전체 읽기 */
+.speak-card-btn{
+  position:absolute;
+  left:50%;
+  bottom:13px;
+  transform:translateX(-50%);
+  z-index:4;
+  border:1px solid #d8dee8;
+  background:#fff;
+  color:#334155;
+  border-radius:999px;
+  padding:6px 11px;
+  font-size:11px;
+  font-weight:800;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.speak-card-btn:active{transform:translateX(-50%) scale(.97)}
+@media(max-width:520px){
+  .speak-card-btn{bottom:10px}
+}
+
 /* Gemini AI 버튼 */
 .gemini-card-btn{
   position:absolute;
@@ -383,13 +405,14 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어2</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어3</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
 <div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
+<button type="button" class="speak-card-btn" onclick="speakCurrentCard(event)">🔊 읽기</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
 <div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동<br>Made by Ai & Ha You Sin</div>
 
@@ -902,6 +925,40 @@ function showSelectionTools(){
     box.style.left=left+'px';
     box.style.top=top+'px';
   },30);
+}
+
+
+/* 현재 카드의 일본어 전체 읽기 */
+function speakCurrentCard(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  if(!viewCards.length)return;
+
+  const text=String(viewCards[current]?.jp||'').trim();
+  if(!text){
+    alert('읽을 일본어가 없습니다.');
+    return;
+  }
+
+  if(!('speechSynthesis' in window)){
+    alert('이 브라우저에서는 일본어 음성 읽기를 지원하지 않습니다.');
+    return;
+  }
+
+  hideSelectTools();
+  speechSynthesis.cancel();
+
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ja-JP';
+  u.rate=.85;
+  u.pitch=1;
+
+  const voices=speechSynthesis.getVoices();
+  const ja=voices.find(v=>
+    String(v.lang||'').toLowerCase().startsWith('ja')
+  );
+  if(ja)u.voice=ja;
+
+  speechSynthesis.speak(u);
 }
 
 /* 스마트폰/브라우저 내장 일본어 음성: 별도 다운로드 없음 */
