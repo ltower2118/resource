@@ -383,7 +383,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어4</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어1</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -482,11 +482,12 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbz8N3ge2yOEmytvCf75-8OOrTdQPxK16ZvBYQItW-osw3gegHGJ1kYlAJke8hTASanY/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbw2NfK1FaV2D4U99SRCA3pr9iKsCJvRxN_d-o_VC0yxsQ_ZqkYmw4Y-05YRAT1qGEJz/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
-const CACHE_KEY='jp_flashcards_cache_v9';
+const CACHE_KEY='jp_flashcards_cache_final_v2';
 const FAVORITES_KEY='jp_flashcards_favorites_v1';
+const LAST_CARD_KEY='jp_flashcards_last_card_v1';
 let favoriteOnly=false;
 let favoriteIds=new Set();
 let cards=[],viewCards=[],current=0;
@@ -507,6 +508,27 @@ function saveFavorites(){
     localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favoriteIds]));
   }catch(_){}
 }
+function rememberLastCard(){
+  try{
+    if(!viewCards.length)return;
+    const id=String(viewCards[current]?.id||'');
+    if(id)localStorage.setItem(LAST_CARD_KEY,id);
+  }catch(_){}
+}
+
+function restoreLastCard(){
+  try{
+    const id=String(localStorage.getItem(LAST_CARD_KEY)||'');
+    if(!id||!viewCards.length)return false;
+    const idx=viewCards.findIndex(c=>String(c.id)===id);
+    if(idx<0)return false;
+    current=idx;
+    return true;
+  }catch(_){
+    return false;
+  }
+}
+
 function isFavorite(id){
   return favoriteIds.has(String(id||''));
 }
@@ -687,6 +709,7 @@ function loadCache(){
     if(Array.isArray(x)&&x.length){
       cards=normalizeCards(x);
       applyFilter(false);
+      if(restoreLastCard()) render();
       $('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';
       return true;
     }
@@ -757,12 +780,20 @@ async function syncCards(manual=false){
     const nextSig=cardsSignature(nextCards);
 
     if(nextSig!==lastSyncSignature || !cards.length){
+      const keepId=String(viewCards[current]?.id||localStorage.getItem(LAST_CARD_KEY)||'');
       cards=nextCards;
       lastSyncSignature=nextSig;
       saveCache();
 
-      // 현재 카드만 즉시 갱신하고, 목록 화면은 열려 있을 때만 렌더링
+      // 동기화 후에도 보고 있던 카드를 유지
       applyFilter(false);
+      if(keepId){
+        const keepIndex=viewCards.findIndex(c=>String(c.id)===keepId);
+        if(keepIndex>=0){
+          current=keepIndex;
+          render();
+        }
+      }
     }
 
     $('syncStatus').textContent='최신 동기화 완료 · '+cards.length+'개';
@@ -832,6 +863,7 @@ function render(){
  $('answer').classList.remove('show');
  $('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
+ rememberLastCard();
 }
 
 function hideSelectTools(){
