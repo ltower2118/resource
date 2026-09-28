@@ -50,10 +50,10 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
 .answer{
   display:none;
-  width:min(92%,700px);
-  max-height:42vh;
-  margin-top:26px;
-  padding-top:22px;
+  width:min(94%,760px);
+  max-height:58vh;
+  margin-top:20px;
+  padding-top:18px;
   border-top:1px solid var(--line);
   overflow:hidden;
 }
@@ -64,7 +64,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}
 .memo{
   width:100%;
-  max-height:26vh;
+  max-height:40vh;
   overflow-y:auto;
   overflow-x:hidden;
 
@@ -107,11 +107,18 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   border-color:#f4d03f;
   color:#5b4a00;
 }
+.memo-tool-btn.bold{
+  font-size:15px;
+  font-weight:900;
+  min-width:38px;
+}
+.memo strong,.memo b{font-weight:900;color:inherit}
+.memo-editor strong,.memo-editor b{font-weight:900}
 .memo-tool-btn:active{transform:scale(.97)}
 .memo-editor{
   width:100%;
-  min-height:120px;
-  max-height:240px;
+  min-height:170px;
+  max-height:360px;
   overflow:auto;
   border:1px solid #cbd5e1;
   border-radius:10px;
@@ -369,13 +376,13 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   }
 
   .answer{
-    max-height:44vh;
-    margin-top:18px;
-    padding-top:16px;
+    max-height:62vh;
+    margin-top:14px;
+    padding-top:14px;
   }
 
   .memo{
-    max-height:28vh;
+    max-height:46vh;
     font-size:18px !important;
   }
 }
@@ -472,11 +479,12 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="field">
 <label>메모</label>
 <div class="memo-toolbar">
+  <button type="button" class="memo-tool-btn bold" onmousedown="event.preventDefault()" onclick="memoBold()" title="굵게"><b>B</b></button>
   <button type="button" class="memo-tool-btn highlight" onmousedown="event.preventDefault()" onclick="memoHighlight()">🖍 형광펜</button>
   <button type="button" class="memo-tool-btn" onmousedown="event.preventDefault()" onclick="memoClearHighlight()">형광 제거</button>
 </div>
 <div id="memoEditor" class="memo-editor" contenteditable="true"></div>
-<div class="memo-help">메모 글자를 드래그 선택한 뒤 형광펜 버튼을 누르세요.</div>
+<div class="memo-help">글자를 선택해 B/형광펜을 적용할 수 있습니다. HTML 소스를 붙여넣으면 서식으로 표시됩니다.</div>
 </div>
 <div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button id="saveCardBtn" class="primary" type="submit">바로 저장</button></div>
 </form></dialog>
@@ -589,22 +597,65 @@ function sanitizeMemoHtml(html=''){
   const box=document.createElement('div');
   box.innerHTML=String(html||'');
 
+  box.querySelectorAll(
+    'script,style,iframe,object,embed,link,meta,form,input,button,textarea,select,option,svg,math'
+  ).forEach(el=>el.remove());
+
+  const allowedTags=new Set([
+    'BR','B','STRONG','I','EM','U','S','DEL','MARK',
+    'P','DIV','SPAN','UL','OL','LI','BLOCKQUOTE',
+    'H1','H2','H3','H4','H5','H6','CODE','PRE'
+  ]);
+
   box.querySelectorAll('*').forEach(el=>{
-    const tag=el.tagName.toLowerCase();
-
-    if(tag==='mark' || tag==='br') return;
-
-    if(tag==='div' || tag==='p'){
-      const br=document.createElement('br');
-      el.before(br);
+    if(!allowedTags.has(el.tagName)){
       el.replaceWith(...el.childNodes);
       return;
     }
 
-    el.replaceWith(...el.childNodes);
+    [...el.attributes].forEach(attr=>{
+      if(attr.name.toLowerCase()!=='style'){
+        el.removeAttribute(attr.name);
+      }
+    });
+
+    if(el.hasAttribute('style')){
+      const keep=[];
+      const st=el.style;
+      if(st.fontWeight)keep.push('font-weight:'+st.fontWeight);
+      if(st.fontStyle)keep.push('font-style:'+st.fontStyle);
+      if(st.textDecoration)keep.push('text-decoration:'+st.textDecoration);
+      if(st.textAlign)keep.push('text-align:'+st.textAlign);
+      if(st.color)keep.push('color:'+st.color);
+      if(st.backgroundColor)keep.push('background-color:'+st.backgroundColor);
+
+      if(keep.length)el.setAttribute('style',keep.join(';'));
+      else el.removeAttribute('style');
+    }
   });
 
   return box.innerHTML;
+}
+
+function memoBold(){
+  const editor=$('memoEditor');
+  const sel=window.getSelection();
+
+  if(!sel || sel.rangeCount===0 || sel.isCollapsed){
+    alert('굵게 표시할 메모 글자를 먼저 선택하세요.');
+    editor.focus();
+    return;
+  }
+
+  const range=sel.getRangeAt(0);
+
+  if(!editor.contains(range.commonAncestorContainer)){
+    alert('메모 안의 글자를 선택하세요.');
+    return;
+  }
+
+  document.execCommand('bold',false,null);
+  editor.focus();
 }
 
 function memoHighlight(){
@@ -672,7 +723,7 @@ function getMemoHtml(){
 function setMemoHtml(value=''){
   const text=String(value||'');
 
-  if(/<(mark|br)\b/i.test(text)){
+  if(/<(mark|br|b|strong|i|em|u|s|del|p|div|span|ul|ol|li|blockquote|h[1-6]|code|pre)\b/i.test(text)){
     $('memoEditor').innerHTML=sanitizeMemoHtml(text);
     return;
   }
@@ -686,7 +737,7 @@ function setMemoHtml(value=''){
 function renderMemoHtml(value=''){
   const text=String(value||'');
 
-  if(/<(mark|br)\b/i.test(text)){
+  if(/<(mark|br|b|strong|i|em|u|s|del|p|div|span|ul|ol|li|blockquote|h[1-6]|code|pre)\b/i.test(text)){
     return sanitizeMemoHtml(text);
   }
 
@@ -701,6 +752,29 @@ function plainMemoText(value=''){
   box.innerHTML=renderMemoHtml(value);
   return box.textContent||'';
 }
+
+$('memoEditor').addEventListener('paste',function(e){
+  e.preventDefault();
+
+  const clipboard=e.clipboardData;
+  if(!clipboard)return;
+
+  const html=clipboard.getData('text/html');
+  const text=clipboard.getData('text/plain');
+
+  let insertHtml='';
+
+  if(html && html.trim()){
+    insertHtml=sanitizeMemoHtml(html);
+  }else if(text && /<\/?[a-z][\s\S]*>/i.test(text)){
+    insertHtml=sanitizeMemoHtml(text);
+  }else{
+    insertHtml=esc(text||'').replace(/\n/g,'<br>');
+  }
+
+  document.execCommand('insertHTML',false,insertHtml);
+});
+
 
 let cacheSaveTimer=null;
 function loadCache(){
