@@ -385,7 +385,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어 초등한자2</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어 초등한자4</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -484,10 +484,10 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbyFKIxOGaOZ8naL5tELNlPzRH2e6xSXfDtuZJm8q-a0R9dNN8Wyh_-wEh8BS5-g3ROtlA/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbzJo6a0kTRWFvGFk5fX4CgGi16l11fhUoLUPFClImQb4eo5n0cLf1LnvSC-99zlHi_R/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
-const CACHE_KEY='japhanja_cache_v5';
+const CACHE_KEY='japhanja_cache_v7';
 const FAVORITES_KEY='japhanja_favorites_v1';
 const LAST_CARD_KEY='japhanja_last_card_v1';
 let favoriteOnly=false;
@@ -864,8 +864,8 @@ function render(){
  const jpDisplay=(c.jp||'')+(kanaDisplay?'（'+kanaDisplay+'）':'');
  $('cardJp').textContent=jpDisplay||'(내용 없음)';
  fitJapaneseText(jpDisplay);
- $('cardReading').textContent=[c.reading,c.ko].filter(Boolean).join(' · ');
- $('cardKo').textContent='';
+ $('cardReading').textContent=c.reading||'';
+ $('cardKo').textContent=c.ko||'';
  $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
  updateFavoriteButton();
  $('answer').classList.remove('show');
@@ -1238,11 +1238,9 @@ function renderList(){
     <div class="listItem">
       <div class="listText" onclick="openCardFromList('${c.id}')">
         <b>${esc(c.jp)}${(c.hiragana||c.katakana)?'（'+esc([c.hiragana,c.katakana].filter(Boolean).join('／'))+'）':''}</b>
-        <div>${esc([c.reading,c.ko].filter(Boolean).join(' · '))}</div>
-        <div class="small">
-          ${esc(c.type||'1학년')}
-          ${c.reading?'· '+esc(c.reading):''}
-        </div>
+        <div>${c.reading?'발음: '+esc(c.reading):''}</div>
+        <div>${c.ko?'뜻: '+esc(c.ko):''}</div>
+        <div class="small">${esc(c.type||'1학년')}</div>
       </div>
 
       <button class="mini"
