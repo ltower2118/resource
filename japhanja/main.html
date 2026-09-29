@@ -385,7 +385,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어 초등한자</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어 초등한자1</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -467,7 +467,8 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
 <div class="field"><label>종류</label><select id="type"><option>1학년</option><option>2학년</option><option>3학년</option><option>4학년</option><option>5학년</option><option>6학년</option></select></div>
 <div class="field"><label>한자</label><input id="jp" placeholder="例: 山"></div>
-<div class="field"><label>히라가나 / 가타카나</label><input id="kana" placeholder="예: やま / ヤマ"></div>
+<div class="field"><label>히라가나</label><input id="hiragana" placeholder="예: やま"></div>
+<div class="field"><label>가타카나</label><input id="katakana" placeholder="예: ヤマ"></div>
 <div class="field"><label>한글 발음</label><input id="reading" placeholder="예: 야마"></div>
 <div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 산"></div>
 <div class="field">
@@ -483,10 +484,10 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbwA0Iptx0VJcH_2CMce93zS4u8VQk-crHzSxtfUgru5o4ezIYGoFCW9dNGaDGXKDOv2qw/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbzf_fvhuBeJJsPUxIaxMcBJ6PfqPUUrjxsxp5hHOq7ZxSqobOgq8bG1EEduyvMbgCH1rg/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
-const CACHE_KEY='japhanja_cache_v2';
+const CACHE_KEY='japhanja_cache_v5';
 const FAVORITES_KEY='japhanja_favorites_v1';
 const LAST_CARD_KEY='japhanja_last_card_v1';
 let favoriteOnly=false;
@@ -728,12 +729,15 @@ function saveCache(){
 
 function normalizeCard(c,index=0){
   c=c||{};
+  const legacyKana=String(c.kana??c.yomiKana??'').trim();
+  const parts=legacyKana.split(/[\/／]/).map(x=>x.trim()).filter(Boolean);
   return {
     id:String(c.id??c.ID??c.no??c.row??index+1),
     type:String(c.type||c.kind||'1학년').trim()||'1학년',
     jp:String(c.jp??c.japanese??c.word??'').trim(),
-    kana:String(c.kana??c.yomiKana??'').trim(),
-    reading:String(c.reading??c.kana??c.yomi??'').trim(),
+    hiragana:String(c.hiragana??c.hira??parts[0]??'').trim(),
+    katakana:String(c.katakana??c.kata??parts[1]??'').trim(),
+    reading:String(c.reading??c.koreanReading??c.yomiKo??'').trim(),
     ko:String(c.ko??c.meaning??c.korean??'').trim(),
     memo:String(c.memo??c.note??'').trim()
   };
@@ -744,7 +748,7 @@ function normalizeCards(list){
   return list
     .map((c,i)=>normalizeCard(c,i))
     // 한 칸이라도 내용이 있으면 카드로 유지
-    .filter(c=>c.jp||c.kana||c.ko||c.reading||c.memo);
+    .filter(c=>c.jp||c.hiragana||c.katakana||c.ko||c.reading||c.memo);
 }
 
 function cardsSignature(list){
@@ -819,7 +823,7 @@ function applyFilter(renderListToo=true){
 
   viewCards=cards.filter(c=>{
     const hit=!q||
-      [c.jp,c.kana,c.ko,c.reading,plainMemoText(c.memo)]
+      [c.jp,c.hiragana,c.katakana,c.ko,c.reading,plainMemoText(c.memo)]
         .join(' ')
         .toLowerCase()
         .includes(q);
@@ -856,7 +860,8 @@ function render(){
  if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'1학년';
- const jpDisplay=(c.jp||'')+(c.kana?'（'+c.kana+'）':'');
+ const kanaDisplay=[c.hiragana,c.katakana].filter(Boolean).join('／');
+ const jpDisplay=(c.jp||'')+(kanaDisplay?'（'+kanaDisplay+'）':'');
  $('cardJp').textContent=jpDisplay||'(내용 없음)';
  fitJapaneseText(jpDisplay);
  $('cardReading').textContent=[c.reading,c.ko].filter(Boolean).join(' · ');
@@ -1121,7 +1126,7 @@ function jumpTo(n){current=n-1;render();jumpDialog.close()}
 function openAdd(){
   $('menu').classList.add('hidden');
   $('editorTitle').textContent='새 카드';
-  ['id','jp','kana','reading','ko'].forEach(x=>$(x).value='');
+  ['id','jp','hiragana','katakana','reading','ko'].forEach(x=>$(x).value='');
   $('memoEditor').innerHTML='';
   $('type').value='1학년';
   editor.showModal();
@@ -1135,7 +1140,8 @@ function openEdit(id){
   $('id').value=c.id;
   $('type').value=c.type||'1학년';
   $('jp').value=c.jp||'';
-  $('kana').value=c.kana||'';
+  $('hiragana').value=c.hiragana||'';
+  $('katakana').value=c.katakana||'';
   $('reading').value=c.reading||'';
   $('ko').value=c.ko||'';
   setMemoHtml(c.memo||'');
@@ -1152,13 +1158,14 @@ async function saveCard(e){
     id:$('id').value,
     type:$('type').value,
     jp:$('jp').value.trim(),
-    kana:$('kana').value.trim(),
+    hiragana:$('hiragana').value.trim(),
+    katakana:$('katakana').value.trim(),
     reading:$('reading').value.trim(),
     ko:$('ko').value.trim(),
     memo:getMemoHtml()
   };
 
-  if(!card.jp&&!card.kana&&!card.reading&&!card.ko&&!plainMemoText(card.memo).trim()){
+  if(!card.jp&&!card.hiragana&&!card.katakana&&!card.reading&&!card.ko&&!plainMemoText(card.memo).trim()){
     alert('한자, 일본어 표기, 한글 발음, 한국어 뜻, 메모 중 하나 이상 입력하세요.');
     return;
   }
@@ -1230,7 +1237,7 @@ function renderList(){
   box.innerHTML=viewCards.map(c=>`
     <div class="listItem">
       <div class="listText" onclick="openCardFromList('${c.id}')">
-        <b>${esc(c.jp)}${c.kana?'（'+esc(c.kana)+'）':''}</b>
+        <b>${esc(c.jp)}${(c.hiragana||c.katakana)?'（'+esc([c.hiragana,c.katakana].filter(Boolean).join('／'))+'）':''}</b>
         <div>${esc([c.reading,c.ko].filter(Boolean).join(' · '))}</div>
         <div class="small">
           ${esc(c.type||'1학년')}
