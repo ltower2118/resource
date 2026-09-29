@@ -34,18 +34,30 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .jp{
   width:100%;
   max-width:100%;
-  max-height:52vh;
+  max-height:34vh;
   overflow:auto;
-  padding:8px 4px;
-  font-size:clamp(24px,9vw,72px);
-  font-weight:800;
-  line-height:1.45;
+  padding:6px 4px 0;
+  font-size:clamp(72px,20vw,132px);
+  font-weight:900;
+  line-height:1.08;
   white-space:normal;
   overflow-wrap:anywhere;
   word-break:break-word;
   user-select:text;
   -webkit-user-select:text;
   cursor:text;
+  text-align:center;
+}
+.card-kana{
+  width:100%;
+  margin-top:10px;
+  font-size:clamp(20px,5vw,30px);
+  font-weight:700;
+  line-height:1.35;
+  color:#475569;
+  text-align:center;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
 .reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
 .answer{
@@ -203,9 +215,9 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 .lookup-loading{color:var(--muted);font-size:14px}
 
 
-.jp.jp-medium{font-size:clamp(26px,6.5vw,50px)}
-.jp.jp-long{font-size:clamp(20px,4.8vw,38px)}
-.jp.jp-xlong{font-size:clamp(17px,3.8vw,30px);line-height:1.55}
+.jp.jp-medium{font-size:clamp(52px,13vw,92px)}
+.jp.jp-long{font-size:clamp(38px,9vw,68px)}
+.jp.jp-xlong{font-size:clamp(28px,7vw,50px);line-height:1.25}
 
 
 
@@ -366,8 +378,13 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   }
 
   .jp{
-    font-size:34px;;
-    max-height:46vh;
+    font-size:clamp(72px,22vw,110px);
+    max-height:30vh;
+  }
+
+  .card-kana{
+    margin-top:8px;
+    font-size:22px;
   }
 
   .answer{
@@ -385,11 +402,11 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어 초등한자6</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어 초등한자7</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
-<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
+<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardKana" class="card-kana"></div><div id="cardReading" class="reading"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
@@ -487,7 +504,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 const API_URL='https://script.google.com/macros/s/AKfycbxoMKqDmCNr3mjxXMQCZcVLbN_uP_gRNknLgH6ozQ5y0QFCQBCbf_zZgCGtw-hdXn3hsw/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
-const CACHE_KEY='japhanja_cache_final_v1';
+const CACHE_KEY='japhanja_cache_final_v2';
 const FAVORITES_KEY='japhanja_favorites_v1';
 const LAST_CARD_KEY='japhanja_last_card_v1';
 let favoriteOnly=false;
@@ -861,9 +878,9 @@ function render(){
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'1학년';
  const kanaDisplay=[c.hiragana,c.katakana].filter(Boolean).join('／');
- const jpDisplay=(c.jp||'')+(kanaDisplay?'（'+kanaDisplay+'）':'');
- $('cardJp').textContent=jpDisplay||'(내용 없음)';
- fitJapaneseText(jpDisplay);
+ $('cardJp').textContent=c.jp||'(내용 없음)';
+ $('cardKana').textContent=kanaDisplay?'（'+kanaDisplay+'）':'';
+ fitJapaneseText(c.jp||'');
  $('cardReading').textContent=c.reading||'';
  $('cardKo').textContent=c.ko||'';
  $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
