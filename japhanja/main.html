@@ -336,9 +336,6 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 }
 
 
-.speak-card-btn{position:absolute;left:50%;bottom:13px;transform:translateX(-50%);z-index:4;border:1px solid #d8dee8;background:#fff;color:#334155;border-radius:999px;padding:6px 11px;font-size:11px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.speak-card-btn:active{transform:translateX(-50%) scale(.97)}
-@media(max-width:520px){.speak-card-btn{bottom:10px}}
 
 /* Gemini AI 버튼 */
 .gemini-card-btn{
@@ -388,14 +385,13 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 초등 한자</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어 초등한자</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
 <div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
-<button type="button" class="speak-card-btn" onclick="speakCurrentCard(event)">🔊 읽기</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
 <div class="hint">터치: 뜻 보기 · 좌우 밀기: 다음 한자<br>Made by Ai & Ha You Sin</div>
 
@@ -403,7 +399,6 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </div>
 
 <div id="selectTools" class="select-tools hidden">
-  <button type="button" onclick="speakSelected()">🔊 발음</button>
   <button type="button" onclick="lookupSelected()">あ 히라가나·뜻</button>
   <button type="button" onclick="translateSelected()">Google 번역</button>
 </div>
@@ -414,7 +409,6 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   <div id="lookupMeaning" class="lookup-meaning"></div>
   <div id="lookupLoading" class="lookup-loading hidden">불러오는 중…</div>
   <div class="lookup-actions">
-    <button type="button" onclick="speakLookup()">🔊 발음 듣기</button>
     <button type="button" onclick="closeLookup()">닫기</button>
   </div>
 </div>
@@ -472,9 +466,10 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <dialog id="editor"><form class="modal" onsubmit="saveCard(event)">
 <h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
 <div class="field"><label>종류</label><select id="type"><option>1학년</option><option>2학년</option><option>3학년</option><option>4학년</option><option>5학년</option><option>6학년</option></select></div>
-<div class="field"><label>일본어</label><input id="jp" placeholder="例: 日本語"></div>
-<div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
-<div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 일본어"></div>
+<div class="field"><label>한자</label><input id="jp" placeholder="例: 山"></div>
+<div class="field"><label>히라가나 / 가타카나</label><input id="kana" placeholder="예: やま / ヤマ"></div>
+<div class="field"><label>한글 발음</label><input id="reading" placeholder="예: 야마"></div>
+<div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 산"></div>
 <div class="field">
 <label>메모</label>
 <div class="memo-toolbar">
@@ -488,10 +483,10 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbwrtrGdZpIFFKGqIoMxGLCE166Bl4yCIOOy9l8-VRN4Juq-Ve0UFJAkBmZSAuyOwXXhnw/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbwA0Iptx0VJcH_2CMce93zS4u8VQk-crHzSxtfUgru5o4ezIYGoFCW9dNGaDGXKDOv2qw/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
-const CACHE_KEY='japhanja_cache_v1';
+const CACHE_KEY='japhanja_cache_v2';
 const FAVORITES_KEY='japhanja_favorites_v1';
 const LAST_CARD_KEY='japhanja_last_card_v1';
 let favoriteOnly=false;
@@ -737,6 +732,7 @@ function normalizeCard(c,index=0){
     id:String(c.id??c.ID??c.no??c.row??index+1),
     type:String(c.type||c.kind||'1학년').trim()||'1학년',
     jp:String(c.jp??c.japanese??c.word??'').trim(),
+    kana:String(c.kana??c.yomiKana??'').trim(),
     reading:String(c.reading??c.kana??c.yomi??'').trim(),
     ko:String(c.ko??c.meaning??c.korean??'').trim(),
     memo:String(c.memo??c.note??'').trim()
@@ -748,7 +744,7 @@ function normalizeCards(list){
   return list
     .map((c,i)=>normalizeCard(c,i))
     // 한 칸이라도 내용이 있으면 카드로 유지
-    .filter(c=>c.jp||c.ko||c.reading||c.memo);
+    .filter(c=>c.jp||c.kana||c.ko||c.reading||c.memo);
 }
 
 function cardsSignature(list){
@@ -823,7 +819,7 @@ function applyFilter(renderListToo=true){
 
   viewCards=cards.filter(c=>{
     const hit=!q||
-      [c.jp,c.ko,c.reading,plainMemoText(c.memo)]
+      [c.jp,c.kana,c.ko,c.reading,plainMemoText(c.memo)]
         .join(' ')
         .toLowerCase()
         .includes(q);
@@ -860,10 +856,11 @@ function render(){
  if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'1학년';
- $('cardJp').textContent=c.jp||c.reading||c.ko||'(내용 없음)';
- fitJapaneseText(c.jp||c.reading||c.ko||'');
- $('cardReading').textContent=c.reading||'';
- $('cardKo').textContent=c.ko||'';
+ const jpDisplay=(c.jp||'')+(c.kana?'（'+c.kana+'）':'');
+ $('cardJp').textContent=jpDisplay||'(내용 없음)';
+ fitJapaneseText(jpDisplay);
+ $('cardReading').textContent=[c.reading,c.ko].filter(Boolean).join(' · ');
+ $('cardKo').textContent='';
  $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
  updateFavoriteButton();
  $('answer').classList.remove('show');
@@ -911,42 +908,7 @@ function showSelectionTools(){
 }
 
 
-function speakCurrentCard(e){
-  if(e){e.preventDefault();e.stopPropagation();}
-  if(!viewCards.length)return;
-  const text=String(viewCards[current]?.jp||'').trim();
-  if(!text)return;
-  if(!('speechSynthesis' in window)){alert('이 브라우저에서는 일본어 음성 읽기를 지원하지 않습니다.');return;}
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.85;
-  const ja=speechSynthesis.getVoices().find(v=>String(v.lang||'').toLowerCase().startsWith('ja'));
-  if(ja)u.voice=ja;speechSynthesis.speak(u);
-}
 
-/* 스마트폰/브라우저 내장 일본어 음성: 별도 다운로드 없음 */
-function speakSelected(){
-  const text=selectedJapanese||getSelectedJapanese();
-  if(!text)return;
-  hideSelectTools();
-
-  if(!('speechSynthesis' in window)){
-    alert('이 브라우저에서는 음성 읽기를 지원하지 않습니다.');
-    return;
-  }
-
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang='ja-JP';
-  u.rate=.85;
-
-  const voices=speechSynthesis.getVoices();
-  const ja=voices.find(v=>
-    String(v.lang||'').toLowerCase().startsWith('ja')
-  );
-  if(ja)u.voice=ja;
-
-  speechSynthesis.speak(u);
-}
 
 
 let lookupText='';
@@ -978,14 +940,6 @@ function closeLookup(){
   $('lookupBox').classList.add('hidden');
 }
 
-function speakLookup(){
-  if(!lookupText||!('speechSynthesis' in window))return;
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(lookupText);
-  u.lang='ja-JP';
-  u.rate=.85;
-  speechSynthesis.speak(u);
-}
 
 /* 선택한 일본어만 Google 번역 새 창으로 열기 */
 function translateSelected(){
@@ -1167,7 +1121,7 @@ function jumpTo(n){current=n-1;render();jumpDialog.close()}
 function openAdd(){
   $('menu').classList.add('hidden');
   $('editorTitle').textContent='새 카드';
-  ['id','jp','reading','ko'].forEach(x=>$(x).value='');
+  ['id','jp','kana','reading','ko'].forEach(x=>$(x).value='');
   $('memoEditor').innerHTML='';
   $('type').value='1학년';
   editor.showModal();
@@ -1181,6 +1135,7 @@ function openEdit(id){
   $('id').value=c.id;
   $('type').value=c.type||'1학년';
   $('jp').value=c.jp||'';
+  $('kana').value=c.kana||'';
   $('reading').value=c.reading||'';
   $('ko').value=c.ko||'';
   setMemoHtml(c.memo||'');
@@ -1197,13 +1152,14 @@ async function saveCard(e){
     id:$('id').value,
     type:$('type').value,
     jp:$('jp').value.trim(),
+    kana:$('kana').value.trim(),
     reading:$('reading').value.trim(),
     ko:$('ko').value.trim(),
     memo:getMemoHtml()
   };
 
-  if(!card.jp&&!card.reading&&!card.ko&&!plainMemoText(card.memo).trim()){
-    alert('일본어, 읽는 법, 한국어 뜻, 메모 중 하나 이상 입력하세요.');
+  if(!card.jp&&!card.kana&&!card.reading&&!card.ko&&!plainMemoText(card.memo).trim()){
+    alert('한자, 일본어 표기, 한글 발음, 한국어 뜻, 메모 중 하나 이상 입력하세요.');
     return;
   }
 
@@ -1274,8 +1230,8 @@ function renderList(){
   box.innerHTML=viewCards.map(c=>`
     <div class="listItem">
       <div class="listText" onclick="openCardFromList('${c.id}')">
-        <b>${esc(c.jp)}</b>
-        <div>${esc(c.ko)}</div>
+        <b>${esc(c.jp)}${c.kana?'（'+esc(c.kana)+'）':''}</b>
+        <div>${esc([c.reading,c.ko].filter(Boolean).join(' · '))}</div>
         <div class="small">
           ${esc(c.type||'1학년')}
           ${c.reading?'· '+esc(c.reading):''}
