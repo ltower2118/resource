@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>일본 초등학교 한자 플래시카드</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;--main:#2563eb;--danger:#dc2626;--line:#e5e7eb}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.topbar{height:54px;flex:0 0 54px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);z-index:10}
+.title{font-size:17px;font-weight:800}.top-right{display:flex;align-items:center;gap:6px}
+.counter-btn{border:0;background:#eef2f7;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:800;color:#374151}
+.icon-btn{width:40px;height:40px;border:0;border-radius:12px;background:transparent;font-size:22px}
+.stage{position:relative;flex:1;min-height:0;overflow:hidden;padding:7px;touch-action:pan-y}
+.track{position:relative;width:100%;height:100%}
+.flash{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;user-select:none;-webkit-user-select:none;touch-action:pan-y;will-change:transform,opacity;transition:transform .22s cubic-bezier(.22,.61,.36,1),opacity .22s ease}
+.flash.dragging{transition:none}.hidden{display:none!important}
+.type{position:absolute;top:15px;left:15px;font-size:12px;color:var(--main);font-weight:800;padding:5px 9px;background:#eff6ff;border-radius:999px}
+.favorite-btn{
+  position:absolute;top:12px;right:14px;z-index:5;
+  width:38px;height:38px;border:1px solid #dbe1e8;background:#fff;
+  color:#f59e0b;border-radius:50%;font-size:23px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.05)
+}
+.favorite-btn.active{background:#fff8db;border-color:#f4cf5d}
+.favorite-btn:active{transform:scale(.96)}
+.menu button.active-filter{background:#fff8db;border-color:#f4cf5d;color:#7a5b00}
+
+.jp{
+  width:100%;
+  max-width:100%;
+  max-height:52vh;
+  overflow:auto;
+  padding:8px 4px;
+  font-size:clamp(24px,9vw,72px);
+  font-weight:800;
+  line-height:1.45;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  user-select:text;
+  -webkit-user-select:text;
+  cursor:text;
+}
+.reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
+.answer{
+  display:none;
+  width:min(92%,700px);
+  max-height:42vh;
+  margin-top:26px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  overflow:hidden;
+}
+.answer.show{
+  display:flex;
+  flex-direction:column;
+}
+.ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}
+.memo{
+  width:100%;
+  max-height:26vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  font-size:20px !important;
+
+  color:var(--muted);
+  margin-top:10px;
+  padding:4px 2px 8px;
+  white-space:pre-wrap;
+  text-align:left;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  -webkit-overflow-scrolling:touch;
+}
+
+.memo mark{
+  background:#fff176;
+  color:inherit;
+  padding:0 .08em;
+  border-radius:3px;
+}
+.memo-toolbar{
+  display:flex;
+  gap:6px;
+  margin:6px 0 7px;
+  flex-wrap:wrap;
+}
+.memo-tool-btn{
+  border:1px solid #cbd5e1;
+  background:#fff;
+  color:#334155;
+  border-radius:9px;
+  padding:7px 10px;
+  font-size:12px;
+  font-weight:800;
+}
+.memo-tool-btn.highlight{
+  background:#fff59d;
+  border-color:#f4d03f;
+  color:#5b4a00;
+}
+.memo-tool-btn:active{transform:scale(.97)}
+.memo-editor{
+  width:100%;
+  min-height:120px;
+  max-height:240px;
+  overflow:auto;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  padding:11px 12px;
+  background:#fff;
+  line-height:1.6;
+  text-align:left;
+  white-space:pre-wrap;
+  word-break:break-word;
+  outline:none;
+}
+.memo-editor:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 2px rgba(37,99,235,.08);
+}
+.memo-editor:empty:before{
+  content:'메모 입력';
+  color:#94a3b8;
+}
+.memo-editor mark{
+  background:#fff176;
+  color:inherit;
+}
+.memo-help{
+  font-size:11px;
+  color:#94a3b8;
+  margin-top:5px;
+  line-height:1.4;
+}
+
+.hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
+.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
+.menu{position:fixed;top:58px;right:10px;z-index:30;width:min(92vw,340px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
+.menu-row{display:flex;gap:8px;margin-bottom:8px}.menu input,.menu select,.menu button{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:11px;background:#fff}.menu button{font-weight:700}.menu button.primary{background:var(--main);color:#fff;border-color:var(--main)}
+.status{font-size:12px;color:var(--muted);padding:5px 3px 0}
+.list-screen{position:fixed;inset:54px 0 0;z-index:20;background:var(--bg);overflow:auto;padding:10px}
+.list-head{position:sticky;top:-10px;z-index:2;display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 2px 10px}.close-btn,.mini{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:8px 10px;font-weight:700}.danger{color:var(--danger)}
+.listItem{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+.listText{flex:1;min-width:0;cursor:pointer;border-radius:10px;padding:3px 4px}
+.listText:active{background:#f1f5f9}
+.listText b{font-size:18px}
+.small{font-size:13px;color:var(--muted);margin-top:4px}
+dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90dvh;box-shadow:0 20px 60px rgba(0,0,0,.28)}dialog::backdrop{background:rgba(0,0,0,.45)}
+.modal,.jump-box{padding:20px;overflow:auto}.modal h2,.jump-box h2{margin:0 0 12px}.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px 12px}.field textarea{min-height:76px;resize:vertical}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.modal-actions button{padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:700}.modal-actions .primary{background:var(--main);color:#fff;border-color:var(--main)}
+.save-btn-loading{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.save-spinner{
+  width:16px;
+  height:16px;
+  border:2px solid rgba(255,255,255,.45);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:saveSpin .7s linear infinite;
+}
+@keyframes saveSpin{to{transform:rotate(360deg)}}
+
+
+.jump-controls{display:grid;grid-template-columns:1fr auto;gap:8px}.jump-controls input{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:13px;font-size:18px;text-align:center}.jump-controls button{border:0;border-radius:11px;padding:0 18px;background:var(--main);color:#fff;font-weight:800}
+.quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}.quick-numbers button{border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:42px;font-weight:700}.quick-numbers button.current{background:var(--main);color:#fff;border-color:var(--main)}.jump-close{width:100%;margin-top:12px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
+
+.select-tools{
+  position:fixed;z-index:60;display:flex;gap:6px;
+  background:#17202a;padding:6px;border-radius:12px;
+  box-shadow:0 8px 28px rgba(0,0,0,.28);
+}
+.select-tools button{
+  border:0;background:#fff;color:#17202a;border-radius:8px;
+  padding:8px 10px;font-size:13px;font-weight:800;white-space:nowrap;
+}
+.select-tools button:active{transform:scale(.96)}
+
+
+.lookup-box{
+  position:fixed;z-index:70;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:min(90vw,420px);background:#fff;border:1px solid var(--line);
+  border-radius:18px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
+.lookup-word{font-size:30px;font-weight:800;margin-bottom:8px}
+.lookup-kana{font-size:22px;color:var(--main);font-weight:750;margin-bottom:10px}
+.lookup-meaning{font-size:18px;line-height:1.5;margin-bottom:14px}
+.lookup-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lookup-actions button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:10px;font-weight:700}
+.lookup-loading{color:var(--muted);font-size:14px}
+
+
+.jp.jp-medium{font-size:clamp(26px,6.5vw,50px)}
+.jp.jp-long{font-size:clamp(20px,4.8vw,38px)}
+.jp.jp-xlong{font-size:clamp(17px,3.8vw,30px);line-height:1.55}
+
+
+
+/* 히라가나·가타카나 빠른 확인 */
+.kana-card-btn{
+  position:absolute;
+  right:14px;
+  bottom:13px;
+  z-index:4;
+  border:1px solid #d8dee8;
+  background:#fff;
+  color:#334155;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:11px;
+  font-weight:800;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.kana-card-btn:active{transform:scale(.97)}
+
+.kana-overlay{
+  position:fixed;
+  inset:0;
+  z-index:110;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  background:rgba(0,0,0,.46);
+}
+.kana-overlay.show{display:flex}
+
+.kana-panel{
+  width:min(96vw,680px);
+  max-height:90dvh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
+.kana-head{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 14px;
+  border-bottom:1px solid var(--line);
+}
+.kana-head b{font-size:16px}
+.kana-close{
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:10px;
+  background:#eef2f7;
+  font-size:20px;
+  font-weight:800;
+}
+.kana-body{
+  overflow:auto;
+  padding:12px;
+}
+.kana-note{
+  margin:0 0 10px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+.kana-vowel-head{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+  margin-bottom:8px;
+}
+.kana-vowel-head div{
+  text-align:center;
+  font-size:14px;
+  font-weight:900;
+  color:#475569;
+  padding:5px 0;
+}
+.kana-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+}
+.kana-cell{
+  min-height:76px;
+  border:1px solid #dbe3ed;
+  border-radius:12px;
+  background:#f8fafc;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:7px 3px;
+}
+.kana-jp{
+  font-size:30px; /* ← 히라가나/가타카나 크기 */
+  font-weight:850;
+  line-height:1.15;
+  color:#17202a;
+}
+.kana-ko{
+  font-size:20px;
+  font-weight:750;
+  color:#2563eb;
+  margin-top:7px;
+  line-height:1.2;
+}
+.kana-section-title{
+  margin:18px 0 9px;
+  font-size:17px;
+  font-weight:900;
+  color:#1e3a8a;
+  padding-bottom:6px;
+  border-bottom:1px solid #e2e8f0;
+}
+@media(max-width:520px){
+  .kana-card-btn{right:10px;bottom:10px}
+  .kana-panel{width:100%;max-height:92dvh}
+  .kana-cell{min-height:58px}
+  .kana-jp{font-size:24px}
+    .kana-ko{font-size:14px}
+}
+
+
+.speak-card-btn{position:absolute;left:50%;bottom:13px;transform:translateX(-50%);z-index:4;border:1px solid #d8dee8;background:#fff;color:#334155;border-radius:999px;padding:6px 11px;font-size:11px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.speak-card-btn:active{transform:translateX(-50%) scale(.97)}
+@media(max-width:520px){.speak-card-btn{bottom:10px}}
+
+/* Gemini AI 버튼 */
+.gemini-card-btn{
+  position:absolute;
+  left:14px;
+  bottom:13px;
+  z-index:4;
+  border:1px solid #d8dee8;
+  background:#fff;
+  color:#445;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:11px;
+  font-weight:800;
+  box-shadow:0 2px 8px rgba(0,0,0,.06)
+}
+.gemini-card-btn:active{transform:scale(.97)}
+@media(max-width:520px){
+  .gemini-card-btn{left:10px;bottom:10px}
+}
+
+@media(max-width:520px){
+  .stage{padding:5px}
+
+  .flash{
+    border-radius:19px;
+    padding:24px 14px;
+  }
+
+  .jp{
+    font-size:34px;;
+    max-height:46vh;
+  }
+
+  .answer{
+    max-height:44vh;
+    margin-top:18px;
+    padding-top:16px;
+  }
+
+  .memo{
+    max-height:28vh;
+    font-size:18px !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar"><div class="title">🇯🇵 초등 한자</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<main class="stage"><div class="track">
+<div id="empty" class="empty">카드를 불러오는 중입니다…</div>
+<div id="flash" class="flash hidden">
+<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
+<div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
+<button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
+<button type="button" class="speak-card-btn" onclick="speakCurrentCard(event)">🔊 읽기</button>
+<button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
+<div class="hint">터치: 뜻 보기 · 좌우 밀기: 다음 한자<br>Made by Ai & Ha You Sin</div>
+
+</div></div></main>
+</div>
+
+<div id="selectTools" class="select-tools hidden">
+  <button type="button" onclick="speakSelected()">🔊 발음</button>
+  <button type="button" onclick="lookupSelected()">あ 히라가나·뜻</button>
+  <button type="button" onclick="translateSelected()">Google 번역</button>
+</div>
+
+<div id="lookupBox" class="lookup-box hidden">
+  <div id="lookupWord" class="lookup-word"></div>
+  <div id="lookupKana" class="lookup-kana"></div>
+  <div id="lookupMeaning" class="lookup-meaning"></div>
+  <div id="lookupLoading" class="lookup-loading hidden">불러오는 중…</div>
+  <div class="lookup-actions">
+    <button type="button" onclick="speakLookup()">🔊 발음 듣기</button>
+    <button type="button" onclick="closeLookup()">닫기</button>
+  </div>
+</div>
+
+
+
+<div id="kanaOverlay" class="kana-overlay" aria-hidden="true">
+  <div class="kana-panel" role="dialog" aria-modal="true" aria-label="히라가나 가타카나 표">
+    <div class="kana-head">
+      <b>일본어 가나표 · 한글 발음</b>
+      <button type="button" class="kana-close" onclick="closeKanaChart()" aria-label="닫기">×</button>
+    </div>
+    <div class="kana-body">
+      <p class="kana-note">히라가나와 가타카나를 따로 표시했습니다. 파란색 한글은 읽는 법을 빠르게 확인하기 위한 근사 발음입니다.</p>
+      <div class="kana-section-title">히라가나</div>
+      <div class="kana-vowel-head">
+        <div>あ단</div><div>い단</div><div>う단</div><div>え단</div><div>お단</div>
+      </div>
+      <div id="hiraganaGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">가타카나</div>
+      <div class="kana-vowel-head">
+        <div>ア단</div><div>イ단</div><div>ウ단</div><div>エ단</div><div>オ단</div>
+      </div>
+      <div id="katakanaGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">탁음 · 반탁음 — 히라가나</div>
+      <div id="hiraganaVoiceGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">탁음 · 반탁음 — 가타카나</div>
+      <div id="katakanaVoiceGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">요음 — 히라가나</div>
+      <div id="hiraganaComboGrid" class="kana-grid"></div>
+
+      <div class="kana-section-title">요음 — 가타카나</div>
+      <div id="katakanaComboGrid" class="kana-grid"></div>
+    </div>
+  </div>
+</div>
+
+<div id="menu" class="menu hidden">
+<div class="menu-row"><input id="search" placeholder="검색"></div>
+<div class="menu-row"><select id="filter"><option value="all">전체 학년 (1,026자)</option><option value="1학년">1학년 · 80자</option><option value="2학년">2학년 · 160자</option><option value="3학년">3학년 · 200자</option><option value="4학년">4학년 · 202자</option><option value="5학년">5학년 · 193자</option><option value="6학년">6학년 · 191자</option></select></div>
+<div class="menu-row"><button class="primary" onclick="openAdd()">＋ 새 카드</button><button onclick="editCurrent()">수정</button></div>
+<div class="menu-row"><button onclick="showList()">목록</button><button onclick="syncCards(true)">↻ 동기화</button></div>
+<div class="menu-row"><button id="favoriteFilterBtn" onclick="toggleFavoriteFilter()">☆ 즐겨찾기만</button><button onclick="goRandomCard()">🎲 랜덤</button></div>
+<div id="syncStatus" class="status">준비</div><div class="status">문부과학성 학년별 교육한자 1,026자 · japhanja</div>
+</div>
+
+<section id="listView" class="list-screen hidden"><div class="list-head"><b>카드 목록</b><button class="close-btn" onclick="hideList()">닫기</button></div><div id="list"></div></section>
+
+<dialog id="jumpDialog"><div class="jump-box"><h2>카드 번호 이동</h2><div class="jump-controls"><input id="jumpInput" type="number" min="1" inputmode="numeric"><button onclick="jumpFromInput()">이동</button></div><div id="quickNumbers" class="quick-numbers"></div><button class="jump-close" onclick="jumpDialog.close()">닫기</button></div></dialog>
+
+<dialog id="editor"><form class="modal" onsubmit="saveCard(event)">
+<h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
+<div class="field"><label>종류</label><select id="type"><option>1학년</option><option>2학년</option><option>3학년</option><option>4학년</option><option>5학년</option><option>6학년</option></select></div>
+<div class="field"><label>일본어</label><input id="jp" placeholder="例: 日本語"></div>
+<div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
+<div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 일본어"></div>
+<div class="field">
+<label>메모</label>
+<div class="memo-toolbar">
+  <button type="button" class="memo-tool-btn highlight" onmousedown="event.preventDefault()" onclick="memoHighlight()">🖍 형광펜</button>
+  <button type="button" class="memo-tool-btn" onmousedown="event.preventDefault()" onclick="memoClearHighlight()">형광 제거</button>
+</div>
+<div id="memoEditor" class="memo-editor" contenteditable="true"></div>
+<div class="memo-help">메모 글자를 드래그 선택한 뒤 형광펜 버튼을 누르세요.</div>
+</div>
+<div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button id="saveCardBtn" class="primary" type="submit">바로 저장</button></div>
+</form></dialog>
+
+<script>
+const API_URL='https://script.google.com/macros/s/AKfycbwrtrGdZpIFFKGqIoMxGLCE166Bl4yCIOOy9l8-VRN4Juq-Ve0UFJAkBmZSAuyOwXXhnw/exec';
+// Gemini 공유 대화 주소를 여기에 고정 입력하세요.
+const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
+const CACHE_KEY='japhanja_cache_v1';
+const FAVORITES_KEY='japhanja_favorites_v1';
+const LAST_CARD_KEY='japhanja_last_card_v1';
+let favoriteOnly=false;
+let favoriteIds=new Set();
+let cards=[],viewCards=[],current=0;
+let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
+let selectedJapanese='';
+const $=id=>document.getElementById(id);
+
+function loadFavorites(){
+  try{
+    const arr=JSON.parse(localStorage.getItem(FAVORITES_KEY)||'[]');
+    favoriteIds=new Set(Array.isArray(arr)?arr.map(String):[]);
+  }catch(_){
+    favoriteIds=new Set();
+  }
+}
+function saveFavorites(){
+  try{
+    localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favoriteIds]));
+  }catch(_){}
+}
+function rememberLastCard(){
+  try{
+    if(!viewCards.length)return;
+    const id=String(viewCards[current]?.id||'');
+    if(id)localStorage.setItem(LAST_CARD_KEY,id);
+  }catch(_){}
+}
+
+function restoreLastCard(){
+  try{
+    const id=String(localStorage.getItem(LAST_CARD_KEY)||'');
+    if(!id||!viewCards.length)return false;
+    const idx=viewCards.findIndex(c=>String(c.id)===id);
+    if(idx<0)return false;
+    current=idx;
+    return true;
+  }catch(_){
+    return false;
+  }
+}
+
+function isFavorite(id){
+  return favoriteIds.has(String(id||''));
+}
+function updateFavoriteButton(){
+  const btn=$('favoriteBtn');
+  if(!btn)return;
+  if(!viewCards.length){
+    btn.textContent='☆';
+    btn.classList.remove('active');
+    return;
+  }
+  const id=String(viewCards[current]?.id||'');
+  const on=isFavorite(id);
+  btn.textContent=on?'★':'☆';
+  btn.classList.toggle('active',on);
+  btn.setAttribute('aria-label',on?'즐겨찾기 해제':'즐겨찾기 추가');
+}
+function toggleFavorite(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  if(!viewCards.length)return;
+  const id=String(viewCards[current]?.id||'');
+  if(!id)return;
+  if(isFavorite(id)) favoriteIds.delete(id);
+  else favoriteIds.add(id);
+  saveFavorites();
+  updateFavoriteButton();
+  if(favoriteOnly) applyFilter(false);
+}
+function toggleFavoriteFilter(){
+  favoriteOnly=!favoriteOnly;
+  const btn=$('favoriteFilterBtn');
+  if(btn){
+    btn.textContent=favoriteOnly?'★ 전체 카드 보기':'☆ 즐겨찾기만';
+    btn.classList.toggle('active-filter',favoriteOnly);
+  }
+  current=0;
+  applyFilter(false);
+}
+function goRandomCard(){
+  $('menu').classList.add('hidden');
+  if(!viewCards.length){
+    alert('표시할 카드가 없습니다.');
+    return;
+  }
+  if(viewCards.length===1){render();return;}
+  let next=current;
+  while(next===current){
+    next=Math.floor(Math.random()*viewCards.length);
+  }
+  current=next;
+  render();
+}
+
+
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function sanitizeMemoHtml(html=''){
+  const box=document.createElement('div');
+  box.innerHTML=String(html||'');
+
+  box.querySelectorAll('*').forEach(el=>{
+    const tag=el.tagName.toLowerCase();
+
+    if(tag==='mark' || tag==='br') return;
+
+    if(tag==='div' || tag==='p'){
+      const br=document.createElement('br');
+      el.before(br);
+      el.replaceWith(...el.childNodes);
+      return;
+    }
+
+    el.replaceWith(...el.childNodes);
+  });
+
+  return box.innerHTML;
+}
+
+function memoHighlight(){
+  const editor=$('memoEditor');
+  const sel=window.getSelection();
+
+  if(!sel || sel.rangeCount===0 || sel.isCollapsed){
+    alert('형광색으로 표시할 메모 글자를 먼저 선택하세요.');
+    editor.focus();
+    return;
+  }
+
+  const range=sel.getRangeAt(0);
+
+  if(!editor.contains(range.commonAncestorContainer)){
+    alert('메모 안의 글자를 선택하세요.');
+    return;
+  }
+
+  const mark=document.createElement('mark');
+
+  try{
+    range.surroundContents(mark);
+  }catch(e){
+    const frag=range.extractContents();
+    mark.appendChild(frag);
+    range.insertNode(mark);
+  }
+
+  sel.removeAllRanges();
+  const newRange=document.createRange();
+  newRange.selectNodeContents(mark);
+  sel.addRange(newRange);
+}
+
+function memoClearHighlight(){
+  const editor=$('memoEditor');
+  const sel=window.getSelection();
+
+  if(sel && sel.rangeCount && !sel.isCollapsed){
+    const range=sel.getRangeAt(0);
+
+    [...editor.querySelectorAll('mark')].forEach(mark=>{
+      try{
+        if(range.intersectsNode(mark)){
+          mark.replaceWith(...mark.childNodes);
+        }
+      }catch(_){}
+    });
+
+    return;
+  }
+
+  if(confirm('메모의 형광 표시를 모두 제거할까요?')){
+    editor.querySelectorAll('mark').forEach(mark=>{
+      mark.replaceWith(...mark.childNodes);
+    });
+  }
+}
+
+function getMemoHtml(){
+  return sanitizeMemoHtml($('memoEditor').innerHTML);
+}
+
+function setMemoHtml(value=''){
+  const text=String(value||'');
+
+  if(/<(mark|br)\b/i.test(text)){
+    $('memoEditor').innerHTML=sanitizeMemoHtml(text);
+    return;
+  }
+
+  $('memoEditor').innerHTML=esc(text)
+    .replaceAll('[[HL]]','<mark>')
+    .replaceAll('[[/HL]]','</mark>')
+    .replace(/\n/g,'<br>');
+}
+
+function renderMemoHtml(value=''){
+  const text=String(value||'');
+
+  if(/<(mark|br)\b/i.test(text)){
+    return sanitizeMemoHtml(text);
+  }
+
+  return esc(text)
+    .replaceAll('[[HL]]','<mark>')
+    .replaceAll('[[/HL]]','</mark>')
+    .replace(/\n/g,'<br>');
+}
+
+function plainMemoText(value=''){
+  const box=document.createElement('div');
+  box.innerHTML=renderMemoHtml(value);
+  return box.textContent||'';
+}
+
+let cacheSaveTimer=null;
+function loadCache(){
+  try{
+    const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
+    if(Array.isArray(x)&&x.length){
+      cards=normalizeCards(x);
+      applyFilter(false);
+      if(restoreLastCard()) render();
+      $('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';
+      return true;
+    }
+  }catch(_){}
+  return false;
+}
+function saveCache(){
+  clearTimeout(cacheSaveTimer);
+  cacheSaveTimer=setTimeout(()=>{
+    try{
+      localStorage.setItem(CACHE_KEY,JSON.stringify(cards));
+    }catch(_){}
+  },250);
+}
+
+function normalizeCard(c,index=0){
+  c=c||{};
+  return {
+    id:String(c.id??c.ID??c.no??c.row??index+1),
+    type:String(c.type||c.kind||'1학년').trim()||'1학년',
+    jp:String(c.jp??c.japanese??c.word??'').trim(),
+    reading:String(c.reading??c.kana??c.yomi??'').trim(),
+    ko:String(c.ko??c.meaning??c.korean??'').trim(),
+    memo:String(c.memo??c.note??'').trim()
+  };
+}
+
+function normalizeCards(list){
+  if(!Array.isArray(list))return [];
+  return list
+    .map((c,i)=>normalizeCard(c,i))
+    // 한 칸이라도 내용이 있으면 카드로 유지
+    .filter(c=>c.jp||c.ko||c.reading||c.memo);
+}
+
+function cardsSignature(list){
+  if(!Array.isArray(list)||!list.length)return '0';
+  const first=list[0]||{};
+  const last=list[list.length-1]||{};
+  return [
+    list.length,
+    first.id||'',
+    first.jp||'',
+    last.id||'',
+    last.jp||''
+  ].join('|');
+}
+
+async function request(action,data={}){
+ const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data}),cache:'no-store'});
+ const j=await r.json();if(!j.ok)throw new Error(j.error||'요청 실패');return j;
+}
+let syncRunning=false;
+let lastSyncSignature='';
+
+async function syncCards(manual=false){
+  if(syncRunning){
+    if(manual)$('syncStatus').textContent='이미 동기화 중…';
+    return;
+  }
+
+  syncRunning=true;
+  $('syncStatus').textContent=manual?'최신 자료 동기화 중…':'시트 확인 중…';
+
+  try{
+    const j=await request('list');
+    const nextCards=normalizeCards(j.cards||[]);
+    const nextSig=cardsSignature(nextCards);
+
+    if(nextSig!==lastSyncSignature || !cards.length){
+      const keepId=String(viewCards[current]?.id||localStorage.getItem(LAST_CARD_KEY)||'');
+      cards=nextCards;
+      lastSyncSignature=nextSig;
+      saveCache();
+
+      // 동기화 후에도 보고 있던 카드를 유지
+      applyFilter(false);
+      if(keepId){
+        const keepIndex=viewCards.findIndex(c=>String(c.id)===keepId);
+        if(keepIndex>=0){
+          current=keepIndex;
+          render();
+        }
+      }
+    }
+
+    $('syncStatus').textContent='최신 동기화 완료 · '+cards.length+'개';
+
+  }catch(e){
+    $('syncStatus').textContent=
+      cards.length
+        ? '연결 지연 · 저장된 카드 사용'
+        : '연결 실패';
+
+    if(!cards.length){
+      $('empty').textContent=e.message||'카드를 불러오지 못했습니다.';
+    }
+  }finally{
+    syncRunning=false;
+  }
+}
+function applyFilter(renderListToo=true){
+  const q=$('search').value.trim().toLowerCase();
+  const f=$('filter').value;
+
+  viewCards=cards.filter(c=>{
+    const hit=!q||
+      [c.jp,c.ko,c.reading,plainMemoText(c.memo)]
+        .join(' ')
+        .toLowerCase()
+        .includes(q);
+
+    return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id));
+  });
+
+  current=Math.min(
+    current,
+    Math.max(0,viewCards.length-1)
+  );
+
+  render();
+
+  // 목록 화면이 실제로 열려 있을 때만 대량 DOM 생성
+  if(
+    renderListToo &&
+    !$('listView').classList.contains('hidden')
+  ){
+    renderList();
+  }
+}
+function fitJapaneseText(text=''){
+ const el=$('cardJp');
+ el.classList.remove('jp-medium','jp-long','jp-xlong');
+ const len=Array.from(String(text)).length;
+ if(len>80)el.classList.add('jp-xlong');
+ else if(len>45)el.classList.add('jp-long');
+ else if(len>20)el.classList.add('jp-medium');
+}
+
+function render(){
+ hideSelectTools();
+ if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();return}
+ const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
+ $('cardType').textContent=c.type||'1학년';
+ $('cardJp').textContent=c.jp||c.reading||c.ko||'(내용 없음)';
+ fitJapaneseText(c.jp||c.reading||c.ko||'');
+ $('cardReading').textContent=c.reading||'';
+ $('cardKo').textContent=c.ko||'';
+ $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
+ updateFavoriteButton();
+ $('answer').classList.remove('show');
+ $('counter').textContent=`${current+1} / ${viewCards.length}`;
+ $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
+ rememberLastCard();
+}
+
+function hideSelectTools(){
+  $('selectTools').classList.add('hidden');
+}
+function getSelectedJapanese(){
+  const sel=window.getSelection();
+  if(!sel||sel.rangeCount===0)return '';
+  const text=sel.toString().trim();
+  if(!text)return '';
+  const range=sel.getRangeAt(0);
+  const node=range.commonAncestorContainer.nodeType===1
+    ?range.commonAncestorContainer
+    :range.commonAncestorContainer.parentElement;
+  if(!node||!$('cardJp').contains(node))return '';
+  return text;
+}
+function showSelectionTools(){
+  setTimeout(()=>{
+    const text=getSelectedJapanese();
+    if(!text){hideSelectTools();return;}
+    selectedJapanese=text;
+    const sel=window.getSelection();
+    const rect=sel.getRangeAt(0).getBoundingClientRect();
+    const box=$('selectTools');
+    box.classList.remove('hidden');
+
+    const boxW=box.offsetWidth||150;
+    const boxH=box.offsetHeight||44;
+    let left=rect.left+(rect.width/2)-(boxW/2);
+    let top=rect.top-boxH-10;
+
+    left=Math.max(8,Math.min(window.innerWidth-boxW-8,left));
+    if(top<8)top=Math.min(window.innerHeight-boxH-8,rect.bottom+10);
+
+    box.style.left=left+'px';
+    box.style.top=top+'px';
+  },30);
+}
+
+
+function speakCurrentCard(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  if(!viewCards.length)return;
+  const text=String(viewCards[current]?.jp||'').trim();
+  if(!text)return;
+  if(!('speechSynthesis' in window)){alert('이 브라우저에서는 일본어 음성 읽기를 지원하지 않습니다.');return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.85;
+  const ja=speechSynthesis.getVoices().find(v=>String(v.lang||'').toLowerCase().startsWith('ja'));
+  if(ja)u.voice=ja;speechSynthesis.speak(u);
+}
+
+/* 스마트폰/브라우저 내장 일본어 음성: 별도 다운로드 없음 */
+function speakSelected(){
+  const text=selectedJapanese||getSelectedJapanese();
+  if(!text)return;
+  hideSelectTools();
+
+  if(!('speechSynthesis' in window)){
+    alert('이 브라우저에서는 음성 읽기를 지원하지 않습니다.');
+    return;
+  }
+
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ja-JP';
+  u.rate=.85;
+
+  const voices=speechSynthesis.getVoices();
+  const ja=voices.find(v=>
+    String(v.lang||'').toLowerCase().startsWith('ja')
+  );
+  if(ja)u.voice=ja;
+
+  speechSynthesis.speak(u);
+}
+
+
+let lookupText='';
+
+async function lookupSelected(){
+  const text=selectedJapanese||getSelectedJapanese();
+  if(!text)return;
+  hideSelectTools();
+  lookupText=text;
+
+  $('lookupWord').textContent=text;
+  $('lookupKana').textContent='';
+  $('lookupMeaning').textContent='';
+  $('lookupLoading').classList.remove('hidden');
+  $('lookupBox').classList.remove('hidden');
+
+  try{
+    const j=await request('lookup',{text:text});
+    $('lookupKana').textContent=j.kana||'';
+    $('lookupMeaning').textContent=j.meaning||'';
+  }catch(e){
+    $('lookupMeaning').textContent='히라가나/뜻을 불러오지 못했습니다.';
+  }finally{
+    $('lookupLoading').classList.add('hidden');
+  }
+}
+
+function closeLookup(){
+  $('lookupBox').classList.add('hidden');
+}
+
+function speakLookup(){
+  if(!lookupText||!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(lookupText);
+  u.lang='ja-JP';
+  u.rate=.85;
+  speechSynthesis.speak(u);
+}
+
+/* 선택한 일본어만 Google 번역 새 창으로 열기 */
+function translateSelected(){
+  const text=selectedJapanese||getSelectedJapanese();
+  if(!text)return;
+  hideSelectTools();
+  const url='https://translate.google.com/?sl=ja&tl=ko&text='+
+    encodeURIComponent(text)+'&op=translate';
+  window.open(url,'_blank','noopener,noreferrer');
+}
+
+$('cardJp').addEventListener('pointerup',e=>{
+  /* 텍스트 선택이 있으면 카드 뒤집기/스와이프보다 선택 도구 우선 */
+  setTimeout(()=>{
+    if(getSelectedJapanese()){
+      moved=true;
+      showSelectionTools();
+    }
+  },0);
+});
+
+$('cardJp').addEventListener('touchend',()=>{
+  setTimeout(()=>{
+    if(getSelectedJapanese()){
+      moved=true;
+      showSelectionTools();
+    }
+  },120);
+});
+
+document.addEventListener('selectionchange',()=>{
+  const text=getSelectedJapanese();
+  if(!text)hideSelectTools();
+});
+
+function flipCard(){if(!animating&&!moved)$('answer').classList.toggle('show')}
+
+const flash=$('flash');
+flash.addEventListener('pointerdown',e=>{if(animating||!viewCards.length)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;flash.classList.add('dragging');try{flash.setPointerCapture(e.pointerId)}catch(_){}});
+flash.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-startX,dy=e.clientY-startY;if(!moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){dragging=false;flash.classList.remove('dragging');return}if(Math.abs(dx)>6)moved=true;currentX=dx;flash.style.transform=`translateX(${dx}px)`;flash.style.opacity=Math.max(.55,1-Math.abs(dx)/((flash.clientWidth||1)*1.4))});
+flash.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;flash.classList.remove('dragging');const threshold=Math.min(90,flash.clientWidth*.16);if(Math.abs(currentX)>=threshold)swipe(currentX<0?1:-1);else{flash.style.transform='translateX(0)';flash.style.opacity='1';if(!moved)flipCard();setTimeout(()=>moved=false,0)}});
+flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remove('dragging');flash.style.transform='translateX(0)';flash.style.opacity='1'});
+function swipe(step){if(animating)return;animating=true;const w=flash.clientWidth;flash.style.transform=`translateX(${step>0?-w:w}px)`;flash.style.opacity='0';setTimeout(()=>{current=(current+step+viewCards.length)%viewCards.length;render();flash.classList.add('dragging');flash.style.transform=`translateX(${step>0?w:-w}px)`;flash.style.opacity='0';void flash.offsetWidth;flash.classList.remove('dragging');requestAnimationFrame(()=>{flash.style.transform='translateX(0)';flash.style.opacity='1'});setTimeout(()=>{animating=false;moved=false},230)},190)}
+
+
+
+const KANA_BASIC=[
+ ['あ','ア','아'],['い','イ','이'],['う','ウ','우'],['え','エ','에'],['お','オ','오'],
+ ['か','カ','카'],['き','キ','키'],['く','ク','쿠'],['け','ケ','케'],['こ','コ','코'],
+ ['さ','サ','사'],['し','シ','시'],['す','ス','스'],['せ','セ','세'],['そ','ソ','소'],
+ ['た','タ','타'],['ち','チ','치'],['つ','ツ','츠'],['て','テ','테'],['と','ト','토'],
+ ['な','ナ','나'],['に','ニ','니'],['ぬ','ヌ','누'],['ね','ネ','네'],['の','ノ','노'],
+ ['は','ハ','하'],['ひ','ヒ','히'],['ふ','フ','후'],['へ','ヘ','헤'],['ほ','ホ','호'],
+ ['ま','マ','마'],['み','ミ','미'],['む','ム','무'],['め','メ','메'],['も','モ','모'],
+ ['や','ヤ','야'],['','',''],['ゆ','ユ','유'],['','',''],['よ','ヨ','요'],
+ ['ら','ラ','라'],['り','リ','리'],['る','ル','루'],['れ','レ','레'],['ろ','ロ','로'],
+ ['わ','ワ','와'],['','',''],['','',''],['','',''],['を','ヲ','오'],
+ ['ん','ン','응/ㄴ'],['','',''],['','',''],['','',''],['','','']
+];
+
+const KANA_VOICE=[
+ ['が','ガ','가'],['ぎ','ギ','기'],['ぐ','グ','구'],['げ','ゲ','게'],['ご','ゴ','고'],
+ ['ざ','ザ','자'],['じ','ジ','지'],['ず','ズ','즈'],['ぜ','ゼ','제'],['ぞ','ゾ','조'],
+ ['だ','ダ','다'],['ぢ','ヂ','지'],['づ','ヅ','즈'],['で','デ','데'],['ど','ド','도'],
+ ['ば','バ','바'],['び','ビ','비'],['ぶ','ブ','부'],['べ','ベ','베'],['ぼ','ボ','보'],
+ ['ぱ','パ','파'],['ぴ','ピ','피'],['ぷ','プ','푸'],['ぺ','ペ','페'],['ぽ','ポ','포']
+];
+
+const KANA_COMBO=[
+ ['きゃ','キャ','캬'],['きゅ','キュ','큐'],['きょ','キョ','쿄'],['しゃ','シャ','샤'],['しゅ','シュ','슈'],
+ ['しょ','ショ','쇼'],['ちゃ','チャ','챠'],['ちゅ','チュ','츄'],['ちょ','チョ','쵸'],['にゃ','ニャ','냐'],
+ ['にゅ','ニュ','뉴'],['にょ','ニョ','뇨'],['ひゃ','ヒャ','햐'],['ひゅ','ヒュ','휴'],['ひょ','ヒョ','효'],
+ ['みゃ','ミャ','먀'],['みゅ','ミュ','뮤'],['みょ','ミョ','묘'],['りゃ','リャ','랴'],['りゅ','リュ','류'],
+ ['りょ','リョ','료'],['ぎゃ','ギャ','갸'],['ぎゅ','ギュ','규'],['ぎょ','ギョ','교'],['じゃ','ジャ','쟈'],
+ ['じゅ','ジュ','쥬'],['じょ','ジョ','죠'],['びゃ','ビャ','뱌'],['びゅ','ビュ','뷰'],['びょ','ビョ','뵤'],
+ ['ぴゃ','ピャ','퍄'],['ぴゅ','ピュ','퓨'],['ぴょ','ピョ','표']
+];
+
+function renderKanaGrid(id,data,scriptIndex){
+  $(id).innerHTML=data.map(x=>{
+    if(!x[0]){
+      return '<div class="kana-cell" style="visibility:hidden"></div>';
+    }
+
+    const kana=x[scriptIndex]||'';
+    const ko=x[2]||'';
+
+    return `
+      <div class="kana-cell">
+        <div class="kana-jp">${kana}</div>
+        <div class="kana-ko">${ko}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openKanaChart(){
+  hideSelectTools();
+  renderKanaGrid('hiraganaGrid',KANA_BASIC,0);
+  renderKanaGrid('katakanaGrid',KANA_BASIC,1);
+
+  renderKanaGrid('hiraganaVoiceGrid',KANA_VOICE,0);
+  renderKanaGrid('katakanaVoiceGrid',KANA_VOICE,1);
+
+  renderKanaGrid('hiraganaComboGrid',KANA_COMBO,0);
+  renderKanaGrid('katakanaComboGrid',KANA_COMBO,1);
+
+  const overlay=$('kanaOverlay');
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden','false');
+}
+
+function closeKanaChart(){
+  const overlay=$('kanaOverlay');
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden','true');
+}
+
+$('kanaOverlay').addEventListener('pointerdown',e=>{
+  if(e.target.id==='kanaOverlay'){
+    closeKanaChart();
+  }
+});
+
+document.addEventListener('keydown',e=>{
+  if(
+    e.key==='Escape' &&
+    $('kanaOverlay').classList.contains('show')
+  ){
+    closeKanaChart();
+  }
+});
+
+function getGeminiUrl(){
+  const url=String(GEMINI_SHARE_URL||'').trim();
+
+  if(
+    !url ||
+    url.includes('여기에_공유주소_ID')
+  ){
+    alert(
+      'HTML의 GEMINI_SHARE_URL에 실제 Gemini 공유 대화 주소를 입력하세요.'
+    );
+    return '';
+  }
+
+  return url;
+}
+
+/*
+ * Gemini는 iframe 삽입을 차단할 수 있으므로
+ * 버튼 클릭 즉시 새 탭/새 창으로 공유대화를 엽니다.
+ */
+function openGemini(){
+  const url=getGeminiUrl();
+  if(!url)return;
+
+  hideSelectTools();
+
+  const win=window.open(
+    url,
+    '_blank',
+    'noopener,noreferrer'
+  );
+
+  if(!win){
+    // 일부 모바일 브라우저에서 팝업이 차단되면 현재 창으로 이동
+    location.href=url;
+  }
+}
+
+function toggleMenu(){hideSelectTools();$('menu').classList.toggle('hidden')}
+document.addEventListener('pointerdown',e=>{if(!$('menu').classList.contains('hidden')&&!$('menu').contains(e.target)&&!e.target.closest('.icon-btn'))$('menu').classList.add('hidden')});
+
+function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$('jumpInput').max=viewCards.length;$('quickNumbers').innerHTML=Array.from({length:viewCards.length},(_,i)=>`<button class="${i===current?'current':''}" onclick="jumpTo(${i+1})">${i+1}</button>`).join('');jumpDialog.showModal();setTimeout(()=>$('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'}),20)}
+function jumpFromInput(){const n=parseInt($('jumpInput').value,10);if(n>=1&&n<=viewCards.length)jumpTo(n)}
+function jumpTo(n){current=n-1;render();jumpDialog.close()}
+
+function openAdd(){
+  $('menu').classList.add('hidden');
+  $('editorTitle').textContent='새 카드';
+  ['id','jp','reading','ko'].forEach(x=>$(x).value='');
+  $('memoEditor').innerHTML='';
+  $('type').value='1학년';
+  editor.showModal();
+}
+function editCurrent(){$('menu').classList.add('hidden');if(viewCards.length)openEdit(viewCards[current].id)}
+function openEdit(id){
+  const c=cards.find(x=>String(x.id)===String(id));
+  if(!c)return;
+
+  $('editorTitle').textContent='카드 수정';
+  $('id').value=c.id;
+  $('type').value=c.type||'1학년';
+  $('jp').value=c.jp||'';
+  $('reading').value=c.reading||'';
+  $('ko').value=c.ko||'';
+  setMemoHtml(c.memo||'');
+
+  editor.showModal();
+}
+
+async function saveCard(e){
+  e.preventDefault();
+
+  const btn=$('saveCardBtn');
+
+  const card={
+    id:$('id').value,
+    type:$('type').value,
+    jp:$('jp').value.trim(),
+    reading:$('reading').value.trim(),
+    ko:$('ko').value.trim(),
+    memo:getMemoHtml()
+  };
+
+  if(!card.jp&&!card.reading&&!card.ko&&!plainMemoText(card.memo).trim()){
+    alert('일본어, 읽는 법, 한국어 뜻, 메모 중 하나 이상 입력하세요.');
+    return;
+  }
+
+  if(btn.disabled)return;
+
+  const originalHtml=btn.innerHTML;
+  btn.disabled=true;
+  btn.classList.add('save-btn-loading');
+  btn.innerHTML='<span class="save-spinner" aria-hidden="true"></span><span>저장 중...</span>';
+
+  try{
+    const action=card.id?'update':'add';
+    const j=await request(action,{card});
+
+    if(action==='add'&&j.card&&j.card.id){
+      card.id=j.card.id;
+    }
+
+    const normalized=normalizeCard(card,cards.length);
+    const i=cards.findIndex(x=>String(x.id)===String(normalized.id));
+
+    if(i>=0) cards[i]={...cards[i],...normalized};
+    else cards.push(normalized);
+
+    saveCache();
+    applyFilter(false);
+    $('syncStatus').textContent='저장 완료';
+
+    btn.innerHTML='<span>저장 완료 ✓</span>';
+    await new Promise(resolve=>setTimeout(resolve,400));
+
+    editor.close();
+    setTimeout(()=>syncCards(false),350);
+
+  }catch(err){
+    alert(err.message||'저장에 실패했습니다.');
+  }finally{
+    btn.disabled=false;
+    btn.classList.remove('save-btn-loading');
+    btn.innerHTML=originalHtml;
+  }
+}
+async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));favoriteIds.delete(String(id));saveFavorites();saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
+
+function showList(){$('menu').classList.add('hidden');renderList();$('listView').classList.remove('hidden')}
+function hideList(){$('listView').classList.add('hidden')}
+function openCardFromList(id){
+  const idx=viewCards.findIndex(c=>String(c.id)===String(id));
+
+  if(idx<0){
+    alert('해당 카드를 찾을 수 없습니다.');
+    return;
+  }
+
+  current=idx;
+  hideList();
+  render();
+}
+
+function renderList(){
+  const box=$('list');
+
+  if(!viewCards.length){
+    box.innerHTML='<div class="listItem">카드가 없습니다.</div>';
+    return;
+  }
+
+  box.innerHTML=viewCards.map(c=>`
+    <div class="listItem">
+      <div class="listText" onclick="openCardFromList('${c.id}')">
+        <b>${esc(c.jp)}</b>
+        <div>${esc(c.ko)}</div>
+        <div class="small">
+          ${esc(c.type||'1학년')}
+          ${c.reading?'· '+esc(c.reading):''}
+        </div>
+      </div>
+
+      <button class="mini"
+              onclick="event.stopPropagation();openEdit('${c.id}')">
+        수정
+      </button>
+
+      <button class="mini danger"
+              onclick="event.stopPropagation();deleteCard('${c.id}')">
+        삭제
+      </button>
+    </div>
+  `).join('');
+}
+
+$('search').addEventListener('input',()=>applyFilter(true));
+$('filter').addEventListener('change',()=>applyFilter(true));
+
+/* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
+loadFavorites();
+const hadCache=loadCache();
+if(!hadCache){$('empty').textContent='카드를 불러오는 중입니다…'}
+setTimeout(()=>syncCards(false),0);
+</script>
+</body>
+</html>
