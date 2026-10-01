@@ -37,7 +37,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   max-height:52vh;
   overflow:auto;
   padding:8px 4px;
-  font-size:clamp(30px,9vw,72px);
+  font-size:clamp(24px,9vw,72px);
   font-weight:800;
   line-height:1.45;
   white-space:normal;
@@ -396,7 +396,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어13</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어15</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -404,7 +404,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
-<div class="hint">한 번 터치: 한글발음 · 뜻 · <br>메모 보기 · 좌우 밀기: 카드 이동<br>Made by Ai & Ha You Sin</div>
+<div class="hint">한 번 터치: 한글발음 · 뜻 · 메모 보기 · 좌우 밀기: 카드 이동<br>Made by Ai & Ha You Sin</div>
 
 </div></div></main>
 </div>
@@ -496,7 +496,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbz1VTZoxTU95Gb5G1wApJUh3r5Zgb7Do_IFaoCcIoFmjyI1pH5ls8BB9u9_wbf-5qMP/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbwPkREtc3QgnoIaCKhBjLeeeoUPUS_QygKyRMd08HVWuJMirEzJt8KiPBkr34uIgvWc/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_2step_v1';
@@ -835,20 +835,15 @@ function cardsSignature(list){
     list.length,
     first.id||'',
     first.jp||'',
-    first.updated||'',
     last.id||'',
-    last.jp||'',
-    last.updated||''
+    last.jp||''
   ].join('|');
 }
 
 async function request(action,data={}){
- const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data})});
- const j=await r.json();
- if(!j.ok)throw new Error(j.error||'요청 실패');
- return j;
+ const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data}),cache:'no-store'});
+ const j=await r.json();if(!j.ok)throw new Error(j.error||'요청 실패');return j;
 }
-
 let syncRunning=false;
 let lastSyncSignature='';
 
@@ -884,7 +879,6 @@ async function syncCards(manual=false){
       }
     }
 
-    try{localStorage.setItem(LAST_SYNC_KEY,String(Date.now()));}catch(_){}
     $('syncStatus').textContent='최신 동기화 완료 · '+cards.length+'개';
 
   }catch(e){
@@ -1401,15 +1395,11 @@ function renderList(){
 $('search').addEventListener('input',()=>applyFilter(true));
 $('filter').addEventListener('change',()=>applyFilter(true));
 
-/* 캐시가 있으면 즉시 표시하고, 최신 시트는 뒤에서 확인 */
+/* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
 loadFavorites();
 const hadCache=loadCache();
-if(!hadCache){
-  $('empty').textContent='카드를 불러오는 중입니다…';
-  setTimeout(()=>syncCards(false),0);
-}else{
-  setTimeout(()=>syncCards(false),1200);
-}
+if(!hadCache){$('empty').textContent='카드를 불러오는 중입니다…'}
+setTimeout(()=>syncCards(false),0);
 </script>
 </body>
 </html>
