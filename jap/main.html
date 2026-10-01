@@ -400,7 +400,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어9</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어10</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -507,6 +507,8 @@ const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_image_v1';
 const FAVORITES_KEY='jp_flashcards_favorites_v1';
 const LAST_CARD_KEY='jp_flashcards_last_card_v1';
+const LAST_SYNC_KEY='jp_flashcards_last_sync_v1';
+const SYNC_TTL=5*60*1000; // 5분 동안은 저장된 카드 즉시 사용
 let favoriteOnly=false;
 let favoriteIds=new Set();
 let cards=[],viewCards=[],current=0;
@@ -841,8 +843,10 @@ function cardsSignature(list){
     list.length,
     first.id||'',
     first.jp||'',
+    first.updated||'',
     last.id||'',
-    last.jp||''
+    last.jp||'',
+    last.updated||''
   ].join('|');
 }
 
@@ -885,6 +889,7 @@ async function syncCards(manual=false){
       }
     }
 
+    try{localStorage.setItem(LAST_SYNC_KEY,String(Date.now()));}catch(_){}
     $('syncStatus').textContent='최신 동기화 완료 · '+cards.length+'개';
 
   }catch(e){
@@ -959,11 +964,48 @@ function fitJapaneseText(text='',type=''){
 function renderCardImage(c){
  const wrap=$('cardImageWrap'),img=$('cardImage');
  const url=String(c?.image||'').trim();
- if(!url){img.removeAttribute('src');wrap.classList.add('hidden');return;}
- img.onload=()=>wrap.classList.remove('hidden');
- img.onerror=()=>{wrap.classList.add('hidden');img.removeAttribute('src');};
+
+ if(!url){
+   img.removeAttribute('src');
+   img.dataset.url='';
+   wrap.classList.add('hidden');
+   return;
+ }
+
+ // 같은 카드 재렌더링 때 이미지를 다시 요청하지 않음
+ if(img.dataset.url===url && img.complete && img.naturalWidth>0){
+   wrap.classList.remove('hidden');
+   return;
+ }
+
+ wrap.classList.add('hidden');
+ img.onload=()=>{
+   img.dataset.url=url;
+   wrap.classList.remove('hidden');
+ };
+ img.onerror=()=>{
+   wrap.classList.add('hidden');
+   img.dataset.url='';
+   img.removeAttribute('src');
+ };
  img.alt=(c.jp||'일본어 카드')+' 이미지';
  img.src=url;
+}
+
+function preloadNearbyImages(){
+ if(!viewCards.length)return;
+ const indexes=[
+   (current+1)%viewCards.length,
+   (current-1+viewCards.length)%viewCards.length
+ ];
+ indexes.forEach(i=>{
+   const url=String(viewCards[i]?.image||'').trim();
+   if(url){
+     const im=new Image();
+     im.decoding='async';
+     im.src=url;
+   }
+ });
 }
 
 function render(){
@@ -982,6 +1024,11 @@ function render(){
  $('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
  rememberLastCard();
+ if('requestIdleCallback' in window){
+   requestIdleCallback(preloadNearbyImages,{timeout:1200});
+ }else{
+   setTimeout(preloadNearbyImages,350);
+ }
 }
 
 function hideSelectTools(){
@@ -1417,8 +1464,25 @@ $('filter').addEventListener('change',()=>applyFilter(true));
 /* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
 loadFavorites();
 const hadCache=loadCache();
-if(!hadCache){$('empty').textContent='카드를 불러오는 중입니다…'}
-setTimeout(()=>syncCards(false),0);
+
+let lastSync=0;
+try{lastSync=Number(localStorage.getItem(LAST_SYNC_KEY)||0)}catch(_){}
+
+if(!hadCache){
+  // 최초 실행만 시트에서 즉시 불러옴
+  $('empty').textContent='카드를 처음 불러오는 중입니다…';
+  setTimeout(()=>syncCards(false),0);
+}else{
+  // 재방문은 저장된 카드를 즉시 보여주고 네트워크 작업을 뒤로 미룸
+  const age=Date.now()-lastSync;
+  if(age>=SYNC_TTL){
+    $('syncStatus').textContent='저장된 카드 즉시 표시 · 최신 자료는 뒤에서 확인';
+    setTimeout(()=>syncCards(false),1800);
+  }else{
+    const remain=Math.max(1,Math.ceil((SYNC_TTL-age)/60000));
+    $('syncStatus').textContent='저장된 카드 즉시 표시 · '+remain+'분 후 최신 확인';
+  }
+}
 </script>
 </body>
 </html>
