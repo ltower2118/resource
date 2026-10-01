@@ -156,6 +156,9 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 @keyframes cardLoadSpin{to{transform:rotate(360deg)}}
 .loading-title{font-size:16px;font-weight:800;color:#334155}
 .loading-note{font-size:12px;color:#94a3b8;line-height:1.5}
+.loading-percent{font-size:24px;font-weight:900;color:var(--main);min-width:64px}
+.loading-progress{width:min(72vw,320px);height:9px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.loading-progress-bar{width:0%;height:100%;background:var(--main);border-radius:999px;transition:width .28s ease}
 .loading-retry{border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:10px;padding:9px 16px;font-weight:800}
 .menu{position:fixed;top:58px;right:10px;z-index:30;width:min(92vw,340px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
 .menu-row{display:flex;gap:8px;margin-bottom:8px}.menu input,.menu select,.menu button{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:11px;background:#fff}.menu button{font-weight:700}.menu button.primary{background:var(--main);color:#fff;border-color:var(--main)}
@@ -402,12 +405,14 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어21</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어22</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
     <div id="loadingSpinner" class="loading-spinner"></div>
     <div id="loadingTitle" class="loading-title">카드를 불러오는 중입니다…</div>
+    <div id="loadingPercent" class="loading-percent">0%</div>
+    <div class="loading-progress"><div id="loadingProgressBar" class="loading-progress-bar"></div></div>
     <div id="loadingNote" class="loading-note">Google Sheet 연결 중</div>
     <button id="loadingRetry" class="loading-retry hidden" type="button" onclick="retryLoad()">다시 불러오기</button>
   </div>
@@ -522,6 +527,15 @@ let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
 let selectedJapanese='';
 let answerVisible=false;
 const $=id=>document.getElementById(id);
+let loadingProgressTimer=null;
+let loadingProgressValue=0;
+
+function updateLoadingProgress(value){
+ loadingProgressValue=Math.max(0,Math.min(100,Math.round(value)));
+ if($('loadingPercent'))$('loadingPercent').textContent=loadingProgressValue+'%';
+ if($('loadingProgressBar'))$('loadingProgressBar').style.width=loadingProgressValue+'%';
+}
+
 function showLoading(message='Google Sheet 연결 중'){
  const empty=$('empty');
  empty.classList.remove('hidden');
@@ -530,14 +544,38 @@ function showLoading(message='Google Sheet 연결 중'){
  $('loadingRetry')?.classList.add('hidden');
  if($('loadingTitle'))$('loadingTitle').textContent='카드를 불러오는 중입니다…';
  if($('loadingNote'))$('loadingNote').textContent=message;
+
+ clearInterval(loadingProgressTimer);
+ updateLoadingProgress(5);
+
+ loadingProgressTimer=setInterval(()=>{
+   // 실제 데이터 수신 전에는 90%를 넘지 않음
+   if(loadingProgressValue<35) updateLoadingProgress(loadingProgressValue+4);
+   else if(loadingProgressValue<65) updateLoadingProgress(loadingProgressValue+2);
+   else if(loadingProgressValue<90) updateLoadingProgress(loadingProgressValue+1);
+ },300);
 }
+
+function finishLoading(){
+ clearInterval(loadingProgressTimer);
+ updateLoadingProgress(100);
+ if($('loadingTitle'))$('loadingTitle').textContent='카드 준비 완료';
+ if($('loadingNote'))$('loadingNote').textContent='Google Sheet 연결 완료';
+}
+
 function showLoadError(message){
+ clearInterval(loadingProgressTimer);
  $('loadingSpinner')?.classList.add('hidden');
  $('loadingRetry')?.classList.remove('hidden');
  if($('loadingTitle'))$('loadingTitle').textContent='카드를 불러오지 못했습니다';
  if($('loadingNote'))$('loadingNote').textContent=message||'Apps Script 연결을 확인하세요.';
 }
-function retryLoad(){if(!syncRunning)syncCards(true);}
+
+function retryLoad(){
+ if(syncRunning)return;
+ showLoading('Google Sheet에 다시 연결하고 있습니다.');
+ syncCards(true);
+}
 
 
 function loadFavorites(){
@@ -916,6 +954,7 @@ async function syncCards(manual=false){
    if(idx>=0){current=idx;render();}
   }
 
+  finishLoading();
   $('syncStatus').textContent='동기화 완료 · '+cards.length+'개';
  }catch(e){
   $('syncStatus').textContent=cards.length?'저장된 카드 사용':'연결 실패';
