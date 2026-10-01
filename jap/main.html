@@ -214,6 +214,10 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 .jp.jp-long{font-size:clamp(20px,4.8vw,38px)}
 .jp.jp-xlong{font-size:clamp(17px,3.8vw,30px);line-height:1.55}
 
+/* 감정&기분 일본어 크기: 이 숫자만 수정 */
+.jp.type-emotion{font-size:clamp(32px,8vw,62px)!important;line-height:1.38}
+.study-hidden{display:none!important}
+
 
 
 /* 히라가나·가타카나 빠른 확인 */
@@ -374,6 +378,8 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
     font-size:34px;;
     max-height:46vh;
   }
+  /* 감정&기분 스마트폰 일본어 크기: 여기 숫자 수정 */
+  .jp.type-emotion{font-size:42px!important}
 
   .answer{
     max-height:62vh;
@@ -390,15 +396,15 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어5</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어6</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
-<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
+<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading study-hidden"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
-<div class="hint">터치: 뜻 보기 · 좌우 밀기: 카드 이동<br>Made by Ai & Ha You Sin</div>
+<div class="hint">한 번 터치: 한글발음 · 뜻 · 메모 보기 · 좌우 밀기: 카드 이동<br>Made by Ai & Ha You Sin</div>
 
 </div></div></main>
 </div>
@@ -493,7 +499,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 const API_URL='https://script.google.com/macros/s/AKfycbw2NfK1FaV2D4U99SRCA3pr9iKsCJvRxN_d-o_VC0yxsQ_ZqkYmw4Y-05YRAT1qGEJz/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
-const CACHE_KEY='jp_flashcards_cache_dynamic_types_v1';
+const CACHE_KEY='jp_flashcards_cache_2step_v1';
 const FAVORITES_KEY='jp_flashcards_favorites_v1';
 const LAST_CARD_KEY='jp_flashcards_last_card_v1';
 let favoriteOnly=false;
@@ -501,6 +507,7 @@ let favoriteIds=new Set();
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
 let selectedJapanese='';
+let answerVisible=false;
 const $=id=>document.getElementById(id);
 
 function loadFavorites(){
@@ -930,9 +937,13 @@ function applyFilter(renderListToo=true){
     renderList();
   }
 }
-function fitJapaneseText(text=''){
+function fitJapaneseText(text='',type=''){
  const el=$('cardJp');
- el.classList.remove('jp-medium','jp-long','jp-xlong');
+ el.classList.remove('jp-medium','jp-long','jp-xlong','type-emotion');
+ if(String(type||'').trim()==='감정&기분'){
+   el.classList.add('type-emotion');
+   return;
+ }
  const len=Array.from(String(text)).length;
  if(len>80)el.classList.add('jp-xlong');
  else if(len>45)el.classList.add('jp-long');
@@ -945,12 +956,12 @@ function render(){
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'단어';
  $('cardJp').textContent=c.jp||c.reading||c.ko||'(내용 없음)';
- fitJapaneseText(c.jp||c.reading||c.ko||'');
+ fitJapaneseText(c.jp||c.reading||c.ko||'',c.type);
  $('cardReading').textContent=c.reading||'';
  $('cardKo').textContent=c.ko||'';
  $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
  updateFavoriteButton();
- $('answer').classList.remove('show');
+ setAnswerVisible(false);
  $('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
  rememberLastCard();
@@ -1092,7 +1103,15 @@ document.addEventListener('selectionchange',()=>{
   if(!text)hideSelectTools();
 });
 
-function flipCard(){if(!animating&&!moved)$('answer').classList.toggle('show')}
+function setAnswerVisible(show){
+ answerVisible=!!show;
+ $('cardReading').classList.toggle('study-hidden',!answerVisible);
+ $('answer').classList.toggle('show',answerVisible);
+}
+function flipCard(){
+ if(animating||moved)return;
+ setAnswerVisible(!answerVisible);
+}
 
 const flash=$('flash');
 flash.addEventListener('pointerdown',e=>{if(animating||!viewCards.length)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;flash.classList.add('dragging');try{flash.setPointerCapture(e.pointerId)}catch(_){}});
