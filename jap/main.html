@@ -400,7 +400,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어10</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어11</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -501,7 +501,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbyGzd8vEEWWzwfTTAhTGwYjEqiKWr2-mEteAPOdbcexRo9pyttP4RMwljGPu0KdjPLz/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbx74GL4lDpJqyYFs-gQnifRQT-5War-94oqpU3QeQDd4RfBWizsqynTTJmB9EnR3Wl8/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_image_v1';
@@ -992,22 +992,6 @@ function renderCardImage(c){
  img.src=url;
 }
 
-function preloadNearbyImages(){
- if(!viewCards.length)return;
- const indexes=[
-   (current+1)%viewCards.length,
-   (current-1+viewCards.length)%viewCards.length
- ];
- indexes.forEach(i=>{
-   const url=String(viewCards[i]?.image||'').trim();
-   if(url){
-     const im=new Image();
-     im.decoding='async';
-     im.src=url;
-   }
- });
-}
-
 function render(){
  hideSelectTools();
  if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();return}
@@ -1469,19 +1453,13 @@ let lastSync=0;
 try{lastSync=Number(localStorage.getItem(LAST_SYNC_KEY)||0)}catch(_){}
 
 if(!hadCache){
-  // 최초 실행만 시트에서 즉시 불러옴
-  $('empty').textContent='카드를 처음 불러오는 중입니다…';
+  $('empty').textContent='최초 1회 카드 불러오는 중…';
   setTimeout(()=>syncCards(false),0);
 }else{
-  // 재방문은 저장된 카드를 즉시 보여주고 네트워크 작업을 뒤로 미룸
-  const age=Date.now()-lastSync;
-  if(age>=SYNC_TTL){
-    $('syncStatus').textContent='저장된 카드 즉시 표시 · 최신 자료는 뒤에서 확인';
-    setTimeout(()=>syncCards(false),1800);
-  }else{
-    const remain=Math.max(1,Math.ceil((SYNC_TTL-age)/60000));
-    $('syncStatus').textContent='저장된 카드 즉시 표시 · '+remain+'분 후 최신 확인';
-  }
+  // 캐시가 있으면 네트워크보다 학습화면을 최우선
+  $('syncStatus').textContent='저장된 카드 즉시 사용';
+  // 자동 동기화는 15초 뒤. 필요하면 사용자가 ↻ 동기화를 눌러 즉시 확인.
+  setTimeout(()=>syncCards(false),15000);
 }
 </script>
 </body>
