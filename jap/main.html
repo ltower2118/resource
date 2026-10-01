@@ -151,6 +151,14 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 
 .hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
 .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
+.loading-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;width:min(82vw,360px)}
+.loading-spinner{width:48px;height:48px;border:5px solid #e5e7eb;border-top-color:var(--main);border-radius:50%;animation:cardLoadSpin .8s linear infinite}
+@keyframes cardLoadSpin{to{transform:rotate(360deg)}}
+.loading-title{font-size:16px;font-weight:800;color:#334155}.loading-percent{font-size:25px;font-weight:900;color:var(--main)}
+.loading-bar{width:100%;height:9px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.loading-bar-fill{width:0%;height:100%;background:var(--main);border-radius:999px;transition:width .25s ease}
+.loading-note{font-size:12px;color:#94a3b8;line-height:1.5}
+.loading-retry{border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:10px;padding:9px 16px;font-weight:800}
 .menu{position:fixed;top:58px;right:10px;z-index:30;width:min(92vw,340px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
 .menu-row{display:flex;gap:8px;margin-bottom:8px}.menu input,.menu select,.menu button{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:11px;background:#fff}.menu button{font-weight:700}.menu button.primary{background:var(--main);color:#fff;border-color:var(--main)}
 .status{font-size:12px;color:var(--muted);padding:5px 3px 0}
@@ -396,9 +404,16 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어15</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어17</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
-<div id="empty" class="empty">카드를 불러오는 중입니다…</div>
+<div id="empty" class="empty"><div id="loadingBox" class="loading-box">
+<div id="loadingSpinner" class="loading-spinner"></div>
+<div id="loadingTitle" class="loading-title">카드를 불러오는 중입니다</div>
+<div id="loadingPercent" class="loading-percent">0%</div>
+<div class="loading-bar"><div id="loadingBarFill" class="loading-bar-fill"></div></div>
+<div id="loadingNote" class="loading-note">Google Sheet에 연결하고 있습니다.</div>
+<button id="loadingRetry" class="loading-retry hidden" type="button" onclick="retryLoad()">다시 불러오기</button>
+</div></div>
 <div id="flash" class="flash hidden">
 <div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading study-hidden"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
@@ -509,6 +524,13 @@ let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
 let selectedJapanese='';
 let answerVisible=false;
 const $=id=>document.getElementById(id);
+let loadingTimer=null,loadingValue=0;
+function setLoadingProgress(v,title,note){loadingValue=Math.max(0,Math.min(100,Math.round(v)));if($('loadingPercent'))$('loadingPercent').textContent=loadingValue+'%';if($('loadingBarFill'))$('loadingBarFill').style.width=loadingValue+'%';if(title&&$('loadingTitle'))$('loadingTitle').textContent=title;if(note&&$('loadingNote'))$('loadingNote').textContent=note}
+function startLoadingAnimation(){clearInterval(loadingTimer);loadingValue=3;$('loadingRetry')?.classList.add('hidden');$('loadingSpinner')?.classList.remove('hidden');setLoadingProgress(3,'카드를 불러오는 중입니다','Google Sheet에 연결하고 있습니다.');loadingTimer=setInterval(()=>{if(loadingValue<35)loadingValue+=3;else if(loadingValue<65)loadingValue+=2;else if(loadingValue<88)loadingValue+=1;else return;setLoadingProgress(loadingValue)},280)}
+function finishLoadingAnimation(){clearInterval(loadingTimer);setLoadingProgress(100,'카드 준비 완료','불러오기가 완료되었습니다.')}
+function failLoadingAnimation(msg){clearInterval(loadingTimer);$('loadingSpinner')?.classList.add('hidden');$('loadingRetry')?.classList.remove('hidden');setLoadingProgress(loadingValue,'카드를 불러오지 못했습니다',msg||'연결을 확인한 후 다시 시도해 주세요.')}
+function retryLoad(){if(syncRunning)return;startLoadingAnimation();syncCards(true)}
+
 
 function loadFavorites(){
   try{
@@ -840,10 +862,16 @@ function cardsSignature(list){
   ].join('|');
 }
 
-async function request(action,data={}){
- const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data}),cache:'no-store'});
- const j=await r.json();if(!j.ok)throw new Error(j.error||'요청 실패');return j;
+async function request(action,data={},timeoutMs=15000){
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
+ try{
+  const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data}),cache:'no-store',signal:controller.signal});
+  if(!r.ok)throw new Error('서버 응답 오류 ('+r.status+')');
+  const j=await r.json();if(!j.ok)throw new Error(j.error||'요청 실패');return j;
+ }catch(e){if(e&&e.name==='AbortError')throw new Error('서버 응답이 15초 이상 지연되고 있습니다.');throw e}
+ finally{clearTimeout(timer)}
 }
+
 let syncRunning=false;
 let lastSyncSignature='';
 
@@ -855,6 +883,7 @@ async function syncCards(manual=false){
 
   syncRunning=true;
   $('syncStatus').textContent=manual?'최신 자료 동기화 중…':'시트 확인 중…';
+  if(!cards.length)startLoadingAnimation();
 
   try{
     const j=await request('list');
@@ -880,6 +909,7 @@ async function syncCards(manual=false){
     }
 
     $('syncStatus').textContent='최신 동기화 완료 · '+cards.length+'개';
+    if(cards.length)finishLoadingAnimation();
 
   }catch(e){
     $('syncStatus').textContent=
@@ -888,7 +918,7 @@ async function syncCards(manual=false){
         : '연결 실패';
 
     if(!cards.length){
-      $('empty').textContent=e.message||'카드를 불러오지 못했습니다.';
+      failLoadingAnimation(e.message||'카드를 불러오지 못했습니다.');
     }
   }finally{
     syncRunning=false;
@@ -1395,10 +1425,10 @@ function renderList(){
 $('search').addEventListener('input',()=>applyFilter(true));
 $('filter').addEventListener('change',()=>applyFilter(true));
 
-/* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
+/* 캐시가 있으면 즉시 표시, 없으면 진행률과 함께 최초 로딩 */
 loadFavorites();
 const hadCache=loadCache();
-if(!hadCache){$('empty').textContent='카드를 불러오는 중입니다…'}
+if(!hadCache)startLoadingAnimation();
 setTimeout(()=>syncCards(false),0);
 </script>
 </body>
