@@ -390,7 +390,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어3</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어4</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -459,7 +459,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 <div id="menu" class="menu hidden">
 <div class="menu-row"><input id="search" placeholder="검색"></div>
-<div class="menu-row"><select id="filter"><option value="all">전체</option><option value="단어">단어</option><option value="문장">문장</option></select></div>
+<div class="menu-row"><select id="filter"><option value="all">전체</option></select></div>
 <div class="menu-row"><button class="primary" onclick="openAdd()">＋ 새 카드</button><button onclick="editCurrent()">수정</button></div>
 <div class="menu-row"><button onclick="showList()">목록</button><button onclick="syncCards(true)">↻ 동기화</button></div>
 <div class="menu-row"><button id="favoriteFilterBtn" onclick="toggleFavoriteFilter()">☆ 즐겨찾기만</button><button onclick="goRandomCard()">🎲 랜덤</button></div>
@@ -472,7 +472,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 <dialog id="editor"><form class="modal" onsubmit="saveCard(event)">
 <h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
-<div class="field"><label>종류</label><select id="type"><option>단어</option><option>문장</option></select></div>
+<div class="field"><label>종류</label><select id="type"><option value="단어">단어</option></select></div>
 <div class="field"><label>일본어</label><input id="jp" placeholder="例: 日本語"></div>
 <div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
 <div class="field"><label>한국어 뜻</label><input id="ko" placeholder="예: 일본어"></div>
@@ -493,7 +493,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 const API_URL='https://script.google.com/macros/s/AKfycbw2NfK1FaV2D4U99SRCA3pr9iKsCJvRxN_d-o_VC0yxsQ_ZqkYmw4Y-05YRAT1qGEJz/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
-const CACHE_KEY='jp_flashcards_cache_final_v2';
+const CACHE_KEY='jp_flashcards_cache_dynamic_types_v1';
 const FAVORITES_KEY='jp_flashcards_favorites_v1';
 const LAST_CARD_KEY='jp_flashcards_last_card_v1';
 let favoriteOnly=false;
@@ -782,6 +782,7 @@ function loadCache(){
     const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
     if(Array.isArray(x)&&x.length){
       cards=normalizeCards(x);
+      refreshTypeOptions();
       applyFilter(false);
       if(restoreLastCard()) render();
       $('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';
@@ -858,6 +859,7 @@ async function syncCards(manual=false){
       cards=nextCards;
       lastSyncSignature=nextSig;
       saveCache();
+      refreshTypeOptions();
 
       // 동기화 후에도 보고 있던 카드를 유지
       applyFilter(false);
@@ -884,6 +886,20 @@ async function syncCards(manual=false){
   }finally{
     syncRunning=false;
   }
+}
+function getCardTypes(){
+ const seen=new Set(),types=[];
+ cards.forEach(c=>{const t=String(c.type||'').trim();if(t&&!seen.has(t)){seen.add(t);types.push(t)}});
+ return types;
+}
+function refreshTypeOptions(){
+ const filter=$('filter'),editorType=$('type');if(!filter||!editorType)return;
+ const oldFilter=filter.value||'all',oldType=editorType.value||'단어';
+ const types=getCardTypes();if(!types.length)types.push('단어','문장');
+ filter.innerHTML='<option value="all">전체</option>'+types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
+ editorType.innerHTML=types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
+ filter.value=[...filter.options].some(o=>o.value===oldFilter)?oldFilter:'all';
+ editorType.value=[...editorType.options].some(o=>o.value===oldType)?oldType:(types[0]||'단어');
 }
 function applyFilter(renderListToo=true){
   const q=$('search').value.trim().toLowerCase();
@@ -1224,7 +1240,8 @@ function openAdd(){
   $('editorTitle').textContent='새 카드';
   ['id','jp','reading','ko'].forEach(x=>$(x).value='');
   $('memoEditor').innerHTML='';
-  $('type').value='단어';
+  refreshTypeOptions();
+  if([...$('type').options].some(o=>o.value==='단어'))$('type').value='단어';
   editor.showModal();
 }
 function editCurrent(){$('menu').classList.add('hidden');if(viewCards.length)openEdit(viewCards[current].id)}
@@ -1234,7 +1251,12 @@ function openEdit(id){
 
   $('editorTitle').textContent='카드 수정';
   $('id').value=c.id;
-  $('type').value=c.type||'단어';
+  refreshTypeOptions();
+  const cardType=String(c.type||'단어').trim()||'단어';
+  if(![...$('type').options].some(o=>o.value===cardType)){
+    const opt=document.createElement('option');opt.value=cardType;opt.textContent=cardType;$('type').appendChild(opt);
+  }
+  $('type').value=cardType;
   $('jp').value=c.jp||'';
   $('reading').value=c.reading||'';
   $('ko').value=c.ko||'';
@@ -1284,6 +1306,7 @@ async function saveCard(e){
     else cards.push(normalized);
 
     saveCache();
+    refreshTypeOptions();
     applyFilter(false);
     $('syncStatus').textContent='저장 완료';
 
