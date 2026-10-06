@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>일본어 플래시카드</title>
 <style>
-:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#0f0f0f;--main:#2563eb;--danger:#dc2626;--line:#e5e7eb}
+:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;--main:#2563eb;--danger:#dc2626;--line:#e5e7eb}
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden}
 body{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--ink)}
@@ -67,9 +67,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   max-height:40vh;
   overflow-y:auto;
   overflow-x:hidden;
-
   font-size:20px !important;
-
+  color:#282c30;  /* ← 메모 글자색 */
   color:var(--muted);
   margin-top:10px;
   padding:4px 2px 8px;
@@ -396,28 +395,12 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
     padding-top:14px;
   }
 
-  .memo{
-  width:100%;
-  max-height:40vh;
-  overflow-y:auto;
-  overflow-x:hidden;
-
-  font-size:20px !important;
-  color:#17202a;  /* ← 메모 글자색 */
-
-  margin-top:10px;
-  padding:4px 2px 8px;
-  white-space:pre-wrap;
-  text-align:left;
-  line-height:1.6;
-}
-  }
 }
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어26</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어27</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
