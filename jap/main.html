@@ -400,7 +400,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어27</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어28</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
@@ -481,6 +481,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="menu-row"><select id="filter"><option value="all">전체</option></select></div>
 <div class="menu-row"><button class="primary" onclick="openAdd()">＋ 새 카드</button><button onclick="editCurrent()">수정</button></div>
 <div class="menu-row"><button onclick="showList()">목록</button><button onclick="syncCards(true)">↻ 동기화</button></div>
+<div class="menu-row"><button id="continueStudyBtn" class="primary" onclick="continueLastStudy()">▶ 마지막 학습 이어보기</button></div>
 <div class="menu-row"><button id="favoriteFilterBtn" onclick="toggleFavoriteFilter()">☆ 즐겨찾기만</button><button onclick="goRandomCard()">🎲 랜덤</button></div>
 <div id="syncStatus" class="status">준비</div>
 </div>
@@ -515,6 +516,7 @@ const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_2step_v1';
 const FAVORITES_KEY='jp_flashcards_favorites_v1';
 const LAST_CARD_KEY='jp_flashcards_last_card_v1';
+const STUDY_STATE_KEY='jp_flashcards_study_state_v2';
 let favoriteOnly=false;
 let favoriteIds=new Set();
 let cards=[],viewCards=[],current=0;
@@ -586,25 +588,49 @@ function saveFavorites(){
     localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favoriteIds]));
   }catch(_){}
 }
-function rememberLastCard(){
-  try{
-    if(!viewCards.length)return;
-    const id=String(viewCards[current]?.id||'');
-    if(id)localStorage.setItem(LAST_CARD_KEY,id);
-  }catch(_){}
+function getStudyState(){
+ try{return JSON.parse(localStorage.getItem(STUDY_STATE_KEY)||'null')}catch(_){return null}
 }
-
-function restoreLastCard(){
-  try{
-    const id=String(localStorage.getItem(LAST_CARD_KEY)||'');
-    if(!id||!viewCards.length)return false;
-    const idx=viewCards.findIndex(c=>String(c.id)===id);
-    if(idx<0)return false;
-    current=idx;
-    return true;
-  }catch(_){
-    return false;
-  }
+function saveStudyState(){
+ try{
+  if(!viewCards.length)return;
+  const c=viewCards[current];
+  const state={cardId:String(c?.id||''),type:String($('filter')?.value||'all'),index:Number(current||0),savedAt:Date.now()};
+  localStorage.setItem(STUDY_STATE_KEY,JSON.stringify(state));
+  if(state.cardId)localStorage.setItem(LAST_CARD_KEY,state.cardId);
+  updateContinueStudyButton();
+ }catch(_){}
+}
+function rememberLastCard(){saveStudyState()}
+function restoreLastStudy(){
+ try{
+  const state=getStudyState();if(!state)return false;
+  const filter=$('filter'),wantedType=String(state.type||'all');
+  if(filter)filter.value=[...filter.options].some(o=>o.value===wantedType)?wantedType:'all';
+  const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
+  viewCards=cards.filter(c=>{
+   const hit=!q||[c.jp,c.ko,c.reading,plainMemoText(c.memo)].join(' ').toLowerCase().includes(q);
+   return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id));
+  });
+  if(!viewCards.length)return false;
+  let idx=String(state.cardId||'')?viewCards.findIndex(c=>String(c.id)===String(state.cardId)):-1;
+  if(idx<0)idx=Math.max(0,Math.min(Number(state.index)||0,viewCards.length-1));
+  current=idx;render();updateContinueStudyButton();return true;
+ }catch(_){return false}
+}
+function restoreLastCard(){return restoreLastStudy()}
+function updateContinueStudyButton(){
+ const btn=$('continueStudyBtn');if(!btn)return;
+ const state=getStudyState();
+ if(!state||!state.cardId){btn.textContent='▶ 마지막 학습 이어보기';btn.disabled=true;return}
+ btn.disabled=false;
+ const type=state.type&&state.type!=='all'?state.type:'전체';
+ btn.textContent='▶ '+type+' · 마지막 학습 이어보기';
+}
+function continueLastStudy(){
+ $('menu').classList.add('hidden');
+ if(!cards.length){alert('아직 불러온 카드가 없습니다.');return}
+ if(!restoreLastStudy())alert('저장된 마지막 학습 위치를 찾을 수 없습니다.');
 }
 
 function isFavorite(id){
@@ -853,8 +879,8 @@ function loadCache(){
     if(Array.isArray(x)&&x.length){
       cards=normalizeCards(x);
       refreshTypeOptions();
-      applyFilter(false);
-      if(restoreLastCard()) render();
+      if(!restoreLastStudy())applyFilter(false);
+      updateContinueStudyButton();
       $('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';
       return true;
     }
@@ -938,16 +964,13 @@ async function syncCards(manual=false){
   const nextCards=normalizeCards(j.cards||[]);
   if(!nextCards.length)throw new Error('Google Sheet에 카드 데이터가 없습니다.');
 
-  const keepId=String(viewCards[current]?.id||localStorage.getItem(LAST_CARD_KEY)||'');
+  const savedState=getStudyState();
   cards=nextCards;
   saveCache();
   refreshTypeOptions();
-  applyFilter(false);
-
-  if(keepId){
-   const idx=viewCards.findIndex(c=>String(c.id)===keepId);
-   if(idx>=0){current=idx;render();}
-  }
+  if(savedState&&savedState.cardId)restoreLastStudy();
+  else applyFilter(false);
+  updateContinueStudyButton();
 
   finishLoading();
   $('syncStatus').textContent='동기화 완료 · '+cards.length+'개';
@@ -1485,11 +1508,12 @@ function renderList(){
   `).join('');
 }
 
-$('search').addEventListener('input',()=>applyFilter(true));
-$('filter').addEventListener('change',()=>applyFilter(true));
+$('search').addEventListener('input',()=>{current=0;applyFilter(true)});
+$('filter').addEventListener('change',()=>{current=0;applyFilter(true);saveStudyState()});
 
 /* 이미지 기능 이전의 안정적인 시작 방식 */
 loadFavorites();
+updateContinueStudyButton();
 const hadCache=loadCache();
 if(!hadCache){
  showLoading('Google Sheet에서 카드를 가져오는 중입니다.');
