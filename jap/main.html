@@ -29,6 +29,13 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 }
 .favorite-btn.active{background:#fff8db;border-color:#f4cf5d}
 .favorite-btn:active{transform:scale(.96)}
+.remember-btn{position:absolute;top:13px;right:60px;z-index:5;border:1px solid #cbd5e1;background:#fff;color:#475569;border-radius:999px;padding:9px 10px;font-size:12px;font-weight:800}
+.remember-btn.active{background:#d1d5db;border-color:#9ca3af;color:#374151}
+.flash.remembered{background:#e5e7eb}
+.flash.favorited:not(.remembered){background:#fff8dc}
+.flash.remembered.favorited{background:#deded7}
+.menu button.active-remember{background:#e5e7eb;border-color:#9ca3af}
+
 .menu button.active-filter{background:#fff8db;border-color:#f4cf5d;color:#7a5b00}
 
 .jp{
@@ -419,7 +426,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어33</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어34</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
@@ -432,7 +439,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   </div>
 </div>
 <div id="flash" class="flash hidden">
-<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading study-hidden"></div>
+<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><button id="rememberBtn" class="remember-btn" type="button" onclick="toggleRemember(event)">Remember</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading study-hidden"></div>
 <div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
@@ -503,6 +510,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="menu-row"><button class="primary" onclick="openAdd()">＋ 새 카드</button><button onclick="editCurrent()">수정</button></div>
 <div class="menu-row"><button onclick="showList()">목록</button><button onclick="syncCards(true)">↻ 동기화</button></div>
 <div class="menu-row"><button id="continueStudyBtn" class="primary" onclick="continueLastStudy()">▶ 마지막 학습 이어보기</button></div>
+<div class="menu-row"><button id="rememberFilterBtn" onclick="toggleRememberFilter()">✓ 기억한 카드 제외</button></div>
 <div class="menu-row"><button id="favoriteFilterBtn" onclick="toggleFavoriteFilter()">☆ 즐겨찾기만</button><button onclick="goRandomCard()">🎲 랜덤</button></div>
 <div id="syncStatus" class="status">준비</div>
 </div>
@@ -536,6 +544,9 @@ const API_URL='https://script.google.com/macros/s/AKfycbyQjLHclv_3MAqvTLH1588VBc
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_2step_v1';
 const FAVORITES_KEY='jp_flashcards_favorites_v1';
+const REMEMBER_KEY='jp_flashcards_remembered_v1';
+let rememberedIds=new Set();
+let excludeRemembered=false;
 const LAST_CARD_KEY='jp_flashcards_last_card_v1';
 const STUDY_STATE_KEY='jp_flashcards_study_state_v2';
 let favoriteOnly=false;
@@ -631,7 +642,7 @@ function restoreLastStudy(){
   const q=$('search').value.trim().toLowerCase(),f=$('filter').value;
   viewCards=cards.filter(c=>{
    const hit=!q||[c.jp,c.ko,c.reading,plainMemoText(c.memo)].join(' ').toLowerCase().includes(q);
-   return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id));
+   return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id))&&(!excludeRemembered||!isRemembered(c.id));
   });
   if(!viewCards.length)return false;
   let idx=String(state.cardId||'')?viewCards.findIndex(c=>String(c.id)===String(state.cardId)):-1;
@@ -654,6 +665,40 @@ function continueLastStudy(){
  if(!restoreLastStudy())alert('저장된 마지막 학습 위치를 찾을 수 없습니다.');
 }
 
+function loadRemembered(){
+ try{const x=JSON.parse(localStorage.getItem(REMEMBER_KEY)||'[]');rememberedIds=new Set(Array.isArray(x)?x.map(String):[])}
+ catch(_){rememberedIds=new Set()}
+}
+function saveRemembered(){
+ try{localStorage.setItem(REMEMBER_KEY,JSON.stringify([...rememberedIds]))}catch(_){}
+}
+function isRemembered(id){return rememberedIds.has(String(id||''))}
+function updateRememberButton(){
+ const btn=$('rememberBtn'),card=viewCards[current];
+ if(!btn)return;
+ const on=!!card&&isRemembered(card.id);
+ btn.classList.toggle('active',on);
+ btn.textContent=on?'✓ Remember':'Remember';
+ btn.setAttribute('aria-pressed',String(on));
+ $('flash').classList.toggle('remembered',on);
+}
+function toggleRemember(e){
+ if(e){e.preventDefault();e.stopPropagation()}
+ const card=viewCards[current];if(!card)return;
+ const id=String(card.id);
+ if(isRemembered(id))rememberedIds.delete(id);else rememberedIds.add(id);
+ saveRemembered();updateRememberButton();
+ if(excludeRemembered)applyFilter(true);
+ else if(!$('listView').classList.contains('hidden'))renderList();
+}
+function toggleRememberFilter(){
+ excludeRemembered=!excludeRemembered;
+ const btn=$('rememberFilterBtn');
+ btn.textContent=excludeRemembered?'✓ 기억한 카드 제외 중 · 전체 보기':'✓ 기억한 카드 제외';
+ btn.classList.toggle('active-remember',excludeRemembered);
+ current=0;applyFilter(true);
+}
+
 function isFavorite(id){
   return favoriteIds.has(String(id||''));
 }
@@ -669,6 +714,7 @@ function updateFavoriteButton(){
   const on=isFavorite(id);
   btn.textContent=on?'★':'☆';
   btn.classList.toggle('active',on);
+  $('flash').classList.toggle('favorited',on);
   btn.setAttribute('aria-label',on?'즐겨찾기 해제':'즐겨찾기 추가');
 }
 function toggleFavorite(e){
@@ -679,8 +725,9 @@ function toggleFavorite(e){
   if(isFavorite(id)) favoriteIds.delete(id);
   else favoriteIds.add(id);
   saveFavorites();
-  updateFavoriteButton();
+   updateFavoriteButton();
   if(favoriteOnly) applyFilter(false);
+  else if(!$('listView').classList.contains('hidden'))renderList();
 }
 function toggleFavoriteFilter(){
   favoriteOnly=!favoriteOnly;
@@ -1057,7 +1104,7 @@ function applyFilter(renderListToo=true){
         .toLowerCase()
         .includes(q);
 
-    return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id));
+    return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id))&&(!excludeRemembered||!isRemembered(c.id));
   });
 
   current=Math.min(
@@ -1090,7 +1137,7 @@ function fitJapaneseText(text='',type=''){
 
 function render(){
  hideSelectTools();
- if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();return}
+ if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();updateRememberButton();return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'';
  $('cardJp').textContent=c.jp||c.reading||c.ko||'(내용 없음)';
@@ -1098,7 +1145,8 @@ function render(){
  $('cardReading').textContent=c.reading||'';
  $('cardKo').textContent=c.ko||'';
  $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
- updateFavoriteButton();
+  updateFavoriteButton();
+ updateRememberButton();
  setAnswerVisible(false);
  $('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
@@ -1480,7 +1528,7 @@ async function saveCard(e){
     btn.innerHTML=originalHtml;
   }
 }
-async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));favoriteIds.delete(String(id));saveFavorites();saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
+async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));favoriteIds.delete(String(id));saveFavorites();rememberedIds.delete(String(id));saveRemembered();saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
 
 function showList(){$('menu').classList.add('hidden');renderList();$('listView').classList.remove('hidden')}
 function hideList(){$('listView').classList.add('hidden')}
@@ -1506,7 +1554,7 @@ function renderList(){
   }
 
   box.innerHTML=viewCards.map(c=>`
-    <div class="listItem">
+    <div class="listItem" style="${isRemembered(c.id)?'background:#e5e7eb':isFavorite(c.id)?'background:#fff8dc':''}">
       <div class="listText" onclick="openCardFromList('${c.id}')">
         <b>${esc(c.jp)}</b>
         <div>${esc(c.ko)}</div>
@@ -1534,6 +1582,7 @@ $('filter').addEventListener('change',()=>{current=0;applyFilter(true);saveStudy
 
 /* 이미지 기능 이전의 안정적인 시작 방식 */
 loadFavorites();
+loadRemembered();
 updateContinueStudyButton();
 const hadCache=loadCache();
 if(!hadCache){
