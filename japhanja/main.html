@@ -405,7 +405,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어 초등한자4</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어 초등한자5</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
@@ -476,6 +476,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="menu-row"><select id="filter"><option value="all">전체 학년 (1,026자)</option><option value="1학년">1학년 · 80자</option><option value="2학년">2학년 · 160자</option><option value="3학년">3학년 · 200자</option><option value="4학년">4학년 · 202자</option><option value="5학년">5학년 · 193자</option><option value="6학년">6학년 · 191자</option></select></div>
 <div class="menu-row"><button class="primary" onclick="openAdd()">＋ 새 카드</button><button onclick="editCurrent()">수정</button></div>
 <div class="menu-row"><button onclick="showList()">목록</button><button onclick="syncCards(true)">↻ 동기화</button></div>
+<div class="menu-row"><button id="continueStudyBtn" class="primary" onclick="continueLastStudy()">▶ 마지막 학습 이어보기</button></div>
 <div class="menu-row"><button id="favoriteFilterBtn" onclick="toggleFavoriteFilter()">☆ 즐겨찾기만</button><button onclick="goRandomCard()">🎲 랜덤</button></div>
 <div id="syncStatus" class="status">준비</div><div class="status">문부과학성 학년별 교육한자 1,026자 · japhanja</div>
 </div>
@@ -511,6 +512,7 @@ const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='japhanja_cache_3step_v1';
 const FAVORITES_KEY='japhanja_favorites_v1';
 const LAST_CARD_KEY='japhanja_last_card_v1';
+const STUDY_STATE_KEY='japhanja_study_state_v2';
 let favoriteOnly=false;
 let favoriteIds=new Set();
 let cards=[],viewCards=[],current=0;
@@ -532,25 +534,53 @@ function saveFavorites(){
     localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favoriteIds]));
   }catch(_){}
 }
-function rememberLastCard(){
+function getStudyState(){
+  try{return JSON.parse(localStorage.getItem(STUDY_STATE_KEY)||'null')}catch(_){return null}
+}
+function saveStudyState(){
   try{
     if(!viewCards.length)return;
-    const id=String(viewCards[current]?.id||'');
-    if(id)localStorage.setItem(LAST_CARD_KEY,id);
+    const c=viewCards[current];
+    const state={cardId:String(c?.id||''),type:String($('filter')?.value||'all'),index:current,savedAt:Date.now()};
+    localStorage.setItem(STUDY_STATE_KEY,JSON.stringify(state));
+    if(state.cardId)localStorage.setItem(LAST_CARD_KEY,state.cardId);
+    updateContinueStudyButton();
   }catch(_){}
 }
-
-function restoreLastCard(){
+function rememberLastCard(){saveStudyState()}
+function restoreLastStudy(){
   try{
-    const id=String(localStorage.getItem(LAST_CARD_KEY)||'');
-    if(!id||!viewCards.length)return false;
-    const idx=viewCards.findIndex(c=>String(c.id)===id);
-    if(idx<0)return false;
+    const state=getStudyState();
+    if(!state)return false;
+    const filter=$('filter');
+    const type=String(state.type||'all');
+    filter.value=[...filter.options].some(o=>o.value===type)?type:'all';
+    const q=$('search').value.trim().toLowerCase(),f=filter.value;
+    viewCards=cards.filter(c=>{
+      const hit=!q||[c.jp,c.hiragana,c.katakana,c.ko,c.reading,plainMemoText(c.memo)].join(' ').toLowerCase().includes(q);
+      return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id));
+    });
+    if(!viewCards.length)return false;
+    let idx=viewCards.findIndex(c=>String(c.id)===String(state.cardId));
+    if(idx<0)idx=Math.max(0,Math.min(Number(state.index)||0,viewCards.length-1));
     current=idx;
+    render();
+    updateContinueStudyButton();
     return true;
-  }catch(_){
-    return false;
-  }
+  }catch(_){return false}
+}
+function restoreLastCard(){return restoreLastStudy()}
+function updateContinueStudyButton(){
+  const btn=$('continueStudyBtn');if(!btn)return;
+  const state=getStudyState();
+  if(!state||!state.cardId){btn.textContent='▶ 마지막 학습 이어보기';btn.disabled=true;return}
+  btn.disabled=false;
+  btn.textContent='▶ '+(state.type&&state.type!=='all'?state.type:'전체')+' · 마지막 학습 이어보기';
+}
+function continueLastStudy(){
+  $('menu').classList.add('hidden');
+  if(!cards.length){alert('아직 불러온 카드가 없습니다.');return}
+  if(!restoreLastStudy())alert('저장된 마지막 학습 위치를 찾을 수 없습니다.');
 }
 
 function isFavorite(id){
@@ -732,8 +762,7 @@ function loadCache(){
     const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
     if(Array.isArray(x)&&x.length){
       cards=normalizeCards(x);
-      applyFilter(false);
-      if(restoreLastCard()) render();
+      if(!restoreLastStudy())applyFilter(false);
       $('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';
       return true;
     }
@@ -808,14 +837,15 @@ async function syncCards(manual=false){
     const nextSig=cardsSignature(nextCards);
 
     if(nextSig!==lastSyncSignature || !cards.length){
-      const keepId=String(viewCards[current]?.id||localStorage.getItem(LAST_CARD_KEY)||'');
+      const savedState=getStudyState();
+      const keepId=String(savedState?.cardId||viewCards[current]?.id||localStorage.getItem(LAST_CARD_KEY)||'');
       cards=nextCards;
       lastSyncSignature=nextSig;
       saveCache();
 
       // 동기화 후에도 보고 있던 카드를 유지
-      applyFilter(false);
-      if(keepId){
+      if(!restoreLastStudy())applyFilter(false);
+      if(keepId && !savedState){
         const keepIndex=viewCards.findIndex(c=>String(c.id)===keepId);
         if(keepIndex>=0){
           current=keepIndex;
@@ -1294,10 +1324,11 @@ function renderList(){
 }
 
 $('search').addEventListener('input',()=>applyFilter(true));
-$('filter').addEventListener('change',()=>applyFilter(true));
+$('filter').addEventListener('change',()=>{current=0;applyFilter(true);saveStudyState()});
 
 /* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
 loadFavorites();
+updateContinueStudyButton();
 const hadCache=loadCache();
 if(!hadCache){$('empty').textContent='카드를 불러오는 중입니다…'}
 setTimeout(()=>syncCards(false),0);
