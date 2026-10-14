@@ -29,44 +29,25 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 }
 .favorite-btn.active{background:#fff8db;border-color:#f4cf5d}
 .favorite-btn:active{transform:scale(.96)}
-.remember-btn{position:absolute;top:13px;right:60px;z-index:5;border:1px solid #cbd5e1;background:#fff;color:#475569;border-radius:999px;padding:9px 10px;font-size:12px;font-weight:800}
-.remember-btn.active{background:#d1d5db;border-color:#9ca3af}
-.flash.remembered{background:#e5e7eb}.flash.favorited:not(.remembered){background:#fff8dc}.flash.remembered.favorited{background:#deded7}
-.menu button.active-remember{background:#e5e7eb;border-color:#9ca3af}
 .menu button.active-filter{background:#fff8db;border-color:#f4cf5d;color:#7a5b00}
 
 .jp{
   width:100%;
   max-width:100%;
-  max-height:34vh;
+  max-height:52vh;
   overflow:auto;
-  padding:6px 4px 0;
-  font-size:clamp(72px,20vw,132px);
-  font-weight:900;
-  line-height:1.08;
+  padding:8px 4px;
+  font-size:clamp(24px,9vw,72px);
+  font-weight:800;
+  line-height:1.45;
   white-space:normal;
   overflow-wrap:anywhere;
   word-break:break-word;
   user-select:text;
   -webkit-user-select:text;
   cursor:text;
-  text-align:center;
-}
-.card-kana{
-  width:100%;
-  margin-top:10px;
-  font-size:clamp(20px,5vw,30px);
-  font-weight:700;
-  line-height:1.35;
-  color:#475569;
-  text-align:center;
-  overflow-wrap:anywhere;
-  word-break:break-word;
 }
 .reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
-.study-hidden{display:none!important}
-.stage2-answer{width:min(92%,700px);margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
-.stage2-answer .ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}
 .answer{
   display:none;
   width:min(92%,700px);
@@ -161,7 +142,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   line-height:1.4;
 }
 
-.hint{position:absolute;bottom:15px;left:0;right:0;font-size:13px;color:#9ca3af}
+.hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
 .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
 .menu{position:fixed;top:58px;right:10px;z-index:30;width:min(92vw,340px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
 .menu-row{display:flex;gap:8px;margin-bottom:8px}.menu input,.menu select,.menu button{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:11px;background:#fff}.menu button{font-weight:700}.menu button.primary{background:var(--main);color:#fff;border-color:var(--main)}
@@ -194,7 +175,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 
 .jump-controls{display:grid;grid-template-columns:1fr auto;gap:8px}.jump-controls input{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:13px;font-size:18px;text-align:center}.jump-controls button{border:0;border-radius:11px;padding:0 18px;background:var(--main);color:#fff;font-weight:800}
-.quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}.quick-numbers button{position:relative;border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:46px;font-weight:800}.quick-numbers button.remembered{background:#e5e7eb;border-color:#9ca3af}.quick-numbers button.favorited:not(.remembered){background:#fff8dc;border-color:#f4cf5d}.quick-numbers button.remembered.favorited{background:#deded7;border-color:#b7aa72}.quick-numbers button.current{box-shadow:inset 0 0 0 3px var(--main);border-color:var(--main)}.quick-numbers button.current::after{content:'현재';position:absolute;right:3px;bottom:2px;font-size:8px;color:var(--main);font-weight:900}.jump-help{margin-top:9px;font-size:11px;color:#64748b;text-align:center}.jump-edit-btn{width:100%;margin-top:10px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:800}.jump-close{width:100%;margin-top:8px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
+.quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}.quick-numbers button{border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:42px;font-weight:700}.quick-numbers button.current{background:var(--main);color:#fff;border-color:var(--main)}.jump-close{width:100%;margin-top:12px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
 
 .select-tools{
   position:fixed;z-index:60;display:flex;gap:6px;
@@ -222,9 +203,9 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 .lookup-loading{color:var(--muted);font-size:14px}
 
 
-.jp.jp-medium{font-size:clamp(52px,13vw,92px)}
-.jp.jp-long{font-size:clamp(38px,9vw,68px)}
-.jp.jp-xlong{font-size:clamp(28px,7vw,50px);line-height:1.25}
+.jp.jp-medium{font-size:clamp(26px,6.5vw,50px)}
+.jp.jp-long{font-size:clamp(20px,4.8vw,38px)}
+.jp.jp-xlong{font-size:clamp(17px,3.8vw,30px);line-height:1.55}
 
 
 
@@ -385,13 +366,8 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   }
 
   .jp{
-    font-size:clamp(72px,22vw,110px);
-    max-height:30vh;
-  }
-
-  .card-kana{
-    margin-top:8px;
-    font-size:22px;
+    font-size:34px;;
+    max-height:46vh;
   }
 
   .answer{
@@ -409,16 +385,15 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어 초등한자8</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어 초등한자9</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">카드를 불러오는 중입니다…</div>
 <div id="flash" class="flash hidden">
-<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><button id="rememberBtn" class="remember-btn" type="button" onclick="toggleRemember(event)">Remember</button><div id="cardJp" class="jp"></div><div id="cardKana" class="card-kana study-hidden"></div><div id="cardReading" class="reading study-hidden"></div>
-<div id="meaningStage" class="stage2-answer study-hidden"><div id="cardKo" class="ko"></div></div>
-<div id="answer" class="answer"><div id="cardMemo" class="memo"></div></div>
+<div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading"></div>
+<div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
-<div class="hint">1회 터치: 읽기·뜻 · 2회 터치 메모<br> · 좌우 밀기: 다음 한자<br>Made by Ai & Ha You Sin</div>
+<div class="hint">터치: 뜻 보기 · 좌우 밀기: 다음 한자<br>Made by Ai & Ha You Sin</div>
 
 </div></div></main>
 </div>
@@ -480,18 +455,16 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 <div class="menu-row"><select id="filter"><option value="all">전체 학년 (1,026자)</option><option value="1학년">1학년 · 80자</option><option value="2학년">2학년 · 160자</option><option value="3학년">3학년 · 200자</option><option value="4학년">4학년 · 202자</option><option value="5학년">5학년 · 193자</option><option value="6학년">6학년 · 191자</option></select></div>
 <div class="menu-row"><button class="primary" onclick="openAdd()">＋ 새 카드</button><button onclick="editCurrent()">수정</button></div>
 <div class="menu-row"><button onclick="showList()">목록</button><button onclick="syncCards(true)">↻ 동기화</button></div>
-<div class="menu-row"><button id="continueStudyBtn" class="primary" onclick="continueLastStudy()">▶ 마지막 학습 이어보기</button></div>
-<div class="menu-row"><button id="rememberFilterBtn" onclick="toggleRememberFilter()">✓ 기억한 카드 제외</button></div>
 <div class="menu-row"><button id="favoriteFilterBtn" onclick="toggleFavoriteFilter()">☆ 즐겨찾기만</button><button onclick="goRandomCard()">🎲 랜덤</button></div>
 <div id="syncStatus" class="status">준비</div><div class="status">문부과학성 학년별 교육한자 1,026자 · japhanja</div>
 </div>
 
 <section id="listView" class="list-screen hidden"><div class="list-head"><b>카드 목록</b><button class="close-btn" onclick="hideList()">닫기</button></div><div id="list"></div></section>
 
-<dialog id="jumpDialog"><div class="jump-box"><h2>카드 번호 이동</h2><div class="jump-controls"><input id="jumpInput" type="number" min="1" inputmode="numeric"><button onclick="jumpFromInput()">이동</button></div><div class="jump-help">회색=Remember · 노랑=즐겨찾기 · 혼합=둘 다 · 파란 테두리=현재</div><div id="quickNumbers" class="quick-numbers"></div><button class="jump-edit-btn" onclick="editCardFromJump()">✏️ 현재 번호 카드 수정</button><button class="jump-close" onclick="jumpDialog.close()">닫기</button></div></dialog>
+<dialog id="jumpDialog"><div class="jump-box"><h2>카드 번호 이동</h2><div class="jump-controls"><input id="jumpInput" type="number" min="1" inputmode="numeric"><button onclick="jumpFromInput()">이동</button></div><div id="quickNumbers" class="quick-numbers"></div><button class="jump-close" onclick="jumpDialog.close()">닫기</button></div></dialog>
 
 <dialog id="editor"><form class="modal" onsubmit="saveCard(event)">
-<h2 id="editorTitle">새 카드</h2><input id="id" type="hidden"><div id="orderField" class="field hidden"><label>카드 번호</label><input id="cardOrder" type="number" min="1" inputmode="numeric"><div class="memo-help">번호 변경 시 기존 카드는 자동으로 한 칸씩 밀립니다.</div></div>
+<h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
 <div class="field"><label>종류</label><select id="type"><option>1학년</option><option>2학년</option><option>3학년</option><option>4학년</option><option>5학년</option><option>6학년</option></select></div>
 <div class="field"><label>한자</label><input id="jp" placeholder="例: 山"></div>
 <div class="field"><label>히라가나</label><input id="hiragana" placeholder="예: やま"></div>
@@ -511,21 +484,17 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbyEsfvmjjqM6DH1rDngJvUoWQUPz4kiPR7j6vA_PEZT6XhcGS5S_q-UIDta0jblu6bbXw/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbyueX9w6Rfbvt_g9hJglgQMaU02MxFjnUQqJC723WDn5PjZP6soakt6659OOCIeoyANMw/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
-const CACHE_KEY='japhanja_cache_3step_v1';
+const CACHE_KEY='japhanja_cache_v6';
 const FAVORITES_KEY='japhanja_favorites_v1';
-const REMEMBER_KEY='japhanja_remembered_v1';
-let rememberedIds=new Set(),excludeRemembered=false;
 const LAST_CARD_KEY='japhanja_last_card_v1';
-const STUDY_STATE_KEY='japhanja_study_state_v2';
 let favoriteOnly=false;
 let favoriteIds=new Set();
 let cards=[],viewCards=[],current=0;
 let startX=0,startY=0,currentX=0,dragging=false,moved=false,animating=false;
 let selectedJapanese='';
-let studyStep=1;
 const $=id=>document.getElementById(id);
 
 function loadFavorites(){
@@ -541,61 +510,27 @@ function saveFavorites(){
     localStorage.setItem(FAVORITES_KEY,JSON.stringify([...favoriteIds]));
   }catch(_){}
 }
-function getStudyState(){
-  try{return JSON.parse(localStorage.getItem(STUDY_STATE_KEY)||'null')}catch(_){return null}
-}
-function saveStudyState(){
+function rememberLastCard(){
   try{
     if(!viewCards.length)return;
-    const c=viewCards[current];
-    const state={cardId:String(c?.id||''),type:String($('filter')?.value||'all'),index:current,savedAt:Date.now()};
-    localStorage.setItem(STUDY_STATE_KEY,JSON.stringify(state));
-    if(state.cardId)localStorage.setItem(LAST_CARD_KEY,state.cardId);
-    updateContinueStudyButton();
+    const id=String(viewCards[current]?.id||'');
+    if(id)localStorage.setItem(LAST_CARD_KEY,id);
   }catch(_){}
 }
-function rememberLastCard(){saveStudyState()}
-function restoreLastStudy(){
+
+function restoreLastCard(){
   try{
-    const state=getStudyState();
-    if(!state)return false;
-    const filter=$('filter');
-    const type=String(state.type||'all');
-    filter.value=[...filter.options].some(o=>o.value===type)?type:'all';
-    const q=$('search').value.trim().toLowerCase(),f=filter.value;
-    viewCards=cards.filter(c=>{
-      const hit=!q||[c.jp,c.hiragana,c.katakana,c.ko,c.reading,plainMemoText(c.memo)].join(' ').toLowerCase().includes(q);
-      return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id))&&(!excludeRemembered||!isRemembered(c.id));
-    });
-    if(!viewCards.length)return false;
-    let idx=viewCards.findIndex(c=>String(c.id)===String(state.cardId));
-    if(idx<0)idx=Math.max(0,Math.min(Number(state.index)||0,viewCards.length-1));
+    const id=String(localStorage.getItem(LAST_CARD_KEY)||'');
+    if(!id||!viewCards.length)return false;
+    const idx=viewCards.findIndex(c=>String(c.id)===id);
+    if(idx<0)return false;
     current=idx;
-    render();
-    updateContinueStudyButton();
     return true;
-  }catch(_){return false}
-}
-function restoreLastCard(){return restoreLastStudy()}
-function updateContinueStudyButton(){
-  const btn=$('continueStudyBtn');if(!btn)return;
-  const state=getStudyState();
-  if(!state||!state.cardId){btn.textContent='▶ 마지막 학습 이어보기';btn.disabled=true;return}
-  btn.disabled=false;
-  btn.textContent='▶ '+(state.type&&state.type!=='all'?state.type:'전체')+' · 마지막 학습 이어보기';
-}
-function continueLastStudy(){
-  $('menu').classList.add('hidden');
-  if(!cards.length){alert('아직 불러온 카드가 없습니다.');return}
-  if(!restoreLastStudy())alert('저장된 마지막 학습 위치를 찾을 수 없습니다.');
+  }catch(_){
+    return false;
+  }
 }
 
-function loadRemembered(){try{const x=JSON.parse(localStorage.getItem(REMEMBER_KEY)||'[]');rememberedIds=new Set(Array.isArray(x)?x.map(String):[])}catch(_){rememberedIds=new Set()}}
-function saveRemembered(){try{localStorage.setItem(REMEMBER_KEY,JSON.stringify([...rememberedIds]))}catch(_){}}
-function isRemembered(id){return rememberedIds.has(String(id||''))}
-function updateRememberButton(){const btn=$('rememberBtn'),c=viewCards[current];if(!btn)return;const on=!!c&&isRemembered(c.id);btn.classList.toggle('active',on);btn.textContent=on?'✓ Remember':'Remember';$('flash').classList.toggle('remembered',on)}
-function toggleRemember(e){if(e){e.preventDefault();e.stopPropagation()}const c=viewCards[current];if(!c)return;const id=String(c.id);if(isRemembered(id))rememberedIds.delete(id);else rememberedIds.add(id);saveRemembered();updateRememberButton();if(excludeRemembered)applyFilter(true)}
-function toggleRememberFilter(){excludeRemembered=!excludeRemembered;const b=$('rememberFilterBtn');b.textContent=excludeRemembered?'✓ 기억한 카드 제외 중 · 전체 보기':'✓ 기억한 카드 제외';b.classList.toggle('active-remember',excludeRemembered);current=0;applyFilter(true)}
 function isFavorite(id){
   return favoriteIds.has(String(id||''));
 }
@@ -610,7 +545,7 @@ function updateFavoriteButton(){
   const id=String(viewCards[current]?.id||'');
   const on=isFavorite(id);
   btn.textContent=on?'★':'☆';
-  btn.classList.toggle('active',on);$('flash').classList.toggle('favorited',on);
+  btn.classList.toggle('active',on);
   btn.setAttribute('aria-label',on?'즐겨찾기 해제':'즐겨찾기 추가');
 }
 function toggleFavorite(e){
@@ -775,7 +710,8 @@ function loadCache(){
     const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
     if(Array.isArray(x)&&x.length){
       cards=normalizeCards(x);
-      if(!restoreLastStudy())applyFilter(false);
+      applyFilter(false);
+      if(restoreLastCard()) render();
       $('syncStatus').textContent='저장된 카드 표시 · 최신 확인 중…';
       return true;
     }
@@ -850,15 +786,14 @@ async function syncCards(manual=false){
     const nextSig=cardsSignature(nextCards);
 
     if(nextSig!==lastSyncSignature || !cards.length){
-      const savedState=getStudyState();
-      const keepId=String(savedState?.cardId||viewCards[current]?.id||localStorage.getItem(LAST_CARD_KEY)||'');
+      const keepId=String(viewCards[current]?.id||localStorage.getItem(LAST_CARD_KEY)||'');
       cards=nextCards;
       lastSyncSignature=nextSig;
       saveCache();
 
       // 동기화 후에도 보고 있던 카드를 유지
-      if(!restoreLastStudy())applyFilter(false);
-      if(keepId && !savedState){
+      applyFilter(false);
+      if(keepId){
         const keepIndex=viewCards.findIndex(c=>String(c.id)===keepId);
         if(keepIndex>=0){
           current=keepIndex;
@@ -893,7 +828,7 @@ function applyFilter(renderListToo=true){
         .toLowerCase()
         .includes(q);
 
-    return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id))&&(!excludeRemembered||!isRemembered(c.id));
+    return hit&&(f==='all'||c.type===f)&&(!favoriteOnly||isFavorite(c.id));
   });
 
   current=Math.min(
@@ -922,18 +857,18 @@ function fitJapaneseText(text=''){
 
 function render(){
  hideSelectTools();
- if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();updateRememberButton();return}
+ if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'1학년';
  const kanaDisplay=[c.hiragana,c.katakana].filter(Boolean).join('／');
- $('cardJp').textContent=c.jp||'(내용 없음)';
- $('cardKana').textContent=kanaDisplay?'（'+kanaDisplay+'）':'';
- fitJapaneseText(c.jp||'');
- $('cardReading').textContent=c.reading||'';
- $('cardKo').textContent=c.ko||'';
+ const jpDisplay=(c.jp||'')+(kanaDisplay?'（'+kanaDisplay+'）':'');
+ $('cardJp').textContent=jpDisplay||'(내용 없음)';
+ fitJapaneseText(jpDisplay);
+ $('cardReading').textContent=[c.reading,c.ko].filter(Boolean).join(' · ');
+ $('cardKo').textContent='';
  $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
  updateFavoriteButton();
- setStudyStep(1);
+ $('answer').classList.remove('show');
  $('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
  rememberLastCard();
@@ -1045,22 +980,7 @@ document.addEventListener('selectionchange',()=>{
   if(!text)hideSelectTools();
 });
 
-function setStudyStep(step){
- studyStep=Math.max(1,Math.min(3,step));
- const showRecall=studyStep>=2;
- const showMemo=studyStep>=3;
- $('cardKana').classList.toggle('study-hidden',!showRecall);
- $('cardReading').classList.toggle('study-hidden',!showRecall);
- $('meaningStage').classList.toggle('study-hidden',!showRecall);
- $('answer').classList.toggle('show',showMemo);
- if(studyStep===1)$('cardJp').scrollTop=0;
-}
-function flipCard(){
- if(animating||moved)return;
- if(studyStep===1)setStudyStep(2);
- else if(studyStep===2)setStudyStep(3);
- else setStudyStep(1);
-}
+function flipCard(){if(!animating&&!moved)$('answer').classList.toggle('show')}
 
 const flash=$('flash');
 flash.addEventListener('pointerdown',e=>{if(animating||!viewCards.length)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;flash.classList.add('dragging');try{flash.setPointerCapture(e.pointerId)}catch(_){}});
@@ -1199,16 +1119,13 @@ function openGemini(){
 function toggleMenu(){hideSelectTools();$('menu').classList.toggle('hidden')}
 document.addEventListener('pointerdown',e=>{if(!$('menu').classList.contains('hidden')&&!$('menu').contains(e.target)&&!e.target.closest('.icon-btn'))$('menu').classList.add('hidden')});
 
-function jumpNumberClass(c,i){const x=[];if(i===current)x.push('current');if(isRemembered(c.id))x.push('remembered');if(isFavorite(c.id))x.push('favorited');return x.join(' ')}
-function renderQuickNumbers(){$('quickNumbers').innerHTML=viewCards.map((c,i)=>`<button class="${jumpNumberClass(c,i)}" onclick="jumpTo(${i+1})">${i+1}</button>`).join('')}
-function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$('jumpInput').max=viewCards.length;renderQuickNumbers();jumpDialog.showModal();setTimeout(()=>$('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'}),20)}
+function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$('jumpInput').max=viewCards.length;$('quickNumbers').innerHTML=Array.from({length:viewCards.length},(_,i)=>`<button class="${i===current?'current':''}" onclick="jumpTo(${i+1})">${i+1}</button>`).join('');jumpDialog.showModal();setTimeout(()=>$('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'}),20)}
 function jumpFromInput(){const n=parseInt($('jumpInput').value,10);if(n>=1&&n<=viewCards.length)jumpTo(n)}
 function jumpTo(n){current=n-1;render();jumpDialog.close()}
-function editCardFromJump(){const n=parseInt($('jumpInput').value,10);if(!(n>=1&&n<=viewCards.length))return;current=n-1;const c=viewCards[current];render();jumpDialog.close();setTimeout(()=>openEdit(c.id),30)}
 
 function openAdd(){
   $('menu').classList.add('hidden');
-  $('editorTitle').textContent='새 카드';$('orderField').classList.add('hidden');$('cardOrder').value='';
+  $('editorTitle').textContent='새 카드';
   ['id','jp','hiragana','katakana','reading','ko'].forEach(x=>$(x).value='');
   $('memoEditor').innerHTML='';
   $('type').value='1학년';
@@ -1221,7 +1138,6 @@ function openEdit(id){
 
   $('editorTitle').textContent='카드 수정';
   $('id').value=c.id;
-  const gi=cards.findIndex(x=>String(x.id)===String(c.id));$('orderField').classList.remove('hidden');$('cardOrder').max=cards.length;$('cardOrder').value=gi+1;
   $('type').value=c.type||'1학년';
   $('jp').value=c.jp||'';
   $('hiragana').value=c.hiragana||'';
@@ -1237,8 +1153,6 @@ async function saveCard(e){
   e.preventDefault();
 
   const btn=$('saveCardBtn');
-  const originalOrder=$('id').value?cards.findIndex(x=>String(x.id)===String($('id').value))+1:0;
-  const desiredOrder=$('id').value?parseInt($('cardOrder').value,10):0;
 
   const card={
     id:$('id').value,
@@ -1276,10 +1190,7 @@ async function saveCard(e){
 
     if(i>=0) cards[i]={...cards[i],...normalized};
     else cards.push(normalized);
-    if(action==='update'&&desiredOrder>=1&&desiredOrder<=cards.length&&desiredOrder!==originalOrder){
-      await request('move',{id:card.id,to:desiredOrder});
-      const fi=cards.findIndex(x=>String(x.id)===String(card.id));if(fi>=0){const m=cards.splice(fi,1)[0];cards.splice(desiredOrder-1,0,m)}
-    }
+
     saveCache();
     applyFilter(false);
     $('syncStatus').textContent='저장 완료';
@@ -1288,7 +1199,7 @@ async function saveCard(e){
     await new Promise(resolve=>setTimeout(resolve,400));
 
     editor.close();
-
+    setTimeout(()=>syncCards(false),350);
 
   }catch(err){
     alert(err.message||'저장에 실패했습니다.');
@@ -1298,7 +1209,7 @@ async function saveCard(e){
     btn.innerHTML=originalHtml;
   }
 }
-async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));favoriteIds.delete(String(id));saveFavorites();rememberedIds.delete(String(id));saveRemembered();saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
+async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))return;try{await request('delete',{id});cards=cards.filter(x=>String(x.id)!==String(id));favoriteIds.delete(String(id));saveFavorites();saveCache();applyFilter();$('syncStatus').textContent='삭제 완료'}catch(e){alert(e.message)}}
 
 function showList(){$('menu').classList.add('hidden');renderList();$('listView').classList.remove('hidden')}
 function hideList(){$('listView').classList.add('hidden')}
@@ -1327,9 +1238,11 @@ function renderList(){
     <div class="listItem">
       <div class="listText" onclick="openCardFromList('${c.id}')">
         <b>${esc(c.jp)}${(c.hiragana||c.katakana)?'（'+esc([c.hiragana,c.katakana].filter(Boolean).join('／'))+'）':''}</b>
-        <div>${c.reading?'발음: '+esc(c.reading):''}</div>
-        <div>${c.ko?'뜻: '+esc(c.ko):''}</div>
-        <div class="small">${esc(c.type||'1학년')}</div>
+        <div>${esc([c.reading,c.ko].filter(Boolean).join(' · '))}</div>
+        <div class="small">
+          ${esc(c.type||'1학년')}
+          ${c.reading?'· '+esc(c.reading):''}
+        </div>
       </div>
 
       <button class="mini"
@@ -1346,12 +1259,10 @@ function renderList(){
 }
 
 $('search').addEventListener('input',()=>applyFilter(true));
-$('filter').addEventListener('change',()=>{current=0;applyFilter(true);saveStudyState()});
+$('filter').addEventListener('change',()=>applyFilter(true));
 
 /* 핵심: 캐시를 먼저 즉시 표시하고 시트 동기화는 뒤에서 시작 */
 loadFavorites();
-loadRemembered();
-updateContinueStudyButton();
 const hadCache=loadCache();
 if(!hadCache){$('empty').textContent='카드를 불러오는 중입니다…'}
 setTimeout(()=>syncCards(false),0);
