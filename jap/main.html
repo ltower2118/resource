@@ -197,16 +197,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 
 .jump-controls{display:grid;grid-template-columns:1fr auto;gap:8px}.jump-controls input{width:100%;border:1px solid #cbd5e1;border-radius:11px;padding:13px;font-size:18px;text-align:center}.jump-controls button{border:0;border-radius:11px;padding:0 18px;background:var(--main);color:#fff;font-weight:800}
-.quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}
-.quick-numbers button{position:relative;border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:46px;font-weight:800;color:#374151}
-.quick-numbers button.remembered{background:#e5e7eb;border-color:#9ca3af}
-.quick-numbers button.favorited:not(.remembered){background:#fff8dc;border-color:#f4cf5d;color:#7a5b00}
-.quick-numbers button.remembered.favorited{background:#deded7;border-color:#b7aa72}
-.quick-numbers button.current{box-shadow:inset 0 0 0 3px var(--main);border-color:var(--main)}
-.quick-numbers button.current::after{content:'현재';position:absolute;right:3px;bottom:2px;font-size:8px;color:var(--main);font-weight:900}
-.jump-help{margin-top:9px;font-size:11px;color:#64748b;line-height:1.45;text-align:center}
-.jump-edit-btn{width:100%;margin-top:10px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:800}
-.jump-close{width:100%;margin-top:8px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
+.quick-numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px;max-height:42vh;overflow:auto}.quick-numbers button{border:1px solid #dbe1e8;background:#fff;border-radius:10px;min-height:42px;font-weight:700}.quick-numbers button.current{background:var(--main);color:#fff;border-color:var(--main)}.jump-close{width:100%;margin-top:12px;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:11px;font-weight:700}
 
 .select-tools{
   position:fixed;z-index:60;display:flex;gap:6px;
@@ -435,7 +426,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어36</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어39</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
@@ -526,10 +517,11 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
 <section id="listView" class="list-screen hidden"><div class="list-head"><b>카드 목록</b><button class="close-btn" onclick="hideList()">닫기</button></div><div id="list"></div></section>
 
-<dialog id="jumpDialog"><div class="jump-box"><h2>카드 번호 이동</h2><div class="jump-controls"><input id="jumpInput" type="number" min="1" inputmode="numeric"><button onclick="jumpFromInput()">이동</button></div><div class="jump-help">번호 터치: 이동 · 번호 길게 누르기: 수정<br>회색=Remember · 노랑=즐겨찾기 · 혼합=둘 다 · 파란 테두리=현재</div><div id="quickNumbers" class="quick-numbers"></div><button class="jump-edit-btn" onclick="editCardFromJump()">✏️ 현재 번호 카드 수정</button><button class="jump-close" onclick="jumpDialog.close()">닫기</button></div></dialog>
+<dialog id="jumpDialog"><div class="jump-box"><h2>카드 번호 이동</h2><div class="jump-controls"><input id="jumpInput" type="number" min="1" inputmode="numeric"><button onclick="jumpFromInput()">이동</button></div><div id="quickNumbers" class="quick-numbers"></div><button class="jump-close" onclick="jumpDialog.close()">닫기</button></div></dialog>
 
 <dialog id="editor"><form class="modal" onsubmit="saveCard(event)">
 <h2 id="editorTitle">새 카드</h2><input id="id" type="hidden">
+<div id="orderField" class="field hidden"><label>카드 번호</label><input id="cardOrder" type="number" min="1" inputmode="numeric"><div class="memo-help">번호를 바꾸면 해당 위치로 이동하고 기존 카드는 한 칸씩 자동으로 밀립니다.</div></div>
 <div class="field"><label>종류</label><select id="type"></select></div>
 <div class="field"><label>일본어</label><input id="jp" placeholder="例: 日本語"></div>
 <div class="field"><label>읽는 법</label><input id="reading" placeholder="예: 니혼고"></div>
@@ -548,7 +540,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbyQjLHclv_3MAqvTLH1588VBcX3MkLjopCmCEIfaN3h6Kz9rktFIAeCN1vwPL6NQjkH/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbwFSODX8NdE2cexf8ddHi9ticocfHzUS6HED0izkXFnl-RuO5B5Jnp2ficorafnlvpE/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_2step_v1';
@@ -696,7 +688,7 @@ function toggleRemember(e){
  const card=viewCards[current];if(!card)return;
  const id=String(card.id);
  if(isRemembered(id))rememberedIds.delete(id);else rememberedIds.add(id);
- saveRemembered();updateRememberButton();if(jumpDialog.open)renderQuickNumbers();
+ saveRemembered();updateRememberButton();
  if(excludeRemembered)applyFilter(true);
  else if(!$('listView').classList.contains('hidden'))renderList();
 }
@@ -734,7 +726,7 @@ function toggleFavorite(e){
   if(isFavorite(id)) favoriteIds.delete(id);
   else favoriteIds.add(id);
   saveFavorites();
-   updateFavoriteButton();if(jumpDialog.open)renderQuickNumbers();
+   updateFavoriteButton();
   if(favoriteOnly) applyFilter(false);
   else if(!$('listView').classList.contains('hidden'))renderList();
 }
@@ -1445,21 +1437,15 @@ function openGemini(){
 function toggleMenu(){hideSelectTools();$('menu').classList.toggle('hidden')}
 document.addEventListener('pointerdown',e=>{if(!$('menu').classList.contains('hidden')&&!$('menu').contains(e.target)&&!e.target.closest('.icon-btn'))$('menu').classList.add('hidden')});
 
-let jumpLongPressTimer=null,jumpLongPressed=false;
-function jumpNumberClass(card,index){const cls=[];if(index===current)cls.push('current');if(isRemembered(card.id))cls.push('remembered');if(isFavorite(card.id))cls.push('favorited');return cls.join(' ')}
-function renderQuickNumbers(){$('quickNumbers').innerHTML=viewCards.map((card,i)=>`<button class="${jumpNumberClass(card,i)}" onpointerdown="startJumpLongPress(event,${i+1})" onpointerup="endJumpLongPress(event,${i+1})" onpointercancel="cancelJumpLongPress()" onpointerleave="cancelJumpLongPress()">${i+1}</button>`).join('')}
-function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$('jumpInput').max=viewCards.length;renderQuickNumbers();jumpDialog.showModal();setTimeout(()=>$('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'}),20)}
+function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$('jumpInput').max=viewCards.length;$('quickNumbers').innerHTML=Array.from({length:viewCards.length},(_,i)=>`<button class="${i===current?'current':''}" onclick="jumpTo(${i+1})">${i+1}</button>`).join('');jumpDialog.showModal();setTimeout(()=>$('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'}),20)}
 function jumpFromInput(){const n=parseInt($('jumpInput').value,10);if(n>=1&&n<=viewCards.length)jumpTo(n)}
-function jumpTo(n){if(n<1||n>viewCards.length)return;current=n-1;render();jumpDialog.close()}
-function startJumpLongPress(e,n){jumpLongPressed=false;clearTimeout(jumpLongPressTimer);jumpLongPressTimer=setTimeout(()=>{jumpLongPressed=true;editJumpNumber(n)},550)}
-function endJumpLongPress(e,n){clearTimeout(jumpLongPressTimer);if(jumpLongPressed){jumpLongPressed=false;return}jumpTo(n)}
-function cancelJumpLongPress(){clearTimeout(jumpLongPressTimer)}
-function editJumpNumber(n){if(n<1||n>viewCards.length)return;current=n-1;const card=viewCards[current];render();jumpDialog.close();setTimeout(()=>openEdit(card.id),30)}
-function editCardFromJump(){const n=parseInt($('jumpInput').value,10);if(!(n>=1&&n<=viewCards.length)){alert('수정할 카드 번호를 입력하세요.');return}editJumpNumber(n)}
+function jumpTo(n){current=n-1;render();jumpDialog.close()}
 
 function openAdd(){
   $('menu').classList.add('hidden');
   $('editorTitle').textContent='새 카드';
+  $('orderField').classList.add('hidden');
+  $('cardOrder').value='';
   ['id','jp','reading','ko'].forEach(x=>$(x).value='');
   $('memoEditor').innerHTML='';
   refreshTypeOptions();
@@ -1472,6 +1458,11 @@ function openEdit(id){
 
   $('editorTitle').textContent='카드 수정';
   $('id').value=c.id;
+  const globalIndex=cards.findIndex(x=>String(x.id)===String(c.id));
+  $('orderField').classList.remove('hidden');
+  $('cardOrder').min=1;
+  $('cardOrder').max=cards.length;
+  $('cardOrder').value=globalIndex>=0?globalIndex+1:'';
   refreshTypeOptions();
   const cardType=String(c.type||'').trim();
   if(![...$('type').options].some(o=>o.value===cardType)){
@@ -1490,6 +1481,12 @@ async function saveCard(e){
   e.preventDefault();
 
   const btn=$('saveCardBtn');
+  const originalOrder=$('id').value
+    ? cards.findIndex(x=>String(x.id)===String($('id').value))+1
+    : 0;
+  const desiredOrder=$('id').value
+    ? parseInt($('cardOrder').value,10)
+    : 0;
 
   const card={
     id:$('id').value,
@@ -1526,6 +1523,17 @@ async function saveCard(e){
     if(i>=0) cards[i]={...cards[i],...normalized};
     else cards.push(normalized);
 
+    // 기존 카드에서 번호가 변경된 경우에만 Google Sheet 행 1개 이동
+    if(action==='update' && Number.isInteger(desiredOrder) && desiredOrder>=1 && desiredOrder<=cards.length && desiredOrder!==originalOrder){
+      await request('move',{id:card.id,to:desiredOrder});
+
+      const fromIndex=cards.findIndex(x=>String(x.id)===String(card.id));
+      if(fromIndex>=0){
+        const movedCard=cards.splice(fromIndex,1)[0];
+        cards.splice(desiredOrder-1,0,movedCard);
+      }
+    }
+
     saveCache();
     refreshTypeOptions();
     applyFilter(false);
@@ -1535,7 +1543,9 @@ async function saveCard(e){
     await new Promise(resolve=>setTimeout(resolve,400));
 
     editor.close();
-    setTimeout(()=>syncCards(false),350);
+    // 저장 직후 전체 목록을 다시 받지 않아 체감 속도 유지
+    // 필요할 때 메뉴의 ↻ 동기화로 최신 시트를 확인
+
 
   }catch(err){
     alert(err.message||'저장에 실패했습니다.');
