@@ -287,8 +287,27 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   font-weight:800;
 }
 .kana-body{
-  overflow:auto;
-  padding:12px;
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  padding:12px 12px 28px;
+}
+.kana-body img{
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
+  margin:0 auto 14px;
+}
+.kana-panel{height:min(92dvh,950px)}
+@media(max-width:520px){
+  .kana-panel{height:94dvh;max-height:94dvh}
+  .kana-body{padding-bottom:36px}
 }
 .kana-note{
   margin:0 0 10px;
@@ -400,7 +419,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어32</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어33</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
