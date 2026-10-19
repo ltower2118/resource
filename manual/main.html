@@ -21,7 +21,7 @@
     .card{padding:12px}
     .document{border-radius:12px}
     .doc-head{padding:21px 17px 17px}
-    .doc-title{font-size:26px}
+    .doc-title{font-size:30px}
     .doc-meta{font-size:12px}
     .steps{padding:0 15px 8px}
     .step{padding:21px 0 24px}
@@ -55,3 +55,4 @@ $('search').addEventListener('input',render);$('list').addEventListener('click',
 $('content').addEventListener('click',e=>{const img=e.target.closest('img[data-zoom]');if(!img)return;$('largeImage').src=img.dataset.zoom;$('lightbox').classList.remove('hidden');$('lightbox').focus()});$('lightbox').addEventListener('click',()=>{$('lightbox').classList.add('hidden');$('largeImage').removeAttribute('src')});document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('lightbox').classList.add('hidden');$('largeImage').removeAttribute('src')}});window.addEventListener('hashchange',route);
 const script=document.createElement('script');script.src=API_URL+'?callback=sopCallback&t='+Date.now();script.onerror=()=>{$('list').textContent='매뉴얼 목록을 불러오지 못했습니다.';$('error').textContent='Apps Script 배포 주소와 공개 권한을 확인하세요.'};document.head.appendChild(script);
 </script></body></html>
+
