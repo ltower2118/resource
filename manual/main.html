@@ -95,7 +95,7 @@
     }
     .doc-meta .dot { opacity: .5; }
     .steps { padding: 0 22px 12px; }
-    .step { padding: 24px 0 27px; border-top: 1px solid var(--line); }
+    .step { padding: 20px 0 22px; border-top: 1px solid var(--line); }
     .step-label {
         font-size: 12px;
         font-weight: 750;
@@ -132,7 +132,7 @@
     .description {
         font-size: 15px;
         white-space: pre-wrap;
-        line-height: 1.85;
+        line-height: 1.75;
         margin-top: 12px;
         overflow-wrap: anywhere;
     }
@@ -200,7 +200,7 @@
     .doc-title { font-size: 1.8rem; font-weight: bold; }
     .doc-meta { font-size: 12px; }
     .steps { padding: 0 15px 8px; }
-    .step { padding: 21px 0 24px; }
+    .step { padding: 18px 0 20px; }
     .step-label { margin-bottom: 12px; font-size: 9px; color: #cfcfcf; }
     .step-layout { display: block; }
     .photoarea { margin-bottom: 16px; }
@@ -211,7 +211,8 @@
         border-radius: 7px;
     }
     .stepname { font-size: 1.2rem; }
-    .description { font-size: 1.05rem; margin-top: 9px; line-height: 1.8; }
+    .description { font-size: 1.05rem; margin-top: 9px; line-height: 1.8;text-align: left !important;}
+    text-indent: 0 !important; }
     .caution { margin-top: 14px; }
     .tools button { font-size: 12px; }
     .admin-shortcut {
@@ -226,7 +227,7 @@
 <body>
     <header id="siteHeader">
         <div>
-            <h1>현장 작업 매뉴얼20-3</h1>
+            <h1>현장 작업 매뉴얼20-4</h1>
             <small>사진으로 보는 표준작업지침서</small>
         </div>
     </header>
@@ -348,12 +349,17 @@ function route() {
 
     const steps = (manual.steps || []).map((step, i) => {
         const image = safeUrl(step.image);
-        const description = String(step.description || '').trim();
+        const rawDescription = String(step.description || '');
+        const leading = rawDescription.length - rawDescription.trimStart().length;
+        const description = rawDescription.trim();
+        const descriptionRuns = (step.rich && step.rich.description || [])
+            .map(r => ({ ...r, start: r.start - leading, end: r.end - leading }))
+            .filter(r => r.end > 0 && r.start < description.length)
+            .map(r => ({ ...r, start: Math.max(0, r.start), end: Math.min(description.length, r.end) }));
         const caution = String(step.caution || '').trim();
 
         return `
             <section class="step ${image ? '' : 'no-photo'}">
-                <br>
                 <div class="step-label">${String(i + 1).padStart(2, '0')}</div>
                 <div class="step-layout">
                     ${image ? `
@@ -363,13 +369,9 @@ function route() {
                         </div>
                     ` : ''}
                     <div class="step-copy">
-                        <div class="stepname">
-                            ${styledText(step.name, step.rich && step.rich.name)}
-                        </div>
+                        <div class="stepname">${styledText(step.name, step.rich && step.rich.name)}</div>
                         ${description ? `
-                            <div class="description">
-                                ${styledText(step.description, step.rich && step.rich.description)}
-                            </div>
+                            <div class="description">${styledText(description, descriptionRuns)}</div>
                         ` : ''}
                         ${caution ? `
                             <div class="caution">
@@ -379,8 +381,7 @@ function route() {
                         ` : ''}
                     </div>
                 </div>
-                <br><br>
-            </section>
+            </section><br><br>
         `;
     }).join('');
 
