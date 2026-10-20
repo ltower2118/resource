@@ -479,6 +479,8 @@ function route() {
     $('home').classList.toggle('hidden', !!manual);
     $('detail').classList.toggle('hidden', !manual);
     $('siteHeader').classList.toggle('hidden', !!manual);
+    // 관리자 바로가기는 목록에서만 표시합니다.
+    document.querySelector('.admin-shortcut').classList.toggle('hidden', !!manual);
     document.title = manual
         ? manual.title + ' | 현장 작업 매뉴얼'
         : '현장 작업 매뉴얼';
