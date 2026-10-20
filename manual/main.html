@@ -1,220 +1,303 @@
 <!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>현장 작업 매뉴얼</title>
-    <style>
-    /* 1. 기본 색상 및 공통 */
-    :root {
-        --navy: #173e69;
-        --ink: #172333;
-        --muted: #657589;
-        --line: #e4e9ef;
-        --bg: #f4f6f9;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--ink);
-        font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont,
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   현장 작업 매뉴얼
+  </title>
+  <style>
+   
+/* 1. 기본 색상 및 공통 */
+:root {
+    --navy: #173e69;
+    --ink: #172333;
+    --muted: #657589;
+    --line: #e4e9ef;
+    --bg: #f4f6f9;
+}
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont,
                      "Malgun Gothic", Roboto, sans-serif;
-        -webkit-text-size-adjust: 100%;
-    }
-
-    .hidden { display: none !important; }
-    header { background: var(--navy); color: #fff; padding: 20px; }
-    header > div, main { max-width: 1020px; margin: auto; }
-    header h1 { font-size: 22px; margin: 0; }
-    header small { opacity: .86; }
-    main { padding: 16px; }
-
-    /* 2. 목록 및 검색 */
-    .card {
-        background: #fff;
-        border-radius: 14px;
-        padding: 16px;
-        box-shadow: 0 2px 9px #1723330d;
-        margin: 12px 0;
-    }
-
-    input {
-        font: inherit;
-        width: 100%;
-        padding: 14px;
-        border: 1px solid #d5dce5;
-        border-radius: 10px;
-    }
-
-    .item {
-        padding: 17px 7px;
-        border-bottom: 1px solid var(--line);
-        cursor: pointer;
-    }
-    .item:last-child { border: 0; }
-    .item:hover { background: #f7f9fc; }
-    .item strong { font-size: 20px; }
-    .muted { color: var(--muted); font-size: 13px; margin-top: 5px; }
-
-    /* 3. 매뉴얼 상세 화면 */
-    .tools { display: flex; gap: 7px; margin-bottom: 12px; }
-    .tools button {
-        border: 1px solid #dce3ec;
-        border-radius: 8px;
-        background: #fff;
-        color: #34516d;
-        font: inherit;
-        font-size: 12px;
-        padding: 8px 11px;
-        cursor: pointer;
-    }
-    .document {
-        background: #fff;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px #1723330d;
-    }
-    .doc-head { padding: 23px 22px 18px; }
-    .doc-title {
-        font-size: 24px;
-        line-height: 1.4;
-        font-weight: 750;
-        overflow-wrap: anywhere;
-        letter-spacing: -.5px;
-    }
-    .doc-meta {
-        font-size: 13px;
-        color: var(--muted);
-        margin-top: 11px;
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-    }
-    .doc-meta .dot { opacity: .5; }
-    .steps { padding: 0 22px 12px; }
-    .step { padding: 20px 0 22px; border-top: 1px solid var(--line); }
-    .step-label {
-        font-size: 12px;
-        font-weight: 750;
-        letter-spacing: .06em;
-        color: #54718f;
-        margin-bottom: 13px;
-    }
-    .step-layout {
-        display: grid;
-        grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
-        gap: 24px;
-        align-items: start;
-    }
-    .step.no-photo .step-layout { display: block; }
-    .photoarea { min-width: 0; }
-    .photoarea img {
-        display: block;
-        max-width: 100%;
-        max-height: 550px;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-        border-radius: 9px;
-        cursor: zoom-in;
-        background: #f4f6f9;
-    }
-    .step-copy { min-width: 0; }
-    .stepname {
-        font-size: 19px;
-        line-height: 1.5;
-        font-weight: 750;
-        overflow-wrap: anywhere;
-    }
-    .description {
-        font-size: 15px;
-        white-space: pre-wrap;
-        line-height: 1.75;
-        margin-top: 12px;
-        overflow-wrap: anywhere;
-    }
-    .caution {
-        margin-top: 17px;
-        padding: 12px 14px;
-        background: #fff7e9;
-        border-radius: 9px;
-        border-left: 3px solid #d9a04c;
-    }
-    .caution strong {
-        display: block;
-        font-size: 13px;
-        color: #935514;
-        margin-bottom: 6px;
-    }
-    .caution div {
-        white-space: pre-wrap;
-        font-size: 14px;
-        line-height: 1.75;
-        overflow-wrap: anywhere;
-    }
-    #error { color: #ad3030; font-size: 13px; }
-
-    /* 4. 사진 확대 */
-    .lightbox {
-        position: fixed;
-        inset: 0;
-        z-index: 30;
-        background: #000e;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 15px;
-        cursor: zoom-out;
-    }
-    .lightbox img { max-width: 100%; max-height: 96vh; object-fit: contain; }
-
-    /* 5. 관리자 작성 바로가기 */
-    .admin-shortcut {
-        position: fixed;
-        right: 14px;
-        bottom: 16px;
-        z-index: 50;
-        padding: 8px 12px;
-        border-radius: 20px;
-        background: var(--navy);
-        color: #fff;
-        font-size: .75rem;
-        font-weight: 600;
-        text-decoration: none;
-        box-shadow: 0 2px 8px #0002;
-        opacity: .8;
-        transition: opacity .2s;
-    }
-    .admin-shortcut:hover,
-    .admin-shortcut:focus-visible { opacity: 1; }
-
+    -webkit-text-size-adjust: 100%;
+}
+.hidden {
+    display: none !important;
+}
+header {
+    background: var(--navy);
+    color: #fff;
+    padding: 20px;
+}
+header > div, main {
+    max-width: 1020px;
+    margin: auto;
+}
+header h1 {
+    font-size: 22px;
+    margin: 0;
+}
+header small {
+    opacity: .86;
+}
+main {
+    padding: 16px;
+}
+/* 2. 목록 및 검색 */
+.card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 2px 9px #1723330d;
+    margin: 12px 0;
+}
+input {
+    font: inherit;
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d5dce5;
+    border-radius: 10px;
+}
+.item {
+    padding: 17px 7px;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+}
+.item:last-child {
+    border: 0;
+}
+.item:hover {
+    background: #f7f9fc;
+}
+.item strong {
+    font-size: 20px;
+}
+.muted {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 5px;
+}
+/* 3. 매뉴얼 상세 화면 */
+.tools {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 12px;
+}
+.tools button {
+    border: 1px solid #dce3ec;
+    border-radius: 8px;
+    background: #fff;
+    color: #34516d;
+    font: inherit;
+    font-size: 12px;
+    padding: 8px 11px;
+    cursor: pointer;
+}
+.document {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px #1723330d;
+}
+.doc-head {
+    padding: 23px 22px 18px;
+}
+.doc-title {
+    font-size: 24px;
+    line-height: 1.4;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+    letter-spacing: -.5px;
+}
+.doc-meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 11px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.doc-meta .dot {
+    opacity: .5;
+}
+.steps {
+    padding: 0 22px 12px;
+}
+.step {
+    padding: 20px 0 22px;
+    border-top: 1px solid var(--line);
+}
+.step-label {
+    font-size: 12px;
+    font-weight: 750;
+    letter-spacing: .06em;
+    color: #54718f;
+    margin-bottom: 13px;
+}
+.step-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+.step.no-photo .step-layout {
+    display: block;
+}
+.photoarea {
+    min-width: 0;
+}
+.photoarea img {
+    display: block;
+    max-width: 100%;
+    max-height: 550px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 9px;
+    cursor: zoom-in;
+    background: #f4f6f9;
+}
+.step-copy {
+    min-width: 0;
+}
+.stepname {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+.description {
+    font-size: 15px;
+    white-space: pre-wrap;
+    line-height: 1.75;
+    margin-top: 12px;
+    overflow-wrap: anywhere;
+}
+.caution {
+    margin-top: 17px;
+    padding: 12px 14px;
+    background: #fff7e9;
+    border-radius: 9px;
+    border-left: 3px solid #d9a04c;
+}
+.caution strong {
+    display: block;
+    font-size: 13px;
+    color: #935514;
+    margin-bottom: 6px;
+}
+.caution div {
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+}
+#error {
+    color: #ad3030;
+    font-size: 13px;
+}
+/* 4. 사진 확대 */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: #000e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    cursor: zoom-out;
+}
+.lightbox img {
+    max-width: 100%;
+    max-height: 96vh;
+    object-fit: contain;
+}
+/* 5. 관리자 작성 바로가기 */
+.admin-shortcut {
+    position: fixed;
+    right: 14px;
+    bottom: 16px;
+    z-index: 50;
+    padding: 8px 12px;
+    border-radius: 20px;
+    background: var(--navy);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 8px #0002;
+    opacity: .8;
+    transition: opacity .2s;
+}
+.admin-shortcut:hover,
+    .admin-shortcut:focus-visible {
+    opacity: 1;
+}
 /* 6. 스마트폰 */
 @media (max-width: 700px) {
-    main { padding: 10px; }
-    .card { padding: 12px; }
-    .document { border-radius: 12px; }
-    .doc-head { padding: 21px 17px 17px; }
-    .doc-title { font-size: 1.8rem; font-weight: bold; }
-    .doc-meta { font-size: 12px; }
-    .steps { padding: 0 15px 8px; }
-    .step { padding: 18px 0 20px; }
-    .step-label { margin-bottom: 12px; font-size: 9px; color: #cfcfcf; }
-    .step-layout { display: block; }
-    .photoarea { margin-bottom: 16px; }
+    main {
+        padding: 10px;
+    }
+    .card {
+        padding: 12px;
+    }
+    .document {
+        border-radius: 12px;
+    }
+    .doc-head {
+        padding: 21px 17px 17px;
+    }
+    .doc-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+    .doc-meta {
+        font-size: 12px;
+    }
+    .steps {
+        padding: 0 15px 8px;
+    }
+    .step {
+        padding: 18px 0 20px;
+    }
+    .step-label {
+        margin-bottom: 12px;
+        font-size: 9px;
+        color: #cfcfcf;
+    }
+    .step-layout {
+        display: block;
+    }
+    .photoarea {
+        margin-bottom: 16px;
+    }
     .photoarea img {
         width: 100%;
         height: auto;
         max-height: none;
         border-radius: 7px;
     }
-    .stepname { font-size: 1.2rem; }
-    .description { font-size: 1.05rem; margin-top: 9px; line-height: 1.8;text-align: left !important;}
-    text-indent: 0 !important; }
-    .caution { margin-top: 14px; }
-    .tools button { font-size: 12px; }
+    .stepname {
+        font-size: 1.2rem;
+    }
+    .description {
+        font-size: 1.05rem;
+        margin-top: 9px;
+        line-height: 1.8;
+    }
+    .caution {
+        margin-top: 14px;
+    }
+    .tools button {
+        font-size: 12px;
+    }
     .admin-shortcut {
         right: 10px;
         bottom: 12px;
@@ -222,86 +305,147 @@
         font-size: .6875rem;
     }
 }
-    </style>
-</head>
-<body>
-    <header id="siteHeader">
-        <div>
-            <h1>현장 작업 매뉴얼20-4</h1>
-            <small>사진으로 보는 표준작업지침서</small>
-        </div>
-    </header>
+/* 데이터 로딩 진행 상태 */
+.load-box {
+    padding: 18px 8px;
+    text-align: center;
+}
+.load-spinner {
+    width: 26px;
+    height: 26px;
+    border: 3px solid #dce5f0;
+    border-top-color: var(--navy);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 12px;
+}
+.load-track {
+    height: 7px;
+    border-radius: 8px;
+    background: #e6ecf4;
+    overflow: hidden;
+    margin: 12px 0 5px;
+}
+.load-fill {
+    height: 100%;
+    width: 0;
+    background: var(--navy);
+    transition: width .35s ease;
+}
+.load-note {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 6px;
+}
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .load-spinner {
+        animation: none;
+    }
+    .load-fill {
+        transition: none;
+    }
+}
 
-    <main>
-        <section id="home">
-            <input id="search" placeholder="매뉴얼 제목 또는 설비 검색" aria-label="매뉴얼 검색">
-            <div id="list" class="card">매뉴얼을 불러오는 중...</div>
-        </section>
-
-        <section id="detail" class="hidden">
-            <nav class="tools">
-                <button id="back" type="button">← 목록</button>
-                <button id="copy" type="button">주소 복사</button>
-            </nav>
-            <article id="content" class="document"></article>
-        </section>
-
-        <p id="error" role="alert"></p>
-    </main>
-
-    <div id="lightbox" class="lightbox hidden" role="dialog" aria-label="사진 확대" tabindex="-1">
-        <img id="largeImage" alt="확대 사진">
+  </style>
+ </head>
+ <body>
+  <header id="siteHeader">
+   <div>
+    <h1>
+     현장 작업 매뉴얼20-5</h1>
+    <small>
+     사진으로 보는 표준작업지침서
+    </small>
+   </div>
+  </header>
+  <main>
+   <section id="home">
+    <input aria-label="매뉴얼 검색" id="search" placeholder="매뉴얼 제목 또는 설비 검색"/>
+    <div class="card" id="list">
+     <div aria-live="polite" class="load-box" role="status">
+      <div aria-hidden="true" class="load-spinner">
+      </div>
+      <strong>
+       매뉴얼 목록 불러오는 중
+      </strong>
+      <div class="load-track">
+       <div class="load-fill" id="listProgressFill">
+       </div>
+      </div>
+      <div id="listProgressText">
+       준비 중 · 0%
+      </div>
+      <div class="load-note">
+      </div>
+     </div>
     </div>
-
-    <!-- GitHub resource/manual/admin.html 관리자 바로가기 -->
-    <a class="admin-shortcut" href="./admin.html" target="_blank" rel="noopener noreferrer">
-        작성매뉴얼
-    </a>
-
-    <script>
+   </section>
+   <section class="hidden" id="detail">
+    <nav class="tools">
+     <button id="back" type="button">
+      ← 목록
+     </button>
+     <button id="copy" type="button">
+      주소 복사
+     </button>
+    </nav>
+    <article class="document" id="content">
+    </article>
+   </section>
+   <p id="error" role="alert">
+   </p>
+  </main>
+  <div aria-label="사진 확대" class="lightbox hidden" id="lightbox" role="dialog" tabindex="-1">
+   <img alt="확대 사진" id="largeImage"/>
+  </div>
+  <!-- GitHub resource/manual/admin.html 관리자 바로가기 -->
+  <a class="admin-shortcut" href="./admin.html" rel="noopener noreferrer" target="_blank">
+   작성매뉴얼
+  </a>
+  <script>
+   
 'use strict';
-
 const API_URL = 'https://script.google.com/macros/s/AKfycbxae0ODjghlDSbwj2qG_5JF3wybQ8Fsph0Nq9e3uyGUBULPKahBujlsdnUmoHcDVK3UrA/exec';
 let manuals = [];
-
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 }[c]));
 const safeUrl = value => /^https:\/\//i.test(String(value || '')) ? esc(value) : '';
-
 /* 관리자에서 입력한 부분 글자 서식 표시 */
 function styledText(value, runs) {
     const text = String(value || '');
     const rs = Array.isArray(runs) ? runs : [];
     let cuts = [0, text.length];
-
     rs.forEach(r => cuts.push(r.start, r.end));
     cuts = [...new Set(cuts)]
         .filter(x => Number.isInteger(x) && x >= 0 && x <= text.length)
         .sort((a, b) => a - b);
-
     let html = '';
     for (let i = 0; i < cuts.length - 1; i++) {
         const start = cuts[i], end = cuts[i + 1];
         const part = esc(text.slice(start, end));
         const r = rs.find(x => x.start <= start && x.end >= end);
-
         if (!r) {
             html += part;
             continue;
         }
-
         const styles = [];
-        if (r.bold) styles.push('font-weight:700');
-        if (r.underline) styles.push('text-decoration:underline');
+        if (r.bold)
+            styles.push('font-weight:700');
+        if (r.underline)
+            styles.push('text-decoration:underline');
         if (r.color && /^#[0-9a-f]{6}$/i.test(r.color)) {
             styles.push('color:' + r.color);
         }
         if (r.size >= 10 && r.size <= 30) {
             styles.push('font-size:' + r.size + 'px');
         }
-
         let fragment = '<span style="' + styles.join(';') + '">' + part + '</span>';
         if (r.link && /^https:\/\/[^\s"<>]+$/i.test(r.link)) {
             fragment = '<a href="' + esc(r.link) +
@@ -311,14 +455,10 @@ function styledText(value, runs) {
     }
     return html;
 }
-
 /* 목록 검색 */
 function render() {
     const query = $('search').value.toLocaleLowerCase().trim();
-    const filtered = manuals.filter(m =>
-        String(m.title + ' ' + m.category).toLocaleLowerCase().includes(query)
-    );
-
+    const filtered = manuals.filter(m => String(m.title + ' ' + m.category).toLocaleLowerCase().includes(query));
     $('list').innerHTML = filtered.map(m => `
         <div class="item" data-id="${esc(m.id)}">
             <strong>${esc(m.title)}</strong>
@@ -328,25 +468,22 @@ function render() {
         </div>
     `).join('') || '<p>검색 결과가 없습니다.</p>';
 }
-
 /* 상세 매뉴얼 표시 */
 function route() {
     let id = '';
     try {
         id = decodeURIComponent(location.hash.slice(1));
-    } catch (error) {}
-
+    }
+    catch (error) { }
     const manual = manuals.find(m => m.id === id);
     $('home').classList.toggle('hidden', !!manual);
     $('detail').classList.toggle('hidden', !manual);
     $('siteHeader').classList.toggle('hidden', !!manual);
-
     document.title = manual
         ? manual.title + ' | 현장 작업 매뉴얼'
         : '현장 작업 매뉴얼';
-
-    if (!manual) return;
-
+    if (!manual)
+        return;
     const steps = (manual.steps || []).map((step, i) => {
         const image = safeUrl(step.image);
         const rawDescription = String(step.description || '');
@@ -357,7 +494,6 @@ function route() {
             .filter(r => r.end > 0 && r.start < description.length)
             .map(r => ({ ...r, start: Math.max(0, r.start), end: Math.min(description.length, r.end) }));
         const caution = String(step.caution || '').trim();
-
         return `
             <section class="step ${image ? '' : 'no-photo'}">
                 <div class="step-label">${String(i + 1).padStart(2, '0')}</div>
@@ -381,10 +517,9 @@ function route() {
                         ` : ''}
                     </div>
                 </div>
-            </section><br><br>
+            </section>
         `;
     }).join('');
-
     $('content').innerHTML = `
         <div class="doc-head">
             <div class="doc-title">${esc(manual.title)}</div>
@@ -398,9 +533,32 @@ function route() {
     `;
     window.scrollTo(0, 0);
 }
-
+/* 실제 API 진행률을 제공하지 않으므로 완료 전 90%까지만 예상치 표시 */
+let listLoadingTimer = null;
+let listLoadingStart = Date.now();
+function stopListLoading() {
+    if (listLoadingTimer !== null)
+        clearInterval(listLoadingTimer);
+    listLoadingTimer = null;
+}
+function startListLoading() {
+    listLoadingStart = Date.now();
+    listLoadingTimer = setInterval(() => {
+        const fill = $('listProgressFill');
+        const text = $('listProgressText');
+        if (!fill || !text) {
+            stopListLoading();
+            return;
+        }
+        const elapsed = (Date.now() - listLoadingStart) / 1000;
+        const estimate = Math.min(90, Math.floor(90 * (1 - Math.exp(-elapsed / 5))));
+        fill.style.width = estimate + '%';
+        text.textContent = '불러오는 중 · 약 ' + estimate + '%';
+    }, 250);
+}
 /* Apps Script JSONP 응답 */
 function sopCallback(data) {
+    stopListLoading();
     if (data && data.error) {
         $('error').textContent = data.error;
         return;
@@ -410,12 +568,12 @@ function sopCallback(data) {
     route();
 }
 window.sopCallback = sopCallback;
-
 /* 버튼과 화면 이벤트 */
 $('search').addEventListener('input', render);
 $('list').addEventListener('click', event => {
     const item = event.target.closest('[data-id]');
-    if (item) location.hash = encodeURIComponent(item.dataset.id);
+    if (item)
+        location.hash = encodeURIComponent(item.dataset.id);
 });
 $('back').addEventListener('click', () => {
     location.hash = '';
@@ -425,13 +583,15 @@ $('copy').addEventListener('click', async () => {
     try {
         await navigator.clipboard.writeText(location.href);
         alert('주소를 복사했습니다.');
-    } catch (error) {
+    }
+    catch (error) {
         prompt('주소를 복사하세요', location.href);
     }
 });
 $('content').addEventListener('click', event => {
     const image = event.target.closest('img[data-zoom]');
-    if (!image) return;
+    if (!image)
+        return;
     $('largeImage').src = image.dataset.zoom;
     $('lightbox').classList.remove('hidden');
     $('lightbox').focus();
@@ -447,16 +607,17 @@ document.addEventListener('keydown', event => {
     }
 });
 window.addEventListener('hashchange', route);
-
 /* 매뉴얼 목록 불러오기 */
 const script = document.createElement('script');
 script.src = API_URL + '?callback=sopCallback&t=' + Date.now();
 script.onerror = () => {
+    stopListLoading();
     $('list').textContent = '매뉴얼 목록을 불러오지 못했습니다.';
     $('error').textContent = 'Apps Script 배포 주소와 공개 권한을 확인하세요.';
 };
+startListLoading();
 document.head.appendChild(script);
 
-    </script>
-</body>
+  </script>
+ </body>
 </html>
