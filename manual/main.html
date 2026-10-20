@@ -502,7 +502,7 @@ function route() {
                         <div class="photoarea">
                             <img loading="lazy" src="${image}"
                                  alt="${i + 1}단계 현장 사진" data-zoom="${image}">
-                        </div>
+                        </div><br>
                     ` : ''}
                     <div class="step-copy">
                         <div class="stepname">${styledText(step.name, step.rich && step.rich.name)}</div>
@@ -516,7 +516,7 @@ function route() {
                             </div>
                         ` : ''}
                     </div>
-                </div>
+                </div><br><br>
             </section>
         `;
     }).join('');
