@@ -372,7 +372,7 @@ input {
   <header id="siteHeader">
    <div>
     <h1>
-     현장 작업 매뉴얼24</h1>
+     현장 작업 매뉴얼25</h1>
     <small>
      사진으로 보는 표준작업지침서
     </small>
@@ -530,11 +530,12 @@ function route() {
     }).join('');
     $('content').innerHTML = `
         <div class="doc-head">
-            <div class="doc-title">${esc(manual.title)}</div>
+            <div class="doc-title" style="text-align:${['left','center','right'].includes(manual.titleAlign) ? manual.titleAlign : 'left'}">${esc(manual.title)}</div>
             <div class="doc-meta">
                 <span>${esc(manual.category)}</span>
                 <span class="dot">·</span>
                 <span>최종 수정 ${esc(manual.updated)}</span>
+                ${String(manual.author || '').trim() ? `<span class="dot">·</span><span>작성자 ${esc(manual.author)}</span>` : ''}
             </div>
         </div>
         <div class="steps">${steps}</div>
