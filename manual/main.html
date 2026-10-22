@@ -366,13 +366,22 @@ input {
     .step-copy { width: 100%; }
     .step-copy .description { font-size: 1.05rem; line-height: 1.75; }
 }
+.image-error-note {
+    padding: 18px;
+    border: 1px dashed #cbd3df;
+    border-radius: 8px;
+    background: #f5f7fa;
+    color: #647487;
+    font-size: 13px;
+    line-height: 1.6;
+}
 </style>
  </head>
  <body>
   <header id="siteHeader">
    <div>
     <h1>
-     현장 작업 매뉴얼25-1</h1>
+     현장 작업 매뉴얼25-4</h1>
     <small>
      사진으로 보는 표준작업지침서
     </small>
@@ -591,6 +600,14 @@ document.addEventListener('keydown', event => {
         $('largeImage').removeAttribute('src');
     }
 });
+document.getElementById('content').addEventListener('error', function (event) {
+    const img = event.target;
+    if (!img.matches || !img.matches('img[data-zoom]')) return;
+    const note = document.createElement('div');
+    note.className = 'image-error-note';
+    note.textContent = '사진을 불러오지 못했습니다. 관리자에서 이미지를 다시 저장하거나 Drive 공유 설정을 확인하세요.';
+    img.replaceWith(note);
+}, true);
 window.addEventListener('hashchange', route);
 /* 매뉴얼 목록 불러오기 */
 const script = document.createElement('script');
