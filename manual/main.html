@@ -467,7 +467,7 @@ function render() {
     const filtered = manuals.filter(m => String(m.title + ' ' + m.category).toLocaleLowerCase().includes(query));
     $('list').innerHTML = filtered.map(m => `
         <div class="item" data-id="${esc(m.id)}">
-            <strong>${esc(m.title)}</strong>
+          <strong>${esc(m.title)}</strong>
             <div class="muted">
                 ${esc(m.category)} · ${(m.steps || []).length}단계 · ${esc(m.updated)}
             </div>
@@ -504,7 +504,7 @@ function route() {
         const caution = String(step.caution || '').trim();
         return `
             <section class="step ${image ? '' : 'no-photo'}">
-                <div class="step-label">${String(i + 1).padStart(2, '0')}</div>
+             
                 <div class="stepname">${styledText(step.name, step.rich && step.rich.name)}</div>
                 <div class="step-layout">
                     ${image ? `
