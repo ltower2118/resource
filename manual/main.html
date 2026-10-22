@@ -319,24 +319,6 @@ input {
     animation: spin .8s linear infinite;
     margin: 0 auto 12px;
 }
-.load-track {
-    height: 7px;
-    border-radius: 8px;
-    background: #e6ecf4;
-    overflow: hidden;
-    margin: 12px 0 5px;
-}
-.load-fill {
-    height: 100%;
-    width: 0;
-    background: var(--navy);
-    transition: width .35s ease;
-}
-.load-note {
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 6px;
-}
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -406,15 +388,6 @@ input {
       <strong>
        매뉴얼 목록 불러오는 중
       </strong>
-      <div class="load-track">
-       <div class="load-fill" id="listProgressFill">
-       </div>
-      </div>
-      <div id="listProgressText">
-       준비 중 · 0%
-      </div>
-      <div class="load-note">
-      </div>
      </div>
     </div>
    </section>
@@ -568,32 +541,8 @@ function route() {
     `;
     window.scrollTo(0, 0);
 }
-/* 실제 API 진행률을 제공하지 않으므로 완료 전 90%까지만 예상치 표시 */
-let listLoadingTimer = null;
-let listLoadingStart = Date.now();
-function stopListLoading() {
-    if (listLoadingTimer !== null)
-        clearInterval(listLoadingTimer);
-    listLoadingTimer = null;
-}
-function startListLoading() {
-    listLoadingStart = Date.now();
-    listLoadingTimer = setInterval(() => {
-        const fill = $('listProgressFill');
-        const text = $('listProgressText');
-        if (!fill || !text) {
-            stopListLoading();
-            return;
-        }
-        const elapsed = (Date.now() - listLoadingStart) / 1000;
-        const estimate = Math.min(90, Math.floor(90 * (1 - Math.exp(-elapsed / 5))));
-        fill.style.width = estimate + '%';
-        text.textContent = '불러오는 중 · 약 ' + estimate + '%';
-    }, 250);
-}
 /* Apps Script JSONP 응답 */
 function sopCallback(data) {
-    stopListLoading();
     if (data && data.error) {
         $('error').textContent = data.error;
         return;
@@ -646,11 +595,9 @@ window.addEventListener('hashchange', route);
 const script = document.createElement('script');
 script.src = API_URL + '?callback=sopCallback&t=' + Date.now();
 script.onerror = () => {
-    stopListLoading();
     $('list').textContent = '매뉴얼 목록을 불러오지 못했습니다.';
     $('error').textContent = 'Apps Script 배포 주소와 공개 권한을 확인하세요.';
 };
-startListLoading();
 document.head.appendChild(script);
 
   </script>
