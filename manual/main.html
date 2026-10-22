@@ -351,13 +351,46 @@ input {
     }
 }
 
-  </style>
+  
+/* 작업 단계: 번호 → 제목 → 사진 → 설명 (모바일), PC 2열 */
+.step-label {
+    margin-bottom: 6px;
+    color: #54718f;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+.step > .stepname {
+    margin-bottom: 14px;
+    text-align: left;
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+.step-layout { align-items: start; }
+.step-copy { text-align: left; }
+.step-copy .description {
+    margin-top: 0;
+    padding: 0;
+    text-align: left;
+    text-indent: 0;
+    white-space: pre-line;
+}
+.step-copy .caution { margin-top: 12px; }
+@media (max-width: 700px) {
+    .step { padding: 20px 0 22px; }
+    .step-label { font-size: 0.78rem; color: #54718f; margin-bottom: 5px; }
+    .step > .stepname { font-size: 1.2rem; margin-bottom: 12px; }
+    .step-layout { display: flex; flex-direction: column; gap: 0; }
+    .photoarea { width: 100%; margin-bottom: 12px; }
+    .step-copy { width: 100%; }
+    .step-copy .description { font-size: 1.05rem; line-height: 1.75; }
+}
+</style>
  </head>
  <body>
   <header id="siteHeader">
    <div>
     <h1>
-     현장 작업 매뉴얼20-6</h1>
+     현장 작업 매뉴얼20-7</h1>
     <small>
      사진으로 보는 표준작업지침서
     </small>
@@ -498,16 +531,16 @@ function route() {
         const caution = String(step.caution || '').trim();
         return `
             <section class="step ${image ? '' : 'no-photo'}">
-                <div class="step-label">${String(i + 1).padStart(2, '0')}</div>
+                <div class="step-label">작업 ${String(i + 1).padStart(2, '0')}</div>
+                <div class="stepname">${styledText(step.name, step.rich && step.rich.name)}</div>
                 <div class="step-layout">
                     ${image ? `
                         <div class="photoarea">
                             <img loading="lazy" src="${image}"
                                  alt="${i + 1}단계 현장 사진" data-zoom="${image}">
-                        </div><br>
+                        </div>
                     ` : ''}
                     <div class="step-copy">
-                        <div class="stepname">${styledText(step.name, step.rich && step.rich.name)}</div>
                         ${description ? `
                             <div class="description">${styledText(description, descriptionRuns)}</div>
                         ` : ''}
@@ -518,7 +551,7 @@ function route() {
                             </div>
                         ` : ''}
                     </div>
-                </div><br><br>
+                </div>
             </section>
         `;
     }).join('');
