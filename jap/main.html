@@ -75,8 +75,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   overflow-y:auto;
   overflow-x:hidden;
   font-size:16px !important;
-  color:#000000;  /* ← 메모 글자색 */
-  color:var(--muted);
+  color:#000000 !important;  /* 메모 보기 글자색: 검정 */
   margin-top:10px;
   padding:4px 2px 8px;
   white-space:pre-wrap;
@@ -130,6 +129,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   border-radius:10px;
   padding:11px 12px;
   background:#fff;
+  color:#000000 !important; /* 메모 입력 글자색: 검정 */
   line-height:1.6;
   text-align:left;
   white-space:pre-wrap;
@@ -165,6 +165,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .memo-ink-text{
   position:relative;
   z-index:1;
+  color:#000000 !important;
 }
 .memo-view-svg{
   position:absolute;
@@ -212,6 +213,44 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   border-color:#f4d03f;
   color:#5b4a00;
 }
+/* 펜/형광 도구별 설정창 */
+.ink-tool-settings{
+  display:none;
+  width:100%;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+  padding:7px 8px;
+  margin-top:2px;
+  border:1px solid #dbe1e8;
+  border-radius:10px;
+  background:#ffffff;
+}
+.ink-tool-settings.show{display:flex}
+.ink-tool-settings label{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+  font-weight:800;
+  color:#334155;
+}
+.ink-tool-settings select{
+  padding:5px 6px!important;
+}
+.ink-tool-settings input[type="color"]{
+  width:34px;height:28px;padding:0;border:1px solid #cbd5e1;border-radius:7px;background:#fff;
+}
+.ink-tool-settings input[type="range"]{
+  width:100px;
+}
+.opacity-value{
+  min-width:34px;
+  font-size:11px;
+  font-weight:900;
+  color:#334155;
+}
+
 .view-ink-status{
   width:100%;
   font-size:10px;
@@ -567,7 +606,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어45</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어46</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
@@ -590,16 +629,41 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   <button id="viewInkEraserBtn" type="button" onclick="setViewInkTool('eraser')">🧽 지우개</button>
   <button type="button" onclick="undoViewInk()">↶</button>
   <button type="button" onclick="clearViewInk()">🗑</button>
-  <select id="viewInkWidth" onchange="setViewInkWidth(this.value)" title="펜 굵기">
-    <option value="1.5">1 아주얇게</option>
-    <option value="2.5">2 얇게</option>
-    <option value="4" selected>3 보통</option>
-    <option value="6">4 굵게</option>
-    <option value="9">5 아주굵게</option>
-  </select>
-  <label class="ink-color-wrap" title="형광펜 색상">🖍색
-    <input id="viewInkHighlightColor" type="color" value="#ffe94d" onchange="setViewHighlightColor(this.value)">
-  </label>
+
+  <div id="penSettings" class="ink-tool-settings">
+    <label>굵기
+      <select id="viewPenWidth" onchange="setViewPenWidth(this.value)">
+        <option value="1.5">1 아주얇게</option>
+        <option value="2.5">2 얇게</option>
+        <option value="4" selected>3 보통</option>
+        <option value="6">4 굵게</option>
+        <option value="9">5 아주굵게</option>
+      </select>
+    </label>
+    <label>펜색
+      <input id="viewInkPenColor" type="color" value="#1f2937" onchange="setViewPenColor(this.value)">
+    </label>
+  </div>
+
+  <div id="highlightSettings" class="ink-tool-settings">
+    <label>굵기
+      <select id="viewHighlightWidth" onchange="setViewHighlightWidth(this.value)">
+        <option value="5">1 얇게</option>
+        <option value="7">2</option>
+        <option value="9" selected>3 보통</option>
+        <option value="12">4</option>
+        <option value="16">5 굵게</option>
+      </select>
+    </label>
+    <label>형광색
+      <input id="viewInkHighlightColor" type="color" value="#ffe94d" onchange="setViewHighlightColor(this.value)">
+    </label>
+    <label>투명도
+      <input id="viewHighlightOpacity" type="range" min="10" max="90" step="5" value="38" oninput="setViewHighlightOpacity(this.value)">
+      <span id="viewHighlightOpacityValue" class="opacity-value">38%</span>
+    </label>
+  </div>
+
   <div id="viewInkStatus" class="view-ink-status">손가락=스크롤 · S펜으로 필기하려면 펜/형광을 선택</div>
 </div>
 <div id="cardMemo" class="memo">
@@ -1466,8 +1530,11 @@ document.addEventListener('selectionchange',()=>{
    따라서 화면 폭/높이가 바뀌어도 같은 메모 위치에 비례하여 복원됩니다.
 */
 let viewInkTool='scroll';
-let viewInkWidth=4;
+let viewPenWidth=4;
+let viewPenColor='#1f2937';
+let viewHighlightWidth=9;
 let viewHighlightColor='#ffe94d';
+let viewHighlightOpacity=.38;
 let viewInkStrokes=[];
 let viewInkDrawing=false;
 let viewInkCurrent=null;
@@ -1478,22 +1545,40 @@ function setViewInkTool(tool){
  viewInkTool=tool;
  const wrap=$('memoInkWrap');
  wrap.classList.toggle('ink-active',tool!=='scroll');
+
  ['Scroll','Pen','Highlight','Eraser'].forEach(n=>$('viewInk'+n+'Btn')?.classList.remove('active'));
  const map={scroll:'Scroll',pen:'Pen',highlight:'Highlight',eraser:'Eraser'};
  $('viewInk'+map[tool]+'Btn')?.classList.add('active');
+
+ // 선택한 도구의 설정창만 표시
+ $('penSettings')?.classList.toggle('show',tool==='pen');
+ $('highlightSettings')?.classList.toggle('show',tool==='highlight');
+
  const msg=tool==='scroll'?'손가락=스크롤 · S펜 필기 도구를 선택하세요':
-   tool==='pen'?'S펜으로 메모 위에 직접 필기':
-   tool==='highlight'?'S펜으로 글씨 위를 쓱 칠하면 반투명 형광':
-   'S펜으로 획을 터치하면 삭제';
+   tool==='pen'?'✏️ 펜 · 굵기와 색상을 선택한 뒤 S펜으로 필기':
+   tool==='highlight'?'🖍 형광 · 굵기·색상·투명도를 선택한 뒤 칠하기':
+   '🧽 S펜으로 획을 터치하면 삭제';
  $('viewInkStatus').textContent=msg;
 }
 
-function setViewInkWidth(v){
- viewInkWidth=Math.max(1,Number(v)||4);
+function setViewPenWidth(v){
+ viewPenWidth=Math.max(1,Number(v)||4);
+}
+function setViewPenColor(v){
+ const color=String(v||'#1f2937');
+ if(/^#[0-9a-fA-F]{6}$/.test(color))viewPenColor=color;
+}
+function setViewHighlightWidth(v){
+ viewHighlightWidth=Math.max(3,Number(v)||9);
 }
 function setViewHighlightColor(v){
  const color=String(v||'#ffe94d');
  if(/^#[0-9a-fA-F]{6}$/.test(color))viewHighlightColor=color;
+}
+function setViewHighlightOpacity(v){
+ const n=Math.max(10,Math.min(90,Number(v)||38));
+ viewHighlightOpacity=n/100;
+ if($('viewHighlightOpacityValue'))$('viewHighlightOpacityValue').textContent=n+'%';
 }
 
 function parseViewInk(raw){
@@ -1645,7 +1730,9 @@ memoViewSvg.addEventListener('pointerdown',e=>{
  if(viewInkTool==='eraser'){eraseViewInkAt(pt);return}
  if(viewInkTool!=='pen'&&viewInkTool!=='highlight')return;
  viewInkDrawing=true;viewInkPointerId=e.pointerId;
- viewInkCurrent={t:viewInkTool,w:viewInkTool==='highlight'?Math.max(6,viewInkWidth):viewInkWidth,c:viewInkTool==='highlight'?viewHighlightColor:undefined,p:[pt]};
+ viewInkCurrent=viewInkTool==='highlight'
+   ? {t:'highlight',w:viewHighlightWidth,c:viewHighlightColor,o:viewHighlightOpacity,p:[pt]}
+   : {t:'pen',w:viewPenWidth,c:viewPenColor,o:.92,p:[pt]};
  viewInkStrokes.push(viewInkCurrent);
  try{memoViewSvg.setPointerCapture(e.pointerId)}catch(_){}
  renderViewInk();
