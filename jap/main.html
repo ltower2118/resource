@@ -490,7 +490,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어43</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어44</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
@@ -1417,16 +1417,36 @@ function parseViewInk(raw){
 
 function getMemoInkSize(){
  const wrap=$('memoInkWrap');
- return {w:Math.max(1,wrap.clientWidth),h:Math.max(1,wrap.scrollHeight,wrap.clientHeight)};
+ const text=$('cardMemoText');
+
+ // 실제 메모 콘텐츠 높이를 기준으로 SVG와 텍스트 좌표계를 고정
+ const w=Math.max(1,wrap.clientWidth);
+ const h=Math.max(
+   1,
+   text?text.scrollHeight:0,
+   wrap.scrollHeight,
+   wrap.clientHeight
+ );
+
+ return {w,h};
 }
 
 function viewInkPoint(e){
- const wrap=$('memoInkWrap');
- const r=wrap.getBoundingClientRect();
+ const svg=$('memoViewSvg');
  const size=getMemoInkSize();
+
+ // SVG의 현재 화면 위치를 기준으로 직접 좌표 변환.
+ // getBoundingClientRect()에는 cardMemo의 스크롤 이동이 이미 반영되어 있으므로
+ // scrollTop을 다시 더하면 스크롤한 만큼 Y좌표가 이중 보정된다.
+ const r=svg.getBoundingClientRect();
+
  const x=(e.clientX-r.left)/Math.max(1,r.width);
- const y=(e.clientY-r.top+$('cardMemo').scrollTop)/Math.max(1,size.h);
- return [Math.max(0,Math.min(1,x)),Math.max(0,Math.min(1,y))];
+ const y=(e.clientY-r.top)/Math.max(1,r.height);
+
+ return [
+   Math.max(0,Math.min(1,x)),
+   Math.max(0,Math.min(1,y))
+ ];
 }
 
 function pathFromNormPoints(points,w,h){
@@ -1441,7 +1461,9 @@ function pathFromNormPoints(points,w,h){
 function renderViewInk(){
  const svg=$('memoViewSvg'),size=getMemoInkSize();
  svg.setAttribute('viewBox',`0 0 ${size.w} ${size.h}`);
+ svg.setAttribute('preserveAspectRatio','none');
  svg.style.height=size.h+'px';
+ $('memoInkWrap').style.minHeight=size.h+'px';
  svg.innerHTML='';
  viewInkStrokes.forEach((s,i)=>{
   const path=document.createElementNS('http://www.w3.org/2000/svg','path');
@@ -1558,7 +1580,10 @@ function finishViewInk(e){
 memoViewSvg.addEventListener('pointerup',finishViewInk);
 memoViewSvg.addEventListener('pointercancel',finishViewInk);
 
-$('cardMemo').addEventListener('scroll',()=>{ if(viewInkTool!=='scroll')renderViewInk() });
+$('cardMemo').addEventListener('scroll',()=>{
+ // SVG와 메모 텍스트가 같은 스크롤 컨테이너 안에서 함께 이동하므로
+ // 스크롤할 때 좌표를 다시 계산할 필요가 없다.
+});
 window.addEventListener('resize',()=>{if(answerVisible)renderViewInk()});
 
 function setAnswerVisible(show){
