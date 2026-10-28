@@ -232,6 +232,36 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   word-break:break-word;
   outline:none;
 }
+
+.memo-edit-ink-wrap{
+  position:relative;
+  width:100%;
+}
+.memo-edit-ink-wrap .memo-editor{
+  position:relative;
+  z-index:1;
+}
+.memo-edit-svg{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:visible;
+}
+.memo-edit-svg path{
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+}
+.memo-edit-ink-note{
+  margin-top:5px;
+  font-size:11px;
+  color:#64748b;
+}
+
 .memo-editor:focus{
   border-color:#2563eb;
   box-shadow:0 0 0 2px rgba(37,99,235,.08);
@@ -710,7 +740,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어54</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어55</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="prevPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
 <div id="nextPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
@@ -871,8 +901,12 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   <button type="button" class="memo-tool-btn highlight" onmousedown="event.preventDefault()" onclick="memoHighlight()">🖍 형광펜</button>
   <button type="button" class="memo-tool-btn" onmousedown="event.preventDefault()" onclick="memoClearHighlight()">형광 제거</button>
 </div>
-<div id="memoEditor" class="memo-editor" contenteditable="true"></div>
-<div class="memo-help">글자를 선택해 B/형광펜을 적용할 수 있습니다. HTML 소스를 붙여넣으면 서식으로 표시됩니다.</div>
+<div id="memoEditInkWrap" class="memo-edit-ink-wrap">
+  <div id="memoEditor" class="memo-editor" contenteditable="true"></div>
+  <svg id="memoEditSvg" class="memo-edit-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+<div class="memo-help">글자를 선택해 B/형광펜을 적용할 수 있습니다. View에서 그린 S펜·형광 필기도 이 화면에 함께 표시됩니다.</div>
+<div class="memo-edit-ink-note">※ 그림 필기의 추가·지우기는 View 화면에서 합니다. 수정 저장해도 기존 필기는 유지됩니다.</div>
 </div>
 <div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button id="saveCardBtn" class="primary" type="submit">바로 저장</button></div>
 </form></dialog>
@@ -1079,6 +1113,7 @@ function toggleFavoriteFilter(){
   applyFilter(false);
 }
 function goRandomCard(){
+  commitViewInkLocal();
   $('menu').classList.add('hidden');
   if(!viewCards.length){
     alert('표시할 카드가 없습니다.');
@@ -1694,6 +1729,7 @@ let viewInkDrawing=false;
 let viewInkCurrent=null;
 let viewInkPointerId=null;
 let viewInkSaveTimer=null;
+let editorPenData='';
 
 function setViewInkTool(tool){
  viewInkTool=tool;
@@ -1840,7 +1876,49 @@ function eraseViewInkAt(pt){
    if(d<bestD){bestD=d;best=i}
   }
  });
- if(best>=0&&bestD<24){viewInkStrokes.splice(best,1);renderViewInk();scheduleViewInkSave()}
+ if(best>=0&&bestD<24){viewInkStrokes.splice(best,1);renderViewInk();commitViewInkLocal();scheduleViewInkSave()}
+}
+
+
+function commitViewInkLocal(){
+ if(!viewCards.length)return '';
+ const card=viewCards[current];
+ const penData=serializeViewInk();
+ card.penData=penData;
+ const global=cards.find(x=>String(x.id)===String(card.id));
+ if(global)global.penData=penData;
+ saveCache();
+ return penData;
+}
+
+function renderEditorInk(raw=''){
+ const svg=$('memoEditSvg'),wrap=$('memoEditInkWrap'),editor=$('memoEditor');
+ if(!svg||!wrap||!editor)return;
+
+ const strokes=parseViewInk(raw);
+ const w=Math.max(1,editor.clientWidth);
+ const h=Math.max(1,editor.scrollHeight,editor.clientHeight);
+ wrap.style.minHeight=h+'px';
+ svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ svg.setAttribute('preserveAspectRatio','none');
+ svg.style.height=h+'px';
+ svg.innerHTML='';
+
+ strokes.forEach(st=>{
+   const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+   path.setAttribute('d',pathFromNormPoints(st.p,w,h));
+   if(st.t==='highlight'){
+     path.setAttribute('stroke',st.c||'#ffe94d');
+     path.setAttribute('stroke-width',String(st.w||9));
+     path.setAttribute('stroke-opacity',String(Number.isFinite(Number(st.o))?Number(st.o):.38));
+     path.style.mixBlendMode='multiply';
+   }else{
+     path.setAttribute('stroke',st.c||'#1f2937');
+     path.setAttribute('stroke-width',String(st.w||4));
+     path.setAttribute('stroke-opacity',String(Number.isFinite(Number(st.o))?Number(st.o):.92));
+   }
+   svg.appendChild(path);
+ });
 }
 
 function scheduleViewInkSave(){
@@ -1851,28 +1929,25 @@ function scheduleViewInkSave(){
 async function saveCurrentViewInk(){
  if(!viewCards.length)return;
  const card=viewCards[current];
- const penData=serializeViewInk();
- card.penData=penData;
- const global=cards.find(x=>String(x.id)===String(card.id));
- if(global)global.penData=penData;
- saveCache();
+ const id=String(card.id);
+ const penData=commitViewInkLocal();
  try{
-  await request('penUpdate',{id:card.id,penData});
-  $('viewInkStatus').textContent='필기 저장 완료';
+  await request('penUpdate',{id,penData});
+  if($('viewInkStatus'))$('viewInkStatus').textContent='필기 저장 완료';
  }catch(_){
-  $('viewInkStatus').textContent='기기에 임시 저장됨 · 동기화 필요';
+  if($('viewInkStatus'))$('viewInkStatus').textContent='기기에 임시 저장됨 · 동기화 필요';
  }
 }
 
 function undoViewInk(){
  if(!viewInkStrokes.length)return;
- viewInkStrokes.pop();renderViewInk();scheduleViewInkSave();
+ viewInkStrokes.pop();renderViewInk();commitViewInkLocal();scheduleViewInkSave();
 }
 
 function clearViewInk(){
  if(!viewInkStrokes.length)return;
  if(!confirm('이 카드의 S펜 필기를 모두 지울까요?'))return;
- viewInkStrokes=[];renderViewInk();scheduleViewInkSave();
+ viewInkStrokes=[];renderViewInk();commitViewInkLocal();scheduleViewInkSave();
 }
 
 const memoViewSvg=$('memoViewSvg');
@@ -1907,6 +1982,7 @@ function finishViewInk(e){
  if(!viewInkDrawing)return;
  if(e&&e.pointerType!=='pen')return;
  viewInkDrawing=false;viewInkPointerId=null;viewInkCurrent=null;
+ commitViewInkLocal(); // 다른 화면으로 바로 이동해도 필기 기록 보존
  scheduleViewInkSave();
 }
 memoViewSvg.addEventListener('pointerup',finishViewInk);
@@ -2025,6 +2101,7 @@ function swipe(step){
  }
 
  setTimeout(()=>{
+  commitViewInkLocal();
   current=(current+step+viewCards.length)%viewCards.length;
 
   // 보이는 프리뷰와 같은 내용을 현재 카드에 즉시 교체.
@@ -2172,7 +2249,10 @@ document.addEventListener('pointerdown',e=>{if(!$('menu').classList.contains('hi
 
 function openJump(){if(!viewCards.length)return;$('jumpInput').value=current+1;$('jumpInput').max=viewCards.length;$('quickNumbers').innerHTML=Array.from({length:viewCards.length},(_,i)=>`<button class="${i===current?'current':''}" onclick="jumpTo(${i+1})">${i+1}</button>`).join('');jumpDialog.showModal();setTimeout(()=>$('quickNumbers').querySelector('.current')?.scrollIntoView({block:'center'}),20)}
 function jumpFromInput(){const n=parseInt($('jumpInput').value,10);if(n>=1&&n<=viewCards.length)jumpTo(n)}
-function jumpTo(n){current=n-1;render();jumpDialog.close()}
+function jumpTo(n){
+ commitViewInkLocal();
+ current=n-1;render();jumpDialog.close();
+}
 
 function openAdd(){
   $('menu').classList.add('hidden');
@@ -2181,11 +2261,23 @@ function openAdd(){
   $('cardOrder').value='';
   ['id','jp','reading','ko'].forEach(x=>$(x).value='');
   $('memoEditor').innerHTML='';
+  editorPenData='';
+  if($('memoEditSvg'))$('memoEditSvg').innerHTML='';
   refreshTypeOptions();
   editor.showModal();
 }
-function editCurrent(){$('menu').classList.add('hidden');if(viewCards.length)openEdit(viewCards[current].id)}
+function editCurrent(){
+  $('menu').classList.add('hidden');
+  if(!viewCards.length)return;
+  // 저장 타이머를 기다리지 않고 현재 필기를 먼저 로컬 카드에 확정
+  commitViewInkLocal();
+  openEdit(viewCards[current].id);
+}
 function openEdit(id){
+  // 현재 카드라면 수정창을 열기 직전 필기를 확정
+  if(viewCards.length && String(viewCards[current]?.id||'')===String(id)){
+    commitViewInkLocal();
+  }
   const c=cards.find(x=>String(x.id)===String(id));
   if(!c)return;
 
@@ -2206,8 +2298,10 @@ function openEdit(id){
   $('reading').value=c.reading||'';
   $('ko').value=c.ko||'';
   setMemoHtml(c.memo||'');
+  editorPenData=String(c.penData||'');
 
   editor.showModal();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>renderEditorInk(editorPenData)));
 }
 
 async function saveCard(e){
@@ -2221,13 +2315,19 @@ async function saveCard(e){
     ? parseInt($('cardOrder').value,10)
     : 0;
 
+  const existingCard=$('id').value
+    ? cards.find(x=>String(x.id)===String($('id').value))
+    : null;
+
   const card={
     id:$('id').value,
     type:String($('type').value||'').trim(),
     jp:$('jp').value.trim(),
     reading:$('reading').value.trim(),
     ko:$('ko').value.trim(),
-    memo:getMemoHtml()
+    memo:getMemoHtml(),
+    // 수정 저장 시 View의 S펜/형광 데이터를 절대 빈 값으로 덮지 않음
+    penData:String(existingCard?.penData||editorPenData||'')
   };
 
   if(!card.jp&&!card.reading&&!card.ko&&!plainMemoText(card.memo).trim()){
@@ -2293,6 +2393,7 @@ async function deleteCard(id){if(!confirm('이 카드를 삭제할까요?'))retu
 function showList(){$('menu').classList.add('hidden');renderList();$('listView').classList.remove('hidden')}
 function hideList(){$('listView').classList.add('hidden')}
 function openCardFromList(id){
+  commitViewInkLocal();
   const idx=viewCards.findIndex(c=>String(c.id)===String(id));
 
   if(idx<0){
@@ -2339,6 +2440,15 @@ function renderList(){
 
 $('search').addEventListener('input',()=>{current=0;applyFilter(true)});
 $('filter').addEventListener('change',()=>{current=0;applyFilter(true);saveStudyState()});
+
+
+$('memoEditor').addEventListener('scroll',()=>{
+ const svg=$('memoEditSvg');
+ if(svg)svg.style.transform=`translateY(${-$('memoEditor').scrollTop}px)`;
+});
+window.addEventListener('resize',()=>{
+ if($('editor')?.open)renderEditorInk(editorPenData);
+});
 
 /* 이미지 기능 이전의 안정적인 시작 방식 */
 loadFavorites();
