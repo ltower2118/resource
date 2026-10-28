@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>일본어 플래시카드</title>
 <style>
-:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;--main:#2563eb;--danger:#dc2626;--line:#e5e7eb}
+:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--muted:#6b7280;--main:#2563eb;--danger:#dc2626;--line:#e5e7eb;--question-title-top:86px}
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden}
 body{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--ink)}
@@ -19,11 +19,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .track{position:relative;width:100%;height:100%}
 .flash{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;user-select:none;-webkit-user-select:none;touch-action:pan-y;will-change:transform,opacity;transition:transform .22s cubic-bezier(.22,.61,.36,1),opacity .22s ease}
 .flash.dragging{transition:none}.hidden{display:none!important}
-
-/* ===== 문제 상태 제목 위치 통일 =====
-   현재/이전/다음 카드의 일본어 제목을 같은 위쪽 위치에 고정 */
-:root{--question-title-top:86px}
-
+ 
+/* 문제 상태의 현재 카드 제목도 이전/다음 카드와 같은 높이 */
 .flash:not(.view-mode){
   justify-content:flex-start;
   padding-top:var(--question-title-top);
@@ -31,23 +28,6 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .flash:not(.view-mode) .jp{
   flex:0 0 auto;
   margin:0;
-}
-
-.swipe-preview{
-  justify-content:flex-start;
-  padding-top:var(--question-title-top);
-}
-.swipe-preview .preview-jp{
-  flex:0 0 auto;
-  margin:0;
-}
-
-@media(max-width:520px){
-  :root{--question-title-top:78px}
-  .flash:not(.view-mode),
-  .swipe-preview{
-    padding-top:var(--question-title-top);
-  }
 }
 
 
@@ -63,9 +43,9 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
   text-align:center;
-  padding:28px 18px;
+  padding:var(--question-title-top) 18px 28px;
   pointer-events:none;
   will-change:transform;
   transition:transform .26s cubic-bezier(.22,.61,.36,1);
@@ -81,6 +61,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   padding:8px 4px;font-size:clamp(24px,9vw,72px);font-weight:800;
   line-height:1.45;white-space:normal;overflow-wrap:anywhere;word-break:break-word;
   transform:translateY(0) scale(1);transform-origin:center top;
+  flex:0 0 auto;margin:0;
 }
 .swipe-preview .preview-jp.jp-medium{font-size:clamp(26px,6.5vw,50px)}
 .swipe-preview .preview-jp.jp-long{font-size:clamp(20px,4.8vw,38px)}
@@ -95,7 +76,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 #nextPreview{transform:translateX(105%)}
 .flash{z-index:2}
 @media(max-width:520px){
- .swipe-preview{border-radius:19px;padding:24px 14px}
+ :root{--question-title-top:78px}
+ .swipe-preview{border-radius:19px;padding:var(--question-title-top) 14px 24px}
  .swipe-preview .preview-jp{font-size:45px;max-height:46vh}
  .swipe-preview .preview-jp.jp-medium{font-size:26px}
  .swipe-preview .preview-jp.jp-long{font-size:20px}
@@ -705,7 +687,9 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 
   .flash{
     border-radius:19px;
-    padding:24px 14px;
+  }
+  .flash:not(.view-mode){
+    padding:var(--question-title-top) 14px 24px;
   }
 
   .jp{
@@ -726,7 +710,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어53</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어54</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="prevPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
 <div id="nextPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
