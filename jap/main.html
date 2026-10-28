@@ -55,9 +55,20 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   cursor:text;
   transform:translateY(0) scale(1);
   transform-origin:center top;
-  transition:font-size .36s cubic-bezier(.22,.61,.36,1),line-height .36s cubic-bezier(.22,.61,.36,1),max-height .36s cubic-bezier(.22,.61,.36,1),padding .36s cubic-bezier(.22,.61,.36,1),transform .36s cubic-bezier(.22,.61,.36,1);
+  transition:
+    font-size .58s cubic-bezier(.22,.61,.36,1),
+    line-height .58s cubic-bezier(.22,.61,.36,1),
+    max-height .58s cubic-bezier(.22,.61,.36,1),
+    padding .58s cubic-bezier(.22,.61,.36,1),
+    transform .58s cubic-bezier(.22,.61,.36,1);
 }
-.reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px;transition:font-size .34s ease,margin .34s ease,opacity .28s ease,transform .34s ease}
+.reading{
+ font-size:clamp(17px,3vw,23px);
+ color:var(--muted);
+ margin-top:13px;
+ opacity:1;
+ transition:font-size .52s cubic-bezier(.22,.61,.36,1),margin .52s cubic-bezier(.22,.61,.36,1),opacity .35s ease;
+}
 .answer{
   display:flex;
   flex-direction:column;
@@ -68,10 +79,14 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   border-top:1px solid transparent;
   overflow:hidden;
   opacity:0;
-  transform:translateY(18px);
-  visibility:hidden;
+  transform:none;
   pointer-events:none;
-  transition:max-height .40s cubic-bezier(.22,.61,.36,1),margin-top .34s ease,padding-top .34s ease,opacity .28s ease .06s,transform .36s cubic-bezier(.22,.61,.36,1),border-color .28s ease;
+  transition:
+    max-height .58s cubic-bezier(.22,.61,.36,1),
+    margin-top .52s cubic-bezier(.22,.61,.36,1),
+    padding-top .52s cubic-bezier(.22,.61,.36,1),
+    opacity .32s ease .20s,
+    border-color .35s ease .15s;
 }
 .answer.show{
   max-height:58vh;
@@ -79,8 +94,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   padding-top:18px;
   border-top-color:var(--line);
   opacity:1;
-  transform:translateY(0);
-  visibility:visible;
+  transform:none;
   pointer-events:auto;
 }
 
@@ -275,6 +289,11 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 }
 
 /* 정답(View) 상태: 제목을 위로 올리고 메모 공간 확대 */
+.flash{
+  transition:
+    transform .26s cubic-bezier(.22,.61,.36,1),
+    padding .58s cubic-bezier(.22,.61,.36,1);
+}
 .flash.view-mode{
   justify-content:flex-start;
   align-items:center;
@@ -289,7 +308,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   overflow:auto;
   padding:2px 4px;
   margin:0;
-  transform:translateY(-8px) scale(.98);
+  transform:translateY(-5px) scale(.985);
 }
 .flash.view-mode .reading{
   flex:0 0 auto;
@@ -344,8 +363,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
     padding:54px 10px 43px;
   }
   .flash.view-mode .jp{
-    font-size:24px!important;
-    max-height:68px;
+    font-size:26px!important;
+    max-height:72px;
   }
   .flash.view-mode .answer{
     width:100%;
@@ -623,7 +642,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어47</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어48</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
@@ -1791,8 +1810,8 @@ function setAnswerVisible(show){
 
  if(answerVisible){
   // 메모 영역이 커진 뒤 SVG 좌표계를 새 크기에 맞춤
-  setTimeout(renderViewInk,180);
-  setTimeout(renderViewInk,420);
+  setTimeout(renderViewInk,260);
+  setTimeout(renderViewInk,650);
  }else{
   setViewInkTool('scroll');
   $('cardMemo').scrollTop=0;
@@ -1805,10 +1824,53 @@ function flipCard(){
 
 const flash=$('flash');
 flash.addEventListener('pointerdown',e=>{if((e.pointerType==='pen'&&viewInkTool!=='scroll')||e.target.closest('.view-ink-toolbar'))return;if(animating||!viewCards.length)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;flash.classList.add('dragging');try{flash.setPointerCapture(e.pointerId)}catch(_){}});
-flash.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-startX,dy=e.clientY-startY;if(!moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){dragging=false;flash.classList.remove('dragging');return}if(Math.abs(dx)>6)moved=true;currentX=dx;flash.style.transform=`translateX(${dx}px)`;flash.style.opacity=Math.max(.55,1-Math.abs(dx)/((flash.clientWidth||1)*1.4))});
+flash.addEventListener('pointermove',e=>{
+ if(!dragging)return;
+ const dx=e.clientX-startX,dy=e.clientY-startY;
+ if(!moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){
+  dragging=false;flash.classList.remove('dragging');return;
+ }
+ if(Math.abs(dx)>6)moved=true;
+ currentX=dx;
+ // 좌우 이동 중에도 카드를 사라지게 하지 않음
+ flash.style.transform=`translateX(${dx}px)`;
+ flash.style.opacity='1';
+});
 flash.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;flash.classList.remove('dragging');const threshold=Math.min(90,flash.clientWidth*.16);if(Math.abs(currentX)>=threshold)swipe(currentX<0?1:-1);else{flash.style.transform='translateX(0)';flash.style.opacity='1';if(!moved)flipCard();setTimeout(()=>moved=false,0)}});
 flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remove('dragging');flash.style.transform='translateX(0)';flash.style.opacity='1'});
-function swipe(step){if(animating)return;animating=true;const w=flash.clientWidth;flash.style.transform=`translateX(${step>0?-w:w}px)`;flash.style.opacity='0';setTimeout(()=>{current=(current+step+viewCards.length)%viewCards.length;render();flash.classList.add('dragging');flash.style.transform=`translateX(${step>0?w:-w}px)`;flash.style.opacity='0';void flash.offsetWidth;flash.classList.remove('dragging');requestAnimationFrame(()=>{flash.style.transform='translateX(0)';flash.style.opacity='1'});setTimeout(()=>{animating=false;moved=false},230)},190)}
+function swipe(step){
+ if(animating)return;
+ animating=true;
+
+ const w=flash.clientWidth||window.innerWidth;
+
+ // 현재 카드는 투명해지지 않고 그대로 옆으로 이동
+ flash.style.opacity='1';
+ flash.style.transform=`translateX(${step>0?-w:w}px)`;
+
+ setTimeout(()=>{
+  current=(current+step+viewCards.length)%viewCards.length;
+
+  // 새 카드 내용을 화면 반대쪽에서 준비
+  flash.classList.add('dragging');
+  render();
+  flash.style.opacity='1';
+  flash.style.transform=`translateX(${step>0?w:-w}px)`;
+  void flash.offsetWidth;
+
+  // 새 카드가 사라졌다 나타나는 대신 그대로 부드럽게 들어옴
+  flash.classList.remove('dragging');
+  requestAnimationFrame(()=>{
+   flash.style.opacity='1';
+   flash.style.transform='translateX(0)';
+  });
+
+  setTimeout(()=>{
+   animating=false;
+   moved=false;
+  },300);
+ },260);
+}
 
 
 
