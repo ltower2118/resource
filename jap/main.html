@@ -46,17 +46,15 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   padding:5px 9px;background:#eff6ff;border-radius:999px;
 }
 .swipe-preview .preview-jp{
-  width:100%;
-  max-height:52vh;
-  overflow:hidden;
-  padding:8px 4px;
-  font-size:clamp(24px,9vw,72px);
-  font-weight:800;
-  line-height:1.45;
-  white-space:normal;
-  overflow-wrap:anywhere;
-  word-break:break-word;
+  width:100%;max-width:100%;max-height:52vh;overflow:auto;
+  padding:8px 4px;font-size:clamp(24px,9vw,72px);font-weight:800;
+  line-height:1.45;white-space:normal;overflow-wrap:anywhere;word-break:break-word;
+  transform:translateY(0) scale(1);transform-origin:center top;
 }
+.swipe-preview .preview-jp.jp-medium{font-size:clamp(26px,6.5vw,50px)}
+.swipe-preview .preview-jp.jp-long{font-size:clamp(20px,4.8vw,38px)}
+.swipe-preview .preview-jp.jp-xlong{font-size:clamp(17px,3.8vw,30px);line-height:1.55}
+.swipe-preview .preview-jp.type-emotion{font-size:clamp(32px,8vw,62px)!important;line-height:1.38}
 .swipe-preview .preview-no{
   position:absolute;
   top:17px;right:18px;
@@ -68,6 +66,10 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 @media(max-width:520px){
  .swipe-preview{border-radius:19px;padding:24px 14px}
  .swipe-preview .preview-jp{font-size:45px;max-height:46vh}
+ .swipe-preview .preview-jp.jp-medium{font-size:26px}
+ .swipe-preview .preview-jp.jp-long{font-size:20px}
+ .swipe-preview .preview-jp.jp-xlong{font-size:17px;line-height:1.55}
+ .swipe-preview .preview-jp.type-emotion{font-size:42px!important;line-height:1.38}
 }
 
 .type{position:absolute;top:15px;left:15px;font-size:12px;color:var(--main);font-weight:800;padding:5px 9px;background:#eff6ff;border-radius:999px}
@@ -693,7 +695,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어50</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어51</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="prevPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
 <div id="nextPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
@@ -1469,19 +1471,19 @@ function setPreviewCard(el,card,index){
  el.querySelector('.preview-type').textContent=card.type||'';
  el.querySelector('.preview-no').textContent=(index+1)+' / '+viewCards.length;
  const jp=el.querySelector('.preview-jp');
- jp.textContent=card.jp||card.reading||card.ko||'(내용 없음)';
- const len=Array.from(jp.textContent).length;
- jp.style.fontSize='';
- if(window.innerWidth<=520){
-   if(len>80)jp.style.fontSize='17px';
-   else if(len>45)jp.style.fontSize='20px';
-   else if(len>20)jp.style.fontSize='26px';
+ const text=card.jp||card.reading||card.ko||'(내용 없음)';
+ jp.textContent=text;
+ jp.classList.remove('jp-medium','jp-long','jp-xlong','type-emotion');
+ if(String(card.type||'').trim()==='감정&기분'){
+   jp.classList.add('type-emotion');
  }else{
-   if(len>80)jp.style.fontSize='clamp(17px,3.8vw,30px)';
-   else if(len>45)jp.style.fontSize='clamp(20px,4.8vw,38px)';
-   else if(len>20)jp.style.fontSize='clamp(26px,6.5vw,50px)';
+   const len=Array.from(String(text)).length;
+   if(len>80)jp.classList.add('jp-xlong');
+   else if(len>45)jp.classList.add('jp-long');
+   else if(len>20)jp.classList.add('jp-medium');
  }
 }
+
 function resetPreviewPositions(noTransition=false){
  const prev=$('prevPreview'),next=$('nextPreview');
  [prev,next].forEach(x=>x.classList.toggle('dragging',!!noTransition));
@@ -2016,7 +2018,6 @@ function swipe(step){
   render();
   flash.style.transform='translateX(0)';
   flash.style.opacity='1';
-  renderSwipePreviews();
   void flash.offsetWidth;
   setSwipeDragging(false);
 
