@@ -155,6 +155,70 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   line-height:1.4;
 }
 
+
+/* ===== 보기 화면 S펜 필기 ===== */
+.memo-ink-wrap{
+  position:relative;
+  width:100%;
+  min-height:80px;
+}
+.memo-ink-text{
+  position:relative;
+  z-index:1;
+}
+.memo-view-svg{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  width:100%;
+  height:100%;
+  overflow:visible;
+  pointer-events:none;
+  touch-action:none;
+}
+.memo-ink-wrap.ink-active .memo-view-svg{pointer-events:auto}
+.memo-view-svg path{
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+}
+.view-ink-toolbar{
+  display:none;
+  flex-wrap:wrap;
+  gap:5px;
+  margin:7px 0 4px;
+  padding:6px;
+  border:1px solid #dbe1e8;
+  border-radius:11px;
+  background:#f8fafc;
+}
+.answer.show .view-ink-toolbar{display:flex}
+.view-ink-toolbar button,.view-ink-toolbar select{
+  border:1px solid #cbd5e1;
+  background:#fff;
+  border-radius:8px;
+  padding:6px 8px;
+  font-size:11px;
+  font-weight:800;
+}
+.view-ink-toolbar button.active{
+  background:#dbeafe;
+  border-color:#60a5fa;
+  color:#1d4ed8;
+}
+.view-ink-toolbar button.hl.active{
+  background:#fff59d;
+  border-color:#f4d03f;
+  color:#5b4a00;
+}
+.view-ink-status{
+  width:100%;
+  font-size:10px;
+  color:#64748b;
+  text-align:left;
+}
+
 .hint{position:absolute;bottom:15px;left:0;right:0;font-size:12px;color:#9ca3af}
 .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:30px;background:#fff;border:1px solid var(--line);border-radius:22px}
 .loading-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
@@ -426,7 +490,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어40</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어43</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
@@ -440,7 +504,27 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </div>
 <div id="flash" class="flash hidden">
 <div id="cardType" class="type"></div><button id="favoriteBtn" type="button" class="favorite-btn" onclick="toggleFavorite(event)" aria-label="즐겨찾기">☆</button><button id="rememberBtn" class="remember-btn" type="button" onclick="toggleRemember(event)">Remember</button><div id="cardJp" class="jp"></div><div id="cardReading" class="reading study-hidden"></div>
-<div id="answer" class="answer"><div id="cardKo" class="ko"></div><div id="cardMemo" class="memo"></div></div>
+<div id="answer" class="answer">
+<div id="cardKo" class="ko"></div>
+<div id="viewInkToolbar" class="view-ink-toolbar">
+  <button id="viewInkScrollBtn" type="button" class="active" onclick="setViewInkTool('scroll')">☝ 스크롤</button>
+  <button id="viewInkPenBtn" type="button" onclick="setViewInkTool('pen')">✏️ 펜</button>
+  <button id="viewInkHighlightBtn" class="hl" type="button" onclick="setViewInkTool('highlight')">🖍 형광</button>
+  <button id="viewInkEraserBtn" type="button" onclick="setViewInkTool('eraser')">🧽 지우개</button>
+  <button type="button" onclick="undoViewInk()">↶</button>
+  <button type="button" onclick="clearViewInk()">🗑</button>
+  <select id="viewInkWidth" onchange="setViewInkWidth(this.value)">
+    <option value="2">얇게</option><option value="4" selected>보통</option><option value="7">굵게</option>
+  </select>
+  <div id="viewInkStatus" class="view-ink-status">손가락=스크롤 · S펜으로 필기하려면 펜/형광을 선택</div>
+</div>
+<div id="cardMemo" class="memo">
+  <div id="memoInkWrap" class="memo-ink-wrap">
+    <div id="cardMemoText" class="memo-ink-text"></div>
+    <svg id="memoViewSvg" class="memo-view-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</div>
+</div>
 <button type="button" class="gemini-card-btn" onclick="openGemini()">✦ Gemini AI</button>
 <button type="button" class="kana-card-btn" onclick="openKanaChart()">あ 가나표</button>
 <div class="hint">한 번 터치: 한글발음 · 뜻 <br>메모 보기 · 좌우 밀기: 카드 이동<br>Made by Ai & Ha You Sin</div>
@@ -973,7 +1057,8 @@ function normalizeCard(c,index=0){
     jp:String(c.jp??c.japanese??c.word??'').trim(),
     reading:String(c.reading??c.kana??c.yomi??'').trim(),
     ko:String(c.ko??c.meaning??c.korean??'').trim(),
-    memo:String(c.memo??c.note??'').trim()
+    memo:String(c.memo??c.note??'').trim(),
+    penData:String(c.penData??c.pendata??c.pen??'').trim()
   };
 }
 
@@ -1145,7 +1230,8 @@ function render(){
  fitJapaneseText(c.jp||c.reading||c.ko||'',c.type);
  $('cardReading').textContent=c.reading||'';
  $('cardKo').textContent=c.ko||'';
- $('cardMemo').innerHTML=renderMemoHtml(c.memo||'');
+ $('cardMemoText').innerHTML=renderMemoHtml(c.memo||'');
+  loadViewInk(c.penData||'');
   updateFavoriteButton();
  updateRememberButton();
  setAnswerVisible(false);
@@ -1290,10 +1376,200 @@ document.addEventListener('selectionchange',()=>{
   if(!text)hideSelectTools();
 });
 
+
+/* ===== 보기 화면 S펜 벡터 필기 =====
+   좌표는 메모의 실제 scrollWidth/scrollHeight 기준 비율(0~1)로 저장.
+   따라서 화면 폭/높이가 바뀌어도 같은 메모 위치에 비례하여 복원됩니다.
+*/
+let viewInkTool='scroll';
+let viewInkWidth=4;
+let viewInkStrokes=[];
+let viewInkDrawing=false;
+let viewInkCurrent=null;
+let viewInkPointerId=null;
+let viewInkSaveTimer=null;
+
+function setViewInkTool(tool){
+ viewInkTool=tool;
+ const wrap=$('memoInkWrap');
+ wrap.classList.toggle('ink-active',tool!=='scroll');
+ ['Scroll','Pen','Highlight','Eraser'].forEach(n=>$('viewInk'+n+'Btn')?.classList.remove('active'));
+ const map={scroll:'Scroll',pen:'Pen',highlight:'Highlight',eraser:'Eraser'};
+ $('viewInk'+map[tool]+'Btn')?.classList.add('active');
+ const msg=tool==='scroll'?'손가락=스크롤 · S펜 필기 도구를 선택하세요':
+   tool==='pen'?'S펜으로 메모 위에 직접 필기':
+   tool==='highlight'?'S펜으로 글씨 위를 쓱 칠하면 반투명 형광':
+   'S펜으로 획을 터치하면 삭제';
+ $('viewInkStatus').textContent=msg;
+}
+
+function setViewInkWidth(v){viewInkWidth=Math.max(1,Number(v)||4)}
+
+function parseViewInk(raw){
+ if(!raw)return [];
+ try{
+  const x=typeof raw==='string'?JSON.parse(raw):raw;
+  if(Array.isArray(x))return x;
+  if(x&&Array.isArray(x.strokes))return x.strokes;
+ }catch(_){}
+ return [];
+}
+
+function getMemoInkSize(){
+ const wrap=$('memoInkWrap');
+ return {w:Math.max(1,wrap.clientWidth),h:Math.max(1,wrap.scrollHeight,wrap.clientHeight)};
+}
+
+function viewInkPoint(e){
+ const wrap=$('memoInkWrap');
+ const r=wrap.getBoundingClientRect();
+ const size=getMemoInkSize();
+ const x=(e.clientX-r.left)/Math.max(1,r.width);
+ const y=(e.clientY-r.top+$('cardMemo').scrollTop)/Math.max(1,size.h);
+ return [Math.max(0,Math.min(1,x)),Math.max(0,Math.min(1,y))];
+}
+
+function pathFromNormPoints(points,w,h){
+ if(!points||!points.length)return '';
+ const p=points.map(q=>[q[0]*w,q[1]*h]);
+ if(p.length===1)return `M ${p[0][0]} ${p[0][1]} l .1 .1`;
+ let d=`M ${p[0][0]} ${p[0][1]}`;
+ for(let i=1;i<p.length;i++)d+=` L ${p[i][0]} ${p[i][1]}`;
+ return d;
+}
+
+function renderViewInk(){
+ const svg=$('memoViewSvg'),size=getMemoInkSize();
+ svg.setAttribute('viewBox',`0 0 ${size.w} ${size.h}`);
+ svg.style.height=size.h+'px';
+ svg.innerHTML='';
+ viewInkStrokes.forEach((s,i)=>{
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',pathFromNormPoints(s.p,size.w,size.h));
+  path.dataset.index=i;
+  if(s.t==='highlight'){
+   path.setAttribute('stroke','#ffe94d');
+   path.setAttribute('stroke-width',String((s.w||12)*2.8));
+   path.setAttribute('stroke-opacity','.38');
+   path.style.mixBlendMode='multiply';
+  }else{
+   path.setAttribute('stroke','#1f2937');
+   path.setAttribute('stroke-width',String(s.w||3));
+   path.setAttribute('stroke-opacity','.92');
+  }
+  svg.appendChild(path);
+ });
+}
+
+function loadViewInk(raw){
+ viewInkStrokes=parseViewInk(raw);
+ requestAnimationFrame(()=>requestAnimationFrame(renderViewInk));
+}
+
+function serializeViewInk(){
+ return JSON.stringify({v:2,strokes:viewInkStrokes});
+}
+
+function distanceToSegment(px,py,x1,y1,x2,y2){
+ const dx=x2-x1,dy=y2-y1;
+ if(dx===0&&dy===0)return Math.hypot(px-x1,py-y1);
+ let t=((px-x1)*dx+(py-y1)*dy)/(dx*dx+dy*dy);
+ t=Math.max(0,Math.min(1,t));
+ return Math.hypot(px-(x1+t*dx),py-(y1+t*dy));
+}
+
+function eraseViewInkAt(pt){
+ const size=getMemoInkSize(),px=pt[0]*size.w,py=pt[1]*size.h;
+ let best=-1,bestD=Infinity;
+ viewInkStrokes.forEach((s,i)=>{
+  const pts=(s.p||[]).map(q=>[q[0]*size.w,q[1]*size.h]);
+  for(let j=1;j<pts.length;j++){
+   const d=distanceToSegment(px,py,pts[j-1][0],pts[j-1][1],pts[j][0],pts[j][1]);
+   if(d<bestD){bestD=d;best=i}
+  }
+ });
+ if(best>=0&&bestD<24){viewInkStrokes.splice(best,1);renderViewInk();scheduleViewInkSave()}
+}
+
+function scheduleViewInkSave(){
+ clearTimeout(viewInkSaveTimer);
+ viewInkSaveTimer=setTimeout(saveCurrentViewInk,500);
+}
+
+async function saveCurrentViewInk(){
+ if(!viewCards.length)return;
+ const card=viewCards[current];
+ const penData=serializeViewInk();
+ card.penData=penData;
+ const global=cards.find(x=>String(x.id)===String(card.id));
+ if(global)global.penData=penData;
+ saveCache();
+ try{
+  await request('penUpdate',{id:card.id,penData});
+  $('viewInkStatus').textContent='필기 저장 완료';
+ }catch(_){
+  $('viewInkStatus').textContent='기기에 임시 저장됨 · 동기화 필요';
+ }
+}
+
+function undoViewInk(){
+ if(!viewInkStrokes.length)return;
+ viewInkStrokes.pop();renderViewInk();scheduleViewInkSave();
+}
+
+function clearViewInk(){
+ if(!viewInkStrokes.length)return;
+ if(!confirm('이 카드의 S펜 필기를 모두 지울까요?'))return;
+ viewInkStrokes=[];renderViewInk();scheduleViewInkSave();
+}
+
+const memoViewSvg=$('memoViewSvg');
+memoViewSvg.addEventListener('pointerdown',e=>{
+ // 그림은 S펜만 허용. 손가락은 SVG가 활성이어도 필기하지 않음.
+ if(e.pointerType!=='pen')return;
+ e.preventDefault();e.stopPropagation();
+ const pt=viewInkPoint(e);
+ if(viewInkTool==='eraser'){eraseViewInkAt(pt);return}
+ if(viewInkTool!=='pen'&&viewInkTool!=='highlight')return;
+ viewInkDrawing=true;viewInkPointerId=e.pointerId;
+ viewInkCurrent={t:viewInkTool,w:viewInkTool==='highlight'?Math.max(6,viewInkWidth):viewInkWidth,p:[pt]};
+ viewInkStrokes.push(viewInkCurrent);
+ try{memoViewSvg.setPointerCapture(e.pointerId)}catch(_){}
+ renderViewInk();
+});
+
+memoViewSvg.addEventListener('pointermove',e=>{
+ if(!viewInkDrawing||e.pointerType!=='pen'||e.pointerId!==viewInkPointerId)return;
+ e.preventDefault();e.stopPropagation();
+ const pt=viewInkPoint(e),arr=viewInkCurrent.p,last=arr[arr.length-1];
+ // 좌표 압축: 메모 크기의 약 0.3% 이상 움직일 때만 점 추가
+ const dx=pt[0]-last[0],dy=pt[1]-last[1];
+ if(Math.hypot(dx,dy)<.003)return;
+ arr.push([Math.round(pt[0]*10000)/10000,Math.round(pt[1]*10000)/10000]);
+ renderViewInk();
+});
+
+function finishViewInk(e){
+ if(!viewInkDrawing)return;
+ if(e&&e.pointerType!=='pen')return;
+ viewInkDrawing=false;viewInkPointerId=null;viewInkCurrent=null;
+ scheduleViewInkSave();
+}
+memoViewSvg.addEventListener('pointerup',finishViewInk);
+memoViewSvg.addEventListener('pointercancel',finishViewInk);
+
+$('cardMemo').addEventListener('scroll',()=>{ if(viewInkTool!=='scroll')renderViewInk() });
+window.addEventListener('resize',()=>{if(answerVisible)renderViewInk()});
+
 function setAnswerVisible(show){
  answerVisible=!!show;
  $('cardReading').classList.toggle('study-hidden',!answerVisible);
  $('answer').classList.toggle('show',answerVisible);
+ if(answerVisible){
+  setTimeout(renderViewInk,40);
+ }else{
+  setViewInkTool('scroll');
+ }
 }
 function flipCard(){
  if(animating||moved)return;
@@ -1301,7 +1577,7 @@ function flipCard(){
 }
 
 const flash=$('flash');
-flash.addEventListener('pointerdown',e=>{if(animating||!viewCards.length)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;flash.classList.add('dragging');try{flash.setPointerCapture(e.pointerId)}catch(_){}});
+flash.addEventListener('pointerdown',e=>{if((e.pointerType==='pen'&&viewInkTool!=='scroll')||e.target.closest('.view-ink-toolbar'))return;if(animating||!viewCards.length)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;flash.classList.add('dragging');try{flash.setPointerCapture(e.pointerId)}catch(_){}});
 flash.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-startX,dy=e.clientY-startY;if(!moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){dragging=false;flash.classList.remove('dragging');return}if(Math.abs(dx)>6)moved=true;currentX=dx;flash.style.transform=`translateX(${dx}px)`;flash.style.opacity=Math.max(.55,1-Math.abs(dx)/((flash.clientWidth||1)*1.4))});
 flash.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;flash.classList.remove('dragging');const threshold=Math.min(90,flash.clientWidth*.16);if(Math.abs(currentX)>=threshold)swipe(currentX<0?1:-1);else{flash.style.transform='translateX(0)';flash.style.opacity='1';if(!moved)flipCard();setTimeout(()=>moved=false,0)}});
 flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remove('dragging');flash.style.transform='translateX(0)';flash.style.opacity='1'});
