@@ -286,8 +286,14 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .memo-ink-wrap{
   position:relative;
   width:100%;
-  min-height:80px;
+  min-height:0;
 }
+
+.memo-ink-text > :first-child{margin-top:0!important}
+.memo-ink-text > :last-child{margin-bottom:0!important}
+.memo-edit-ink-wrap .memo-editor > :first-child{margin-top:0!important}
+.memo-edit-ink-wrap .memo-editor > :last-child{margin-bottom:0!important}
+
 .memo-ink-text{
   position:relative;
   z-index:1;
@@ -740,7 +746,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어55</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어57</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="prevPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
 <div id="nextPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
@@ -1790,8 +1796,7 @@ function getMemoInkSize(){
  const h=Math.max(
    1,
    text?text.scrollHeight:0,
-   wrap.scrollHeight,
-   wrap.clientHeight
+   text?text.clientHeight:0
  );
 
  return {w,h};
@@ -1898,7 +1903,7 @@ function renderEditorInk(raw=''){
  const strokes=parseViewInk(raw);
  const w=Math.max(1,editor.clientWidth);
  const h=Math.max(1,editor.scrollHeight,editor.clientHeight);
- wrap.style.minHeight=h+'px';
+ // 수정창도 텍스트 높이만 사용해 필기 때문에 여백이 생기지 않게 함
  svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
  svg.setAttribute('preserveAspectRatio','none');
  svg.style.height=h+'px';
