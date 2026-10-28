@@ -53,21 +53,37 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   user-select:text;
   -webkit-user-select:text;
   cursor:text;
+  transform:translateY(0) scale(1);
+  transform-origin:center top;
+  transition:font-size .36s cubic-bezier(.22,.61,.36,1),line-height .36s cubic-bezier(.22,.61,.36,1),max-height .36s cubic-bezier(.22,.61,.36,1),padding .36s cubic-bezier(.22,.61,.36,1),transform .36s cubic-bezier(.22,.61,.36,1);
 }
-.reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px}
+.reading{font-size:clamp(17px,3vw,23px);color:var(--muted);margin-top:13px;transition:font-size .34s ease,margin .34s ease,opacity .28s ease,transform .34s ease}
 .answer{
-  display:none;
+  display:flex;
+  flex-direction:column;
   width:min(94%,760px);
+  max-height:0;
+  margin-top:0;
+  padding-top:0;
+  border-top:1px solid transparent;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(18px);
+  visibility:hidden;
+  pointer-events:none;
+  transition:max-height .40s cubic-bezier(.22,.61,.36,1),margin-top .34s ease,padding-top .34s ease,opacity .28s ease .06s,transform .36s cubic-bezier(.22,.61,.36,1),border-color .28s ease;
+}
+.answer.show{
   max-height:58vh;
   margin-top:20px;
   padding-top:18px;
-  border-top:1px solid var(--line);
-  overflow:hidden;
+  border-top-color:var(--line);
+  opacity:1;
+  transform:translateY(0);
+  visibility:visible;
+  pointer-events:auto;
 }
-.answer.show{
-  display:flex;
-  flex-direction:column;
-}
+
 .ko{font-size:clamp(23px,5vw,34px);font-weight:750;line-height:1.45}
 .memo{
   width:100%;
@@ -273,6 +289,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   overflow:auto;
   padding:2px 4px;
   margin:0;
+  transform:translateY(-8px) scale(.98);
 }
 .flash.view-mode .reading{
   flex:0 0 auto;
@@ -284,7 +301,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   flex:1 1 auto;
   min-height:0;
   width:min(98%,820px);
-  max-height:none;
+  max-height:calc(100dvh - 190px);
   margin-top:7px;
   padding-top:7px;
 }
@@ -606,7 +623,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어46</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어47</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
@@ -1646,15 +1663,15 @@ function renderViewInk(){
   path.setAttribute('d',pathFromNormPoints(s.p,size.w,size.h));
   path.dataset.index=i;
   if(s.t==='highlight'){
-   path.setAttribute('stroke',s.c||'#ffe94d');
-   path.setAttribute('stroke-width',String((s.w||12)*2.8));
-   path.setAttribute('stroke-opacity','.38');
-   path.style.mixBlendMode='multiply';
-  }else{
-   path.setAttribute('stroke','#1f2937');
-   path.setAttribute('stroke-width',String(s.w||3));
-   path.setAttribute('stroke-opacity','.92');
-  }
+    path.setAttribute('stroke',s.c||'#ffe94d');
+    path.setAttribute('stroke-width',String(s.w||9));
+    path.setAttribute('stroke-opacity',String(Number.isFinite(Number(s.o))?Number(s.o):.38));
+    path.style.mixBlendMode='multiply';
+   }else{
+    path.setAttribute('stroke',s.c||'#1f2937');
+    path.setAttribute('stroke-width',String(s.w||4));
+    path.setAttribute('stroke-opacity',String(Number.isFinite(Number(s.o))?Number(s.o):.92));
+   }
   svg.appendChild(path);
  });
 }
@@ -1774,7 +1791,8 @@ function setAnswerVisible(show){
 
  if(answerVisible){
   // 메모 영역이 커진 뒤 SVG 좌표계를 새 크기에 맞춤
-  setTimeout(renderViewInk,60);
+  setTimeout(renderViewInk,180);
+  setTimeout(renderViewInk,420);
  }else{
   setViewInkTool('scroll');
   $('cardMemo').scrollTop=0;
