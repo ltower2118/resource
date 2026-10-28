@@ -746,7 +746,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어57</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어58</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="prevPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
 <div id="nextPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
@@ -1792,12 +1792,9 @@ function getMemoInkSize(){
  const text=$('cardMemoText');
 
  // 실제 메모 콘텐츠 높이를 기준으로 SVG와 텍스트 좌표계를 고정
- const w=Math.max(1,wrap.clientWidth);
- const h=Math.max(
-   1,
-   text?text.scrollHeight:0,
-   text?text.clientHeight:0
- );
+ const w=Math.max(1,text?.clientWidth||wrap.clientWidth||1);
+ const rect=text?.getBoundingClientRect();
+ const h=Math.max(1,Math.ceil(rect?.height||0),text?.scrollHeight||0);
 
  return {w,h};
 }
@@ -1833,8 +1830,12 @@ function renderViewInk(){
  const svg=$('memoViewSvg'),size=getMemoInkSize();
  svg.setAttribute('viewBox',`0 0 ${size.w} ${size.h}`);
  svg.setAttribute('preserveAspectRatio','none');
+ const wrap=$('memoInkWrap');
+ wrap.style.removeProperty('min-height');
+ wrap.style.removeProperty('height');
  svg.style.height=size.h+'px';
- $('memoInkWrap').style.minHeight=size.h+'px';
+ svg.style.top='0px';
+ svg.style.bottom='auto';
  svg.innerHTML='';
  viewInkStrokes.forEach((s,i)=>{
   const path=document.createElementNS('http://www.w3.org/2000/svg','path');
