@@ -19,6 +19,57 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .track{position:relative;width:100%;height:100%}
 .flash{position:absolute;inset:0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;user-select:none;-webkit-user-select:none;touch-action:pan-y;will-change:transform,opacity;transition:transform .22s cubic-bezier(.22,.61,.36,1),opacity .22s ease}
 .flash.dragging{transition:none}.hidden{display:none!important}
+
+/* ===== 좌우 스와이프: 이전/다음 카드를 미리 배치 ===== */
+.swipe-preview{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:28px 18px;
+  pointer-events:none;
+  will-change:transform;
+  transition:transform .26s cubic-bezier(.22,.61,.36,1);
+}
+.swipe-preview.dragging{transition:none}
+.swipe-preview .preview-type{
+  position:absolute;top:15px;left:15px;
+  font-size:12px;color:var(--main);font-weight:800;
+  padding:5px 9px;background:#eff6ff;border-radius:999px;
+}
+.swipe-preview .preview-jp{
+  width:100%;
+  max-height:52vh;
+  overflow:hidden;
+  padding:8px 4px;
+  font-size:clamp(24px,9vw,72px);
+  font-weight:800;
+  line-height:1.45;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.swipe-preview .preview-no{
+  position:absolute;
+  top:17px;right:18px;
+  font-size:12px;font-weight:800;color:#94a3b8;
+}
+#prevPreview{transform:translateX(-105%)}
+#nextPreview{transform:translateX(105%)}
+.flash{z-index:2}
+@media(max-width:520px){
+ .swipe-preview{border-radius:19px;padding:24px 14px}
+ .swipe-preview .preview-jp{font-size:45px;max-height:46vh}
+}
+
 .type{position:absolute;top:15px;left:15px;font-size:12px;color:var(--main);font-weight:800;padding:5px 9px;background:#eff6ff;border-radius:999px}
 .favorite-btn{
   position:absolute;top:12px;right:14px;z-index:5;
@@ -642,8 +693,10 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어48</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어50</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
+<div id="prevPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
+<div id="nextPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
 <div id="empty" class="empty">
   <div id="loadingBox" class="loading-box">
     <div id="loadingSpinner" class="loading-spinner"></div>
@@ -1405,9 +1458,56 @@ function fitJapaneseText(text='',type=''){
  else if(len>20)el.classList.add('jp-medium');
 }
 
+
+function previewIndex(offset){
+ if(!viewCards.length)return -1;
+ return (current+offset+viewCards.length)%viewCards.length;
+}
+function setPreviewCard(el,card,index){
+ if(!el||!card)return;
+ el.classList.remove('hidden');
+ el.querySelector('.preview-type').textContent=card.type||'';
+ el.querySelector('.preview-no').textContent=(index+1)+' / '+viewCards.length;
+ const jp=el.querySelector('.preview-jp');
+ jp.textContent=card.jp||card.reading||card.ko||'(내용 없음)';
+ const len=Array.from(jp.textContent).length;
+ jp.style.fontSize='';
+ if(window.innerWidth<=520){
+   if(len>80)jp.style.fontSize='17px';
+   else if(len>45)jp.style.fontSize='20px';
+   else if(len>20)jp.style.fontSize='26px';
+ }else{
+   if(len>80)jp.style.fontSize='clamp(17px,3.8vw,30px)';
+   else if(len>45)jp.style.fontSize='clamp(20px,4.8vw,38px)';
+   else if(len>20)jp.style.fontSize='clamp(26px,6.5vw,50px)';
+ }
+}
+function resetPreviewPositions(noTransition=false){
+ const prev=$('prevPreview'),next=$('nextPreview');
+ [prev,next].forEach(x=>x.classList.toggle('dragging',!!noTransition));
+ prev.style.transform='translateX(-105%)';
+ next.style.transform='translateX(105%)';
+ if(noTransition){
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   prev.classList.remove('dragging');next.classList.remove('dragging');
+  }));
+ }
+}
+function renderSwipePreviews(){
+ if(!viewCards.length){
+  $('prevPreview').classList.add('hidden');
+  $('nextPreview').classList.add('hidden');
+  return;
+ }
+ const pi=previewIndex(-1),ni=previewIndex(1);
+ setPreviewCard($('prevPreview'),viewCards[pi],pi);
+ setPreviewCard($('nextPreview'),viewCards[ni],ni);
+ resetPreviewPositions(true);
+}
+
 function render(){
  hideSelectTools();
- if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();updateRememberButton();return}
+ if(!viewCards.length){$('empty').classList.remove('hidden');$('flash').classList.add('hidden');$('prevPreview').classList.add('hidden');$('nextPreview').classList.add('hidden');$('counter').textContent='0 / 0';updateFavoriteButton();updateRememberButton();return}
  const c=viewCards[current];$('empty').classList.add('hidden');$('flash').classList.remove('hidden');
  $('cardType').textContent=c.type||'';
  $('cardJp').textContent=c.jp||c.reading||c.ko||'(내용 없음)';
@@ -1421,6 +1521,7 @@ function render(){
  setAnswerVisible(false);
  $('counter').textContent=`${current+1} / ${viewCards.length}`;
  $('flash').style.transform='translateX(0)';$('flash').style.opacity='1';
+ renderSwipePreviews();
  rememberLastCard();
 }
 
@@ -1823,55 +1924,106 @@ function flipCard(){
 }
 
 const flash=$('flash');
-flash.addEventListener('pointerdown',e=>{if((e.pointerType==='pen'&&viewInkTool!=='scroll')||e.target.closest('.view-ink-toolbar'))return;if(animating||!viewCards.length)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;flash.classList.add('dragging');try{flash.setPointerCapture(e.pointerId)}catch(_){}});
+const prevPreview=$('prevPreview');
+const nextPreview=$('nextPreview');
+
+function setSwipeDragging(on){
+ flash.classList.toggle('dragging',on);
+ prevPreview.classList.toggle('dragging',on);
+ nextPreview.classList.toggle('dragging',on);
+}
+
+function moveSwipeCards(dx){
+ const w=flash.clientWidth||window.innerWidth;
+ flash.style.transform=`translateX(${dx}px)`;
+ flash.style.opacity='1';
+ // 실제 이전/다음 카드가 현재 카드 바로 옆에서 동시에 움직임
+ prevPreview.style.transform=`translateX(${-w+dx}px)`;
+ nextPreview.style.transform=`translateX(${w+dx}px)`;
+}
+
+function restoreSwipeCards(){
+ setSwipeDragging(false);
+ flash.style.transform='translateX(0)';
+ flash.style.opacity='1';
+ prevPreview.style.transform='translateX(-105%)';
+ nextPreview.style.transform='translateX(105%)';
+}
+
+flash.addEventListener('pointerdown',e=>{
+ if((e.pointerType==='pen'&&viewInkTool!=='scroll')||e.target.closest('.view-ink-toolbar'))return;
+ if(animating||!viewCards.length)return;
+ dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;
+ setSwipeDragging(true);
+ try{flash.setPointerCapture(e.pointerId)}catch(_){}
+});
+
 flash.addEventListener('pointermove',e=>{
  if(!dragging)return;
  const dx=e.clientX-startX,dy=e.clientY-startY;
  if(!moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){
-  dragging=false;flash.classList.remove('dragging');return;
+  dragging=false;
+  setSwipeDragging(false);
+  return;
  }
  if(Math.abs(dx)>6)moved=true;
  currentX=dx;
- // 좌우 이동 중에도 카드를 사라지게 하지 않음
- flash.style.transform=`translateX(${dx}px)`;
- flash.style.opacity='1';
+ moveSwipeCards(dx);
 });
-flash.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;flash.classList.remove('dragging');const threshold=Math.min(90,flash.clientWidth*.16);if(Math.abs(currentX)>=threshold)swipe(currentX<0?1:-1);else{flash.style.transform='translateX(0)';flash.style.opacity='1';if(!moved)flipCard();setTimeout(()=>moved=false,0)}});
-flash.addEventListener('pointercancel',()=>{dragging=false;flash.classList.remove('dragging');flash.style.transform='translateX(0)';flash.style.opacity='1'});
+
+flash.addEventListener('pointerup',()=>{
+ if(!dragging)return;
+ dragging=false;
+ const threshold=Math.min(90,flash.clientWidth*.16);
+ if(Math.abs(currentX)>=threshold){
+  swipe(currentX<0?1:-1);
+ }else{
+  restoreSwipeCards();
+  if(!moved)flipCard();
+  setTimeout(()=>moved=false,0);
+ }
+});
+
+flash.addEventListener('pointercancel',()=>{
+ dragging=false;
+ restoreSwipeCards();
+});
+
 function swipe(step){
  if(animating)return;
  animating=true;
-
  const w=flash.clientWidth||window.innerWidth;
 
- // 현재 카드는 투명해지지 않고 그대로 옆으로 이동
- flash.style.opacity='1';
- flash.style.transform=`translateX(${step>0?-w:w}px)`;
+ setSwipeDragging(false);
+
+ // 현재 카드와 이미 화면 옆에 준비된 다음/이전 카드를 동시에 최종 위치로 이동
+ if(step>0){
+  flash.style.transform=`translateX(${-w}px)`;
+  nextPreview.style.transform='translateX(0)';
+  prevPreview.style.transform=`translateX(${-2*w}px)`;
+ }else{
+  flash.style.transform=`translateX(${w}px)`;
+  prevPreview.style.transform='translateX(0)';
+  nextPreview.style.transform=`translateX(${2*w}px)`;
+ }
 
  setTimeout(()=>{
   current=(current+step+viewCards.length)%viewCards.length;
 
-  // 새 카드 내용을 화면 반대쪽에서 준비
-  flash.classList.add('dragging');
+  // 보이는 프리뷰와 같은 내용을 현재 카드에 즉시 교체.
+  // 전환 순간에는 위치/투명도 변화가 없어 깜빡임이 거의 없음.
+  setSwipeDragging(true);
   render();
+  flash.style.transform='translateX(0)';
   flash.style.opacity='1';
-  flash.style.transform=`translateX(${step>0?w:-w}px)`;
+  renderSwipePreviews();
   void flash.offsetWidth;
+  setSwipeDragging(false);
 
-  // 새 카드가 사라졌다 나타나는 대신 그대로 부드럽게 들어옴
-  flash.classList.remove('dragging');
-  requestAnimationFrame(()=>{
-   flash.style.opacity='1';
-   flash.style.transform='translateX(0)';
-  });
-
-  setTimeout(()=>{
-   animating=false;
-   moved=false;
-  },300);
- },260);
+  animating=false;
+  moved=false;
+ },270);
 }
-
 
 
 const KANA_BASIC=[
