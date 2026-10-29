@@ -172,6 +172,10 @@ input {
     font-weight: 750;
     overflow-wrap: anywhere;
 }
+.stepname a,
+.description a{color:#1565c0;text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere;word-break:break-word}
+.stepname a:visited,.description a:visited{color:#6a4fb3}
+
 .description {
     font-size: 15px;
     white-space: pre-wrap;
@@ -381,7 +385,7 @@ input {
   <header id="siteHeader">
    <div>
     <h1>
-     현장 작업 매뉴얼25-4</h1>
+     현장 작업 매뉴얼</h1>
     <small>
      사진으로 보는 표준작업지침서
     </small>
@@ -432,44 +436,10 @@ const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 }[c]));
 const safeUrl = value => /^https:\/\//i.test(String(value || '')) ? esc(value) : '';
-/* 관리자에서 입력한 부분 글자 서식 표시 */
-function styledText(value, runs) {
-    const text = String(value || '');
-    const rs = Array.isArray(runs) ? runs : [];
-    let cuts = [0, text.length];
-    rs.forEach(r => cuts.push(r.start, r.end));
-    cuts = [...new Set(cuts)]
-        .filter(x => Number.isInteger(x) && x >= 0 && x <= text.length)
-        .sort((a, b) => a - b);
-    let html = '';
-    for (let i = 0; i < cuts.length - 1; i++) {
-        const start = cuts[i], end = cuts[i + 1];
-        const part = esc(text.slice(start, end));
-        const r = rs.find(x => x.start <= start && x.end >= end);
-        if (!r) {
-            html += part;
-            continue;
-        }
-        const styles = [];
-        if (r.bold)
-            styles.push('font-weight:700');
-        if (r.underline)
-            styles.push('text-decoration:underline');
-        if (r.color && /^#[0-9a-f]{6}$/i.test(r.color)) {
-            styles.push('color:' + r.color);
-        }
-        if (r.size >= 10 && r.size <= 30) {
-            styles.push('font-size:' + r.size + 'px');
-        }
-        let fragment = '<span style="' + styles.join(';') + '">' + part + '</span>';
-        if (r.link && /^https:\/\/[^\s"<>]+$/i.test(r.link)) {
-            fragment = '<a href="' + esc(r.link) +
-                '" target="_blank" rel="noopener noreferrer">' + fragment + '</a>';
-        }
-        html += fragment;
-    }
-    return html;
-}
+function normalizeLinkUrl(value=''){let url=String(value||'').trim();if(!url)return '';if(/^www\./i.test(url))url='https://'+url;if(!/^https?:\/\/[^\s"<>]+$/i.test(url))return '';return url;}
+function autoLinkEscapedText(text=''){const raw=String(text||'');const re=/(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+)/gi;let out='',last=0,m;while((m=re.exec(raw))){out+=esc(raw.slice(last,m.index));let shown=m[0],trailing='';while(/[.,!?;:)\]\}]$/.test(shown)){trailing=shown.slice(-1)+trailing;shown=shown.slice(0,-1)}const url=normalizeLinkUrl(shown);out+=url?'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(shown)+'</a>'+esc(trailing):esc(m[0]);last=m.index+m[0].length}out+=esc(raw.slice(last));return out;}
+function styledText(value,runs){const text=String(value||'');const rs=Array.isArray(runs)?runs:[];let cuts=[0,text.length];rs.forEach(r=>cuts.push(r.start,r.end));cuts=[...new Set(cuts)].filter(x=>Number.isInteger(x)&&x>=0&&x<=text.length).sort((a,b)=>a-b);let html='';for(let i=0;i<cuts.length-1;i++){const start=cuts[i],end=cuts[i+1],rawPart=text.slice(start,end);const r=rs.find(x=>x.start<=start&&x.end>=end);if(!r){html+=autoLinkEscapedText(rawPart);continue}const styles=[];if(r.bold)styles.push('font-weight:700');if(r.underline)styles.push('text-decoration:underline');if(r.color&&/^#[0-9a-f]{6}$/i.test(r.color))styles.push('color:'+r.color);if(r.size>=10&&r.size<=30)styles.push('font-size:'+r.size+'px');const selectedLink=normalizeLinkUrl(r.link);if(selectedLink){html+='<a href="'+esc(selectedLink)+'" target="_blank" rel="noopener noreferrer"><span style="'+styles.join(';')+'">'+esc(rawPart)+'</span></a>'}else{html+='<span style="'+styles.join(';')+'">'+autoLinkEscapedText(rawPart)+'</span>'}}return html;}
+
 /* 목록 검색 */
 function render() {
     const query = $('search').value.toLocaleLowerCase().trim();
@@ -583,6 +553,8 @@ $('copy').addEventListener('click', async () => {
     }
 });
 $('content').addEventListener('click', event => {
+    const link=event.target.closest('a[href]');
+    if(link){event.stopPropagation();return;}
     const image = event.target.closest('img[data-zoom]');
     if (!image)
         return;
