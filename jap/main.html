@@ -746,7 +746,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어58</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어59</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="prevPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
 <div id="nextPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
@@ -918,12 +918,14 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </form></dialog>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbwFSODX8NdE2cexf8ddHi9ticocfHzUS6HED0izkXFnl-RuO5B5Jnp2ficorafnlvpE/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbzlpcJM1op1U_yBTpy56Gmeycm2S5pAjBRA-UiIc7qr3Iv8pvKyWgf6Ti7i0vKXdV2W/exec';
 // Gemini 공유 대화 주소를 여기에 고정 입력하세요.
 const GEMINI_SHARE_URL='https://share.gemini.google/mqLQ1GumPdpM';
 const CACHE_KEY='jp_flashcards_cache_2step_v1';
 const FAVORITES_KEY='jp_flashcards_favorites_v1';
 const REMEMBER_KEY='jp_flashcards_remembered_v1';
+const PEN_BACKUP_KEY='jp_flashcards_pen_backup_v2';
+const PEN_PENDING_KEY='jp_flashcards_pen_pending_v2';
 let rememberedIds=new Set();
 let excludeRemembered=false;
 const LAST_CARD_KEY='jp_flashcards_last_card_v1';
@@ -1320,12 +1322,53 @@ $('memoEditor').addEventListener('paste',function(e){
 });
 
 
+/* S펜/형광펜 별도 영구 백업 + 서버 재전송 */
+function readPenMap(key){
+ try{
+  const x=JSON.parse(localStorage.getItem(key)||'{}');
+  return x&&typeof x==='object'&&!Array.isArray(x)?x:{};
+ }catch(_){return {}}
+}
+function writePenMap(key,map){
+ try{localStorage.setItem(key,JSON.stringify(map));return true}catch(_){return false}
+}
+function backupPenData(id,data){
+ id=String(id||'');if(!id)return;
+ const m=readPenMap(PEN_BACKUP_KEY);m[id]=String(data||'');writePenMap(PEN_BACKUP_KEY,m);
+}
+function queuePenSave(id,data){
+ id=String(id||'');if(!id)return;
+ const m=readPenMap(PEN_PENDING_KEY);m[id]=String(data||'');writePenMap(PEN_PENDING_KEY,m);
+}
+function clearQueuedPenSave(id){
+ const m=readPenMap(PEN_PENDING_KEY);delete m[String(id||'')];writePenMap(PEN_PENDING_KEY,m);
+}
+function mergeLocalPenData(list){
+ const backup=readPenMap(PEN_BACKUP_KEY),pending=readPenMap(PEN_PENDING_KEY);
+ return (list||[]).map(card=>{
+  const id=String(card.id||'');
+  const local=Object.prototype.hasOwnProperty.call(pending,id)?pending[id]:backup[id];
+  if(local&&!String(card.penData||'').trim())card.penData=String(local);
+  return card;
+ });
+}
+async function flushPendingPenSaves(){
+ const entries=Object.entries(readPenMap(PEN_PENDING_KEY));
+ for(const [id,penData] of entries){
+  try{
+   await request('penUpdate',{id,penData});
+   backupPenData(id,penData);
+   clearQueuedPenSave(id);
+  }catch(_){}
+ }
+}
+
 let cacheSaveTimer=null;
 function loadCache(){
   try{
     const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
     if(Array.isArray(x)&&x.length){
-      cards=normalizeCards(x);
+      cards=mergeLocalPenData(normalizeCards(x));
       refreshTypeOptions();
       if(!restoreLastStudy())applyFilter(false);
       updateContinueStudyButton();
@@ -1335,14 +1378,13 @@ function loadCache(){
   }catch(_){}
   return false;
 }
-function saveCache(){
-  clearTimeout(cacheSaveTimer);
-  cacheSaveTimer=setTimeout(()=>{
-    try{
-      localStorage.setItem(CACHE_KEY,JSON.stringify(cards));
-    }catch(_){}
-  },250);
+function saveCache(immediate=false){
+ clearTimeout(cacheSaveTimer);
+ const write=()=>{try{localStorage.setItem(CACHE_KEY,JSON.stringify(cards))}catch(_){}};
+ if(immediate)write();
+ else cacheSaveTimer=setTimeout(write,250);
 }
+
 
 function normalizeCard(c,index=0){
   c=c||{};
@@ -1410,7 +1452,7 @@ async function syncCards(manual=false){
 
  try{
   const j=await request('list');
-  const nextCards=normalizeCards(j.cards||[]);
+  let nextCards=mergeLocalPenData(normalizeCards(j.cards||[]));
   if(!nextCards.length)throw new Error('Google Sheet에 카드 데이터가 없습니다.');
 
   const savedState=getStudyState();
@@ -1423,6 +1465,7 @@ async function syncCards(manual=false){
 
   finishLoading();
   $('syncStatus').textContent='동기화 완료 · '+cards.length+'개';
+   flushPendingPenSaves();
  }catch(e){
   $('syncStatus').textContent=cards.length?'저장된 카드 사용':'연결 실패';
   if(!cards.length)showLoadError(e.message||'카드를 불러오지 못했습니다.');
@@ -1889,13 +1932,16 @@ function eraseViewInkAt(pt){
 function commitViewInkLocal(){
  if(!viewCards.length)return '';
  const card=viewCards[current];
+ const id=String(card.id||'');
  const penData=serializeViewInk();
  card.penData=penData;
- const global=cards.find(x=>String(x.id)===String(card.id));
+ const global=cards.find(x=>String(x.id)===id);
  if(global)global.penData=penData;
- saveCache();
+ backupPenData(id,penData);
+ saveCache(true);
  return penData;
 }
+
 
 function renderEditorInk(raw=''){
  const svg=$('memoEditSvg'),wrap=$('memoEditInkWrap'),editor=$('memoEditor');
@@ -1929,21 +1975,26 @@ function renderEditorInk(raw=''){
 
 function scheduleViewInkSave(){
  clearTimeout(viewInkSaveTimer);
- viewInkSaveTimer=setTimeout(saveCurrentViewInk,500);
+ viewInkSaveTimer=setTimeout(saveCurrentViewInk,180);
 }
 
 async function saveCurrentViewInk(){
  if(!viewCards.length)return;
  const card=viewCards[current];
- const id=String(card.id);
+ const id=String(card.id||'');
  const penData=commitViewInkLocal();
+ queuePenSave(id,penData);
+ if($('viewInkStatus'))$('viewInkStatus').textContent='필기 저장 중…';
  try{
-  await request('penUpdate',{id,penData});
-  if($('viewInkStatus'))$('viewInkStatus').textContent='필기 저장 완료';
- }catch(_){
-  if($('viewInkStatus'))$('viewInkStatus').textContent='기기에 임시 저장됨 · 동기화 필요';
+  const result=await request('penUpdate',{id,penData});
+  backupPenData(id,penData);
+  clearQueuedPenSave(id);
+  if($('viewInkStatus'))$('viewInkStatus').textContent='✓ Google Sheet 필기 저장 완료';
+ }catch(e){
+  if($('viewInkStatus'))$('viewInkStatus').textContent='⚠ 기기에 저장됨 · 서버 저장 자동 재시도';
  }
 }
+
 
 function undoViewInk(){
  if(!viewInkStrokes.length)return;
@@ -2454,6 +2505,15 @@ $('memoEditor').addEventListener('scroll',()=>{
 });
 window.addEventListener('resize',()=>{
  if($('editor')?.open)renderEditorInk(editorPenData);
+});
+
+window.addEventListener('pagehide',()=>{
+ try{if(viewCards.length)commitViewInkLocal()}catch(_){}
+});
+document.addEventListener('visibilitychange',()=>{
+ if(document.visibilityState==='hidden'){
+  try{if(viewCards.length)commitViewInkLocal()}catch(_){}
+ }
 });
 
 /* 이미지 기능 이전의 안정적인 시작 방식 */
