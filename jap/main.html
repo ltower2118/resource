@@ -183,6 +183,14 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 }
 
 .memo a.memo-link{color:#1565c0;text-decoration:underline;text-underline-offset:2px;font-weight:650;overflow-wrap:anywhere;word-break:break-all}
+.memo img.memo-image,.memo-editor img.memo-image{display:block;max-width:100%;height:auto;margin:10px auto;border-radius:12px;border:1px solid #e5e7eb;cursor:zoom-in}
+.memo-editor img.memo-image{cursor:default}
+.memo-image-caption{font-size:11px;color:#64748b;margin:-5px 0 8px;text-align:center}
+.image-viewer{position:fixed;inset:0;z-index:180;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.88)}
+.image-viewer.show{display:flex}
+.image-viewer img{max-width:96vw;max-height:90dvh;object-fit:contain;border-radius:10px;background:#fff}
+.image-viewer-close{position:absolute;right:14px;top:14px;width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.92);font-size:27px;font-weight:800}
+
 .memo-youtube{width:100%;margin:10px 0 12px;border-radius:12px;overflow:hidden;background:#000}
 .memo-youtube iframe{display:block;width:100%;aspect-ratio:16/9;height:auto;min-height:180px;border:0}
 .memo-youtube-link{display:block;padding:7px 10px;background:#f8fafc;color:#1565c0!important;font-size:12px;text-decoration:none!important;word-break:break-all}
@@ -751,7 +759,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="title">🇯🇵 일본어60</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
+<header class="topbar"><div class="title">🇯🇵 일본어61</div><div class="top-right"><button id="counter" class="counter-btn" onclick="openJump()">0 / 0</button><button class="icon-btn" onclick="toggleMenu()">☰</button></div></header>
 <main class="stage"><div class="track">
 <div id="prevPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
 <div id="nextPreview" class="swipe-preview hidden"><div class="preview-type"></div><div class="preview-no"></div><div class="preview-jp"></div></div>
@@ -911,16 +919,22 @@ dialog{border:0;border-radius:20px;padding:0;width:min(94vw,600px);max-height:90
   <button type="button" class="memo-tool-btn bold" onmousedown="event.preventDefault()" onclick="memoBold()" title="굵게"><b>B</b></button>
   <button type="button" class="memo-tool-btn highlight" onmousedown="event.preventDefault()" onclick="memoHighlight()">🖍 형광펜</button>
   <button type="button" class="memo-tool-btn" onmousedown="event.preventDefault()" onclick="memoClearHighlight()">형광 제거</button>
+  <button type="button" class="memo-tool-btn" onmousedown="event.preventDefault()" onclick="memoInsertImage()">🖼 이미지</button>
 </div>
 <div id="memoEditInkWrap" class="memo-edit-ink-wrap">
   <div id="memoEditor" class="memo-editor" contenteditable="true"></div>
   <svg id="memoEditSvg" class="memo-edit-svg" xmlns="http://www.w3.org/2000/svg"></svg>
 </div>
-<div class="memo-help">글자를 선택해 B/형광펜을 적용할 수 있습니다. View에서 그린 S펜·형광 필기도 이 화면에 함께 표시됩니다.</div>
+<div class="memo-help">글자를 선택해 B/형광펜을 적용할 수 있습니다. 🖼 이미지 버튼으로 HTTPS 이미지 URL을 삽입할 수 있습니다. View의 S펜·형광 필기도 함께 표시됩니다.</div>
 <div class="memo-edit-ink-note">※ 그림 필기의 추가·지우기는 View 화면에서 합니다. 수정 저장해도 기존 필기는 유지됩니다.</div>
 </div>
 <div class="modal-actions"><button type="button" onclick="editor.close()">취소</button><button id="saveCardBtn" class="primary" type="submit">바로 저장</button></div>
 </form></dialog>
+
+<div id="imageViewer" class="image-viewer" aria-hidden="true">
+  <button type="button" class="image-viewer-close" onclick="closeMemoImage()" aria-label="닫기">×</button>
+  <img id="imageViewerImg" alt="메모 이미지 크게 보기">
+</div>
 
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbzlpcJM1op1U_yBTpy56Gmeycm2S5pAjBRA-UiIc7qr3Iv8pvKyWgf6Ti7i0vKXdV2W/exec';
@@ -1149,6 +1163,39 @@ function normalizeMemoUrl(value=''){
  if(/^www\./i.test(url))url='https://'+url;
  return /^https?:\/\/[^\s<>"']+$/i.test(url)?url:'';
 }
+function normalizeMemoImageUrl(value=''){
+ const url=normalizeMemoUrl(value);
+ if(!url)return '';
+ try{
+  const u=new URL(url);
+  if(u.protocol!=='https:')return '';
+  return url;
+ }catch(_){return ''}
+}
+
+function memoInsertImage(){
+ const editor=$('memoEditor');
+ editor.focus();
+ const input=prompt('삽입할 이미지의 HTTPS 주소를 입력하세요.\n예: https://.../photo.jpg');
+ if(input===null)return;
+ const url=normalizeMemoImageUrl(input);
+ if(!url){alert('https:// 로 시작하는 올바른 이미지 주소를 입력하세요.');return}
+ const html='<img class="memo-image" src="'+esc(url)+'" alt="메모 이미지" loading="lazy"><br>';
+ document.execCommand('insertHTML',false,html);
+}
+
+function openMemoImage(src){
+ const url=normalizeMemoImageUrl(src);if(!url)return;
+ $('imageViewerImg').src=url;
+ $('imageViewer').classList.add('show');
+ $('imageViewer').setAttribute('aria-hidden','false');
+}
+function closeMemoImage(){
+ $('imageViewer').classList.remove('show');
+ $('imageViewer').setAttribute('aria-hidden','true');
+ $('imageViewerImg').removeAttribute('src');
+}
+
 function getYouTubeVideoId(value=''){
  const url=normalizeMemoUrl(value);if(!url)return '';
  try{
@@ -1201,7 +1248,7 @@ function sanitizeMemoHtml(html=''){
   ).forEach(el=>el.remove());
 
   const allowedTags=new Set([
-    'BR','B','STRONG','I','EM','U','S','DEL','MARK','A',
+    'BR','B','STRONG','I','EM','U','S','DEL','MARK','A','IMG',
     'P','DIV','SPAN','UL','OL','LI','BLOCKQUOTE',
     'H1','H2','H3','H4','H5','H6','CODE','PRE'
   ]);
@@ -1219,11 +1266,27 @@ function sanitizeMemoHtml(html=''){
         if(url)el.setAttribute('href',url);else el.removeAttribute('href');
         return;
       }
+      if(el.tagName==='IMG'&&name==='src'){
+        const url=normalizeMemoImageUrl(attr.value);
+        if(url)el.setAttribute('src',url);else el.removeAttribute('src');
+        return;
+      }
+      if(el.tagName==='IMG'&&name==='alt'){
+        el.setAttribute('alt',String(attr.value||'메모 이미지').slice(0,120));
+        return;
+      }
       if(name!=='style')el.removeAttribute(attr.name);
     });
     if(el.tagName==='A'){
       const href=el.getAttribute('href');
       if(href){el.setAttribute('target','_blank');el.setAttribute('rel','noopener noreferrer');el.classList.add('memo-link')}
+    }
+    if(el.tagName==='IMG'){
+      const src=el.getAttribute('src');
+      if(!src){el.remove();return}
+      el.classList.add('memo-image');
+      el.setAttribute('loading','lazy');
+      el.removeAttribute('width');el.removeAttribute('height');
     }
 
     if(el.hasAttribute('style')){
@@ -1330,7 +1393,7 @@ function getMemoHtml(){
 function setMemoHtml(value=''){
   const text=String(value||'');
 
-  if(/<(mark|br|b|strong|i|em|u|s|del|a|p|div|span|ul|ol|li|blockquote|h[1-6]|code|pre)\b/i.test(text)){
+  if(/<(mark|br|b|strong|i|em|u|s|del|a|img|p|div|span|ul|ol|li|blockquote|h[1-6]|code|pre)\b/i.test(text)){
     $('memoEditor').innerHTML=sanitizeMemoHtml(text);
     return;
   }
@@ -1343,7 +1406,7 @@ function setMemoHtml(value=''){
 
 function renderMemoHtml(value=''){
  const text=String(value||'');
- if(/<(mark|br|b|strong|i|em|u|s|del|a|p|div|span|ul|ol|li|blockquote|h[1-6]|code|pre)\b/i.test(text)){
+ if(/<(mark|br|b|strong|i|em|u|s|del|a|img|p|div|span|ul|ol|li|blockquote|h[1-6]|code|pre)\b/i.test(text)){
    return enhanceMemoHtml(text);
  }
  const legacy=esc(text).replaceAll('[[HL]]','<mark>').replaceAll('[[/HL]]','</mark>').replace(/\n/g,'<br>');
@@ -2106,6 +2169,15 @@ function finishViewInk(e){
 memoViewSvg.addEventListener('pointerup',finishViewInk);
 memoViewSvg.addEventListener('pointercancel',finishViewInk);
 
+$('cardMemo').addEventListener('click',e=>{
+ const img=e.target.closest('img.memo-image');
+ if(img){e.preventDefault();e.stopPropagation();openMemoImage(img.src);return}
+ const a=e.target.closest('a[href]');
+ if(a)e.stopPropagation();
+});
+$('imageViewer').addEventListener('pointerdown',e=>{if(e.target.id==='imageViewer')closeMemoImage()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('imageViewer').classList.contains('show'))closeMemoImage()});
+
 $('cardMemo').addEventListener('scroll',()=>{
  // SVG와 메모 텍스트가 같은 스크롤 컨테이너 안에서 함께 이동하므로
  // 스크롤할 때 좌표를 다시 계산할 필요가 없다.
@@ -2162,7 +2234,7 @@ function restoreSwipeCards(){
 }
 
 flash.addEventListener('pointerdown',e=>{
- if(e.target.closest('a,iframe,.memo-youtube'))return;
+ if(e.target.closest('a,iframe,img.memo-image,.memo-youtube,.image-viewer'))return;
  if((e.pointerType==='pen'&&viewInkTool!=='scroll')||e.target.closest('.view-ink-toolbar'))return;
  if(animating||!viewCards.length)return;
  dragging=true;moved=false;startX=e.clientX;startY=e.clientY;currentX=0;
