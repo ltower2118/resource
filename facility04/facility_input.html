@@ -81,7 +81,7 @@
   .item-tools{display:flex;justify-content:space-between;align-items:center;margin-top:5px}
   .item-no{font-size:11px;color:var(--steel)}
   .remove-btn{border:0;background:none;color:var(--bad);cursor:pointer;font-size:1.0rem}
-.status{margin-top:10px;padding:10px;border-radius:7px;font-size:0.9rem;display:none}
+.status{scroll-margin-bottom:135px;margin-top:10px;padding:10px;border-radius:7px;font-size:0.9rem;display:none}
   .status.show{display:block}
   .status.ok{background:#e7f1ec;color:#245c46}
   .status.err{background:#fbe6e4;color:#8a2c24}
@@ -197,7 +197,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서35</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서36</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 같은 Google 시트 파일에 최신 내용이 반영되고, 교체된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -265,7 +265,7 @@
 
 <script>
 const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxs4hyRdLH2tLG6Aams9Yx6Skd0_hUsaknfqbVVosVlyL-R6JFfx-vypo0bCAAbrGRv/exec';
-const REQUIRED_BACKEND_VERSION='2.9.5-ULTRAFAST-SAVE';
+const REQUIRED_BACKEND_VERSION='2.9.6-DRIVE-AUTH-LIST';
 
 const PAGE_PARAMS=new URLSearchParams(location.search);
 const EDIT_REPORT_ID=PAGE_PARAMS.get('edit')||'';
@@ -1161,7 +1161,23 @@ function compressImage(file){
 }
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function updatePreview(){document.getElementById('pvTitle').textContent=document.getElementById('title').value||'시설점검 보고서';document.getElementById('pvDate').textContent=document.getElementById('inspectDate').value;document.getElementById('pvJob').textContent=document.getElementById('jobName').value;document.getElementById('pvDetails').textContent=document.getElementById('details').value;document.getElementById('pvVendor').textContent=document.getElementById('vendor').value;}
-function showStatus(msg,type){const s=document.getElementById('status');s.className='status show '+type;s.textContent=msg;}
+function showStatus(msg,type){
+  const s=document.getElementById('status');
+  s.className='status show '+type;
+  s.textContent=msg;
+}
+function focusSaveStatus(){
+  const s=document.getElementById('status');
+  if(!s)return;
+  s.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function friendlySaveError(err){
+  const msg=String((err&&err.message)||err||'저장 실패');
+  if(/DriveApp|Access denied|액세스 거부|권한이 없습니다|permission/i.test(msg)){
+    return 'Google Drive 접근 권한 오류입니다. Apps Script에서 authorizeApp()을 직접 실행해 권한을 승인하고, report/image 폴더 편집 권한 및 웹앱 실행 계정(나)을 확인하세요. 상세: '+msg;
+  }
+  return msg;
+}
 
 function getFieldValue(id, fallback=''){
   const el=document.getElementById(id);
@@ -1451,6 +1467,7 @@ async function saveReport(){
     'wait'
   );
 
+  focusSaveStatus();
   const saveStartedAt=Date.now();
   let json=null;
 
@@ -1526,6 +1543,7 @@ async function saveReport(){
       isEditing?'수정 저장 완료 · 최신 내용으로 반영되었습니다.':'저장 완료 · 보고서가 생성되었습니다.',
       'ok'
     );
+    focusSaveStatus();
 
     try{
       await deleteDraft();
@@ -1535,7 +1553,8 @@ async function saveReport(){
   }catch(err){
     console.error(err);
     btn.classList.remove('saving','saved');
-    showStatus((err&&err.message)||'저장 상태를 확인하지 못했습니다.','err');
+    showStatus(friendlySaveError(err),'err');
+    focusSaveStatus();
 
   }finally{
     hideBusy();
@@ -1655,6 +1674,7 @@ async function saveAsPdf(){
   btn.textContent='PDF 생성 중...';
   showBusy('PDF 생성 중...','Google 시트 형식으로 PDF를 만들고 있습니다.');
   showStatus('Google 시트 형식으로 보고서를 만든 뒤 동일한 형태의 PDF로 변환 중입니다...','wait');
+  focusSaveStatus();
 
   try{
     const res=await postJsonToWebApp(payload);
@@ -1721,7 +1741,8 @@ async function saveAsPdf(){
 
   }catch(err){
     console.error(err);
-    showStatus('PDF 저장 실패: '+err.message,'err');
+    showStatus('PDF 저장 실패: '+friendlySaveError(err),'err');
+    focusSaveStatus();
   }finally{
     hideBusy();
     btn.disabled=false;
