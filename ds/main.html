@@ -1,80 +1,33 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>실시간 슬라이드쇼</title>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 디지털 사이니지</title>
 <style>
-:root{--fade:1100ms;--clock-size:96px;--date-size:30px;--clock-color:#fff;--date-color:#fff}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101724;color:#fff;font-family:system-ui,"Malgun Gothic",sans-serif}
-.slide{position:fixed;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity var(--fade) ease}.slide.on{opacity:1}
-.shade{position:fixed;inset:0;background:rgba(0,0,0,.18);pointer-events:none}
-.clock{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;pointer-events:none;text-shadow:0 3px 18px #000b;padding:24px}
-#time{font-size:clamp(24px,8vw,var(--clock-size));font-weight:850;color:var(--clock-color);font-variant-numeric:tabular-nums;line-height:1.1}
-#date{font-size:clamp(16px,3vw,var(--date-size));font-weight:650;color:var(--date-color);margin-top:12px}
-.hidden{display:none!important}
-.controls{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:7px;background:#111b2cce;padding:9px;border-radius:12px;opacity:0;transition:opacity .2s}
-body:hover .controls,.controls:focus-within{opacity:1}button{background:#ffffff23;color:#fff;border:1px solid #ffffff30;border-radius:8px;padding:9px 11px;cursor:pointer}
-#status{position:fixed;bottom:12px;left:15px;color:#ffffffa6;font-size:12px;max-width:35vw}
-#empty{position:fixed;inset:0;display:grid;place-items:center;color:#fff8;font-size:20px;text-align:center;padding:24px}
-@media(pointer:coarse){.controls{opacity:1;bottom:14px}#status{bottom:90px}}
-</style></head><body>
-<div id="slideA" class="slide on"></div><div id="slideB" class="slide"></div><div class="shade"></div>
-<div id="empty">ds/images 폴더에 사진을 등록하고<br>관리자에서 재생할 사진을 선택하세요.</div>
-<div class="clock"><div id="time"></div><div id="date"></div></div>
-<div id="status"></div><div class="controls"><button id="prev">◀</button><button id="toggle">일시정지</button><button id="next">▶</button><span id="counter">0 / 0</span><button id="reload">새로고침</button><button id="full">⛶ 전체화면</button></div>
+:root{--clock:96px;--date:30px;--clockcolor:#fff;--datecolor:#fff;--duration:900ms}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101827;color:#fff;font-family:system-ui,'Malgun Gothic',sans-serif}
+.frame{position:fixed;inset:0;overflow:hidden}.pane{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;opacity:0;transform:translateX(0) scale(1);will-change:opacity,transform}.pane.on{opacity:1}.pane.animate{transition:opacity var(--duration) ease,transform var(--duration) ease}
+.frame.fade .pane.enter{opacity:1}.frame.slide .pane.enter{opacity:1;transform:translateX(0)}.frame.zoom .pane.enter{opacity:1;transform:scale(1)}
+.shade{position:fixed;inset:0;background:#0002;pointer-events:none}.clock{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;text-shadow:0 3px 20px #000b;padding:25px;pointer-events:none}.clock.top{justify-content:flex-start;padding-top:5vh}.clock.bottom{justify-content:flex-end;padding-bottom:7vh}
+#time{font-size:clamp(24px,8vw,var(--clock));font-weight:800;color:var(--clockcolor);line-height:1.15;font-variant-numeric:tabular-nums}#date{font-size:clamp(16px,3vw,var(--date));font-weight:650;color:var(--datecolor);margin-top:10px}.hide{display:none!important}
+#empty{position:fixed;inset:0;display:grid;place-items:center;color:#dbe4f0;text-align:center;padding:35px;font-size:19px}.controls{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center;padding:8px;background:#0e1728dd;border-radius:12px;opacity:0;transition:opacity .2s;max-width:95vw;white-space:nowrap}body:hover .controls,.controls:focus-within{opacity:1}.controls button{border:1px solid #ffffff33;border-radius:8px;background:#ffffff1e;color:white;padding:9px 12px;cursor:pointer}#info{font-size:12px;color:#d8e3f0;position:fixed;left:12px;bottom:12px;max-width:34vw;text-shadow:0 2px 5px black}
+@media(pointer:coarse){.controls{opacity:1;bottom:10px}#info{bottom:78px}}
+</style></head><body><div class="frame" id="frame"><div id="p0" class="pane on"></div><div id="p1" class="pane"></div></div><div class="shade"></div><div id="empty">images 폴더에 이미지를 업로드하고<br>관리자에서 재생할 사진을 선택하세요.</div><div class="clock" id="clock"><div id="time"></div><div id="date"></div></div><div id="info"></div><div class="controls"><button id="prev">◀</button><button id="pause">일시정지</button><button id="next">▶</button><span id="counter">0 / 0</span><button id="refresh">↻</button><button id="full">⛶ 전체화면</button></div>
 <script>
-const CFG={imageFolder:'ds/images',manifest:'ds/slides.json',refreshSeconds:30,timeZone:'Asia/Seoul'};
-const $=id=>document.getElementById(id);
-let slides=[],pos=0,front='slideA',playing=true,slideTimer=null,busy=false,settings={};
-function tick(){
- const d=new Date();
- $('time').textContent=new Intl.DateTimeFormat('ko-KR',{timeZone:CFG.timeZone,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(d);
- $('date').textContent=new Intl.DateTimeFormat('ko-KR',{timeZone:CFG.timeZone,year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(d);
-}tick();setInterval(tick,1000);
-function setAppearance(c){
- const mode=['both','time','date'].includes(c.mode)?c.mode:'both';
- $('time').classList.toggle('hidden',mode==='date');$('date').classList.toggle('hidden',mode==='time');
- const safeColor=x=>/^#[\da-f]{6}$/i.test(x||'')?x:'#ffffff';
- document.documentElement.style.setProperty('--clock-size',Math.max(24,Math.min(240,Number(c.size)||96))+'px');
- document.documentElement.style.setProperty('--date-size',Math.max(16,Math.min(120,Number(c.dateSize)||30))+'px');
- document.documentElement.style.setProperty('--clock-color',safeColor(c.color));
- document.documentElement.style.setProperty('--date-color',safeColor(c.dateColor));
-}
-function loadImg(src){return new Promise(resolve=>{const img=new Image();img.onload=()=>resolve(true);img.onerror=()=>resolve(false);img.src=src})}
-function updateCount(){$('counter').textContent=slides.length?(pos+1)+' / '+slides.length:'0 / 0'}
-function schedule(){clearInterval(slideTimer);if(playing&&slides.length>1)slideTimer=setInterval(()=>next(1),Math.max(2,Number(settings.slideSeconds)||10)*1000)}
-async function next(step){
- if(busy||slides.length<2)return;busy=true;
- const target=(pos+step+slides.length)%slides.length,back=front==='slideA'?'slideB':'slideA';
- if(!await loadImg(slides[target].url)){$('status').textContent='이미지 읽기 실패: '+slides[target].name;busy=false;return}
- $(back).style.backgroundImage='url("'+slides[target].url+'")';$(back).classList.add('on');$(front).classList.remove('on');front=back;pos=target;updateCount();
- setTimeout(()=>busy=false,Math.max(0,Number(settings.fadeMs)||1100)+50);
-}
-function encodePath(s){return s.split('/').map(encodeURIComponent).join('/')}
-async function refresh(){
- try{
-  const res=await fetch(CFG.manifest+'?v='+Date.now(),{cache:'no-store'});
-  if(!res.ok)throw Error('ds/slides.json HTTP '+res.status);
-  const m=await res.json();
-  if(!Array.isArray(m.selected))throw Error('selected 배열이 없습니다.');
-  settings=m;setAppearance(m.clock||{});
-  document.documentElement.style.setProperty('--fade',Math.max(0,Math.min(10000,Number(m.fadeMs)||1100))+'ms');
-  const names=[...new Set(m.selected)].filter(x=>typeof x==='string'&&/^[^/\\]+\.(jpe?g|png|webp|gif)$/i.test(x)&&!x.includes('..'));
-  const nextSlides=names.map(name=>({name,url:encodePath(CFG.imageFolder+'/'+name)+'?v='+encodeURIComponent(m.version||'0')}));
-  const signature=JSON.stringify(nextSlides);
-  if(signature!==JSON.stringify(slides)){
-   const oldName=slides[pos]?.name;slides=nextSlides;
-   pos=Math.max(0,slides.findIndex(x=>x.name===oldName));
-   if(slides.length){
-    if(!await loadImg(slides[pos].url))throw Error('선택된 사진을 읽을 수 없습니다: '+slides[pos].name);
-    $('slideA').style.backgroundImage='url("'+slides[pos].url+'")';$('slideA').classList.add('on');$('slideB').classList.remove('on');front='slideA';
-   }else{$('slideA').style.backgroundImage='none';$('slideB').style.backgroundImage='none'}
-   $('empty').classList.toggle('hidden',slides.length>0);updateCount();
-  }
-  schedule();
-  $('status').textContent=slides.length===1?'사진 1장 · 고정 표시':slides.length+'장 · '+(slides.length?'자동 슬라이드쇼':'선택된 사진 없음');
- }catch(e){$('status').textContent='설정 확인 실패: '+e.message}
-}
-$('prev').onclick=()=>{next(-1);schedule()};$('next').onclick=()=>{next(1);schedule()};
-$('toggle').onclick=()=>{playing=!playing;$('toggle').textContent=playing?'일시정지':'▶ 재생';schedule()};
-$('reload').onclick=refresh;
-$('full').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){$('status').textContent='전체화면은 브라우저에서 허용해야 합니다. F11 사용 가능.'}};
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')$('next').click();if(e.key==='ArrowLeft')$('prev').click();if(e.key==='f'||e.key==='F')$('full').click()});
-refresh();setInterval(refresh,Math.max(10,CFG.refreshSeconds)*1000);
+'use strict';
+const $=id=>document.getElementById(id), TZ='Asia/Seoul';
+let cfg={},slides=[],current=0,front=0,playing=true,nextAt=0,changing=false,signature='',scheduleActive=true,lastScheduleState=null;
+const transitions=['fade','slide','zoom','none'];
+const clamp=(v,min,max,fallback)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Number(v))):fallback;
+const imageUrl=(name,version)=>'images/'+encodeURIComponent(name)+'?v='+encodeURIComponent(version||'0');
+function seoulNow(){const parts=new Intl.DateTimeFormat('en-US',{timeZone:TZ,weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false,hourCycle:'h23'}).formatToParts(new Date());const o={};parts.forEach(p=>o[p.type]=p.value);return {day:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(o.weekday),minute:Number(o.hour)%24*60+Number(o.minute)}}
+function isScheduled(){const s=cfg.schedule||{};if(!s.enabled)return true;const n=seoulNow(),days=Array.isArray(s.days)?s.days:[0,1,2,3,4,5,6],parse=t=>{const m=/^(\d\d):(\d\d)$/.exec(t||'');return m?Number(m[1])*60+Number(m[2]):null};const a=parse(s.start),b=parse(s.end);if(a===null||b===null)return true;if(a<=b)return days.includes(n.day)&&n.minute>=a&&n.minute<=b;return (days.includes(n.day)&&n.minute>=a)||(days.includes((n.day+6)%7)&&n.minute<=b)}
+function clockTick(){const d=new Date();$('time').textContent=new Intl.DateTimeFormat('ko-KR',{timeZone:TZ,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(d);$('date').textContent=new Intl.DateTimeFormat('ko-KR',{timeZone:TZ,year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(d);const active=isScheduled();if(active!==scheduleActive){scheduleActive=active;applySchedule()}}
+function appearance(){const c=cfg.clock||{},style=document.documentElement.style;style.setProperty('--clock',clamp(c.size,24,240,96)+'px');style.setProperty('--date',clamp(c.dateSize,16,120,30)+'px');style.setProperty('--clockcolor',/^#[\da-f]{6}$/i.test(c.color||'')?c.color:'#ffffff');style.setProperty('--datecolor',/^#[\da-f]{6}$/i.test(c.dateColor||'')?c.dateColor:'#ffffff');$('time').classList.toggle('hide',c.mode==='date');$('date').classList.toggle('hide',c.mode==='time');$('clock').className='clock '+(['top','bottom'].includes(c.position)?c.position:'')}
+function duration(s){return clamp(s?.duration,2,3600,clamp(cfg.defaults?.duration,2,3600,10))*1000}
+function currentTransition(s){return transitions.includes(s?.transition)?s.transition:(transitions.includes(cfg.defaults?.transition)?cfg.defaults.transition:'fade')}
+function setBackground(el,slide){el.style.backgroundImage=slide?'url("'+imageUrl(slide.file,cfg.version)+'")':'none';el.style.backgroundSize=(cfg.defaults?.fit==='contain'?'contain':'cover')}
+function preload(slide){return new Promise(resolve=>{const im=new Image();im.onload=()=>resolve(true);im.onerror=()=>resolve(false);im.src=imageUrl(slide.file,cfg.version)})}
+function count(){$('counter').textContent=slides.length?(current+1)+' / '+slides.length:'0 / 0'}
+function applySchedule(){const show=slides.length>0&&scheduleActive;$('empty').classList.toggle('hide',show||(!scheduleActive&&(cfg.schedule?.outside||'clock')==='clock'));$('frame').style.display=show?'block':'none';$('clock').style.display=(!scheduleActive&&cfg.schedule?.outside==='blank')?'none':'flex';$('info').textContent=!scheduleActive?'편성 시간 외':slides.length===1?'이미지 1장 · 고정 표시':slides.length+'장 · '+(playing?'자동 재생':'일시정지');if(lastScheduleState!==scheduleActive||!nextAt)nextAt=Date.now()+duration(slides[current]);lastScheduleState=scheduleActive;count()}
+async function show(index,animate=true){if(changing||!slides.length||!scheduleActive)return;index=(index+slides.length)%slides.length;if(index===current&&animate)return;const target=slides[index];if(!await preload(target)){$('info').textContent='이미지 로딩 실패: '+target.file;nextAt=Date.now()+5000;return}changing=true;const outgoing=$('p'+front),incoming=$('p'+(1-front)),effect=animate?currentTransition(target):'none',ms=effect==='none'?0:clamp(cfg.defaults?.transitionMs,0,10000,900);document.documentElement.style.setProperty('--duration',ms+'ms');$('frame').className='frame '+effect;incoming.className='pane';outgoing.className='pane on';setBackground(incoming,target);incoming.style.transition='none';outgoing.style.transition='none';incoming.style.opacity=effect==='none'?'1':'0';incoming.style.transform=effect==='slide'?'translateX(100%)':effect==='zoom'?'scale(1.13)':'none';incoming.getBoundingClientRect();incoming.style.transition='opacity '+ms+'ms ease,transform '+ms+'ms ease';outgoing.style.transition='opacity '+ms+'ms ease,transform '+ms+'ms ease';incoming.classList.add('on');incoming.style.opacity='1';incoming.style.transform='translateX(0) scale(1)';outgoing.style.opacity='0';if(effect==='slide')outgoing.style.transform='translateX(-100%)';if(effect==='zoom')outgoing.style.transform='scale(1.08)';await new Promise(r=>setTimeout(r,ms+60));outgoing.className='pane';outgoing.style.transform='none';incoming.className='pane on';front=1-front;current=index;changing=false;nextAt=Date.now()+duration(slides[current]);count()}
+async function refresh(){try{const r=await fetch('slides.json?ts='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('slides.json HTTP '+r.status);const m=await r.json();const arr=Array.isArray(m.slides)&&m.slides.length?m.slides:(m.selected||[]).map(file=>({file}));const clean=arr.filter(s=>s&&typeof s.file==='string'&&/^[^/\\]+\.(jpg|jpeg|png|webp|gif)$/i.test(s.file)&&!s.file.includes('..'));const nextSig=JSON.stringify({slides:clean,version:m.version});const old=slides[current]?.file;cfg=m;appearance();scheduleActive=isScheduled();if(signature!==nextSig){signature=nextSig;slides=clean;nextAt=Date.now()+duration(slides[0]);current=Math.max(0,slides.findIndex(s=>s.file===old));front=0;setBackground($('p0'),slides[current]);$('p0').className='pane on';$('p0').style.opacity='1';$('p0').style.transform='none';$('p1').className='pane';$('p1').style.opacity='0';if(slides[current]&&!await preload(slides[current]))$('info').textContent='이미지를 읽을 수 없습니다: '+slides[current].file}applySchedule()}catch(e){$('info').textContent='설정 확인 실패: '+e.message}}
+$('prev').onclick=()=>show(current-1);$('next').onclick=()=>show(current+1);$('pause').onclick=()=>{playing=!playing;$('pause').textContent=playing?'일시정지':'▶ 재생';nextAt=Date.now()+duration(slides[current]);applySchedule()};$('refresh').onclick=refresh;$('full').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){$('info').textContent='전체화면은 사용자 클릭이나 F11로 실행하세요.'}};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')$('next').click();if(e.key==='ArrowLeft')$('prev').click();if(e.key==='f')$('full').click()});clockTick();setInterval(clockTick,1000);setInterval(()=>{if(playing&&scheduleActive&&slides.length>1&&!changing&&Date.now()>=nextAt)show(current+1)},250);refresh();setInterval(refresh,30000);
 </script></body></html>

@@ -1,12 +1,8 @@
 {
+  "version": "initial",
   "selected": [],
-  "clock": {
-    "mode": "both",
-    "size": 96,
-    "color": "#ffffff",
-    "dateSize": 30,
-    "dateColor": "#ffffff"
-  },
-  "slideSeconds": 10,
-  "fadeMs": 1100
+  "slides": [],
+  "defaults": {"duration": 10, "transition": "fade", "transitionMs": 900, "fit": "cover"},
+  "schedule": {"enabled": false, "days": [0,1,2,3,4,5,6], "start": "00:00", "end": "23:59", "outside": "clock"},
+  "clock": {"mode": "both", "size": 96, "color": "#ffffff", "dateSize": 30, "dateColor": "#ffffff", "position": "center"}
 }
