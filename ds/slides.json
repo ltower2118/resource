@@ -1,0 +1,12 @@
+{
+  "selected": [],
+  "clock": {
+    "mode": "both",
+    "size": 96,
+    "color": "#ffffff",
+    "dateSize": 30,
+    "dateColor": "#ffffff"
+  },
+  "slideSeconds": 10,
+  "fadeMs": 1100
+}
