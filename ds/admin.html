@@ -1,108 +1,28 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>슬라이드 관리자</title>
-<style>
-:root{font-family:system-ui,"Malgun Gothic",sans-serif;color:#172338;background:#eef2f7}
-*{box-sizing:border-box}body{margin:0}.wrap{max-width:980px;margin:auto;padding:22px 16px 70px}
-header{display:flex;justify-content:space-between;gap:12px;align-items:center}h1{font-size:25px;margin:0 0 8px}p{color:#64748b;line-height:1.6}section{background:white;padding:20px;border:1px solid #dce3ed;border-radius:16px;margin-top:15px}
-label{display:block;font-size:13px;font-weight:750;margin:12px 0 5px}input,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:9px;font-size:15px}button,.link{padding:11px 15px;border:0;border-radius:9px;background:#18317a;color:white;cursor:pointer;font-weight:700;text-decoration:none;display:inline-block}
-button:disabled{opacity:.45;cursor:wait}.muted{background:#e9eef5;color:#25344b}.danger{background:#b93636}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.hint{font-size:12px;color:#64748b}.msg{padding:12px;border-radius:9px;background:#eef5ff;margin-top:14px;white-space:pre-wrap;overflow-wrap:anywhere}.msg.error{background:#ffe9e9;color:#8d1f1f}.msg.ok{background:#e7f6eb;color:#205d35}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-top:15px}
-.card{border:1px solid #e0e5ee;border-radius:12px;overflow:hidden}.card img{width:100%;height:130px;object-fit:contain;background:#111827}.card .body{padding:10px}.name{font-size:13px;font-weight:700;overflow-wrap:anywhere;min-height:40px}.card button{width:100%;margin-top:7px}
-code{background:#eef2f7;padding:2px 5px;border-radius:4px}
-@media(max-width:550px){header{display:block}.row{display:block}.row>*{margin-top:7px;width:100%}}
+<title>슬라이드 이미지 관리</title><style>
+*{box-sizing:border-box}body{margin:0;background:#edf1f7;color:#17243c;font-family:system-ui,'Malgun Gothic',sans-serif}.wrap{max-width:950px;margin:auto;padding:20px 14px 80px}h1{font-size:24px;margin:0 0 7px}h2{font-size:18px;margin:0 0 12px}p{line-height:1.6;color:#536479}section{background:#fff;border-radius:16px;padding:20px;margin:15px 0;box-shadow:0 3px 18px #2034580c}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:10px;background:#193a86;color:#fff;font-weight:750;font-size:15px;padding:13px 17px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}.btn.secondary{background:#e6ebf3;color:#1b2e4d}.btn:disabled{opacity:.45}.drop{display:block;border:2px dashed #9eacc0;border-radius:12px;padding:25px;text-align:center;background:#f8faff;cursor:pointer}.drop input{display:none}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin:16px 0}.item{border:1px solid #dce4ef;border-radius:10px;overflow:hidden;background:#fff}.item img{display:block;width:100%;height:120px;object-fit:contain;background:#101a2a}.item span{display:block;font-size:13px;padding:8px;overflow-wrap:anywhere}.info{background:#edf5ff;border-radius:10px;padding:12px;white-space:pre-wrap;color:#244d84;font-size:13px}.note{font-size:13px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.count{font-size:13px;color:#607089}code{background:#edf1f7;padding:2px 5px;border-radius:4px}@media(max-width:600px){.top{display:block}.actions .btn{flex:1}}
 </style></head><body><main class="wrap">
-<header><div><h1>슬라이드쇼 관리자</h1><p>GitHub Pages의 <code>images</code> 폴더를 관리합니다. 공개 화면은 <a href="index.html">index.html</a>에서 확인하세요.</p></div><a class="link" href="index.html" target="_blank" rel="noopener">▶ 슬라이드 보기</a></header>
-<section><h2>1. 저장소 연결</h2>
-<div class="row"><div><label>GitHub 사용자명 / 조직</label><input id="owner" placeholder="username"></div><div><label>저장소</label><input id="repo" placeholder="repository"></div><div><label>브랜치</label><input id="branch" value="main"></div></div>
-<label>이미지 폴더</label><input id="folder" value="images">
-<label>GitHub Fine-grained Personal Access Token (Contents: Read and write)</label><input id="token" type="password" autocomplete="off" placeholder="github_pat_...">
-<p class="hint">토큰은 이 페이지의 메모리에서만 사용하며 파일이나 브라우저 저장소에 저장하지 않습니다. 공개 PC에서는 사용하지 마세요. 저장소 한 개만 선택하고 Contents 권한만 부여한 단기 토큰을 권장합니다. 이 페이지 자체는 공개되므로 토큰을 HTML 코드에 절대 입력하지 마세요.</p>
-<div class="row"><button id="connect">연결 및 목록 조회</button><button class="muted" id="disconnect">토큰 지우기</button></div>
-</section>
-<section><h2>2. 이미지 업로드</h2>
-<label>JPG/PNG/WebP 이미지 선택 (여러 장 가능)</label><input id="files" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-<label>파일명 시작 번호 (선택 사항)</label><input id="start" type="number" min="1" placeholder="예: 1 → 001.jpg, 002.jpg ...">
-<p class="hint">시작 번호를 입력하면 업로드 순서대로 001.jpg처럼 이름을 지정합니다. 기존 파일과 같은 이름이면 덮어쓰므로 확인하세요. 슬라이드 재생 순서는 파일명 오름차순입니다.</p>
-<button id="upload">이미지 업로드</button>
-</section>
-<section><h2>3. 현재 이미지 목록 <span id="count"></span></h2><div class="row"><button id="refresh" class="muted">목록 새로고침</button><button id="copy" class="muted">슬라이드 주소 복사</button></div><div id="grid" class="grid"></div></section>
-<div id="msg" class="msg" role="status">저장소 정보를 입력하고 연결 및 목록 조회를 누르세요.</div>
+<div class="top"><div><h1>슬라이드 이미지 관리자</h1><p>토큰 입력 없이 사진을 확인하고 GitHub 업로드 화면으로 이동합니다.</p></div><a class="btn secondary" href="index.html" target="_blank" rel="noopener">▶ 슬라이드 보기</a></div>
+<section><h2>1. 사진 선택 및 미리보기</h2><label class="drop">📷 JPG / PNG / WebP 사진 여러 장 선택<br><small>사진을 선택하면 아래에 미리보기가 표시됩니다.</small><input id="choose" type="file" multiple accept="image/jpeg,image/png,image/webp"></label><div id="preview" class="grid"></div><div class="actions"><button class="btn" id="upload">GitHub에 사진 업로드하기</button><button class="btn secondary" id="clear">선택 취소</button></div><p class="note">사진을 선택하는 것만으로 GitHub에 저장되지는 않습니다. 다음 GitHub 화면에서 사진을 다시 선택해 <b>Commit changes</b>를 눌러야 반영됩니다.</p></section>
+<section><h2>2. 현재 게시된 사진 <span id="count" class="count"></span></h2><div class="actions"><button id="refresh" class="btn secondary">↻ 목록 새로고침</button><button id="manage" class="btn secondary">GitHub에서 삭제/교체</button></div><div id="published" class="grid"></div><div id="status" class="info">게시된 이미지 목록을 불러오는 중...</div></section>
+<section><h2>사용 방법</h2><p>GitHub에 로그인한 상태에서 <b>GitHub에 사진 업로드하기</b>를 누르세요. 사진은 <code>images</code> 폴더에 올리고 <code>001.jpg</code>, <code>002.jpg</code>처럼 이름을 정하면 순서대로 재생됩니다. 이미지는 GitHub에 반영된 뒤 슬라이드 화면에서 자동으로 갱신됩니다.</p><p class="note">이 페이지에는 토큰·비밀번호를 입력하지 않습니다. GitHub 로그인은 GitHub 사이트에서만 진행합니다. GitHub Pages만으로 웹페이지가 저장소에 직접 쓰도록 만드는 것은 불가능합니다.</p></section>
 </main><script>
 const $=id=>document.getElementById(id);
-let files=[],busy=false;
-const apiBase='https://api.github.com';
-const info=()=>({owner:$('owner').value.trim(),repo:$('repo').value.trim(),branch:$('branch').value.trim()||'main',folder:$('folder').value.trim().replace(/^\/+|\/+$/g,'')||'images',token:$('token').value.trim()});
-function pathEncode(s){return s.split('/').map(encodeURIComponent).join('/')}
-function apiPath(filename=''){const x=info();return '/repos/'+encodeURIComponent(x.owner)+'/'+encodeURIComponent(x.repo)+'/contents/'+pathEncode(x.folder)+(filename?'/'+encodeURIComponent(filename):'')}
-function notice(s,kind=''){const e=$('msg');e.textContent=s;e.className='msg '+kind;e.scrollIntoView({behavior:'smooth',block:'nearest'})}
-function setBusy(b){busy=b;['connect','upload','refresh'].forEach(id=>$(id).disabled=b)}
-async function gh(method,path,body){
- const x=info();if(!x.owner||!x.repo)throw Error('사용자명과 저장소를 입력하세요.');
- const headers={Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
- if(x.token)headers.Authorization='Bearer '+x.token;
- if(body)headers['Content-Type']='application/json';
- const res=await fetch(apiBase+path,{method,headers,body:body?JSON.stringify(body):undefined,cache:'no-store'});
- let json;try{json=await res.json()}catch{json={}};
- if(!res.ok)throw Error('GitHub '+res.status+': '+(json.message||'요청 실패')+(res.status===401||res.status===403?' — 토큰 권한을 확인하세요.':''));
- return json;
-}
-function safeName(s){return /^[a-zA-Z0-9가-힣._ -]+\.(jpe?g|png|webp)$/i.test(s)&&!s.includes('..')}
-async function load(){
- setBusy(true);
- try{
- const x=info(),list=await gh('GET',apiPath()+'?ref='+encodeURIComponent(x.branch));
- if(!Array.isArray(list))throw Error('이미지 폴더가 아닙니다.');
- files=list.filter(f=>f.type==='file'&&/\.(jpe?g|png|webp)$/i.test(f.name)).sort((a,b)=>a.name.localeCompare(b.name,'ko',{numeric:true}));
- $('count').textContent='('+files.length+'장)';
- const grid=$('grid');grid.replaceChildren();
- for(const f of files){
- const card=document.createElement('div');card.className='card';
- const img=document.createElement('img');img.alt=f.name;img.loading='lazy';img.src='https://raw.githubusercontent.com/'+[x.owner,x.repo,x.branch,x.folder,f.name].map(pathEncode).join('/')+'?v='+f.sha;
- const body=document.createElement('div');body.className='body';
- const name=document.createElement('div');name.className='name';name.textContent=f.name;
- const del=document.createElement('button');del.className='danger';del.textContent='삭제';del.onclick=()=>remove(f);
- body.append(name,del);card.append(img,body);grid.append(card);
- }
- notice('목록 조회 완료: '+files.length+'장','ok');
- }catch(e){notice(e.message,'error')}finally{setBusy(false)}
-}
-async function remove(f){
- if(!info().token)return notice('삭제하려면 토큰이 필요합니다.','error');
- if(!confirm(f.name+' 파일을 GitHub에서 삭제할까요?'))return;
- setBusy(true);
- try{await gh('DELETE',apiPath(f.name),{message:'Remove slideshow image '+f.name,sha:f.sha,branch:info().branch});notice('삭제 완료: '+f.name,'ok')}
- catch(e){notice(e.message,'error')}finally{setBusy(false)}
- await load();
-}
-function b64(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result).split(',')[1]);r.onerror=()=>reject(Error('파일 읽기 실패'));r.readAsDataURL(file)})}
-async function upload(){
- const x=info(),selected=[...$('files').files];if(!x.token)return notice('업로드하려면 토큰을 입력하세요.','error');
- if(!selected.length)return notice('이미지를 선택하세요.','error');
- if(selected.some(f=>f.size>12*1024*1024))return notice('파일은 한 장당 12MB 이하를 사용하세요.','error');
- const start=$('start').value===''?null:Number($('start').value);
- if(start!==null&&(!Number.isSafeInteger(start)||start<1))return notice('시작 번호를 확인하세요.','error');
- setBusy(true);
- try{
- let done=0;
- for(let i=0;i<selected.length;i++){
- const f=selected[i];
- const ext=f.type==='image/png'?'png':f.type==='image/webp'?'webp':'jpg';
- const name=start===null?f.name:(String(start+i).padStart(3,'0')+'.'+ext);
- if(!safeName(name))throw Error('지원하지 않는 파일명: '+name);
- const existing=files.find(y=>y.name===name);
- if(existing&&!confirm(name+' 파일이 존재합니다. 덮어쓸까요?'))continue;
- const body={message:'Upload slideshow image '+name,content:await b64(f),branch:x.branch};
- if(existing)body.sha=existing.sha;
- await gh('PUT',apiPath(name),body);
- done++;notice('업로드 진행: '+done+'/'+selected.length+' · '+name);
- }
- $('files').value='';
- notice('업로드 완료: '+done+'장. 슬라이드 화면은 자동 갱신 주기 및 GitHub 배포 지연 후 반영됩니다.','ok');
- }catch(e){notice(e.message,'error')}finally{setBusy(false)}
- await load();
-}
-$('connect').onclick=load;$('refresh').onclick=load;$('upload').onclick=upload;
-$('disconnect').onclick=()=>{$('token').value='';notice('토큰 입력을 지웠습니다.','ok')};
-$('copy').onclick=async()=>{const url=new URL('index.html',location.href).href;try{await navigator.clipboard.writeText(url);notice('슬라이드 주소를 복사했습니다.','ok')}catch{notice(url)}};
+let chosen=[];let localUrls=[];
+const x={owner:'',repo:'',branch:'main',folder:'images'};
+function infer(){const host=location.hostname,parts=location.pathname.split('/').filter(Boolean);if(host.endsWith('.github.io')){x.owner=host.split('.')[0];x.repo=parts[0]||x.owner;} }
+function path(){return [x.owner,x.repo,'tree',x.branch,x.folder].map(encodeURIComponent).join('/')}
+function githubFolder(){return 'https://github.com/'+path()}
+function uploadUrl(){return 'https://github.com/'+[x.owner,x.repo,'upload',x.branch,x.folder].map(encodeURIComponent).join('/')}
+function show(t){$('status').textContent=t}
+function clearUrls(){localUrls.forEach(u=>URL.revokeObjectURL(u));localUrls=[]}
+$('choose').addEventListener('change',()=>{clearUrls();chosen=[...$('choose').files];$('preview').replaceChildren();chosen.forEach(f=>{const url=URL.createObjectURL(f);localUrls.push(url);const el=document.createElement('div');el.className='item';const im=document.createElement('img');im.src=url;im.alt=f.name;const name=document.createElement('span');name.textContent=f.name;el.append(im,name);$('preview').append(el)});});
+$('clear').onclick=()=>{clearUrls();chosen=[];$('choose').value='';$('preview').replaceChildren()};
+$('upload').onclick=()=>{if(!x.owner||!x.repo){alert('index.html에 GitHub 저장소 정보를 먼저 설정하세요.');return}window.open(uploadUrl(),'_blank','noopener')};
+$('manage').onclick=()=>{if(x.owner&&x.repo)window.open(githubFolder(),'_blank','noopener')};
+$('refresh').onclick=load;
+async function load(){if(!x.owner||!x.repo){show('GitHub 저장소를 확인하지 못했습니다. index.html의 CONFIG를 설정하세요.');return}show('이미지 목록 조회 중...');try{const endpoint='https://api.github.com/repos/'+encodeURIComponent(x.owner)+'/'+encodeURIComponent(x.repo)+'/contents/'+x.folder.split('/').map(encodeURIComponent).join('/')+'?ref='+encodeURIComponent(x.branch);const r=await fetch(endpoint,{cache:'no-store',headers:{Accept:'application/vnd.github+json'}});if(!r.ok)throw Error('GitHub API '+r.status+' (공개 저장소/폴더 확인)');const data=await r.json();if(!Array.isArray(data))throw Error('이미지 폴더를 찾지 못했습니다.');const files=data.filter(f=>f.type==='file'&&/\.(jpe?g|png|webp|gif)$/i.test(f.name)).sort((a,b)=>a.name.localeCompare(b.name,'ko',{numeric:true}));$('count').textContent='('+files.length+'장)';$('published').replaceChildren();files.forEach(f=>{const card=document.createElement('div');card.className='item';const im=document.createElement('img');im.loading='lazy';im.alt=f.name;im.src='https://raw.githubusercontent.com/'+[x.owner,x.repo,x.branch,x.folder,f.name].map(encodeURIComponent).join('/')+'?v='+f.sha;const name=document.createElement('span');name.textContent=f.name;card.append(im,name);$('published').append(card)});show('게시된 사진 '+files.length+'장 · GitHub 변경사항은 반영에 시간이 걸릴 수 있습니다.')}catch(e){show('조회 실패: '+e.message)}}
+async function setup(){infer();try{const r=await fetch('index.html?admin_config='+Date.now(),{cache:'no-store'});const t=await r.text();for(const [key,prop] of [['githubOwner','owner'],['githubRepo','repo'],['branch','branch'],['imageFolder','folder']]){const m=t.match(new RegExp(key+"\\s*:\\s*['\\\"]([^'\\\"]+)['\\\"]"));if(m&&m[1]&&!m[1].startsWith('YOUR_'))x[prop]=m[1]}}catch(e){}load()}
+setup();
 </script></body></html>
