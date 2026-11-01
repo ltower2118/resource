@@ -1,5 +1,5 @@
 {
-  "version": "initial",
+  "version": "1793461518354",
   "selected": [],
   "slides": [],
   "defaults": {
@@ -25,10 +25,10 @@
   },
   "clock": {
     "mode": "both",
+    "position": "center",
     "size": 96,
     "color": "#ffffff",
     "dateSize": 30,
-    "dateColor": "#ffffff",
-    "position": "center"
+    "dateColor": "#ffffff"
   }
 }
