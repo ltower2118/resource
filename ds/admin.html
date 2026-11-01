@@ -48,20 +48,29 @@ async function saveServer(){
  if($('rememberKey').checked)localStorage.setItem('lcd_signage_admin_key',key);
  else localStorage.removeItem('lcd_signage_admin_key');
  const c=makeConfig();c.saveToken='v'+Date.now()+'_'+Math.random().toString(36).slice(2);
- const btn=$('saveServer');btn.disabled=true;status('저장 요청 전송 중...');
+ const btn=$('saveServer');btn.disabled=true;status('서버에 저장 요청 중...');
  try{
-  // Google Apps Script 웹앱은 CORS POST 응답을 브라우저에서 읽지 못할 수 있습니다.
-  // opaque POST 이후 공개 GET으로 고유 저장 토큰을 검증합니다.
   await fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'save',adminKey:key,config:c})});
-  let saved=null;
-  for(let i=0;i<12;i++){
+  let confirmed=false,lastError='';
+  for(let i=0;i<16;i++){
    await sleep(1500);
-   try{const got=await serverConfig();if(got.saveToken===c.saveToken){saved=got;break}}catch(_){ }
+   try{
+    const receiptRes=await fetch(url+'?action=receipt&token='+encodeURIComponent(c.saveToken)+'&_='+Date.now(),{cache:'no-store'});
+    const receipt=await receiptRes.json();
+    if(receipt.ok){confirmed=true;break}
+    if(receipt.error)throw new Error('서버 저장 실패: '+receipt.error);
+    const got=await serverConfig();
+    if(got.saveToken===c.saveToken){confirmed=true;break}
+   }catch(e){
+    if(String(e.message||'').startsWith('서버 저장 실패:'))throw e;
+    lastError=e.message||String(e);
+   }
   }
-  if(!saved)throw Error('저장 확인이 되지 않았습니다. 재저장 전 서버 설정 다시 불러오기로 확인하세요.');
-  status('✓ 설정 저장 확인 완료 · LCD는 30초 이내 재조회합니다.');
+  if(!confirmed)throw Error('저장 여부를 확인하지 못했습니다. Code.gs를 새 버전으로 배포했는지 확인하세요.'+(lastError?' 상세: '+lastError:''));
+  status('✓ 설정 저장 확인 완료 · LCD는 다음 자동 조회 때 반영됩니다.');
   $('serverInfo').textContent='저장 성공 · '+new Date().toLocaleString('ko-KR');
- }catch(e){status('저장 확인 실패: '+e.message)}finally{btn.disabled=false}
+ }catch(e){status('저장 오류: '+e.message+'\n저장 버튼을 반복해서 누르기 전에 서버 설정 다시 불러오기를 눌러 확인하세요.')}
+ finally{btn.disabled=false}
 }
 $('loadServer').onclick=loadServer;$('saveServer').onclick=saveServer;
 $('adminKey').value=localStorage.getItem('lcd_signage_admin_key')||'';
