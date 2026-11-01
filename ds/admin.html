@@ -6,9 +6,9 @@
 <section class="panel"><h2>3. 요일·시간 스케줄</h2><label><input id="scheduleEnabled" type="checkbox"> 스케줄 사용</label><p>스케줄을 끄면 24시간 재생합니다. 시간을 넘기는 야간 편성(예: 22:00~06:00)도 지원합니다.</p><div class="days" id="days"></div><div class="row"><div><label>시작</label><input id="start" type="time" value="08:00"></div><div><label>종료</label><input id="end" type="time" value="18:00"></div><div><label>편성 시간 외</label><select id="outside"><option value="clock">시계만 표시</option><option value="blank">검은 화면</option></select></div></div></section>
 <section class="panel"><h2>4. 시간·날짜 표시 (시간 페이지에만 적용)</h2><div class="row"><div><label>표시</label><select id="mode"><option value="both">시간 + 날짜</option><option value="time">시간만</option><option value="date">날짜만</option></select></div><div><label>위치</label><select id="position"><option value="center">중앙</option><option value="top">상단 중앙</option><option value="bottom">하단 중앙</option></select></div></div><div class="row"><div><label>시간 크기(px)</label><input id="size" type="number" min="24" max="240" value="96"></div><div><label>시간 색상</label><input id="color" type="color" value="#ffffff"></div><div><label>날짜 크기(px)</label><input id="dateSize" type="number" min="16" max="120" value="30"></div><div><label>날짜 색상</label><input id="dateColor" type="color" value="#ffffff"></div></div><label>설정 미리보기 · 아래 설정은 시간 페이지에만 표시됩니다</label><div id="preview"><div id="previewTime">14:35:28</div><div id="previewDate">2026년 11월 1일 일요일</div></div></section>
 <section class="panel"><h2>5. 설정 저장</h2>
-<p>웹앱 주소는 config.js에 한 번만 입력합니다. 관리자 키는 저장할 때만 입력하세요.</p>
+<p>웹앱 주소는 config.js에 한 번만 입력합니다. 관리자 키는 이 브라우저에 저장하여 다음 접속부터 자동으로 입력합니다. 공용 PC에서는 저장하지 마세요.</p>
 <label>관리자 키</label><input id="adminKey" type="password" autocomplete="off" placeholder="Apps Script 실행 로그의 관리자 키">
-<div class="row"><button id="saveServer">💾 설정 저장 · LCD 자동 반영</button><button id="loadServer" class="secondary">↻ 서버 설정 다시 불러오기</button></div>
+<label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="rememberKey" checked> 이 PC에서 관리자 키 기억하기</label><div class="row"><button id="forgetKey" class="secondary">저장된 관리자 키 지우기</button></div><div class="row"><button id="saveServer">💾 설정 저장 · LCD 자동 반영</button><button id="loadServer" class="secondary">↻ 서버 설정 다시 불러오기</button></div>
 <p id="serverInfo">연결 확인 중...</p></section>
 <section class="panel"><h2>6. 설정 파일 백업 (선택)</h2><p>Google Apps Script 연결 시 아래 JSON 수동 업로드는 필요 없습니다. 이 버튼은 백업용입니다.</p><div class="row"><button id="download">slides.json 다운로드</button><button class="secondary" id="publish">GitHub ds 폴더 열기</button><a class="btn secondary" href="main.html" target="_blank" rel="noopener">LCD 재생 확인</a></div><div id="status" class="status">설정 준비 중...</div></section></main>
 <script src="config.js"></script>
@@ -45,6 +45,8 @@ async function saveServer(){
  const url=getApiUrl(),key=$('adminKey').value.trim();
  if(!validApiUrl(url))return status('config.js의 웹앱 주소를 확인하세요.');
  if(!key)return status('관리자 키를 입력하세요.');
+ if($('rememberKey').checked)localStorage.setItem('lcd_signage_admin_key',key);
+ else localStorage.removeItem('lcd_signage_admin_key');
  const c=makeConfig();c.saveToken='v'+Date.now()+'_'+Math.random().toString(36).slice(2);
  const btn=$('saveServer');btn.disabled=true;status('저장 요청 전송 중...');
  try{
@@ -62,5 +64,10 @@ async function saveServer(){
  }catch(e){status('저장 확인 실패: '+e.message)}finally{btn.disabled=false}
 }
 $('loadServer').onclick=loadServer;$('saveServer').onclick=saveServer;
+$('adminKey').value=localStorage.getItem('lcd_signage_admin_key')||'';
+$('rememberKey').checked=!!localStorage.getItem('lcd_signage_admin_key');
+$('rememberKey').onchange=()=>{if(!$('rememberKey').checked)localStorage.removeItem('lcd_signage_admin_key');else if($('adminKey').value.trim())localStorage.setItem('lcd_signage_admin_key',$('adminKey').value.trim())};
+$('adminKey').addEventListener('change',()=>{if($('rememberKey').checked)localStorage.setItem('lcd_signage_admin_key',$('adminKey').value.trim())});
+$('forgetKey').onclick=()=>{localStorage.removeItem('lcd_signage_admin_key');$('adminKey').value='';$('rememberKey').checked=false;status('이 브라우저에서 관리자 키를 지웠습니다.')};
 (async()=>{detectRepo();await readSettings();if(validApiUrl(getApiUrl())){try{applySettings(await serverConfig())}catch(e){status('서버 연결 실패: '+e.message)}}await loadImages()})();
 </script></body></html>

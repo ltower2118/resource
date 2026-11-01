@@ -32,16 +32,16 @@ async function show(index,animate=true){if(changing||!slides.length||!scheduleAc
 async function refresh(){try{
 let m;
 const url=String(window.SIGNAGE_API_URL||'').trim();
-if(url && url.startsWith('https://script.google.com/macros/s/')){
+if(/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(url)){
  const r=await fetch(url+'?action=config&_='+Date.now(),{cache:'no-store',redirect:'follow'});
  if(!r.ok)throw Error('서버 HTTP '+r.status);
  const j=await r.json();if(!j.ok)throw Error(j.error||'설정 조회 실패');
  m=j.config;
 }else{
  const r=await fetch('slides.json?ts='+Date.now(),{cache:'no-store'});
- if(!r.ok)throw Error('slides.json HTTP '+r.status);
+ if(!r.ok)throw Error('웹앱 URL이 config.js에 설정되지 않았고 slides.json도 찾지 못했습니다 (HTTP '+r.status+'). config.js에 Apps Script /exec 주소를 넣으세요.');
  m=await r.json();
-}const arr=Array.isArray(m.slides)?m.slides:(m.selected||[]).map(file=>({file}));const clean=arr.filter(s=>s&&typeof s.file==='string'&&/^[^/\\]+\.(jpg|jpeg|png|webp|gif)$/i.test(s.file)&&!s.file.includes('..'));const nextSig=JSON.stringify({slides:clean,fit:m.defaults?.fit});const old=slides[current]?.file;cfg=m;appearance();scheduleActive=isScheduled();if(signature!==nextSig){signature=nextSig;slides=clean;nextAt=Date.now()+duration(slides[0]);current=Math.max(0,slides.findIndex(s=>s.file===old));front=0;setBackground($('p0'),slides[current]);$('p0').className='pane on';$('p0').style.opacity='1';$('p0').style.transform='none';$('p1').className='pane';$('p1').style.opacity='0';if(slides[current]&&!await preload(slides[current]))$('info').textContent='이미지를 읽을 수 없습니다: '+slides[current].file}applySchedule()}catch(e){$('info').textContent='설정 확인 실패: '+e.message}}
+}const arr=Array.isArray(m.slides)?m.slides:(m.selected||[]).map(file=>({file}));const clean=arr.filter(s=>s&&typeof s.file==='string'&&/^[^/\\]+\.(jpg|jpeg|png|webp|gif)$/i.test(s.file)&&!s.file.includes('..'));const nextSig=JSON.stringify({slides:clean,fit:m.defaults?.fit});const old=slides[current]?.file;cfg=m;appearance();scheduleActive=isScheduled();if(signature!==nextSig){signature=nextSig;slides=clean;nextAt=Date.now()+duration(slides[0]);current=Math.max(0,slides.findIndex(s=>s.file===old));front=0;setBackground($('p0'),slides[current]);$('p0').className='pane on';$('p0').style.opacity='1';$('p0').style.transform='none';$('p1').className='pane';$('p1').style.opacity='0';if(slides[current]&&!await preload(slides[current]))$('info').textContent='이미지를 읽을 수 없습니다: '+slides[current].file}applySchedule()}catch(e){$('info').textContent='설정 연결 오류: '+e.message}}
 $('prev').onclick=()=>show(current-1);$('next').onclick=()=>show(current+1);$('pause').onclick=()=>{playing=!playing;$('pause').textContent=playing?'일시정지':'▶ 재생';nextAt=Date.now()+duration(slides[current]);applySchedule()};$('refresh').onclick=refresh;$('fullPrompt').onclick=()=>{$('full').click()};$('full').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();$('fullPrompt').style.display=document.fullscreenElement?'none':'block'}catch(e){$('info').textContent='전체화면은 사용자 클릭이나 F11로 실행하세요.'}};
 document.addEventListener('fullscreenchange',()=>{$('fullPrompt').style.display=document.fullscreenElement?'none':'block'});document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')$('next').click();if(e.key==='ArrowLeft')$('prev').click();if(e.key==='f')$('full').click()});clockTick();setInterval(clockTick,1000);setInterval(()=>{if(playing&&scheduleActive&&slides.length>1&&!changing&&Date.now()>=nextAt)show(current+1)},250);refresh();setInterval(refresh,30000);
 </script></body></html>
