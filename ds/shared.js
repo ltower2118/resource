@@ -25,20 +25,21 @@ function nowParts(){return Object.fromEntries(new Intl.DateTimeFormat('ko-KR',{t
 function safeMessageHtml(raw){
  const root=document.createElement('div');root.innerHTML=String(raw||'');
  root.querySelectorAll('script,style,iframe,object,embed,svg,math,form,input,button,img,video,audio,link,meta').forEach(n=>n.remove());
- const allow=new Set(['B','STRONG','I','EM','U','BR','DIV','P','SPAN','MARK','FONT']);
+ const allow=new Set(['B','STRONG','I','EM','U','BR','DIV','P','SPAN','MARK','FONT','S','STRIKE']);
  const safeColor=v=>/^#[0-9a-f]{3,6}$/i.test(v)||/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(?:\s*,\s*(?:0?\.\d+|1))?\s*\)$/i.test(v);
- const safeSize=v=>/^(?:50|75|100|125|150|200)%$/.test(v);
+ const safeSize=v=>/^(?:50|75|100|125|150|200)%$/.test(v)||(/^(\d{1,3})px$/.test(v)&&Number(v.slice(0,-2))>=12&&Number(v.slice(0,-2))<=240);
  function clean(node){
   for(const child of [...node.childNodes]){
    if(child.nodeType!==1)continue;
    if(!allow.has(child.tagName)){child.replaceWith(document.createTextNode(child.textContent||''));continue}
    const st=child.style;
    const color=st.color||(child.tagName==='FONT'?child.getAttribute('color')||'':''),bg=st.backgroundColor;
-   const size=st.fontSize,align=st.textAlign;
+   const size=st.fontSize,align=st.textAlign,font=st.fontFamily;
    [...child.attributes].forEach(a=>child.removeAttribute(a.name));
    if(safeColor(color))child.style.color=color;
    if(safeColor(bg))child.style.backgroundColor=bg;
    if(safeSize(size))child.style.fontSize=size;
+   if(FONT_OPTIONS.some(f=>font.replace(/[\"']/g,'').trim()===f))child.style.fontFamily=font;
    if(['left','center','right'].includes(align))child.style.textAlign=align;
    if(child.tagName==='FONT'){
     const span=document.createElement('span');span.setAttribute('style',child.getAttribute('style')||'');

@@ -13,7 +13,7 @@ window.addEventListener('error',function(e){
    if(b)b.style.display='none';
  }
 },true);
-</script><script src="config.js?v=20261102-connection-repair-3"></script><script src="shared.js?v=20261102-connection-repair-3"></script><script>
+</script><script src="config.js?v=20261102-rich-editor-v3"></script><script src="shared.js?v=20261102-rich-editor-v3"></script><script>
 const $=id=>document.getElementById(id);let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;
 function draw(){const p=nowParts();$('time').textContent=fmtTime(config,p);$('date').textContent=fmtDate(config,p)}
 function apply(c){config={...DEFAULT,...c};$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontSize='min('+Math.max(24,Math.min(260,Number(config.timeSize)||112))+'px, 19vw)';$('date').style.fontSize=Math.max(16,Math.min(110,Number(config.dateSize)||34))+'px';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;$('shade').style.opacity=Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw()}
@@ -27,7 +27,7 @@ function renderScreen(){
  screenType=next;m.classList.toggle('active',next==='message');
  if(new URLSearchParams(location.search).has('debug'))$('status').textContent='교대 '+next+' / '+Math.floor(elapsed/1000)+'초 / '+Math.floor(clockMs/1000)+'+'+Math.floor(messageMs/1000)+'초';
  const html=messageMarkup(config);if(html!==lastMessageMarkup){m.innerHTML='<div class="message-content">'+html+'</div>';lastMessageMarkup=html}m.style.textAlign=messageAlignment(config);
- m.style.fontSize='min('+Math.max(24,Math.min(240,Number(config.messageSize)||100))+'px, 12vw)';
+ m.style.fontSize=Math.max(24,Math.min(240,Number(config.messageSize)||100))+'px';
  m.style.color=config.messageColor||'#ffdd55';m.style.backgroundColor=config.messageBackground||'#101827';
  m.style.fontFamily=fontValue(config.messageFont);
 }
