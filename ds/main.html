@@ -15,6 +15,12 @@ window.addEventListener('error',function(e){
 },true);
 </script><script src="config.js?v=20261102-editor-v5"></script><script src="shared.js?v=20261102-editor-v5"></script><script>
 const $=id=>document.getElementById(id);let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;
+
+function positionObjects(){
+ const t=$('time');t.style.left=(Number(config.timeX??50))+'%';t.style.top=(Number(config.timeY??50))+'%';t.style.right='auto';t.style.bottom='auto';t.style.transform='translate(-50%,-50%)';
+ if(config.dateX!=null&&config.dateY!=null){const d=$('date');d.className='';d.style.left=Number(config.dateX)+'%';d.style.top=Number(config.dateY)+'%';d.style.right='auto';d.style.bottom='auto';d.style.transform='translate(-50%,-50%)'}
+ else{const d=$('date');d.style.left='';d.style.top='';d.style.right='';d.style.bottom='';d.style.transform='';d.className=config.datePosition||'bottom-right'}
+}
 function draw(){const p=nowParts();$('time').textContent=fmtTime(config,p);$('date').textContent=fmtDate(config,p)}
 function viewScale(){return Math.min(window.innerWidth/1920,window.innerHeight/1080)}
 function fitLayout(){
@@ -29,7 +35,7 @@ function fitLayout(){
 }
 window.addEventListener('resize',fitLayout);
 window.addEventListener('orientationchange',()=>setTimeout(fitLayout,150));
-function apply(c){config={...DEFAULT,...c};$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;$('shade').style.opacity=Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw();fitLayout()}
+function apply(c){config={...DEFAULT,...c};$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw();fitLayout()}
 function renderScreen(){
  const m=$('messageScreen');const enabled=!!config.messageEnabled&&String(config.messageText||config.messageHtml||'').trim().length>0;
  if(!enabled){screenType='clock';m.classList.remove('active');return}

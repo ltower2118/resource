@@ -1,5 +1,5 @@
 'use strict';
-const DEFAULT={showTime:true,showDate:true,timeSize:112,timeColor:'#ffffff',timeFormat:'24s',timeFont:'Arial',dateSize:34,dateColor:'#ffffff',dateFont:'Arial',datePosition:'bottom-right',dateFormat:'long',background:'images/background.jpg',overlay:15,messageEnabled:false,messageText:'',clockSeconds:60,messageSeconds:15,messageSize:100,messageColor:'#ffdd55',messageBackground:'#101827',messageFont:'Malgun Gothic',messageAlign:'center',version:'1'};
+const DEFAULT={showTime:true,showDate:true,timeSize:112,timeColor:'#ffffff',timeFormat:'24s',timeFont:'Arial',dateSize:34,dateColor:'#ffffff',dateFont:'Arial',datePosition:'bottom-right',dateFormat:'long',background:'images/background.jpg',overlay:15,messageEnabled:false,messageText:'',clockSeconds:60,messageSeconds:15,messageSize:100,messageColor:'#ffdd55',messageBackground:'#101827',messageFont:'Malgun Gothic',messageAlign:'center',timeX:50,timeY:50,dateX:null,dateY:null,version:'1'};
 const FONT_OPTIONS=['Arial','Malgun Gothic','Noto Sans KR','Georgia','Courier New','Times New Roman'];
 function fontValue(v){return FONT_OPTIONS.includes(v)?JSON.stringify(v)+', sans-serif':'Arial, sans-serif'}
 const apiUrl=()=>String(window.LCD_API_URL||'').trim();
@@ -34,11 +34,13 @@ function safeMessageHtml(raw){
    if(!allow.has(child.tagName)){child.replaceWith(document.createTextNode(child.textContent||''));continue}
    const st=child.style;
    const color=st.color||(child.tagName==='FONT'?child.getAttribute('color')||'':''),bg=st.backgroundColor;
-   const size=st.fontSize,align=st.textAlign,font=st.fontFamily;
+   const size=st.fontSize,align=st.textAlign,font=st.fontFamily,weight=st.fontWeight,decoration=st.textDecoration;
    [...child.attributes].forEach(a=>child.removeAttribute(a.name));
    if(safeColor(color))child.style.color=color;
    if(safeColor(bg))child.style.backgroundColor=bg;
    if(safeSize(size))child.style.fontSize=size;
+   if(['bold','700','800','900'].includes(weight))child.style.fontWeight=weight;
+   if(decoration==='underline'||decoration==='line-through')child.style.textDecoration=decoration;
    if(FONT_OPTIONS.some(f=>font.replace(/[\"']/g,'').trim()===f))child.style.fontFamily=font;
    if(['left','center','right'].includes(align))child.style.textAlign=align;
    if(child.tagName==='FONT'){
