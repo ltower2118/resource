@@ -1,5 +1,5 @@
 'use strict';
-const DEFAULT={showTime:true,showDate:true,timeSize:112,timeColor:'#ffffff',timeFormat:'24s',timeFont:'Arial',dateSize:34,dateColor:'#ffffff',dateFont:'Arial',datePosition:'bottom-right',dateFormat:'long',background:'images/background.jpg',overlay:15,version:'1'};
+const DEFAULT={showTime:true,showDate:true,timeSize:112,timeColor:'#ffffff',timeFormat:'24s',timeFont:'Arial',dateSize:34,dateColor:'#ffffff',dateFont:'Arial',datePosition:'bottom-right',dateFormat:'long',background:'images/background.jpg',overlay:15,messageEnabled:false,messageText:'',clockSeconds:60,messageSeconds:15,messageSize:100,messageColor:'#ffdd55',messageBackground:'#101827',messageFont:'Malgun Gothic',version:'1'};
 const FONT_OPTIONS=['Arial','Malgun Gothic','Noto Sans KR','Georgia','Courier New','Times New Roman'];
 function fontValue(v){return FONT_OPTIONS.includes(v)?JSON.stringify(v)+', sans-serif':'Arial, sans-serif'}
 const apiUrl=()=>String(window.LCD_API_URL||'').trim();
