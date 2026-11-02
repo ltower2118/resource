@@ -37,7 +37,7 @@ function repoUrl(){const h=location.hostname,p=location.pathname.split('/').filt
 $('images').onclick=()=>{const url=repoUrl();if(url)window.open(url,'_blank','noopener');else message('GitHub Pages에서 접속하세요.','error')};
 for(const el of document.querySelectorAll('input,select,textarea'))el.addEventListener('input',preview);
 $('previewClock').onclick=()=>{previewScreen='clock';preview()};$('previewMessage').onclick=()=>{previewScreen='message';preview()};
-async function load(){try{const c=await getRemote();fill(c);message('현재 LCD 설정을 불러왔습니다.','ok')}catch(e){fill(DEFAULT);message('서버 연결 실패: '+e.message,'error')}}
+async function load(){try{const c=await getRemote();fill(c);message('현재 LCD 설정을 불러왔습니다. 문자 교대: '+(c.messageEnabled?'사용':'미사용')+' / 시계 '+(c.clockSeconds||60)+'초 / 문자 '+(c.messageSeconds||15)+'초','ok')}catch(e){fill(DEFAULT);message('서버 연결 실패: '+e.message,'error')}}
 function sleep(t){return new Promise(r=>setTimeout(r,t))}
 function submitSaveForm(payload){
   // 일반 HTML form POST: 모바일 웨일/크롬에서 no-cors fetch보다 호환성이 높음
