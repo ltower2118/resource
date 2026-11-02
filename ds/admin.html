@@ -84,8 +84,18 @@ html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;over
 #pvMessage .message-content:focus{outline:0}
 #pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b}
 @media(max-width:600px){.preview-modal-bar{padding:7px;gap:5px}.preview-modal-bar button{padding:7px 9px;font-size:12px}}
+</style><style id="v11Styles">
+#editTextOpen{background:#0d7669;color:#fff}
+#v11EditorDialog[hidden]{display:none!important}
+#v11EditorDialog{position:fixed;inset:0;z-index:1000;background:#0b1729ed;display:flex;align-items:center;justify-content:center;padding:12px}
+#v11EditorBox{width:min(850px,100%);max-height:95dvh;display:flex;flex-direction:column;background:white;border-radius:14px;padding:14px;gap:10px;overflow:hidden}
+#v11EditorBox .v11toolbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+#v11EditorBox .v11toolbar button{padding:9px 12px}
+#v11EditorBox .v11toolbar input{width:90px}
+#v11EditArea{flex:1;min-height:180px;max-height:55dvh;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;padding:18px;border:2px solid #cbd5e1;border-radius:10px;outline-color:#2563eb;background:#101827;color:#ffdd55;font-size:22px}
+#v11EditorBox h2{margin:0}#v11EditorBox p{margin:0}
 </style></head><body><main class="wrap"><h1>LCD 시계 관리자</h1><p>미리보기에서 확인한 뒤 <b>설정 저장</b> 한 번으로 LCD 화면에 반영합니다.</p>
-<section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 편집</button><label>크기 <input type="number" id="vSize" min="12" max="260" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div class="visual-preview-actions"><button type="button" id="previewBeforeSave">👁 저장 전 전체화면 미리보기</button><span>저장 전 실제 LCD 화면을 확인합니다.</span></div><p id="visualHelp">시계·날짜·문자 중 하나를 선택하세요. 시계와 날짜는 화면에서 이동하고 위에서 크기·색상·글꼴을 즉시 바꿉니다. 문자 편집에서는 화면의 문자를 직접 수정합니다.</p><h2>실시간 LCD 미리보기 (16:9)</h2><div id="preview"><div id="previewStage"><div id="pvBg"></div><div id="pvShade"></div><div id="pvTime"></div><div id="pvDate"></div><div id="pvMessage"></div></div></div><p>입력과 동시에 미리보기에 반영됩니다. 위쪽 화면은 고정됩니다. <span id="previewMode">시계 화면</span></p></section>
+<section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><button type="button" id="editTextOpen">✎ 문자 크게 편집</button><label>크기 <input type="number" id="vSize" min="12" max="260" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div class="visual-preview-actions"><button type="button" id="previewBeforeSave">👁 저장 전 전체화면 미리보기</button><span>저장 전 실제 LCD 화면을 확인합니다.</span></div><p id="visualHelp">시계·날짜·문자 중 하나를 선택하세요. 시계와 날짜는 화면에서 이동하고 위에서 크기·색상·글꼴을 즉시 바꿉니다. 문자 편집에서는 화면의 문자를 직접 수정합니다.</p><h2>실시간 LCD 미리보기 (16:9)</h2><div id="preview"><div id="previewStage"><div id="pvBg"></div><div id="pvShade"></div><div id="pvTime"></div><div id="pvDate"></div><div id="pvMessage"></div></div></div><p>입력과 동시에 미리보기에 반영됩니다. 위쪽 화면은 고정됩니다. <span id="previewMode">시계 화면</span></p></section>
 <section id="messageSection" class="legacy-panel"><h2>문자 전체화면 자동 교대</h2>
 <label><input type="checkbox" id="messageEnabled"> 시계와 문자 화면 번갈아 표시</label>
 <label>LCD에 표시할 문자</label><div class="editor-main-actions" aria-label="빠른 서식">
@@ -120,7 +130,7 @@ html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;over
 
 
 <section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p></section></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=20261102-editor-v5"></script><script src="shared.js?v=20261102-editor-v5"></script><script>
+<div id="v11EditorDialog" hidden><div id="v11EditorBox"><h2>문자 확대 편집</h2><p>글자를 입력하거나 드래그로 선택한 다음 크기·색상을 적용하세요. 아래 입력 내용이 LCD에 그대로 저장됩니다.</p><div class="v11toolbar"><button type="button" id="v11Bold">굵게</button><button type="button" id="v11Under">밑줄</button><label>크기 <input type="number" id="v11Size" min="12" max="240" value="80"></label><button type="button" id="v11ApplySize">선택 크기</button><label>색상 <input type="color" id="v11Color" value="#ffdd55"></label><button type="button" id="v11ApplyColor">선택 색상</button></div><div id="v11EditArea" contenteditable="true" role="textbox" aria-label="문자 편집"></div><div class="v11toolbar"><button type="button" id="v11Done">✓ 편집 완료</button><button type="button" class="secondary" id="v11Cancel">취소</button></div></div></div><div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=20261102-editor-v5"></script><script src="shared.js?v=20261102-editor-v5"></script><script>
 const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
 let savedSelection=null;let lastPreviewMarkup="";
 const keys=['timeX','timeY','dateX','dateY','showTime','showDate','timeSize','timeColor','timeFormat','timeFont','dateSize','dateFont','dateColor','datePosition','dateFormat','background','overlay','messageEnabled','clockSeconds','messageSeconds','messageSize','messageColor','messageBackground','messageFont','messageAlign'];
@@ -386,28 +396,18 @@ v10Msg.addEventListener('keyup',v10RememberSelection);
 v10Msg.addEventListener('touchend',()=>setTimeout(v10RememberSelection,100));
 document.addEventListener('selectionchange',()=>{if(visualTarget==='message')v10RememberSelection()});
 // On mobile, focus remains on preview content until a style is applied.
+let playerFrame=null;let modalMode='clock';
 function v10ScaleModal(){
- const viewport=$('previewModalViewport'),stage=$('previewModalStage');
- if($('previewModal').hidden)return;
- const w=viewport.clientWidth,h=viewport.clientHeight;
- const scale=Math.min(w/1920,h/1080);
- stage.style.transform='scale('+scale+')';stage.style.left=(w-1920*scale)/2+'px';stage.style.top=(h-1080*scale)/2+'px';
+ const vp=$('previewModalViewport'),stage=$('previewModalStage');if($('previewModal').hidden)return;
+ const scale=Math.min(vp.clientWidth/1920,vp.clientHeight/1080);
+ stage.style.transform='scale('+scale+')';stage.style.left=(vp.clientWidth-1920*scale)/2+'px';stage.style.top=(vp.clientHeight-1080*scale)/2+'px';
 }
+function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.contentWindow.postMessage({kind:'lcd-preview-config',config:readForm(),mode:modalMode},location.origin)}
+window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
- const c=readForm(),stage=$('previewModalStage');
- stage.innerHTML='';
- const clone=$('previewStage').cloneNode(true);clone.removeAttribute('id');
- clone.style.transform='none';clone.style.position='absolute';clone.style.left='0';clone.style.top='0';clone.style.width='1920px';clone.style.height='1080px';
- clone.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));
- stage.appendChild(clone);
- const time=clone.children[2],date=clone.children[3],msg=clone.children[4];
- // The preview is a read-only snapshot. Never edit the original DOM.
- const showMessage=mode==='message';
- time.style.display=showMessage?'none':(c.showTime?'block':'none');
- date.style.display=showMessage?'none':(c.showDate?'block':'none');
- msg.classList.toggle('active',showMessage);msg.style.display=showMessage?'flex':'none';
- const content=msg.querySelector('.message-content');if(content){content.contentEditable='false';content.innerHTML=messageMarkup(c)}
- $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();
+ modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
 $('previewModalClock').onclick=()=>v10ShowModal('clock');
@@ -415,6 +415,21 @@ $('previewModalText').onclick=()=>v10ShowModal('message');
 $('previewModalClose').onclick=()=>{$('previewModal').hidden=true;document.body.style.overflow='';};
 window.addEventListener('resize',v10ScaleModal);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('previewModal').hidden)$('previewModalClose').click()});
+
+
+// V11 large text editor: stable selection and same stored markup.
+const v11area=$('v11EditArea');let v11range=null;
+function v11Remember(){const sel=window.getSelection();if(sel&&sel.rangeCount&&!sel.isCollapsed&&v11area.contains(sel.getRangeAt(0).commonAncestorContainer))v11range=sel.getRangeAt(0).cloneRange()}
+document.addEventListener('selectionchange',v11Remember);
+function v11Commit(){const html=safeMessageHtml(v11area.innerHTML);$('messageEditor').innerHTML=html;lastPreviewMarkup='';unsavedChanges=true;previewScreen='message';selectVisual('message');preview();}
+$('editTextOpen').onclick=()=>{selectVisual('message');v11area.innerHTML=messageMarkup(readForm());const c=readForm();v11area.style.backgroundColor=c.messageBackground;v11area.style.color=c.messageColor;v11area.style.fontFamily=fontValue(c.messageFont);v11area.style.textAlign=messageAlignment(c);$('v11EditorDialog').hidden=false;v11range=null;v11area.focus()};
+function v11Format(prop,value){const sel=window.getSelection();let range=v11range;if(sel&&sel.rangeCount&&!sel.isCollapsed&&v11area.contains(sel.getRangeAt(0).commonAncestorContainer))range=sel.getRangeAt(0).cloneRange();if(!range||range.collapsed||!v11area.contains(range.commonAncestorContainer)){message('먼저 수정할 글자를 선택하세요.','error');return}const span=document.createElement('span');span.style[prop]=value;span.appendChild(range.extractContents());range.insertNode(span);const nr=document.createRange();nr.selectNodeContents(span);sel.removeAllRanges();sel.addRange(nr);v11range=nr.cloneRange();v11Commit()}
+$('v11ApplySize').onclick=()=>v11Format('fontSize',Math.max(12,Math.min(240,Number($('v11Size').value)||80))+'px');
+$('v11ApplyColor').onclick=()=>v11Format('color',$('v11Color').value);
+$('v11Bold').onclick=()=>v11Format('fontWeight','900');$('v11Under').onclick=()=>v11Format('textDecoration','underline');
+$('v11Done').onclick=()=>{v11Commit();$('v11EditorDialog').hidden=true};$('v11Cancel').onclick=()=>{$('v11EditorDialog').hidden=true;v11range=null};
+v11area.addEventListener('input',()=>{v11Commit()});
+// Keep editing UI unchanged while syncing the hidden canonical message HTML.
 
 fill(DEFAULT);load();setInterval(preview,1000);
 window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'){message('필수 파일 로드 실패: '+(e.target.src||'')+' · GitHub ds 폴더와 배포 상태를 확인하세요.','error')}},true);
