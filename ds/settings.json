@@ -1,14 +1,14 @@
 {
   "showTime": true,
   "showDate": true,
-  "timeSize": 110,
+  "timeSize": 300,
   "timeColor": "#ffffff",
   "timeFormat": "24s",
   "dateSize": 32,
   "dateColor": "#ffffff",
-  "datePosition": "bottom-right",
-  "dateFormat": "long",
+  "datePosition": "top-left",
+  "dateFormat": "slash",
   "background": "images/background.jpg",
   "overlay": 20,
-  "version": "1"
+  "version": "1793582505588"
 }
