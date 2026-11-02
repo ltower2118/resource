@@ -236,6 +236,20 @@ function querySaveStatus(requestId,timeoutMs=12000){
   document.head.appendChild(tag);
  });
 }
+// Compare actual semantic values, not JSON key order or harmless number formatting.
+function compareSavedBlocksV18(expected,actual){
+ if(!Array.isArray(actual))return ['서버 응답에 messageBlocks 없음'];
+ const a=Array.isArray(expected)?expected:[];
+ if(a.length!==actual.length)return ['텍스트 상자 개수: 요청 '+a.length+' / 서버 '+actual.length];
+ const differences=[];
+ for(let i=0;i<a.length;i++){
+  const x=a[i]||{},y=actual[i]||{};
+  for(const k of ['id','text','color','font'])if(String(x[k]??'')!==String(y[k]??''))differences.push((i+1)+'번 '+k);
+  for(const k of ['bold','underline','wrap'])if(Boolean(x[k])!==Boolean(y[k]))differences.push((i+1)+'번 '+k);
+  for(const k of ['x','y','size','width'])if(!Number.isFinite(Number(y[k]))||Math.abs(Number(x[k])-Number(y[k]))>0.01)differences.push((i+1)+'번 '+k+' ('+x[k]+'→'+y[k]+')');
+ }
+ return differences.slice(0,8);
+}
 async function save(){
  const key=$('key').value.trim();
  if(!apiReady())return message('config.js의 Apps Script /exec 주소를 확인하세요.','error');
@@ -260,8 +274,9 @@ async function save(){
   }
   if(result){
    const actual=await getRemote(16000);
-   if(messageMarkup(actual)!==messageMarkup(config)||messageAlignment(actual)!==messageAlignment(config)||JSON.stringify(actual.messageBlocks||[])!==JSON.stringify(config.messageBlocks||[])||String(actual.startScreen||'clock')!==String(config.startScreen||'clock')){
-     message('서버 저장 확인 실패: 텍스트 상자 내용·위치·너비가 실제 서버에 일치하지 않습니다. Code.gs 배포 버전을 확인하세요.','error');return;
+   const differences=compareSavedBlocksV18(config.messageBlocks,actual.messageBlocks);
+   if(String(actual.version||'')!==requestId || differences.length || String(actual.startScreen||'clock')!==String(config.startScreen||'clock')){
+     message('서버 저장 검증 실패: '+(differences.length?differences.join(' / '):'버전 또는 시작화면 불일치')+' · 기존 웹앱을 최신 Code.gs로 재배포했는지 확인하세요.','error');return;
    }
    fill(actual);lastRemoteSignature=JSON.stringify({...DEFAULT,...actual});unsavedChanges=false;
    message('✓ 문자 서식·정렬까지 저장 확인 완료 · LCD에 자동 반영됩니다.','ok');
