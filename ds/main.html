@@ -1,30 +1,11 @@
-<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 안내 시계</title><style>
-*{box-sizing:border-box}body{margin:0;background:#152239;color:white;font-family:Arial,'Malgun Gothic',sans-serif;overflow:hidden}
-#bg{position:fixed;inset:0;background-position:center;background-size:cover}#shade{position:fixed;inset:0;background:#000;pointer-events:none}
-#time{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 12px #000a;font-variant-numeric:tabular-nums}
-#date{position:fixed;font-weight:700;text-shadow:0 2px 12px #000a;white-space:nowrap}
-.center{left:50%;top:65%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}
-#full{position:fixed;right:15px;bottom:15px;opacity:0;background:#0009;color:#fff;border:1px solid #fff7;border-radius:8px;padding:10px;cursor:pointer}body:hover #full,#full:focus{opacity:1}
-#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fffa}
-</style><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="status"></div><button id="full">⛶ 전체화면</button>
-<script>
-const $=id=>document.getElementById(id);let c={},previous='',imageSignature='';
-function tick(){
-const parts=Object.fromEntries(new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',weekday:'long',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date()).map(x=>[x.type,x.value]));
-let h=parts.hour;if(c.timeFormat?.startsWith('12')){const n=Number(h);h=(n<12?'오전 ':'오후 ')+String(n%12||12).padStart(2,'0')}
-$('time').textContent=h+':'+parts.minute+(c.timeFormat?.endsWith('s')?':'+parts.second:'');
-const y=parts.year,m=parts.month,d=parts.day,w=parts.weekday;
-$('date').textContent=({long:`${y}년 ${Number(m)}월 ${Number(d)}일 ${w}`,short:`${y}.${m}.${d} (${w[0]})`,iso:`${y}-${m}-${d}`,slash:`${y}/${m}/${d}`,month:`${Number(m)}월 ${Number(d)}일 ${w}`})[c.dateFormat]||`${y}년 ${m}월 ${d}일 ${w}`;
-}
-function apply(x){c=x;$('time').style.display=c.showTime?'block':'none';$('date').style.display=c.showDate?'block':'none';
-$('time').style.fontSize=`min(${Math.max(24,Number(c.timeSize)||110)}px,13vw)`;$('date').style.fontSize=`min(${Math.max(16,Number(c.dateSize)||32)}px,6vw)`;
-$('time').style.color=c.timeColor||'#fff';$('date').style.color=c.dateColor||'#fff';$('date').className=c.datePosition||'bottom-right';$('shade').style.opacity=(Number(c.overlay)||0)/100;tick()}
-async function refresh(){
-try{const r=await fetch('settings.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('settings.json HTTP '+r.status);const x=await r.json(),s=JSON.stringify(x);
-if(s!==previous){previous=s;apply(x)}
-const file=String(c.background||'images/background.jpg');if(!/^images\/[\w가-힣 .-]+\.(jpg|jpeg|png|webp)$/i.test(file)||file.includes('..'))throw Error('이미지 경로 오류');
-const url=file+'?t='+Date.now(),im=new Image();im.onload=()=>{$('bg').style.backgroundImage=`url("${url}")`;$('status').textContent=''};im.onerror=()=>{$('status').textContent='배경 이미지 없음: '+file};im.src=url;
-}catch(e){$('status').textContent='설정 확인: '+e.message}}
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계</title><style>
+*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif}#bg,#shade{position:fixed;inset:0}#bg{background-size:cover;background-position:center}#shade{background:#000;pointer-events:none}#time{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums}#date{position:fixed;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a}.center{top:66%;left:50%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer}body:hover #full,#full:focus{opacity:1}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9}
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="status"></div><button id="full">⛶ 전체화면</button><script src="config.js"></script><script src="shared.js"></script><script>
+const $=id=>document.getElementById(id);let config={...DEFAULT};let lastBg='';
+function draw(){const p=nowParts();$('time').textContent=fmtTime(config,p);$('date').textContent=fmtDate(config,p)}
+function apply(c){config={...DEFAULT,...c};$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontSize='min('+config.timeSize+'px, 13vw)';$('date').style.fontSize='min('+config.dateSize+'px, 6vw)';$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;$('shade').style.opacity=Number(config.overlay)/100;draw()}
+function updateBackground(){const path=String(config.background||DEFAULT.background);if(!/^images\/[\w가-힣 .-]+\.(jpg|jpeg|png|webp)$/i.test(path)||path.includes('..'))return;const url=path+'?v='+Date.now();const img=new Image();img.onload=()=>{$('bg').style.backgroundImage='url("'+url+'")';lastBg=url};img.src=url}
+async function refresh(){try{const c=await getRemote();if(c.version!==config.version)apply(c);updateBackground();$('status').textContent=''}catch(e){$('status').textContent=e.message+' · 이전 화면 유지'}}
 $('full').onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});
-refresh();setInterval(tick,1000);setInterval(refresh,20000);
-</script>
+apply(config);setInterval(draw,1000);refresh();setInterval(refresh,15000);
+</script></body></html>
