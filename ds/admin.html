@@ -24,13 +24,60 @@ $('images').onclick=()=>{const url=repoUrl();if(url)window.open(url,'_blank','no
 for(const el of document.querySelectorAll('input,select'))el.addEventListener('input',preview);
 async function load(){try{const c=await getRemote();fill(c);message('현재 LCD 설정을 불러왔습니다.','ok')}catch(e){fill(DEFAULT);message('서버 연결 실패: '+e.message,'error')}}
 function sleep(t){return new Promise(r=>setTimeout(r,t))}
-async function save(){const key=$('key').value.trim();if(!apiReady())return message('config.js에 웹앱 주소를 먼저 설정하세요.','error');if(!key)return message('관리자 키를 입력하세요.','error');
-const config=readForm(),requestId=String(Date.now())+'-'+Math.random().toString(36).slice(2);if($('remember').checked)localStorage.setItem('lcd_clock_admin_key',key);else localStorage.removeItem('lcd_clock_admin_key');
-$('save').disabled=true;message('설정 저장 중...');
-try{await fetch(apiUrl(),{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'save',adminKey:key,config,requestId})});
-let confirmed=false;for(let i=0;i<10;i++){await sleep(1500);try{const actual=await getRemote();if(actual.version===requestId){confirmed=true;fill(actual);break}}catch(_){}}
-if(confirmed)message('저장 완료! LCD 화면은 약 15초 이내에 새 설정을 불러옵니다.','ok');else message('저장 여부를 확인하지 못했습니다. 중복 저장하지 말고 현재 설정 다시 불러오기를 눌러 확인하세요. 관리자 키 및 Apps Script 배포 권한도 확인하세요.','error')}
-catch(e){message('저장 요청 오류: '+e.message,'error')}finally{$('save').disabled=false}}
+function submitSaveForm(payload){
+  // 일반 HTML form POST: 모바일 웨일/크롬에서 no-cors fetch보다 호환성이 높음
+  const iframe=document.createElement('iframe');
+  const name='lcdSaveFrame_'+Date.now();
+  iframe.name=name;iframe.style.display='none';iframe.setAttribute('aria-hidden','true');
+  const form=document.createElement('form');form.method='POST';form.action=apiUrl();form.target=name;form.style.display='none';
+  const field=document.createElement('input');field.type='hidden';field.name='payload';field.value=JSON.stringify(payload);form.appendChild(field);
+  document.body.append(iframe,form);
+  form.submit();
+  setTimeout(()=>{form.remove();iframe.remove()},90000);
+}
+function querySaveStatus(requestId,timeoutMs=12000){
+ return new Promise((resolve,reject)=>{
+  const callback='lcdSaveCheck'+Math.random().toString(36).slice(2);
+  const tag=document.createElement('script');let done=false;
+  const timer=setTimeout(()=>finish(Error('저장 결과 조회 시간 초과')),timeoutMs);
+  function finish(err,value){if(done)return;done=true;clearTimeout(timer);delete window[callback];tag.remove();err?reject(err):resolve(value)}
+  window[callback]=data=>finish(null,data);
+  tag.onerror=()=>finish(Error('저장 결과 서버 연결 실패'));
+  tag.src=apiUrl()+'?action=saveStatus&requestId='+encodeURIComponent(requestId)+'&callback='+callback+'&_='+Date.now();
+  document.head.appendChild(tag);
+ });
+}
+async function save(){
+ const key=$('key').value.trim();
+ if(!apiReady())return message('config.js의 Apps Script /exec 주소를 확인하세요.','error');
+ if(!key)return message('관리자 키를 입력하세요.','error');
+ const config=readForm(),requestId='r'+Date.now()+'_'+Math.random().toString(36).slice(2,14);
+ if($('remember').checked)localStorage.setItem('lcd_clock_admin_key',key);else localStorage.removeItem('lcd_clock_admin_key');
+ $('save').disabled=true;message('설정 저장 중...');
+ try{
+  submitSaveForm({action:'save',adminKey:key,config,requestId});
+  let result=null;
+  for(let i=0;i<14;i++){
+   await sleep(1200);
+   try{
+    const state=await querySaveStatus(requestId);
+    if(state.state==='error')throw Error(state.error||'서버 저장 오류');
+    if(state.state==='saved'){result=state;break}
+   }catch(e){if(/관리자 키|서버 저장|다른 저장|권한|오류/.test(e.message))throw e}
+  }
+  if(!result){
+   // Cache 상태 확인이 안 되더라도 실제 저장 데이터 버전을 마지막으로 확인
+   try{const actual=await getRemote(16000);if(String(actual.version)===requestId)result={state:'saved'}}catch(_){}
+  }
+  if(result){
+   current={...config,version:requestId};
+   message('✓ 저장 완료 · LCD에 자동 반영됩니다.','ok');
+  }else{
+   message('저장 결과가 지연되고 있습니다. 중복 저장하지 말고 「현재 설정 다시 불러오기」를 눌러 확인하세요.','error');
+  }
+ }catch(e){message('저장 실패: '+e.message,'error')}
+ finally{$('save').disabled=false}
+}
 $('save').onclick=save;$('load').onclick=load;$('clear').onclick=()=>{localStorage.removeItem('lcd_clock_admin_key');$('key').value='';$('remember').checked=false;message('관리자 키를 이 브라우저에서 지웠습니다.')};
 $('key').value=localStorage.getItem('lcd_clock_admin_key')||'';$('remember').checked=!!$('key').value;
 fill(DEFAULT);load();setInterval(preview,1000);
