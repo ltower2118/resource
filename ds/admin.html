@@ -1,7 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;color:#64748b;line-height:1.6}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}button:disabled{opacity:.5}.secondary{background:#e6edf6;color:#203452}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}#pvBg,#pvShade{position:absolute;inset:0}#pvBg{background-size:cover;background-position:center}#pvShade{background:#000}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}#pvDate{position:absolute;font-weight:700;white-space:nowrap}
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
-#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
+#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
 </style></head><body><main class="wrap"><h1>LCD 시계 관리자</h1><p>미리보기에서 확인한 뒤 <b>설정 저장</b> 한 번으로 LCD 화면에 반영합니다.</p>
 <section id="previewSection"><h2>실시간 LCD 미리보기 (16:9)</h2><div id="preview"><div id="previewStage"><div id="pvBg"></div><div id="pvShade"></div><div id="pvTime"></div><div id="pvDate"></div><div id="pvMessage"></div></div></div><p>글자 크기·색상·글꼴을 바꾸면 즉시 미리보기에 반영됩니다. 미리보기는 1920×1080 화면을 비율에 맞춰 축소합니다. <span id="previewMode">시계 화면</span></p></section>
 <section><h2>시간</h2><label><input id="showTime" type="checkbox">시간 표시</label><div class="grid"><div><label>글자 크기(px)</label><input id="timeSize" type="number" min="24" max="260"></div><div><label>글자 색상</label><input id="timeColor" type="color"></div><div><label>시간 글꼴</label><select id="timeFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></div><div><label>시간 형식</label><select id="timeFormat"><option value="24s">24시간 시:분:초</option><option value="24m">24시간 시:분</option><option value="12s">오전/오후 시:분:초</option><option value="12m">오전/오후 시:분</option></select></div></div></section>
@@ -10,7 +10,11 @@
 
 <section id="messageSection"><h2>문자 전체화면 자동 교대</h2>
 <label><input type="checkbox" id="messageEnabled"> 시계와 문자 화면 번갈아 표시</label>
-<label>LCD에 표시할 문자</label><div class="editor-toolbar" role="toolbar" aria-label="문자 서식"><button type="button" class="secondary" data-edit="bold"><b>B 굵게</b></button><button type="button" class="secondary" data-edit="underline"><u>U 밑줄</u></button><button type="button" class="secondary" data-edit="hiliteColor">🖍 형광펜</button><label style="display:inline-flex;align-items:center;gap:5px;margin:0">글자색 <input id="editColor" type="color" value="#ffdd55" style="width:42px;height:36px;padding:2px"></label><button type="button" class="secondary" id="clearFormat">서식 제거</button></div><div id="messageEditor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="LCD에 표시할 문자를 입력하세요" spellcheck="false"></div><p class="muted">문자를 선택한 뒤 굵게·밑줄·형광펜을 적용하세요. Enter로 줄바꿈할 수 있습니다.</p>
+<label>LCD에 표시할 문자</label><div class="editor-toolbar" role="toolbar" aria-label="문자 서식"><button type="button" class="secondary" data-edit="bold"><b>B 굵게</b></button><button type="button" class="secondary" data-edit="underline"><u>U 밑줄</u></button><button type="button" class="secondary" data-edit="hiliteColor">🖍 형광펜</button><label style="display:inline-flex;align-items:center;gap:5px;margin:0">글자색 <input id="editColor" type="color" value="#ffdd55" style="width:42px;height:36px;padding:2px"></label><label style="display:inline-flex;align-items:center;gap:5px;margin:0">선택 글자 크기
+<select id="selectedFontSize" style="width:105px;padding:8px"><option value="50%">50%</option><option value="75%">75%</option><option value="100%" selected>100%</option><option value="125%">125%</option><option value="150%">150%</option><option value="200%">200%</option></select></label>
+<button type="button" class="secondary" id="clearFormat">서식 제거</button></div>
+<select id="messageAlign" aria-label="문자 정렬 설정" style="display:none"><option value="left">left</option><option value="center" selected>center</option><option value="right">right</option></select><div class="editor-toolbar" aria-label="문자 정렬"><button type="button" class="secondary" data-align="left">◧ 왼쪽</button><button type="button" class="secondary" data-align="center">≡ 가운데</button><button type="button" class="secondary" data-align="right">◨ 오른쪽</button></div>
+<label>LCD 문자 기본 글자 크기 (px)</label><input id="messageSizeQuick" type="number" min="24" max="240" value="100"><p class="muted">입력창은 LCD와 같은 배경·색상·글꼴·정렬·상대 글자 크기로 표시합니다. 선택 글자 크기 150%는 LCD에서도 기본 크기의 150%입니다.</p><div id="messageEditor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="LCD에 표시할 문자를 입력하세요" spellcheck="false"></div><p class="muted">문자를 선택한 뒤 굵게·밑줄·형광펜을 적용하세요. Enter로 줄바꿈할 수 있습니다.</p>
 <div class="grid"><div><label>시계 화면 유지(초)</label><input id="clockSeconds" type="number" min="5" max="86400" value="60"></div>
 <div><label>문자 화면 유지(초)</label><input id="messageSeconds" type="number" min="3" max="3600" value="15"></div>
 <div><label>문자 글자 크기(px)</label><input id="messageSize" type="number" min="24" max="240" value="100"></div>
@@ -20,54 +24,42 @@
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="previewClock">시계 미리보기</button><button type="button" class="secondary" id="previewMessage">문자 미리보기</button></div>
 <p>설정 저장 후 LCD에서 시계 → 문자 → 시계를 자동 반복합니다. 문자 기능을 끄면 기존 시계만 계속 표시합니다.</p></section>
 <section><h2>저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p></section></main>
-<script src="config.js?v=sync20261102"></script><script src="shared.js?v=sync20261102"></script><script>
-const $=id=>document.getElementById(id);function safeMessageHtml(raw){
- const root=document.createElement('div');root.innerHTML=String(raw||'');
- root.querySelectorAll('script,style,iframe,object,embed,svg,math,form,input,button,img,video,audio,link,meta').forEach(n=>n.remove());
- const allow=new Set(['B','STRONG','I','EM','U','BR','DIV','P','SPAN','MARK','FONT']);
- function clean(node){
-  for(const child of [...node.childNodes]){
-   if(child.nodeType!==1)continue;
-   if(!allow.has(child.tagName)){child.replaceWith(document.createTextNode(child.textContent||''));continue}
-   const col=child.style.color||(child.tagName==='FONT'?child.getAttribute('color')||'':''),bg=child.style.backgroundColor;
-   [...child.attributes].forEach(a=>child.removeAttribute(a.name));
-   if(child.tagName==='SPAN' || child.tagName==='MARK' || child.tagName==='FONT'){
-    const check=v=>/^#[0-9a-f]{3,6}$/i.test(v)||/^rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$/i.test(v);
-    if(check(col))child.style.color=col;
-    if(check(bg))child.style.backgroundColor=bg;
-    if(child.tagName==='FONT'){const span=document.createElement('span');span.style.color=check(col)?col:'';while(child.firstChild)span.appendChild(child.firstChild);child.replaceWith(span);clean(span);continue}
-   }
-   clean(child);
-  }
- }
- clean(root);return root.innerHTML.slice(0,12000);
-}
-function escapeMessage(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML.replace(/\n/g,'<br>')}
-let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
-const keys=['showTime','showDate','timeSize','timeColor','timeFormat','timeFont','dateSize','dateFont','dateColor','datePosition','dateFormat','background','overlay','messageEnabled','clockSeconds','messageSeconds','messageSize','messageColor','messageBackground','messageFont'];
+<script src="config.js?v=sync20261102"></script><script src="shared.js?v=wysiwyg20261102"></script><script>
+const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
+let savedSelection=null;let lastPreviewMarkup="";
+const keys=['showTime','showDate','timeSize','timeColor','timeFormat','timeFont','dateSize','dateFont','dateColor','datePosition','dateFormat','background','overlay','messageEnabled','clockSeconds','messageSeconds','messageSize','messageColor','messageBackground','messageFont','messageAlign'];
 function readForm(){const x={...current};for(const k of keys){const el=$(k);x[k]=el.type==='checkbox'?el.checked:el.type==='number'||el.type==='range'?Number(el.value):el.value}x.messageHtml=safeMessageHtml($('messageEditor').innerHTML);x.messageText=$('messageEditor').innerText.slice(0,500);return x}
-function fill(c){current={...DEFAULT,...c};lastRemoteSignature=JSON.stringify(current);unsavedChanges=false;for(const k of keys){const el=$(k);if(el.type==='checkbox')el.checked=!!current[k];else el.value=current[k]}$('messageEditor').innerHTML=safeMessageHtml(current.messageHtml||escapeMessage(current.messageText||''));preview()}
+function fill(c){current={...DEFAULT,...c};lastRemoteSignature=JSON.stringify(current);lastPreviewMarkup='';unsavedChanges=false;for(const k of keys){const el=$(k);if(el.type==='checkbox')el.checked=!!current[k];else el.value=current[k]}$('messageEditor').innerHTML=messageMarkup(current);$('messageSizeQuick').value=current.messageSize||100;preview()}
 function message(s,kind=''){const el=$('status');el.textContent=s;el.className=kind}
 function preview(){const c=readForm(),p=nowParts(),t=$('pvTime'),d=$('pvDate');t.textContent=fmtTime(c,p);d.textContent=fmtDate(c,p);t.style.display=c.showTime?'block':'none';d.style.display=c.showDate?'block':'none';t.style.color=c.timeColor;d.style.color=c.dateColor;t.style.fontFamily=fontValue(c.timeFont);d.style.fontFamily=fontValue(c.dateFont);t.style.fontSize=Math.max(24,Math.min(260,Number(c.timeSize)||112))+'px';d.style.fontSize=Math.max(16,Math.min(110,Number(c.dateSize)||34))+'px';d.style.top='auto';d.style.bottom='auto';d.style.left='auto';d.style.right='auto';d.style.transform='none';
 if(c.datePosition==='center'){d.style.top='68%';d.style.left='50%';d.style.transform='translate(-50%,-50%)'}else{d.style[c.datePosition.includes('top')?'top':'bottom']='4%';d.style[c.datePosition.includes('right')?'right':'left']='3%'}
-const msg=$('pvMessage');msg.innerHTML=c.messageHtml||escapeMessage(c.messageText||'표시할 문자를 입력하세요.');msg.style.fontSize=Math.max(24,Math.min(240,Number(c.messageSize)||100))+'px';msg.style.color=c.messageColor||'#ffdd55';msg.style.backgroundColor=c.messageBackground||'#101827';msg.style.fontFamily=fontValue(c.messageFont);msg.classList.toggle('active',previewScreen==='message');$('previewMode').textContent=previewScreen==='message'?'문자 화면':'시계 화면';$('pvShade').style.opacity=Number(c.overlay)/100;$('pvBg').style.backgroundImage='url("'+encodeURI(c.background)+'")';scalePreview()}
+const msg=$('pvMessage');const html=messageMarkup(c)||escapeMessage('표시할 문자를 입력하세요.');if(html!==lastPreviewMarkup){msg.innerHTML='<div class="message-content">'+html+'</div>';lastPreviewMarkup=html}msg.style.textAlign=messageAlignment(c);msg.style.width='100%';msg.style.fontSize=Math.max(24,Math.min(240,Number(c.messageSize)||100))+'px';msg.style.color=c.messageColor||'#ffdd55';msg.style.backgroundColor=c.messageBackground||'#101827';msg.style.fontFamily=fontValue(c.messageFont);msg.classList.toggle('active',previewScreen==='message');const ed=$('messageEditor');ed.style.color=c.messageColor;ed.style.backgroundColor=c.messageBackground;ed.style.fontFamily=fontValue(c.messageFont);ed.style.textAlign=messageAlignment(c);ed.style.fontSize='20px';document.querySelectorAll('[data-align]').forEach(b=>b.style.outline=b.dataset.align===messageAlignment(c)?'2px solid #18317a':'none');$('previewMode').textContent=previewScreen==='message'?'문자 화면':'시계 화면';$('pvShade').style.opacity=Number(c.overlay)/100;$('pvBg').style.backgroundImage='url("'+encodeURI(c.background)+'")';scalePreview()}
 function scalePreview(){const w=$('preview').clientWidth; if(w>0)$('previewStage').style.transform='scale('+(w/1920)+')'}
 window.addEventListener('resize',scalePreview);
 if('ResizeObserver' in window)new ResizeObserver(scalePreview).observe($('preview'));
 function repoUrl(){const h=location.hostname,p=location.pathname.split('/').filter(Boolean);if(!h.endsWith('.github.io'))return '';const owner=h.split('.')[0],repo=p[0]||owner;return 'https://github.com/'+encodeURIComponent(owner)+'/'+encodeURIComponent(repo)+'/tree/main/ds/images'}
 $('images').onclick=()=>{const url=repoUrl();if(url)window.open(url,'_blank','noopener');else message('GitHub Pages에서 접속하세요.','error')};
 for(const el of document.querySelectorAll('input,select,textarea'))el.addEventListener('input',()=>{preview();if(keys.includes(el.id))unsavedChanges=true});$('messageEditor').addEventListener('input',()=>{unsavedChanges=true;preview()});
-document.querySelectorAll('[data-edit]').forEach(btn=>{
- btn.addEventListener('mousedown',e=>e.preventDefault());
- btn.addEventListener('click',()=>{
-  $('messageEditor').focus();const cmd=btn.dataset.edit;
-  document.execCommand(cmd,false,cmd==='hiliteColor'?'#fff176':null);
-  unsavedChanges=true;preview();
- });
+
+const editor=$('messageEditor');
+function saveSelection(){const s=window.getSelection();if(s&&s.rangeCount&&editor.contains(s.getRangeAt(0).commonAncestorContainer))savedSelection=s.getRangeAt(0).cloneRange()}
+function restoreSelection(){editor.focus();const s=window.getSelection();if(savedSelection&&editor.contains(savedSelection.commonAncestorContainer)){s.removeAllRanges();s.addRange(savedSelection)}}
+editor.addEventListener('keyup',saveSelection);editor.addEventListener('mouseup',saveSelection);editor.addEventListener('touchend',()=>setTimeout(saveSelection,30));
+function runEdit(cmd,value){restoreSelection();document.execCommand(cmd,false,value||null);saveSelection();unsavedChanges=true;preview()}
+document.querySelectorAll('[data-edit]').forEach(btn=>{btn.addEventListener('mousedown',e=>e.preventDefault());btn.onclick=()=>runEdit(btn.dataset.edit,btn.dataset.edit==='hiliteColor'?'#fff176':null)});
+$('editColor').addEventListener('input',e=>runEdit('foreColor',e.target.value));
+$('selectedFontSize').addEventListener('change',e=>{
+ restoreSelection();const s=window.getSelection();if(!s||!s.rangeCount||s.isCollapsed){message('크기를 바꿀 글자를 먼저 드래그 선택하세요.','error');return}
+ const r=s.getRangeAt(0);if(!editor.contains(r.commonAncestorContainer))return;
+ const span=document.createElement('span');span.style.fontSize=e.target.value;
+ try{r.surroundContents(span)}catch(_){span.appendChild(r.extractContents());r.insertNode(span)}
+ const nr=document.createRange();nr.selectNodeContents(span);s.removeAllRanges();s.addRange(nr);saveSelection();unsavedChanges=true;preview();
 });
-$('editColor').addEventListener('input',e=>{ $('messageEditor').focus();document.execCommand('foreColor',false,e.target.value);unsavedChanges=true;preview() });
-$('clearFormat').onclick=()=>{$('messageEditor').focus();document.execCommand('removeFormat',false,null);unsavedChanges=true;preview()};
-$('messageEditor').addEventListener('paste',e=>{e.preventDefault();const text=e.clipboardData.getData('text/plain');document.execCommand('insertText',false,text.slice(0,500));});
+document.querySelectorAll('[data-align]').forEach(btn=>btn.onclick=()=>{$('messageAlign').value=btn.dataset.align;unsavedChanges=true;preview()});
+$('messageSizeQuick').addEventListener('input',e=>{$('messageSize').value=e.target.value;unsavedChanges=true;preview()});
+$('messageSize').addEventListener('input',e=>$('messageSizeQuick').value=e.target.value);
+$('clearFormat').onclick=()=>runEdit('removeFormat');
+editor.addEventListener('paste',e=>{e.preventDefault();const text=e.clipboardData.getData('text/plain');document.execCommand('insertText',false,text.slice(0,500));unsavedChanges=true;preview()});
 $('previewClock').onclick=()=>{previewScreen='clock';preview()};$('previewMessage').onclick=()=>{previewScreen='message';preview()};
 async function load(){try{const c=await getRemote();fill(c);message('현재 LCD 설정을 불러왔습니다. 문자 교대: '+(c.messageEnabled?'사용':'미사용')+' / 시계 '+(c.clockSeconds||60)+'초 / 문자 '+(c.messageSeconds||15)+'초','ok')}catch(e){fill(DEFAULT);message('서버 연결 실패: '+e.message,'error')}}
 function sleep(t){return new Promise(r=>setTimeout(r,t))}
@@ -117,8 +109,12 @@ async function save(){
    try{const actual=await getRemote(16000);if(String(actual.version)===requestId)result={state:'saved'}}catch(_){}
   }
   if(result){
-   current={...config,version:requestId};
-   message('✓ 저장 완료 · LCD에 자동 반영됩니다.','ok');
+   const actual=await getRemote(16000);
+   if(messageMarkup(actual)!==messageMarkup(config)||messageAlignment(actual)!==messageAlignment(config)){
+     message('서버가 문자 서식 또는 정렬을 저장하지 않았습니다. Code.gs를 새 버전으로 재배포하세요.','error');return;
+   }
+   current={...config,version:requestId};lastRemoteSignature=JSON.stringify({...DEFAULT,...current});unsavedChanges=false;
+   message('✓ 문자 서식·정렬까지 저장 확인 완료 · LCD에 자동 반영됩니다.','ok');
   }else{
    message('저장 결과가 지연되고 있습니다. 중복 저장하지 말고 「현재 설정 다시 불러오기」를 눌러 확인하세요.','error');
   }
