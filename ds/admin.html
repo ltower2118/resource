@@ -6,7 +6,7 @@
 <section><h2>배경</h2><label>배경 이미지 파일명</label><input id="background" value="images/background.jpg"><p>배경 이미지는 GitHub의 <b>ds/images</b> 폴더에서 교체합니다. 같은 파일명으로 변경해도 LCD가 주기적으로 새로 읽습니다.</p><label>배경 어둡게 (%)</label><input id="overlay" type="range" min="0" max="70"><div class="buttons"><button id="images" class="secondary">GitHub 배경 폴더 열기</button></div></section>
 <section><h2>실시간 미리보기</h2><div id="preview"><div id="pvBg"></div><div id="pvShade"></div><div id="pvTime"></div><div id="pvDate"></div></div></section>
 <section><h2>저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html" target="_blank" rel="noopener">LCD 화면 보기</a></div><p id="status" role="status">연결 확인 중...</p></section></main>
-<script src="config.js"></script><script src="shared.js"></script><script>
+<script src="config.js?v=2"></script><script src="shared.js"></script><script>
 const $=id=>document.getElementById(id);let current={...DEFAULT};
 const keys=['showTime','showDate','timeSize','timeColor','timeFormat','dateSize','dateColor','datePosition','dateFormat','background','overlay'];
 function readForm(){const x={...current};for(const k of keys){const el=$(k);x[k]=el.type==='checkbox'?el.checked:el.type==='number'||el.type==='range'?Number(el.value):el.value}return x}
