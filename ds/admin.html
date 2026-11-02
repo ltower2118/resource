@@ -512,27 +512,58 @@ function v15AttachResize(el){
   const b=v13Get();if(!b)return;
   const scale=$('preview').clientWidth/1920||1;
   b.width=Math.max(100,Math.min(1800,Math.round((drag.width+(e.clientX-drag.x)/scale)/10)*10));
-  $('v13Width').value=b.width;v13Mark();v13Render();
+  $('v13Width').value=b.width;el.style.width=b.width+'px';v13Mark();
  });
- handle.addEventListener('pointerup',e=>{e.stopPropagation();drag=null});
+ handle.addEventListener('pointerup',e=>{e.stopPropagation();drag=null;v13Render();if(!$('previewModal').hidden)sendPreview()});
  handle.addEventListener('pointercancel',()=>{drag=null});
  handle.addEventListener('click',e=>e.stopPropagation());
  handle.addEventListener('keydown',e=>{
   if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();e.stopPropagation();
   const b=v13Get();if(!b)return;
   b.width=Math.max(100,Math.min(1800,(Number(b.width)||900)+(e.key==='ArrowRight'?20:-20)));
-  $('v13Width').value=b.width;v13Mark();v13Render();
+  $('v13Width').value=b.width;el.style.width=b.width+'px';v13Mark();
  });
 }
 
 function v13Select(id){v13Selected=id;v13Controls();v13Render()}
+// V17: separate selecting from dragging. Pointer capture stays on the same node.
 function v13Bind(el){
- el.addEventListener('pointerdown',e=>{if(el.querySelector('.v15-label')?.isContentEditable)return;v13Select(el.dataset.id);const b=v13Get();if(!b)return;v13Dragging={id:b.id,px:e.clientX,py:e.clientY,x:b.x,y:b.y};el.setPointerCapture(e.pointerId);e.preventDefault()});
- el.addEventListener('pointermove',e=>{if(!v13Dragging||v13Dragging.id!==el.dataset.id)return;const w=$('preview').clientWidth,h=$('preview').clientHeight;const b=v13Get();if(!b)return;b.x=Math.max(5,Math.min(95,v13Dragging.x+(e.clientX-v13Dragging.px)/w*100));b.y=Math.max(5,Math.min(95,v13Dragging.y+(e.clientY-v13Dragging.py)/h*100));v13Mark();v13Render()});
- el.addEventListener('pointerup',()=>v13Dragging=null);el.addEventListener('pointercancel',()=>v13Dragging=null);
+ let drag=null;
+ el.addEventListener('pointerdown',e=>{
+  if(e.target.closest('.v15-resize'))return;
+  if(el.querySelector('.v15-label')?.isContentEditable)return;
+  const id=el.dataset.id;
+  // Select without rebuilding the DOM under the pointer.
+  if(v13Selected!==id){v13Selected=id;v13Controls();
+    $('v13Canvas').querySelectorAll('.v13block').forEach(n=>n.classList.toggle('selected',n.dataset.id===id));}
+  const b=v13Get();if(!b)return;
+  drag={id,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,x:b.x,y:b.y,moved:false};
+  try{el.setPointerCapture(e.pointerId)}catch(_){}
+  e.preventDefault();
+ });
+ el.addEventListener('pointermove',e=>{
+  if(!drag||drag.pointerId!==e.pointerId)return;
+  const dx=e.clientX-drag.startX,dy=e.clientY-drag.startY;
+  if(!drag.moved&&Math.hypot(dx,dy)<4)return;
+  drag.moved=true;
+  const b=v13Blocks.find(x=>x.id===drag.id);if(!b)return;
+  const w=$('preview').clientWidth||1,h=$('preview').clientHeight||1;
+  b.x=Math.max(5,Math.min(95,drag.x+dx/w*100));
+  b.y=Math.max(5,Math.min(95,drag.y+dy/h*100));
+  // Move only this element. Do not redraw while pointer is captured.
+  el.style.left=b.x+'%';el.style.top=b.y+'%';
+  v13Mark();
+ });
+ function finish(e){if(!drag||drag.pointerId!==e.pointerId)return;
+  const moved=drag.moved;drag=null;
+  if(moved){v13Render();if(!$('previewModal').hidden)sendPreview();}
+ }
+ el.addEventListener('pointerup',finish);
+ el.addEventListener('pointercancel',finish);
+ el.addEventListener('lostpointercapture',()=>{if(drag){drag=null;v13Render()}});
  el.addEventListener('dblclick',()=>v13BeginEdit(el));
- el.addEventListener('input',()=>{const b=v13Get();if(b){b.text=(el.querySelector('.v15-label')||el).innerText;$('v13TextInput').value=b.text;v13Mark()}});
- el.addEventListener('blur',()=>{if(el.querySelector('.v15-label')?.isContentEditable){el.querySelector('.v15-label').contentEditable='false';el.classList.remove('editing');v13Editing=false;v13Render()}});
+ el.addEventListener('input',()=>{const b=v13Blocks.find(x=>x.id===el.dataset.id);if(b){b.text=(el.querySelector('.v15-label')||el).innerText;$('v13TextInput').value=b.text;v13Mark()}});
+ el.addEventListener('focusout',e=>{const label=el.querySelector('.v15-label');if(label?.isContentEditable&&!el.contains(e.relatedTarget)){label.contentEditable='false';el.classList.remove('editing');v13Editing=false;v13Render()}});
 }
 function v13BeginEdit(el){v13Select(el.dataset.id);const text=el.querySelector('.v15-label');if(!text)return;text.contentEditable='true';el.classList.add('editing');v13Editing=true;text.focus()}
 $('v13Add').onclick=()=>{const id='b'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);v13Blocks.push({id,text:'새 안내 문구',x:50,y:50,size:100,color:'#ffdd55',font:'Malgun Gothic',bold:true,underline:false,width:900,wrap:true});v13Mark();v13Select(id)};
