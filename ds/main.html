@@ -42,9 +42,44 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)resumeSync
 window.addEventListener('focus',resumeSync);
 window.addEventListener('pageshow',resumeSync);
 window.addEventListener('online',resumeSync);
-$('full').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){$('status').textContent='전체화면 실행 제한: F11을 이용하세요.'}};
-$('exitFull').onclick=async()=>{if(document.fullscreenElement)await document.exitFullscreen()};
-document.addEventListener('fullscreenchange',()=>{$('full').textContent='⛶ 전체화면';$('exitFull').style.display='none'});
-// ESC 종료는 브라우저 기본 전체화면 해제 동작을 사용합니다.
+// LCD 전체화면 제어: 마우스 이동, ESC, F11로 복귀
+let fullscreenStartedAt=0;
+let fullscreenPointer=null;
+let exitingFullscreen=false;
+async function leaveFullscreen(){
+ if(!document.fullscreenElement||exitingFullscreen)return;
+ exitingFullscreen=true;
+ try{await document.exitFullscreen()}catch(err){console.warn('전체화면 해제 실패',err)}
+ finally{exitingFullscreen=false}
+}
+$('full').onclick=async()=>{
+ try{
+  if(document.fullscreenElement){await leaveFullscreen();return}
+  fullscreenPointer=null;
+  await document.documentElement.requestFullscreen();
+ }catch(e){$('status').textContent='전체화면 실행 제한: F11을 이용하세요.'}
+};
+$('exitFull').onclick=leaveFullscreen;
+document.addEventListener('fullscreenchange',()=>{
+ fullscreenStartedAt=document.fullscreenElement?Date.now():0;
+ fullscreenPointer=null;
+ $('full').textContent='⛶ 전체화면';
+ $('exitFull').style.display='none';
+});
+// 진입 직후 마우스 움직임은 무시하여 클릭 동작이 곧바로 해제되지 않도록 함.
+// 실제 마우스 이동이 12px 이상 발생하면 전체화면 해제.
+document.addEventListener('pointermove',e=>{
+ if(!document.fullscreenElement||e.pointerType!=='mouse')return;
+ if(Date.now()-fullscreenStartedAt<1200){fullscreenPointer={x:e.clientX,y:e.clientY};return}
+ if(!fullscreenPointer){fullscreenPointer={x:e.clientX,y:e.clientY};return}
+ const distance=Math.hypot(e.clientX-fullscreenPointer.x,e.clientY-fullscreenPointer.y);
+ if(distance>=12)leaveFullscreen();
+});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&document.fullscreenElement){leaveFullscreen();return}
+ // 브라우저의 F11 모드는 브라우저가 직접 전환합니다.
+ // Fullscreen API로 진입한 경우 F11 키 입력 시 API 전체화면을 해제합니다.
+ if(e.key==='F11'&&document.fullscreenElement)leaveFullscreen();
+});
 apply(config);setInterval(()=>{draw();renderScreen()},500);refresh();setInterval(refresh,10000);
 </script></body></html>
