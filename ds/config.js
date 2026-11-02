@@ -1,2 +1,3 @@
-// 최초 한 번만 Apps Script 웹앱 /exec 주소를 입력합니다.
-window.LCD_API_URL = 'https://script.google.com/macros/s/AKfycbyq6Zq7d3AvTXpXsuLjHTMtoCveg7oYam2UQxlWfZ4ohEGxko7FEzb7qPjI8dP1jJOxkw/exec';
+// 최초 한 번만 Apps Script 배포 URL을 붙여넣으세요.
+// 관리자 키는 이 파일에 넣지 마세요.
+window.SIGNAGE_API_URL = 'https://script.google.com/macros/s/AKfycbyfqGPZCSvbusneRQlJr9MfX9fin_Lg7ccftCCHee3Gq1QSFX0-OCXIwHNK0vV5_1URSw/exec';
