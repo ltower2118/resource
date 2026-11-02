@@ -92,6 +92,12 @@ html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;over
 #v13Width{width:90px}#v13Wrap{width:auto}#v13TextInput{width:100%;min-height:75px;padding:10px;border:1px solid #ccd7e4;border-radius:8px;font-size:17px;resize:vertical}
 #v13Start{width:auto}#v13Help{font-size:12px;color:#61748a}
 @media(max-width:600px){#v13Panel{padding:10px}#v13Panel button{padding:9px 11px}#v13Panel .v13row{gap:5px}}
+<style id="v15ResizeStyle">
+#v13Canvas .v13block{box-sizing:border-box;overflow:visible!important}
+#v13Canvas .v13block.selected{border-color:#5ce6ff}
+#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007}
+#v13Canvas .v15-resize:after{content:'↔';display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold}
+#v13Canvas .v13block:not(.selected) .v15-resize{display:none}
 </style></head><body><main class="wrap"><h1>LCD 시계 관리자</h1><p>미리보기에서 확인한 뒤 <b>설정 저장</b> 한 번으로 LCD 화면에 반영합니다.</p>
 <section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="260" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div class="visual-preview-actions"><button type="button" id="previewBeforeSave">👁 저장 전 전체화면 미리보기</button><span>저장 전 실제 LCD 화면을 확인합니다.</span></div><p id="visualHelp">시계·날짜·문자 중 하나를 선택하세요. 시계와 날짜는 화면에서 이동하고 위에서 크기·색상·글꼴을 즉시 바꿉니다. 문자 화면에서 글자를 선택한 뒤 크기·색상·글꼴을 바꿀 수 있습니다. 선택 범위는 도구를 눌러도 유지됩니다.</p><h2>실시간 LCD 미리보기 (16:9)</h2><div id="preview"><div id="previewStage"><div id="pvBg"></div><div id="pvShade"></div><div id="pvTime"></div><div id="pvDate"></div><div id="pvMessage"></div><div id="v13Canvas"></div></div></div><p>입력과 동시에 미리보기에 반영됩니다. 위쪽 화면은 고정됩니다. <span id="previewMode">시계 화면</span></p></section>
 <section id="messageSection" class="legacy-panel"><h2>문자 전체화면 자동 교대</h2>
@@ -124,7 +130,7 @@ html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;over
 <p>설정 저장 후 LCD에서 시계 → 문자 → 시계를 자동 반복합니다. 문자 기능을 끄면 기존 시계만 계속 표시합니다.</p></section>
 <section class="legacy-panel"><h2>시간</h2><label><input id="showTime" type="checkbox">시간 표시</label><div class="grid"><div><label>글자 크기(px)</label><input id="timeSize" type="number" min="24" max="260"></div><div><label>글자 색상</label><input id="timeColor" type="color"></div><div><label>시간 글꼴</label><select id="timeFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></div><div><label>시간 형식</label><select id="timeFormat"><option value="24s">24시간 시:분:초</option><option value="24m">24시간 시:분</option><option value="12s">오전/오후 시:분:초</option><option value="12m">오전/오후 시:분</option></select></div></div></section>
 <section class="legacy-panel"><h2>날짜</h2><label><input id="showDate" type="checkbox">날짜 표시</label><div class="grid"><div><label>글자 크기(px)</label><input id="dateSize" type="number" min="16" max="110"></div><div><label>글자 색상</label><input id="dateColor" type="color"></div><div><label>날짜 글꼴</label><select id="dateFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></div><div><label>표시 위치</label><select id="datePosition"><option value="center">중앙 (시간 아래)</option><option value="top-left">왼쪽 위</option><option value="top-right">오른쪽 위</option><option value="bottom-left">왼쪽 아래</option><option value="bottom-right">오른쪽 아래</option></select></div><div><label>날짜 형태</label><select id="dateFormat"><option value="long">2026년 11월 2일 월요일</option><option value="short">2026.11.02 (월)</option><option value="iso">2026-11-02</option><option value="slash">2026/11/02</option><option value="month">11월 2일 월요일</option></select></div></div></section>
-<section id="v13Panel" hidden><h2>문자 화면 직접 편집</h2><div class="v13row"><button type="button" id="v13Add">+ 텍스트 추가</button><button type="button" class="secondary" id="v13Delete">선택 삭제</button><button type="button" class="secondary" id="v13Edit">선택 문자 수정</button></div><p id="v13Help">문자 상자를 클릭해 선택하고 드래그로 이동합니다. 아래에서 선택 상자의 서식을 바꾸세요.</p><label>선택한 문자 내용</label><textarea id="v13TextInput" placeholder="텍스트 상자를 선택하세요"></textarea><div class="v13row"><label>크기 <input type="number" id="v13Size" min="16" max="300" value="100"></label><label>상자 너비(px) <input type="number" id="v13Width" min="100" max="1800" step="20" value="900"></label><label><input type="checkbox" id="v13Wrap" checked> 자동 줄바꿈</label><label>글자색 <input type="color" id="v13Color" value="#ffdd55"></label><label>글꼴 <select id="v13Font"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label><input type="checkbox" id="v13Bold"> 굵게</label><label><input type="checkbox" id="v13Under"> 밑줄</label></div><div class="v13row"><label>문자 화면 배경 <input type="color" id="v13Bg" value="#101827"></label><label>처음 표시 <select id="v13Start"><option value="clock">시계 화면</option><option value="message">문자 화면</option></select></label><label><input type="checkbox" id="v13Enabled"> 문자 자동 교대</label></div><div class="v13row"><label>시계(초) <input type="number" id="v13ClockSeconds" min="5" max="86400"></label><label>문자(초) <input type="number" id="v13MessageSeconds" min="3" max="3600"></label></div></section><section id="backgroundSection"><h2>배경 이미지 변경</h2><label>배경 이미지 파일명</label><input id="background" value="images/background.jpg"><p>배경 이미지는 GitHub의 <b>ds/images</b> 폴더에서 교체합니다. 같은 파일명으로 변경해도 LCD가 주기적으로 새로 읽습니다.</p><label>배경 어둡게 (%)</label><input id="overlay" type="range" min="0" max="70"><div class="buttons"><button id="images" class="secondary">GitHub 배경 폴더 열기</button></div></section>
+<section id="v13Panel" hidden><h2>문자 화면 직접 편집</h2><div class="v13row"><button type="button" id="v13Add">+ 텍스트 추가</button><button type="button" class="secondary" id="v13Delete">선택 삭제</button><button type="button" class="secondary" id="v13Edit">선택 문자 수정</button></div><p id="v13Help">문자 상자를 선택하면 오른쪽 파란 손잡이가 나타납니다. 손잡이를 좌우로 끌어 너비를 조절하고 상자 본문을 끌어 이동하세요. 저장 후 서버에서 다시 읽어 일치 여부를 확인합니다.</p><label>선택한 문자 내용</label><textarea id="v13TextInput" placeholder="텍스트 상자를 선택하세요"></textarea><div class="v13row"><label>크기 <input type="number" id="v13Size" min="16" max="300" value="100"></label><label>상자 너비(px, 직접 입력 또는 오른쪽 손잡이) <input type="number" id="v13Width" min="100" max="1800" step="20" value="900"></label><label><input type="checkbox" id="v13Wrap" checked> 자동 줄바꿈</label><label>글자색 <input type="color" id="v13Color" value="#ffdd55"></label><label>글꼴 <select id="v13Font"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label><input type="checkbox" id="v13Bold"> 굵게</label><label><input type="checkbox" id="v13Under"> 밑줄</label></div><div class="v13row"><label>문자 화면 배경 <input type="color" id="v13Bg" value="#101827"></label><label>처음 표시 <select id="v13Start"><option value="clock">시계 화면</option><option value="message">문자 화면</option></select></label><label><input type="checkbox" id="v13Enabled"> 문자 자동 교대</label></div><div class="v13row"><label>시계(초) <input type="number" id="v13ClockSeconds" min="5" max="86400"></label><label>문자(초) <input type="number" id="v13MessageSeconds" min="3" max="3600"></label></div></section><section id="backgroundSection"><h2>배경 이미지 변경</h2><label>배경 이미지 파일명</label><input id="background" value="images/background.jpg"><p>배경 이미지는 GitHub의 <b>ds/images</b> 폴더에서 교체합니다. 같은 파일명으로 변경해도 LCD가 주기적으로 새로 읽습니다.</p><label>배경 어둡게 (%)</label><input id="overlay" type="range" min="0" max="70"><div class="buttons"><button id="images" class="secondary">GitHub 배경 폴더 열기</button></div></section>
 
 
 <section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p></section></main>
@@ -238,10 +244,10 @@ async function save(){
   }
   if(result){
    const actual=await getRemote(16000);
-   if(messageMarkup(actual)!==messageMarkup(config)||messageAlignment(actual)!==messageAlignment(config)){
-     message('서버가 문자 서식 또는 정렬을 저장하지 않았습니다. Code.gs를 새 버전으로 재배포하세요.','error');return;
+   if(messageMarkup(actual)!==messageMarkup(config)||messageAlignment(actual)!==messageAlignment(config)||JSON.stringify(actual.messageBlocks||[])!==JSON.stringify(config.messageBlocks||[])||String(actual.startScreen||'clock')!==String(config.startScreen||'clock')){
+     message('서버 저장 확인 실패: 텍스트 상자 내용·위치·너비가 실제 서버에 일치하지 않습니다. Code.gs 배포 버전을 확인하세요.','error');return;
    }
-   current={...config,version:requestId};lastRemoteSignature=JSON.stringify({...DEFAULT,...current});unsavedChanges=false;
+   fill(actual);lastRemoteSignature=JSON.stringify({...DEFAULT,...actual});unsavedChanges=false;
    message('✓ 문자 서식·정렬까지 저장 확인 완료 · LCD에 자동 반영됩니다.','ok');
   }else{
    message('저장 결과가 지연되고 있습니다. 중복 저장하지 말고 「현재 설정 다시 불러오기」를 눌러 확인하세요.','error');
@@ -467,21 +473,52 @@ function v13Render(){
  // Keep old rich-text layer hidden so it never overlaps the independent text boxes.
  const legacy=$('pvMessage').querySelector('.message-content');if(legacy)legacy.style.visibility='hidden';
  const ids=new Set(v13Blocks.map(b=>b.id));canvas.querySelectorAll('.v13block').forEach(el=>{if(!ids.has(el.dataset.id))el.remove()});
- for(const b of v13Blocks){let el=Array.from(canvas.children).find(e=>e.dataset.id===b.id);if(!el){el=document.createElement('div');el.className='v13block';el.dataset.id=b.id;canvas.appendChild(el);v13Bind(el)}
- if(document.activeElement!==el||!el.isContentEditable)el.textContent=b.text;
+ for(const b of v13Blocks){let el=Array.from(canvas.children).find(e=>e.dataset.id===b.id);if(!el){el=document.createElement('div');el.className='v13block';el.dataset.id=b.id;canvas.appendChild(el);v13Bind(el);v15AttachResize(el)}
+ if(!el.querySelector('.v15-label')?.isContentEditable){let textNode=el.querySelector('.v15-label');if(!textNode){textNode=document.createElement('span');textNode.className='v15-label';el.prepend(textNode)}if(textNode.textContent!==b.text)textNode.textContent=b.text;}
  el.style.left=b.x+'%';el.style.top=b.y+'%';el.style.width=Math.max(100,Math.min(1800,Number(b.width)||900))+'px';el.style.whiteSpace='pre-wrap';el.style.overflowWrap=b.wrap===false?'normal':'break-word';el.style.wordBreak='normal';el.style.overflow='visible';el.style.fontSize=b.size+'px';el.style.color=b.color;el.style.fontFamily=b.font;el.style.fontWeight=b.bold?'800':'400';el.style.textDecoration=b.underline?'underline':'none';el.classList.toggle('selected',b.id===v13Selected);
  }
 }
+
+// V15: Drag the right edge handle to resize the selected text box.
+function v15AttachResize(el){
+ if(el.querySelector('.v15-resize'))return;
+ const handle=document.createElement('div');handle.className='v15-resize';
+ handle.setAttribute('role','slider');handle.setAttribute('aria-label','텍스트 상자 너비 조절');
+ handle.tabIndex=0;el.appendChild(handle);
+ let drag=null;
+ handle.addEventListener('pointerdown',e=>{
+  e.stopPropagation();e.preventDefault();v13Select(el.dataset.id);
+  const b=v13Get();if(!b)return;
+  drag={x:e.clientX,width:Number(b.width)||900};handle.setPointerCapture(e.pointerId);
+ });
+ handle.addEventListener('pointermove',e=>{
+  if(!drag)return;e.stopPropagation();
+  const b=v13Get();if(!b)return;
+  const scale=$('preview').clientWidth/1920||1;
+  b.width=Math.max(100,Math.min(1800,Math.round((drag.width+(e.clientX-drag.x)/scale)/10)*10));
+  $('v13Width').value=b.width;v13Mark();v13Render();
+ });
+ handle.addEventListener('pointerup',e=>{e.stopPropagation();drag=null});
+ handle.addEventListener('pointercancel',()=>{drag=null});
+ handle.addEventListener('click',e=>e.stopPropagation());
+ handle.addEventListener('keydown',e=>{
+  if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();e.stopPropagation();
+  const b=v13Get();if(!b)return;
+  b.width=Math.max(100,Math.min(1800,(Number(b.width)||900)+(e.key==='ArrowRight'?20:-20)));
+  $('v13Width').value=b.width;v13Mark();v13Render();
+ });
+}
+
 function v13Select(id){v13Selected=id;v13Controls();v13Render()}
 function v13Bind(el){
- el.addEventListener('pointerdown',e=>{if(el.isContentEditable)return;v13Select(el.dataset.id);const b=v13Get();if(!b)return;v13Dragging={id:b.id,px:e.clientX,py:e.clientY,x:b.x,y:b.y};el.setPointerCapture(e.pointerId);e.preventDefault()});
+ el.addEventListener('pointerdown',e=>{if(el.querySelector('.v15-label')?.isContentEditable)return;v13Select(el.dataset.id);const b=v13Get();if(!b)return;v13Dragging={id:b.id,px:e.clientX,py:e.clientY,x:b.x,y:b.y};el.setPointerCapture(e.pointerId);e.preventDefault()});
  el.addEventListener('pointermove',e=>{if(!v13Dragging||v13Dragging.id!==el.dataset.id)return;const w=$('preview').clientWidth,h=$('preview').clientHeight;const b=v13Get();if(!b)return;b.x=Math.max(5,Math.min(95,v13Dragging.x+(e.clientX-v13Dragging.px)/w*100));b.y=Math.max(5,Math.min(95,v13Dragging.y+(e.clientY-v13Dragging.py)/h*100));v13Mark();v13Render()});
  el.addEventListener('pointerup',()=>v13Dragging=null);el.addEventListener('pointercancel',()=>v13Dragging=null);
  el.addEventListener('dblclick',()=>v13BeginEdit(el));
- el.addEventListener('input',()=>{const b=v13Get();if(b){b.text=el.innerText;$('v13TextInput').value=b.text;v13Mark()}});
- el.addEventListener('blur',()=>{if(el.isContentEditable){el.contentEditable='false';el.classList.remove('editing');v13Editing=false;v13Render()}});
+ el.addEventListener('input',()=>{const b=v13Get();if(b){b.text=(el.querySelector('.v15-label')||el).innerText;$('v13TextInput').value=b.text;v13Mark()}});
+ el.addEventListener('blur',()=>{if(el.querySelector('.v15-label')?.isContentEditable){el.querySelector('.v15-label').contentEditable='false';el.classList.remove('editing');v13Editing=false;v13Render()}});
 }
-function v13BeginEdit(el){v13Select(el.dataset.id);el.contentEditable='true';el.classList.add('editing');v13Editing=true;el.focus()}
+function v13BeginEdit(el){v13Select(el.dataset.id);const text=el.querySelector('.v15-label');if(!text)return;text.contentEditable='true';el.classList.add('editing');v13Editing=true;text.focus()}
 $('v13Add').onclick=()=>{const id='b'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);v13Blocks.push({id,text:'새 안내 문구',x:50,y:50,size:100,color:'#ffdd55',font:'Malgun Gothic',bold:true,underline:false,width:900,wrap:true});v13Mark();v13Select(id)};
 $('v13Delete').onclick=()=>{v13Blocks=v13Blocks.filter(b=>b.id!==v13Selected);v13Selected=v13Blocks[0]?.id||null;v13Mark();v13Controls();v13Render()};
 $('v13Edit').onclick=()=>{$('v13TextInput').focus();$('v13TextInput').select()};
