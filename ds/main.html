@@ -5,8 +5,16 @@
 #boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px}@keyframes spin{to{transform:rotate(360deg)}}
 #boot.hide{opacity:0;pointer-events:none}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line}#offline.visible{display:flex}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9}
 </style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="messageScreen" aria-live="polite"></div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
-조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script src="config.js?v=sync20261102"></script><script src="shared.js?v=wysiwyg20261102"></script><script>
-const $=id=>document.getElementById(id);let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';
+조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
+window.addEventListener('error',function(e){
+ if(e.target && e.target.tagName==='SCRIPT'){
+   var o=document.getElementById('offline'),b=document.getElementById('boot');
+   if(o){o.classList.add('visible');document.getElementById('offlineHint').textContent='필수 설정 파일을 불러오지 못했습니다. GitHub ds 폴더를 확인하세요.';}
+   if(b)b.style.display='none';
+ }
+},true);
+</script><script src="config.js?v=20261102-connection-repair-3"></script><script src="shared.js?v=20261102-connection-repair-3"></script><script>
+const $=id=>document.getElementById(id);let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;
 function draw(){const p=nowParts();$('time').textContent=fmtTime(config,p);$('date').textContent=fmtDate(config,p)}
 function apply(c){config={...DEFAULT,...c};$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontSize='min('+Math.max(24,Math.min(260,Number(config.timeSize)||112))+'px, 19vw)';$('date').style.fontSize=Math.max(16,Math.min(110,Number(config.dateSize)||34))+'px';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;$('shade').style.opacity=Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw()}
 function renderScreen(){
@@ -30,7 +38,7 @@ async function refresh(){
  try{
   if(forceOffline)throw Error('인터넷 장애 테스트 모드');
   if(!navigator.onLine)throw Error('오프라인');
-  const c=await getRemote(18000);
+  const c=await getRemote(12000);
   const signature=JSON.stringify(c);
   if(signature!==lastConfigSignature){
     apply(c);
@@ -38,10 +46,10 @@ async function refresh(){
     updateBackground();
   }
   lastSyncAt=Date.now();failCount=0;$('offline').classList.remove('visible');
-  if(!firstReady){firstReady=true;requestAnimationFrame(()=>{requestAnimationFrame(()=>{$('boot').classList.add('hide');setTimeout(()=>$('boot').remove(),750)})})}
+  if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);requestAnimationFrame(()=>{requestAnimationFrame(()=>{$('boot').classList.add('hide');setTimeout(()=>$('boot').remove(),750)})})}
   if(!new URLSearchParams(location.search).has('debug'))$('status').textContent='';
  }catch(e){failCount++;$('status').textContent='서버 동기화 오류: '+e.message;
- if(forceOffline||!navigator.onLine||failCount>=2){$('offline').classList.add('visible');$('offlineHint').textContent=forceOffline?'테스트 모드 · 주소에서 ?testOffline=1 을 제거하면 정상 화면으로 돌아갑니다.':'네트워크 연결을 자동으로 다시 확인합니다.';if(!firstReady){firstReady=true;$('boot').classList.add('hide');setTimeout(()=>$('boot').remove(),750)}}
+ if(forceOffline||!navigator.onLine||failCount>=1){$('offline').classList.add('visible');$('offlineHint').textContent=forceOffline?'테스트 모드 · 주소에서 ?testOffline=1 을 제거하면 정상 화면으로 돌아갑니다.':'네트워크 연결을 자동으로 다시 확인합니다.';if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);$('boot').classList.add('hide');setTimeout(()=>$('boot').remove(),750)}}
  else if(!firstReady){$('boot').querySelector('div:last-child').textContent='서버에 다시 연결하고 있습니다...'}
  }
  finally{syncRunning=false}
@@ -88,5 +96,15 @@ document.addEventListener('keydown',e=>{
  // 브라우저 F11은 다시 F11로 전환합니다.
  // F11은 브라우저 기본 동작에 맡깁니다. 웹페이지가 F11 모드를 강제로 제어할 수 없습니다.
 });
-apply(config);setInterval(()=>{draw();renderScreen()},500);refresh();setInterval(refresh,10000);
+// Start with an opaque loading layer. If external API never responds, never leave the LCD stuck on loading.
+bootWatchdog=setTimeout(()=>{
+ if(firstReady)return;
+ firstReady=true;
+ $('offline').classList.add('visible');
+ $('offlineHint').textContent='설정 서버 응답이 지연되고 있습니다. 자동으로 재연결을 시도합니다.';
+ $('boot').classList.add('hide');
+ setTimeout(()=>$('boot')?.remove(),750);
+},14000);
+setInterval(()=>{if(firstReady){draw();renderScreen()}},500);
+refresh();setInterval(refresh,10000);
 </script></body></html>

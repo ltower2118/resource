@@ -1,5 +1,5 @@
 'use strict';
-const DEFAULT={showTime:true,showDate:true,timeSize:112,timeColor:'#ffffff',timeFormat:'24s',timeFont:'Arial',dateSize:34,dateColor:'#ffffff',dateFont:'Arial',datePosition:'bottom-right',dateFormat:'long',background:'images/background.jpg',overlay:15,messageEnabled:false,messageText:'',clockSeconds:60,messageSeconds:15,messageSize:100,messageColor:'#ffdd55',messageBackground:'#101827',messageFont:'Malgun Gothic',version:'1'};
+const DEFAULT={showTime:true,showDate:true,timeSize:112,timeColor:'#ffffff',timeFormat:'24s',timeFont:'Arial',dateSize:34,dateColor:'#ffffff',dateFont:'Arial',datePosition:'bottom-right',dateFormat:'long',background:'images/background.jpg',overlay:15,messageEnabled:false,messageText:'',clockSeconds:60,messageSeconds:15,messageSize:100,messageColor:'#ffdd55',messageBackground:'#101827',messageFont:'Malgun Gothic',messageAlign:'center',version:'1'};
 const FONT_OPTIONS=['Arial','Malgun Gothic','Noto Sans KR','Georgia','Courier New','Times New Roman'];
 function fontValue(v){return FONT_OPTIONS.includes(v)?JSON.stringify(v)+', sans-serif':'Arial, sans-serif'}
 const apiUrl=()=>String(window.LCD_API_URL||'').trim();
@@ -9,7 +9,7 @@ function getRemote(timeoutMs=12000){
     if(!apiReady())return reject(Error('config.js에 Apps Script /exec 주소를 넣으세요.'));
     const callback='lcdCallback'+Math.random().toString(36).slice(2);
     const tag=document.createElement('script');let done=false;
-    const timer=setTimeout(()=>finish(Error('설정 서버 응답 시간 초과')),timeoutMs);
+    const timer=setTimeout(()=>finish(Error('설정 서버 응답 시간 초과 ('+Math.round(timeoutMs/1000)+'초)')),timeoutMs);
     function finish(err,value){if(done)return;done=true;clearTimeout(timer);delete window[callback];tag.remove();err?reject(err):resolve(value)}
     window[callback]=data=>data&&data.ok?finish(null,data.config):finish(Error(data?.error||'설정 조회 실패'));
     tag.onerror=()=>finish(Error('설정 서버 연결 실패'));
@@ -20,3 +20,35 @@ function getRemote(timeoutMs=12000){
 function fmtDate(c,p){const y=p.year,m=p.month,d=p.day,w=p.weekday;return ({long:`${y}년 ${Number(m)}월 ${Number(d)}일 ${w}`,short:`${y}.${m}.${d} (${w[0]})`,iso:`${y}-${m}-${d}`,slash:`${y}/${m}/${d}`,month:`${Number(m)}월 ${Number(d)}일 ${w}`})[c.dateFormat]||`${y}년 ${Number(m)}월 ${Number(d)}일 ${w}`}
 function fmtTime(c,p){let h=p.hour;if(String(c.timeFormat).startsWith('12')){const n=Number(h);h=(n<12?'오전 ':'오후 ')+String(n%12||12).padStart(2,'0')}return h+':'+p.minute+(String(c.timeFormat).endsWith('s')?':'+p.second:'')}
 function nowParts(){return Object.fromEntries(new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',weekday:'long',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date()).map(x=>[x.type,x.value]))}
+
+// Admin preview and LCD player use this exact same safe rich-text renderer.
+function safeMessageHtml(raw){
+ const root=document.createElement('div');root.innerHTML=String(raw||'');
+ root.querySelectorAll('script,style,iframe,object,embed,svg,math,form,input,button,img,video,audio,link,meta').forEach(n=>n.remove());
+ const allow=new Set(['B','STRONG','I','EM','U','BR','DIV','P','SPAN','MARK','FONT']);
+ const safeColor=v=>/^#[0-9a-f]{3,6}$/i.test(v)||/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(?:\s*,\s*(?:0?\.\d+|1))?\s*\)$/i.test(v);
+ const safeSize=v=>/^(?:50|75|100|125|150|200)%$/.test(v);
+ function clean(node){
+  for(const child of [...node.childNodes]){
+   if(child.nodeType!==1)continue;
+   if(!allow.has(child.tagName)){child.replaceWith(document.createTextNode(child.textContent||''));continue}
+   const st=child.style;
+   const color=st.color||(child.tagName==='FONT'?child.getAttribute('color')||'':''),bg=st.backgroundColor;
+   const size=st.fontSize,align=st.textAlign;
+   [...child.attributes].forEach(a=>child.removeAttribute(a.name));
+   if(safeColor(color))child.style.color=color;
+   if(safeColor(bg))child.style.backgroundColor=bg;
+   if(safeSize(size))child.style.fontSize=size;
+   if(['left','center','right'].includes(align))child.style.textAlign=align;
+   if(child.tagName==='FONT'){
+    const span=document.createElement('span');span.setAttribute('style',child.getAttribute('style')||'');
+    while(child.firstChild)span.appendChild(child.firstChild);child.replaceWith(span);clean(span);continue;
+   }
+   clean(child);
+  }
+ }
+ clean(root);return root.innerHTML.slice(0,12000);
+}
+function escapeMessage(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML.replace(/\n/g,'<br>')}
+function messageMarkup(c){return safeMessageHtml(c.messageHtml||escapeMessage(c.messageText||''))}
+function messageAlignment(c){return ['left','center','right'].includes(c.messageAlign)?c.messageAlign:'center'}

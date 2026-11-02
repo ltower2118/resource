@@ -24,7 +24,7 @@
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="previewClock">시계 미리보기</button><button type="button" class="secondary" id="previewMessage">문자 미리보기</button></div>
 <p>설정 저장 후 LCD에서 시계 → 문자 → 시계를 자동 반복합니다. 문자 기능을 끄면 기존 시계만 계속 표시합니다.</p></section>
 <section><h2>저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p></section></main>
-<script src="config.js?v=sync20261102"></script><script src="shared.js?v=wysiwyg20261102"></script><script>
+<script src="config.js?v=20261102-connection-repair-3"></script><script src="shared.js?v=20261102-connection-repair-3"></script><script>
 const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
 let savedSelection=null;let lastPreviewMarkup="";
 const keys=['showTime','showDate','timeSize','timeColor','timeFormat','timeFont','dateSize','dateFont','dateColor','datePosition','dateFormat','background','overlay','messageEnabled','clockSeconds','messageSeconds','messageSize','messageColor','messageBackground','messageFont','messageAlign'];
@@ -61,7 +61,7 @@ $('messageSize').addEventListener('input',e=>$('messageSizeQuick').value=e.targe
 $('clearFormat').onclick=()=>runEdit('removeFormat');
 editor.addEventListener('paste',e=>{e.preventDefault();const text=e.clipboardData.getData('text/plain');document.execCommand('insertText',false,text.slice(0,500));unsavedChanges=true;preview()});
 $('previewClock').onclick=()=>{previewScreen='clock';preview()};$('previewMessage').onclick=()=>{previewScreen='message';preview()};
-async function load(){try{const c=await getRemote();fill(c);message('현재 LCD 설정을 불러왔습니다. 문자 교대: '+(c.messageEnabled?'사용':'미사용')+' / 시계 '+(c.clockSeconds||60)+'초 / 문자 '+(c.messageSeconds||15)+'초','ok')}catch(e){fill(DEFAULT);message('서버 연결 실패: '+e.message,'error')}}
+async function load(){try{if(typeof getRemote!=='function')throw Error('shared.js 로딩 실패');const c=await getRemote(12000);fill(c);message('현재 LCD 설정을 불러왔습니다. 문자 교대: '+(c.messageEnabled?'사용':'미사용')+' / 시계 '+(c.clockSeconds||60)+'초 / 문자 '+(c.messageSeconds||15)+'초','ok')}catch(e){message('서버 연결 실패: '+e.message+' · config.js 주소 및 Apps Script 배포를 확인하세요. 입력 내용은 유지합니다.','error')}}
 function sleep(t){return new Promise(r=>setTimeout(r,t))}
 function submitSaveForm(payload){
   // 일반 HTML form POST: 모바일 웨일/크롬에서 no-cors fetch보다 호환성이 높음
@@ -141,4 +141,6 @@ window.addEventListener('online',syncAdmin);
 $('save').onclick=save;$('load').onclick=load;$('clear').onclick=()=>{localStorage.removeItem('lcd_clock_admin_key');$('key').value='';$('remember').checked=false;message('관리자 키를 이 브라우저에서 지웠습니다.')};
 $('key').value=localStorage.getItem('lcd_clock_admin_key')||'';$('remember').checked=!!$('key').value;
 fill(DEFAULT);load();setInterval(preview,1000);
+window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'){message('필수 파일 로드 실패: '+(e.target.src||'')+' · GitHub ds 폴더와 배포 상태를 확인하세요.','error')}},true);
+
 </script></body></html>
