@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V29-20261103</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V31-20261103</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;color:#64748b;line-height:1.6}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}button:disabled{opacity:.5}.secondary{background:#e6edf6;color:#203452}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}#pvBg,#pvShade{position:absolute;inset:0}#pvBg{background-size:cover;background-position:center}#pvShade{background:#000}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}#pvDate{position:absolute;font-weight:700;white-space:nowrap}
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
 #pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
@@ -134,7 +134,7 @@ body.v16-message-mode #v13Panel{display:block!important}
 #clockBgControls select{width:155px}
 #clockBgControls input[type=color]{width:72px;height:42px;padding:3px}
 @media(max-width:600px){#v13Panel .v13row>label{min-width:80px}#v13Panel .v13row select{width:110px}}
-</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V29-20261103</small></h1><p>수정 후 저장하면 LCD에 반영됩니다.</p>
+</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V31-20261103</small></h1><p>수정 후 저장하면 LCD에 반영됩니다.</p>
 <section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div class="visual-preview-actions"><button type="button" id="previewBeforeSave">👁 저장 전 전체화면 미리보기</button><span>저장 전 실제 LCD 화면을 확인합니다.</span></div><p id="visualHelp">화면 선택 → 항목 편집 → 저장</p><h2>실시간 LCD 미리보기 (16:9)</h2><div id="preview"><div id="previewStage"><div id="pvBg"></div><div id="pvShade"></div><div id="pvTime"></div><div id="pvDate"></div><div id="pvMessage"></div><div id="v13Canvas"></div><div id="v22Guides"><div class="frame"></div><div class="safe"></div></div></div></div><p>편집용 구분선은 LCD에 표시되지 않습니다. <span id="previewMode">시계 화면</span></p></section>
 <section id="messageSection" class="legacy-panel"><h2>문자 전체화면 자동 교대</h2>
 <label><input type="checkbox" id="messageEnabled"> 시계와 문자 화면 번갈아 표시</label>
@@ -169,20 +169,38 @@ body.v16-message-mode #v13Panel{display:block!important}
 <section id="v13Panel" hidden><h2>문자 화면 직접 편집</h2><div class="v13row"><button type="button" id="v13Add">+ 텍스트 추가</button><button type="button" class="secondary" id="v13Delete">선택 삭제</button><button type="button" class="secondary" id="v13Edit">선택 문자 수정</button></div><p id="v13Help">상자 선택 · 드래그 이동 · 파란 손잡이로 너비 조절</p><label>선택한 문자 내용 (입력 즉시 위 화면에 반영)</label><div id="v16LiveHint" aria-live="polite">입력 즉시 반영</div><textarea id="v13TextInput" placeholder="문자를 입력하세요. Enter로 줄바꿈"></textarea><div class="v13row"><label>크기 <input type="number" id="v13Size" min="16" max="300" value="100"></label><label>상자 너비(px, 직접 입력 또는 오른쪽 손잡이) <input type="number" id="v13Width" min="100" max="1800" step="20" value="900"></label><label><input type="checkbox" id="v13Wrap" checked> 자동 줄바꿈</label><label>글자색 <input type="color" id="v13Color" value="#ffdd55"></label><label>글꼴 <select id="v13Font"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>정렬 <select id="v22Align"><option value="left">왼쪽</option><option value="center">가운데</option><option value="right">오른쪽</option></select></label><label><input type="checkbox" id="v13Bold"> 굵게</label><label><input type="checkbox" id="v13Under"> 밑줄</label></div><div class="v13row"><label>문자 화면 배경 <input type="color" id="v13Bg" value="#101827"></label><label>처음 표시 <select id="v13Start"><option value="clock">시계 화면</option><option value="message">문자 화면</option></select></label><label><input type="checkbox" id="v13Enabled"> 문자 자동 교대</label></div><div class="v13row" id="v25Transition"><label>전환 효과 <select id="transitionEffect"><option value="fade">부드럽게 페이드</option><option value="slide">페이드 + 위로 이동</option><option value="none">효과 없음</option></select></label><label>전환 속도 <select id="transitionDuration"><option value="300">빠르게 0.3초</option><option value="700">보통 0.7초</option><option value="1200">천천히 1.2초</option><option value="2000">아주 천천히 2초</option></select></label></div><div class="v13row"><label>시계(초) <input type="number" id="v13ClockSeconds" min="5" max="86400"></label><label>문자(초) <input type="number" id="v13MessageSeconds" min="3" max="3600"></label></div></section><section id="backgroundSection"><h2>시계 배경 설정</h2><div id="clockBgControls"><label>배경 종류<select id="clockBackgroundMode"><option value="image">이미지</option><option value="color">단색</option></select></label><label>배경 색상<input id="clockBackgroundColor" type="color" value="#17283b"></label></div><label>배경 이미지 파일명</label><input id="background" value="images/background.jpg"><p>배경 이미지는 GitHub의 <b>ds/images</b> 폴더에서 교체합니다. 같은 파일명으로 변경해도 LCD가 주기적으로 새로 읽습니다.</p><label>배경 어둡게 (%)</label><input id="overlay" type="range" min="0" max="70"><div class="buttons"><button id="images" class="secondary">GitHub 배경 폴더 열기</button></div></section>
 
 
-<section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?v=V29-20261103" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1&amp;v=V29-20261103" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p></section></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V29-20261103"></script><script src="shared.js?v=V29-20261103"></script><script>
+<section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?v=V31-20261103" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1&amp;v=V31-20261103" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V31-20261103"></script><script src="shared.js?v=V31-20261103"></script><script>
 const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
 let savedSelection=null;let lastPreviewMarkup="";let savingNow=false;let initialLoadComplete=false;
+// V31: one canonical signature for loaded and polled server configurations.
+function v31Normalize(c){
+ const o={clockBackgroundMode:'image',clockBackgroundColor:'#17283b',
+  transitionEffect:'fade',transitionDuration:700,...DEFAULT,...(c||{})};
+ if(!['image','color'].includes(o.clockBackgroundMode))o.clockBackgroundMode='image';
+ if(!/^#[0-9a-f]{6}$/i.test(String(o.clockBackgroundColor||'')))o.clockBackgroundColor='#17283b';
+ if(!['none','fade','slide'].includes(o.transitionEffect))o.transitionEffect='fade';
+ if(!Number.isFinite(Number(o.transitionDuration)))o.transitionDuration=700;
+ o.transitionDuration=Number(o.transitionDuration);
+ o.clockBackgroundColor=String(o.clockBackgroundColor).toLowerCase();
+ o.messageBlocks=Array.isArray(o.messageBlocks)?o.messageBlocks:[];
+ return o;
+}
+function v31Signature(config){
+ const x=v31Normalize(config);
+ // Stable key order also handles JSONP and Apps Script serialization differences.
+ const stable=v=>Array.isArray(v)?v.map(stable):v&&typeof v==='object'
+  ?Object.fromEntries(Object.keys(v).sort().map(k=>[k,stable(v[k])])):v;
+ return JSON.stringify(stable(x));
+}
+let v31LastWarningSignature='';
 const keys=['timeX','timeY','dateX','dateY','showTime','showDate','timeSize','timeColor','timeFormat','timeFont','dateSize','dateFont','dateColor','datePosition','dateFormat','background','clockBackgroundMode','clockBackgroundColor','overlay','messageEnabled','clockSeconds','messageSeconds','messageSize','messageColor','messageBackground','messageFont','messageAlign'];
 function readForm(){const x={...current};for(const k of keys){const el=$(k);if(!el)continue;x[k]=el.type==='checkbox'?el.checked:el.type==='number'||el.type==='range'?Number(el.value):el.value}x.messageHtml=safeMessageHtml($('messageEditor').innerHTML);x.messageText=$('messageEditor').innerText.slice(0,500);return x}
 function fill(c){
  // shared.js DEFAULT may not contain V23+ background fields. Never assign undefined
  // to a color input (which turns black) or select (which becomes empty).
- const safe={clockBackgroundMode:'image',clockBackgroundColor:'#17283b',
-  transitionEffect:'fade',transitionDuration:700,...DEFAULT,...(c||{})};
- if(!['image','color'].includes(safe.clockBackgroundMode))safe.clockBackgroundMode='image';
- if(!/^#[0-9a-f]{6}$/i.test(String(safe.clockBackgroundColor||'')))safe.clockBackgroundColor='#17283b';
- current=safe;lastRemoteSignature=JSON.stringify(current);lastPreviewMarkup='';unsavedChanges=false;
+ const safe=v31Normalize(c);
+ current=safe;lastRemoteSignature=v31Signature(safe);lastPreviewMarkup='';unsavedChanges=false;v31LastWarningSignature='';
  for(const k of keys){const el=$(k);if(!el)continue;
   if(el.type==='checkbox')el.checked=!!current[k];
   else if(current[k]!==undefined&&current[k]!==null)el.value=current[k];
@@ -244,7 +262,7 @@ for(const [id,selector] of Object.entries(quickMap)){
  el.onclick=()=>{const target=document.querySelector(selector);if(target)target.click()};
 }
 $('previewClock').onclick=()=>{previewScreen='clock';preview()};$('previewMessage').onclick=()=>{previewScreen='message';preview()};
-async function load(){try{if(typeof getRemote!=='function')throw Error('shared.js 로딩 실패');const c=await getRemote(12000);if(savingNow||unsavedChanges)return;fill(c);initialLoadComplete=true;message('현재 LCD 설정을 불러왔습니다. 문자 교대: '+(c.messageEnabled?'사용':'미사용')+' / 시계 '+(c.clockSeconds||60)+'초 / 문자 '+(c.messageSeconds||15)+'초','ok')}catch(e){message('서버 연결 실패: '+e.message+' · config.js 주소 및 Apps Script 배포를 확인하세요. 입력 내용은 유지합니다.','error')}}
+async function load(){try{if(typeof getRemote!=='function')throw Error('shared.js 로딩 실패');if(savingNow)return message('저장 확인 중에는 불러올 수 없습니다.','error');if(unsavedChanges&&!confirm('현재 편집 내용을 버리고 서버 설정을 다시 불러올까요?'))return;const c=await getRemote(12000);fill(c);initialLoadComplete=true;message('현재 LCD 설정을 불러왔습니다. 문자 교대: '+(c.messageEnabled?'사용':'미사용')+' / 시계 '+(c.clockSeconds||60)+'초 / 문자 '+(c.messageSeconds||15)+'초','ok')}catch(e){message('서버 연결 실패: '+e.message+' · config.js 주소 및 Apps Script 배포를 확인하세요. 입력 내용은 유지합니다.','error')}}
 function sleep(t){return new Promise(r=>setTimeout(r,t))}
 function submitSaveForm(payload){
   // 일반 HTML form POST: 모바일 웨일/크롬에서 no-cors fetch보다 호환성이 높음
@@ -320,53 +338,97 @@ function compareSavedSettingsV29(want,got){
  return differences;
 }
 
+// V30: Server-authoritative saving. A single snapshot is sent and compared.
+// One narrowly bounded recovery attempt is permitted only after the first
+// request has been confirmed saved with a matching request ID.
+function v30Diagnostic(text){
+ const box=$('saveDiagnostics'),out=$('saveDiagnosticText');
+ if(!box||!out)return;
+ box.style.display='block';out.textContent=text;
+}
+function v30Snapshot(){
+ const c=readForm();
+ // Read the authoritative controls directly, not a stale current/default value.
+ c.transitionEffect=['none','fade','slide'].includes($('transitionEffect').value)?$('transitionEffect').value:'fade';
+ c.transitionDuration=Number($('transitionDuration').value)||700;
+ c.clockBackgroundMode=['image','color'].includes($('clockBackgroundMode').value)?$('clockBackgroundMode').value:'image';
+ c.clockBackgroundColor=/^#[0-9a-f]{6}$/i.test($('clockBackgroundColor').value)?$('clockBackgroundColor').value:'#17283b';
+ return JSON.parse(JSON.stringify(c));
+}
+function v30RequestId(){return 'r'+Date.now()+'_'+Math.random().toString(36).slice(2,14)}
+async function v30WaitForVersion(requestId){
+ let lastError='';
+ for(let i=0;i<12;i++){
+  await sleep(i===0?800:1300);
+  try{
+   const state=await querySaveStatus(requestId,9000);
+   if(state&&state.state==='error')throw Error(state.error||'서버 저장 오류');
+   if(state&&state.state==='saved')return true;
+  }catch(e){
+   if(/관리자 키|다른 저장|저장 블록|검증 실패|불일치|지원하지 않는 요청/.test(e.message))throw e;
+   lastError=e.message;
+  }
+ }
+ try{const a=await getRemote(16000);if(String(a.version)===requestId)return true;}catch(e){lastError=e.message}
+ throw Error('저장 확인이 지연됩니다. 중복 저장 방지를 위해 자동 재전송하지 않았습니다.'+(lastError?' ('+lastError+')':''));
+}
+async function v30ReadVerified(requestId,want){
+ let last=null;
+ // A transient older GET response should not be classified as a failed save.
+ for(let i=0;i<4;i++){
+  if(i)await sleep(900);
+  const got=await getRemote(16000);
+  const problems=compareSavedSettingsV29(want,got);
+  if(String(got.version)!==requestId)problems.unshift('저장 버전 불일치 (요청 '+requestId+' / 조회 '+String(got.version||'없음')+')');
+  last={got,problems};
+  if(!problems.length)return last;
+ }
+ return last;
+}
+async function v30SendOnce(want,key){
+ const id=v30RequestId();
+ submitSaveForm({action:'save',adminKey:key,config:want,requestId:id});
+ await v30WaitForVersion(id);
+ const verified=await v30ReadVerified(id,want);
+ return {id,...verified};
+}
 async function save(){
  const key=$('key').value.trim();
  if(!apiReady())return message('config.js의 Apps Script /exec 주소를 확인하세요.','error');
  if(!key)return message('관리자 키를 입력하세요.','error');
  if(savingNow)return;
- if(!initialLoadComplete){message('서버 설정을 먼저 불러온 뒤 저장하세요.','error');return;}
- const config=readForm(),requestId='r'+Date.now()+'_'+Math.random().toString(36).slice(2,14);
+ if(!initialLoadComplete)return message('서버 설정을 먼저 불러온 뒤 저장하세요.','error');
+ const want=v30Snapshot();
+ // Invalid inputs cannot be silently clamped on the server.
+ if(!['none','fade','slide'].includes(want.transitionEffect))return message('전환 효과 선택값을 확인하세요.','error');
+ if(!['image','color'].includes(want.clockBackgroundMode))return message('시계 배경 종류를 선택하세요.','error');
  if($('remember').checked)localStorage.setItem('lcd_clock_admin_key',key);else localStorage.removeItem('lcd_clock_admin_key');
- savingNow=true;$('save').disabled=true;message('설정 저장 중...');
+ savingNow=true;$('save').disabled=true;
+ $('load').disabled=true;message('설정 저장 및 서버 확인 중...');
+ const diag=$('saveDiagnostics');if(diag)diag.style.display='none';
  try{
-  submitSaveForm({action:'save',adminKey:key,config,requestId});
-  let result=null;
-  for(let i=0;i<14;i++){
-   await sleep(1200);
-   try{
-    const state=await querySaveStatus(requestId);
-    if(state.state==='error')throw Error(state.error||'서버 저장 오류');
-    if(state.state==='saved'){result=state;break}
-   }catch(e){if(/관리자 키|서버 저장|다른 저장|권한|오류/.test(e.message))throw e}
+  let result=await v30SendOnce(want,key);
+  if(result.problems.length){
+   // Only retry after a positively acknowledged save; never retry an ambiguous POST.
+   // The first result might have been superseded by another concurrent device.
+   message('설정 불일치 감지 · 1회 자동 재확인/복구 중...','');
+   await sleep(750);
+   result=await v30SendOnce(want,key);
   }
-  if(!result){
-   // Cache 상태 확인이 안 되더라도 실제 저장 데이터 버전을 마지막으로 확인
-   try{const actual=await getRemote(16000);if(String(actual.version)===requestId)result={state:'saved'}}catch(_){}
+  if(result.problems.length){
+   v30Diagnostic('요청 버전: '+result.id+'\n차이: '+result.problems.join('\n')+'\n전송 설정: '+JSON.stringify({transitionEffect:want.transitionEffect,transitionDuration:want.transitionDuration,clockBackgroundMode:want.clockBackgroundMode,clockBackgroundColor:want.clockBackgroundColor},null,2)+'\n서버 설정: '+JSON.stringify({transitionEffect:result.got.transitionEffect,transitionDuration:result.got.transitionDuration,clockBackgroundMode:result.got.clockBackgroundMode,clockBackgroundColor:result.got.clockBackgroundColor},null,2));
+   message('저장은 접수됐지만 서버에서 다른 설정값을 반환했습니다: '+result.problems.slice(0,5).join(' / ')+' · 아래 저장 진단을 확인하세요.','error');
+   return;
   }
-  if(result){
-   const actual=await getRemote(16000);
-   // V29: Compare the values the server actually persists, with normalized types.
-   // The V27 server supplies defaults for older configurations; absent optional
-   // coordinates are equivalent to null and CSS hex colors are case insensitive.
-   const differences=compareSavedSettingsV29(config,actual);
-   if(String(actual.version||'')!==requestId){
-     differences.unshift('저장 버전 불일치 (요청 '+requestId+' / 서버 '+String(actual.version||'없음')+')');
-   }
-   if(differences.length){
-     message('서버 저장 검증 실패: '+differences.slice(0,10).join(' / ')+
-       ' · 서버가 반환한 값과 입력값을 비교했습니다. 저장된 값을 다시 불러오기 전에 확인하세요.','error');
-     return;
-   }
-   fill(actual);lastRemoteSignature=JSON.stringify({...DEFAULT,...actual});unsavedChanges=false;
-   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-   if(lcdLink)lcdLink.href='main.html?v='+encodeURIComponent('V29-20261103')+'&saved='+encodeURIComponent(actual.version||'');
-   message('✓ 시계·날짜 위치와 크기, 문자 상자까지 서버 저장 확인 완료 · LCD에 자동 반영됩니다.','ok');
-  }else{
-   message('저장 결과가 지연되고 있습니다. 중복 저장하지 말고 「현재 설정 다시 불러오기」를 눌러 확인하세요.','error');
-  }
- }catch(e){message('저장 실패: '+e.message,'error')}
- finally{savingNow=false;$('save').disabled=false}
+  const editingChanged=JSON.stringify(v30Snapshot())!==JSON.stringify(want);
+  fill(result.got);
+  const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
+  if(lcdLink)lcdLink.href='main.html?v=V31-20261103&saved='+encodeURIComponent(result.got.version||'');
+  message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
+ }catch(e){
+  message('저장 확인 실패: '+e.message+' · 입력 내용은 유지합니다.','error');
+  v30Diagnostic(e.message+'\n전송 예정 설정: '+JSON.stringify({transitionEffect:want.transitionEffect,transitionDuration:want.transitionDuration,clockBackgroundMode:want.clockBackgroundMode,clockBackgroundColor:want.clockBackgroundColor},null,2));
+ }finally{savingNow=false;$('save').disabled=false;$('load').disabled=false;}
 }
 async function syncAdmin(){
  if(adminSyncRunning||savingNow||!initialLoadComplete||document.hidden)return;
@@ -374,10 +436,18 @@ async function syncAdmin(){
  try{
   const c=await getRemote(15000);
   if(savingNow)return;
-  const signature=JSON.stringify({...DEFAULT,...c});
+  const signature=v31Signature(c);
   if(signature!==lastRemoteSignature){
-   if(unsavedChanges){message('다른 기기에서 설정이 변경되었습니다. 현재 편집 내용을 유지합니다. 최신 설정을 보려면 「현재 설정 다시 불러오기」를 누르세요.','error')}
-   else{fill(c);message('다른 기기의 변경사항을 자동 동기화했습니다.','ok')}
+   if(unsavedChanges){
+    // Warn once per actual remote revision; never replace in-progress local edits.
+    if(v31LastWarningSignature!==signature){
+     v31LastWarningSignature=signature;
+     message('서버 설정이 변경되었습니다. 현재 편집 내용은 유지합니다. 서버 설정을 적용하려면 「현재 설정 다시 불러오기」를 누르세요.','error');
+    }
+   } else {
+    fill(c);
+    message('최신 서버 설정으로 자동 동기화했습니다.','ok');
+   }
   }
  }catch(e){/* 기존 입력을 유지하고 수동 불러오기에서 오류를 안내 */}
  finally{adminSyncRunning=false}
@@ -551,7 +621,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V29-20261103';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V31-20261103';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
