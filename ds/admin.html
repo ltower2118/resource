@@ -92,7 +92,7 @@ html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;over
 #v13Width{width:90px}#v13Wrap{width:auto}#v13TextInput{width:100%;min-height:75px;padding:10px;border:1px solid #ccd7e4;border-radius:8px;font-size:17px;resize:vertical}
 #v13Start{width:auto}#v13Help{font-size:12px;color:#61748a}
 @media(max-width:600px){#v13Panel{padding:10px}#v13Panel button{padding:9px 11px}#v13Panel .v13row{gap:5px}}
-<style id="v15ResizeStyle">
+</style><style id="v15ResizeStyle">
 #v13Canvas .v13block{box-sizing:border-box;overflow:visible!important}
 #v13Canvas .v13block.selected{border-color:#5ce6ff}
 #v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007}
@@ -150,7 +150,7 @@ body.v16-message-mode #v13Panel{display:block!important}
 
 
 <section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p></section></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=20261102-editor-v5"></script><script src="shared.js?v=20261102-editor-v5"></script><script>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=20261103-v20"></script><script src="shared.js?v=20261103-v20"></script><script>
 const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
 let savedSelection=null;let lastPreviewMarkup="";
 const keys=['timeX','timeY','dateX','dateY','showTime','showDate','timeSize','timeColor','timeFormat','timeFont','dateSize','dateFont','dateColor','datePosition','dateFormat','background','overlay','messageEnabled','clockSeconds','messageSeconds','messageSize','messageColor','messageBackground','messageFont','messageAlign'];
@@ -275,11 +275,20 @@ async function save(){
   if(result){
    const actual=await getRemote(16000);
    const differences=compareSavedBlocksV18(config.messageBlocks,actual.messageBlocks);
+   for(const k of ['timeX','timeY','dateX','dateY','timeSize','dateSize']){
+     const want=config[k],got=actual[k];
+     if(want==null&&got==null)continue;
+     if(got==null||!Number.isFinite(Number(got))||Math.abs(Number(want)-Number(got))>0.02)
+       differences.push(k+' (요청 '+want+' / 서버 '+got+')');
+   }
+   for(const k of ['timeColor','dateColor','timeFont','dateFont','showTime','showDate']){
+     if(String(config[k])!==String(actual[k]))differences.push(k+' 값 불일치');
+   }
    if(String(actual.version||'')!==requestId || differences.length || String(actual.startScreen||'clock')!==String(config.startScreen||'clock')){
      message('서버 저장 검증 실패: '+(differences.length?differences.join(' / '):'버전 또는 시작화면 불일치')+' · 기존 웹앱을 최신 Code.gs로 재배포했는지 확인하세요.','error');return;
    }
    fill(actual);lastRemoteSignature=JSON.stringify({...DEFAULT,...actual});unsavedChanges=false;
-   message('✓ 문자 서식·정렬까지 저장 확인 완료 · LCD에 자동 반영됩니다.','ok');
+   message('✓ 시계·날짜 위치와 크기, 문자 상자까지 서버 저장 확인 완료 · LCD에 자동 반영됩니다.','ok');
   }else{
    message('저장 결과가 지연되고 있습니다. 중복 저장하지 말고 「현재 설정 다시 불러오기」를 눌러 확인하세요.','error');
   }
