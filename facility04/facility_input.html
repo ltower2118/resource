@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>작업(공사) 보고서 입력 V13</title>
+<title>작업(공사) 보고서 입력 V14</title>
 <style>
 :root{--ink:#1c2530;--paper:#f6f4ee;--line:#cfc9bb;--amber:#e2a63b;--steel:#6b7785;--ok:#3f7d68;--bad:#c1443c;}
 *{box-sizing:border-box}body{margin:0;background:#e8ecf3;font-family:"Malgun Gothic","맑은 고딕",Arial,sans-serif;color:var(--ink)}
@@ -183,7 +183,7 @@
   }
 }
 
-/* V13: distinct photo/description item cards */
+/* V14: distinct photo/description item cards */
 .item-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:16px 12px 22px;border:0;background:#eef2f8}
 .item-card{min-width:0;border:2px solid #aabbd2!important;border-radius:13px;overflow:hidden;background:#fff;box-shadow:0 4px 12px rgba(20,42,77,.12)}
 .item-card-header{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#18317a;color:#fff;padding:11px 13px;font-size:15px;font-weight:800}
@@ -196,7 +196,7 @@
 .item-card .photo-actions{width:100%}
 @media(max-width:600px){.item-grid{grid-template-columns:1fr;gap:16px;padding:12px 10px 20px}.item-card .photo-box{height:220px;min-height:220px}}
 
-/* V13: report-width, single-column item cards and natural image proportions */
+/* V14: report-width, single-column item cards and natural image proportions */
 .item-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20px!important;padding:14px 0 22px!important;background:transparent!important}
 .item-card{width:100%!important;max-width:100%!important;min-width:0!important}
 .item-card .photo-box{height:auto!important;min-height:200px!important;max-height:none!important;display:flex;align-items:center;justify-content:center;background:#f5f7fa;overflow:hidden}
@@ -213,7 +213,7 @@
 .photo-lightbox-actions button{padding:12px 20px;background:#fff;color:#17283b;border:0;border-radius:9px;font-weight:700;cursor:pointer}
 @media(max-width:600px){.item-grid{padding:10px 0 18px!important;gap:16px!important}.item-card .photo-box img{max-height:75vh!important}.item-card .photo-box:has(.photo-actions){min-height:180px!important}}
 
-/* V13: Galaxy S Pen direct photo annotation */
+/* V14: Galaxy S Pen direct photo annotation */
 .pen-editor[hidden]{display:none!important}
 .pen-editor{position:fixed;inset:0;z-index:100005;background:#0b1220;color:#fff;display:flex;flex-direction:column;overflow:hidden}
 .pen-toolbar{flex:none;display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;padding:9px;background:#172a48}
@@ -241,7 +241,7 @@
 
   <!--구글시트연결-파일명: 점검기록_report파일 -->
 <div class="app">
-  <header class="head"><h1>작업(공사) 보고서 입력 V13</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
+  <header class="head"><h1>작업(공사) 보고서 입력 V14</h1><p>사진(항목당 최대 2장) + 설명을 입력하고 report 폴더에 Google 시트 파일로 저장합니다.</p></header>
   <div class="edit-banner" id="editBanner">기존 보고서를 수정하는 중입니다. 내용/이미지 변경 후 수정 저장하면 같은 Google 시트 파일에 최신 내용이 반영되고, 교체된 기존 이미지는 image 폴더에서 삭제됩니다.</div>
 
   <section class="panel">
@@ -324,7 +324,7 @@
 
 <script>
 const WEBAPP_URL='https://script.google.com/macros/s/AKfycbxs4hyRdLH2tLG6Aams9Yx6Skd0_hUsaknfqbVVosVlyL-R6JFfx-vypo0bCAAbrGRv/exec';
-const REQUIRED_BACKEND_VERSION='2.9.7-FACILITY-V13';
+const REQUIRED_BACKEND_VERSION='2.9.8-FACILITY-V14';
 
 const PAGE_PARAMS=new URLSearchParams(location.search);
 const EDIT_REPORT_ID=PAGE_PARAMS.get('edit')||'';
@@ -562,7 +562,7 @@ function initializeBlankReport(){
     mainSaveBtn.textContent='구글시트로 저장';
   }
 
-  document.title='작업(공사) 보고서 입력 V13';
+  document.title='작업(공사) 보고서 입력 V14';
 
   items=[];
   nextId=1;
@@ -668,7 +668,7 @@ async function loadReportForEdit(){
   const saveBtn=document.getElementById('saveBtn');
   if(saveBtn)saveBtn.textContent='수정 저장';
 
-  document.title='작업(공사) 보고서 수정 V13';
+  document.title='작업(공사) 보고서 수정 V14';
 
   showStatus('기존 보고서를 불러왔습니다. 수정 후 "수정 저장"을 누르세요.','ok');
   hideBusy();
@@ -700,7 +700,7 @@ function openNewReportPageFromEditCancel(){
   const saveBtn=document.getElementById('saveBtn');
   if(saveBtn) saveBtn.textContent='구글시트로 저장';
 
-  document.title='작업(공사) 보고서 입력 V13';
+  document.title='작업(공사) 보고서 입력 V14';
 
   try{
     const u=new URL(location.href);
@@ -809,7 +809,7 @@ async function initializeDraftSystem(){
         saveBtn.textContent='구글시트로 저장';
       }
 
-      document.title='작업(공사) 보고서 입력 V13';
+      document.title='작업(공사) 보고서 입력 V14';
 
       try{
         const u=new URL(location.href);
@@ -1504,6 +1504,21 @@ async function saveReport(){
     return;
   }
 
+  // Before an update, verify the deployed backend really supports this version.
+  // An older deployment may silently lack updateReport even when source Code.gs is new.
+  if(isEditing){
+    try{
+      const check=await fetch(WEBAPP_URL+'?action=health&_='+Date.now(),{cache:'no-store',redirect:'follow'});
+      const health=await check.json();
+      if(health.version!==REQUIRED_BACKEND_VERSION){
+        showStatus('수정 저장 중지: 연결된 Apps Script 서버는 '+(health.version||'버전 미확인')+' / 필요한 버전 '+REQUIRED_BACKEND_VERSION+' 입니다. Code.gs를 이 URL의 기존 웹앱 배포에서 새 버전으로 재배포하세요.','err');
+        focusSaveStatus();return;
+      }
+    }catch(e){
+      showStatus('수정 저장 중지: 서버 버전을 확인하지 못했습니다. 기존 보고서 중복 생성을 막기 위해 저장을 중지합니다. '+e.message,'err');
+      focusSaveStatus();return;
+    }
+  }
   btn.disabled=true;
   btn.classList.remove('saved');
   btn.classList.add('saving');
@@ -1623,7 +1638,7 @@ async function saveReport(){
 }
 
 
-// V13: 한 번 클릭하면 운영체제의 기본 사진/파일 선택기를 바로 엽니다.
+// V14: 한 번 클릭하면 운영체제의 기본 사진/파일 선택기를 바로 엽니다.
 // 모바일 브라우저에 따라 카메라/갤러리/파일 선택 항목은 다르게 표시됩니다.
 function openPhotoPicker(id){
   const input=document.getElementById('gallery-'+Number(id));
@@ -1632,7 +1647,7 @@ function openPhotoPicker(id){
   input.click();
 }
 
-// V13: enlarged photo view and direct replacement using the existing file picker.
+// V14: enlarged photo view and direct replacement using the existing file picker.
 let lightboxItemId=null;
 function openPhotoLightbox(id){
   const it=items.find(x=>x.id===id);
@@ -1662,7 +1677,7 @@ document.addEventListener('keydown',e=>{
 });
 
 
-// V13: In-page Galaxy S Pen drawing (Pointer Events, pressure-sensitive).
+// V14: In-page Galaxy S Pen drawing (Pointer Events, pressure-sensitive).
 let penItemId=null, penBase=null, penHistory=[],penFuture=[],penMode='draw',penPointer=null;
 const penCanvas=document.getElementById('penCanvas');
 const penCtx=penCanvas.getContext('2d',{willReadFrequently:false});
@@ -1683,7 +1698,9 @@ function fetchPenOriginalPhoto(reportId,photoId){
  });
 }
 async function openPenEditor(id){
- const it=items.find(x=>x.id===id);if(!it||!it.photo)return;
+ const it=items.find(x=>x.id===id);
+ if(!it||!it.photo){alert('먼저 사진을 선택해 주세요.');return;}
+ showBusy('S펜 사진 편집 준비 중...', '사진을 읽고 편집 화면을 열고 있습니다.');
  try{
   let source=it.photo;
   if(!source.startsWith('data:image/') && it.photoId && originalReportId){
@@ -1700,7 +1717,10 @@ async function openPenEditor(id){
   try{penSnapshot()}catch(e){throw Error('Drive 사진은 브라우저 보안으로 직접 필기할 수 없습니다. 사진 변경으로 기기에서 다시 선택한 뒤 필기하세요.');}
   penItemId=id;penBase=penSnapshot();penHistory=[penBase];penFuture=[];
   closePhotoLightbox();document.getElementById('penEditor').hidden=false;penSetMode('draw');
- }catch(e){showStatus('사진 필기 시작 실패: '+e.message,'err');}
+ }catch(e){
+  showStatus('사진 필기 시작 실패: '+e.message,'err');
+  alert('S펜 편집을 열 수 없습니다.\n'+e.message);
+ }finally{hideBusy();}
 }
 function closePenEditor(){document.getElementById('penEditor').hidden=true;penPointer=null;penItemId=null;}
 function penPoint(e){const r=penCanvas.getBoundingClientRect();return {x:(e.clientX-r.left)*penCanvas.width/r.width,y:(e.clientY-r.top)*penCanvas.height/r.height};}
