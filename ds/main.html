@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V33-20261104</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V35-20261104</title><style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif}#bg,#shade{position:fixed;inset:0}#bg{background-size:cover;background-position:center;background-repeat:no-repeat}#shade{background:#000;pointer-events:none}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a}.center{top:66%;left:50%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer}body:hover #full,#full:focus{opacity:1}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10}
 #messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box}#messageScreen.active{display:flex}#messageScreen b,#messageScreen strong{font-weight:900}#messageScreen u{text-decoration:underline}#messageScreen mark{background:#fff176;color:#111}
 #boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease}
@@ -52,7 +52,7 @@ body[data-lcd-screen="weather"] #messageScreen,body[data-lcd-screen="weather"] #
 body[data-lcd-screen="message"] #clockWeather,body[data-lcd-screen="weather"] #clockWeather{opacity:0!important}
 body[data-lcd-effect="none"] #weatherScreen,body[data-lcd-effect="none"] #clockWeather{transition:none!important}
 @media(prefers-reduced-motion:reduce){#weatherScreen,#clockWeather{transition:none!important}}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V33-20261104</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V35-20261104</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
  if(e.target && e.target.tagName==='SCRIPT'){
@@ -61,7 +61,7 @@ window.addEventListener('error',function(e){
    if(b)b.style.display='none';
  }
 },true);
-</script><script src="config.js?v=20261104-v33"></script><script src="shared.js?v=20261104-v33"></script><script>
+</script><script src="config.js?v=20261104-v35"></script><script src="shared.js?v=20261104-v35"></script><script>
 const $=id=>document.getElementById(id);let wxData=null;let wxLast=0;let wxPending=false;let wxError='';let wxCachedLocation='';let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;const previewMode=new URLSearchParams(location.search).get('preview')==='1';let previewOverride=null;let previewScreen='clock';document.body.dataset.lcdScreen='clock';document.body.dataset.lcdEffect='none';
 
 function positionObjects(){
@@ -122,12 +122,12 @@ function renderScreen(){
  renderWeather();
 }
 function weatherEmoji(code){if([1000].includes(code))return '☀️';if([1003].includes(code))return '🌤️';if([1006,1009].includes(code))return '☁️';if([1030,1135,1147].includes(code))return '🌫️';if([1063,1150,1153,1180,1183,1186,1189,1192,1195,1240,1243,1246].includes(code))return '🌧️';if([1066,1069,1114,1117,1210,1213,1216,1219,1222,1225,1255,1258].includes(code))return '❄️';if([1087,1273,1276,1279,1282].includes(code))return '⛈️';return '🌥️'}
-function safeNum(v,unit){return Number.isFinite(Number(v))?Math.round(Number(v)*10)/10+unit:'정보 없음'}
+function safeNum(v,unit){return v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))?Math.round(Number(v)*10)/10+unit:'정보 없음'}
 function renderWeather(){
  const fields=Array.isArray(config.weatherFields)?config.weatherFields:['temp','condition','humidity'];
  const clock=$('clockWeather'),page=$('weatherScreen');
  clock.classList.toggle('weather-on',!!config.weatherOnClock);
- if(!wxData){const msg=wxError||'날씨 정보 연결 중…';page.textContent=msg;clock.textContent=msg;return}
+ if(!weatherPayloadValidV35(wxData)){const msg=wxError||'날씨 데이터 확인 중…';page.textContent=msg;clock.textContent=msg;return}
  const w=wxData;
  const vals={temp:safeNum(w.temperature,'°C'),condition:w.condition||'정보 없음',feelslike:'체감 '+safeNum(w.feelsLike,'°C'),humidity:'습도 '+safeNum(w.humidity,'%'),wind:'풍속 '+safeNum(w.windKph,'km/h')};
  const picked=fields.map(k=>vals[k]).filter(Boolean);
@@ -146,21 +146,62 @@ function renderWeather(){
  add('wx-extra',fields.filter(k=>!['temp','condition'].includes(k)).map(k=>vals[k]).join('    ·    '));
  add('wx-foot','WeatherAPI.com · '+(stale?'이전 정보 · ':'')+'갱신 '+date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}));
 }
-function refreshWeather(force=false){
+// V35: Verify the complete weather payload before accepting it or caching it.
+function weatherPayloadValidV35(d){
+ return !!(d&&d.ok===true&&d.temperature!==null&&d.temperature!==undefined&&d.temperature!==''&&
+  Number.isFinite(Number(d.temperature))&&typeof d.condition==='string'&&d.condition.trim()!==''&&
+  d.humidity!==null&&d.humidity!==undefined&&Number.isFinite(Number(d.humidity)));
+}
+function weatherJsonpV35(action,timeoutMs=16000){
+ return new Promise((resolve,reject)=>{
+  const callback='lcdWxV35_'+Math.random().toString(36).slice(2);
+  const script=document.createElement('script');let done=false;
+  const timer=setTimeout(()=>finish(new Error(action+' 응답 시간 초과')),timeoutMs);
+  function finish(error,data){if(done)return;done=true;clearTimeout(timer);try{delete window[callback]}catch(_){}script.remove();error?reject(error):resolve(data)}
+  window[callback]=d=>finish(null,d);
+  script.onerror=()=>finish(new Error(action+' 서버 연결 실패'));
+  try{
+   const endpoint=String(apiUrl()||'');
+   if(!/^https:\/\//i.test(endpoint))throw new Error('config.js 웹앱 주소가 올바르지 않습니다.');
+   const url=new URL(endpoint,location.href);
+   url.searchParams.set('action',action);url.searchParams.set('callback',callback);
+   url.searchParams.set('_',String(Date.now()));
+   script.src=url.toString();document.head.appendChild(script);
+  }catch(e){finish(e)}
+ });
+}
+async function refreshWeather(force=false){
  if(wxPending||!(config.weatherPageEnabled||config.weatherOnClock))return;
  if(!force&&Date.now()-wxLast<10*60*1000)return;
  wxPending=true;wxLast=Date.now();
- const callback='lcdWeatherV33_'+Math.random().toString(36).slice(2);
- const script=document.createElement('script');let done=false;
- const timer=setTimeout(()=>finish('날씨 응답 시간 초과'),18000);
- function finish(error,data){if(done)return;done=true;clearTimeout(timer);delete window[callback];script.remove();wxPending=false;
-  if(data&&data.ok){wxData=data;wxError='';try{localStorage.setItem('lcd_weather_v33',JSON.stringify({...data,queryCity:config.weatherCity}))}catch(_){}}else {wxError=error||(data&&data.error)||'날씨 확인 불가';wxLast=Date.now()-9*60*1000;}renderWeather();}
- window[callback]=data=>finish('',data);
- script.onerror=()=>finish('날씨 서버 연결 실패');
- script.src=apiUrl()+'?action=weather&callback='+callback+'&_='+Date.now();
- document.head.appendChild(script);
+ let error='';
+ try{
+  // Fast cached endpoint first, then independent diagnosis endpoint if the
+  // returned payload is incomplete. Never display an ok:true placeholder.
+  let w=null;
+  try{w=await weatherJsonpV35('weather');}
+  catch(e){error='weather 요청 실패: '+String(e&&e.message||e);}
+  if(!weatherPayloadValidV35(w)){
+   if(!error)error='weather 응답 불완전: '+(w&&w.error||'기온/상태/습도 누락');
+   w=await weatherJsonpV35('weatherCheck');
+  }
+  if(!weatherPayloadValidV35(w)){
+   throw new Error(error+' / weatherCheck: '+(w&&w.error||'기온/상태/습도 누락'));
+  }
+  wxData=w;wxError='';
+  try{localStorage.setItem('lcd_weather_v35',JSON.stringify({...w,queryCity:config.weatherCity,cachedAt:Date.now()}));}catch(_){}
+ }catch(e){
+  wxError='날씨 조회 실패: '+String(e&&e.message||e);
+  // Retain only a known-good cached reading. Retry in 60 seconds.
+  wxLast=Date.now()-9*60*1000;
+ }finally{wxPending=false;renderWeather();}
 }
-try{const stored=JSON.parse(localStorage.getItem('lcd_weather_v33')||'null');if(stored&&stored.ok&&(!stored.queryCity||stored.queryCity===config.weatherCity))wxData=stored}catch(_){}
+try{
+ const stored=JSON.parse(localStorage.getItem('lcd_weather_v35')||'null');
+ if(weatherPayloadValidV35(stored)&&stored.queryCity===config.weatherCity&&
+   Number.isFinite(Number(stored.cachedAt))&&Date.now()-Number(stored.cachedAt)<2*60*60*1000)
+  wxData=stored;
+}catch(_){}
 function renderBlocks(){
  const layer=$('messageBlocks');if(!layer)return;
  const blocks=Array.isArray(config.messageBlocks)?config.messageBlocks:[];
