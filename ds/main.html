@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V41-20261104</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V42-20261104</title><style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif}#bg,#shade{position:fixed;inset:0}#bg{background-size:cover;background-position:center;background-repeat:no-repeat}#shade{background:#000;pointer-events:none}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a}.center{top:66%;left:50%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer}body:hover #full,#full:focus{opacity:1}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10}
 #messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box}#messageScreen.active{display:flex}#messageScreen b,#messageScreen strong{font-weight:900}#messageScreen u{text-decoration:underline}#messageScreen mark{background:#fff176;color:#111}
 #boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease}
@@ -58,7 +58,7 @@ body[data-lcd-effect="none"] #weatherScreen,body[data-lcd-effect="none"] #clockW
 body.wx-debug-v40 #wxDebugV40{display:block!important}
 html:fullscreen #wxDebugV40,body:fullscreen #wxDebugV40{display:block!important}
 body.wx-test-v40 #versionTag{display:block!important;z-index:999998}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V41-20261104</div><div id="wxDebugV40" role="status">V41 날씨 진단 시작
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V42-20261104</div><div id="wxDebugV40" role="status">V42 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -110,7 +110,7 @@ window.addEventListener('error',function(e){
   if(!done)finish(false,'초기 비동기 오류: '+String(e.reason&&e.reason.message||e.reason));
  });
 })();
-</script><script src="config.js?v=20261104-v41"></script><script src="shared.js?v=20261104-v41"></script><script>
+</script><script src="config.js?v=20261104-v42"></script><script src="shared.js?v=20261104-v42"></script><script>
 const $=id=>document.getElementById(id);let wxData=null;let wxLast=0;let wxPending=false;let wxError='';let wxCachedLocation='';let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;const previewMode=new URLSearchParams(location.search).get('preview')==='1';let previewOverride=null;let previewScreen='clock';document.body.dataset.lcdScreen='clock';document.body.dataset.lcdEffect='none';
 
 function positionObjects(){
@@ -133,7 +133,7 @@ function fitLayout(){
 }
 window.addEventListener('resize',fitLayout);
 window.addEventListener('orientationchange',()=>setTimeout(fitLayout,150));
-function apply(c){const oldCity=config.weatherCity;config={...DEFAULT,...c};if(new URLSearchParams(location.search).has('weatherTest')){config.weatherPageEnabled=true;config.weatherOnClock=true;config.clockPageEnabled=false;config.messageEnabled=false;}if(window.wxDebugShowV40)window.wxDebugShowV40('서버 설정 수신 완료\n날씨 페이지: '+(config.weatherPageEnabled?'켜짐':'꺼짐')+' / 시계 날씨: '+(config.weatherOnClock?'켜짐':'꺼짐')+'\n지역: '+(config.weatherCity||'Seoul')+'\n날씨 요청 준비 중');if(config.weatherCity!==oldCity){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw();fitLayout()}
+function apply(c){const oldCity=config.weatherCity;config={...DEFAULT,...c};if(new URLSearchParams(location.search).has('weatherTest')){config.weatherPageEnabled=true;config.weatherOnClock=true;config.clockPageEnabled=false;config.messageEnabled=false;}if(window.wxDebugShowV40)window.wxDebugShowV40('서버 설정 수신 완료\n날씨 페이지: '+(config.weatherPageEnabled?'켜짐':'꺼짐')+' / 시계 날씨: '+(config.weatherOnClock?'켜짐':'꺼짐')+'\n지역: '+(config.weatherCity||'Seoul')+'\n날씨 요청 준비 중');if(config.weatherCity!==oldCity){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}if(!wxData)wxRestoreCacheV37();document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw();fitLayout()}
 function activePages(){
  const pages=[];
  if(config.clockPageEnabled!==false)pages.push('clock');
@@ -202,7 +202,7 @@ function weatherPayloadValidV35(d){
    Number.isFinite(Number(d.temperature)) && typeof d.condition==='string' && d.condition.trim()!=='' &&
    d.humidity!==null && d.humidity!==undefined && d.humidity!=='' && Number.isFinite(Number(d.humidity)));
 }
-const WX_CACHE_KEY_V37='lcd_weather_v40';
+const WX_CACHE_KEY_V37='lcd_weather_v42';
 let wxFailuresV36=0,wxLastDetailV36='',wxLastGoodAtV36=0;
 let wxFlightV37=0,wxStartedV37=0,wxNextV37=0;
 let wxRequestCountV40=0,wxLastResponseV40='대기',wxLastEndpointV40='';
@@ -246,6 +246,7 @@ function weatherJsonpV40(action,timeoutMs=12000){
   }catch(e){finish(e)}
  });
 }
+function wxRefreshMsV42(){const n=Number(config.weatherRefreshMinutes);return ([5,10,15,30].includes(n)?n:15)*60000;}
 async function refreshWeather(force=false){
  if(forceOffline||previewMode||!(config.weatherPageEnabled||config.weatherOnClock))return;
  if(wxPending)return;
@@ -262,7 +263,7 @@ async function refreshWeather(force=false){
    throw Error('날씨 응답 오류: '+detail);
   }
   wxAcceptV36(result);
-  wxNextV37=Date.now()+10*60*1000;
+  wxNextV37=Date.now()+wxRefreshMsV42();
  }catch(e){
   if(flight!==wxFlightV37)return;
   wxFailuresV36++;
@@ -285,7 +286,7 @@ function wxRestoreCacheV37(){
   const d=JSON.parse(localStorage.getItem(WX_CACHE_KEY_V37)||'null');
   if(weatherPayloadValidV35(d)&&d.queryCity===(config.weatherCity||'Seoul')&&
      Number.isFinite(Number(d.cachedAt))&&Date.now()-Number(d.cachedAt)<6*3600000){
-   wxData=d;wxLastGoodAtV36=Number(d.cachedAt);wxLastResponseV40='저장된 날씨 표시';renderWeather();
+   wxData=d;wxLastGoodAtV36=Number(d.cachedAt);wxLast=Number(d.cachedAt);wxNextV37=Math.max(wxNextV37,Number(d.cachedAt)+wxRefreshMsV42());wxLastResponseV40='저장된 날씨 표시';renderWeather();
   }
  }catch(_){}
 }
