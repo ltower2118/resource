@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V33-20261104</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V39-20261104</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;color:#64748b;line-height:1.6}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}button:disabled{opacity:.5}.secondary{background:#e6edf6;color:#203452}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}#pvBg,#pvShade{position:absolute;inset:0}#pvBg{background-size:cover;background-position:center}#pvShade{background:#000}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}#pvDate{position:absolute;font-weight:700;white-space:nowrap}
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
 #pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
@@ -147,7 +147,7 @@ body.v16-message-mode #v13Panel{display:block!important}
 #v33DisplayPanel label{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;margin:0;padding:9px;background:#f5f8fd;border-radius:7px;cursor:pointer}
 #v33DisplayPanel input[type=radio]{width:auto;accent-color:#18317a;margin:0}
 @media(max-width:600px){#v33DisplayPanel .v33modegrid{grid-template-columns:1fr}}
-#weatherSection .v33grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px;margin:12px 0}#weatherSection .v33grid label{margin:4px 0}#weatherSection input[type=checkbox]{vertical-align:middle}#weatherSection hr{opacity:.8}</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V33-20261104</small></h1><p>시간·날짜 표시 형식을 선택하고 수정 후 저장하면 LCD에 반영됩니다.</p>
+#weatherSection .v33grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px;margin:12px 0}#weatherSection .v33grid label{margin:4px 0}#weatherSection input[type=checkbox]{vertical-align:middle}#weatherSection hr{opacity:.8}</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V39-20261104</small></h1><p>시간·날짜 표시 형식을 선택하고 수정 후 저장하면 LCD에 반영됩니다.</p>
 <section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  <strong>시계 · 날짜 표시 선택</strong>
@@ -218,8 +218,8 @@ body.v16-message-mode #v13Panel{display:block!important}
 <p>지역은 영문 지명 또는 위도,경도를 권장합니다. WeatherAPI 키는 여기 입력하지 않고 Apps Script의 비공개 스크립트 속성 <b>WEATHERAPI_KEY</b>에 등록합니다.</p>
 <label>표시할 날씨 항목</label><div class="v33grid" id="weatherFields"><label><input type="checkbox" data-weather="temp" checked> 현재 기온</label><label><input type="checkbox" data-weather="condition" checked> 날씨 상태</label><label><input type="checkbox" data-weather="feelslike"> 체감온도</label><label><input type="checkbox" data-weather="humidity" checked> 습도</label><label><input type="checkbox" data-weather="wind"> 풍속</label></div>
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="v33PreviewWeather">날씨 전용 페이지 미리보기</button><button type="button" class="secondary" id="v33PreviewClock">날짜·시간 미리보기</button><button type="button" class="secondary" id="v33PreviewMessage">문자 미리보기</button></div>
-<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?v=V33-20261104" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1&amp;v=V33-20261104" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V33-20261104"></script><script src="shared.js?v=V33-20261104"></script><script>
+<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?v=V39-20261104" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1&amp;v=V39-20261104" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V39-20261104"></script><script src="shared.js?v=V39-20261104"></script><script>
 const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
 let savedSelection=null;let lastPreviewMarkup="";let savingNow=false;let initialLoadComplete=false;
 // V31: one canonical signature for loaded and polled server configurations.
@@ -472,7 +472,7 @@ async function save(){
   const editingChanged=JSON.stringify(v30Snapshot())!==JSON.stringify(want);
   fill(result.got);
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V33-20261104&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V39-20261104&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 확인 실패: '+e.message+' · 입력 내용은 유지합니다.','error');
@@ -671,7 +671,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V33-20261104';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V39-20261104';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -933,6 +933,88 @@ sendPreview=function(){
 };
 const v33OldModal=v10ShowModal;
 v10ShowModal=function(mode){v33OldModal(mode==='weather'?'clock':mode);if(mode==='weather'){modalMode='weather';sendPreview()}};
+
+// V39: weather checkbox persistence and save consistency.
+// Capture the final UI state immediately before the original save routine.
+let v39WeatherDirty=false;
+let v39WeatherSaving=false;
+let v39WeatherSnapshot=null;
+const v39WeatherIds=['clockPageEnabled','v33MessagePage','weatherPageEnabled','weatherOnClock','weatherCity','weatherSeconds','pageOrder'];
+function v39WeatherState(){
+ return {clockPageEnabled:$('clockPageEnabled').checked,
+   messageEnabled:$('v33MessagePage').checked,
+   weatherPageEnabled:$('weatherPageEnabled').checked,
+   weatherOnClock:$('weatherOnClock').checked,
+   weatherCity:$('weatherCity').value.trim()||'Seoul',
+   weatherSeconds:Number($('weatherSeconds').value)||20,
+   pageOrder:$('pageOrder').value,
+   weatherFields:Array.from(document.querySelectorAll('[data-weather]:checked')).map(x=>x.dataset.weather)};
+}
+function v39ApplyWeatherState(s){
+ if(!s)return;
+ $('clockPageEnabled').checked=s.clockPageEnabled;
+ $('v33MessagePage').checked=s.messageEnabled;
+ $('v13Enabled').checked=s.messageEnabled;
+ $('weatherPageEnabled').checked=s.weatherPageEnabled;
+ $('weatherOnClock').checked=s.weatherOnClock;
+ $('weatherCity').value=s.weatherCity;
+ $('weatherSeconds').value=s.weatherSeconds;
+ $('pageOrder').value=s.pageOrder;
+ document.querySelectorAll('[data-weather]').forEach(e=>e.checked=s.weatherFields.includes(e.dataset.weather));
+}
+for(const id of v39WeatherIds){
+ const el=$(id);
+ for(const eventName of ['input','change'])el.addEventListener(eventName,()=>{v39WeatherDirty=true;unsavedChanges=true;});
+}
+document.querySelectorAll('[data-weather]').forEach(el=>el.addEventListener('change',()=>{v39WeatherDirty=true;unsavedChanges=true;}));
+const v39ReadForm=readForm;
+readForm=function(){
+ const c=v39ReadForm();
+ const w=v39WeatherSaving&&v39WeatherSnapshot?v39WeatherSnapshot:v39WeatherState();
+ return {...c,...w};
+};
+const v39Fill=fill;
+fill=function(c){
+ if(v39WeatherSaving||v39WeatherDirty){
+   const keep=v39WeatherState();
+   v39Fill(c);
+   v39ApplyWeatherState(keep);
+   unsavedChanges=true;
+ }else v39Fill(c);
+};
+const v39Save=save;
+save=async function(){
+ if(v39WeatherSaving)return;
+ v39WeatherSnapshot=v39WeatherState();
+ v39WeatherSaving=true;
+ try{
+   // Preserve all checked values for the entire async save / verification cycle.
+   await v39Save();
+   const status=$('status').textContent||'';
+   if(status.includes('저장 및 재조회 확인 완료')||status.includes('서버 저장 확인 완료')){
+     v39WeatherDirty=false;
+     const latest=await getRemote(16000);
+     if(Boolean(latest.weatherOnClock)!==v39WeatherSnapshot.weatherOnClock ||
+        Boolean(latest.weatherPageEnabled)!==v39WeatherSnapshot.weatherPageEnabled){
+       v39WeatherDirty=true;
+       v39ApplyWeatherState(v39WeatherSnapshot);
+       message('서버의 날씨 표시 설정이 요청값과 다릅니다. 현재 선택은 유지했습니다. Code.gs 배포 및 저장 진단을 확인하세요.','error');
+     }
+   }else{
+     v39WeatherDirty=true;
+     v39ApplyWeatherState(v39WeatherSnapshot);
+   }
+ }catch(e){
+   v39WeatherDirty=true;
+   v39ApplyWeatherState(v39WeatherSnapshot);
+   message('날씨 설정 저장 확인 오류: '+e.message,'error');
+ }finally{v39WeatherSaving=false;v39WeatherSnapshot=null;}
+};
+$('save').onclick=()=>save();
+// Explicit server reload intentionally replaces local weather selections.
+const v39Load=load;
+load=async function(){v39WeatherDirty=false;await v39Load();};
+$('load').onclick=()=>load();
 
 fill({...DEFAULT,clockBackgroundMode:'image',clockBackgroundColor:'#17283b'});load();setInterval(preview,1000);
 window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'){message('필수 파일 로드 실패: '+(e.target.src||'')+' · GitHub ds 폴더와 배포 상태를 확인하세요.','error')}},true);
