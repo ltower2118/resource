@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V37-20261104</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V38-20261104</title><style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif}#bg,#shade{position:fixed;inset:0}#bg{background-size:cover;background-position:center;background-repeat:no-repeat}#shade{background:#000;pointer-events:none}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a}.center{top:66%;left:50%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer}body:hover #full,#full:focus{opacity:1}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10}
 #messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box}#messageScreen.active{display:flex}#messageScreen b,#messageScreen strong{font-weight:900}#messageScreen u{text-decoration:underline}#messageScreen mark{background:#fff176;color:#111}
 #boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease}
@@ -52,7 +52,14 @@ body[data-lcd-screen="weather"] #messageScreen,body[data-lcd-screen="weather"] #
 body[data-lcd-screen="message"] #clockWeather,body[data-lcd-screen="weather"] #clockWeather{opacity:0!important}
 body[data-lcd-effect="none"] #weatherScreen,body[data-lcd-effect="none"] #clockWeather{transition:none!important}
 @media(prefers-reduced-motion:reduce){#weatherScreen,#clockWeather{transition:none!important}}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V37-20261104</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
+
+/* V38: diagnostic panel remains visible even in browser fullscreen. */
+#wxDebugV38{display:none;position:fixed;left:12px;bottom:12px;z-index:999999;max-width:min(94vw,850px);min-width:min(92vw,380px);padding:15px 18px;background:#001b35f2;color:#fff;border:3px solid #71d1ff;border-radius:12px;font:700 clamp(15px,2.0vw,24px)/1.55 Arial,'Malgun Gothic',sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 5px 30px #000b;pointer-events:none}
+body.wx-debug-v38 #wxDebugV38{display:block!important}
+html:fullscreen #wxDebugV38,body:fullscreen #wxDebugV38{display:block!important}
+body.wx-test-v38 #versionTag{display:block!important;z-index:999998}
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V38-20261104</div><div id="wxDebugV38" role="status">V38 날씨 진단 시작
+서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
  if(e.target && e.target.tagName==='SCRIPT'){
@@ -61,7 +68,19 @@ window.addEventListener('error',function(e){
    if(b)b.style.display='none';
  }
 },true);
-</script><script src="config.js?v=20261104-v37"></script><script src="shared.js?v=20261104-v37"></script><script>
+</script><script>
+(function(){
+ var qs=new URLSearchParams(location.search);
+ var debug=qs.has('debug')||qs.has('weatherTest');
+ if(debug)document.body.classList.add('wx-debug-v38');
+ if(qs.has('weatherTest'))document.body.classList.add('wx-test-v38');
+ function show(msg){if(!debug)return;var el=document.getElementById('wxDebugV38');if(el)el.textContent='LCD 날씨 진단 V38\n'+msg;}
+ window.wxDebugShowV38=show;
+ window.addEventListener('error',function(e){if(e.target&&e.target.tagName==='SCRIPT')show('외부 스크립트 로드 실패: '+(e.target.src||''));else if(e.message)show('JavaScript 실행 오류: '+e.message+' (줄 '+(e.lineno||'?')+')')},true);
+ window.addEventListener('unhandledrejection',function(e){show('비동기 실행 오류: '+String(e.reason&&e.reason.message||e.reason))});
+ show('설정 파일 및 서버 연결 확인 중...');
+})();
+</script><script src="config.js?v=20261104-v38"></script><script src="shared.js?v=20261104-v38"></script><script>
 const $=id=>document.getElementById(id);let wxData=null;let wxLast=0;let wxPending=false;let wxError='';let wxCachedLocation='';let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;const previewMode=new URLSearchParams(location.search).get('preview')==='1';let previewOverride=null;let previewScreen='clock';document.body.dataset.lcdScreen='clock';document.body.dataset.lcdEffect='none';
 
 function positionObjects(){
@@ -84,7 +103,7 @@ function fitLayout(){
 }
 window.addEventListener('resize',fitLayout);
 window.addEventListener('orientationchange',()=>setTimeout(fitLayout,150));
-function apply(c){const oldCity=config.weatherCity;config={...DEFAULT,...c};if(config.weatherCity!==oldCity){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw();fitLayout()}
+function apply(c){const oldCity=config.weatherCity;config={...DEFAULT,...c};if(new URLSearchParams(location.search).has('weatherTest')){config.weatherPageEnabled=true;config.weatherOnClock=true;config.clockPageEnabled=false;config.messageEnabled=false;}if(window.wxDebugShowV38)window.wxDebugShowV38('서버 설정 수신 완료\n날씨 페이지: '+(config.weatherPageEnabled?'켜짐':'꺼짐')+' / 시계 날씨: '+(config.weatherOnClock?'켜짐':'꺼짐')+'\n지역: '+(config.weatherCity||'Seoul')+'\n날씨 요청 준비 중');if(config.weatherCity!==oldCity){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw();fitLayout()}
 function activePages(){
  const pages=[];
  if(config.clockPageEnabled!==false)pages.push('clock');
@@ -157,8 +176,8 @@ let wxFailuresV36=0,wxLastDetailV36='',wxLastGoodAtV36=0;
 let wxFlightV37=0,wxStartedV37=0,wxNextV37=0;
 function wxLogV36(text){
  wxLastDetailV36=String(text||'');
- if(new URLSearchParams(location.search).has('debug')){
-  const status=$('status');if(status)status.textContent='날씨 진단 V37: '+wxLastDetailV36;
+ if(new URLSearchParams(location.search).has('debug')||new URLSearchParams(location.search).has('weatherTest')){
+  if(window.wxDebugShowV38)window.wxDebugShowV38(wxLastDetailV36);
  }
 }
 function wxAcceptV36(w){
@@ -183,16 +202,16 @@ function weatherJsonpV37(action,timeoutMs=15000){
  });
 }
 async function refreshWeather(force=false){
- if(wxPending||!(config.weatherPageEnabled||config.weatherOnClock)||forceOffline||previewMode)return;
+ if(wxPending||!(config.weatherPageEnabled||config.weatherOnClock)||forceOffline||previewMode){if(!wxPending&&window.wxDebugShowV38&&new URLSearchParams(location.search).has('debug')&&!(config.weatherPageEnabled||config.weatherOnClock))window.wxDebugShowV38('날씨 사용 설정이 꺼져 있습니다.\n날씨만 시험하려면 ?weatherTest=1 주소로 접속하세요.');return;}
  const now=Date.now();if(!force&&now<wxNextV37)return;
  // Do NOT gate on syncRunning: configuration sync and weather are independent endpoints.
- wxPending=true;wxStartedV37=now;wxLast=now;const flight=++wxFlightV37;
+ wxPending=true;wxStartedV37=now;wxLast=now;const flight=++wxFlightV37;wxLogV36('날씨 서버 요청 시작: '+(config.weatherCity||'Seoul'));
  if(!weatherPayloadValidV35(wxData)){wxError='날씨 데이터 연결 중…';renderWeather()}
  let reasons=[];
  try{
   for(const action of ['weather','weatherCheck']){
    let result;
-   try{result=await weatherJsonpV37(action,15000)}
+   try{wxLogV36(action+' 요청 중');result=await weatherJsonpV37(action,15000)}
    catch(e){reasons.push(String(e&&e.message||e));continue}
    if(flight!==wxFlightV37)return;
    if(weatherPayloadValidV35(result)){
@@ -270,9 +289,9 @@ async function refresh(){
   }
   lastSyncAt=Date.now();failCount=0;$('offline').classList.remove('visible');
   if(config.weatherPageEnabled||config.weatherOnClock)setTimeout(()=>refreshWeather(),250);
-  if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);requestAnimationFrame(()=>{requestAnimationFrame(()=>{$('boot').classList.add('hide');setTimeout(()=>$('boot').remove(),750)})})}
+  if(window.wxDebugShowV38&&new URLSearchParams(location.search).has('weatherTest'))window.wxDebugShowV38('서버 설정 정상 수신 · 날씨 요청 실행 중');if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);requestAnimation(()=>{requestAnimationFrame(()=>{$('boot').classList.add('hide');setTimeout(()=>$('boot').remove(),750)})})}
   if(!new URLSearchParams(location.search).has('debug'))$('status').textContent='';
- }catch(e){failCount++;$('status').textContent='서버 동기화 오류: '+e.message;
+ }catch(e){failCount++;$('status').textContent='서버 동기화 오류: '+e.message;if(window.wxDebugShowV38)window.wxDebugShowV38('설정 서버 통신 오류: '+e.message);
  if(forceOffline||!navigator.onLine||failCount>=1){$('offline').classList.add('visible');$('offlineHint').textContent=forceOffline?'테스트 모드 · 주소에서 ?testOffline=1 을 제거하면 정상 화면으로 돌아갑니다.':'네트워크 연결을 자동으로 다시 확인합니다.';if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);$('boot').classList.add('hide');setTimeout(()=>$('boot').remove(),750)}}
  else if(!firstReady){$('boot').querySelector('div:last-child').textContent='서버에 다시 연결하고 있습니다...'}
  }
