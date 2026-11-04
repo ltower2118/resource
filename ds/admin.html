@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V44-20261104</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V45-20261104</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;color:#64748b;line-height:1.6}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}button:disabled{opacity:.5}.secondary{background:#e6edf6;color:#203452}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}#pvBg,#pvShade{position:absolute;inset:0}#pvBg{background-size:cover;background-position:center}#pvShade{background:#000}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}#pvDate{position:absolute;font-weight:700;white-space:nowrap}
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
 #pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
@@ -277,8 +277,21 @@ button,.btn{font-size:15px;min-height:44px}
 #v42ClockWeatherPreview:hover{outline:2px dashed #5ce6ff;outline-offset:3px}
 #v43WeatherCard .v42-place,#v43WeatherCard .v43-source{color:inherit!important}
 @media(max-width:520px){.v44-weather-style{grid-template-columns:1fr 1fr}.v44-field-grid label{font-size:15px;padding:9px 7px}}
-</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V44-20261104</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
-<nav id="v42Tabs" aria-label="화면 편집 선택"><button type="button" class="v42-tab active" data-v42tab="clock" aria-selected="true">◷ <span>날씨·시간 통합</span></button><button type="button" class="v42-tab" data-v42tab="message" aria-selected="false">▤ <span>문자 화면</span></button><button type="button" class="v42-tab" data-v42tab="weather" aria-selected="false">☁ <span>날씨 화면</span></button></nav><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
+</style><style id="v45Styles">
+.v45-clock-bold,.v45-check{display:inline-flex!important;align-items:center;gap:8px;font-size:16px;font-weight:700;min-height:44px}
+.v45-clock-bold input,.v45-check input{width:23px!important;height:23px!important;min-height:23px;margin:0!important;accent-color:#174b87}
+.v45-clock-bold{padding:7px 10px;background:#f1f6ff;border-radius:10px}
+.v45-weather-background{padding:12px;border:1px solid #d7e2ef;border-radius:12px;background:#f7faff;margin:14px 0}
+.v45-weather-background .v43-heading{margin:0 0 12px}
+.v45-bg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.v45-bg-grid label{font-size:16px;font-weight:700;min-width:0;margin:0}
+.v45-bg-grid input,.v45-bg-grid select{min-height:48px;font-size:16px;width:100%}
+.v45-bg-grid input[type=color]{height:48px;padding:3px}
+.v45-bg-grid label[hidden]{display:none!important}
+#v43WeatherCard .v42-temp{font-weight:inherit!important}
+@media(max-width:600px){.v45-bg-grid{grid-template-columns:1fr}.v45-weather-background{padding:11px}.v45-clock-bold{min-height:48px}}
+</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V45-20261104</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+<nav id="v42Tabs" aria-label="화면 편집 선택"><button type="button" class="v42-tab active" data-v42tab="clock" aria-selected="true">◷ <span>날씨·시간 통합</span></button><button type="button" class="v42-tab" data-v42tab="message" aria-selected="false">▤ <span>문자 화면</span></button><button type="button" class="v42-tab" data-v42tab="weather" aria-selected="false">☁ <span>날씨 화면</span></button></nav><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  <strong>시계 · 날짜 표시 선택</strong>
  <div class="v33modegrid">
@@ -341,14 +354,18 @@ button,.btn{font-size:15px;min-height:44px}
 <label><input type="checkbox" data-weather-clock="temp" checked> 기온</label><label><input type="checkbox" data-weather-clock="condition" checked> 날씨 상태</label><label><input type="checkbox" data-weather-clock="feelslike"> 체감온도</label><label><input type="checkbox" data-weather-clock="humidity" checked> 습도</label><label><input type="checkbox" data-weather-clock="wind"> 풍속</label></div></div>
 <div class="v44-weather-style"><label class="v44-check"><input type="checkbox" id="weatherClockShowLocation" checked> 지역명 표시</label>
 <label>글꼴<select id="weatherClockFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label>
-<label>글자색<input type="color" id="weatherClockColor" value="#ffffff"></label></div><div class="v43-heading">시계 화면의 날씨 배치</div>
+<label>글자색<input type="color" id="weatherClockColor" value="#ffffff"></label><label class="v45-check"><input type="checkbox" id="weatherClockBold"> 굵게(B)</label></div><div class="v43-heading">시계 화면의 날씨 배치</div>
 <div class="v43-layout">
 <label>가로 위치 (%)<input id="weatherClockX" type="number" min="0" max="100" step="0.1" value="50"></label>
 <label>세로 위치 (%)<input id="weatherClockY" type="number" min="0" max="100" step="0.1" value="12"></label>
 <label>글자 크기 (px)<input id="weatherClockSize" type="number" min="16" max="150" value="40"></label>
 </div><p class="v43-hint">미리보기에서 날씨를 손가락으로 이동할 수 있습니다.</p><div id="v42ClockToolsSlot"></div><div id="v42ClockFormatSlot"></div><div id="v42ClockBackgroundSlot"></div></section>
 <section id="v42TextPanel" class="v42-panel" hidden><h2>문자 화면 설정</h2><div id="v42TextSlot"></div></section>
-<section id="v42WeatherPanel" class="v42-panel" hidden><h2>날씨 화면 설정</h2><div id="v42WeatherSlot"></div><div class="v44-weather-style"><label>글꼴<select id="weatherPageFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>글자색<input id="weatherPageColor" type="color" value="#ffffff"></label></div><label style="display:flex;align-items:center;gap:9px;font-size:16px"><input id="weatherShowLocation" type="checkbox" checked style="width:22px;min-height:22px"> 지역명 표시</label>
+<section id="v42WeatherPanel" class="v42-panel" hidden><h2>날씨 화면 설정</h2><div id="v42WeatherSlot"></div><div class="v44-weather-style"><label>글꼴<select id="weatherPageFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>글자색<input id="weatherPageColor" type="color" value="#ffffff"></label><label class="v45-check"><input type="checkbox" id="weatherPageBold"> 굵게(B)</label></div><label style="display:flex;align-items:center;gap:9px;font-size:16px"><input id="weatherShowLocation" type="checkbox" checked style="width:22px;min-height:22px"> 지역명 표시</label>
+<div class="v45-weather-background"><div class="v43-heading">날씨 페이지 배경</div>
+<div class="v45-bg-grid"><label>배경 종류<select id="weatherBackgroundMode"><option value="color">단색</option><option value="image">배경 이미지</option></select></label>
+<label id="v45WeatherBgColorRow">배경 색상<input id="weatherBackgroundColor" type="color" value="#122940"></label>
+<label id="v45WeatherBgImageRow" hidden>이미지 파일명<input id="weatherBackgroundImage" type="text" value="images/background.jpg" placeholder="images/배경.jpg" spellcheck="false"></label></div><button type="button" class="secondary" id="v45OpenImages" style="margin-top:10px">GitHub 이미지 폴더 열기</button></div>
 <div class="v43-heading">날씨 전용 화면 배치</div>
 <div class="v43-layout">
 <label>가로 위치 (%)<input id="weatherPageX" type="number" min="0" max="100" step="0.1" value="50"></label>
@@ -366,8 +383,8 @@ button,.btn{font-size:15px;min-height:44px}
 <p>지역은 영문 지명 또는 위도,경도를 권장합니다. WeatherAPI 키는 여기 입력하지 않고 Apps Script의 비공개 스크립트 속성 <b>WEATHERAPI_KEY</b>에 등록합니다.</p>
 <label>표시할 날씨 항목</label><div class="v33grid" id="weatherFields"><label><input type="checkbox" data-weather="temp" checked> 현재 기온</label><label><input type="checkbox" data-weather="condition" checked> 날씨 상태</label><label><input type="checkbox" data-weather="feelslike"> 체감온도</label><label><input type="checkbox" data-weather="humidity" checked> 습도</label><label><input type="checkbox" data-weather="wind"> 풍속</label></div>
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="v33PreviewWeather">날씨 전용 페이지 미리보기</button><button type="button" class="secondary" id="v33PreviewClock">날짜·시간 미리보기</button><button type="button" class="secondary" id="v33PreviewMessage">문자 미리보기</button></div>
-<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?v=V44-20261104" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1&amp;v=V44-20261104" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock"><button id="v42QuickSave" type="button">💾 설정 저장 · LCD 반영</button><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V44-20261104"></script><script src="shared.js?v=V44-20261104"></script><script>
+<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?v=V45-20261104" target="_blank" rel="noopener">LCD 화면 보기</a><a class="btn secondary" href="main.html?testOffline=1&amp;v=V45-20261104" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock"><button id="v42QuickSave" type="button">💾 설정 저장 · LCD 반영</button><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V45-20261104"></script><script src="shared.js?v=V45-20261104"></script><script>
 const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
 let savedSelection=null;let lastPreviewMarkup="";let savingNow=false;let initialLoadComplete=false;
 // V31: one canonical signature for loaded and polled server configurations.
@@ -405,7 +422,7 @@ function fill(c){
  $('messageEditor').innerHTML=messageMarkup(current);preview();
 }
 function message(s,kind=''){const el=$('status');el.textContent=s;el.className=kind}
-function preview(){const c=readForm(),p=nowParts(),t=$('pvTime'),d=$('pvDate');t.textContent=fmtTime(c,p);d.textContent=fmtDate(c,p);t.style.display=c.showTime?'block':'none';d.style.display=c.showDate?'block':'none';t.style.color=c.timeColor;d.style.color=c.dateColor;t.style.fontFamily=fontValue(c.timeFont);d.style.fontFamily=fontValue(c.dateFont);t.style.fontSize=Math.max(24,Math.min(600,Number(c.timeSize)||112))+'px';d.style.fontSize=Math.max(16,Math.min(110,Number(c.dateSize)||34))+'px';d.style.top='auto';d.style.bottom='auto';d.style.left='auto';d.style.right='auto';d.style.transform='none';
+function preview(){const c=readForm(),p=nowParts(),t=$('pvTime'),d=$('pvDate');t.textContent=fmtTime(c,p);d.textContent=fmtDate(c,p);t.style.display=c.showTime?'block':'none';d.style.display=c.showDate?'block':'none';t.style.color=c.timeColor;d.style.color=c.dateColor;t.style.fontFamily=fontValue(c.timeFont||'Malgun Gothic');d.style.fontFamily=fontValue(c.dateFont||'Malgun Gothic');t.style.fontWeight=c.timeBold?'800':'400';d.style.fontWeight=c.dateBold?'800':'400';t.style.fontSize=Math.max(24,Math.min(600,Number(c.timeSize)||112))+'px';d.style.fontSize=Math.max(16,Math.min(110,Number(c.dateSize)||34))+'px';d.style.top='auto';d.style.bottom='auto';d.style.left='auto';d.style.right='auto';d.style.transform='none';
 if(c.datePosition==='center'){d.style.top='68%';d.style.left='50%';d.style.transform='translate(-50%,-50%)'}else{d.style[c.datePosition.includes('top')?'top':'bottom']='4%';d.style[c.datePosition.includes('right')?'right':'left']='3%'}
 const msg=$('pvMessage');const html=messageMarkup(c)||escapeMessage('표시할 문자를 입력하세요.');if(html!==lastPreviewMarkup && !msg.contains(document.activeElement) && !(visualTarget==='message'&&v12Bookmark)){msg.innerHTML='<div class="message-content">'+html+'</div>';lastPreviewMarkup=html}msg.style.textAlign=messageAlignment(c);msg.style.width='100%';msg.style.fontSize=Math.max(24,Math.min(240,Number(c.messageSize)||100))+'px';msg.style.color=c.messageColor||'#ffdd55';msg.style.backgroundColor=c.messageBackground||'#101827';msg.style.fontFamily=fontValue(c.messageFont);msg.classList.toggle('active',visualTarget==='message');const ed=$('messageEditor');ed.style.color=c.messageColor;ed.style.backgroundColor=c.messageBackground;ed.style.fontFamily=fontValue(c.messageFont);ed.style.textAlign=messageAlignment(c);ed.style.fontSize='20px';ed.style.setProperty('--editor-scale',String(20/Math.max(24,Number(c.messageSize)||100))); document.querySelectorAll('[data-align]').forEach(b=>b.style.outline=b.dataset.align===messageAlignment(c)?'2px solid #18317a':'none');$('previewMode').textContent=visualTarget==='message'?'문자 화면':'시계 화면';positionPreviewObjects(c);$('pvShade').style.opacity=Number(c.overlay)/100;$('pvBg').style.backgroundColor=c.clockBackgroundColor||'#17283b';$('pvBg').style.backgroundImage=c.clockBackgroundMode==='color'?'none':'url("'+encodeURI(c.background)+'")';$('pvShade').style.opacity=c.clockBackgroundMode==='color'?0:Number(c.overlay)/100;scalePreview()}
 function scalePreview(){const w=$('preview').clientWidth; if(w>0)$('previewStage').style.transform='scale('+(w/1920)+')'}
@@ -620,7 +637,7 @@ async function save(){
   const editingChanged=JSON.stringify(v30Snapshot())!==JSON.stringify(want);
   fill(result.got);
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V44-20261104&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V45-20261104&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 확인 실패: '+e.message+' · 입력 내용은 유지합니다.','error');
@@ -819,7 +836,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V44-20261104';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V45-20261104';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -1198,6 +1215,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
  const strip=document.createElement('div');strip.id='v42ClockWeatherPreview';$('previewStage').appendChild(strip);
  const v42State={tab:'clock',weather:null,weatherCity:'',weatherAt:0,pending:false};
  function weatherPreview(){
+  const wxPage=$('v42WeatherPreview');const wxBgMode=$('weatherBackgroundMode').value;const wxBgPath=String($('weatherBackgroundImage').value||'images/background.jpg');wxPage.style.backgroundColor=$('weatherBackgroundColor').value||'#122940';wxPage.style.backgroundImage=wxBgMode==='image'&&/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(wxBgPath)&&!wxBgPath.includes('..')?'url("'+encodeURI(wxBgPath)+'")':'none';wxPage.style.backgroundSize='cover';wxPage.style.backgroundPosition='center';
   const data=v42State.weather,fields=Array.from(document.querySelectorAll('[data-weather]:checked')).map(x=>x.dataset.weather),clockFields=Array.from(document.querySelectorAll('[data-weather-clock]:checked')).map(x=>x.dataset.weatherClock);
   const valid=data&&data.ok&&Number.isFinite(Number(data.temperature));
   const place=$('v42WeatherPreview').querySelector('.v42-place');place.textContent=valid?(data.location||$('weatherCity').value):$('weatherCity').value;place.style.display=$('weatherShowLocation').checked?'block':'none';
@@ -1209,7 +1227,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
   if(valid&&fields.includes('wind'))info.push('풍속 '+data.windKph+'km/h');
   $('v42WeatherPreview').querySelector('.v42-extra').textContent=info.join('  ·  ');
   $('v43WeatherCard').style.fontFamily=fontValue($('weatherPageFont').value);
-  $('v43WeatherCard').style.color=$('weatherPageColor').value;
+  $('v43WeatherCard').style.color=$('weatherPageColor').value;$('v43WeatherCard').style.fontWeight=$('weatherPageBold').checked?'800':'400';
   const small=[];
   if(valid&&clockFields.includes('temp'))small.push(Number(data.temperature).toFixed(1)+'°C');
   if(valid&&clockFields.includes('condition'))small.push(data.condition||'');
@@ -1288,7 +1306,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
   strip.style.top=v43Clamp($('weatherClockY').value,0,100,12)+'%';
   strip.style.fontSize=v43Clamp($('weatherClockSize').value,16,150,40)+'px';
   strip.style.fontFamily=fontValue($('weatherClockFont').value);
-  strip.style.color=$('weatherClockColor').value;
+  strip.style.color=$('weatherClockColor').value;strip.style.fontWeight=$('weatherClockBold').checked?'800':'400';
   strip.style.background='transparent';
   strip.style.transform='translate(-50%,-50%)';
   v43Card.style.left=v43Clamp($('weatherPageX').value,0,100,50)+'%';
@@ -1340,9 +1358,10 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
  // V44: clock weather and weather page have independent field/style controls.
  const v44ClockChecks=()=>Array.from(document.querySelectorAll('[data-weather-clock]:checked')).map(el=>el.dataset.weatherClock);
  const v44ClockFieldsAll=Array.from(document.querySelectorAll('[data-weather-clock]'));
- const v44Inputs=['weatherClockShowLocation','weatherClockFont','weatherClockColor','weatherPageFont','weatherPageColor'];
+ function v45ToggleWeatherBg(){const mode=$('weatherBackgroundMode').value;$('v45WeatherBgColorRow').hidden=mode!=='color';$('v45WeatherBgImageRow').hidden=mode!=='image';}
+ const v44Inputs=['weatherClockShowLocation','weatherClockFont','weatherClockColor','weatherClockBold','weatherPageFont','weatherPageColor','weatherPageBold','weatherBackgroundMode','weatherBackgroundColor','weatherBackgroundImage'];
  const v44Read=readForm;
- readForm=function(){const c=v44Read();c.weatherClockFields=v44ClockChecks();c.weatherClockShowLocation=$('weatherClockShowLocation').checked;c.weatherClockFont=$('weatherClockFont').value;c.weatherClockColor=$('weatherClockColor').value;c.weatherPageFont=$('weatherPageFont').value;c.weatherPageColor=$('weatherPageColor').value;return c};
+ readForm=function(){const c=v44Read();c.weatherClockFields=v44ClockChecks();c.weatherClockShowLocation=$('weatherClockShowLocation').checked;c.weatherClockFont=$('weatherClockFont').value;c.weatherClockColor=$('weatherClockColor').value;c.weatherPageFont=$('weatherPageFont').value;c.weatherPageColor=$('weatherPageColor').value;c.weatherClockBold=$('weatherClockBold').checked;c.weatherPageBold=$('weatherPageBold').checked;c.weatherBackgroundMode=$('weatherBackgroundMode').value;c.weatherBackgroundColor=$('weatherBackgroundColor').value;c.weatherBackgroundImage=$('weatherBackgroundImage').value.trim()||'images/background.jpg';return c};
  const v44Fill=fill;
  fill=function(c){v44Fill(c);const cf=Array.isArray(c.weatherClockFields)?c.weatherClockFields:(Array.isArray(c.weatherFields)?c.weatherFields:['temp','condition','humidity']);
    v44ClockFieldsAll.forEach(el=>el.checked=cf.includes(el.dataset.weatherClock));
@@ -1350,23 +1369,24 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
    $('weatherClockFont').value=c.weatherClockFont||'Malgun Gothic';
    $('weatherClockColor').value=c.weatherClockColor||'#ffffff';
    $('weatherPageFont').value=c.weatherPageFont||'Malgun Gothic';
-   $('weatherPageColor').value=c.weatherPageColor||'#ffffff';
+   $('weatherPageColor').value=c.weatherPageColor||'#ffffff';$('weatherClockBold').checked=!!c.weatherClockBold;$('weatherPageBold').checked=!!c.weatherPageBold;$('weatherBackgroundMode').value=c.weatherBackgroundMode==='image'?'image':'color';$('weatherBackgroundColor').value=c.weatherBackgroundColor||'#122940';$('weatherBackgroundImage').value=c.weatherBackgroundImage||'images/background.jpg';v45ToggleWeatherBg();
    v43Layout();weatherPreview();};
  const v44Compare=compareSavedSettingsV29;
  compareSavedSettingsV29=function(want,got){const diffs=v44Compare(want,got);
    if(JSON.stringify(want.weatherClockFields)!==JSON.stringify(got.weatherClockFields))diffs.push('시계 날씨 항목');
-   for(const k of ['weatherClockShowLocation','weatherClockFont','weatherClockColor','weatherPageFont','weatherPageColor']){
+   for(const k of ['weatherClockShowLocation','weatherClockFont','weatherClockColor','weatherClockBold','weatherPageFont','weatherPageColor','weatherPageBold','weatherBackgroundMode','weatherBackgroundColor','weatherBackgroundImage']){
      if(String(want[k]).toLowerCase()!==String(got[k]).toLowerCase())diffs.push(k+' (요청 '+want[k]+' / 서버 '+got[k]+')');
    }return diffs;};
  for(const el of [...v44ClockFieldsAll,...v44Inputs.map(id=>$(id))]){
-   el.addEventListener('input',()=>{unsavedChanges=true;v39WeatherDirty=true;v43Layout();weatherPreview();if(!$('previewModal').hidden)sendPreview()});
-   el.addEventListener('change',()=>{unsavedChanges=true;v39WeatherDirty=true;v43Layout();weatherPreview()});
+   el.addEventListener('input',()=>{unsavedChanges=true;v39WeatherDirty=true;v45ToggleWeatherBg();v43Layout();weatherPreview();if(!$('previewModal').hidden)sendPreview()});
+   el.addEventListener('change',()=>{unsavedChanges=true;v39WeatherDirty=true;v45ToggleWeatherBg();v43Layout();weatherPreview()});
  }
  // Both field groups are validated only when their respective weather screen is enabled.
  const v44Save=save;
  save=async function(){
   if($('weatherOnClock').checked&&$('clockPageEnabled').checked&&!v44ClockChecks().length){message('날짜·시간 화면의 날씨 항목을 하나 이상 선택하세요.','error');return;}
   if($('weatherPageEnabled').checked&&!document.querySelector('[data-weather]:checked')){message('날씨 전용 화면의 표시 항목을 하나 이상 선택하세요.','error');return;}
+  const wxPath=$('weatherBackgroundImage').value.trim();if($('weatherBackgroundMode').value==='image'&&(!/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(wxPath)||wxPath.includes('..'))){message('날씨 배경 이미지 경로를 images/파일명.jpg 형식으로 입력하세요.','error');return;}
   return v44Save();
  };
  $('save').onclick=()=>save();
@@ -1376,6 +1396,22 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V44-20261104';
+ document.title='LCD 시계 관리자 V45-20261104';
 })();
+/* V45 clock/date bold state: keep independent of rich-text editor. */
+let v45TimeBold=false,v45DateBold=false;
+$('v45OpenImages').addEventListener('click',()=>{$('images').click()});
+const v45OldRead=readForm;
+readForm=function(){const c=v45OldRead();c.timeBold=v45TimeBold;c.dateBold=v45DateBold;return c};
+const v45OldFill=fill;
+fill=function(c){v45OldFill(c);v45TimeBold=!!c.timeBold;v45DateBold=!!c.dateBold;v45SyncBold();preview()};
+const v45OldSelect=selectVisual;
+selectVisual=function(type){v45OldSelect(type);v45SyncBold()};
+function v45SyncBold(){const el=document.getElementById('v45BoldToggle');if(!el)return;el.checked=visualTarget==='date'?v45DateBold:v45TimeBold;el.closest('label').style.display=visualTarget==='message'?'none':'inline-flex'}
+$('v45BoldToggle').addEventListener('change',e=>{if(visualTarget==='date')v45DateBold=e.target.checked;else v45TimeBold=e.target.checked;unsavedChanges=true;preview();if(!$('previewModal').hidden)sendPreview()});
+const v45OldCompare=compareSavedSettingsV29;
+compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
+// Initialize current display without resetting the server-loaded editor.
+v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
+document.title='LCD 시계 관리자 V45-20261104';
 </script></body></html>

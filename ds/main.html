@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V44-20261104</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V45-20261104</title><style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif}#bg,#shade{position:fixed;inset:0}#bg{background-size:cover;background-position:center;background-repeat:no-repeat}#shade{background:#000;pointer-events:none}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a}.center{top:66%;left:50%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer}body:hover #full,#full:focus{opacity:1}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10}
 #messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box}#messageScreen.active{display:flex}#messageScreen b,#messageScreen strong{font-weight:900}#messageScreen u{text-decoration:underline}#messageScreen mark{background:#fff176;color:#111}
 #boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease}
@@ -40,7 +40,7 @@ body[data-lcd-effect="none"] #messageScreen,body[data-lcd-effect="none"] #messag
 /* V33: weather is a separate layer; clock weather strip follows the clock page. */
 #weatherScreen{position:fixed;inset:0;z-index:12;background:#122940;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:7vw;opacity:0;pointer-events:none;transition:opacity var(--lcd-transition-ms) ease,translate var(--lcd-transition-ms) ease}
 #weatherScreen .wx-place{font-size:clamp(24px,3vw,52px);color:#c8e0f8;margin-bottom:14px}
-#weatherScreen .wx-main{font-size:clamp(55px,9vw,180px);font-weight:800;line-height:1.1}
+#weatherScreen .wx-main{font-size:clamp(55px,9vw,180px);font-weight:inherit;line-height:1.1}
 #weatherScreen .wx-condition{font-size:clamp(24px,4vw,74px);margin:14px 0}
 #weatherScreen .wx-extra{font-size:clamp(19px,2.8vw,43px);display:flex;gap:2vw;flex-wrap:wrap;justify-content:center}
 #weatherScreen .wx-foot{position:absolute;bottom:2.5vw;font-size:clamp(12px,1.25vw,20px);color:#b7cce0}
@@ -60,6 +60,9 @@ body.wx-debug-v40:fullscreen #wxDebugV40,html:fullscreen body.wx-debug-v40 #wxDe
 body:not(.wx-debug-v40) #wxDebugV40{display:none!important}
 body.wx-test-v40 #versionTag{display:block!important;z-index:999998}
 
+/* V45: weather-only page background is independent of clock background. */
+#weatherScreen{background-color:#122940;background-size:cover;background-position:center;background-repeat:no-repeat}
+#weatherContent .wx-main{font-weight:inherit}
 /* V43: movable weather widgets. Positions are percentages of the LCD canvas. */
 #clockWeather{top:12%;left:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);font-size:40px;white-space:normal;max-width:92vw;line-height:1.25;overflow-wrap:anywhere;box-sizing:border-box;background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important;text-shadow:0 2px 7px #000a}
 #weatherScreen{display:block;padding:0;overflow:hidden}
@@ -70,7 +73,7 @@ body.wx-test-v40 #versionTag{display:block!important;z-index:999998}
 #weatherContent .wx-extra{font-size:calc(var(--wx-page-size, 135px) * .34);justify-content:center}
 #weatherContent .wx-foot{position:static;margin-top:1.4em;font-size:calc(var(--wx-page-size, 135px) * .15);color:inherit;opacity:.75}
 #weatherContent .wx-place{color:inherit}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V44-20261104</div><div id="wxDebugV40" role="status">V43 날씨 진단 시작
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V45-20261104</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -146,9 +149,9 @@ function fitLayout(){
 }
 window.addEventListener('resize',fitLayout);
 window.addEventListener('orientationchange',()=>setTimeout(fitLayout,150));
-function apply(c){const oldCity=config.weatherCity;const wasWeatherOn=!!(config.weatherPageEnabled||(config.clockPageEnabled!==false&&config.weatherOnClock));config={...DEFAULT,...c};if(new URLSearchParams(location.search).has('weatherTest')){config.weatherPageEnabled=true;config.weatherOnClock=true;config.clockPageEnabled=false;config.messageEnabled=false;}if(window.wxDebugShowV40)window.wxDebugShowV40('서버 설정 수신 완료\n날씨 페이지: '+(config.weatherPageEnabled?'켜짐':'꺼짐')+' / 시계 날씨: '+(config.weatherOnClock?'켜짐':'꺼짐')+'\n지역: '+(config.weatherCity||'Seoul')+'\n날씨 요청 준비 중');if(!weatherNeededV43()){wxFlightV37++;wxPending=false;wxStartedV37=0;wxNextV37=Number.MAX_SAFE_INTEGER;wxError='';}
+function apply(c){const oldCity=config.weatherCity;const wasWeatherOn=!!(config.weatherPageEnabled||(config.clockPageEnabled!==false&&config.weatherOnClock));config={...DEFAULT,timeFont:'Malgun Gothic',dateFont:'Malgun Gothic',timeBold:false,dateBold:false,weatherClockBold:false,weatherPageBold:false,weatherBackgroundMode:'color',weatherBackgroundColor:'#122940',weatherBackgroundImage:'images/background.jpg',...c};if(new URLSearchParams(location.search).has('weatherTest')){config.weatherPageEnabled=true;config.weatherOnClock=true;config.clockPageEnabled=false;config.messageEnabled=false;}if(window.wxDebugShowV40)window.wxDebugShowV40('서버 설정 수신 완료\n날씨 페이지: '+(config.weatherPageEnabled?'켜짐':'꺼짐')+' / 시계 날씨: '+(config.weatherOnClock?'켜짐':'꺼짐')+'\n지역: '+(config.weatherCity||'Seoul')+'\n날씨 요청 준비 중');if(!weatherNeededV43()){wxFlightV37++;wxPending=false;wxStartedV37=0;wxNextV37=Number.MAX_SAFE_INTEGER;wxError='';}
  if(weatherNeededV43()&&!wasWeatherOn){wxNextV37=0;}
- if(config.weatherCity!==oldCity){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}if(!wxData)wxRestoreCacheV37();document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont);$('date').style.fontFamily=fontValue(config.dateFont);$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw();fitLayout()}
+ if(config.weatherCity!==oldCity){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}if(!wxData)wxRestoreCacheV37();document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont||'Malgun Gothic');$('date').style.fontFamily=fontValue(config.dateFont||'Malgun Gothic');$('time').style.fontWeight=config.timeBold?'800':'400';$('date').style.fontWeight=config.dateBold?'800':'400';$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();renderScreen();draw();fitLayout()}
 function activePages(){
  const pages=[];
  if(config.clockPageEnabled!==false)pages.push('clock');
@@ -194,20 +197,33 @@ function applyWeatherLayoutV43(){
  strip.style.top=Number(config.weatherClockY??12)+'%';
  strip.style.fontSize=(Math.max(14,Math.max(16,Math.min(150,Number(config.weatherClockSize)||40))*scale))+'px';
  strip.style.fontFamily=fontValue(config.weatherClockFont||'Malgun Gothic');
- strip.style.color=config.weatherClockColor||'#ffffff';
+ strip.style.color=config.weatherClockColor||'#ffffff';strip.style.fontWeight=config.weatherClockBold?'800':'400';
  const content=$('weatherContent');
  if(content){
   content.style.left=Number(config.weatherPageX??50)+'%';
   content.style.top=Number(config.weatherPageY??48)+'%';
   content.style.setProperty('--wx-page-size',(Math.max(38,Math.max(40,Math.min(260,Number(config.weatherPageSize)||135))*scale))+'px');
   content.style.fontFamily=fontValue(config.weatherPageFont||'Malgun Gothic');
-  content.style.color=config.weatherPageColor||'#ffffff';
+  content.style.color=config.weatherPageColor||'#ffffff';content.style.fontWeight=config.weatherPageBold?'800':'400';
  }
+}
+let v45WeatherBgSignature='';
+function v45WeatherBackground(){
+ const page=$('weatherScreen');
+ const mode=config.weatherBackgroundMode==='image'?'image':'color';
+ const color=/^#[0-9a-f]{6}$/i.test(String(config.weatherBackgroundColor||''))?config.weatherBackgroundColor:'#122940';
+ const path=String(config.weatherBackgroundImage||'images/background.jpg');
+ const safe=/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(path)&&!path.includes('..');
+ const signature=JSON.stringify([mode,color,path,config.version]);
+ if(signature===v45WeatherBgSignature)return;
+ v45WeatherBgSignature=signature;
+ page.style.backgroundColor=color;
+ page.style.backgroundImage=mode==='image'&&safe?'url("'+encodeURI(path)+'?v='+encodeURIComponent(String(config.version||'1'))+'")':'none';
 }
 function renderWeather(){
  const fields=Array.isArray(config.weatherFields)?config.weatherFields:['temp','condition','humidity'];
  const clockFields=Array.isArray(config.weatherClockFields)?config.weatherClockFields:fields;
- const clock=$('clockWeather'),page=$('weatherScreen');
+ const clock=$('clockWeather'),page=$('weatherScreen');v45WeatherBackground();
  clock.classList.toggle('weather-on',!!config.weatherOnClock);
  if(!config.weatherOnClock&&!config.weatherPageEnabled){clock.textContent='';page.replaceChildren();delete page.dataset.weatherSignature;return}
  if(!weatherPayloadValidV35(wxData)){const msg=wxError||'날씨 데이터 확인 중…';delete page.dataset.weatherSignature;page.textContent=msg;clock.textContent=msg;return}
