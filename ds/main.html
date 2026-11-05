@@ -165,8 +165,7 @@ body.wx-test-v40 #versionTag{display:block!important;z-index:999998}
 body:not([data-lcd-screen=weather]) #wx50Scene *{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){#wx50Scene *{animation:none!important}#wx50Scene .wx50-drop,#wx50Scene .wx50-electric,#wx50Scene .wx50-meteor{display:none!important}}
 </style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V51-20261105</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
-서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
-조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
+서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 에러</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
  if(e.target && e.target.tagName==='SCRIPT'){
    var o=document.getElementById('offline'),b=document.getElementById('boot');
