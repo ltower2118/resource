@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V48-20261105</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V49-20261105</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;color:#64748b;line-height:1.6}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}button:disabled{opacity:.5}.secondary{background:#e6edf6;color:#203452}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}#pvBg,#pvShade{position:absolute;inset:0}#pvBg{background-size:cover;background-position:center}#pvShade{background:#000}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}#pvDate{position:absolute;font-weight:700;white-space:nowrap}
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
 #pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
@@ -324,7 +324,25 @@ button,.btn{font-size:15px;min-height:44px}
 #v48DongCandidates{flex:1;min-width:200px;max-width:100%;min-height:46px}
 #v48DongCandidates[hidden]{display:none!important}
 #v48DongStatus{margin:6px 0 0;line-height:1.55}
-</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V48-20261105</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+
+/* V49 original outline weather icon. Scale with the current LCD font. */
+.wx49-icon{width:1em;height:1em;flex:0 0 1em;display:inline-block;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em;overflow:visible}
+.wx49-emoji{display:inline-block;flex:0 0 auto;font-size:.9em;line-height:1}
+.wx-main,.v42-temp{display:flex;align-items:center;justify-content:center;gap:.16em;min-width:0}
+#clockWeather,#v42ClockWeatherPreview{align-items:center;justify-content:center;gap:.18em}
+#clockWeather.weather-on,#v42ClockWeatherPreview.visible{display:flex}
+#v42WeatherPreview .wx49-icon,#weatherScreen .wx49-icon{width:.95em;height:.95em;flex-basis:.95em}
+
+/* V49 weather icon settings */
+#v49IconPanel{border:1px solid #cbdcf0;background:#f4f8ff;padding:14px;border-radius:12px;margin:12px 0}
+#v49IconPanel h3{font-size:17px;margin:0 0 10px;color:#173a7a}
+#v49IconPanel .v49grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#v49IconPanel label{font-size:14px;margin:0}
+#v49IconPanel select,#v49IconPanel input{width:100%;min-height:46px;margin-top:6px}
+#v49IconPanel #v49CustomRow[hidden]{display:none!important}
+#v49IconPanel p{margin:8px 0 0}
+@media(max-width:640px){#v49IconPanel .v49grid{grid-template-columns:1fr 1fr}}
+</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V49-20261105</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <nav id="v42Tabs" aria-label="화면 편집 선택"><button type="button" class="v42-tab active" data-v42tab="clock" aria-selected="true">◷ <span>날씨·시간 통합</span></button><button type="button" class="v42-tab" data-v42tab="message" aria-selected="false">▤ <span>문자 화면</span></button><button type="button" class="v42-tab" data-v42tab="weather" aria-selected="false">☁ <span>날씨 화면</span></button></nav><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  <strong>시계 · 날짜 표시 선택</strong>
@@ -396,7 +414,7 @@ button,.btn{font-size:15px;min-height:44px}
 </div><p class="v43-hint">미리보기에서 날씨를 손가락으로 이동할 수 있습니다.</p><div id="v42ClockToolsSlot"></div><div id="v42ClockFormatSlot"></div><div id="v42ClockBackgroundSlot"></div></section>
 <section id="v42TextPanel" class="v42-panel" hidden><h2>문자 화면 설정</h2><div id="v42TextSlot"></div></section>
 <section id="v42WeatherPanel" class="v42-panel" hidden><h2>날씨 화면 설정</h2><div id="v42WeatherSlot"></div><div class="v44-weather-style"><label>글꼴<select id="weatherPageFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>글자색<input id="weatherPageColor" type="color" value="#ffffff"></label><label class="v45-check"><input type="checkbox" id="weatherPageBold"> 굵게(B)</label></div><label style="display:flex;align-items:center;gap:9px;font-size:16px"><input id="weatherShowLocation" type="checkbox" checked style="width:22px;min-height:22px"> 지역명 표시</label>
-<div class="v45-weather-background"><div class="v43-heading">날씨 페이지 배경</div>
+<div id="v49IconPanel"><h3>날씨 아이콘 설정 (시계·날씨 공통)</h3><div class="v49grid"><label>아이콘 종류<select id="weatherIconStyle"><option value="outline">심플 아웃라인 (추천)</option><option value="emoji">기존 이모지</option><option value="none">아이콘 숨김</option></select></label><label>아이콘 색상<select id="weatherIconColorMode"><option value="auto">배경에 맞게 자동</option><option value="white">흰색 고정</option><option value="black">검정 고정</option><option value="custom">직접 선택</option></select></label><label id="v49CustomRow" hidden>직접 색상<input id="weatherIconColor" type="color" value="#ffffff"></label></div><p>자동은 어두운 배경에 흰색, 밝은 배경에 검정색을 사용합니다. 이미지 배경도 밝기를 분석합니다. WeatherAPI 날씨 코드에 따라 모양이 자동 변경됩니다.</p></div><div class="v45-weather-background"><div class="v43-heading">날씨 페이지 배경</div>
 <div class="v45-bg-grid"><label>배경 종류<select id="weatherBackgroundMode"><option value="color">단색</option><option value="image">배경 이미지</option></select></label>
 <label id="v45WeatherBgColorRow">배경 색상<input id="weatherBackgroundColor" type="color" value="#122940"></label>
 <label id="v45WeatherBgImageRow" hidden>이미지 파일명<input id="weatherBackgroundImage" type="text" value="images/background.jpg" placeholder="images/배경.jpg" spellcheck="false"></label></div><button type="button" class="secondary" id="v45OpenImages" style="margin-top:10px">GitHub 이미지 폴더 열기</button></div>
@@ -426,8 +444,63 @@ button,.btn{font-size:15px;min-height:44px}
 <p>지역은 영문 지명 또는 위도,경도를 권장합니다. WeatherAPI 키는 여기 입력하지 않고 Apps Script의 비공개 스크립트 속성 <b>WEATHERAPI_KEY</b>에 등록합니다.</p>
 <label>표시할 날씨 항목</label><div class="v33grid" id="weatherFields"><label><input type="checkbox" data-weather="temp" checked> 현재 기온</label><label><input type="checkbox" data-weather="condition" checked> 날씨 상태</label><label><input type="checkbox" data-weather="feelslike"> 체감온도</label><label><input type="checkbox" data-weather="humidity" checked> 습도</label><label><input type="checkbox" data-weather="wind"> 풍속</label></div>
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="v33PreviewWeather">날씨 전용 페이지 미리보기</button><button type="button" class="secondary" id="v33PreviewClock">날짜·시간 미리보기</button><button type="button" class="secondary" id="v33PreviewMessage">문자 미리보기</button></div>
-<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V48-20261105" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V48-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V48-20261105" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V48-20261105"></script><script src="shared.js?v=V48-20261105"></script><script>
+<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V49-20261105" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V49-20261105" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V49-20261105"></script><script src="shared.js?v=V49-20261105"></script><script>
+
+/* V49: standalone original SVG line icons; no external icon assets or network requests. */
+const WX49_NS='http://www.w3.org/2000/svg';
+const WX49_SHAPES={
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/>',
+ moon:'<path d="M20.5 15.7A8.5 8.5 0 0 1 8.3 3.5 8.5 8.5 0 1 0 20.5 15.7Z"/><path d="M18 3v4M16 5h4"/>',
+ cloud:'<path d="M7 19h11a4.5 4.5 0 0 0 .2-9 7 7 0 0 0-13.3 1.6A3.8 3.8 0 0 0 7 19Z"/>',
+ partly:'<circle cx="7" cy="7" r="3"/><path d="M7 1v2M1 7h2M2.8 2.8l1.5 1.5M12 3l-1.5 1.5"/><path d="M8 20h10a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 13a3.6 3.6 0 0 0 3 7Z"/>',
+ rain:'<path d="M7 15h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 8a3.8 3.8 0 0 0 2 7Z"/><path d="M8 18l-1 3M13 18l-1 3M18 18l-1 3"/>',
+ snow:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M9 17v5M6.5 19.5h5M16 17v5M13.5 19.5h5"/>',
+ thunder:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M13 15l-3 4h3l-2 4 6-6h-4l2-2"/>',
+ mist:'<path d="M7 12h11a4 4 0 0 0 .2-8A7 7 0 0 0 5 6a3.5 3.5 0 0 0 2 6Z"/><path d="M3 16h18M6 20h12"/>',
+ sleet:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M8 17l-1 4M15 17v5M12.5 19.5h5"/>'
+};
+function wx49Kind(code,isDay){
+ const n=Number(code);
+ if(n===1000)return Number(isDay)===0?'moon':'sun';
+ if(n===1003)return 'partly';
+ if([1006,1009].includes(n))return 'cloud';
+ if([1030,1135,1147].includes(n))return 'mist';
+ if([1087,1273,1276,1279,1282].includes(n))return 'thunder';
+ if([1069,1072,1168,1171,1198,1201,1204,1207,1249,1252,1237,1261,1264].includes(n))return 'sleet';
+ if([1066,1114,1117,1210,1213,1216,1219,1222,1225,1255,1258].includes(n))return 'snow';
+ if([1063,1150,1153,1180,1183,1186,1189,1192,1195,1240,1243,1246].includes(n))return 'rain';
+ return 'cloud';
+}
+const wx49ImageLuma=new Map();
+function wx49Luma(hex){const h=String(hex||'').replace('#','');if(!/^[0-9a-f]{6}$/i.test(h))return .2;const rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]}
+function wx49ImageBrightness(path,refresh){
+ if(!/^images\/[\w가-힣 .-]+\.(jpg|jpeg|png|webp)$/i.test(path||'')||String(path).includes('..'))return null;
+ if(wx49ImageLuma.has(path))return wx49ImageLuma.get(path);
+ wx49ImageLuma.set(path,null);
+ const img=new Image();img.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=24;canvas.height=14;const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,24,14);const pixels=ctx.getImageData(0,0,24,14).data;let lum=0,n=0;for(let y=3;y<11;y++)for(let x=4;x<20;x++){const i=(y*24+x)*4;const h='#'+[pixels[i],pixels[i+1],pixels[i+2]].map(v=>v.toString(16).padStart(2,'0')).join('');lum+=wx49Luma(h);n++;}wx49ImageLuma.set(path,lum/Math.max(1,n));if(typeof refresh==='function')refresh();}catch(_){wx49ImageLuma.set(path,.2)}};
+ img.onerror=()=>wx49ImageLuma.set(path,.2);img.src=path;
+ return null;
+}
+function wx49Color(c,backgroundColor,imagePath,overlay,refresh){
+ const mode=c.weatherIconColorMode||'auto';if(mode==='white')return '#ffffff';if(mode==='black')return '#111111';if(mode==='custom')return /^#[0-9a-f]{6}$/i.test(c.weatherIconColor||'')?c.weatherIconColor:'#ffffff';
+ let l=imagePath?wx49ImageBrightness(imagePath,refresh):null;
+ if(l==null)l=wx49Luma(backgroundColor||'#122940');
+ l*=1-Math.max(0,Math.min(70,Number(overlay)||0))/100;
+ return l>.33?'#111111':'#ffffff';
+}
+function wx49Icon(code,isDay,c,backgroundColor,imagePath,overlay,refresh){
+ const style=c.weatherIconStyle||'outline';if(style==='none')return null;
+ const kind=wx49Kind(code,isDay);const color=wx49Color(c,backgroundColor,imagePath,overlay,refresh);
+ if(style==='emoji'){const s=document.createElement('span');s.className='wx49-emoji';s.textContent=({sun:'☀️',moon:'🌙',partly:'🌤️',cloud:'☁️',rain:'🌧️',snow:'❄️',thunder:'⛈️',mist:'🌫️',sleet:'🌨️'})[kind]||'☁️';return s;}
+ const svg=document.createElementNS(WX49_NS,'svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.classList.add('wx49-icon');svg.style.color=color;svg.innerHTML=WX49_SHAPES[kind]||WX49_SHAPES.cloud;return svg;
+}
+function wx49Append(container,code,isDay,c,text,bg,path,overlay,refresh){
+ const key=JSON.stringify([code,isDay,c.weatherIconStyle,c.weatherIconColorMode,c.weatherIconColor,text,bg,path,overlay,wx49ImageLuma.get(path)]);
+ if(container.dataset.wx49Key===key)return;
+ container.dataset.wx49Key=key;container.replaceChildren();const icon=wx49Icon(code,isDay,c,bg,path,overlay,refresh);if(icon)container.appendChild(icon);const span=document.createElement('span');span.textContent=text;container.appendChild(span);
+}
+
 const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
 let savedSelection=null;let lastPreviewMarkup="";let savingNow=false;let initialLoadComplete=false;
 // V31: one canonical signature for loaded and polled server configurations.
@@ -680,7 +753,7 @@ async function save(){
   const editingChanged=JSON.stringify(v30Snapshot())!==JSON.stringify(want);
   fill(result.got);
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V48-20261105&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V49-20261105&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 확인 실패: '+e.message+' · 입력 내용은 유지합니다.','error');
@@ -879,7 +952,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V48-20261105';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V49-20261105';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -1262,7 +1335,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
   const data=v42State.weather,fields=Array.from(document.querySelectorAll('[data-weather]:checked')).map(x=>x.dataset.weather),clockFields=Array.from(document.querySelectorAll('[data-weather-clock]:checked')).map(x=>x.dataset.weatherClock);
   const valid=data&&data.ok&&Number.isFinite(Number(data.temperature));
   const place=$('v42WeatherPreview').querySelector('.v42-place');place.textContent=valid?($('v48DongName')?.value.trim() || data.location || $('weatherCity').value):$('weatherCity').value;place.style.display=$('weatherShowLocation').checked?'block':'none';
-  const tempNode=$('v42WeatherPreview').querySelector('.v42-temp');tempNode.textContent=valid?Number(data.temperature).toFixed(1)+'°C':'--°C';tempNode.style.display=fields.includes('temp')?'block':'none';
+  const tempNode=$('v42WeatherPreview').querySelector('.v42-temp');wx49Append(tempNode,valid?data.conditionCode:1003,valid?data.isDay:1,readForm(),valid?(fields.includes('temp')?Number(data.temperature).toFixed(1)+'°C':''):'--°C',$('weatherBackgroundColor').value,wxBgMode==='image'?wxBgPath:'',0,()=>{if(window.wx49PreviewRefresh)window.wx49PreviewRefresh()});tempNode.style.display='flex';
   const conditionNode=$('v42WeatherPreview').querySelector('.v42-condition');conditionNode.textContent=valid?(data.condition||'날씨 정보'):'현재 날씨를 조회하세요';conditionNode.style.display=fields.includes('condition')?'block':'none';
   const info=[];
   if(valid&&fields.includes('humidity'))info.push('습도 '+data.humidity+'%');
@@ -1277,9 +1350,10 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
   if(valid&&clockFields.includes('humidity'))small.push('습도 '+data.humidity+'%');
   if(valid&&clockFields.includes('feelslike'))small.push('체감 '+data.feelsLike+'°C');
   if(valid&&clockFields.includes('wind'))small.push('풍속 '+data.windKph+'km/h');
-  strip.textContent=(valid&&$('weatherClockShowLocation').checked?($('v48DongName')?.value.trim() || data.location || $('weatherCity').value || 'Seoul')+' · ':'')+(small.length?small.join(' · '):'날씨 조회 대기');
+  wx49Append(strip,valid?data.conditionCode:1003,valid?data.isDay:1,readForm(),(valid&&$('weatherClockShowLocation').checked?($('v48DongName')?.value.trim() || data.location || $('weatherCity').value || 'Seoul')+' · ':'')+(small.length?small.join(' · '):'날씨 조회 대기'),$('clockBackgroundColor').value,$('clockBackgroundMode').value==='image'?$('background').value:'',$('clockBackgroundMode').value==='image'?$('overlay').value:0,()=>{if(window.wx49PreviewRefresh)window.wx49PreviewRefresh()});
   strip.classList.toggle('visible',v42State.tab==='clock'&&$('weatherOnClock').checked);
  }
+ window.wx49PreviewRefresh=weatherPreview;
  function updateUsage(){
   const minutes=Number($('weatherRefreshMinutes').value)||15;
   const perDevice=Math.ceil(30*24*60/minutes);
@@ -1439,7 +1513,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V48-20261105';
+ document.title='LCD 시계 관리자 V49-20261105';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -1456,7 +1530,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V48-20261105';
+document.title='LCD 시계 관리자 V49-20261105';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -1667,5 +1741,20 @@ document.title='LCD 시계 관리자 V48-20261105';
  // Initial async load may have completed already; reflect current config safely.
  const currentLabel=String(current.weatherLocationLabel||'').trim();
  if(currentLabel&&!currentLabel.includes(' ')&&/(동|읍|면|가)$/.test(currentLabel)){dong.value=currentLabel;chosen={name:currentLabel,query:String(current.weatherCity||'')};setStatus('저장된 동: '+currentLabel);}
+})();
+
+// V49: independent icon preferences; existing save transport, dong selection, and API key stay unchanged.
+(function(){
+ const ids=['weatherIconStyle','weatherIconColorMode','weatherIconColor'];
+ const prevRead=readForm;
+ readForm=function(){const c=prevRead();for(const id of ids)c[id]=document.getElementById(id).value;return c;};
+ const prevFill=fill;
+ fill=function(c){prevFill(c);for(const id of ids){const el=document.getElementById(id);el.value=c[id]||({weatherIconStyle:'outline',weatherIconColorMode:'auto',weatherIconColor:'#ffffff'})[id];}toggle();};
+ const prevCompare=compareSavedSettingsV29;
+ compareSavedSettingsV29=function(want,got){const diffs=prevCompare(want,got);for(const id of ids){if(String(want[id]||'').toLowerCase()!==String(got[id]||'').toLowerCase())diffs.push('날씨 아이콘 설정 '+id);}return diffs;};
+ function toggle(){document.getElementById('v49CustomRow').hidden=document.getElementById('weatherIconColorMode').value!=='custom';}
+ function update(){toggle();unsavedChanges=true;try{v39WeatherDirty=true}catch(_){}if(window.wx49PreviewRefresh)window.wx49PreviewRefresh();if(!document.getElementById('previewModal').hidden&&typeof sendPreview==='function')sendPreview();}
+ for(const id of ids){document.getElementById(id).addEventListener('input',update);document.getElementById(id).addEventListener('change',update);}
+ toggle();
 })();
 </script></body></html>

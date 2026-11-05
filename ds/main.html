@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V48-20261105</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V49-20261105</title><style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif}#bg,#shade{position:fixed;inset:0}#bg{background-size:cover;background-position:center;background-repeat:no-repeat}#shade{background:#000;pointer-events:none}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a}.center{top:66%;left:50%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer}body:hover #full,#full:focus{opacity:1}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10}
 #messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box}#messageScreen.active{display:flex}#messageScreen b,#messageScreen strong{font-weight:900}#messageScreen u{text-decoration:underline}#messageScreen mark{background:#fff176;color:#111}
 #boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease}
@@ -73,7 +73,15 @@ body.wx-test-v40 #versionTag{display:block!important;z-index:999998}
 #weatherContent .wx-extra{font-size:calc(var(--wx-page-size, 135px) * .34);justify-content:center}
 #weatherContent .wx-foot{position:static;margin-top:1.4em;font-size:calc(var(--wx-page-size, 135px) * .15);color:inherit;opacity:.75}
 #weatherContent .wx-place{color:inherit}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V48-20261105</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+
+/* V49 original outline weather icon. Scale with the current LCD font. */
+.wx49-icon{width:1em;height:1em;flex:0 0 1em;display:inline-block;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em;overflow:visible}
+.wx49-emoji{display:inline-block;flex:0 0 auto;font-size:.9em;line-height:1}
+.wx-main,.v42-temp{display:flex;align-items:center;justify-content:center;gap:.16em;min-width:0}
+#clockWeather,#v42ClockWeatherPreview{align-items:center;justify-content:center;gap:.18em}
+#clockWeather.weather-on,#v42ClockWeatherPreview.visible{display:flex}
+#v42WeatherPreview .wx49-icon,#weatherScreen .wx49-icon{width:.95em;height:.95em;flex-basis:.95em}
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V49-20261105</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -126,6 +134,61 @@ window.addEventListener('error',function(e){
  });
 })();
 </script><script src="config.js?v=20261104-v44"></script><script src="shared.js?v=20261104-v44"></script><script>
+
+/* V49: standalone original SVG line icons; no external icon assets or network requests. */
+const WX49_NS='http://www.w3.org/2000/svg';
+const WX49_SHAPES={
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/>',
+ moon:'<path d="M20.5 15.7A8.5 8.5 0 0 1 8.3 3.5 8.5 8.5 0 1 0 20.5 15.7Z"/><path d="M18 3v4M16 5h4"/>',
+ cloud:'<path d="M7 19h11a4.5 4.5 0 0 0 .2-9 7 7 0 0 0-13.3 1.6A3.8 3.8 0 0 0 7 19Z"/>',
+ partly:'<circle cx="7" cy="7" r="3"/><path d="M7 1v2M1 7h2M2.8 2.8l1.5 1.5M12 3l-1.5 1.5"/><path d="M8 20h10a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 13a3.6 3.6 0 0 0 3 7Z"/>',
+ rain:'<path d="M7 15h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 8a3.8 3.8 0 0 0 2 7Z"/><path d="M8 18l-1 3M13 18l-1 3M18 18l-1 3"/>',
+ snow:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M9 17v5M6.5 19.5h5M16 17v5M13.5 19.5h5"/>',
+ thunder:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M13 15l-3 4h3l-2 4 6-6h-4l2-2"/>',
+ mist:'<path d="M7 12h11a4 4 0 0 0 .2-8A7 7 0 0 0 5 6a3.5 3.5 0 0 0 2 6Z"/><path d="M3 16h18M6 20h12"/>',
+ sleet:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M8 17l-1 4M15 17v5M12.5 19.5h5"/>'
+};
+function wx49Kind(code,isDay){
+ const n=Number(code);
+ if(n===1000)return Number(isDay)===0?'moon':'sun';
+ if(n===1003)return 'partly';
+ if([1006,1009].includes(n))return 'cloud';
+ if([1030,1135,1147].includes(n))return 'mist';
+ if([1087,1273,1276,1279,1282].includes(n))return 'thunder';
+ if([1069,1072,1168,1171,1198,1201,1204,1207,1249,1252,1237,1261,1264].includes(n))return 'sleet';
+ if([1066,1114,1117,1210,1213,1216,1219,1222,1225,1255,1258].includes(n))return 'snow';
+ if([1063,1150,1153,1180,1183,1186,1189,1192,1195,1240,1243,1246].includes(n))return 'rain';
+ return 'cloud';
+}
+const wx49ImageLuma=new Map();
+function wx49Luma(hex){const h=String(hex||'').replace('#','');if(!/^[0-9a-f]{6}$/i.test(h))return .2;const rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]}
+function wx49ImageBrightness(path,refresh){
+ if(!/^images\/[\w가-힣 .-]+\.(jpg|jpeg|png|webp)$/i.test(path||'')||String(path).includes('..'))return null;
+ if(wx49ImageLuma.has(path))return wx49ImageLuma.get(path);
+ wx49ImageLuma.set(path,null);
+ const img=new Image();img.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=24;canvas.height=14;const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,24,14);const pixels=ctx.getImageData(0,0,24,14).data;let lum=0,n=0;for(let y=3;y<11;y++)for(let x=4;x<20;x++){const i=(y*24+x)*4;const h='#'+[pixels[i],pixels[i+1],pixels[i+2]].map(v=>v.toString(16).padStart(2,'0')).join('');lum+=wx49Luma(h);n++;}wx49ImageLuma.set(path,lum/Math.max(1,n));if(typeof refresh==='function')refresh();}catch(_){wx49ImageLuma.set(path,.2)}};
+ img.onerror=()=>wx49ImageLuma.set(path,.2);img.src=path;
+ return null;
+}
+function wx49Color(c,backgroundColor,imagePath,overlay,refresh){
+ const mode=c.weatherIconColorMode||'auto';if(mode==='white')return '#ffffff';if(mode==='black')return '#111111';if(mode==='custom')return /^#[0-9a-f]{6}$/i.test(c.weatherIconColor||'')?c.weatherIconColor:'#ffffff';
+ let l=imagePath?wx49ImageBrightness(imagePath,refresh):null;
+ if(l==null)l=wx49Luma(backgroundColor||'#122940');
+ l*=1-Math.max(0,Math.min(70,Number(overlay)||0))/100;
+ return l>.33?'#111111':'#ffffff';
+}
+function wx49Icon(code,isDay,c,backgroundColor,imagePath,overlay,refresh){
+ const style=c.weatherIconStyle||'outline';if(style==='none')return null;
+ const kind=wx49Kind(code,isDay);const color=wx49Color(c,backgroundColor,imagePath,overlay,refresh);
+ if(style==='emoji'){const s=document.createElement('span');s.className='wx49-emoji';s.textContent=({sun:'☀️',moon:'🌙',partly:'🌤️',cloud:'☁️',rain:'🌧️',snow:'❄️',thunder:'⛈️',mist:'🌫️',sleet:'🌨️'})[kind]||'☁️';return s;}
+ const svg=document.createElementNS(WX49_NS,'svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.classList.add('wx49-icon');svg.style.color=color;svg.innerHTML=WX49_SHAPES[kind]||WX49_SHAPES.cloud;return svg;
+}
+function wx49Append(container,code,isDay,c,text,bg,path,overlay,refresh){
+ const key=JSON.stringify([code,isDay,c.weatherIconStyle,c.weatherIconColorMode,c.weatherIconColor,text,bg,path,overlay,wx49ImageLuma.get(path)]);
+ if(container.dataset.wx49Key===key)return;
+ container.dataset.wx49Key=key;container.replaceChildren();const icon=wx49Icon(code,isDay,c,bg,path,overlay,refresh);if(icon)container.appendChild(icon);const span=document.createElement('span');span.textContent=text;container.appendChild(span);
+}
+
 const $=id=>document.getElementById(id);let wxData=null;let wxLast=0;let wxPending=false;let wxError='';let wxCachedLocation='';let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;const previewMode=new URLSearchParams(location.search).get('preview')==='1';let previewOverride=null;let previewScreen='clock';document.body.dataset.lcdScreen='clock';document.body.dataset.lcdEffect='none';
 
 function positionObjects(){
@@ -231,19 +294,19 @@ function renderWeather(){
  const vals={temp:safeNum(w.temperature,'°C'),condition:w.condition||'정보 없음',feelslike:'체감 '+safeNum(w.feelsLike,'°C'),humidity:'습도 '+safeNum(w.humidity,'%'),wind:'풍속 '+safeNum(w.windKph,'km/h')};
  const picked=fields.map(k=>vals[k]).filter(Boolean);
  const clockPicked=clockFields.map(k=>vals[k]).filter(Boolean);
- const mark=weatherEmoji(w.conditionCode);
- clock.textContent=(config.weatherClockShowLocation!==false?String(w.location||config.weatherCity||'Seoul')+'  ·  ':'')+(clockFields.includes('condition')?mark+'  ':'')+clockPicked.join(' · ');
+ const mark=weatherEmoji(w.conditionCode);const wxIconBg=config.weatherBackgroundMode==='image'?config.weatherBackgroundImage:'';const clockIconBg=config.clockBackgroundMode==='image'?config.background:'';
+ wx49Append(clock,w.conditionCode,w.isDay,config,(config.weatherClockShowLocation!==false?String(w.location||config.weatherCity||'Seoul')+'  ·  ':'')+clockPicked.join(' · '),config.clockBackgroundColor||'#17283b',clockIconBg,config.clockBackgroundMode==='image'?config.overlay:0,()=>{delete clock.dataset.wx49Key;renderWeather()});
  applyWeatherLayoutV43();
  const date=new Date(w.updatedAt||Date.now());
  const stale=Date.now()-(w.updatedAt||0)>30*60*1000;
- const sig=JSON.stringify([picked,w.updatedAt,stale,config.weatherCity,fields,config.weatherShowLocation,config.weatherPageX,config.weatherPageY,config.weatherPageSize,config.weatherPageFont,config.weatherPageColor]);
+ const sig=JSON.stringify([picked,w.updatedAt,stale,config.weatherCity,fields,config.weatherShowLocation,config.weatherPageX,config.weatherPageY,config.weatherPageSize,config.weatherPageFont,config.weatherPageColor,config.weatherIconStyle,config.weatherIconColorMode,config.weatherIconColor,w.conditionCode,w.isDay,wx49ImageLuma.get(wxIconBg)]);
  if(page.dataset.weatherSignature===sig)return;
  page.dataset.weatherSignature=sig;
  page.replaceChildren();
  const content=document.createElement('div');content.id='weatherContent';page.appendChild(content);
  const add=(cls,text)=>{const el=document.createElement('div');el.className=cls;el.textContent=text;content.appendChild(el)};
  if(config.weatherShowLocation!==false)add('wx-place',String(w.location||config.weatherCity||'날씨'));
- if(fields.includes('temp'))add('wx-main',mark+' '+vals.temp);else add('wx-main',mark);
+ const wxMain=document.createElement('div');wxMain.className='wx-main';content.appendChild(wxMain);wx49Append(wxMain,w.conditionCode,w.isDay,config,fields.includes('temp')?vals.temp:'',config.weatherBackgroundColor||'#122940',wxIconBg,0,()=>{delete page.dataset.weatherSignature;renderWeather()});
  if(fields.includes('condition'))add('wx-condition',vals.condition);
  add('wx-extra',fields.filter(k=>!['temp','condition'].includes(k)).map(k=>vals[k]).join('    ·    '));
  add('wx-foot','WeatherAPI.com · '+(stale?'이전 정보 · ':'')+'갱신 '+date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}));
