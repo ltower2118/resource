@@ -71,7 +71,17 @@ body.wx-test-v40 #versionTag{display:block!important;z-index:999998}
 #weatherContent .wx-main{font-size:var(--wx-page-size, 135px);line-height:1.13}
 #weatherContent .wx-condition{font-size:calc(var(--wx-page-size, 135px) * .55);margin:.16em 0}
 #weatherContent .wx-extra{font-size:calc(var(--wx-page-size, 135px) * .34);justify-content:center}
-#weatherContent .wx-foot{position:static;margin-top:1.4em;font-size:calc(var(--wx-page-size, 135px) * .15);color:inherit;opacity:.75}
+/* V51A: WeatherAPI attribution and update time live outside the movable weather card. */
+#weatherScreen > .wx-foot{
+ position:absolute;right:clamp(12px,2.2vw,42px);bottom:clamp(12px,2.2vh,30px);
+ left:auto;top:auto;z-index:5;max-width:calc(100% - 24px);
+ margin:0;padding:5px 9px;border-radius:6px;
+ font-size:clamp(11px,1vw,17px);font-weight:400;line-height:1.35;
+ color:#eaf3fa;text-align:right;white-space:normal;
+ background:rgba(7,21,36,.38);text-shadow:0 1px 3px #0008;
+ pointer-events:none;box-sizing:border-box;
+}
+@media(max-width:600px){#weatherScreen > .wx-foot{right:10px;bottom:10px;font-size:11px;padding:4px 6px}}
 #weatherContent .wx-place{color:inherit}
 
 /* V49 original outline weather icon. Scale with the current LCD font. */
@@ -164,8 +174,9 @@ body.wx-test-v40 #versionTag{display:block!important;z-index:999998}
 @keyframes wx50-haze{0%,9%,42%,100%{opacity:0}13%,23%,32%{opacity:.65}18%,28%,38%{opacity:.16}}
 body:not([data-lcd-screen=weather]) #wx50Scene *{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){#wx50Scene *{animation:none!important}#wx50Scene .wx50-drop,#wx50Scene .wx50-electric,#wx50Scene .wx50-meteor{display:none!important}}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V51-20261105</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
-서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 에러</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V51A-20261105</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
+조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
  if(e.target && e.target.tagName==='SCRIPT'){
    var o=document.getElementById('offline'),b=document.getElementById('boot');
@@ -478,7 +489,11 @@ function renderWeather(){
  const wxMain=document.createElement('div');wxMain.className='wx-main';content.appendChild(wxMain);wx49Append(wxMain,w.conditionCode,w.isDay,config,fields.includes('temp')?vals.temp:'',config.weatherAnimationEnabled===true?wxSceneIconBg:(config.weatherBackgroundColor||'#122940'),wxIconBg,0,()=>{delete page.dataset.weatherSignature;renderWeather()});
  if(fields.includes('condition'))add('wx-condition',vals.condition);
  add('wx-extra',fields.filter(k=>!['temp','condition'].includes(k)).map(k=>vals[k]).join('    ·    '));
- add('wx-foot','WeatherAPI.com · '+(stale?'이전 정보 · ':'')+'갱신 '+date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}));
+ // V51A: keep source attribution in the bottom-right of the full weather page.
+ const sourceFoot=document.createElement('div');
+ sourceFoot.className='wx-foot';
+ sourceFoot.textContent='WeatherAPI.com · '+(stale?'이전 정보 · ':'')+'갱신 '+date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+ page.appendChild(sourceFoot);
  applyWeatherLayoutV43();
 }
 // V40: independent, single-endpoint JSONP transport. No overlapping requests.
