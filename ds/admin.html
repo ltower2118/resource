@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V49-20261105</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V51-20261105</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;color:#64748b;line-height:1.6}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}button:disabled{opacity:.5}.secondary{background:#e6edf6;color:#203452}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}#pvBg,#pvShade{position:absolute;inset:0}#pvBg{background-size:cover;background-position:center}#pvShade{background:#000}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}#pvDate{position:absolute;font-weight:700;white-space:nowrap}
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
 #pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
@@ -342,7 +342,97 @@ button,.btn{font-size:15px;min-height:44px}
 #v49IconPanel #v49CustomRow[hidden]{display:none!important}
 #v49IconPanel p{margin:8px 0 0}
 @media(max-width:640px){#v49IconPanel .v49grid{grid-template-columns:1fr 1fr}}
-</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V49-20261105</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+</style><style id="v51AnimationStyles">/* V50D: smaller sun, bright stars + diagonal meteors, more delicate clouds, snow crystals and three lightning zones. */
+#v42WeatherPreview #wx50Scene{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;isolation:isolate;opacity:1}
+#v42WeatherPreview #v43WeatherCard{z-index:1}
+#wx50Scene{--wx50-sky1:#65b4e7;--wx50-sky2:#d1ecf8;background:linear-gradient(160deg,var(--wx50-sky1),var(--wx50-sky2))}
+#wx50Scene.wx50-sun{--wx50-sky1:#2788d1;--wx50-sky2:#a9dff8}
+#wx50Scene.wx50-moon{--wx50-sky1:#07172f;--wx50-sky2:#24496c}
+#wx50Scene.wx50-partly{--wx50-sky1:#4b9fda;--wx50-sky2:#b6dceb}
+#wx50Scene.wx50-cloud{--wx50-sky1:#607c99;--wx50-sky2:#b0c1cc}
+#wx50Scene.wx50-rain{--wx50-sky1:#233e5d;--wx50-sky2:#718ea4}
+#wx50Scene.wx50-snow{--wx50-sky1:#819eb7;--wx50-sky2:#d9e9f4}
+#wx50Scene.wx50-thunder{--wx50-sky1:#17233d;--wx50-sky2:#495775}
+#wx50Scene.wx50-over-image{background:linear-gradient(160deg,#203f6060,#0c284750)}
+/* 25vmin -> 16vmin. Keep the sun off the text area. */
+#wx50Scene .wx50-sun-disc{position:absolute;width:16vmin;height:16vmin;left:15%;top:15%;border-radius:50%;background:#fff4bd;box-shadow:0 0 42px 15px #fff5bd77,0 0 105px 35px #ffedac4d;animation:wx50-breathe 9s ease-in-out infinite alternate}
+#wx50Scene .wx50-moon-disc{position:absolute;width:16vmin;height:16vmin;right:17%;top:13%;border-radius:50%;background:#e7eff9;box-shadow:0 0 40px 12px #dce9f344}
+#wx50Scene .wx50-moon-disc:after{content:'';position:absolute;width:85%;height:85%;left:30%;top:-15%;border-radius:50%;background:#07172f}
+#wx50Scene .wx50-cloud{position:absolute;width:260px;height:72px;border-radius:100px;background:#f6fbffe0;filter:drop-shadow(0 15px 16px #17324b16);animation:wx50-drift 33s ease-in-out infinite alternate;will-change:transform}
+#wx50Scene .wx50-cloud:before,#wx50Scene .wx50-cloud:after{content:'';position:absolute;border-radius:50%;background:inherit}
+#wx50Scene .wx50-cloud:before{width:112px;height:112px;left:39px;bottom:24px}
+#wx50Scene .wx50-cloud:after{width:137px;height:137px;left:106px;bottom:15px}
+#wx50Scene.wx50-cloud .wx50-cloud,#wx50Scene.wx50-rain .wx50-cloud,#wx50Scene.wx50-thunder .wx50-cloud{background:#d4e0e9df}
+#wx50Scene.wx50-partly .wx50-cloud{background:#f3f8ffba;filter:blur(1.5px);animation-duration:58s}
+#wx50Scene.wx50-cloud .wx50-cloud{background:#d7e1eac0;filter:blur(2.2px);animation-duration:66s}
+#wx50Scene.wx50-snow .wx50-cloud{background:#edf5fc9a;filter:blur(2px);animation-duration:62s}
+#wx50Scene.wx50-thunder .wx50-cloud{background:#8f9eb29a;filter:blur(2.5px);animation-duration:68s}
+/* Rain is deliberately unchanged from V50C. */
+#wx50Scene .wx50-drop{position:absolute;top:-10%;height:35px;width:2px;background:#c9eaffbb;transform:rotate(12deg);animation:wx50-rainfall var(--duration,1.6s) linear infinite;animation-delay:var(--delay,0s);will-change:transform}
+#wx50Scene .wx50-flake{position:absolute;top:-7%;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 6px #ffffffaa;animation:wx50-snowfall var(--duration,8s) linear infinite;animation-delay:var(--delay,0s);will-change:transform}
+#wx50Scene .wx50-flake.wx50-crystal{width:auto;height:auto;background:none;border-radius:0;box-shadow:none;font:24px/1 'Malgun Gothic',sans-serif;color:#f6fbff;text-shadow:0 0 8px #fff8}
+#wx50Scene .wx50-snow-decor{position:absolute;font:clamp(23px,4vw,54px)/1 'Malgun Gothic',sans-serif;color:#f5fcff;opacity:.22;text-shadow:0 0 12px #ffffff88;animation:wx50-snow-glide 13s ease-in-out infinite alternate;will-change:transform}
+/* Stars are sharper; only a few are larger, avoiding a busy sky. */
+/* V50D: restrained night sky. Most stars stay faint; one star at a time gently twinkles. */
+#wx50Scene .wx50-star{position:absolute;width:2px;height:2px;background:#e4edfc;border-radius:50%;opacity:.35;box-shadow:0 0 2px 1px #b8d5fa30}
+#wx50Scene .wx50-star.wx50-bright{width:3px;height:3px;opacity:.35;box-shadow:0 0 2px 1px #b8d5fa30;animation:wx50-solo-twinkle 16s ease-in-out infinite;animation-delay:var(--delay,0s)}
+/* Three short, diagonal shooting stars. The streaks do not continuously rain down. */
+#wx50Scene .wx50-meteor{position:absolute;top:var(--meteor-top,5%);left:var(--meteor-left,87%);width:115px;height:2px;border-radius:6px;background:linear-gradient(90deg,transparent 0%,#d9edff66 45%,#ffffff 100%);filter:drop-shadow(0 0 5px #c6e8ff);opacity:0;transform:rotate(-38deg);transform-origin:right center;animation:wx50-meteor-fall var(--meteor-duration,10s) linear infinite;animation-delay:var(--meteor-delay,0s);will-change:transform,opacity}
+#wx50Scene .wx50-meteor:after{content:'';position:absolute;right:-2px;top:-2px;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 9px 4px #b9ddff}
+/* Three independent electrical strikes with staggered timing. */
+#wx50Scene .wx50-electric{position:absolute;top:6%;left:var(--bolt-left,53%);width:var(--bolt-width,29%);height:78%;overflow:visible;filter:drop-shadow(0 0 5px #a9dfff99)}
+#wx50Scene .wx50-electric path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:550;stroke-dashoffset:550;opacity:0;animation:wx50-crackle 9s linear infinite;animation-delay:var(--bolt-delay,0s)}
+#wx50Scene .wx50-electric .wx50-core-glow{stroke:#77bfff;stroke-width:12;filter:blur(7px)}
+#wx50Scene .wx50-electric .wx50-core{stroke:#e9f8ff;stroke-width:3.1}
+#wx50Scene .wx50-electric .wx50-branch{stroke:#b5eaff;stroke-width:1.8;animation-name:wx50-crackle-branch;animation-delay:calc(var(--bolt-delay,0s) - .16s)}
+#wx50Scene .wx50-electric .wx50-branch.second{stroke-width:1.4;animation-delay:calc(var(--bolt-delay,0s) - .3s)}
+#wx50Scene .wx50-electric .wx50-branch.third{stroke-width:1.2;animation-delay:calc(var(--bolt-delay,0s) - .4s)}
+#wx50Scene .wx50-electric-haze{position:absolute;inset:0;background:radial-gradient(ellipse at var(--haze-x,50%) 37%,#b9e5ff22,transparent 32%);opacity:0;animation:wx50-haze 9s linear infinite;animation-delay:var(--bolt-delay,0s)}
+@keyframes wx50-drift{from{transform:translate3d(-5vw,0,0) scale(var(--wx50-scale,1))}to{transform:translate3d(8vw,0,0) scale(var(--wx50-scale,1))}}
+@keyframes wx50-breathe{from{opacity:.8;transform:scale(.97)}to{opacity:1;transform:scale(1.05)}}
+@keyframes wx50-rainfall{from{transform:translate3d(0,-12vh,0) rotate(12deg)}to{transform:translate3d(-12vw,115vh,0) rotate(12deg)}}
+@keyframes wx50-snowfall{from{transform:translate3d(0,-10vh,0)}to{transform:translate3d(7vw,112vh,0)}}
+@keyframes wx50-snow-glide{from{transform:translate3d(-7px,4px,0) rotate(-9deg)}to{transform:translate3d(13px,-12px,0) rotate(12deg)}}
+@keyframes wx50-solo-twinkle{0%,3%,20%,100%{opacity:.35;transform:scale(1);box-shadow:0 0 2px 1px #b8d5fa30}8%{opacity:.9;transform:scale(1.45);box-shadow:0 0 7px 2px #e8f3ffb8}12%{opacity:1;transform:scale(1.65);box-shadow:0 0 10px 3px #d8eaffd0}16%{opacity:.48;transform:scale(1.1);box-shadow:0 0 4px 1px #c7dfff50}}
+@keyframes wx50-twinkle{from{opacity:.48;transform:scale(.88)}to{opacity:1;transform:scale(1.18)}}
+@keyframes wx50-meteor-fall{0%,8%{opacity:0;transform:translate3d(0,0,0) rotate(-38deg)}9%{opacity:1}14%{opacity:1}19%,100%{opacity:0;transform:translate3d(-39vw,37vh,0) rotate(-38deg)}}
+@keyframes wx50-crackle{
+ 0%,9%,43%,100%{opacity:0;stroke-dashoffset:550}
+ 11%{opacity:.65;stroke-dashoffset:350}
+ 13%{opacity:.95;stroke-dashoffset:100}
+ 15%{opacity:.28;stroke-dashoffset:0}
+ 18%{opacity:.85;stroke-dashoffset:0}
+ 20%{opacity:.18;stroke-dashoffset:0}
+ 23%{opacity:1;stroke-dashoffset:0}
+ 26%{opacity:.38;stroke-dashoffset:0}
+ 29%{opacity:.9;stroke-dashoffset:0}
+ 33%{opacity:.22;stroke-dashoffset:0}
+ 37%{opacity:.78;stroke-dashoffset:0}
+ 41%{opacity:0;stroke-dashoffset:0}
+}
+@keyframes wx50-crackle-branch{
+ 0%,12%,44%,100%{opacity:0;stroke-dashoffset:550}
+ 14%{opacity:.75;stroke-dashoffset:120}
+ 17%{opacity:.1;stroke-dashoffset:0}
+ 21%{opacity:.9;stroke-dashoffset:0}
+ 24%{opacity:.2;stroke-dashoffset:0}
+ 28%{opacity:.78;stroke-dashoffset:0}
+ 31%{opacity:.12;stroke-dashoffset:0}
+ 36%{opacity:.85;stroke-dashoffset:0}
+ 42%{opacity:0;stroke-dashoffset:0}
+}
+@keyframes wx50-haze{0%,9%,42%,100%{opacity:0}13%,23%,32%{opacity:.65}18%,28%,38%{opacity:.16}}
+#v42WeatherPreview:not(.visible) #wx50Scene *{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){#wx50Scene *{animation:none!important}#wx50Scene .wx50-drop,#wx50Scene .wx50-electric,#wx50Scene .wx50-meteor{display:none!important}}
+
+.v51-toggle{display:flex;align-items:flex-start;gap:12px;background:#eaf3ff;border:1px solid #bfd3ed;border-radius:10px;padding:13px;margin:8px 0 14px;cursor:pointer}
+.v51-toggle input{width:24px!important;height:24px!important;min-height:24px!important;margin:0!important;flex:none;accent-color:#174b87}
+.v51-toggle b{font-size:16px}.v51-toggle small{display:block;color:#536984;font-size:13px;line-height:1.5;margin-top:5px}
+#v51StaticBackgroundOptions[hidden]{display:none!important}
+#v42WeatherPreview #wx50Scene{z-index:0}
+#v42WeatherPreview #v43WeatherCard{z-index:2}
+#v42WeatherPreview #wx50Scene .wx50-cloud{transform-origin:center}
+</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V51-20261105</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <nav id="v42Tabs" aria-label="화면 편집 선택"><button type="button" class="v42-tab active" data-v42tab="clock" aria-selected="true">◷ <span>날씨·시간 통합</span></button><button type="button" class="v42-tab" data-v42tab="message" aria-selected="false">▤ <span>문자 화면</span></button><button type="button" class="v42-tab" data-v42tab="weather" aria-selected="false">☁ <span>날씨 화면</span></button></nav><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  <strong>시계 · 날짜 표시 선택</strong>
@@ -415,9 +505,11 @@ button,.btn{font-size:15px;min-height:44px}
 <section id="v42TextPanel" class="v42-panel" hidden><h2>문자 화면 설정</h2><div id="v42TextSlot"></div></section>
 <section id="v42WeatherPanel" class="v42-panel" hidden><h2>날씨 화면 설정</h2><div id="v42WeatherSlot"></div><div class="v44-weather-style"><label>글꼴<select id="weatherPageFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>글자색<input id="weatherPageColor" type="color" value="#ffffff"></label><label class="v45-check"><input type="checkbox" id="weatherPageBold"> 굵게(B)</label></div><label style="display:flex;align-items:center;gap:9px;font-size:16px"><input id="weatherShowLocation" type="checkbox" checked style="width:22px;min-height:22px"> 지역명 표시</label>
 <div id="v49IconPanel"><h3>날씨 아이콘 설정 (시계·날씨 공통)</h3><div class="v49grid"><label>아이콘 종류<select id="weatherIconStyle"><option value="outline">심플 아웃라인 (추천)</option><option value="emoji">기존 이모지</option><option value="none">아이콘 숨김</option></select></label><label>아이콘 색상<select id="weatherIconColorMode"><option value="auto">배경에 맞게 자동</option><option value="white">흰색 고정</option><option value="black">검정 고정</option><option value="custom">직접 선택</option></select></label><label id="v49CustomRow" hidden>직접 색상<input id="weatherIconColor" type="color" value="#ffffff"></label></div><p>자동은 어두운 배경에 흰색, 밝은 배경에 검정색을 사용합니다. 이미지 배경도 밝기를 분석합니다. WeatherAPI 날씨 코드에 따라 모양이 자동 변경됩니다.</p></div><div class="v45-weather-background"><div class="v43-heading">날씨 페이지 배경</div>
+ <label class="v51-toggle" for="weatherAnimationEnabled"><input id="weatherAnimationEnabled" type="checkbox"> <span><b>WeatherAPI 날씨 연동 애니메이션 사용</b><small>켜면 실제 날씨에 따라 7종 배경이 자동 변경됩니다. 끄면 아래 단색·이미지 설정을 사용합니다.</small></span></label>
+ <div id="v51StaticBackgroundOptions">
 <div class="v45-bg-grid"><label>배경 종류<select id="weatherBackgroundMode"><option value="color">단색</option><option value="image">배경 이미지</option></select></label>
 <label id="v45WeatherBgColorRow">배경 색상<input id="weatherBackgroundColor" type="color" value="#122940"></label>
-<label id="v45WeatherBgImageRow" hidden>이미지 파일명<input id="weatherBackgroundImage" type="text" value="images/background.jpg" placeholder="images/배경.jpg" spellcheck="false"></label></div><button type="button" class="secondary" id="v45OpenImages" style="margin-top:10px">GitHub 이미지 폴더 열기</button></div>
+<label id="v45WeatherBgImageRow" hidden>이미지 파일명<input id="weatherBackgroundImage" type="text" value="images/background.jpg" placeholder="images/배경.jpg" spellcheck="false"></label></div><button type="button" class="secondary" id="v45OpenImages" style="margin-top:10px">GitHub 이미지 폴더 열기</button></div></div>
 <div class="v43-heading">날씨 전용 화면 배치</div>
 <div class="v43-layout">
 <label>가로 위치 (%)<input id="weatherPageX" type="number" min="0" max="100" step="0.1" value="50"></label>
@@ -444,8 +536,8 @@ button,.btn{font-size:15px;min-height:44px}
 <p>지역은 영문 지명 또는 위도,경도를 권장합니다. WeatherAPI 키는 여기 입력하지 않고 Apps Script의 비공개 스크립트 속성 <b>WEATHERAPI_KEY</b>에 등록합니다.</p>
 <label>표시할 날씨 항목</label><div class="v33grid" id="weatherFields"><label><input type="checkbox" data-weather="temp" checked> 현재 기온</label><label><input type="checkbox" data-weather="condition" checked> 날씨 상태</label><label><input type="checkbox" data-weather="feelslike"> 체감온도</label><label><input type="checkbox" data-weather="humidity" checked> 습도</label><label><input type="checkbox" data-weather="wind"> 풍속</label></div>
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="v33PreviewWeather">날씨 전용 페이지 미리보기</button><button type="button" class="secondary" id="v33PreviewClock">날짜·시간 미리보기</button><button type="button" class="secondary" id="v33PreviewMessage">문자 미리보기</button></div>
-<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V49-20261105" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V49-20261105" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V49-20261105"></script><script src="shared.js?v=V49-20261105"></script><script>
+<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V51-20261105" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V51-20261105" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V51-20261105"></script><script src="shared.js?v=V51-20261105"></script><script>
 
 /* V49: standalone original SVG line icons; no external icon assets or network requests. */
 const WX49_NS='http://www.w3.org/2000/svg';
@@ -753,7 +845,7 @@ async function save(){
   const editingChanged=JSON.stringify(v30Snapshot())!==JSON.stringify(want);
   fill(result.got);
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V49-20261105&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V51-20261105&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 확인 실패: '+e.message+' · 입력 내용은 유지합니다.','error');
@@ -948,11 +1040,11 @@ function v10ScaleModal(){
  const scale=Math.min(vp.clientWidth/1920,vp.clientHeight/1080);
  stage.style.transform='scale('+scale+')';stage.style.left=(vp.clientWidth-1920*scale)/2+'px';stage.style.top=(vp.clientHeight-1080*scale)/2+'px';
 }
-function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.contentWindow.postMessage({kind:'lcd-preview-config',config:readForm(),mode:modalMode},location.origin)}
+function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.contentWindow.postMessage({kind:'lcd-preview-config',config:readForm(),mode:modalMode,weatherData:typeof window.v51WeatherPreviewData==='function'?window.v51WeatherPreviewData():null},location.origin)}
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V49-20261105';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V51-20261105';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -1210,7 +1302,7 @@ $('previewModalWeather').onclick=()=>v10ShowModal('weather');
 // Preserve 3-way preview mode when the original preview sender normalizes to 2-way.
 const v33SendPreview=sendPreview;
 sendPreview=function(){
- if(playerFrame&&playerFrame.contentWindow)playerFrame.contentWindow.postMessage({kind:'lcd-preview-config',config:readForm(),mode:modalMode},location.origin);
+ if(playerFrame&&playerFrame.contentWindow)playerFrame.contentWindow.postMessage({kind:'lcd-preview-config',config:readForm(),mode:modalMode,weatherData:typeof window.v51WeatherPreviewData==='function'?window.v51WeatherPreviewData():null},location.origin);
 };
 const v33OldModal=v10ShowModal;
 v10ShowModal=function(mode){v33OldModal(mode==='weather'?'clock':mode);if(mode==='weather'){modalMode='weather';sendPreview()}};
@@ -1330,10 +1422,12 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
  const v43Card=document.createElement('div');v43Card.id='v43WeatherCard';while(preview.firstChild)v43Card.appendChild(preview.firstChild);const source=document.createElement('div');source.className='v43-source';source.textContent='WeatherAPI.com';v43Card.appendChild(source);preview.appendChild(v43Card);
  const strip=document.createElement('div');strip.id='v42ClockWeatherPreview';$('previewStage').appendChild(strip);
  const v42State={tab:'clock',weather:null,weatherCity:'',weatherAt:0,pending:false};
+ window.v51WeatherPreviewData=()=>v42State.weather;
  function weatherPreview(){
   const wxPage=$('v42WeatherPreview');const wxBgMode=$('weatherBackgroundMode').value;const wxBgPath=String($('weatherBackgroundImage').value||'images/background.jpg');wxPage.style.backgroundColor=$('weatherBackgroundColor').value||'#122940';wxPage.style.backgroundImage=wxBgMode==='image'&&/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(wxBgPath)&&!wxBgPath.includes('..')?'url("'+encodeURI(wxBgPath)+'")':'none';wxPage.style.backgroundSize='cover';wxPage.style.backgroundPosition='center';
   const data=v42State.weather,fields=Array.from(document.querySelectorAll('[data-weather]:checked')).map(x=>x.dataset.weather),clockFields=Array.from(document.querySelectorAll('[data-weather-clock]:checked')).map(x=>x.dataset.weatherClock);
   const valid=data&&data.ok&&Number.isFinite(Number(data.temperature));
+  v51UpdatePreviewScene(wxPage,valid?data.conditionCode:1000,valid?data.isDay:1,readForm());
   const place=$('v42WeatherPreview').querySelector('.v42-place');place.textContent=valid?($('v48DongName')?.value.trim() || data.location || $('weatherCity').value):$('weatherCity').value;place.style.display=$('weatherShowLocation').checked?'block':'none';
   const tempNode=$('v42WeatherPreview').querySelector('.v42-temp');wx49Append(tempNode,valid?data.conditionCode:1003,valid?data.isDay:1,readForm(),valid?(fields.includes('temp')?Number(data.temperature).toFixed(1)+'°C':''):'--°C',$('weatherBackgroundColor').value,wxBgMode==='image'?wxBgPath:'',0,()=>{if(window.wx49PreviewRefresh)window.wx49PreviewRefresh()});tempNode.style.display='flex';
   const conditionNode=$('v42WeatherPreview').querySelector('.v42-condition');conditionNode.textContent=valid?(data.condition||'날씨 정보'):'현재 날씨를 조회하세요';conditionNode.style.display=fields.includes('condition')?'block':'none';
@@ -1475,7 +1569,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
  // V44: clock weather and weather page have independent field/style controls.
  const v44ClockChecks=()=>Array.from(document.querySelectorAll('[data-weather-clock]:checked')).map(el=>el.dataset.weatherClock);
  const v44ClockFieldsAll=Array.from(document.querySelectorAll('[data-weather-clock]'));
- function v45ToggleWeatherBg(){const mode=$('weatherBackgroundMode').value;$('v45WeatherBgColorRow').hidden=mode!=='color';$('v45WeatherBgImageRow').hidden=mode!=='image';}
+ function v45ToggleWeatherBg(){const mode=$('weatherBackgroundMode').value;$('v45WeatherBgColorRow').hidden=mode!=='color';$('v45WeatherBgImageRow').hidden=mode!=='image';$('v51StaticBackgroundOptions').hidden=$('weatherAnimationEnabled').checked;}
  const v44Inputs=['weatherClockShowLocation','weatherClockFont','weatherClockColor','weatherClockBold','weatherPageFont','weatherPageColor','weatherPageBold','weatherBackgroundMode','weatherBackgroundColor','weatherBackgroundImage'];
  const v44Read=readForm;
  readForm=function(){const c=v44Read();c.weatherClockFields=v44ClockChecks();c.weatherClockShowLocation=$('weatherClockShowLocation').checked;c.weatherClockFont=$('weatherClockFont').value;c.weatherClockColor=$('weatherClockColor').value;c.weatherPageFont=$('weatherPageFont').value;c.weatherPageColor=$('weatherPageColor').value;c.weatherClockBold=$('weatherClockBold').checked;c.weatherPageBold=$('weatherPageBold').checked;c.weatherBackgroundMode=$('weatherBackgroundMode').value;c.weatherBackgroundColor=$('weatherBackgroundColor').value;c.weatherBackgroundImage=$('weatherBackgroundImage').value.trim()||'images/background.jpg';return c};
@@ -1513,7 +1607,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V49-20261105';
+ document.title='LCD 시계 관리자 V51-20261105';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -1530,7 +1624,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V49-20261105';
+document.title='LCD 시계 관리자 V51-20261105';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -1756,5 +1850,116 @@ document.title='LCD 시계 관리자 V49-20261105';
  function update(){toggle();unsavedChanges=true;try{v39WeatherDirty=true}catch(_){}if(window.wx49PreviewRefresh)window.wx49PreviewRefresh();if(!document.getElementById('previewModal').hidden&&typeof sendPreview==='function')sendPreview();}
  for(const id of ids){document.getElementById(id).addEventListener('input',update);document.getElementById(id).addEventListener('change',update);}
  toggle();
+})();
+
+function wx50Kind(code,isDay){
+ const kind=wx49Kind(code,isDay);
+ if(kind==='mist')return 'cloud';
+ if(kind==='sleet')return 'rain';
+ return ['sun','moon','partly','cloud','rain','snow','thunder'].includes(kind)?kind:'cloud';
+}
+function wx50MountScene(page,code,isDay,sceneConfig){
+ const kind=wx50Kind(code,isDay);
+ const scene=document.createElement('div');scene.id='wx50Scene';scene.className='wx50-'+kind;
+ // Animation mode is exclusive: the scene covers the old image or color background.
+ scene.setAttribute('aria-hidden','true');
+ const add=(cls,style,content)=>{const e=document.createElement('div');e.className=cls;if(style)for(const [k,v] of Object.entries(style))e.style.setProperty(k,v);if(content)e.textContent=content;scene.appendChild(e);return e};
+ if(kind==='sun'||kind==='partly')add('wx50-sun-disc');
+ if(kind==='moon'){
+  add('wx50-moon-disc');
+  // 20 small stars, only 4 of which take turns briefly glowing (one at a time).
+  let brightIndex=0;
+  for(let i=0;i<20;i++){
+   const bright=[2,7,12,17].includes(i);
+   add('wx50-star'+(bright?' wx50-bright':''),{
+    left:(7+(i*37)%85)+'%',top:(8+(i*29)%78)+'%',
+    ...(bright?{'--delay':(-brightIndex++*4)+'s'}:{})
+   });
+  }
+  for(let i=0;i<3;i++)add('wx50-meteor',{
+   '--meteor-left':(85-i*12)+'%','--meteor-top':(6+i*10)+'%',
+   '--meteor-duration':(9+i*2)+'s','--meteor-delay':(-i*4.3)+'s'
+  });
+ }
+ // V50C rain remains unchanged. More clouds elsewhere, but keep them small and transparent.
+ const clouds=kind==='rain'?3:kind==='partly'?3:kind==='cloud'?4:kind==='thunder'?5:kind==='snow'?3:0;
+ const positions={partly:[[-10,17],[43,12],[76,41]],cloud:[[-12,11],[28,25],[70,15],[82,48]],snow:[[-10,14],[38,8],[77,24]],thunder:[[-12,8],[23,13],[57,5],[82,27],[40,44]]};
+ for(let i=0;i<clouds;i++){
+  const isRain=kind==='rain',pos=(positions[kind]||[])[i]||[-12+i*37,18+i*15];
+  add('wx50-cloud',{
+   left:isRain?(-12+i*37)+'%':pos[0]+'%',
+   top:isRain?(18+i*15)+'%':pos[1]+'%',
+   '--wx50-scale':isRain?'1':String(kind==='partly'?.48+(i%2)*.1:kind==='thunder'?.64+(i%3)*.1:kind==='snow'?.54+(i%2)*.1:.56+(i%3)*.07),
+   animationDelay:(-i*7)+'s',
+   opacity:isRain?String(.65+i*.12):String(kind==='partly'?.35+(i%2)*.09:kind==='thunder'?.40+(i%3)*.07:kind==='snow'?.35+(i%2)*.08:.39+(i%3)*.06)
+  });
+ }
+ if(kind==='rain'||kind==='snow'){
+  const rain=kind==='rain';const count=rain?24:22;
+  for(let i=0;i<count;i++){
+   const crystal=!rain&&i%3===0;
+   add(rain?'wx50-drop':('wx50-flake'+(crystal?' wx50-crystal':'')),{
+    left:((i*47+13)%100)+'%',
+    '--duration':(rain?1.25+(i%5)*.24:6.8+(i%6)*.8)+'s',
+    '--delay':(-i*(rain?.27:.53))+'s',
+    opacity:String(.45+(i%4)*.14)
+   },crystal?'❄':'');
+  }
+  if(!rain){
+   for(let i=0;i<8;i++)add('wx50-snow-decor',{
+    left:(4+(i*29)%91)+'%',top:(12+(i*37)%75)+'%',
+    fontSize:(26+(i%3)*11)+'px',animationDelay:(-i*1.7)+'s',opacity:String(.15+(i%3)*.05)
+   },'❄');
+  }
+ }
+ if(kind==='thunder'){
+  const bolts=[
+   {left:'5%',width:'30%',delay:'0s',x:'18%',core:'M182 8 L161 83 L183 114 L133 191 L149 229 L100 303 L119 342 L63 441 L78 477 L41 497'},
+   {left:'37%',width:'30%',delay:'-2.9s',x:'51%',core:'M148 9 L178 69 L142 121 L162 162 L117 243 L138 284 L96 362 L114 398 L57 486'},
+   {left:'68%',width:'29%',delay:'-5.7s',x:'82%',core:'M165 8 L137 78 L170 110 L135 186 L152 234 L109 288 L127 338 L75 415 L89 450 L52 493'}
+  ];
+  for(const bolt of bolts){
+   add('wx50-electric-haze',{'--bolt-delay':bolt.delay,'--haze-x':bolt.x});
+   const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+   svg.setAttribute('class','wx50-electric');svg.setAttribute('viewBox','0 0 350 500');
+   svg.setAttribute('preserveAspectRatio','xMidYMid meet');svg.setAttribute('aria-hidden','true');
+   svg.style.setProperty('--bolt-left',bolt.left);svg.style.setProperty('--bolt-width',bolt.width);svg.style.setProperty('--bolt-delay',bolt.delay);
+   const paths=[['wx50-core-glow',bolt.core],['wx50-core',bolt.core],
+    ['wx50-branch','M133 191 L208 207 L190 258 L248 282 L226 328'],
+    ['wx50-branch second','M100 303 L54 319 L74 359 L28 388'],
+    ['wx50-branch third','M149 229 L220 176 L247 189 L284 156']];
+   for(const [cls,d] of paths){const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('class',cls);p.setAttribute('d',d);svg.appendChild(p)}
+   scene.appendChild(svg);
+  }
+ }
+ page.appendChild(scene);
+}
+
+
+// V51 preview uses the same seven-scene generator as the LCD. No extra weather calls.
+function v51UpdatePreviewScene(page,code,isDay,c){
+ if(!page)return;
+ const old=page.querySelector('#wx50Scene');
+ if(!c||c.weatherAnimationEnabled!==true){if(old)old.remove();delete page.dataset.v51Scene;return;}
+ const kind=wx50Kind(code,isDay);
+ if(page.dataset.v51Scene===kind&&old)return;
+ if(old)old.remove();
+ wx50MountScene(page,code,isDay,c);
+ page.dataset.v51Scene=kind;
+}
+
+
+// V51: opt-in WeatherAPI-linked animation for weather-only page.
+// Default is OFF for backward compatibility with all V49 saved settings.
+(function(){
+ const checkbox=document.getElementById('weatherAnimationEnabled');
+ const oldRead=readForm;
+ readForm=function(){const c=oldRead();c.weatherAnimationEnabled=checkbox.checked;return c;};
+ const oldFill=fill;
+ fill=function(c){oldFill(c);checkbox.checked=c.weatherAnimationEnabled===true;document.getElementById('v51StaticBackgroundOptions').hidden=checkbox.checked;if(window.wx49PreviewRefresh)window.wx49PreviewRefresh();};
+ const oldCompare=compareSavedSettingsV29;
+ compareSavedSettingsV29=function(want,got){const diffs=oldCompare(want,got);if(Boolean(want.weatherAnimationEnabled)!==Boolean(got.weatherAnimationEnabled))diffs.push('날씨 애니메이션 연동 설정 저장 불일치 (Code.gs에 weatherAnimationEnabled 저장 지원 필요)');return diffs;};
+ function update(){document.getElementById('v51StaticBackgroundOptions').hidden=checkbox.checked;unsavedChanges=true;try{v39WeatherDirty=true}catch(_){};if(window.wx49PreviewRefresh)window.wx49PreviewRefresh();if(!document.getElementById('previewModal').hidden&&typeof sendPreview==='function')sendPreview();}
+ checkbox.addEventListener('change',update);
 })();
 </script></body></html>
