@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V47-20261104</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 시계 관리자 V48-20261105</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;color:#64748b;line-height:1.6}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}button:disabled{opacity:.5}.secondary{background:#e6edf6;color:#203452}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}#pvBg,#pvShade{position:absolute;inset:0}#pvBg{background-size:cover;background-position:center}#pvShade{background:#000}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}#pvDate{position:absolute;font-weight:700;white-space:nowrap}
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
 #pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
@@ -315,7 +315,16 @@ button,.btn{font-size:15px;min-height:44px}
 #v47LocationPanel .v47toggle{display:inline-flex;align-items:center;gap:6px;margin:10px 0 0;font-size:14px;min-height:40px}
 #v47LocationPanel .v47toggle input{width:18px;height:18px;min-height:0}
 @media(max-width:600px){#v47LocationPanel{padding:12px}#v47LocationPanel .v47grid{grid-template-columns:1fr}#v47LocationPanel select,#v47LocationPanel input{font-size:17px}}
-</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V47-20261104</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+</style><style id="v48DongStyle">
+#v48DongPanel{padding:13px;background:#fff;border:1px solid #c7d8ed;border-radius:11px;margin:13px 0}
+#v48DongPanel label{display:flex;flex-direction:column;gap:7px;font-size:15px;font-weight:700}
+#v48DongPanel input{font-size:17px;min-height:48px}
+#v48DongPanel .v48-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:9px 0}
+#v48SearchDong{background:#e5efff;color:#173a7a;min-height:46px}
+#v48DongCandidates{flex:1;min-width:200px;max-width:100%;min-height:46px}
+#v48DongCandidates[hidden]{display:none!important}
+#v48DongStatus{margin:6px 0 0;line-height:1.55}
+</style></head><body><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V48-20261105</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <nav id="v42Tabs" aria-label="화면 편집 선택"><button type="button" class="v42-tab active" data-v42tab="clock" aria-selected="true">◷ <span>날씨·시간 통합</span></button><button type="button" class="v42-tab" data-v42tab="message" aria-selected="false">▤ <span>문자 화면</span></button><button type="button" class="v42-tab" data-v42tab="weather" aria-selected="false">☁ <span>날씨 화면</span></button></nav><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  <strong>시계 · 날짜 표시 선택</strong>
@@ -404,12 +413,21 @@ button,.btn{font-size:15px;min-height:44px}
 <label>자동 전환 순서<select id="pageOrder"><option value="clock,message,weather">날짜·시간 → 문자 → 날씨</option><option value="clock,weather,message">날짜·시간 → 날씨 → 문자</option><option value="message,clock,weather">문자 → 날짜·시간 → 날씨</option><option value="message,weather,clock">문자 → 날씨 → 날짜·시간</option><option value="weather,clock,message">날씨 → 날짜·시간 → 문자</option><option value="weather,message,clock">날씨 → 문자 → 날짜·시간</option></select></label>
 <hr style="border:0;border-top:1px solid #e2e8f0;margin:18px 0">
 <label><input id="weatherOnClock" type="checkbox"> 날짜·시간 화면에도 날씨 정보 함께 표시</label>
-<label>날씨 지역 (WeatherAPI 검색값)<input id="weatherCity" value="Seoul" placeholder="예: Seoul, Seongdong-gu / 37.54,127.04"></label><div id="v47LocationPanel"><div class="v47title">날씨 지역 선택</div><div class="v47grid"><label for="v47Province">시·도<select id="v47Province"></select></label><label for="v47District">시·군·구<select id="v47District"></select></label></div><label class="v47toggle"><input type="checkbox" id="v47CustomMode"> 직접 지역명·좌표 입력</label><div id="v47Direct" class="v47direct" hidden><label for="v47DirectInput">WeatherAPI 지역 검색어 또는 위도,경도<input id="v47DirectInput" placeholder="예: 37.5445,127.0557"></label></div><p class="v47status" id="v47LocationStatus" aria-live="polite"></p><p class="v47note">지역 변경 후 저장하면 LCD 날씨가 새 지역으로 갱신됩니다.</p></div>
+<label>날씨 지역 (WeatherAPI 검색값)<input id="weatherCity" value="Seoul" placeholder="예: Seoul, Seongdong-gu / 37.54,127.04"></label><div id="v47LocationPanel"><div class="v47title">날씨 지역 선택</div><div class="v47grid"><label for="v47Province">시·도<select id="v47Province"></select></label><label for="v47District">시·군·구<select id="v47District"></select></label></div><div id="v48DongPanel" class="v48-dong-panel">
+  <label for="v48DongName">동·읍·면 이름 (LCD에는 이 이름만 표시)
+    <input id="v48DongName" type="text" maxlength="40" placeholder="예: 성수동1가, 영통동, 정자동" autocomplete="off" spellcheck="false">
+  </label>
+  <div class="v48-actions"><button type="button" id="v48SearchDong" class="secondary">동 좌표 검색</button>
+  <select id="v48DongCandidates" aria-label="검색된 동 좌표 선택" hidden></select></div>
+  <p class="v47note">동 이름 입력 → 좌표 검색 → 검색 결과 선택 → 저장. 검색 결과가 부정확하면 아래의 기존 좌표 직접 입력을 사용하세요.</p>
+  <p id="v48DongStatus" class="v47status" aria-live="polite"></p>
+</div>
+<label class="v47toggle"><input type="checkbox" id="v47CustomMode"> 직접 지역명·좌표 입력</label><div id="v47Direct" class="v47direct" hidden><label for="v47DirectInput">WeatherAPI 지역 검색어 또는 위도,경도<input id="v47DirectInput" placeholder="예: 37.5445,127.0557"></label></div><p class="v47status" id="v47LocationStatus" aria-live="polite"></p><p class="v47note">지역 변경 후 저장하면 LCD 날씨가 새 지역으로 갱신됩니다.</p></div>
 <p>지역은 영문 지명 또는 위도,경도를 권장합니다. WeatherAPI 키는 여기 입력하지 않고 Apps Script의 비공개 스크립트 속성 <b>WEATHERAPI_KEY</b>에 등록합니다.</p>
 <label>표시할 날씨 항목</label><div class="v33grid" id="weatherFields"><label><input type="checkbox" data-weather="temp" checked> 현재 기온</label><label><input type="checkbox" data-weather="condition" checked> 날씨 상태</label><label><input type="checkbox" data-weather="feelslike"> 체감온도</label><label><input type="checkbox" data-weather="humidity" checked> 습도</label><label><input type="checkbox" data-weather="wind"> 풍속</label></div>
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="v33PreviewWeather">날씨 전용 페이지 미리보기</button><button type="button" class="secondary" id="v33PreviewClock">날짜·시간 미리보기</button><button type="button" class="secondary" id="v33PreviewMessage">문자 미리보기</button></div>
-<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V47-20261104" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V47-20261104" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V47-20261104" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V47-20261104"></script><script src="shared.js?v=V47-20261104"></script><script>
+<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V48-20261105" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V48-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V48-20261105" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V48-20261105"></script><script src="shared.js?v=V48-20261105"></script><script>
 const $=id=>document.getElementById(id);let current={...DEFAULT};let previewScreen='clock';let unsavedChanges=false;let adminSyncRunning=false;let lastRemoteSignature='';
 let savedSelection=null;let lastPreviewMarkup="";let savingNow=false;let initialLoadComplete=false;
 // V31: one canonical signature for loaded and polled server configurations.
@@ -662,7 +680,7 @@ async function save(){
   const editingChanged=JSON.stringify(v30Snapshot())!==JSON.stringify(want);
   fill(result.got);
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V47-20261104&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V48-20261105&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 확인 실패: '+e.message+' · 입력 내용은 유지합니다.','error');
@@ -861,7 +879,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V47-20261104';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V48-20261105';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -1243,7 +1261,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
   const wxPage=$('v42WeatherPreview');const wxBgMode=$('weatherBackgroundMode').value;const wxBgPath=String($('weatherBackgroundImage').value||'images/background.jpg');wxPage.style.backgroundColor=$('weatherBackgroundColor').value||'#122940';wxPage.style.backgroundImage=wxBgMode==='image'&&/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(wxBgPath)&&!wxBgPath.includes('..')?'url("'+encodeURI(wxBgPath)+'")':'none';wxPage.style.backgroundSize='cover';wxPage.style.backgroundPosition='center';
   const data=v42State.weather,fields=Array.from(document.querySelectorAll('[data-weather]:checked')).map(x=>x.dataset.weather),clockFields=Array.from(document.querySelectorAll('[data-weather-clock]:checked')).map(x=>x.dataset.weatherClock);
   const valid=data&&data.ok&&Number.isFinite(Number(data.temperature));
-  const place=$('v42WeatherPreview').querySelector('.v42-place');place.textContent=valid?(data.location||$('weatherCity').value):$('weatherCity').value;place.style.display=$('weatherShowLocation').checked?'block':'none';
+  const place=$('v42WeatherPreview').querySelector('.v42-place');place.textContent=valid?($('v48DongName')?.value.trim() || data.location || $('weatherCity').value):$('weatherCity').value;place.style.display=$('weatherShowLocation').checked?'block':'none';
   const tempNode=$('v42WeatherPreview').querySelector('.v42-temp');tempNode.textContent=valid?Number(data.temperature).toFixed(1)+'°C':'--°C';tempNode.style.display=fields.includes('temp')?'block':'none';
   const conditionNode=$('v42WeatherPreview').querySelector('.v42-condition');conditionNode.textContent=valid?(data.condition||'날씨 정보'):'현재 날씨를 조회하세요';conditionNode.style.display=fields.includes('condition')?'block':'none';
   const info=[];
@@ -1259,7 +1277,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
   if(valid&&clockFields.includes('humidity'))small.push('습도 '+data.humidity+'%');
   if(valid&&clockFields.includes('feelslike'))small.push('체감 '+data.feelsLike+'°C');
   if(valid&&clockFields.includes('wind'))small.push('풍속 '+data.windKph+'km/h');
-  strip.textContent=(valid&&$('weatherClockShowLocation').checked?(data.location||$('weatherCity').value||'Seoul')+' · ':'')+(small.length?small.join(' · '):'날씨 조회 대기');
+  strip.textContent=(valid&&$('weatherClockShowLocation').checked?($('v48DongName')?.value.trim() || data.location || $('weatherCity').value || 'Seoul')+' · ':'')+(small.length?small.join(' · '):'날씨 조회 대기');
   strip.classList.toggle('visible',v42State.tab==='clock'&&$('weatherOnClock').checked);
  }
  function updateUsage(){
@@ -1421,7 +1439,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V47-20261104';
+ document.title='LCD 시계 관리자 V48-20261105';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -1438,7 +1456,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V47-20261104';
+document.title='LCD 시계 관리자 V48-20261105';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -1537,4 +1555,117 @@ document.title='LCD 시계 관리자 V47-20261104';
  fromServer(current);
 })();
 
+
+// V48: dong-level WeatherAPI candidate search. No extra API key in the browser.
+(function(){
+ 'use strict';
+ const $48=id=>document.getElementById(id);
+ const dong=$48('v48DongName'),btn=$48('v48SearchDong'),candidates=$48('v48DongCandidates');
+ const status=$48('v48DongStatus'),custom=$48('v47CustomMode'),direct=$48('v47DirectInput');
+ const city=$48('weatherCity'),province=$48('v47Province'),district=$48('v47District');
+ if(!dong||!btn||!candidates||!city)return;
+ let chosen=null,results=[];
+ const coord=v=>/^\s*-?\d{1,2}(?:\.\d+)?\s*,\s*-?\d{1,3}(?:\.\d+)?\s*$/.test(v||'');
+ const coordText=r=>Number(r.lat).toFixed(5)+','+Number(r.lon).toFixed(5);
+ const validDong=v=>/^[가-힣A-Za-z0-9 .·-]{1,40}$/.test(String(v||'').trim());
+ const mark=()=>{unsavedChanges=true;try{v39WeatherDirty=true}catch(_){}};
+ function clearResults(){chosen=null;results=[];candidates.replaceChildren();candidates.hidden=true;}
+ function selectedLabel(){return dong.value.trim();}
+ function setStatus(text){status.textContent=text;}
+ function showPendingPreview(){const place=document.querySelector('#v42WeatherPreview .v42-place');if(place&&dong.value.trim())place.textContent=dong.value.trim();const st=$48('v42WeatherStatus');if(st)st.textContent='지역 변경됨 · 저장 후 새 날씨를 조회합니다.';}
+ function queryApi(search,timeout=14000){return new Promise((resolve,reject)=>{
+  if(typeof apiReady!=='function'||!apiReady())return reject(Error('config.js의 웹앱 URL을 확인하세요.'));
+  const callback='lcdDong48_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
+  const s=document.createElement('script');let done=false;
+  const timer=setTimeout(()=>finish(Error('동 좌표 검색 시간 초과')),timeout);
+  function finish(err,data){if(done)return;done=true;clearTimeout(timer);s.remove();try{delete window[callback]}catch(_){}err?reject(err):resolve(data)}
+  window[callback]=data=>finish(null,data);
+  s.onerror=()=>finish(Error('동 검색 서버 연결 실패'));
+  s.src=apiUrl()+'?action=dongSearch&q='+encodeURIComponent(search)+'&callback='+encodeURIComponent(callback)+'&_='+Date.now();
+  document.head.appendChild(s);
+ });}
+ btn.addEventListener('click',async()=>{
+  const name=selectedLabel();
+  if(!validDong(name)){setStatus('동·읍·면 이름을 먼저 입력하세요.');return;}
+  if(custom.checked){setStatus('좌표 직접 입력 모드에서는 검색 없이 기존 좌표를 우선 사용합니다.');return;}
+  const dist=district.selectedOptions[0]?.textContent||'';
+  const query=[name,dist==='전체'?'':dist,province.value].filter(Boolean).join(' ');
+  clearResults();btn.disabled=true;setStatus('WeatherAPI에서 '+query+' 좌표를 검색 중입니다…');
+  try{
+   const response=await queryApi(query);
+   if(!response||!response.ok)throw Error(response?.error||'검색 실패');
+   results=Array.isArray(response.results)?response.results:[];
+   if(!results.length){setStatus('검색 결과가 없습니다. 기존 위도·경도 직접 입력을 사용하세요.');return;}
+   candidates.add(new Option('검색 결과에서 위치 선택',''));
+   results.forEach((r,i)=>candidates.add(new Option([r.name,r.region,r.country].filter(Boolean).join(' / ')+'  ('+coordText(r)+')',String(i))));
+   candidates.hidden=false;
+   setStatus('결과 '+results.length+'건. 실제 동과 일치하는 좌표를 선택하세요. WeatherAPI가 구 중심만 반환할 수도 있습니다.');
+  }catch(e){setStatus('검색 실패: '+e.message+' · 직접 좌표 입력을 이용할 수 있습니다.');}
+  finally{btn.disabled=false;}
+ });
+ candidates.addEventListener('change',()=>{
+  const index=Number(candidates.value);
+  if(candidates.value===''||!results[index])return;
+  const r=results[index];chosen={name:selectedLabel(),query:coordText(r)};
+  city.value=chosen.query;
+  setStatus('적용할 좌표: '+chosen.query+' · LCD 표시: '+chosen.name+' (저장 전)');
+  mark();showPendingPreview();
+ });
+ dong.addEventListener('input',()=>{clearResults();mark();showPendingPreview();setStatus('동 이름을 입력했습니다. 검색 결과를 선택하거나 기존 좌표를 직접 입력하세요.');});
+ province.addEventListener('change',()=>{clearResults();});
+ district.addEventListener('change',()=>{clearResults();});
+ custom.addEventListener('change',()=>{
+  if(custom.checked){clearResults();setStatus('기존 좌표 입력을 사용합니다. 위도,경도 입력 후 동 이름만 표시할 수 있습니다.');}
+  else setStatus('동 이름을 입력하고 좌표를 검색하세요.');
+ });
+ // On load, restore a previously saved dong label and its exact coordinate query.
+ const previousFill=fill;
+ fill=function(c){previousFill(c);
+  const label=String(c.weatherLocationLabel||'').trim();
+  const isDong=/(동|읍|면|가|리)$/.test(label) && !label.includes(' ');
+  dong.value=String(c.weatherDong||'').trim()||(isDong?label:'');
+  clearResults();
+  if(c.weatherProvince && Array.from(province.options).some(o=>o.value===c.weatherProvince)){
+   province.value=c.weatherProvince;
+   province.dispatchEvent(new Event('change'));
+   if(c.weatherDistrict&&Array.from(district.options).some(o=>o.value===c.weatherDistrict))district.value=c.weatherDistrict;
+  }
+  if(c.weatherCoordinateMode==='manual'){
+   custom.checked=true;$48('v47Direct').hidden=false;direct.value=String(c.weatherCity||'');
+  }else if(c.weatherProvince){
+   custom.checked=false;$48('v47Direct').hidden=true;
+  }
+  city.value=String(c.weatherCity||'Seoul');
+  if(dong.value){chosen={name:dong.value,query:String(c.weatherCity||'')};setStatus('저장된 동: '+dong.value+' · 조회 위치: '+chosen.query);}
+  if(!savingNow){unsavedChanges=false;try{v39WeatherDirty=false}catch(_){}}
+
+  else setStatus('시·군·구를 선택하고 동을 입력하거나 기존 좌표를 직접 사용하세요.');
+ };
+ const previousRead=readForm;
+ readForm=function(){const c=previousRead();const label=selectedLabel();
+  c.weatherProvince=province.value;
+  c.weatherDistrict=district.value;
+  c.weatherDong=label;
+  c.weatherCoordinateMode=custom.checked?'manual':(label?'selected':'district');
+  if(!label)return c;
+  if(custom.checked){c.weatherCity=direct.value.trim()||city.value.trim()||'Seoul';c.weatherLocationLabel=label;return c;}
+  if(chosen&&chosen.name===label){c.weatherCity=chosen.query;c.weatherLocationLabel=label;return c;}
+  c.weatherLocationLabel=label;return c;
+ };
+ const oldSave=save;
+ save=async function(){const label=selectedLabel();
+  if(label&&!validDong(label)){message('동 이름에 사용할 수 없는 문자가 있습니다.','error');return;}
+  if(label&&!custom.checked&&(!chosen||chosen.name!==label)){
+   message('동 이름을 입력한 후 「동 좌표 검색」 결과를 선택하세요. 또는 기존 좌표 직접 입력을 선택하세요.','error');return;
+  }
+  if(label&&custom.checked&&!coord(direct.value.trim())&&direct.value.trim().length===0){message('직접 입력할 좌표 또는 지역 검색어를 입력하세요.','error');return;}
+  return oldSave();
+ };
+ $48('save').onclick=()=>save();
+ const oldCompare=compareSavedSettingsV29;
+ compareSavedSettingsV29=function(want,got){const d=oldCompare(want,got);if(String(want.weatherCity||'')!==String(got.weatherCity||''))d.push('동 좌표 저장');if(String(want.weatherLocationLabel||'')!==String(got.weatherLocationLabel||''))d.push('동 표시 이름 저장');for(const k of ['weatherProvince','weatherDistrict','weatherDong','weatherCoordinateMode'])if(String(want[k]||'')!==String(got[k]||''))d.push(k+' 저장');return d;};
+ // Initial async load may have completed already; reflect current config safely.
+ const currentLabel=String(current.weatherLocationLabel||'').trim();
+ if(currentLabel&&!currentLabel.includes(' ')&&/(동|읍|면|가)$/.test(currentLabel)){dong.value=currentLabel;chosen={name:currentLabel,query:String(current.weatherCity||'')};setStatus('저장된 동: '+currentLabel);}
+})();
 </script></body></html>
