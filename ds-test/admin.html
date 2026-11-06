@@ -585,16 +585,50 @@ body.v51p-compact.v51o-view-edit #v42WeatherPanel .v42-refresh{display:none!impo
 }
 @media(max-width:355px){#v51oConsole .o-nav button{font-size:9.6px!important}#v51pEditHint{display:none}}
 </style>
-</head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST 환경 · 운영 화면과 별도</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V51P-20261106</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+
+<style id="v51qMobileNavigation">
+/* V51Q: mobile-first 3 main destinations + 2 secondary destinations.
+   No saved control IDs, handlers, server logic or transport modified. */
+#v51oConsole .o-nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important;margin-top:12px!important}
+#v51oConsole .o-nav button{min-height:77px!important;padding:12px 6px!important;font-size:16px!important;font-weight:800!important;line-height:1.25!important;gap:7px!important;border-radius:13px!important;white-space:nowrap!important}
+#v51oConsole .o-nav .o-symbol{font-size:24px!important}
+#v51oConsole .o-subnav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:9px}
+#v51oConsole .o-subnav button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:45px;padding:9px 7px;border:1px solid #d6e2ed;border-radius:10px;background:#f8fafc;color:#354b63;font-size:14px;font-weight:750;line-height:1.2}
+#v51oConsole .o-subnav button span:first-child{font-size:18px}
+#v51oConsole .o-subnav button.active{background:#174b79;border-color:#174b79;color:#fff}
+#v51oConsole .o-flow,#v51oConsole .o-help{display:none!important}
+#v51oConsole .o-status{padding:8px 10px!important;margin-top:9px!important;min-height:32px!important;font-size:12px!important}
+#v51oConsole .o-status .o-detail{display:none!important}
+#v51oConsole{padding:14px!important}
+#v51oConsole .o-title{font-size:22px!important}
+#v51oConsole .o-subtitle{font-size:12px!important}
+#v51eLiveSequence{padding:8px 10px!important;font-size:12px!important;min-height:35px!important}
+@media(max-width:620px){
+ #v51oConsole{padding:12px!important;margin-top:5px!important}
+ #v51oConsole .o-nav{gap:7px!important}
+ #v51oConsole .o-nav button{min-height:74px!important;font-size:15px!important;padding:11px 3px!important;gap:5px!important}
+ #v51oConsole .o-nav .o-symbol{font-size:23px!important}
+ #v51oConsole .o-subnav{gap:7px;margin-top:8px}
+ #v51oConsole .o-subnav button{min-height:43px;font-size:14px}
+}
+@media(max-width:360px){
+ #v51oConsole .o-nav button{font-size:13px!important;min-height:69px!important}
+ #v51oConsole .o-nav .o-symbol{font-size:21px!important}
+ #v51oConsole .o-subnav button{font-size:13px}
+}
+</style>
+</head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V51Q-20261106</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
- <div class="o-top"><div><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V51P</div></div><span class="o-env">TEST</span></div>
+ <div class="o-top"><div><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V51Q</div></div><span class="o-env">TEST</span></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol">▣</span><span>화면 편집</span></button>
   <button type="button" data-v51o-view="sequence" aria-pressed="false"><span class="o-symbol">⇄</span><span>화면 구성</span></button>
   <button type="button" data-v51o-view="maintenance" aria-pressed="false"><span class="o-symbol">ⓘ</span><span>점검 안내</span></button>
-  <button type="button" data-v51o-view="effects" aria-pressed="false"><span class="o-symbol">✦</span><span>표시 효과</span></button>
-  <button type="button" data-v51o-view="system" aria-pressed="false"><span class="o-symbol">⚙</span><span>연결·진단</span></button>
+ </nav>
+ <nav class="o-subnav" aria-label="추가 관리 메뉴">
+  <button type="button" data-v51o-view="effects" aria-pressed="false"><span aria-hidden="true">✦</span><span>표시 효과</span></button>
+  <button type="button" data-v51o-view="system" aria-pressed="false"><span aria-hidden="true">⚙</span><span>설정 · 진단</span></button>
  </nav>
  <div id="v51oMenuHelp" class="o-help" aria-live="polite">편집할 화면을 선택하세요.</div>
  <div id="v51oState" class="o-status"><span class="o-indicator">● 현재 설정 확인 중</span><span class="o-detail">변경 후 저장</span></div>
@@ -722,8 +756,8 @@ body.v51p-compact.v51o-view-edit #v42WeatherPanel .v42-refresh{display:none!impo
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V51P-20261106" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V51P-20261106" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V51P-20261106"></script><script src="shared.js?v=V51P-20261106"></script><script>
+<section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V51Q-20261106" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V51Q-20261106" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V51Q-20261106"></script><script src="shared.js?v=V51Q-20261106"></script><script>
 
 /* V49: standalone original SVG line icons; no external icon assets or network requests. */
 const WX49_NS='http://www.w3.org/2000/svg';
@@ -1126,7 +1160,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V51P-20261106&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V51Q-20261106&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1325,7 +1359,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V51P-20261106';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V51Q-20261106';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -1893,7 +1927,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V51P-20261106';
+ document.title='LCD 시계 관리자 V51Q-20261106';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -1910,7 +1944,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V51P-20261106';
+document.title='LCD 시계 관리자 V51Q-20261106';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
