@@ -154,7 +154,7 @@ body{font-family:'Malgun Gothic','Noto Sans KR',Arial,sans-serif;font-size:16px}
 h1{font-size:25px}h2{font-size:20px;margin:0 0 12px}p{font-size:14px}
 label{font-size:15px}input,select,textarea{font-size:16px;min-height:44px}
 button,.btn{font-size:15px;min-height:44px}
-#v42Tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;position:sticky;top:0;z-index:101;background:#edf2f7;padding:9px 0}
+#v42Tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;position:relative;top:auto;z-index:101;background:#edf2f7;padding:9px 0}
 #v42Tabs .v42-tab{background:white;color:#334155;border:2px solid #d7e0ea;border-radius:13px;min-height:54px;display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 5px;font-size:16px;line-height:1.3}
 #v42Tabs .v42-tab.active{background:#173a7a;border-color:#173a7a;color:white;box-shadow:0 3px 12px #173a7a25}
 #previewSection{position:relative!important;top:auto!important;padding:12px!important;margin:0 0 12px!important;z-index:20!important}
@@ -432,8 +432,8 @@ button,.btn{font-size:15px;min-height:44px}
 #v42WeatherPreview #wx50Scene{z-index:0}
 #v42WeatherPreview #v43WeatherCard{z-index:2}
 #v42WeatherPreview #wx50Scene .wx50-cloud{transform-origin:center}
-</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">LCD-TEST 전용 관리자 · 운영 ds 설정은 변경하지 마세요</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V51D-20261106</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
-<nav id="v42Tabs" aria-label="화면 편집 선택"><button type="button" class="v42-tab active" data-v42tab="clock" aria-selected="true">◷ <span>날씨·시간 통합</span></button><button type="button" class="v42-tab" data-v42tab="message" aria-selected="false">▤ <span>문자 화면</span></button><button type="button" class="v42-tab" data-v42tab="weather" aria-selected="false">☁ <span>날씨 화면</span></button></nav><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
+</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">LCD-TEST 전용 관리자 · 운영 ds 설정은 변경하지 마세요</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V51E-20261106</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+<div id="v51eLiveSequence" role="status" aria-live="polite" style="position:sticky;top:0;z-index:105;background:#153c76;color:white;padding:12px 15px;border-radius:10px;margin:8px 0 10px;font-weight:800;font-size:17px;box-shadow:0 3px 12px #153c7630">현재 화면 설정 확인 중…</div><nav id="v42Tabs" aria-label="화면 편집 선택"><button type="button" class="v42-tab active" data-v42tab="clock" aria-selected="true">◷ <span>날씨·시간 통합</span></button><button type="button" class="v42-tab" data-v42tab="message" aria-selected="false">▤ <span>문자 화면</span></button><button type="button" class="v42-tab" data-v42tab="weather" aria-selected="false">☁ <span>날씨 화면</span></button></nav><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  <strong>시계 · 날짜 표시 선택</strong>
  <div class="v33modegrid">
@@ -502,7 +502,7 @@ button,.btn{font-size:15px;min-height:44px}
 <label>세로 위치 (%)<input id="weatherClockY" type="number" min="0" max="100" step="0.1" value="12"></label>
 <label>글자 크기 (px)<input id="weatherClockSize" type="number" min="16" max="150" value="40"></label>
 </div><p class="v43-hint">미리보기에서 날씨를 손가락으로 이동할 수 있습니다.</p><div id="v42ClockToolsSlot"></div><div id="v42ClockFormatSlot"></div><div id="v42ClockBackgroundSlot"></div></section>
-<section id="v42TextPanel" class="v42-panel" hidden><h2>문자 화면 설정</h2><div id="v42TextSlot"></div></section>
+<section id="v42TextPanel" class="v42-panel" hidden><h2>문자 화면 설정</h2><div id="v42TextSlot"></div><div id="v51eMessageBgPanel" style="margin:16px 0;padding:14px;background:#f3f7ff;border:1px solid #d5e2f2;border-radius:12px"><h3 style="margin:0 0 12px;font-size:17px">문자 화면 배경</h3><div class="grid"><label>배경 종류<select id="messageBackgroundMode"><option value="color">단색 배경</option><option value="image">이미지 배경</option></select></label><label id="v51eMessageColorRow">배경 색상<input type="color" id="v51eMessageBgColor" value="#101827"></label><label id="v51eMessageImageRow" hidden>배경 이미지 파일명<input type="text" id="messageBackgroundImage" value="images/background.jpg" placeholder="images/background.jpg" spellcheck="false"></label></div><p>이미지는 ds-test/images/ 폴더에 넣어주세요. 기존 문자 상자와 글자 설정은 유지됩니다.</p></div></section>
 <section id="v42WeatherPanel" class="v42-panel" hidden><h2>날씨 화면 설정</h2><div id="v42WeatherSlot"></div><div class="v44-weather-style"><label>글꼴<select id="weatherPageFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>글자색<input id="weatherPageColor" type="color" value="#ffffff"></label><label class="v45-check"><input type="checkbox" id="weatherPageBold"> 굵게(B)</label></div><label style="display:flex;align-items:center;gap:9px;font-size:16px"><input id="weatherShowLocation" type="checkbox" checked style="width:22px;min-height:22px"> 지역명 표시</label>
 <div id="v49IconPanel"><h3>날씨 아이콘 설정 (시계·날씨 공통)</h3><div class="v49grid"><label>아이콘 종류<select id="weatherIconStyle"><option value="outline">심플 아웃라인 (추천)</option><option value="emoji">기존 이모지</option><option value="none">아이콘 숨김</option></select></label><label>아이콘 색상<select id="weatherIconColorMode"><option value="auto">배경에 맞게 자동</option><option value="white">흰색 고정</option><option value="black">검정 고정</option><option value="custom">직접 선택</option></select></label><label id="v49CustomRow" hidden>직접 색상<input id="weatherIconColor" type="color" value="#ffffff"></label></div><p>자동은 어두운 배경에 흰색, 밝은 배경에 검정색을 사용합니다. 이미지 배경도 밝기를 분석합니다. WeatherAPI 날씨 코드에 따라 모양이 자동 변경됩니다.</p></div><div class="v45-weather-background"><div class="v43-heading">날씨 페이지 배경</div>
  <label class="v51-toggle" for="weatherAnimationEnabled"><input id="weatherAnimationEnabled" type="checkbox"> <span><b>WeatherAPI 날씨 연동 애니메이션 사용</b><small>켜면 실제 날씨에 따라 7종 배경이 자동 변경됩니다. 끄면 아래 단색·이미지 설정을 사용합니다.</small></span></label>
@@ -536,8 +536,8 @@ button,.btn{font-size:15px;min-height:44px}
 <p>지역은 영문 지명 또는 위도,경도를 권장합니다. WeatherAPI 키는 여기 입력하지 않고 Apps Script의 비공개 스크립트 속성 <b>WEATHERAPI_KEY</b>에 등록합니다.</p>
 <label>표시할 날씨 항목</label><div class="v33grid" id="weatherFields"><label><input type="checkbox" data-weather="temp" checked> 현재 기온</label><label><input type="checkbox" data-weather="condition" checked> 날씨 상태</label><label><input type="checkbox" data-weather="feelslike"> 체감온도</label><label><input type="checkbox" data-weather="humidity" checked> 습도</label><label><input type="checkbox" data-weather="wind"> 풍속</label></div>
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="v33PreviewWeather">날씨 전용 페이지 미리보기</button><button type="button" class="secondary" id="v33PreviewClock">날짜·시간 미리보기</button><button type="button" class="secondary" id="v33PreviewMessage">문자 미리보기</button></div>
-<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V51D-20261106" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V51D-20261106" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V51D-20261106"></script><script src="shared.js?v=V51D-20261106"></script><script>
+<p>미리보기 날씨는 저장된 서버 지역 기준입니다. 지역을 변경했다면 저장 후 새로 열어 확인하세요. 실제 날씨는 WeatherAPI 서버에서 약 10분 단위로 자동 갱신합니다. 인터넷 장애 시 이전 조회값에 갱신 시각을 표시합니다.</p></section><section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V51E-20261106" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 설정 다시 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V51E-20261106" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 불러오기</button></div></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V51E-20261106"></script><script src="shared.js?v=V51E-20261106"></script><script>
 
 /* V49: standalone original SVG line icons; no external icon assets or network requests. */
 const WX49_NS='http://www.w3.org/2000/svg';
@@ -901,7 +901,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V51D-20261106&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V51E-20261106&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1100,7 +1100,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V51D-20261106';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V51E-20261106';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -1132,7 +1132,7 @@ function v13Render(){
  canvas.style.display=visualTarget==='message'?'block':'none';
  $('v13Panel').hidden=visualTarget!=='message';
  if(visualTarget!=='message')return;
- $('pvMessage').style.backgroundColor=$('v13Bg').value; $('pvMessage').style.pointerEvents='none';
+ v51ePreviewMessageBg(); $('pvMessage').style.pointerEvents='none';
  // Keep old rich-text layer hidden so it never overlaps the independent text boxes.
  const legacy=$('pvMessage').querySelector('.message-content');if(legacy){legacy.style.visibility='hidden';legacy.contentEditable='false';}
  const ids=new Set(v13Blocks.map(b=>b.id));canvas.querySelectorAll('.v13block').forEach(el=>{if(!ids.has(el.dataset.id))el.remove()});
@@ -1511,6 +1511,7 @@ window.addEventListener('error',e=>{if(e.target&&e.target.tagName==='SCRIPT'&&!e
   const enabled={clock:$('clockPageEnabled').checked,message:$('v33MessagePage').checked,weather:$('weatherPageEnabled').checked};
   const order=($('pageOrder').value||'clock,message,weather').split(',').filter(k=>enabled[k]);
   $('v42SequenceSummary').textContent=order.length?order.map(k=>labels[k]).join(' → ')+(order.length===1?' · 단독 표시':' · 자동 순환'):'표시할 화면을 선택하세요';
+  $('v51eLiveSequence').textContent=order.length?'현재 화면: '+(order.length===1?labels[order[0]]+' 단독 사용':order.map(k=>labels[k]).join(' → ')+' 자동 전환'):'현재 화면: 선택 없음';
  }
  function showTab(tab){
   if(!['clock','message','weather'].includes(tab))tab='clock';
@@ -1667,7 +1668,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V51D-20261106';
+ document.title='LCD 시계 관리자 V51E-20261106';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -1684,7 +1685,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V51D-20261106';
+document.title='LCD 시계 관리자 V51E-20261106';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -2023,6 +2024,27 @@ function v51UpdatePreviewScene(page,code,isDay,c){
  checkbox.addEventListener('change',update);
 })();
 </script><script>
+// V51E: isolated message-page background settings (not clock/weather).
+function v51ePreviewMessageBg(){
+ const el=document.getElementById('pvMessage');if(!el)return;
+ const mode=document.getElementById('messageBackgroundMode').value;
+ const color=document.getElementById('v51eMessageBgColor').value;
+ const path=document.getElementById('messageBackgroundImage').value.trim();
+ const valid=/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(path)&&!path.includes('..');
+ el.style.backgroundColor=color;
+ el.style.backgroundImage=mode==='image'&&valid?'url("'+encodeURI(path)+'")':'none';
+ el.style.backgroundSize='cover';el.style.backgroundPosition='center';
+}
+(function(){
+ const mode=document.getElementById('messageBackgroundMode'),image=document.getElementById('messageBackgroundImage'),color=document.getElementById('v51eMessageBgColor');
+ function redraw(){document.getElementById('v51eMessageImageRow').hidden=mode.value!=='image';document.getElementById('v51eMessageColorRow').hidden=mode.value==='image';v51ePreviewMessageBg();}
+ const oldRead=readForm;readForm=function(){const c=oldRead();c.messageBackgroundMode=mode.value;c.messageBackgroundImage=image.value.trim();c.messageBackground=color.value;return c;};
+ const oldFill=fill;fill=function(c){oldFill(c);mode.value=c.messageBackgroundMode==='image'?'image':'color';image.value=c.messageBackgroundImage||'images/background.jpg';color.value=c.messageBackground||'#101827';document.getElementById('v13Bg').value=color.value;redraw();};
+ const oldCompare=compareSavedSettingsV29;compareSavedSettingsV29=function(want,got){const diffs=oldCompare(want,got);for(const k of ['messageBackgroundMode','messageBackgroundImage'])if(String(want[k]||'')!==String(got[k]||''))diffs.push(k+' 저장 불일치');return diffs;};
+color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color.value;});document.getElementById('v13Bg').addEventListener('input',()=>{color.value=document.getElementById('v13Bg').value;redraw();});
+ for(const el of [mode,image,color])el.addEventListener('input',()=>{unsavedChanges=true;redraw();if(typeof v13Render==='function')v13Render();});
+ redraw();
+})();
 // Test-only safety: block form submissions until independent deployment is configured.
 (function(){
  const PROD_ID='AKfycbyu_8f6NIrFEZwayw1VLj3CaSjpN-PFI_-bQK8bYa28FbUHUkx-IgzrrqIAPFdpvZMQdg';
