@@ -180,7 +180,7 @@ body[data-weather-shadow="off"] #clockWeather,body[data-weather-shadow="off"] #c
 body[data-message-shadow="off"] #messageScreen,body[data-message-shadow="off"] #messageScreen *,body[data-message-shadow="off"] #messageBlocks,body[data-message-shadow="off"] #messageBlocks *{text-shadow:none!important}
 body[data-message-shadow="on"] #messageScreen .message-content,body[data-message-shadow="on"] #messageBlocks .lcd-block{text-shadow:0 2px 8px #000a}
 body[data-weather-shadow="on"] #weatherContent .wx-place,body[data-weather-shadow="on"] #weatherContent .wx-main,body[data-weather-shadow="on"] #weatherContent .wx-condition,body[data-weather-shadow="on"] #weatherContent .wx-extra{text-shadow:0 2px 7px #000a}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51M-20261106</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51W-20261107</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -511,7 +511,7 @@ function renderWeather(){
  if(!config.weatherOnClock&&!config.weatherPageEnabled){clock.textContent='';page.replaceChildren();delete page.dataset.weatherSignature;return}
  if(!weatherPayloadValidV35(wxData)){const msg=wxError||'날씨 데이터 확인 중…';delete page.dataset.weatherSignature;page.textContent=msg;clock.textContent=msg;return}
  const w=wxData;
- const vals={temp:safeWholeV51D(w.temperature,'°C'),condition:w.condition||'정보 없음',feelslike:'체감 '+safeWholeV51D(w.feelsLike,'°C'),humidity:'습도 '+safeNum(w.humidity,'%'),wind:'풍속 '+safeNum(w.windKph,'km/h')};
+ const vals={temp:safeWholeV51D(w.temperature,'°'),condition:w.condition||'정보 없음',feelslike:'체감 '+safeWholeV51D(w.feelsLike,'°'),humidity:'습도 '+safeNum(w.humidity,'%'),wind:'풍속 '+safeNum(w.windKph,'km/h')};
  const picked=fields.map(k=>vals[k]).filter(Boolean);
  const clockPicked=clockFields.map(k=>vals[k]).filter(Boolean);
  const mark=weatherEmoji(w.conditionCode);const wxIconBg=config.weatherAnimationEnabled===true?'':(config.weatherBackgroundMode==='image'?config.weatherBackgroundImage:'');const clockIconBg=config.clockBackgroundMode==='image'?config.background:'';
@@ -560,7 +560,7 @@ function wxLogV36(text){
 }
 function wxAcceptV36(w){
  wxData=w;wxError='';wxFailuresV36=0;wxLastGoodAtV36=Date.now();
- wxLastResponseV40='성공 · '+String(w.temperature)+'°C';
+ wxLastResponseV40='성공 · '+String(w.temperature)+'°';
  wxLogV36('정상 수신 · '+String(w.location||config.weatherCity||'Seoul')+' · '+String(w.condition));
  try{localStorage.setItem(WX_CACHE_KEY_V37,JSON.stringify({...w,queryCity:config.weatherCity||'Seoul',queryLabel:config.weatherLocationLabel||'',cachedAt:Date.now()}))}catch(_){}
 }
