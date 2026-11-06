@@ -1,9 +1,9 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V50D-20261105</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V51C-DS-20261106</title><style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif}#bg,#shade{position:fixed;inset:0}#bg{background-size:cover;background-position:center;background-repeat:no-repeat}#shade{background:#000;pointer-events:none}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a}.center{top:66%;left:50%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer}body:hover #full,#full:focus{opacity:1}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10}
 #messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box}#messageScreen.active{display:flex}#messageScreen b,#messageScreen strong{font-weight:900}#messageScreen u{text-decoration:underline}#messageScreen mark{background:#fff176;color:#111}
 #boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease}
 #boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px}@keyframes spin{to{transform:rotate(360deg)}}
-#boot.hide{opacity:0;pointer-events:none}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line}#offline.visible{display:flex}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9}
+#boot.hide{opacity:0;pointer-events:none}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line}#offline.visible{display:none!important}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9}
 #versionTag{position:fixed;top:10px;right:12px;z-index:60;font:12px Arial,sans-serif;color:#fff;background:#0008;padding:5px 8px;border-radius:5px;pointer-events:none}html:fullscreen #versionTag{display:none!important}
 #messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden}#messageBlocks.active{display:block}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible}
 
@@ -164,15 +164,13 @@ body.wx-test-v40 #versionTag{display:block!important;z-index:999998}
 @keyframes wx50-haze{0%,9%,42%,100%{opacity:0}13%,23%,32%{opacity:.65}18%,28%,38%{opacity:.16}}
 body:not([data-lcd-screen=weather]) #wx50Scene *{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){#wx50Scene *{animation:none!important}#wx50Scene .wx50-drop,#wx50Scene .wx50-electric,#wx50Scene .wx50-meteor{display:none!important}}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V51-20261105</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
-서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
-조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="versionTag">V51C-DS-20261106</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline" hidden><small id="offlineHint"></small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
+/* DS V51C: missing scripts must never open a network-error overlay. */
 window.addEventListener('error',function(e){
- if(e.target && e.target.tagName==='SCRIPT'){
-   var o=document.getElementById('offline'),b=document.getElementById('boot');
-   if(o){o.classList.add('visible');document.getElementById('offlineHint').textContent='필수 설정 파일을 불러오지 못했습니다. GitHub ds 폴더를 확인하세요.';}
-   if(b){b.classList.add('hide');setTimeout(()=>b.remove(),750)}
- }
+  if(e.target && e.target.tagName==='SCRIPT'){
+    if(window.__lcdBootGuard)window.__lcdBootGuard.fail('필수 스크립트 로드 실패');
+  }
 },true);
 </script><script>
 (function(){
@@ -187,34 +185,43 @@ window.addEventListener('error',function(e){
  show('설정 파일 및 서버 연결 확인 중...');
 })();
 </script><script>
-/* V41 boot guard: runs BEFORE external scripts; no permanent loading screen. */
+/* DS V51C: offline-safe boot fallback. Normal LCD never switches to an error page. */
 (function(){
- var done=false, timer;
- function $boot(id){return document.getElementById(id)}
- function finish(ok, detail){
-  if(done)return;done=true;clearTimeout(timer);
-  var boot=$boot('boot'),offline=$boot('offline'),hint=$boot('offlineHint');
-  if(!ok){
-   if(offline)offline.classList.add('visible');
-   if(hint)hint.textContent=String(detail||'설정 서버 응답이 없습니다. 연결을 확인해 주세요.');
-   if(typeof window.wxDebugShowV40==='function')window.wxDebugShowV40('시작 오류: '+String(detail||'시간 초과'));
-  }else if(offline){offline.classList.remove('visible')}
-  if(boot){boot.classList.add('hide');setTimeout(function(){if(boot.parentNode)boot.remove()},800)}
- }
- window.__lcdBootGuard={ready:function(){finish(true)},fail:function(reason){finish(false,reason)},get finished(){return done}};
- timer=setTimeout(function(){
-  var detail='초기화 시간 초과 (15초). config.js / shared.js / Apps Script 주소를 확인하세요.';
-  if(typeof window.DEFAULT==='undefined' && typeof window.getRemote!=='function')detail+=' 필수 스크립트가 실행되지 않았습니다.';
-  finish(false,detail);
- },15000);
- window.addEventListener('error',function(e){
-  if(done)return;
-  if(e.target&&e.target.tagName==='SCRIPT')finish(false,'필수 파일 로드 실패: '+(e.target.src||'알 수 없음'));
-  else if(e.message)finish(false,'JavaScript 오류: '+e.message+' (줄 '+(e.lineno||'?')+')');
- },true);
- window.addEventListener('unhandledrejection',function(e){
-  if(!done)finish(false,'초기 비동기 오류: '+String(e.reason&&e.reason.message||e.reason));
- });
+  var done=false, timer, fallbackTimer=null;
+  function el(id){return document.getElementById(id)}
+  function fallback(){
+    if(window.__lcdNormalReady)return;
+    try{
+      var cached=JSON.parse(localStorage.getItem('lcd_ds_last_good_config_v51c')||'null')||{};
+      var time=el('time'), date=el('date');
+      if(time){time.style.cssText='position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);display:block;color:'+(cached.timeColor||'#ffffff')+';font-size:clamp(55px,9vw,150px);font-family:Arial,sans-serif;font-weight:800;white-space:nowrap;z-index:5';}
+      if(date){date.style.cssText='position:fixed;left:50%;top:64%;transform:translate(-50%,-50%);display:block;color:'+(cached.dateColor||'#ffffff')+';font-size:clamp(21px,3.2vw,45px);font-family:Arial,sans-serif;white-space:nowrap;z-index:5';}
+      var bg=el('bg');if(bg){bg.style.backgroundColor=cached.clockBackgroundColor||'#17283b';}
+      function tick(){
+        if(window.__lcdNormalReady){clearInterval(fallbackTimer);return;}
+        var d=new Date();
+        if(time)time.textContent=d.toLocaleTimeString('ko-KR',{hour12:false});
+        if(date)date.textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+      }
+      if(!fallbackTimer){tick();fallbackTimer=setInterval(tick,1000);}
+    }catch(_){}
+  }
+  function finish(ok,detail){
+    if(done)return;done=true;clearTimeout(timer);
+    var boot=el('boot');
+    if(el('offline'))el('offline').classList.remove('visible');
+    if(!ok)fallback();
+    if(boot){boot.classList.add('hide');setTimeout(function(){if(boot.parentNode)boot.remove()},800);}
+    if(!ok&&typeof window.wxDebugShowV40==='function')window.wxDebugShowV40('연결 오류(화면은 유지): '+String(detail||''));
+  }
+  window.__lcdBootGuard={ready:function(){window.__lcdNormalReady=true;finish(true)},fail:function(reason){finish(false,reason)},get finished(){return done}};
+  timer=setTimeout(function(){finish(false,'초기화 시간 초과 (15초)')},15000);
+  window.addEventListener('error',function(e){
+    if(done)return;
+    if(e.target&&e.target.tagName==='SCRIPT')finish(false,'스크립트 로드 실패');
+    else if(e.message)finish(false,'JavaScript 실행 오류');
+  },true);
+  window.addEventListener('unhandledrejection',function(){if(!done)finish(false,'초기화 오류')});
 })();
 </script><script src="config.js?v=V51-20261105"></script><script src="shared.js?v=V51-20261105"></script><script>
 
@@ -357,6 +364,7 @@ function wx50MountScene(page,code,isDay,sceneConfig=config){
  page.appendChild(scene);
 }
 
+const DS_CONFIG_CACHE='lcd_ds_last_good_config_v51c';
 const $=id=>document.getElementById(id);let wxData=null;let wxLast=0;let wxPending=false;let wxError='';let wxCachedLocation='';let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;const previewMode=new URLSearchParams(location.search).get('preview')==='1';let previewOverride=null;let previewScreen='clock';document.body.dataset.lcdScreen='clock';document.body.dataset.lcdEffect='none';
 
 function positionObjects(){
@@ -627,14 +635,18 @@ async function refresh(){
     lastConfigSignature=signature;
     updateBackground();
   }
+  try{localStorage.setItem(DS_CONFIG_CACHE,JSON.stringify(c))}catch(_){}
   lastSyncAt=Date.now();failCount=0;$('offline').classList.remove('visible');
   if(weatherNeededV43())setTimeout(()=>refreshWeather(),100);
   if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);window.__lcdBootGuard?.ready()}
   if(!new URLSearchParams(location.search).has('debug'))$('status').textContent='';
- }catch(e){failCount++;$('status').textContent='서버 동기화 오류: '+e.message;if(window.wxDebugShowV40)window.wxDebugShowV40('설정 서버 통신 오류: '+e.message);
- if(forceOffline||!navigator.onLine||failCount>=1){$('offline').classList.add('visible');$('offlineHint').textContent=forceOffline?'테스트 모드 · 주소에서 ?testOffline=1 을 제거하면 정상 화면으로 돌아갑니다.':'네트워크 연결을 자동으로 다시 확인합니다.';if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);window.__lcdBootGuard?.fail('설정 서버 통신 실패: '+e.message)}}
- else if(!firstReady){$('boot').querySelector('div:last-child').textContent='서버에 다시 연결하고 있습니다...'}
- }
+  }catch(e){
+    failCount++;
+    // Preserve the last rendered clock, text and weather. Retry on next interval.
+    if(window.wxDebugShowV40)window.wxDebugShowV40('설정 서버 연결 지연(기존 화면 유지): '+e.message);
+    if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);window.__lcdBootGuard?.ready();}
+  }
+
  finally{syncRunning=false}
 }
 // PC 절전 복귀, 탭 전환, 네트워크 복구 시 즉시 동기화
@@ -680,14 +692,21 @@ document.addEventListener('keydown',e=>{
  // F11은 브라우저 기본 동작에 맡깁니다. 웹페이지가 F11 모드를 강제로 제어할 수 없습니다.
 });
 // Start with an opaque loading layer. If external API never responds, never leave the LCD stuck on loading.
+// Restore the last known layout before attempting any network request.
+try{
+  const stored=JSON.parse(localStorage.getItem(DS_CONFIG_CACHE)||'null');
+  if(stored&&typeof stored==='object'&&!Array.isArray(stored)){
+    apply(stored);lastConfigSignature=JSON.stringify(stored);updateBackground();
+  }else{
+    apply({...DEFAULT,clockPageEnabled:true,weatherPageEnabled:false,weatherOnClock:false});updateBackground();
+  }
+}catch(_){apply({...DEFAULT,clockPageEnabled:true,weatherPageEnabled:false,weatherOnClock:false})}
 bootWatchdog=setTimeout(()=>{
- if(firstReady)return;
- firstReady=true;
- $('offline').classList.add('visible');
- $('offlineHint').textContent='설정 서버 응답이 지연되고 있습니다. 자동으로 재연결을 시도합니다.';
- window.__lcdBootGuard?.fail('설정 서버 응답 지연 (14초). 연결을 자동으로 다시 시도합니다.');
+  if(firstReady)return;
+  firstReady=true;
+  window.__lcdBootGuard?.ready();
 },14000);
-setInterval(()=>{if(firstReady){draw();renderScreen()}},500);
+setInterval(()=>{draw();renderScreen()},500);
 if(previewMode){
  window.addEventListener('message',e=>{
   if(e.origin!==location.origin||!e.data||e.data.kind!=='lcd-preview-config')return;
