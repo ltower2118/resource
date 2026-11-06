@@ -171,8 +171,8 @@ body:not([data-lcd-screen=weather]) #wx50Scene *{animation-play-state:paused!imp
 #v51hMaintenance .v51h-inner{max-width:90vw}
 #v51hMaintenance .v51h-title{font-size:clamp(28px,4.5vw,82px);font-weight:800;margin:0 0 2.5rem}
 #v51hMaintenance .v51h-body{font-size:clamp(18px,2.4vw,44px);line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;color:#dce9f5}
-#v51hMaintenance .v51h-footer{font-size:clamp(13px,1.2vw,22px);margin-top:4rem;color:#98afc6}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div><div class="v51h-footer">화면 점검 중 · 양해 부탁드립니다.</div></div></div><div id="versionTag">V51E-20261106</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51L-20261106</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -396,6 +396,7 @@ function v51hUpdateMaintenance(){
  const el=document.getElementById('v51hMaintenance');
  if(!el)return;
  el.setAttribute('aria-hidden',String(!active));
+ document.getElementById('v51kMaintenanceTitle').textContent=String(config.maintenanceTitle??'안내 말씀').slice(0,60)||'안내 말씀';
  document.getElementById('v51hMaintenanceText').textContent=String(config.maintenanceText||'현재 화면을 점검하고 있습니다.\n잠시 후 정상 운영됩니다.').slice(0,200);
 }
 function activePages(){
