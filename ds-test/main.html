@@ -172,7 +172,15 @@ body:not([data-lcd-screen=weather]) #wx50Scene *{animation-play-state:paused!imp
 #v51hMaintenance .v51h-title{font-size:clamp(28px,4.5vw,82px);font-weight:800;margin:0 0 2.5rem}
 #v51hMaintenance .v51h-body{font-size:clamp(18px,2.4vw,44px);line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;color:#dce9f5}
 
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51L-20261106</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+</style><style id="v51mRenderStyles">
+/* V51M: version as plain text; contrast computed from current page background. */
+#versionTag{background:transparent!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-shadow:none!important;z-index:65;color:#ffffff}
+body[data-time-shadow="off"] #time,body[data-date-shadow="off"] #date{ text-shadow:none!important }
+body[data-weather-shadow="off"] #clockWeather,body[data-weather-shadow="off"] #clockWeather *,body[data-weather-shadow="off"] #weatherContent,body[data-weather-shadow="off"] #weatherContent *{text-shadow:none!important}
+body[data-message-shadow="off"] #messageScreen,body[data-message-shadow="off"] #messageScreen *,body[data-message-shadow="off"] #messageBlocks,body[data-message-shadow="off"] #messageBlocks *{text-shadow:none!important}
+body[data-message-shadow="on"] #messageScreen .message-content,body[data-message-shadow="on"] #messageBlocks .lcd-block{text-shadow:0 2px 8px #000a}
+body[data-weather-shadow="on"] #weatherContent .wx-place,body[data-weather-shadow="on"] #weatherContent .wx-main,body[data-weather-shadow="on"] #weatherContent .wx-condition,body[data-weather-shadow="on"] #weatherContent .wx-extra{text-shadow:0 2px 7px #000a}
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51M-20261106</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -390,7 +398,7 @@ window.addEventListener('resize',fitLayout);
 window.addEventListener('orientationchange',()=>setTimeout(fitLayout,150));
 function apply(c){const oldCity=config.weatherCity;const oldWeatherLabel=config.weatherLocationLabel;const wasWeatherOn=!!(config.weatherPageEnabled||(config.clockPageEnabled!==false&&config.weatherOnClock));config={...DEFAULT,timeFont:'Malgun Gothic',dateFont:'Malgun Gothic',timeBold:false,dateBold:false,weatherClockBold:false,weatherPageBold:false,weatherBackgroundMode:'color',weatherBackgroundColor:'#122940',weatherBackgroundImage:'images/background.jpg',...c};if(new URLSearchParams(location.search).has('weatherTest')){config.weatherPageEnabled=true;config.weatherOnClock=true;config.clockPageEnabled=false;config.messageEnabled=false;}if(window.wxDebugShowV40)window.wxDebugShowV40('서버 설정 수신 완료\n날씨 페이지: '+(config.weatherPageEnabled?'켜짐':'꺼짐')+' / 시계 날씨: '+(config.weatherOnClock?'켜짐':'꺼짐')+'\n지역: '+(config.weatherCity||'Seoul')+'\n날씨 요청 준비 중');if(!weatherNeededV43()){wxFlightV37++;wxPending=false;wxStartedV37=0;wxNextV37=Number.MAX_SAFE_INTEGER;wxError='';}
  if(weatherNeededV43()&&!wasWeatherOn){wxNextV37=0;}
- if(config.weatherCity!==oldCity||config.weatherLocationLabel!==oldWeatherLabel){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}if(!wxData)wxRestoreCacheV37();document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont||'Malgun Gothic');$('date').style.fontFamily=fontValue(config.dateFont||'Malgun Gothic');$('time').style.fontWeight=config.timeBold?'800':'400';$('date').style.fontWeight=config.dateBold?'800':'400';$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();v51hUpdateMaintenance();renderScreen();draw();fitLayout()}
+ if(config.weatherCity!==oldCity||config.weatherLocationLabel!==oldWeatherLabel){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}if(!wxData)wxRestoreCacheV37();document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';for(const k of ['time','date','weather','message'])document.body.dataset[k+'Shadow']=config[k+'Shadow']===false?'off':'on';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont||'Malgun Gothic');$('date').style.fontFamily=fontValue(config.dateFont||'Malgun Gothic');$('time').style.fontWeight=config.timeBold?'800':'400';$('date').style.fontWeight=config.dateBold?'800':'400';$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();v51hUpdateMaintenance();renderScreen();draw();fitLayout()}
 function v51hUpdateMaintenance(){
  const active=config.maintenanceMode===true;
  const el=document.getElementById('v51hMaintenance');
@@ -410,6 +418,33 @@ function activePages(){
  const order=String(config.pageOrder||'clock,message,weather').split(',');
  return [...pages].sort((a,b)=>order.indexOf(a)-order.indexOf(b));
 }
+
+// V51M: choose text color from visible background, not an opaque version badge.
+let v51mContrastKey='',v51mImageLuma=new Map();
+function v51mLuma(hex){
+ const h=String(hex||'').replace('#','');if(!/^[0-9a-f]{6}$/i.test(h))return .1;
+ const rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255).map(x=>x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4));
+ return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];
+}
+function v51mImageBrightness(path){
+ const name=String(path||'');if(!/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(name)||name.includes('..'))return null;
+ if(v51mImageLuma.has(name))return v51mImageLuma.get(name);
+ v51mImageLuma.set(name,null);const img=new Image();
+ img.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=12;canvas.height=12;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,12,12);const p=ctx.getImageData(0,0,12,12).data;let sum=0,n=0;for(let y=0;y<5;y++)for(let x=7;x<12;x++){const i=(y*12+x)*4;const color='#'+[p[i],p[i+1],p[i+2]].map(v=>v.toString(16).padStart(2,'0')).join('');sum+=v51mLuma(color);n++;}v51mImageLuma.set(name,sum/Math.max(n,1));v51mUpdateVersionColor(true);}catch(_){v51mImageLuma.set(name,.1)}};
+ img.onerror=()=>v51mImageLuma.set(name,.1);img.src=name;return null;
+}
+function v51mUpdateVersionColor(force=false){
+ const page=screenType||'clock',el=document.getElementById('versionTag');if(!el)return;
+ const image=page==='clock'&&config.clockBackgroundMode!=='color'?String(config.background||''):page==='message'&&config.messageBackgroundMode==='image'?String(config.messageBackgroundImage||''):page==='weather'&&config.weatherAnimationEnabled!==true&&config.weatherBackgroundMode==='image'?String(config.weatherBackgroundImage||''):'';
+ const scene=page==='weather'&&config.weatherAnimationEnabled===true?wx50Kind(wxData&&wxData.conditionCode,wxData&&wxData.isDay):'';
+ const base=page==='clock'?config.clockBackgroundColor:page==='message'?config.messageBackground:config.weatherBackgroundColor;
+ const key=JSON.stringify([page,image,scene,base,config.overlay,config.version,window.innerWidth]);if(!force&&v51mContrastKey===key)return;v51mContrastKey=key;
+ let lum=v51mLuma(base||'#17283b');
+ if(scene){lum=({sun:.37,moon:.015,partly:.32,cloud:.28,rain:.08,snow:.61,thunder:.02})[scene]??.08;}
+ else if(image){const val=v51mImageBrightness(image);if(val!==null)lum=val;}
+ if(page==='clock'&&config.clockBackgroundMode!=='color')lum*=1-Math.max(0,Math.min(70,Number(config.overlay)||0))/100;
+ el.style.color=lum>.23?'#111111':'#ffffff';
+}
 function renderScreen(){
  const m=$('messageScreen'),layer=$('messageBlocks');
  const blocks=Array.isArray(config.messageBlocks)?config.messageBlocks:[];
@@ -420,7 +455,7 @@ function renderScreen(){
  let next=pages[pages.length-1];
  for(const page of pages){if(elapsed<durations[page]){next=page;break}elapsed-=durations[page]}
  if(previewMode&&previewOverride)next=previewScreen;
- screenType=next;document.body.dataset.lcdScreen=next;
+ screenType=next;document.body.dataset.lcdScreen=next;v51mUpdateVersionColor();
  const showing=next==='message';
  layer.classList.toggle('active',showing&&hasBlocks);
  m.classList.toggle('active',showing&&!hasBlocks);
@@ -642,7 +677,7 @@ function renderBlocks(){
  for(let i=0;i<layer.children.length;i++){const el=layer.children[i],b=blocks[i];el.style.width=(Math.max(100,Math.min(1800,Number(b.width)||900))*scale)+'px';el.style.fontSize=(Math.max(16,Math.min(300,Number(b.size)||100))*scale)+'px';el.style.padding=(8*scale)+'px'}
  v51eMessageBackground(layer);
 }
-function updateBackground(){ $('bg').style.backgroundColor=config.clockBackgroundColor||'#17283b';if(config.clockBackgroundMode==='color'){$('bg').style.backgroundImage='none';return;} const path=String(config.background||DEFAULT.background);if(!/^images\/[\w가-힣 .-]+\.(jpg|jpeg|png|webp)$/i.test(path)||path.includes('..'))return;const url=path+'?v='+Date.now();const img=new Image();img.onload=()=>{$('bg').style.backgroundImage='url("'+url+'")';lastBg=url};img.src=url}
+function updateBackground(){ $('bg').style.backgroundColor=config.clockBackgroundColor||'#17283b';if(config.clockBackgroundMode==='color'){$('bg').style.backgroundImage='none';return;} const path=String(config.background||DEFAULT.background);if(!/^images\/[\w가-힣 .-]+\.(jpg|jpeg|png|webp)$/i.test(path)||path.includes('..'))return;const url=path+'?v='+Date.now();const img=new Image();img.onload=()=>{$('bg').style.backgroundImage='url("'+url+'")';lastBg=url;v51mUpdateVersionColor(true)};img.src=url}
 async function refresh(){
  if(previewMode&&previewOverride)return;
  if(syncRunning)return;
