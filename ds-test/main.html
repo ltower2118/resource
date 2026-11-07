@@ -204,20 +204,7 @@ body[data-weather-shadow="on"] #weatherContent .wx-place,body[data-weather-shado
 #weatherContent.v51x-layout.v51x-compact .wx-condition{font-size:min(calc(var(--wx-page-size,135px)*.34),7vh)}
 #weatherContent.v51x-layout.v51x-compact .wx-extra{font-size:min(calc(var(--wx-page-size,135px)*.21),4.4vh)}
 @media(max-width:750px){#weatherContent.v51x-layout .v51x-primary{flex-wrap:wrap!important}#weatherContent.v51x-layout .wx-main{font-size:min(var(--wx-page-size,135px),18vh)}}
-
-/* V51Y: per-element proportional scale, kept within responsive V51X bounds. */
-#weatherContent.v51x-layout .wx-main{font-size:min(var(--v51y-temp-px,135px),23vh)}
-#weatherContent.v51x-layout .wx-main .wx49-icon{width:var(--v51y-icon-em,1em);height:var(--v51y-icon-em,1em);flex:0 0 var(--v51y-icon-em,1em)}
-#weatherContent.v51x-layout .wx-main .wx49-emoji{font-size:var(--v51y-emoji-em,.9em)}
-#weatherContent.v51x-layout .wx-condition{font-size:min(var(--v51y-condition-px,40px),10vh)}
-#weatherContent.v51x-layout .wx-extra{font-size:min(var(--v51y-extra-px,40px),5.5vh)}
-#weatherContent.v51x-layout.v51x-horizontal .wx-main{font-size:min(var(--v51y-temp-horizontal-px,135px),17vh)}
-#weatherContent.v51x-layout.v51x-horizontal .wx-condition{font-size:min(var(--v51y-condition-horizontal-px,40px),8vh)}
-#weatherContent.v51x-layout.v51x-compact .wx-main{font-size:min(var(--v51y-temp-compact-px,135px),16vh)}
-#weatherContent.v51x-layout.v51x-compact .wx-condition{font-size:min(var(--v51y-condition-compact-px,40px),7vh)}
-#weatherContent.v51x-layout.v51x-compact .wx-extra{font-size:min(var(--v51y-extra-compact-px,40px),4.4vh)}
-@media(max-width:750px){#weatherContent.v51x-layout .wx-main{font-size:min(var(--v51y-temp-px,135px),18vh)}}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51Y-20261107</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51X-20261107</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -523,12 +510,6 @@ function applyWeatherLayoutV43(){
   content.style.left=Number(config.weatherPageX??50)+'%';
   content.style.top=Number(config.weatherPageY??48)+'%';
   content.style.setProperty('--wx-page-size',(Math.max(38,Math.max(40,Math.min(260,Number(config.weatherPageSize)||135))*scale))+'px');
-  const base=Math.max(40,Math.min(260,Number(config.weatherPageSize)||135))*scale;
-  const ratio=id=>{const n=Number(config[id]);return (Number.isFinite(n)?Math.max(50,Math.min(150,n)):100)/100};
-  const sizes=[['temp',base*ratio('weatherTempScale'),[1,.82,.72]],['condition',base*ratio('weatherConditionScale'),[.46,.39,.34]],['extra',base*ratio('weatherExtraScale'),[.26,null,.21]]];
-  for(const [name,px,variants] of sizes){for(let j=0;j<variants.length;j++){if(variants[j]==null)continue;const suffix=['','-horizontal','-compact'][j];content.style.setProperty('--v51y-'+name+suffix+'-px',(px*variants[j])+'px');}}
-  content.style.setProperty('--v51y-icon-em',ratio('weatherIconScale')+'em');
-  content.style.setProperty('--v51y-emoji-em',(.9*ratio('weatherIconScale'))+'em');
   content.style.fontFamily=fontValue(config.weatherPageFont||'Malgun Gothic');
   content.style.color=config.weatherPageColor||'#ffffff';content.style.fontWeight=config.weatherPageBold?'800':'400';
  }
@@ -567,7 +548,7 @@ function renderWeather(){
  applyWeatherLayoutV43();
  const date=new Date(w.updatedAt||Date.now());
  const stale=Date.now()-(w.updatedAt||0)>30*60*1000;
- const sig=JSON.stringify([picked,w.updatedAt,stale,config.weatherCity,fields,config.weatherShowLocation,config.weatherPageX,config.weatherPageY,config.weatherPageSize,config.weatherPageLayout,config.weatherTempScale,config.weatherIconScale,config.weatherConditionScale,config.weatherExtraScale,config.weatherPageFont,config.weatherPageColor,config.weatherIconStyle,config.weatherIconColorMode,config.weatherIconColor,config.weatherBackgroundMode,config.weatherAnimationEnabled===true,w.conditionCode,w.isDay,wx49ImageLuma.get(wxIconBg)]);
+ const sig=JSON.stringify([picked,w.updatedAt,stale,config.weatherCity,fields,config.weatherShowLocation,config.weatherPageX,config.weatherPageY,config.weatherPageSize,config.weatherPageLayout,config.weatherPageFont,config.weatherPageColor,config.weatherIconStyle,config.weatherIconColorMode,config.weatherIconColor,config.weatherBackgroundMode,config.weatherAnimationEnabled===true,w.conditionCode,w.isDay,wx49ImageLuma.get(wxIconBg)]);
  if(page.dataset.weatherSignature===sig)return;
  page.dataset.weatherSignature=sig;
  page.replaceChildren();
