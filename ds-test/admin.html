@@ -1057,7 +1057,7 @@ main.wrap>h1,main.wrap>h1+p{display:none!important}
 </style>
 
 <style id="v52kUnifiedColorSystem">
-/* V52K: visual palette only. Keep all element ids, event handlers and persistence intact. */
+/* V52N: visual palette only. Keep all element ids, event handlers and persistence intact. */
 :root{--k-primary:#1d4684;--k-primary-dark:#15366b;--k-primary-light:#eef3fb;--k-border:#cbd9ec;--k-surface:#f5f8fc;--k-ink:#253e61;}
 body{background:#f0f4f9!important;color:#233952!important;}
 /* Standardize primary actions (including the old dark-blue editing buttons). */
@@ -1092,9 +1092,79 @@ body{background:#f0f4f9!important;color:#233952!important;}
 #status.ok{background:#eaf7ef!important;color:#256b46!important;}
 @media(max-width:420px){#v42Dock>*{border-radius:10px!important;}#v51uTabbed #v51rWorkspace #v42Tabs .v42-tab.active{border-width:2px!important;}}
 </style>
-</head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V52K-20261107</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+<style id="v52nMobileRefinement">
+/* V52N — V52K-based responsive editing density, without altering API or persistence. */
+:root{--n-blue:#1d4684;--n-edge:#dbe4ef;--n-soft:#f5f8fc}
+@media(max-width:720px){
+ body{background:#f2f5fa!important}
+ main.wrap{padding:8px 12px 104px!important}
+ #v51oConsole{padding:11px 13px 4px!important;margin:5px 0 0!important;border-radius:14px 14px 0 0!important}
+ #v51oConsole .o-title{font-size:17px!important}
+ #v51oConsole .o-subtitle{font-size:10px!important}
+ #v51oConsole .o-top{min-height:32px!important;margin:0 0 7px!important}
+ #v51oConsole .o-settings-link{min-height:36px!important;padding:5px 8px!important;font-size:11px!important}
+ #v51uTabbed>.o-nav{margin:0 -12px!important;border-bottom:1px solid #dce5ef!important;background:#fff!important}
+ #v51uTabbed>.o-nav button{min-height:48px!important;padding:7px 3px!important;font-size:12px!important;background:transparent!important;color:#68778b!important;border:0!important;border-right:1px solid #e9edf3!important;border-radius:0!important;box-shadow:none!important}
+ #v51uTabbed>.o-nav button .o-symbol{font-size:15px!important}
+ #v51uTabbed>.o-nav button.active{background:#edf3fb!important;color:var(--n-blue)!important;border:0!important;border-top:2px solid var(--n-blue)!important;border-right:1px solid #e4eaf2!important;box-shadow:inset 0 -2px var(--n-blue)!important}
+ #v51oConsole .o-status{margin-top:5px!important;padding:4px 0!important;font-size:10px!important}
+ #v51uTabbed{padding:0 10px 14px!important;border-radius:0 0 14px 14px!important}
+ #v51rWorkspace{padding:7px 2px 5px!important;margin:0!important;border:0!important;background:transparent!important;box-shadow:none!important}
+ #v51eLiveSequence{position:static!important;margin:2px 0 9px!important;padding:7px 9px!important;font-size:12px!important;font-weight:750!important;border-radius:8px!important;box-shadow:none!important;line-height:1.35!important}
+ .v52fPickerHeading{margin:3px 0 4px!important;font-size:12px!important}
+ #v51uTabbed #v51rWorkspace #v42Tabs{padding:3px!important;gap:4px!important;margin:0 0 6px!important}
+ #v51uTabbed #v51rWorkspace #v42Tabs .v42-tab{min-height:43px!important;padding:7px 3px!important;font-size:12px!important;border-radius:8px!important}
+ #v51pEditBar{padding:3px 0!important;margin:0!important;min-height:30px!important}
+ #v51pDetailsButton{min-height:35px!important;padding:5px 10px!important;font-size:11px!important}
+ #v51uTabbed #previewSection{padding:10px!important;margin:8px 0 12px!important;border-radius:12px!important;position:relative!important;top:auto!important;box-shadow:none!important;border:1px solid var(--n-edge)!important}
+ #previewSection #preview{width:100%!important;max-height:none!important;aspect-ratio:16/9!important;border-radius:9px!important;overflow:hidden!important}
+ #previewSection .v52n-preview-title{font-size:13px!important;font-weight:800;color:#253e61;margin:0 0 8px!important}
+ #previewSection .visual-preview-actions{display:flex!important;align-items:center!important;gap:8px!important;margin:7px 0 0!important;padding:0!important}
+ #previewSection .visual-preview-actions button{min-height:39px!important;padding:8px 11px!important;font-size:12px!important}
+ #previewSection .visual-preview-actions span{font-size:10px!important}
+ #v42ClockPanel,#v42TextPanel,#v42WeatherPanel,#v42SequencePanel,#v51hMaintenancePanel{padding:13px!important;margin:9px 0 12px!important;border-radius:13px!important;box-shadow:none!important}
+ #v42ClockPanel>h2,#v42TextPanel>h2,#v42WeatherPanel>h2{font-size:17px!important;margin:0 0 11px!important}
+ #v51uTabbed label{font-size:12px}
+ #v51uTabbed .grid,#v51uTabbed .v32formgrid{gap:9px!important}
+ #v42ClockPanel #visualTools{gap:6px!important;padding:6px 0!important}
+ #v42ClockPanel #visualTools button{min-height:39px!important;padding:7px 9px!important;font-size:12px!important}
+ #v42ClockPanel #visualTools label{margin:3px 0!important}
+ #v42ClockPanel #v33DisplayPanel .v33modegrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+ #v42ClockPanel #v33DisplayPanel .v33modegrid label{padding:8px!important;margin:0!important;font-size:12px!important;min-width:0!important}
+ #v42ClockPanel #v32FormatPanel .v32formgrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+ #v42ClockPanel #v32FormatPanel .v32formgrid label:last-child:nth-child(odd){grid-column:span 2}
+ #v42ClockPanel input[type=checkbox],#v42WeatherPanel input[type=checkbox]{width:19px!important;height:19px!important;min-height:19px!important;flex-shrink:0}
+ #v42ClockPanel .v44-field-grid label,#v42WeatherPanel #weatherFields label{padding:7px 8px!important;min-height:38px!important;border:1px solid #dbe6f3!important;background:#f4f7fb!important;border-radius:9px!important;font-size:12px!important}
+ #v42Dock{gap:7px!important;padding:9px 10px calc(9px + env(safe-area-inset-bottom,0px))!important;background:#fffffffa!important;border-top:1px solid #dbe4ed!important;box-shadow:0 -5px 22px #24395212!important;border-radius:15px 15px 0 0!important}
+ #v42Dock>*{min-height:48px!important;border-radius:10px!important;font-size:12px!important;padding:8px 7px!important;box-shadow:none!important;white-space:normal!important}
+ #v42QuickSave{flex:1 1 47%!important;font-weight:800!important}
+ #v46QuickView{flex:1 1 24%!important}
+ #v42QuickLoad{flex:1 1 29%!important}
+ #v51zSaveNotice{bottom:calc(76px + env(safe-area-inset-bottom,0px))!important}
+}
+/* V52N subsection accordions: existing controls are moved, not duplicated. */
+#v51uTabbed .v52n-fold{border:1px solid #dce5ef!important;border-radius:11px!important;background:#fff!important;margin:11px 0!important;overflow:hidden!important;box-shadow:none!important;display:block!important}
+#v51uTabbed .v52n-fold>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 13px!important;min-height:48px!important;background:#f4f7fb!important;color:#253e61!important;font-size:13px!important;font-weight:800!important;cursor:pointer;list-style:none;touch-action:manipulation}
+#v51uTabbed .v52n-fold>summary::-webkit-details-marker{display:none}
+#v51uTabbed .v52n-fold>summary:after{content:'⌄';color:#607a9a;font-size:17px}
+#v51uTabbed .v52n-fold[open]>summary:after{content:'⌃'}
+#v51uTabbed .v52n-fold[open]>summary{border-bottom:1px solid #e2eaf3!important;background:#edf3fc!important}
+#v51uTabbed .v52n-fold>.v52n-fold-body{padding:11px 12px 13px!important;min-width:0}
+#v51uTabbed .v52n-fold-body>section{border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}
+#v51uTabbed .v52n-fold-body>div{max-width:100%}
+/* Always reveal a manually expanded accordion even when the existing quick-edit mode is active. */
+body.v51p-compact #v51uTabbed .v52n-fold[open] .v44-weather-style,
+body.v51p-compact #v51uTabbed .v52n-fold[open] .v43-layout,
+body.v51p-compact #v51uTabbed .v52n-fold[open] #v42ClockFormatSlot,
+body.v51p-compact #v51uTabbed .v52n-fold[open] #v42ClockBackgroundSlot,
+body.v51p-compact #v51uTabbed .v52n-fold[open] #v51eMessageBgPanel,
+body.v51p-compact #v51uTabbed .v52n-fold[open] #v49IconPanel,
+body.v51p-compact #v51uTabbed .v52n-fold[open] .v45-weather-background{display:block!important}
+@media(min-width:721px){#v51uTabbed .v52n-fold{margin:13px 0!important}}
+</style>
+</head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V52N-20261107</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
- <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V52K</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+ <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V52N</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -1229,8 +1299,8 @@ body{background:#f0f4f9!important;color:#233952!important;}
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V52K-20261107" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V52K-20261107" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V52K-20261107"></script><script src="shared.js?v=V52K-20261107"></script><script>
+<section id="saveSection"><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V52N-20261107" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V52N-20261107" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V52N-20261107"></script><script src="shared.js?v=V52N-20261107"></script><script>
 
 /* V49: standalone original SVG line icons; no external icon assets or network requests. */
 const WX49_NS='http://www.w3.org/2000/svg';
@@ -1633,7 +1703,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V52K-20261107&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V52N-20261107&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1832,7 +1902,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V52K-20261107';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V52N-20261107';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -2400,7 +2470,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V52K-20261107';
+ document.title='LCD 시계 관리자 V52N-20261107';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2417,7 +2487,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V52K-20261107';
+document.title='LCD 시계 관리자 V52N-20261107';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -3144,6 +3214,65 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
 (function(){
  const labels=[['v42QuickSave','저장·반영','✓'],['v46QuickView','LCD 보기','▣'],['v42QuickLoad','설정 불러오기','↻']];
  for(const [id,txt,icon] of labels){const el=document.getElementById(id);if(!el)continue;el.replaceChildren();const ic=document.createElement('span');ic.className='v52iBtnIcon';ic.textContent=icon;const name=document.createElement('span');name.className='v52iBtnText';name.textContent=txt;el.append(ic,name);el.setAttribute('aria-label',txt);}
+})();
+</script>
+<script id="v52nEnhancement">
+(function(){
+ 'use strict';
+ // Work only with original DOM elements; keep all identifiers/listeners/save fields.
+ const byId=id=>document.getElementById(id);
+ const prev=byId('previewSection');
+ if(prev){
+  const canvas=byId('preview');
+  if(canvas){
+   const title=document.createElement('div');title.className='v52n-preview-title';title.textContent='LCD 실시간 미리보기';
+   prev.insertBefore(title,prev.firstChild);
+   title.insertAdjacentElement('afterend',canvas);
+   const actions=prev.querySelector('.visual-preview-actions');
+   if(actions)canvas.insertAdjacentElement('afterend',actions);
+   const oldHeading=[...prev.children].find(el=>el.tagName==='H2'&&el.textContent.includes('미리보기'));
+   if(oldHeading)oldHeading.hidden=true;
+  }
+ }
+ function fold(panelId,id,title,items,open){
+  const panel=byId(panelId);if(!panel||byId(id))return;
+  const elements=items.map(x=>typeof x==='string'?byId(x):x).filter(Boolean);
+  if(!elements.length)return;
+  const det=document.createElement('details');det.className='v52n-fold';det.id=id;
+  if(open)det.open=true;
+  const summary=document.createElement('summary');summary.textContent=title;
+  const content=document.createElement('div');content.className='v52n-fold-body';
+  det.append(summary,content);
+  // Insert at the original first element position before reparenting.
+  elements[0].insertAdjacentElement('beforebegin',det);
+  elements.forEach(x=>content.appendChild(x));
+ }
+ // Time/date editing controls remain visible. Optional weather/format/background are independently foldable.
+ fold('v42ClockPanel','v52nClockFormats','시간·날짜 표시 형식',[byId('v42ClockFormatSlot')],false);
+ fold('v42ClockPanel','v52nClockBackground','시간·날짜 배경',[byId('v42ClockBackgroundSlot')],false);
+ fold('v42ClockPanel','v52nClockWeather','시간·날짜 화면의 날씨 설정',[byId('v52gWeatherAfter')],false);
+ // Weather editor has distinguishable setting groups instead of nested card upon card.
+ const wp=byId('v42WeatherPanel');
+ if(wp){
+  fold('v42WeatherPanel','v52nWeatherIcon','날씨 아이콘 스타일',[byId('v49IconPanel')],false);
+  const bg=wp.querySelector('.v45-weather-background');
+  if(bg)fold('v42WeatherPanel','v52nWeatherBackground','날씨 배경 및 애니메이션',[bg],false);
+  const layout=wp.querySelector('.v51x-selector');
+  if(layout){
+   const siblings=[layout];let next=layout.nextElementSibling;
+   while(next&&(!next.classList.contains('v52h-effects'))&& next.tagName!=='DETAILS'){
+    const el=next; next=next.nextElementSibling;
+    if(el.classList.contains('v43-heading')||el.classList.contains('v43-layout')||el.classList.contains('v43-hint'))siblings.push(el);
+    else break;
+   }
+   fold('v42WeatherPanel','v52nWeatherLayout','날씨 레이아웃 · 위치 · 전체 크기',siblings,false);
+  }
+ }
+ fold('v42TextPanel','v52nTextBackground','문자 화면 배경',[byId('v51eMessageBgPanel')],false);
+ // Save stays dominant; both secondary actions remain reachable.
+ const save=byId('v42QuickSave'),load=byId('v42QuickLoad');
+ if(save)save.textContent='✓ 저장·반영';
+ if(load)load.textContent='↻ 불러오기';
 })();
 </script>
 </body></html>
