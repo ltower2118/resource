@@ -180,7 +180,31 @@ body[data-weather-shadow="off"] #clockWeather,body[data-weather-shadow="off"] #c
 body[data-message-shadow="off"] #messageScreen,body[data-message-shadow="off"] #messageScreen *,body[data-message-shadow="off"] #messageBlocks,body[data-message-shadow="off"] #messageBlocks *{text-shadow:none!important}
 body[data-message-shadow="on"] #messageScreen .message-content,body[data-message-shadow="on"] #messageBlocks .lcd-block{text-shadow:0 2px 8px #000a}
 body[data-weather-shadow="on"] #weatherContent .wx-place,body[data-weather-shadow="on"] #weatherContent .wx-main,body[data-weather-shadow="on"] #weatherContent .wx-condition,body[data-weather-shadow="on"] #weatherContent .wx-extra{text-shadow:0 2px 7px #000a}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51W-20261107</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+
+/* V51X weather layouts: no absolute positioning of individual weather fields. */
+#clockWeather.v51x-horizontal{display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:.22em;max-width:94vw;white-space:normal;line-height:1.32;text-align:center}
+#clockWeather.v51x-summary{display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:.25em;max-width:94vw;white-space:pre-line;line-height:1.32;text-align:center}
+#clockWeather.v51x-compact{display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:.2em;max-width:94vw;white-space:normal;line-height:1.2;text-align:center}
+#clockWeather.v51x-compact .wx49-icon{width:.8em;height:.8em;flex-basis:.8em}
+#weatherContent.v51x-layout{box-sizing:border-box;max-width:92%;width:min(90%,1680px);max-height:88%;display:flex;align-items:center;justify-content:center;gap:min(1.6vh,18px);overflow:hidden;text-align:center}
+#weatherContent.v51x-layout .v51x-primary{display:flex;align-items:center;justify-content:center;gap:min(2.5vw,40px);max-width:100%;min-width:0;flex-wrap:wrap}
+#weatherContent.v51x-layout .wx-main{min-width:0;line-height:1.08;white-space:nowrap;font-size:min(var(--wx-page-size,135px),23vh)}
+#weatherContent.v51x-layout .wx-main .wx49-icon{flex-shrink:0}
+#weatherContent.v51x-layout .wx-place{font-size:min(calc(var(--wx-page-size,135px)*.3),7vh);margin:0;line-height:1.2;overflow-wrap:anywhere}
+#weatherContent.v51x-layout .wx-condition{font-size:min(calc(var(--wx-page-size,135px)*.46),10vh);line-height:1.15;margin:0;overflow-wrap:anywhere}
+#weatherContent.v51x-layout .wx-extra{font-size:min(calc(var(--wx-page-size,135px)*.26),5.5vh);line-height:1.4;display:flex;flex-wrap:wrap;gap:.25em .8em;justify-content:center;max-width:100%;overflow-wrap:anywhere}
+#weatherContent.v51x-layout .wx-foot{position:static!important;margin:.7em 0 0!important;font-size:clamp(11px,1vw,17px)!important;line-height:1.25;flex:none}
+#weatherContent.v51x-layout.v51x-horizontal .v51x-primary{flex-direction:row;flex-wrap:nowrap}
+#weatherContent.v51x-layout.v51x-horizontal .wx-main{font-size:min(calc(var(--wx-page-size,135px)*.82),17vh)}
+#weatherContent.v51x-layout.v51x-horizontal .wx-condition{font-size:min(calc(var(--wx-page-size,135px)*.39),8vh)}
+#weatherContent.v51x-layout.v51x-summary .v51x-primary{flex-direction:column;gap:min(1.2vh,13px)}
+#weatherContent.v51x-layout.v51x-summary .wx-main{font-size:min(var(--wx-page-size,135px),23vh)}
+#weatherContent.v51x-layout.v51x-compact .v51x-primary{flex-direction:row;flex-wrap:nowrap;gap:min(1.5vw,25px)}
+#weatherContent.v51x-layout.v51x-compact .wx-main{font-size:min(calc(var(--wx-page-size,135px)*.72),16vh)}
+#weatherContent.v51x-layout.v51x-compact .wx-condition{font-size:min(calc(var(--wx-page-size,135px)*.34),7vh)}
+#weatherContent.v51x-layout.v51x-compact .wx-extra{font-size:min(calc(var(--wx-page-size,135px)*.21),4.4vh)}
+@media(max-width:750px){#weatherContent.v51x-layout .v51x-primary{flex-wrap:wrap!important}#weatherContent.v51x-layout .wx-main{font-size:min(var(--wx-page-size,135px),18vh)}}
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V51X-20261107</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -516,20 +540,28 @@ function renderWeather(){
  const clockPicked=clockFields.map(k=>vals[k]).filter(Boolean);
  const mark=weatherEmoji(w.conditionCode);const wxIconBg=config.weatherAnimationEnabled===true?'':(config.weatherBackgroundMode==='image'?config.weatherBackgroundImage:'');const clockIconBg=config.clockBackgroundMode==='image'?config.background:'';
  const wxSceneKind=wx50Kind(w.conditionCode,w.isDay);const wxSceneIconBg=({sun:'#b6e3f6',moon:'#13233f',partly:'#b4dbe9',cloud:'#91a9ba',rain:'#304e6a',snow:'#d8e9f3',thunder:'#23314a'})[wxSceneKind]||'#122940';
- wx49Append(clock,w.conditionCode,w.isDay,config,(config.weatherClockShowLocation!==false?String(w.location||config.weatherCity||'Seoul')+'  ·  ':'')+clockPicked.join(' · '),config.clockBackgroundColor||'#17283b',clockIconBg,config.clockBackgroundMode==='image'?config.overlay:0,()=>{delete clock.dataset.wx49Key;renderWeather()});
+ const clockLayout=['horizontal','summary','compact'].includes(config.weatherClockLayout)?config.weatherClockLayout:'horizontal';
+ clock.classList.remove('v51x-horizontal','v51x-summary','v51x-compact');clock.classList.add('v51x-'+clockLayout);
+ const clockLocation=config.weatherClockShowLocation!==false?String(w.location||config.weatherCity||'Seoul'):'';
+ const clockText=clockLayout==='summary'?(clockLocation?clockLocation+'\n':'')+clockPicked.join(' · '):(clockLocation?clockLocation+' · ':'')+clockPicked.join(' · ');
+ wx49Append(clock,w.conditionCode,w.isDay,config,clockText,config.clockBackgroundColor||'#17283b',clockIconBg,config.clockBackgroundMode==='image'?config.overlay:0,()=>{delete clock.dataset.wx49Key;renderWeather()});
  applyWeatherLayoutV43();
  const date=new Date(w.updatedAt||Date.now());
  const stale=Date.now()-(w.updatedAt||0)>30*60*1000;
- const sig=JSON.stringify([picked,w.updatedAt,stale,config.weatherCity,fields,config.weatherShowLocation,config.weatherPageX,config.weatherPageY,config.weatherPageSize,config.weatherPageFont,config.weatherPageColor,config.weatherIconStyle,config.weatherIconColorMode,config.weatherIconColor,config.weatherBackgroundMode,config.weatherAnimationEnabled===true,w.conditionCode,w.isDay,wx49ImageLuma.get(wxIconBg)]);
+ const sig=JSON.stringify([picked,w.updatedAt,stale,config.weatherCity,fields,config.weatherShowLocation,config.weatherPageX,config.weatherPageY,config.weatherPageSize,config.weatherPageLayout,config.weatherPageFont,config.weatherPageColor,config.weatherIconStyle,config.weatherIconColorMode,config.weatherIconColor,config.weatherBackgroundMode,config.weatherAnimationEnabled===true,w.conditionCode,w.isDay,wx49ImageLuma.get(wxIconBg)]);
  if(page.dataset.weatherSignature===sig)return;
  page.dataset.weatherSignature=sig;
  page.replaceChildren();
  if(config.weatherAnimationEnabled===true)wx50MountScene(page,w.conditionCode,w.isDay);
- const content=document.createElement('div');content.id='weatherContent';page.appendChild(content);
+ const content=document.createElement('div');content.id='weatherContent';
+ const pageLayout=['horizontal','summary','compact'].includes(config.weatherPageLayout)?config.weatherPageLayout:'summary';
+ content.className='v51x-layout v51x-'+pageLayout;page.appendChild(content);
+ const primary=document.createElement('div');primary.className='v51x-primary';
  const add=(cls,text)=>{const el=document.createElement('div');el.className=cls;el.textContent=text;content.appendChild(el)};
  if(config.weatherShowLocation!==false)add('wx-place',String(w.location||config.weatherCity||'날씨'));
- const wxMain=document.createElement('div');wxMain.className='wx-main';content.appendChild(wxMain);wx49Append(wxMain,w.conditionCode,w.isDay,config,fields.includes('temp')?vals.temp:'',config.weatherAnimationEnabled===true?wxSceneIconBg:(config.weatherBackgroundColor||'#122940'),wxIconBg,0,()=>{delete page.dataset.weatherSignature;renderWeather()});
- if(fields.includes('condition'))add('wx-condition',vals.condition);
+ const wxMain=document.createElement('div');wxMain.className='wx-main';primary.appendChild(wxMain);wx49Append(wxMain,w.conditionCode,w.isDay,config,fields.includes('temp')?vals.temp:'',config.weatherAnimationEnabled===true?wxSceneIconBg:(config.weatherBackgroundColor||'#122940'),wxIconBg,0,()=>{delete page.dataset.weatherSignature;renderWeather()});
+ if(fields.includes('condition')){const el=document.createElement('div');el.className='wx-condition';el.textContent=vals.condition;primary.appendChild(el)}
+ content.appendChild(primary);
  add('wx-extra',fields.filter(k=>!['temp','condition'].includes(k)).map(k=>vals[k]).join('    ·    '));
  // V51A: keep source attribution in the bottom-right of the full weather page.
  const sourceFoot=document.createElement('div');
