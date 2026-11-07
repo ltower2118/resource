@@ -205,19 +205,20 @@ body[data-weather-shadow="on"] #weatherContent .wx-place,body[data-weather-shado
 #weatherContent.v51x-layout.v51x-compact .wx-extra{font-size:min(calc(var(--wx-page-size,135px)*.21),4.4vh)}
 @media(max-width:750px){#weatherContent.v51x-layout .v51x-primary{flex-wrap:wrap!important}#weatherContent.v51x-layout .wx-main{font-size:min(var(--wx-page-size,135px),18vh)}}
 
-/* V51Y: per-element proportional scale, kept within responsive V51X bounds. */
-#weatherContent.v51x-layout .wx-main{font-size:min(var(--v51y-temp-px,135px),23vh)}
-#weatherContent.v51x-layout .wx-main .wx49-icon{width:var(--v51y-icon-em,1em);height:var(--v51y-icon-em,1em);flex:0 0 var(--v51y-icon-em,1em)}
-#weatherContent.v51x-layout .wx-main .wx49-emoji{font-size:var(--v51y-emoji-em,.9em)}
-#weatherContent.v51x-layout .wx-condition{font-size:min(var(--v51y-condition-px,40px),10vh)}
-#weatherContent.v51x-layout .wx-extra{font-size:min(var(--v51y-extra-px,40px),5.5vh)}
-#weatherContent.v51x-layout.v51x-horizontal .wx-main{font-size:min(var(--v51y-temp-horizontal-px,135px),17vh)}
-#weatherContent.v51x-layout.v51x-horizontal .wx-condition{font-size:min(var(--v51y-condition-horizontal-px,40px),8vh)}
-#weatherContent.v51x-layout.v51x-compact .wx-main{font-size:min(var(--v51y-temp-compact-px,135px),16vh)}
-#weatherContent.v51x-layout.v51x-compact .wx-condition{font-size:min(var(--v51y-condition-compact-px,40px),7vh)}
-#weatherContent.v51x-layout.v51x-compact .wx-extra{font-size:min(var(--v51y-extra-compact-px,40px),4.4vh)}
-@media(max-width:750px){#weatherContent.v51x-layout .wx-main{font-size:min(var(--v51y-temp-px,135px),18vh)}}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V52A-20261107</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+/* V52B: independent sizes. Do not clamp each text line to vh: that
+   made multiple slider positions render at exactly the same size. */
+#weatherContent.v51x-layout{max-height:none;overflow:visible}
+#weatherContent.v51x-layout .wx-main{font-size:var(--v51y-temp-px,135px)}
+#weatherContent.v51x-layout .wx-main .wx49-icon{width:1em;height:1em;flex:0 0 1em}
+#weatherContent.v51x-layout .wx-main .wx49-emoji{font-size:.9em}
+#weatherContent.v51x-layout .wx-condition{font-size:var(--v51y-condition-px,40px)}
+#weatherContent.v51x-layout .wx-extra{font-size:var(--v51y-extra-px,40px)}
+#weatherContent.v51x-layout.v51x-horizontal .wx-main{font-size:var(--v51y-temp-horizontal-px,135px)}
+#weatherContent.v51x-layout.v51x-horizontal .wx-condition{font-size:var(--v51y-condition-horizontal-px,40px)}
+#weatherContent.v51x-layout.v51x-compact .wx-main{font-size:var(--v51y-temp-compact-px,135px)}
+#weatherContent.v51x-layout.v51x-compact .wx-condition{font-size:var(--v51y-condition-compact-px,40px)}
+#weatherContent.v51x-layout.v51x-compact .wx-extra{font-size:var(--v51y-extra-compact-px,40px)}
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V52B-20261107</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -510,6 +511,26 @@ function renderScreen(){
 function weatherEmoji(code){if([1000].includes(code))return '☀️';if([1003].includes(code))return '🌤️';if([1006,1009].includes(code))return '☁️';if([1030,1135,1147].includes(code))return '🌫️';if([1063,1150,1153,1180,1183,1186,1189,1192,1195,1240,1243,1246].includes(code))return '🌧️';if([1066,1069,1114,1117,1210,1213,1216,1219,1222,1225,1255,1258].includes(code))return '❄️';if([1087,1273,1276,1279,1282].includes(code))return '⛈️';return '🌥️'}
 function safeWholeV51D(v,unit){return v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))?Math.round(Number(v))+unit:'정보 없음'}
 function safeNum(v,unit){return v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))?Math.round(Number(v)*10)/10+unit:'정보 없음'}
+function fitWeatherContentV52B(){
+ const content=document.getElementById('weatherContent');
+ if(!content||!content.isConnected)return;
+ const screen=document.getElementById('weatherScreen');
+ content.style.transform='translate(-50%,-50%)';
+ const usableWidth=Math.max(100,screen.clientWidth*.88);
+ const usableHeight=Math.max(100,screen.clientHeight*.82);
+ // Use actual child boxes. scrollWidth includes longer single-line temperatures.
+ const width=Math.max(content.scrollWidth,content.offsetWidth,1);
+ const height=Math.max(content.scrollHeight,content.offsetHeight,1);
+ const factor=Math.max(.10,Math.min(1,usableWidth/width,usableHeight/height));
+ content.style.transform='translate(-50%,-50%) scale('+factor.toFixed(4)+')';
+}
+let wxFitPendingV52B=false;
+function scheduleWeatherFitV52B(){
+ if(wxFitPendingV52B)return;
+ wxFitPendingV52B=true;
+ requestAnimationFrame(()=>{wxFitPendingV52B=false;fitWeatherContentV52B()});
+}
+window.addEventListener('resize',scheduleWeatherFitV52B);
 function applyWeatherLayoutV43(){
  const scale=viewScale();
  const strip=$('clockWeather');
@@ -522,13 +543,14 @@ function applyWeatherLayoutV43(){
  if(content){
   content.style.left=Number(config.weatherPageX??50)+'%';
   content.style.top=Number(config.weatherPageY??48)+'%';
-  content.style.setProperty('--wx-page-size',(Math.max(38,Math.max(40,Math.min(260,Number(config.weatherPageSize)||135))*scale))+'px');
-  const base=Math.max(40,Math.min(260,Number(config.weatherPageSize)||135))*scale;
+  content.style.setProperty('--wx-page-size',(Math.max(38,Math.max(40,Math.min(500,Number(config.weatherPageSize)||135))*scale))+'px');
+  const base=Math.max(40,Math.min(500,Number(config.weatherPageSize)||135))*scale;
   const ratio=id=>{const n=Number(config[id]);return (Number.isFinite(n)?Math.max(50,Math.min(150,n)):100)/100};
   const sizes=[['temp',base*ratio('weatherTempScale'),[1,.82,.72]],['condition',base*ratio('weatherConditionScale'),[.46,.39,.34]],['extra',base*ratio('weatherExtraScale'),[.26,null,.21]]];
   for(const [name,px,variants] of sizes){for(let j=0;j<variants.length;j++){if(variants[j]==null)continue;const suffix=['','-horizontal','-compact'][j];content.style.setProperty('--v51y-'+name+suffix+'-px',(px*variants[j])+'px');}}
   content.style.setProperty('--v51y-icon-em','1em');
   content.style.setProperty('--v51y-emoji-em','.9em');
+  scheduleWeatherFitV52B();
   content.style.fontFamily=fontValue(config.weatherPageFont||'Malgun Gothic');
   content.style.color=config.weatherPageColor||'#ffffff';content.style.fontWeight=config.weatherPageBold?'800':'400';
  }
