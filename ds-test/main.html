@@ -255,6 +255,37 @@ body[data-lcd-effect="none"] #v52yMessageClock{transition:none!important}
 @keyframes v53b-shower-fall{0%,12%{opacity:.08;transform:translate3d(0,-12vh,0) rotate(12deg)}23%,60%{opacity:.8}75%,100%{opacity:.04;transform:translate3d(-12vw,115vh,0) rotate(12deg)}}
 @keyframes v53b-blizzard-fall{from{transform:translate3d(15vw,-10vh,0)}to{transform:translate3d(-48vw,112vh,0)}}
 @media(prefers-reduced-motion:reduce){#wx50Scene.wx50-mist:after{animation:none!important}}
+</style><style id="v54-pastel-style">
+/* V54: original minimalist watercolor atmosphere, no Samsung assets. */
+#wx50Scene{--v54-dim:.40;--v54-top:#7296bb;--v54-mid:#577a9d;--v54-bottom:#8cacc4;background:linear-gradient(180deg,var(--v54-top) 0%,var(--v54-mid) 55%,var(--v54-bottom) 100%)!important;transition:background-color 1s ease}
+#wx50Scene.wx50-sun{--v54-top:#5e9bcf;--v54-mid:#568cbb;--v54-bottom:#a1bad2}
+#wx50Scene.wx50-partly{--v54-top:#719cc4;--v54-mid:#6789b0;--v54-bottom:#b0bdd0}
+#wx50Scene.wx50-cloud{--v54-top:#687e9e;--v54-mid:#637793;--v54-bottom:#a5b3c4}
+#wx50Scene.wx50-mist{--v54-top:#8c9eac;--v54-mid:#748c9f;--v54-bottom:#c2ccd0}
+#wx50Scene.wx50-drizzle{--v54-top:#688aa8;--v54-mid:#597894;--v54-bottom:#a6b6c8}
+#wx50Scene.wx50-rain{--v54-top:#3b5878;--v54-mid:#405e7b;--v54-bottom:#8ba3bc}
+#wx50Scene.wx50-showers{--v54-top:#567ca2;--v54-mid:#527395;--v54-bottom:#a3b8c9}
+#wx50Scene.wx50-snow{--v54-top:#8299bb;--v54-mid:#8398b9;--v54-bottom:#c1c9e0}
+#wx50Scene.wx50-blizzard{--v54-top:#6a7f9e;--v54-mid:#7189a6;--v54-bottom:#bac7d9}
+#wx50Scene.wx50-sleet{--v54-top:#617b9a;--v54-mid:#667c99;--v54-bottom:#b1bdd2}
+#wx50Scene.wx50-thunder{--v54-top:#3b456d;--v54-mid:#494d78;--v54-bottom:#888cac}
+#wx50Scene.wx50-moon{--v54-top:#1b3159;--v54-mid:#243c65;--v54-bottom:#53678c}
+#wx50Scene.v54-dawn{--v54-top:#364c79;--v54-mid:#6d709a;--v54-bottom:#c5a2aa}
+#wx50Scene.v54-sunrise{--v54-top:#456eab;--v54-mid:#8a8cb2;--v54-bottom:#d9a8a0}
+#wx50Scene.v54-sunset{--v54-top:#525b94;--v54-mid:#aa789b;--v54-bottom:#dba18f}
+#wx50Scene.v54-night{--v54-top:#17294d;--v54-mid:#293d64;--v54-bottom:#586a8e}
+#wx50Scene:before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,transparent 0%,rgba(5,19,43,.36) 28%,rgba(5,19,43,.68) 52%,rgba(5,19,43,.40) 75%,transparent 100%);opacity:calc(var(--v54-dim) * 1.45)}
+#wx50Scene:after{content:'';position:absolute;left:-5%;right:-5%;bottom:-2%;height:21%;z-index:0;pointer-events:none;background:linear-gradient(170deg,transparent 25%,#567ca488 26%,#567ca488 42%,transparent 43%),linear-gradient(188deg,transparent 38%,#365b8580 39%,#365b8580 61%,transparent 62%);filter:blur(9px);opacity:.48}
+#wx50Scene .wx50-cloud{opacity:.35!important;filter:blur(7px)!important}
+#wx50Scene .wx50-sun-disc{width:10vmin;height:10vmin;opacity:.7;box-shadow:0 0 55px 25px #ffe9bc55}
+#wx50Scene .wx50-moon-disc{width:10vmin;height:10vmin;opacity:.75}
+#wx50Scene .wx50-snow-decor{display:none}
+#wx50Scene .wx50-meteor{display:none}
+#wx50Scene .wx50-star{opacity:.22}
+#wx50Scene .wx50-drop{opacity:.5}
+#wx50Scene .wx50-flake{opacity:.7}
+#weatherScreen #weatherContent{z-index:2;text-shadow:0 2px 9px #081d3c88}
+@media(prefers-reduced-motion:reduce){#wx50Scene .wx50-cloud{animation:none!important}}
 </style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V53B-20261108</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
@@ -984,4 +1015,23 @@ if(previewMode){
 }else refresh();
 setInterval(()=>{if(!previewMode&&!new URLSearchParams(location.search).has('weatherTest'))refresh()},10000);
 setInterval(()=>refreshWeather(),60000);
-</script></body></html>
+</script>
+<script id="v54-pastel-runtime">
+(function(){
+ const KEY='v54_pastel_dim';
+ function apply(){
+  const hour=new Date().getHours();
+  const phase=hour<5?'night':hour<7?'dawn':hour<9?'sunrise':hour<17?'day':hour<20?'sunset':'night';
+  const val=Math.max(0,Math.min(60,Number(localStorage.getItem(KEY)??40)));
+  document.querySelectorAll('#wx50Scene').forEach(el=>{
+   el.classList.remove('v54-dawn','v54-sunrise','v54-sunset','v54-night');
+   if(phase!=='day')el.classList.add('v54-'+phase);
+   el.style.setProperty('--v54-dim',String(val/100));
+  });
+ }
+ const observer=new MutationObserver(apply);
+ function start(){observer.observe(document.body,{childList:true,subtree:true});apply();setInterval(apply,300000);window.addEventListener('storage',apply)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
+</body></html>

@@ -1615,6 +1615,37 @@ body.v53a-modal-open{overflow:hidden}
 #v53aAnimationModal .v53a-picks{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px!important;max-height:145px;overflow-y:auto;padding:3px}
 #v53aAnimationModal .v53a-pick{min-width:0!important;white-space:normal!important;line-height:1.25;font-size:12px!important;padding:8px 5px!important;border-radius:9px!important}
 @media(max-width:520px){#v53aAnimationModal .v53a-picks{grid-template-columns:repeat(2,minmax(0,1fr));max-height:142px}#v53aAnimationModal .v53a-pick{min-height:41px}}
+</style><style id="v54-pastel-style">
+/* V54: original minimalist watercolor atmosphere, no Samsung assets. */
+#wx50Scene{--v54-dim:.40;--v54-top:#7296bb;--v54-mid:#577a9d;--v54-bottom:#8cacc4;background:linear-gradient(180deg,var(--v54-top) 0%,var(--v54-mid) 55%,var(--v54-bottom) 100%)!important;transition:background-color 1s ease}
+#wx50Scene.wx50-sun{--v54-top:#5e9bcf;--v54-mid:#568cbb;--v54-bottom:#a1bad2}
+#wx50Scene.wx50-partly{--v54-top:#719cc4;--v54-mid:#6789b0;--v54-bottom:#b0bdd0}
+#wx50Scene.wx50-cloud{--v54-top:#687e9e;--v54-mid:#637793;--v54-bottom:#a5b3c4}
+#wx50Scene.wx50-mist{--v54-top:#8c9eac;--v54-mid:#748c9f;--v54-bottom:#c2ccd0}
+#wx50Scene.wx50-drizzle{--v54-top:#688aa8;--v54-mid:#597894;--v54-bottom:#a6b6c8}
+#wx50Scene.wx50-rain{--v54-top:#3b5878;--v54-mid:#405e7b;--v54-bottom:#8ba3bc}
+#wx50Scene.wx50-showers{--v54-top:#567ca2;--v54-mid:#527395;--v54-bottom:#a3b8c9}
+#wx50Scene.wx50-snow{--v54-top:#8299bb;--v54-mid:#8398b9;--v54-bottom:#c1c9e0}
+#wx50Scene.wx50-blizzard{--v54-top:#6a7f9e;--v54-mid:#7189a6;--v54-bottom:#bac7d9}
+#wx50Scene.wx50-sleet{--v54-top:#617b9a;--v54-mid:#667c99;--v54-bottom:#b1bdd2}
+#wx50Scene.wx50-thunder{--v54-top:#3b456d;--v54-mid:#494d78;--v54-bottom:#888cac}
+#wx50Scene.wx50-moon{--v54-top:#1b3159;--v54-mid:#243c65;--v54-bottom:#53678c}
+#wx50Scene.v54-dawn{--v54-top:#364c79;--v54-mid:#6d709a;--v54-bottom:#c5a2aa}
+#wx50Scene.v54-sunrise{--v54-top:#456eab;--v54-mid:#8a8cb2;--v54-bottom:#d9a8a0}
+#wx50Scene.v54-sunset{--v54-top:#525b94;--v54-mid:#aa789b;--v54-bottom:#dba18f}
+#wx50Scene.v54-night{--v54-top:#17294d;--v54-mid:#293d64;--v54-bottom:#586a8e}
+#wx50Scene:before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,transparent 0%,rgba(5,19,43,.36) 28%,rgba(5,19,43,.68) 52%,rgba(5,19,43,.40) 75%,transparent 100%);opacity:calc(var(--v54-dim) * 1.45)}
+#wx50Scene:after{content:'';position:absolute;left:-5%;right:-5%;bottom:-2%;height:21%;z-index:0;pointer-events:none;background:linear-gradient(170deg,transparent 25%,#567ca488 26%,#567ca488 42%,transparent 43%),linear-gradient(188deg,transparent 38%,#365b8580 39%,#365b8580 61%,transparent 62%);filter:blur(9px);opacity:.48}
+#wx50Scene .wx50-cloud{opacity:.35!important;filter:blur(7px)!important}
+#wx50Scene .wx50-sun-disc{width:10vmin;height:10vmin;opacity:.7;box-shadow:0 0 55px 25px #ffe9bc55}
+#wx50Scene .wx50-moon-disc{width:10vmin;height:10vmin;opacity:.75}
+#wx50Scene .wx50-snow-decor{display:none}
+#wx50Scene .wx50-meteor{display:none}
+#wx50Scene .wx50-star{opacity:.22}
+#wx50Scene .wx50-drop{opacity:.5}
+#wx50Scene .wx50-flake{opacity:.7}
+#weatherScreen #weatherContent{z-index:2;text-shadow:0 2px 9px #081d3c88}
+@media(prefers-reduced-motion:reduce){#wx50Scene .wx50-cloud{animation:none!important}}
 </style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V53B-20261108</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
  <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V53B</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
@@ -1700,7 +1731,7 @@ body.v53a-modal-open{overflow:hidden}
 <section id="v42TextPanel" class="v42-panel" hidden><h2>문자 화면 설정</h2><div id="v42TextSlot"></div><div id="v51eMessageBgPanel" style="margin:16px 0;padding:14px;background:#f3f7ff;border:1px solid #d5e2f2;border-radius:12px"><h3 style="margin:0 0 12px;font-size:17px">문자 화면 배경</h3><div class="grid"><label>배경 종류<select id="messageBackgroundMode"><option value="color">단색 배경</option><option value="image">이미지 배경</option></select></label><label id="v51eMessageColorRow">배경 색상<input type="color" id="v51eMessageBgColor" value="#101827"></label><label id="v51eMessageImageRow" hidden>배경 이미지 파일명<input type="text" id="messageBackgroundImage" value="images/background.jpg" placeholder="images/background.jpg" spellcheck="false"></label></div><p>이미지는 ds-test/images/ 폴더에 넣어주세요. 기존 문자 상자와 글자 설정은 유지됩니다.</p></div></section>
 <section id="v42WeatherPanel" class="v42-panel" hidden><h2>날씨 화면 설정</h2><div id="v42WeatherSlot"></div><div class="v44-weather-style"><label>글꼴<select id="weatherPageFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>글자색<input id="weatherPageColor" type="color" value="#ffffff"></label><label class="v45-check"><input type="checkbox" id="weatherPageBold"> 굵게(B)</label></div><label style="display:flex;align-items:center;gap:9px;font-size:16px"><input id="weatherShowLocation" type="checkbox" checked style="width:22px;min-height:22px"> 지역명 표시</label>
 <div id="v49IconPanel"><h3>날씨 아이콘 설정 (시계·날씨 공통)</h3><div class="v49grid"><label>아이콘 종류<select id="weatherIconStyle"><option value="outline">심플 아웃라인 (추천)</option><option value="emoji">기존 이모지</option><option value="none">아이콘 숨김</option></select></label><label>아이콘 색상<select id="weatherIconColorMode"><option value="auto">배경에 맞게 자동</option><option value="white">흰색 고정</option><option value="black">검정 고정</option><option value="custom">직접 선택</option></select></label><label id="v49CustomRow" hidden>직접 색상<input id="weatherIconColor" type="color" value="#ffffff"></label></div><p>자동은 어두운 배경에 흰색, 밝은 배경에 검정색을 사용합니다. 이미지 배경도 밝기를 분석합니다. WeatherAPI 날씨 코드에 따라 모양이 자동 변경됩니다.</p></div><div class="v45-weather-background"><div class="v43-heading">날씨 페이지 배경</div>
- <label class="v51-toggle" for="weatherAnimationEnabled"><input id="weatherAnimationEnabled" type="checkbox"> <span><b>WeatherAPI 날씨 연동 애니메이션 사용</b><small>켜면 실제 날씨에 따라 12종 배경이 자동 변경됩니다. 끄면 아래 단색·이미지 설정을 사용합니다.</small></span></label>
+ <div id="v54PastelControls" style="margin:12px 0;padding:15px;border:1px solid #d7e3ef;border-radius:12px;background:#f1f6fb;color:#203650"><b>V54 파스텔 수채화 배경</b><p style="margin:7px 0;font-size:13px">12종 날씨 및 새벽·일출·일몰·밤 자동 전환. 중앙은 흰색 글씨를 위해 더 어둡게 표시됩니다.</p><label>배경 어둡기 <input id="v54Dim" type="range" min="0" max="60" value="40" style="vertical-align:middle;width:190px"> <strong id="v54DimValue">40%</strong></label><p style="font-size:12px;margin:7px 0 0">이 값은 이 브라우저에 저장됩니다. LCD와 관리자 화면이 동일한 저장소를 공유하는 환경에서 적용됩니다.</p></div><label class="v51-toggle" for="weatherAnimationEnabled"><input id="weatherAnimationEnabled" type="checkbox"> <span><b>WeatherAPI 날씨 연동 애니메이션 사용</b><small>켜면 실제 날씨에 따라 12종 배경이 자동 변경됩니다. 끄면 아래 단색·이미지 설정을 사용합니다.</small></span></label>
  <div id="v53aAnimationGuide" class="v53a-animation-guide" aria-label="12종 날씨 연동 애니메이션 안내">
  <div class="v53a-guide-head"><div><strong>날씨별 애니메이션 12종</strong><small>선택하면 움직이는 배경과 적용 날씨를 팝업으로 확인합니다.</small></div><button type="button" id="v53aShowAll" class="v53a-open-all">12종 보기</button></div>
  <label for="v53aAnimationSelect">미리보기할 날씨 선택</label>
@@ -4032,4 +4063,23 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  modal.addEventListener('click',e=>{if(e.target===modal)close()});
  document.addEventListener('keydown',e=>{if(modal.hidden)return;if(e.key==='Escape')close();if(e.key==='Tab'){const buttons=[...modal.querySelectorAll('button')];if(e.shiftKey&&document.activeElement===buttons[0]){e.preventDefault();buttons.at(-1).focus()}else if(!e.shiftKey&&document.activeElement===buttons.at(-1)){e.preventDefault();buttons[0].focus()}}});
 })();
-</script></body></html>
+</script>
+<script id="v54-pastel-runtime">
+(function(){
+ const KEY='v54_pastel_dim';
+ function apply(){
+  const hour=new Date().getHours();
+  const phase=hour<5?'night':hour<7?'dawn':hour<9?'sunrise':hour<17?'day':hour<20?'sunset':'night';
+  const val=Math.max(0,Math.min(60,Number(localStorage.getItem(KEY)??40)));
+  document.querySelectorAll('#wx50Scene').forEach(el=>{
+   el.classList.remove('v54-dawn','v54-sunrise','v54-sunset','v54-night');
+   if(phase!=='day')el.classList.add('v54-'+phase);
+   el.style.setProperty('--v54-dim',String(val/100));
+  });
+ }
+ const observer=new MutationObserver(apply);
+ function start(){observer.observe(document.body,{childList:true,subtree:true});apply();setInterval(apply,300000);window.addEventListener('storage',apply)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
+<script>(function(){function init(){const input=document.getElementById('v54Dim'),output=document.getElementById('v54DimValue');if(!input)return;input.value=localStorage.getItem('v54_pastel_dim')??'40';output.textContent=input.value+'%';input.addEventListener('input',()=>{output.textContent=input.value+'%';localStorage.setItem('v54_pastel_dim',input.value);document.querySelectorAll('#wx50Scene').forEach(e=>e.style.setProperty('--v54-dim',input.value/100))})}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init()})();</script></body></html>
