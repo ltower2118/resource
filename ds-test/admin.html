@@ -1472,7 +1472,13 @@ main.wrap{max-width:900px}
 #v52tDiagBox .v52tNote{font-size:12px;color:#65758b;margin:9px 0}
 #v52tDiagText{max-height:260px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.65}
 #v52tDiagBox button{border:1px solid #cdd9e8;background:#fff;border-radius:9px;padding:8px 12px;font:inherit;font-size:13px;margin-top:8px;color:#234777}
-</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V52X-20261108</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+</style><style id="v52yMessageClockStyles">
+#v52yMsgClock{margin:15px 0;border:1px solid #e0e7f0;border-radius:16px;overflow:hidden;background:#fff}
+#v52yMsgClock>summary{list-style:none;cursor:pointer;min-height:54px;padding:15px 16px;background:#f3f6fb;display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:16px;color:#2b4262}
+#v52yMsgClock>summary::-webkit-details-marker{display:none}#v52yMsgClock>summary:after{content:'⌄';font-size:20px;color:#677f98}#v52yMsgClock[open]>summary:after{content:'⌃'}
+#v52yMsgClock .msg-clock-body{padding:16px;display:grid;gap:13px}#v52yMsgClock .msg-clock-group{border-top:1px solid #e6ecf2;padding-top:12px;display:grid;gap:12px}#v52yMsgClock .msg-clock-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#v52yMsgClock label{font-size:14px;display:grid;gap:6px;color:#334155;font-weight:650}#v52yMsgClock .msg-clock-check{display:flex;align-items:center;gap:10px;min-height:42px}#v52yMsgClock input,#v52yMsgClock select{min-width:0;width:100%;min-height:43px;border:1px solid #ccd8e5;border-radius:10px;background:#fff;padding:9px;font-size:16px}#v52yMsgClock input[type=checkbox]{width:22px;min-height:22px;height:22px;accent-color:#38557f}#v52yMsgClock .msg-clock-check input{width:22px}#v52yMsgClock small{color:#64748b;font-size:12px;line-height:1.5}#v52yMsgClock h3{margin:0;font-size:16px}#pvV52YMessageClock{position:absolute;inset:0;pointer-events:none;z-index:40}#pvV52YMessageClock .v52y-pr{position:absolute;white-space:nowrap;transform:translate(-50%,-50%);line-height:1.2;pointer-events:auto;cursor:move;touch-action:none;user-select:none}
+@media(max-width:380px){#v52yMsgClock .msg-clock-grid{grid-template-columns:1fr}}
+</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V52Y-20261108</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
  <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V52U</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
@@ -1609,8 +1615,8 @@ main.wrap{max-width:900px}
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V52X-20261108" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V52X-20261108" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
-<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V52X-20261108"></script><script src="shared.js?v=V52X-20261108"></script><script>
+<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V52Y-20261108" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V52Y-20261108" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V52Y-20261108"></script><script src="shared.js?v=V52Y-20261108"></script><script>
 
 /* V49: standalone original SVG line icons; no external icon assets or network requests. */
 const WX49_NS='http://www.w3.org/2000/svg';
@@ -1968,10 +1974,10 @@ async function save(){
       tag.onerror=()=>doneNow(Error('서버 버전 확인 실패'));
       tag.src=apiUrl()+'?action=health&callback='+cb+'&_='+Date.now();document.head.appendChild(tag);
     });
-    if(!info||!['LCD-TEST-V52U-20261108'].includes(info.version)){
+    if(!info||!['LCD-TEST-V52Y-20261108'].includes(info.version)){
       const real=String(info&&info.version||'확인 불가');
       v30Diagnostic('서버 기능 호환성 확인 실패\n현재 서버 코드: '+real+'\n지원 서버 코드: V52U\nV52U TEST 서버를 기존 배포의 새 버전으로 적용하세요. 저장 요청은 보내지 않았습니다.');
-      message('TEST 서버 버전 불일치: '+real+' (지원: LCD-TEST-V52U-20261108). 저장 요청은 보내지 않았습니다.','error');
+      message('TEST 서버 버전 불일치: '+real+' (지원: LCD-TEST-V52Y-20261108). 저장 요청은 보내지 않았습니다.','error');
       return;
     }
   } catch(e){v30Diagnostic('V51N 서버 배포 버전 검사 오류: '+e.message);message('서버 버전 확인 실패: '+e.message+' · 저장 요청은 보내지 않았습니다.','error');return;}
@@ -2013,7 +2019,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V52X-20261108&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V52Y-20261108&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -2212,7 +2218,7 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=mode==='message'?'message':'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V52X-20261108';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&v=V52Y-20261108';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(visualTarget==='message'?'message':'clock');
@@ -2780,7 +2786,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V52X-20261108';
+ document.title='LCD 시계 관리자 V52Y-20261108';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2797,7 +2803,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V52X-20261108';
+document.title='LCD 시계 관리자 V52Y-20261108';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -3700,7 +3706,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  const layer=document.createElement('div');layer.id='v52wLcdPreview';
  const frame=document.createElement('iframe');frame.title='실제 LCD 엔진 날씨 실시간 미리보기';
  frame.loading='lazy';frame.setAttribute('aria-label','날씨 LCD 출력과 동일한 배치 미리보기');
- frame.src='main.html?preview=1&v=V52X-20261108';
+ frame.src='main.html?preview=1&v=V52Y-20261108';
  layer.appendChild(frame);
  const tag=document.createElement('span');tag.id='v52wLcdPreviewTag';tag.textContent='실제 LCD 배치 · 16:9';layer.appendChild(tag);
  viewport.appendChild(layer);
@@ -3774,4 +3780,56 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
 }
 @media(prefers-reduced-motion:reduce){#v51zSaveNotice.v51z-working .z-symbol::after{animation-duration:2.2s}}
 </style>
-</body></html>
+<script id="v52yMessageClockLogic">
+(function(){
+ 'use strict';
+ const node=document.getElementById('v42TextPanel');if(!node)return;
+ const template=document.createElement('template');template.innerHTML='<details id="v52yMsgClock"><summary>문자 화면 · 시간·날짜 표시</summary><div class="msg-clock-body">\n<p style="margin:0;color:#64748b;font-size:13px">문자 화면 전용 설정입니다. 기존 시간·날짜 화면에는 영향을 주지 않습니다.</p>\n<div class="msg-clock-group"><h3>시간 표시</h3><label class="msg-clock-check"><input type="checkbox" id="messageShowTime"> 문자 화면에 시간 표시</label>\n<div class="msg-clock-grid">\n<label>가로 위치 (%)<input type="number" id="messageTimeX" min="0" max="100" step="0.5" value="50"></label><label>세로 위치 (%)<input type="number" id="messageTimeY" min="0" max="100" step="0.5" value="22"></label>\n<label>크기 (24~600px)<input type="number" id="messageTimeSize" min="24" max="600" value="112"></label><label>색상<input type="color" id="messageTimeColor" value="#ffffff"></label>\n<label>시간 형식<select id="messageTimeFormat"><option value="24s">24시간 · 초 표시</option><option value="24m">24시간 · 분 표시</option><option value="12s">12시간 · 초 표시</option><option value="12m">12시간 · 분 표시</option></select></label><label>글꼴<select id="messageTimeFont"><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label>\n</div><label class="msg-clock-check"><input type="checkbox" id="messageTimeBold"> 굵게</label><label class="msg-clock-check"><input type="checkbox" id="messageTimeShadow" checked> 시간 그림자</label></div>\n<div class="msg-clock-group"><h3>날짜 표시</h3><label class="msg-clock-check"><input type="checkbox" id="messageShowDate"> 문자 화면에 날짜 표시</label>\n<div class="msg-clock-grid">\n<label>가로 위치 (%)<input type="number" id="messageDateX" min="0" max="100" step="0.5" value="50"></label><label>세로 위치 (%)<input type="number" id="messageDateY" min="0" max="100" step="0.5" value="82"></label>\n<label>크기 (16~110px)<input type="number" id="messageDateSize" min="16" max="110" value="34"></label><label>색상<input type="color" id="messageDateColor" value="#ffffff"></label>\n<label>날짜 형식<select id="messageDateFormat"><option value="long">긴 날짜</option><option value="short">짧은 날짜</option><option value="iso">ISO</option><option value="slash">슬래시</option><option value="month">월·일</option></select></label><label>글꼴<select id="messageDateFont"><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label>\n</div><label class="msg-clock-check"><input type="checkbox" id="messageDateBold"> 굵게</label><label class="msg-clock-check"><input type="checkbox" id="messageDateShadow" checked> 날짜 그림자</label></div>\n<small>좌표는 LCD 화면을 기준으로 한 비율입니다. 문자와 겹치지 않도록 시간은 위쪽(22%), 날짜는 아래쪽(82%)에 기본 배치합니다. 저장 전 전체화면 미리보기에서 실제 배치를 확인하세요.</small>\n</div></details>';
+ const effects=node.querySelector('.v52h-effects');node.insertBefore(template.content.firstElementChild,effects||null);
+ const names=["messageShowTime", "messageShowDate", "messageTimeX", "messageTimeY", "messageTimeSize", "messageTimeColor", "messageTimeFont", "messageTimeBold", "messageTimeFormat", "messageTimeShadow", "messageDateX", "messageDateY", "messageDateSize", "messageDateColor", "messageDateFont", "messageDateBold", "messageDateFormat", "messageDateShadow"];const $=id=>document.getElementById(id);
+ const defaults={messageShowTime:false,messageShowDate:false,messageTimeX:50,messageTimeY:22,messageTimeSize:112,messageTimeColor:'#ffffff',messageTimeFont:'Malgun Gothic',messageTimeBold:false,messageTimeFormat:'24s',messageTimeShadow:true,messageDateX:50,messageDateY:82,messageDateSize:34,messageDateColor:'#ffffff',messageDateFont:'Malgun Gothic',messageDateBold:false,messageDateFormat:'long',messageDateShadow:true};
+ const bools=new Set(['messageShowTime','messageShowDate','messageTimeBold','messageTimeShadow','messageDateBold','messageDateShadow']);
+ const nums=new Set(['messageTimeX','messageTimeY','messageTimeSize','messageDateX','messageDateY','messageDateSize']);
+ const previousRead=readForm;
+ readForm=function(){const x=previousRead();for(const k of names){const e=$(k);x[k]=bools.has(k)?e.checked:nums.has(k)?Number(e.value):e.value}return x};
+ const previousFill=fill;
+ fill=function(c){previousFill(c);for(const k of names){const el=$(k);if(!el)continue;const val=c[k]===undefined||c[k]===null?defaults[k]:c[k];if(bools.has(k))el.checked=val!==false&&!!val;else el.value=val}refreshOverlay()};
+ const overlay=document.createElement('div');overlay.id='pvV52YMessageClock';overlay.innerHTML='<div class="v52y-pr" id="pvV52YTime"></div><div class="v52y-pr" id="pvV52YDate"></div>';
+ const stage=$('previewStage');if(stage)stage.appendChild(overlay);
+ function refreshOverlay(){
+  if(!stage)return;
+  const p=nowParts(),c=readForm();
+  for(const [id,prefix,shown,formatter,prop,low,high,defaultSize] of [['pvV52YTime','messageTime','messageShowTime',fmtTime,'timeFormat',24,600,112],['pvV52YDate','messageDate','messageShowDate',fmtDate,'dateFormat',16,110,34]]){
+   const el=$(id);if(!el)continue;
+   el.style.display=c[shown]&&visualTarget==='message'?'block':'none';
+   el.textContent=formatter({...c,[prop]:c[prefix+'Format']},p);
+   el.style.left=(Number(c[prefix+'X'])||0)+'%';el.style.top=(Number(c[prefix+'Y'])||0)+'%';
+   el.style.fontSize=Math.max(low,Math.min(high,Number(c[prefix+'Size'])||defaultSize))+'px';
+   el.style.color=c[prefix+'Color'];el.style.fontFamily=fontValue(c[prefix+'Font']);el.style.fontWeight=c[prefix+'Bold']?'800':'400';el.style.textShadow=c[prefix+'Shadow']?'0 2px 12px #000a':'none';
+  }
+ }
+ const oldPreview=preview;
+ preview=function(){oldPreview();refreshOverlay()};
+ const oldCompare=typeof compareSavedSettingsV29==='function'?compareSavedSettingsV29:null;
+ if(oldCompare)compareSavedSettingsV29=function(want,got){const errs=oldCompare(want,got);for(const k of names){if(String(want[k])!==String(got[k]))errs.push('문자 시계 저장값 불일치: '+k)}return errs};
+ for(const k of names){const el=$(k);el.addEventListener('input',()=>{unsavedChanges=true;refreshOverlay();});el.addEventListener('change',()=>{unsavedChanges=true;refreshOverlay()})}
+ // Drag the actual preview clock/date to update X and Y percent (1920 x 1080 stage).
+ for(const [id,prefix] of [['pvV52YTime','messageTime'],['pvV52YDate','messageDate']]){
+  const el=$(id);if(!el)continue;
+  let moving=false;
+  el.addEventListener('pointerdown',ev=>{if(visualTarget!=='message')return;moving=true;el.setPointerCapture(ev.pointerId);ev.preventDefault();});
+  el.addEventListener('pointermove',ev=>{
+   if(!moving)return;
+   const rect=stage.getBoundingClientRect();if(!rect.width||!rect.height)return;
+   const x=Math.max(0,Math.min(100,(ev.clientX-rect.left)*100/rect.width));
+   const y=Math.max(0,Math.min(100,(ev.clientY-rect.top)*100/rect.height));
+   $(prefix+'X').value=x.toFixed(1);$(prefix+'Y').value=y.toFixed(1);
+   unsavedChanges=true;refreshOverlay();ev.preventDefault();
+  });
+  el.addEventListener('pointerup',()=>moving=false);
+  el.addEventListener('pointercancel',()=>moving=false);
+ }
+ // Time continues updating in preview even when the message editor is idle.
+ setInterval(refreshOverlay,1000);
+})();
+</script></body></html>
