@@ -1591,9 +1591,33 @@ main.wrap{max-width:900px}
 body.v53a-modal-open{overflow:hidden}
 @media(max-width:380px){#v53aAnimationModal .v53a-dialog{padding:12px}#v53aAnimationModal .v53a-picks{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}#v53aAnimationModal .v53a-pick{font-size:12px;padding:7px 1px}}
 @media(prefers-reduced-motion:reduce){#v53aStage .wx50-meteor,#v53aStage .wx50-electric,#v53aStage .wx50-drop{display:none}}
-</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V53A-20261108</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+</style><style id="v53bWeather12SceneStyles">
+/* V53B: 12 WeatherAPI weather-scene backgrounds, shared by LCD and admin. */
+#wx50Scene.wx50-mist{--wx50-sky1:#6c8490;--wx50-sky2:#a6b5ba}
+#wx50Scene.wx50-drizzle{--wx50-sky1:#536f8c;--wx50-sky2:#9fb3c2}
+#wx50Scene.wx50-showers{--wx50-sky1:#365b78;--wx50-sky2:#809dad}
+#wx50Scene.wx50-blizzard{--wx50-sky1:#617b97;--wx50-sky2:#d4e4f0}
+#wx50Scene.wx50-sleet{--wx50-sky1:#485b77;--wx50-sky2:#a9c0d2}
+#wx50Scene.wx50-mist .wx50-cloud{filter:blur(20px);opacity:.22!important;animation-duration:85s}
+#wx50Scene.wx50-mist:after{content:'';position:absolute;inset:-10%;background:repeating-linear-gradient(0deg,transparent 0 44px,#e5f3f633 65px,transparent 113px);filter:blur(23px);animation:v53b-fog-drift 30s ease-in-out infinite alternate}
+#wx50Scene.wx50-drizzle .wx50-drop{width:1px;height:13px;opacity:.38!important}
+#wx50Scene.wx50-showers .wx50-drop{opacity:.65;animation-name:v53b-shower-fall}
+#wx50Scene.wx50-rain .wx50-drop{width:3px;height:41px;opacity:.85!important}
+#wx50Scene.wx50-blizzard .wx50-flake{animation-name:v53b-blizzard-fall;opacity:.9!important}
+#wx50Scene.wx50-sleet .wx50-drop{background:#dbe7f5;width:2px;height:21px}
+#wx50Scene.wx50-sleet .wx50-crystal{font-size:15px!important;opacity:.8!important}
+#wx50Scene.wx50-blizzard .wx50-cloud,#wx50Scene.wx50-sleet .wx50-cloud{background:#dbe7f2a8}
+@keyframes v53b-fog-drift{from{transform:translateX(-10%)}to{transform:translateX(10%)}}
+@keyframes v53b-shower-fall{0%,12%{opacity:.08;transform:translate3d(0,-12vh,0) rotate(12deg)}23%,60%{opacity:.8}75%,100%{opacity:.04;transform:translate3d(-12vw,115vh,0) rotate(12deg)}}
+@keyframes v53b-blizzard-fall{from{transform:translate3d(15vw,-10vh,0)}to{transform:translate3d(-48vw,112vh,0)}}
+@media(prefers-reduced-motion:reduce){#wx50Scene.wx50-mist:after{animation:none!important}}
+</style><style id="v53bGuide12Style">
+#v53aAnimationModal .v53a-picks{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px!important;max-height:145px;overflow-y:auto;padding:3px}
+#v53aAnimationModal .v53a-pick{min-width:0!important;white-space:normal!important;line-height:1.25;font-size:12px!important;padding:8px 5px!important;border-radius:9px!important}
+@media(max-width:520px){#v53aAnimationModal .v53a-picks{grid-template-columns:repeat(2,minmax(0,1fr));max-height:142px}#v53aAnimationModal .v53a-pick{min-height:41px}}
+</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V53B-20261108</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
- <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V53A</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+ <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V53B</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -1676,11 +1700,11 @@ body.v53a-modal-open{overflow:hidden}
 <section id="v42TextPanel" class="v42-panel" hidden><h2>문자 화면 설정</h2><div id="v42TextSlot"></div><div id="v51eMessageBgPanel" style="margin:16px 0;padding:14px;background:#f3f7ff;border:1px solid #d5e2f2;border-radius:12px"><h3 style="margin:0 0 12px;font-size:17px">문자 화면 배경</h3><div class="grid"><label>배경 종류<select id="messageBackgroundMode"><option value="color">단색 배경</option><option value="image">이미지 배경</option></select></label><label id="v51eMessageColorRow">배경 색상<input type="color" id="v51eMessageBgColor" value="#101827"></label><label id="v51eMessageImageRow" hidden>배경 이미지 파일명<input type="text" id="messageBackgroundImage" value="images/background.jpg" placeholder="images/background.jpg" spellcheck="false"></label></div><p>이미지는 ds-test/images/ 폴더에 넣어주세요. 기존 문자 상자와 글자 설정은 유지됩니다.</p></div></section>
 <section id="v42WeatherPanel" class="v42-panel" hidden><h2>날씨 화면 설정</h2><div id="v42WeatherSlot"></div><div class="v44-weather-style"><label>글꼴<select id="weatherPageFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>글자색<input id="weatherPageColor" type="color" value="#ffffff"></label><label class="v45-check"><input type="checkbox" id="weatherPageBold"> 굵게(B)</label></div><label style="display:flex;align-items:center;gap:9px;font-size:16px"><input id="weatherShowLocation" type="checkbox" checked style="width:22px;min-height:22px"> 지역명 표시</label>
 <div id="v49IconPanel"><h3>날씨 아이콘 설정 (시계·날씨 공통)</h3><div class="v49grid"><label>아이콘 종류<select id="weatherIconStyle"><option value="outline">심플 아웃라인 (추천)</option><option value="emoji">기존 이모지</option><option value="none">아이콘 숨김</option></select></label><label>아이콘 색상<select id="weatherIconColorMode"><option value="auto">배경에 맞게 자동</option><option value="white">흰색 고정</option><option value="black">검정 고정</option><option value="custom">직접 선택</option></select></label><label id="v49CustomRow" hidden>직접 색상<input id="weatherIconColor" type="color" value="#ffffff"></label></div><p>자동은 어두운 배경에 흰색, 밝은 배경에 검정색을 사용합니다. 이미지 배경도 밝기를 분석합니다. WeatherAPI 날씨 코드에 따라 모양이 자동 변경됩니다.</p></div><div class="v45-weather-background"><div class="v43-heading">날씨 페이지 배경</div>
- <label class="v51-toggle" for="weatherAnimationEnabled"><input id="weatherAnimationEnabled" type="checkbox"> <span><b>WeatherAPI 날씨 연동 애니메이션 사용</b><small>켜면 실제 날씨에 따라 7종 배경이 자동 변경됩니다. 끄면 아래 단색·이미지 설정을 사용합니다.</small></span></label>
- <div id="v53aAnimationGuide" class="v53a-animation-guide" aria-label="7종 날씨 연동 애니메이션 안내">
- <div class="v53a-guide-head"><div><strong>날씨별 애니메이션 7종</strong><small>선택하면 움직이는 배경과 적용 날씨를 팝업으로 확인합니다.</small></div><button type="button" id="v53aShowAll" class="v53a-open-all">7종 보기</button></div>
+ <label class="v51-toggle" for="weatherAnimationEnabled"><input id="weatherAnimationEnabled" type="checkbox"> <span><b>WeatherAPI 날씨 연동 애니메이션 사용</b><small>켜면 실제 날씨에 따라 12종 배경이 자동 변경됩니다. 끄면 아래 단색·이미지 설정을 사용합니다.</small></span></label>
+ <div id="v53aAnimationGuide" class="v53a-animation-guide" aria-label="12종 날씨 연동 애니메이션 안내">
+ <div class="v53a-guide-head"><div><strong>날씨별 애니메이션 12종</strong><small>선택하면 움직이는 배경과 적용 날씨를 팝업으로 확인합니다.</small></div><button type="button" id="v53aShowAll" class="v53a-open-all">12종 보기</button></div>
  <label for="v53aAnimationSelect">미리보기할 날씨 선택</label>
- <select id="v53aAnimationSelect"><option value="" selected>날씨를 선택하세요 (7종)</option><option value="sun">☀ 맑음 · 낮</option><option value="moon">☾ 맑음 · 밤</option><option value="partly">⛅ 구름 조금</option><option value="cloud">☁ 흐림 · 안개</option><option value="rain">☂ 비 · 진눈깨비</option><option value="snow">❄ 눈</option><option value="thunder">ϟ 천둥번개</option></select>
+ <select id="v53aAnimationSelect"><option value="" selected>날씨를 선택하세요 (12종)</option><option value="sun">☀ 맑음 · 낮</option><option value="moon">☾ 맑음 · 밤</option><option value="partly">⛅ 구름 조금</option><option value="cloud">☁ 흐림</option><option value="mist">≋ 안개</option><option value="drizzle">☂ 이슬비 · 약한 비</option><option value="showers">☔ 간헐적 비 · 소나기</option><option value="rain">☂ 보통 비 · 강한 비</option><option value="snow">❄ 눈</option><option value="blizzard">❆ 눈보라</option><option value="sleet">❅ 진눈깨비 · 우박</option><option value="thunder">ϟ 천둥번개</option></select>
  <small class="v53a-guide-foot">※ 이 목록은 배경 **미리보기 전용**입니다. 실제 LCD는 WeatherAPI 상태에 따라 자동으로 배경을 선택합니다.</small>
 </div>
 <div id="v51StaticBackgroundOptions">
@@ -1735,7 +1759,7 @@ body.v53a-modal-open{overflow:hidden}
  </div>
 </section>
 <section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><input id="key" type="password" autocomplete="off" placeholder="Apps Script setup() 실행 로그의 관리자 키"><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V52Y-20261108" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V49-20261105" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V52Y-20261108" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
-<div id="v53aAnimationModal" role="dialog" aria-modal="true" aria-labelledby="v53aModalTitle" hidden><div class="v53a-dialog" tabindex="-1"><div class="v53a-modal-head"><strong id="v53aModalTitle">날씨별 배경 애니메이션</strong><button type="button" class="v53a-modal-close" id="v53aModalClose">✕ 닫기</button></div><div class="v53a-picks" id="v53aPicks" role="group" aria-label="7종 애니메이션 선택"></div><div id="v53aStage" aria-label="실제 날씨 배경 애니메이션 미리보기"><div class="v53a-overlay"><strong id="v53aStageTitle"></strong><span id="v53aStageCaption"></span></div></div><div class="v53a-description"><strong id="v53aAboutTitle"></strong><p id="v53aAboutWeather"></p><p id="v53aAboutAnimation"></p><small>WeatherAPI 상태 코드를 기준으로 자동 분류합니다. 팝업 선택은 LCD에 저장되지 않습니다.</small></div></div></div><div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V52Y-20261108"></script><script src="shared.js?v=V52Y-20261108"></script><script>
+<div id="v53aAnimationModal" role="dialog" aria-modal="true" aria-labelledby="v53aModalTitle" hidden><div class="v53a-dialog" tabindex="-1"><div class="v53a-modal-head"><strong id="v53aModalTitle">날씨별 배경 애니메이션</strong><button type="button" class="v53a-modal-close" id="v53aModalClose">✕ 닫기</button></div><div class="v53a-picks" id="v53aPicks" role="group" aria-label="12종 애니메이션 선택"></div><div id="v53aStage" aria-label="실제 날씨 배경 애니메이션 미리보기"><div class="v53a-overlay"><strong id="v53aStageTitle"></strong><span id="v53aStageCaption"></span></div></div><div class="v53a-description"><strong id="v53aAboutTitle"></strong><p id="v53aAboutWeather"></p><p id="v53aAboutAnimation"></p><small>WeatherAPI 상태 코드를 기준으로 자동 분류합니다. 팝업 선택은 LCD에 저장되지 않습니다.</small></div></div></div><div id="previewModal" class="preview-modal" hidden><div class="preview-modal-bar"><strong>저장 전 미리보기</strong><button type="button" id="previewModalClock">시계</button><button type="button" id="previewModalText">문자</button><button type="button" id="previewModalWeather">날씨</button><button type="button" id="previewModalClose">✕ 닫기</button></div><div id="previewModalViewport"><div id="previewModalStage"></div></div></div><script src="config.js?v=V52Y-20261108"></script><script src="shared.js?v=V52Y-20261108"></script><script>
 
 /* V49: standalone original SVG line icons; no external icon assets or network requests. */
 const WX49_NS='http://www.w3.org/2000/svg';
@@ -2905,7 +2929,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V53A-20261108';
+ document.title='LCD 시계 관리자 V53B-20261108';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2922,7 +2946,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V53A-20261108';
+document.title='LCD 시계 관리자 V53B-20261108';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -3152,10 +3176,21 @@ document.title='LCD 시계 관리자 V53A-20261108';
 })();
 
 function wx50Kind(code,isDay){
- const kind=wx49Kind(code,isDay);
- if(kind==='mist')return 'cloud';
- if(kind==='sleet')return 'rain';
- return ['sun','moon','partly','cloud','rain','snow','thunder'].includes(kind)?kind:'cloud';
+ // V53B: WeatherAPI 48 condition codes -> 12 animated background families.
+ // Condition text and icon remain untouched; only the weather-only scene changes.
+ const n=Number(code);
+ if(n===1000)return Number(isDay)===0?'moon':'sun';
+ if(n===1003)return 'partly';
+ if([1006,1009].includes(n))return 'cloud';
+ if([1030,1135,1147].includes(n))return 'mist';
+ if([1087,1273,1276,1279,1282].includes(n))return 'thunder';
+ if([1069,1072,1168,1171,1198,1201,1204,1207,1237,1249,1252,1261,1264].includes(n))return 'sleet';
+ if([1114,1117].includes(n))return 'blizzard';
+ if([1066,1210,1213,1216,1219,1222,1225,1255,1258].includes(n))return 'snow';
+ if([1195,1189,1243,1246].includes(n))return 'rain';
+ if([1063,1180,1186,1192,1240].includes(n))return 'showers';
+ if([1150,1153,1183].includes(n))return 'drizzle';
+ return 'cloud';
 }
 function wx50MountScene(page,code,isDay,sceneConfig){
  const kind=wx50Kind(code,isDay);
@@ -3181,10 +3216,10 @@ function wx50MountScene(page,code,isDay,sceneConfig){
   });
  }
  // V50C rain remains unchanged. More clouds elsewhere, but keep them small and transparent.
- const clouds=kind==='rain'?3:kind==='partly'?3:kind==='cloud'?4:kind==='thunder'?5:kind==='snow'?3:0;
+ const clouds=['rain','drizzle','showers','sleet'].includes(kind)?3:kind==='partly'?3:kind==='cloud'||kind==='mist'?4:kind==='thunder'?5:['snow','blizzard'].includes(kind)?3:0;
  const positions={partly:[[-10,17],[43,12],[76,41]],cloud:[[-12,11],[28,25],[70,15],[82,48]],snow:[[-10,14],[38,8],[77,24]],thunder:[[-12,8],[23,13],[57,5],[82,27],[40,44]]};
  for(let i=0;i<clouds;i++){
-  const isRain=kind==='rain',pos=(positions[kind]||[])[i]||[-12+i*37,18+i*15];
+  const isRain=['rain','drizzle','showers','sleet'].includes(kind),pos=(positions[kind]||[])[i]||[-12+i*37,18+i*15];
   add('wx50-cloud',{
    left:isRain?(-12+i*37)+'%':pos[0]+'%',
    top:isRain?(18+i*15)+'%':pos[1]+'%',
@@ -3193,13 +3228,13 @@ function wx50MountScene(page,code,isDay,sceneConfig){
    opacity:isRain?String(.65+i*.12):String(kind==='partly'?.35+(i%2)*.09:kind==='thunder'?.40+(i%3)*.07:kind==='snow'?.35+(i%2)*.08:.39+(i%3)*.06)
   });
  }
- if(kind==='rain'||kind==='snow'){
-  const rain=kind==='rain';const count=rain?24:22;
+ if(['rain','drizzle','showers','sleet','snow','blizzard'].includes(kind)){
+  const rain=['rain','drizzle','showers','sleet'].includes(kind);const count=kind==='rain'?42:kind==='drizzle'?11:kind==='showers'?23:kind==='sleet'?24:kind==='blizzard'?40:22;
   for(let i=0;i<count;i++){
-   const crystal=!rain&&i%3===0;
-   add(rain?'wx50-drop':('wx50-flake'+(crystal?' wx50-crystal':'')),{
+   const crystal=(!rain&&i%3===0)||(kind==='sleet'&&i%4===0);
+   add(crystal?'wx50-flake wx50-crystal':(rain?'wx50-drop': 'wx50-flake'),{
     left:((i*47+13)%100)+'%',
-    '--duration':(rain?1.25+(i%5)*.24:6.8+(i%6)*.8)+'s',
+    '--duration':(kind==='drizzle'?2.8+(i%5)*.38:kind==='showers'?1.9+(i%5)*.28:kind==='rain'?.8+(i%5)*.13:kind==='sleet'?2.1+(i%5)*.3:kind==='blizzard'?2.7+(i%6)*.4:6.8+(i%6)*.8)+'s',
     '--delay':(-i*(rain?.27:.53))+'s',
     opacity:String(.45+(i%4)*.14)
    },crystal?'❄':'');
@@ -3955,13 +3990,18 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
 (function(){
  'use strict';
  const scenes=[
-  {id:'sun',icon:'☀',name:'맑음 · 낮',code:1000,day:1,weather:'WeatherAPI: 맑음 (Sunny), 낮 시간(is_day=1)',animation:'밝은 하늘에 태양이 천천히 밝아지고 작아지는 부드러운 호흡 효과'},
-  {id:'moon',icon:'☾',name:'맑음 · 밤',code:1000,day:0,weather:'WeatherAPI: 맑음 (Clear), 밤 시간(is_day=0)',animation:'달과 은은한 별빛, 일부 별의 반짝임과 간헐적인 유성'},
-  {id:'partly',icon:'⛅',name:'구름 조금',code:1003,day:1,weather:'WeatherAPI: 부분적으로 흐림 (Partly cloudy), 낮과 밤 공통',animation:'태양과 작고 옅은 구름 3개가 천천히 이동'},
-  {id:'cloud',icon:'☁',name:'흐림 · 안개',code:1006,day:1,weather:'WeatherAPI: 흐림(Cloudy/Overcast: 1006·1009), 안개(Mist/Fog: 1030·1135·1147)',animation:'옅은 회색·푸른색 구름 4개가 느리게 이동. 안개도 이 배경으로 표시'},
-  {id:'rain',icon:'☂',name:'비 · 진눈깨비',code:1183,day:1,weather:'WeatherAPI: 비/소나기 및 진눈깨비 계열 코드. 진눈깨비는 비 배경으로 통합',animation:'흐린 하늘과 구름 3개, 비 입자 24개가 반복해 내려옴'},
-  {id:'snow',icon:'❄',name:'눈',code:1213,day:1,weather:'WeatherAPI: 눈·눈보라 계열 코드',animation:'겨울빛 하늘, 구름 3개, 눈송이 22개와 장식 눈 결정이 천천히 내려옴'},
-  {id:'thunder',icon:'ϟ',name:'천둥번개',code:1087,day:1,weather:'WeatherAPI: 천둥 가능·뇌우 계열 (1087, 1273, 1276, 1279, 1282)',animation:'어두운 구름 5개와 서로 다른 위치에서 간헐적으로 나타나는 번개 3개'}
+  {id:"sun",icon:"☀",name:"맑음 · 낮",code:1000,day:1,weather:"맑음 1000 · 낮(is_day=1)",animation:"태양이 천천히 밝아지고 작아지는 움직임"},
+  {id:"moon",icon:"☾",name:"맑음 · 밤",code:1000,day:0,weather:"맑음 1000 · 밤(is_day=0)",animation:"달·별빛과 간헐적인 유성"},
+  {id:"partly",icon:"⛅",name:"구름 조금",code:1003,day:1,weather:"부분적으로 흐림 1003",animation:"밝은 하늘과 느리게 흘러가는 구름"},
+  {id:"cloud",icon:"☁",name:"흐림",code:1006,day:1,weather:"흐림 1006 · 매우 흐림 1009",animation:"여러 겹 구름이 천천히 이동"},
+  {id:"mist",icon:"≋",name:"안개",code:1030,day:1,weather:"박무 1030 · 안개 1135 · 어는 안개 1147",animation:"부드러운 안개 층이 좌우로 이동"},
+  {id:"drizzle",icon:"☂",name:"이슬비 · 약한 비",code:1153,day:1,weather:"이슬비 1150·1153 · 약한 비 1183",animation:"적은 양의 작은 빗방울이 느리게 낙하"},
+  {id:"showers",icon:"☔",name:"간헐적 비 · 소나기",code:1063,day:1,weather:"간헐적 비 1063·1180·1186·1192 · 소나기 1240",animation:"빗줄기가 간헐적으로 강해졌다 약해짐"},
+  {id:"rain",icon:"☂",name:"보통 비 · 강한 비",code:1195,day:1,weather:"보통 비 1189 · 강한 비 1195 · 강한 소나기 1243·1246",animation:"많은 빗방울이 빠르게 내려옴"},
+  {id:"snow",icon:"❄",name:"눈",code:1213,day:1,weather:"눈 1066·1210~1225·1255·1258",animation:"눈송이와 눈 결정이 흩날림"},
+  {id:"blizzard",icon:"❆",name:"눈보라",code:1117,day:1,weather:"날리는 눈 1114 · 눈보라 1117",animation:"강한 바람에 눈이 대각선으로 빠르게 이동"},
+  {id:"sleet",icon:"❅",name:"진눈깨비 · 우박",code:1204,day:1,weather:"진눈깨비·어는 비 1069·1072·1168·1171·1198·1201·1204·1207·1249·1252 / 싸라기눈·우박 1237·1261·1264",animation:"빗방울과 얼음·눈 결정이 함께 떨어짐"},
+  {id:"thunder",icon:"ϟ",name:"천둥번개",code:1087,day:1,weather:"천둥 가능 1087 · 뇌우 1273·1276·1279·1282",animation:"어두운 구름과 간헐적인 번개"}
  ];
  const $=id=>document.getElementById(id);
  const modal=$('v53aAnimationModal'),stage=$('v53aStage'),select=$('v53aAnimationSelect');
