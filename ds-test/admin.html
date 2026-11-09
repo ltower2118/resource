@@ -1631,7 +1631,35 @@ body.v53a-modal-open{overflow:hidden}
 #wx50Scene.wx50-sleet{--v54-a:#415e81;--v54-b:#7189ac;--v54-c:#a9b8cc}
 #wx50Scene.wx50-thunder{--v54-a:#242d57;--v54-b:#4d527c;--v54-c:#827fa9}
 #wx50Scene::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(9,23,44,.12),rgba(9,23,44,.65) 45%,rgba(9,23,44,.67) 62%,rgba(9,23,44,.10));opacity:calc(.55 + var(--v54-darkness))}#wx50Scene::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-1%;height:19%;pointer-events:none;background:linear-gradient(168deg,transparent 31%,#6c92b080 32%,#6c92b080 50%,transparent 51%),linear-gradient(191deg,transparent 39%,#345c8580 40%,#345c8580 65%,transparent 66%);filter:blur(9px);opacity:.55}#wx50Scene .wx50-cloud{filter:blur(7px);opacity:.32!important}#wx50Scene .wx50-meteor,#wx50Scene .wx50-snow-decor{display:none!important}#wx50Scene .wx50-sun-disc{width:10vmin;height:10vmin;opacity:.75}#wx50Scene .wx50-moon-disc{width:10vmin;height:10vmin;opacity:.75}#wx50Scene .wx50-drop{opacity:.55}#wx50Scene .wx50-star{opacity:.25}#wx50Scene.v54-dawn{--v54-a:#344b77;--v54-b:#77779c;--v54-c:#b89fb3}#wx50Scene.v54-sunrise{--v54-a:#416da1;--v54-b:#8884a6;--v54-c:#c7a4ad}#wx50Scene.v54-sunset{--v54-a:#45567f;--v54-b:#9b7095;--v54-c:#d2a08f}#wx50Scene.v54-night{--v54-a:#14284a;--v54-b:#293f66;--v54-c:#5d7292}
-</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V53B-20261108</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+</style><style id="v55-watercolor-assets">
+/* V55: twelve real watercolor image assets; kept separate from weather particle effects */
+#weatherScreen #wx50Scene, #v42WeatherPreview #wx50Scene, #v53aStage #wx50Scene {
+ background-image:var(--v55-image)!important;background-size:cover!important;background-position:center center!important;
+ background-repeat:no-repeat!important;animation:v55-pan 42s ease-in-out infinite alternate;
+}
+#weatherScreen #wx50Scene::before,#v53aStage #wx50Scene::before {
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:linear-gradient(180deg,rgba(9,23,44,.20) 0%,rgba(9,23,44,.56) 36%,rgba(9,23,44,.64) 57%,rgba(9,23,44,.14) 100%);
+ opacity:calc(.55 + var(--v54-darkness,.40));
+}
+#weatherScreen #wx50Scene::after,#v53aStage #wx50Scene::after {display:none!important}
+#weatherScreen #wx50Scene .wx50-cloud,#v53aStage #wx50Scene .wx50-cloud {opacity:.16!important}
+#weatherScreen #wx50Scene .wx50-sun-disc,#v53aStage #wx50Scene .wx50-sun-disc {opacity:.24!important}
+#weatherScreen #wx50Scene .wx50-moon-disc,#v53aStage #wx50Scene .wx50-moon-disc {opacity:.35!important}
+@keyframes v55-pan {from{background-size:100% 100%}to{background-size:105% 105%}}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene,#v53aStage #wx50Scene{animation:none!important}}
+</style><style id="v55d-quiet-weather">
+/* V55D: calm original atmospheric artwork. Weather-only and no external dependencies. */
+#weatherScreen #wx50Scene,#v42WeatherPreview #wx50Scene,#v53aStage #wx50Scene{background-image:var(--v55-image)!important;background-position:center!important;background-repeat:no-repeat!important;background-size:cover!important;animation:none!important;contain:paint}
+#weatherScreen #wx50Scene::before,#v53aStage #wx50Scene::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(9,21,31,.22),rgba(9,21,31,.48) 37%,rgba(9,21,31,.54) 65%,rgba(9,21,31,.16));opacity:calc(.5 + var(--v54-darkness,.4));}
+#weatherScreen #wx50Scene::after,#v53aStage #wx50Scene::after{display:none!important}
+#weatherScreen #wx50Scene .wx50-cloud,#v53aStage #wx50Scene .wx50-cloud{opacity:.10!important;filter:blur(6px)!important;animation-duration:85s!important}
+#weatherScreen #wx50Scene .wx50-sun-disc,#weatherScreen #wx50Scene .wx50-moon-disc{opacity:.22!important}
+#weatherScreen #wx50Scene .wx50-drop{opacity:.32!important;height:20px!important;width:1px!important}
+#weatherScreen #wx50Scene .wx50-flake{opacity:.38!important;width:5px!important;height:5px!important}
+#weatherScreen #wx50Scene .wx50-meteor,#weatherScreen #wx50Scene .wx50-snow-decor{display:none!important}
+@media(prefers-reduced-motion:reduce){#wx50Scene *,#wx50Scene:before{animation:none!important}}
+</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55D-20261109</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
  <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V53B</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
@@ -2945,7 +2973,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 시계 관리자 V53B-20261108';
+ document.title='LCD 시계 관리자 V55D-20261109';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2962,7 +2990,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 시계 관리자 V53B-20261108';
+document.title='LCD 시계 관리자 V55D-20261109';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -3211,6 +3239,7 @@ function wx50Kind(code,isDay){
 function wx50MountScene(page,code,isDay,sceneConfig){
  const kind=wx50Kind(code,isDay);
  const scene=document.createElement('div');scene.id='wx50Scene';scene.className='wx50-'+kind;
+ const v55Images={"sun": "sun", "moon": "mist", "partly": "partly", "cloud": "cloud", "mist": "mist", "drizzle": "drizzle", "rain": "rain", "showers": "showers", "snow": "snow", "blizzard": "snow", "sleet": "sleet", "thunder": "thunder"}; const artName=(Number(code)===1009)?'overcast':([1063,1180,1186,1192,1240].includes(Number(code))?'showers':(Number(code)===1000&&Number(isDay)===0?'mist':(v55Images[kind]||'cloud'))); scene.style.setProperty('--v55-image','url("images/'+artName+'.webp")');
  // Animation mode is exclusive: the scene covers the old image or color background.
  scene.setAttribute('aria-hidden','true');
  const add=(cls,style,content)=>{const e=document.createElement('div');e.className=cls;if(style)for(const [k,v] of Object.entries(style))e.style.setProperty(k,v);if(content)e.textContent=content;scene.appendChild(e);return e};
@@ -3219,20 +3248,20 @@ function wx50MountScene(page,code,isDay,sceneConfig){
   add('wx50-moon-disc');
   // 20 small stars, only 4 of which take turns briefly glowing (one at a time).
   let brightIndex=0;
-  for(let i=0;i<20;i++){
+  for(let i=0;i<8;i++){
    const bright=[2,7,12,17].includes(i);
    add('wx50-star'+(bright?' wx50-bright':''),{
     left:(7+(i*37)%85)+'%',top:(8+(i*29)%78)+'%',
     ...(bright?{'--delay':(-brightIndex++*4)+'s'}:{})
    });
   }
-  for(let i=0;i<3;i++)add('wx50-meteor',{
+  for(let i=0;i<0;i++)add('wx50-meteor',{
    '--meteor-left':(85-i*12)+'%','--meteor-top':(6+i*10)+'%',
    '--meteor-duration':(9+i*2)+'s','--meteor-delay':(-i*4.3)+'s'
   });
  }
  // V50C rain remains unchanged. More clouds elsewhere, but keep them small and transparent.
- const clouds=['rain','drizzle','showers','sleet'].includes(kind)?3:kind==='partly'?3:kind==='cloud'||kind==='mist'?4:kind==='thunder'?5:['snow','blizzard'].includes(kind)?3:0;
+ const clouds=['rain','drizzle','showers','sleet'].includes(kind)?1:kind==='partly'?2:kind==='cloud'||kind==='mist'?2:kind==='thunder'?2:['snow','blizzard'].includes(kind)?1:0;
  const positions={partly:[[-10,17],[43,12],[76,41]],cloud:[[-12,11],[28,25],[70,15],[82,48]],snow:[[-10,14],[38,8],[77,24]],thunder:[[-12,8],[23,13],[57,5],[82,27],[40,44]]};
  for(let i=0;i<clouds;i++){
   const isRain=['rain','drizzle','showers','sleet'].includes(kind),pos=(positions[kind]||[])[i]||[-12+i*37,18+i*15];
@@ -3245,7 +3274,7 @@ function wx50MountScene(page,code,isDay,sceneConfig){
   });
  }
  if(['rain','drizzle','showers','sleet','snow','blizzard'].includes(kind)){
-  const rain=['rain','drizzle','showers','sleet'].includes(kind);const count=kind==='rain'?42:kind==='drizzle'?11:kind==='showers'?23:kind==='sleet'?24:kind==='blizzard'?40:22;
+  const rain=['rain','drizzle','showers','sleet'].includes(kind);const count=kind==='rain'?13:kind==='drizzle'?6:kind==='showers'?10:kind==='sleet'?10:kind==='blizzard'?13:9;
   for(let i=0;i<count;i++){
    const crystal=(!rain&&i%3===0)||(kind==='sleet'&&i%4===0);
    add(crystal?'wx50-flake wx50-crystal':(rain?'wx50-drop': 'wx50-flake'),{
@@ -3256,7 +3285,7 @@ function wx50MountScene(page,code,isDay,sceneConfig){
    },crystal?'❄':'');
   }
   if(!rain){
-   for(let i=0;i<8;i++)add('wx50-snow-decor',{
+   for(let i=0;i<0;i++)add('wx50-snow-decor',{
     left:(4+(i*29)%91)+'%',top:(12+(i*37)%75)+'%',
     fontSize:(26+(i%3)*11)+'px',animationDelay:(-i*1.7)+'s',opacity:String(.15+(i%3)*.05)
    },'❄');
@@ -3268,7 +3297,7 @@ function wx50MountScene(page,code,isDay,sceneConfig){
    {left:'37%',width:'30%',delay:'-2.9s',x:'51%',core:'M148 9 L178 69 L142 121 L162 162 L117 243 L138 284 L96 362 L114 398 L57 486'},
    {left:'68%',width:'29%',delay:'-5.7s',x:'82%',core:'M165 8 L137 78 L170 110 L135 186 L152 234 L109 288 L127 338 L75 415 L89 450 L52 493'}
   ];
-  for(const bolt of bolts){
+  for(const bolt of bolts.slice(0,1)){
    add('wx50-electric-haze',{'--bolt-delay':bolt.delay,'--haze-x':bolt.x});
    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
    svg.setAttribute('class','wx50-electric');svg.setAttribute('viewBox','0 0 350 500');
