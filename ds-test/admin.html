@@ -3,7 +3,7 @@
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
 #pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
 
-/* V5: two independent panes, persistent preview and focused editing */
+
 #previewSection{position:sticky;top:0;z-index:40;margin:0 0 12px;padding:10px 14px;background:#fff;box-shadow:0 5px 20px #17283b20}
 #previewSection h2{font-size:15px;margin:0 0 7px}
 #previewSection>p{margin:6px 0 0;font-size:11px}
@@ -53,7 +53,7 @@
 #visualHelp{margin:4px 0;font-size:12px}
 @media(max-width:600px){#previewSection{padding:7px!important}#visualTools{gap:4px}#visualTools button{font-size:12px;padding:7px 9px}#visualTools label{font-size:11px}#visualTools select{max-width:105px;width:105px}#visualHelp{font-size:11px}}
 </style><style id="v9NormalFlow">
-/* V9: background and save sections in normal document flow */
+
 html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:auto!important}
 .wrap{height:auto!important;max-height:none;overflow:visible!important}
 #previewSection{position:relative!important;top:auto!important;z-index:1!important;max-height:none!important;overflow:visible!important}
@@ -99,7 +99,7 @@ html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;over
 #v13Canvas .v15-resize:after{content:'↔';display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold}
 #v13Canvas .v13block:not(.selected) .v15-resize{display:none}
 </style><style id="v16LiveFix">
-/* V16: single set of message controls; keep mode switching visible */
+
 body.v16-message-mode #visualTools > label,
 body.v16-message-mode #visualTools > #vBold,
 body.v16-message-mode #visualTools > #vUnder,
@@ -122,7 +122,7 @@ body.v16-message-mode #v13Panel{display:block!important}
 #v13Panel .v13row select{width:125px;max-width:145px}
 #v13TextInput{font-family:'Malgun Gothic','맑은 고딕',sans-serif!important;font-size:18px;line-height:1.5;white-space:pre-wrap}
 #v13Canvas .v13block{font-family:'Malgun Gothic','맑은 고딕',sans-serif}
-/* V23: contrast guides for white and dark backgrounds, both modes */
+
 #preview{border:3px solid #17283b!important;outline:2px solid #a3b4c7;outline-offset:3px;border-radius:4px!important;box-shadow:0 0 0 6px #dce5ef}
 #v22Guides{position:absolute;inset:0;z-index:34;pointer-events:none;display:block!important}
 #v22Guides:before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:repeating-linear-gradient(to bottom,#17283b 0 15px,transparent 15px 26px);filter:drop-shadow(1px 0 0 white)}
@@ -243,7 +243,7 @@ button,.btn{font-size:15px;min-height:44px}
  #v42QuickLoad{font-size:14px;padding:9px}
 }
 
-/* V43 weather editing controls */
+
 .v43-layout{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 16px}
 .v43-layout label{font-size:15px;font-weight:700;min-width:0;margin:0}
 .v43-layout input{width:100%;min-width:0;font-size:17px;min-height:48px}
@@ -291,7 +291,7 @@ button,.btn{font-size:15px;min-height:44px}
 #v43WeatherCard .v42-temp{font-weight:inherit!important}
 @media(max-width:600px){.v45-bg-grid{grid-template-columns:1fr}.v45-weather-background{padding:11px}.v45-clock-bold{min-height:48px}}
 
-/* V46: three compact, accessible actions in a single fixed bottom row. */
+
 #v42Dock{align-items:stretch;gap:8px}
 #v42Dock>*{box-sizing:border-box;min-height:48px;display:inline-flex;align-items:center;justify-content:center;text-align:center;white-space:nowrap;border-radius:10px;font-size:15px;line-height:1.15}
 #v42QuickSave{flex:1 1 43%;max-width:none;min-width:0}
@@ -300,7 +300,7 @@ button,.btn{font-size:15px;min-height:44px}
 #v46QuickView:focus-visible{outline:3px solid #2563eb;outline-offset:2px}
 @media(max-width:420px){#v42Dock{gap:5px;padding-left:7px;padding-right:7px}#v42Dock>*{font-size:13px;padding:10px 5px;min-height:48px}}
 </style><style id="v47LocationStyle">
-/* V47: simple weather region / district selector, mobile first */
+
 #v47LocationPanel{background:#f4f8ff;border:1px solid #d4e0ef;border-radius:14px;padding:14px;margin:12px 0}
 #v47LocationPanel .v47title{font-size:17px;font-weight:800;margin:0 0 10px}
 #v47LocationPanel .v47grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -325,7 +325,7 @@ button,.btn{font-size:15px;min-height:44px}
 #v48DongCandidates[hidden]{display:none!important}
 #v48DongStatus{margin:6px 0 0;line-height:1.55}
 
-/* V49 original outline weather icon. Scale with the current LCD font. */
+
 .wx49-icon{width:1em;height:1em;flex:0 0 1em;display:inline-block;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em;overflow:visible}
 .wx49-emoji{display:inline-block;flex:0 0 auto;font-size:.9em;line-height:1}
 .wx-main,.v42-temp{display:flex;align-items:center;justify-content:center;gap:.16em;min-width:0}
@@ -333,7 +333,7 @@ button,.btn{font-size:15px;min-height:44px}
 #clockWeather.weather-on,#v42ClockWeatherPreview.visible{display:flex}
 #v42WeatherPreview .wx49-icon,#weatherScreen .wx49-icon{width:.95em;height:.95em;flex-basis:.95em}
 
-/* V49 weather icon settings */
+
 #v49IconPanel{border:1px solid #cbdcf0;background:#f4f8ff;padding:14px;border-radius:12px;margin:12px 0}
 #v49IconPanel h3{font-size:17px;margin:0 0 10px;color:#173a7a}
 #v49IconPanel .v49grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -342,7 +342,7 @@ button,.btn{font-size:15px;min-height:44px}
 #v49IconPanel #v49CustomRow[hidden]{display:none!important}
 #v49IconPanel p{margin:8px 0 0}
 @media(max-width:640px){#v49IconPanel .v49grid{grid-template-columns:1fr 1fr}}
-</style><style id="v51AnimationStyles">/* V50D: smaller sun, bright stars + diagonal meteors, more delicate clouds, snow crystals and three lightning zones. */
+</style><style id="v51AnimationStyles">
 #v42WeatherPreview #wx50Scene{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;isolation:isolate;opacity:1}
 #v42WeatherPreview #v43WeatherCard{z-index:1}
 #wx50Scene{--wx50-sky1:#65b4e7;--wx50-sky2:#d1ecf8;background:linear-gradient(160deg,var(--wx50-sky1),var(--wx50-sky2))}
@@ -354,7 +354,7 @@ button,.btn{font-size:15px;min-height:44px}
 #wx50Scene.wx50-snow{--wx50-sky1:#819eb7;--wx50-sky2:#d9e9f4}
 #wx50Scene.wx50-thunder{--wx50-sky1:#17233d;--wx50-sky2:#495775}
 #wx50Scene.wx50-over-image{background:linear-gradient(160deg,#203f6060,#0c284750)}
-/* 25vmin -> 16vmin. Keep the sun off the text area. */
+
 #wx50Scene .wx50-sun-disc{position:absolute;width:16vmin;height:16vmin;left:15%;top:15%;border-radius:50%;background:#fff4bd;box-shadow:0 0 42px 15px #fff5bd77,0 0 105px 35px #ffedac4d;animation:wx50-breathe 9s ease-in-out infinite alternate}
 #wx50Scene .wx50-moon-disc{position:absolute;width:16vmin;height:16vmin;right:17%;top:13%;border-radius:50%;background:#e7eff9;box-shadow:0 0 40px 12px #dce9f344}
 #wx50Scene .wx50-moon-disc:after{content:'';position:absolute;width:85%;height:85%;left:30%;top:-15%;border-radius:50%;background:#07172f}
@@ -367,19 +367,19 @@ button,.btn{font-size:15px;min-height:44px}
 #wx50Scene.wx50-cloud .wx50-cloud{background:#d7e1eac0;filter:blur(2.2px);animation-duration:66s}
 #wx50Scene.wx50-snow .wx50-cloud{background:#edf5fc9a;filter:blur(2px);animation-duration:62s}
 #wx50Scene.wx50-thunder .wx50-cloud{background:#8f9eb29a;filter:blur(2.5px);animation-duration:68s}
-/* Rain is deliberately unchanged from V50C. */
+
 #wx50Scene .wx50-drop{position:absolute;top:-10%;height:35px;width:2px;background:#c9eaffbb;transform:rotate(12deg);animation:wx50-rainfall var(--duration,1.6s) linear infinite;animation-delay:var(--delay,0s);will-change:transform}
 #wx50Scene .wx50-flake{position:absolute;top:-7%;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 6px #ffffffaa;animation:wx50-snowfall var(--duration,8s) linear infinite;animation-delay:var(--delay,0s);will-change:transform}
 #wx50Scene .wx50-flake.wx50-crystal{width:auto;height:auto;background:none;border-radius:0;box-shadow:none;font:24px/1 'Malgun Gothic',sans-serif;color:#f6fbff;text-shadow:0 0 8px #fff8}
 #wx50Scene .wx50-snow-decor{position:absolute;font:clamp(23px,4vw,54px)/1 'Malgun Gothic',sans-serif;color:#f5fcff;opacity:.22;text-shadow:0 0 12px #ffffff88;animation:wx50-snow-glide 13s ease-in-out infinite alternate;will-change:transform}
-/* Stars are sharper; only a few are larger, avoiding a busy sky. */
-/* V50D: restrained night sky. Most stars stay faint; one star at a time gently twinkles. */
+
+
 #wx50Scene .wx50-star{position:absolute;width:2px;height:2px;background:#e4edfc;border-radius:50%;opacity:.35;box-shadow:0 0 2px 1px #b8d5fa30}
 #wx50Scene .wx50-star.wx50-bright{width:3px;height:3px;opacity:.35;box-shadow:0 0 2px 1px #b8d5fa30;animation:wx50-solo-twinkle 16s ease-in-out infinite;animation-delay:var(--delay,0s)}
-/* Three short, diagonal shooting stars. The streaks do not continuously rain down. */
+
 #wx50Scene .wx50-meteor{position:absolute;top:var(--meteor-top,5%);left:var(--meteor-left,87%);width:115px;height:2px;border-radius:6px;background:linear-gradient(90deg,transparent 0%,#d9edff66 45%,#ffffff 100%);filter:drop-shadow(0 0 5px #c6e8ff);opacity:0;transform:rotate(-38deg);transform-origin:right center;animation:wx50-meteor-fall var(--meteor-duration,10s) linear infinite;animation-delay:var(--meteor-delay,0s);will-change:transform,opacity}
 #wx50Scene .wx50-meteor:after{content:'';position:absolute;right:-2px;top:-2px;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 9px 4px #b9ddff}
-/* Three independent electrical strikes with staggered timing. */
+
 #wx50Scene .wx50-electric{position:absolute;top:6%;left:var(--bolt-left,53%);width:var(--bolt-width,29%);height:78%;overflow:visible;filter:drop-shadow(0 0 5px #a9dfff99)}
 #wx50Scene .wx50-electric path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:550;stroke-dashoffset:550;opacity:0;animation:wx50-crackle 9s linear infinite;animation-delay:var(--bolt-delay,0s)}
 #wx50Scene .wx50-electric .wx50-core-glow{stroke:#77bfff;stroke-width:12;filter:blur(7px)}
@@ -448,7 +448,7 @@ button,.btn{font-size:15px;min-height:44px}
 #previewStage.v51m-no-message-shadow #pvMessage *,#previewStage.v51m-no-message-shadow #v13Canvas *,#previewModalStage.v51m-no-message-shadow #messageBlocks *,#previewModalStage.v51m-no-message-shadow #messageScreen *{text-shadow:none!important}
 </style>
 <style id="v51oMobileConsoleStyle">
-/* V51O Phase 1: presentation-only mobile navigation. All existing inputs/IDs retained. */
+
 :root{--o-ink:#10253d;--o-blue:#164f86;--o-border:#dce4ec}
 body{background:#f0f4f8}
 .wrap{max-width:980px;padding-top:12px}
@@ -510,7 +510,7 @@ body.v51o-view-sequence #v51oSectionCaption,body.v51o-view-maintenance #v51oSect
 </style>
 
 <style id="v51pMobileRefinement">
-/* V51P: presentation-only compact mobile console, no changes to persistence. */
+
 :root{--p-ink:#142940;--p-blue:#175486}
 body{background:#f2f5f9}
 #v51oConsole{padding:13px 15px!important;border-radius:15px!important;box-shadow:0 4px 12px #1b355016!important;margin-bottom:10px!important}
@@ -548,7 +548,7 @@ body.v51o-view-edit #v51pEditBar{display:flex}
 #v42SequencePanel #v42ScreenChecks label{min-height:48px!important;padding:9px!important}
 #v42SequencePanel #v42SequenceDurations .v33grid{gap:8px!important}
 #v51hMaintenancePanel p,#v51mShadowPanel p{line-height:1.55}
-/* Compact default: only hide advanced visual options, never remove or duplicate inputs. */
+
 body.v51p-compact.v51o-view-edit #v42ClockPanel .v44-weather-style,
 body.v51p-compact.v51o-view-edit #v42ClockPanel .v43-heading,
 body.v51p-compact.v51o-view-edit #v42ClockPanel .v43-layout,
@@ -588,8 +588,7 @@ body.v51p-compact.v51o-view-edit #v42WeatherPanel .v42-refresh{display:none!impo
 </style>
 
 <style id="v51qMobileNavigation">
-/* V51Q: mobile-first 3 main destinations + 2 secondary destinations.
-   No saved control IDs, handlers, server logic or transport modified. */
+
 #v51oConsole .o-nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important;margin-top:12px!important}
 #v51oConsole .o-nav button{min-height:77px!important;padding:12px 6px!important;font-size:16px!important;font-weight:800!important;line-height:1.25!important;gap:7px!important;border-radius:13px!important;white-space:nowrap!important}
 #v51oConsole .o-nav .o-symbol{font-size:24px!important}
@@ -620,7 +619,7 @@ body.v51p-compact.v51o-view-edit #v42WeatherPanel .v42-refresh{display:none!impo
 </style>
 
 <style id="v51rProfessionalMobileUI">
-/* V51R: coherent, touch-first layout. No input IDs, values or persistence changed. */
+
 :root{--r-navy:#163b63;--r-blue:#175887;--r-teal:#087d87;--r-ink:#162b42;--r-soft:#f3f7fb;--r-line:#d6e2ec}
 body{background:#f0f3f7;color:var(--r-ink)}
 #v51oConsole{border:1px solid var(--r-line)!important;box-shadow:0 5px 16px rgba(18,46,77,.07)!important}
@@ -632,7 +631,7 @@ body{background:#f0f3f7;color:var(--r-ink)}
 #v51oConsole .o-status{background:#eef4fa!important;color:#36536e!important;border:1px solid #dce6f0!important}
 #v51oConsole .o-status.dirty{background:#fff3dd!important;color:#7b530f!important;border-color:#f4dfa8!important}
 #v51oConsole .o-status.error{background:#fff0f0!important;color:#a03030!important;border-color:#efd0d0!important}
-/* One workspace instead of three floating stripes. */
+
 body:not(.v51o-view-edit) #v51rWorkspace{display:none!important}
 #v51rWorkspace{display:block!important;background:#fff!important;border:1px solid var(--r-line)!important;border-radius:15px!important;padding:12px!important;margin:9px 0 10px!important;box-shadow:0 3px 12px #20364a0b!important}
 #v51rWorkspace #v51eLiveSequence{position:static!important;background:transparent!important;border:0!important;border-bottom:1px solid #e5edf4!important;border-radius:0!important;color:#36516d!important;font-size:13px!important;font-weight:750!important;margin:0 0 11px!important;padding:1px 1px 10px!important;min-height:0!important;box-shadow:none!important;line-height:1.45!important}
@@ -643,9 +642,9 @@ body:not(.v51o-view-edit) #v51rWorkspace{display:none!important}
 #v51pEditHint{color:#526a81!important;font-size:13px!important}
 #v51pDetailsButton{background:#edf3f9!important;color:#1c4b72!important;border:1px solid #cbdce9!important;font-size:13px!important;font-weight:750!important;min-height:43px!important;border-radius:10px!important}
 #v51pDetailsButton[aria-pressed="true"]{background:var(--r-navy)!important;color:#fff!important;border-color:var(--r-navy)!important}
-/* A screen selector exists in the workspace; avoid a redundant text-screen button in clock tools. */
+
 #v42ClockPanel #vText{display:none!important}
-/* Consistent action hierarchy. Original handlers remain attached. */
+
 #v42Dock{border-top:1px solid #cedce8!important;background:#fffffffa!important;box-shadow:0 -4px 16px #17344d14!important}
 #v42QuickSave{background:var(--r-blue)!important;color:#fff!important;border:1px solid var(--r-blue)!important}
 #v42QuickLoad{background:var(--r-teal)!important;color:#fff!important;border:1px solid var(--r-teal)!important}
@@ -674,7 +673,7 @@ body:not(.v51o-view-edit) #v51rWorkspace{display:none!important}
 @media(max-width:370px){#v51rWorkspace #v42Tabs .v42-tab{font-size:12px!important}#v51pEditHint{font-size:12px!important}}
 </style>
 <style id="v51sSegmentedTabsAndSequence">
-/* V51T: highlighted screen configuration and connected mobile tabs. UI only. */
+
 #v51rWorkspace{padding:12px!important}
 #v51rWorkspace #v51eLiveSequence{
  display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:5px 8px!important;
@@ -689,7 +688,7 @@ body:not(.v51o-view-edit) #v51rWorkspace{display:none!important}
  border-radius:5px;background:#c8f6f4;color:#123c68;padding:3px 7px;
  font-size:11px;font-weight:850;letter-spacing:0;
 }
-/* Connected segmented tab; visual selection is shown by the navy inset underline. */
+
 #v51rWorkspace #v42Tabs{
  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
  margin:0!important;padding:4px!important;gap:3px!important;
@@ -721,7 +720,7 @@ body:not(.v51o-view-edit) #v51rWorkspace{display:none!important}
 @media(max-width:350px){#v51rWorkspace #v42Tabs .v42-tab{font-size:12px!important;gap:2px!important}}
 </style>
 <style id="v51tMainNavigationTabs">
-/* V51T: connected primary navigation tabs. Pure presentation change. */
+
 #v51oConsole .o-nav{
  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
  gap:0!important;margin-top:13px!important;padding:0!important;
@@ -756,13 +755,13 @@ body:not(.v51o-view-edit) #v51rWorkspace{display:none!important}
 }
 </style>
 <style id="v51uUnifiedTabbedSurface">
-/* V51V: genuinely attached main navigation + content surface; UI only. */
+
 :root{--u-accent:#17618b;--u-deep:#153c63;--u-line:#b7cddd;--u-subtle:#f7fbff;--u-ink:#18334f}
 #v51oConsole{border-radius:16px!important;margin-bottom:10px!important;padding-bottom:12px!important}
 #v51oConsole .o-top{margin-bottom:4px!important}
 #v51oConsole .o-subnav{margin-top:10px!important}
 #v51oConsole .o-status{margin-top:9px!important}
-/* The main tabs and their chosen content are siblings inside one physical shell. */
+
 #v51uTabbed{background:var(--u-subtle);border:2px solid var(--u-line);border-radius:15px;padding:0 12px 13px;margin:0 0 12px;box-shadow:0 6px 22px #1339570b;min-width:0;overflow:hidden}
 #v51uTabbed>.o-nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;margin:0 -12px 12px!important;padding:0!important;min-height:58px!important;overflow:visible!important;background:#eaf1f7!important;border:0!important;border-bottom:2px solid var(--u-line)!important;border-radius:0!important}
 #v51uTabbed>.o-nav button{min-width:0!important;min-height:59px!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:6px!important;padding:11px 3px!important;border:0!important;border-right:1px solid #d4e1eb!important;border-bottom:4px solid transparent!important;border-radius:0!important;background:transparent!important;color:#48627c!important;box-shadow:none!important;font-size:15px!important;font-weight:800!important;letter-spacing:-.04em!important;white-space:nowrap!important;line-height:1.25!important}
@@ -771,7 +770,7 @@ body:not(.v51o-view-edit) #v51rWorkspace{display:none!important}
 #v51uTabbed>.o-nav .o-symbol{font-size:20px!important;line-height:1!important;flex:0 0 auto!important}
 #v51uTabbed>.o-nav button:focus-visible{outline:3px solid #62b3de!important;outline-offset:-4px!important}
 #v51uTabbed #v51oSectionCaption{display:none!important}
-/* Remove the stranded-card look; make the selected view read as the tab's body. */
+
 #v51uTabbed #v51rWorkspace,#v51uTabbed #previewSection,#v51uTabbed #v42ClockPanel,#v51uTabbed #v42TextPanel,#v51uTabbed #v42WeatherPanel,#v51uTabbed #v42SequencePanel,#v51uTabbed #v51hMaintenancePanel,#v51uTabbed #v51mShadowPanel,#v51uTabbed #saveSection{margin:0 0 10px!important;box-shadow:none!important;border:1px solid #d6e4ef!important;border-radius:12px!important;background:#fff!important;padding:14px!important;min-width:0}
 #v51uTabbed #v51rWorkspace{background:transparent!important;border:0!important;border-radius:0!important;padding:0 1px 11px!important;margin:0!important}
 #v51uTabbed #previewSection{background:#fff!important}
@@ -788,7 +787,7 @@ body:not(.v51o-view-edit) #v51rWorkspace{display:none!important}
 #v51uTabbed #v51eLiveSequence{margin-bottom:13px!important}
 #v51uTabbed #v42Tabs{margin-bottom:10px!important}
 #v51uTabbed #v51pEditBar{margin:4px 0 0!important}
-/* Active panel joins the entire underlying workspace without an outer floating gap. */
+
 body.v51o-view-sequence #v51uTabbed #v42SequencePanel,body.v51o-view-maintenance #v51uTabbed #v51hMaintenancePanel,body.v51o-view-effects #v51uTabbed #v51mShadowPanel,body.v51o-view-system #v51uTabbed #saveSection{margin-top:0!important;margin-bottom:0!important}
 @media(max-width:620px){
  #v51uTabbed{padding:0 9px 10px!important;border-radius:13px!important;margin:0 0 10px!important}
@@ -802,7 +801,7 @@ body.v51o-view-sequence #v51uTabbed #v42SequencePanel,body.v51o-view-maintenance
 @media(max-width:365px){#v51uTabbed>.o-nav button{font-size:12.5px!important;gap:3px!important}#v51uTabbed>.o-nav .o-symbol{font-size:16px!important}}
 </style>
 <style id="v51vSoftOuterShell">
-/* V51V: quiet outer navigation frame; keep detail cards as primary surfaces. */
+
 #v51uTabbed{
   background:#f8fafc!important;
   border:1px solid #e5ebf1!important;
@@ -823,7 +822,7 @@ body.v51o-view-sequence #v51uTabbed #v42SequencePanel,body.v51o-view-maintenance
   border-bottom-color:#4385ab!important;
   box-shadow:none!important;
 }
-/* Settings cards remain distinctly bordered and brighter than the nav shell. */
+
 #v51uTabbed #v42ClockPanel,
 #v51uTabbed #v42TextPanel,
 #v51uTabbed #v42WeatherPanel,
@@ -872,7 +871,7 @@ body.v51o-view-sequence #v51uTabbed #v42SequencePanel,body.v51o-view-maintenance
 #v43WeatherCard.v51x-layout.v51x-compact .v42-extra{font-size:var(--v51y-extra-compact-px,55px)}
 </style>
 <style id="v52eNavigationLayout">
-/* V52E: compact top-right diagnostics button, inline display effects within editing. */
+
 #v51oConsole .o-top{align-items:center!important;gap:8px!important;margin-bottom:5px!important}
 #v51oConsole .o-brand{min-width:0;flex:1 1 auto}
 #v51oConsole .o-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:0 0 auto}
@@ -903,9 +902,9 @@ body:not(.v51o-view-edit) #v51eEffectsGroup{display:none!important}
 </style>
 
 <style id="v52fNavigationRefinement">
-/* V52F — two-level navigation hierarchy, flat editing flow; UI-only. */
+
 :root{--f-ink:#203b54;--f-muted:#647991;--f-edge:#dce6ee;--f-blue:#276b95;--f-pale:#f6f9fc}
-/* The old page heading duplicates the console branding. */
+
 main.wrap>h1,main.wrap>h1+p{display:none!important}
 #v51oConsole{padding:12px 16px 11px!important;margin:10px 0 0!important;border-radius:14px 14px 0 0!important;border-bottom:0!important;box-shadow:none!important;background:#fff!important}
 #v51oConsole .o-title{font-size:19px!important;font-weight:800!important;letter-spacing:-.035em!important}
@@ -916,26 +915,26 @@ main.wrap>h1,main.wrap>h1+p{display:none!important}
 #v51oConsole .o-status.error{color:#a43c3c!important;background:transparent!important}
 #v51oConsole .o-status .o-indicator{font-weight:700!important}
 #v51uTabbed{margin:0 0 13px!important;background:#fff!important;border:1px solid #e0e8ef!important;border-top:0!important;border-radius:0 0 14px 14px!important;padding:0 13px 12px!important;box-shadow:0 5px 18px rgba(24,54,79,.045)!important;overflow:hidden!important}
-/* Main navigation: a single professional tab bar, directly attached to content. */
+
 #v51uTabbed>.o-nav{margin:0 -13px 0!important;min-height:53px!important;background:#f1f5f9!important;border-top:1px solid #e1e9f0!important;border-bottom:1px solid #dae5ed!important}
 #v51uTabbed>.o-nav button{min-height:53px!important;padding:11px 5px 9px!important;font-size:14px!important;font-weight:750!important;gap:7px!important;border-right:1px solid #e4ebf1!important;border-bottom:3px solid transparent!important;color:#677c90!important;box-shadow:none!important}
 #v51uTabbed>.o-nav button.active{background:#fff!important;color:#194b71!important;border-bottom-color:#397ca5!important;box-shadow:none!important}
 #v51uTabbed>.o-nav .o-symbol{font-size:16px!important;color:inherit!important}
-/* Under the main tabs, the status information is a quiet horizontal row. */
+
 #v51uTabbed #v51rWorkspace{padding:0 2px 9px!important;margin:0 0 8px!important;border:0!important;background:#fff!important;border-bottom:1px solid #e7eef4!important}
 #v51uTabbed #v51rWorkspace #v51eLiveSequence{position:static!important;display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:6px 10px!important;min-height:0!important;margin:0 0 12px!important;padding:12px 2px 10px!important;background:transparent!important;color:#31536f!important;border:0!important;border-bottom:1px solid #edf2f6!important;border-radius:0!important;box-shadow:none!important;font-size:13px!important;font-weight:700!important;line-height:1.55!important;word-break:keep-all!important}
-/* Previous versions inserted a teal badge via a pseudo-element. Make it a tiny label. */
+
 #v51uTabbed #v51rWorkspace #v51eLiveSequence::before{content:'현재 구성'!important;display:inline-block!important;flex:0 0 auto!important;margin:0!important;padding:3px 7px!important;border:1px solid #d2e6f4!important;border-radius:5px!important;background:#eef6fb!important;color:#27668a!important;font-size:11px!important;font-weight:750!important;line-height:1.35!important}
 #v51uTabbed #v51rWorkspace .v52fPickerHeading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;color:var(--f-ink);font-size:13px;font-weight:800}
 #v51uTabbed #v51rWorkspace .v52fPickerHint{font-size:11px;color:#8595a5;font-weight:500}
-/* Secondary selector is a compact segmented control, not three floating tiles. */
+
 #v51uTabbed #v51rWorkspace #v42Tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;padding:3px!important;margin:0 0 8px!important;background:#edf3f8!important;border:1px solid #e0e9f1!important;border-radius:10px!important;overflow:hidden!important;box-shadow:none!important}
 #v51uTabbed #v51rWorkspace #v42Tabs .v42-tab{display:flex!important;flex-direction:row!important;justify-content:center!important;align-items:center!important;gap:3px!important;min-height:44px!important;margin:0!important;padding:9px 3px!important;font-size:13px!important;font-weight:700!important;white-space:nowrap!important;border:1px solid transparent!important;border-radius:8px!important;box-shadow:none!important;color:#637a8f!important;background:transparent!important;letter-spacing:-.025em!important}
 #v51uTabbed #v51rWorkspace #v42Tabs .v42-tab.active{background:#fff!important;border-color:#d6e4ee!important;box-shadow:0 1px 4px rgba(30,65,93,.08)!important;color:#15527d!important}
 #v51uTabbed #v51rWorkspace #v51pEditBar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:7px 0 0!important;padding:5px 1px 0!important;background:transparent!important;border:0!important}
 #v51uTabbed #v51rWorkspace #v51pEditHint{font-size:12px!important;color:#7e8ea0!important}
 #v51uTabbed #v51rWorkspace #v51pDetailsButton{min-height:39px!important;padding:7px 11px!important;background:#f4f8fb!important;border:1px solid #dae5ee!important;border-radius:8px!important;color:#2d5a7c!important;box-shadow:none!important;font-size:12px!important;white-space:nowrap!important}
-/* Detailed panels remain clear, distinct work surfaces. */
+
 #v51uTabbed #previewSection{border:1px solid #d9e4ec!important;border-radius:11px!important;background:#fff!important;margin-top:1px!important}
 @media(max-width:620px){
  #v51oConsole{padding:10px 12px 8px!important;margin-top:5px!important}
@@ -951,7 +950,7 @@ main.wrap>h1,main.wrap>h1+p{display:none!important}
 </style>
 
 <style id="v52gClockOrder">
-/* V52G: time/date takes precedence; weather is a secondary subsection. */
+
 #v42ClockPanel #v52gWeatherAfter{margin-top:16px;padding-top:14px;border-top:1px solid #dde7ef}
 #v42ClockPanel #v52gWeatherAfter h3{font-size:16px;font-weight:800;color:#284862;margin:0 0 9px;letter-spacing:-.02em}
 #v42ClockPanel #v52gWeatherAfter .v52gSubnote{font-size:12px;color:#64748b;margin:0 0 10px}
@@ -959,7 +958,7 @@ main.wrap>h1,main.wrap>h1+p{display:none!important}
 #v42ClockPanel #v42ClockToolsSlot{margin-top:3px}
 </style>
 <style id="v52hEffectsStyles">
-/* Each effect section follows the last control of its corresponding edit page. */
+
 #v51uTabbed .v52h-effects{display:block!important;margin:18px 0 2px!important;border:1px solid #d4e2ed!important;border-radius:11px!important;background:#fbfdff!important;overflow:hidden!important;box-shadow:none!important}
 #v51uTabbed .v52h-effects>summary{display:flex;align-items:center;gap:9px;min-height:51px;padding:12px 14px;color:#254663;font-size:14px;font-weight:750;cursor:pointer;list-style:none;touch-action:manipulation}
 #v51uTabbed .v52h-effects>summary::-webkit-details-marker{display:none}
@@ -974,7 +973,7 @@ main.wrap>h1,main.wrap>h1+p{display:none!important}
 </style>
 
 <style id="v52iPolish">
-/* V52I: continuous, rounded tabs with the whole active outline. */
+
 #v51uTabbed>.o-nav{gap:6px!important;padding:7px!important;background:#f5f8fb!important;border:1px solid #e7edf3!important;border-radius:16px!important;margin:7px 0 3px!important;overflow:visible!important;}
 #v51uTabbed>.o-nav button{border:1.5px solid transparent!important;border-radius:12px!important;background:transparent!important;min-height:52px!important;box-shadow:none!important;transition:background .15s,border-color .15s!important;}
 #v51uTabbed>.o-nav button.active{border:1.5px solid #367fa9!important;background:#fff!important;box-shadow:0 2px 6px rgba(32,74,110,.10)!important;color:#145077!important;}
@@ -983,7 +982,7 @@ main.wrap>h1,main.wrap>h1+p{display:none!important}
 #v51uTabbed #v51rWorkspace #v42Tabs .v42-tab.active{border:1.5px solid #287fb1!important;background:#fff!important;box-shadow:0 2px 7px rgba(32,80,121,.12)!important;color:#17557c!important;}
 #v51uTabbed #previewSection,#v51uTabbed #v42ClockPanel,#v51uTabbed #v42TextPanel,#v51uTabbed #v42WeatherPanel,#v51uTabbed #v42SequencePanel,#v51uTabbed #v51hMaintenancePanel,#v51uTabbed #saveSection{border-radius:17px!important;}
 #v51uTabbed .v52h-effects{border-radius:14px!important;}
-/* Mobile dock: one prominent primary save, two compact utility controls. */
+
 #v42Dock{display:grid!important;grid-template-columns:minmax(0,1.55fr) minmax(0,.85fr) minmax(0,.85fr)!important;gap:8px!important;align-items:stretch!important;width:min(100%,860px)!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px))!important;border:1px solid #dfe9f2!important;border-bottom:0!important;border-radius:19px 19px 0 0!important;background:rgba(255,255,255,.98)!important;box-shadow:0 -7px 26px rgba(18,45,70,.13)!important;}
 #v42Dock>*{width:100%!important;min-width:0!important;max-width:none!important;min-height:52px!important;margin:0!important;padding:9px 5px!important;border-radius:12px!important;font-size:13px!important;font-weight:750!important;line-height:1.25!important;text-decoration:none!important;white-space:normal!important;}
 #v42QuickSave{background:#126b90!important;border:1px solid #126b90!important;color:white!important;box-shadow:0 2px 6px rgba(18,107,144,.2)!important;}
@@ -992,13 +991,12 @@ main.wrap>h1,main.wrap>h1+p{display:none!important}
 #v42Dock .v52iBtnText{display:block;font-size:12px;line-height:1.2;}
 #v51zSaveNotice{bottom:calc(98px + env(safe-area-inset-bottom,0px))!important;border-radius:15px!important;}
 @media(max-width:420px){#v42Dock{gap:6px!important;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px))!important;}#v42Dock>*{min-height:52px!important;padding:7px 2px!important;}#v42Dock .v52iBtnText{font-size:11.5px;}#v51uTabbed>.o-nav{gap:3px!important;padding:5px!important;}#v51uTabbed>.o-nav button{padding:7px 2px!important;font-size:12px!important;}}
-/* Clock preview uses an independent weather shadow toggle. */
+
 #previewStage.v51m-no-clock-weather-shadow #clockWeather,#previewStage.v51m-no-clock-weather-shadow #clockWeather *,#previewModalStage.v51m-no-clock-weather-shadow #clockWeather,#previewModalStage.v51m-no-clock-weather-shadow #clockWeather *{text-shadow:none!important;}
 </style>
 
 <style id="v52jMainTabs">
-/* V52J - main navigation only. A single continuous rectangular tab strip.
-   No detached rounded pills; active tab joins the content surface. */
+
 #v51uTabbed>.o-nav {
   display:grid!important;
   grid-template-columns:repeat(3,minmax(0,1fr))!important;
@@ -1057,43 +1055,43 @@ main.wrap>h1,main.wrap>h1+p{display:none!important}
 </style>
 
 <style id="v52kUnifiedColorSystem">
-/* V52N: visual palette only. Keep all element ids, event handlers and persistence intact. */
+
 :root{--k-primary:#1d4684;--k-primary-dark:#15366b;--k-primary-light:#eef3fb;--k-border:#cbd9ec;--k-surface:#f5f8fc;--k-ink:#253e61;}
 body{background:#f0f4f9!important;color:#233952!important;}
-/* Standardize primary actions (including the old dark-blue editing buttons). */
+
 #visualTools button,#v13Panel button,#v32FormatPanel button,#v42ClockPanel button,#v42TextPanel button,#v42WeatherPanel button,#v42SequencePanel button,#v51hMaintenancePanel button,#saveSection button,#previewModal .preview-modal-bar button,.editor-toolbar button{background:var(--k-primary)!important;color:#fff!important;border:1px solid var(--k-primary)!important;border-radius:10px!important;box-shadow:none!important;}
 #visualTools button:hover,#saveSection button:hover,.editor-toolbar button:hover{background:var(--k-primary-dark)!important;border-color:var(--k-primary-dark)!important;}
-/* Secondary controls stay quiet and recognizably part of the same palette. */
+
 #v51oConsole .o-settings-link,#v51uTabbed #v51rWorkspace #v51pDetailsButton,#v46QuickView,#v42QuickLoad,#saveSection .secondary,#saveSection .btn.secondary,.preview-modal-bar button:not(.active){background:var(--k-primary-light)!important;color:var(--k-ink)!important;border:1px solid var(--k-border)!important;border-radius:11px!important;box-shadow:none!important;}
 #v51uTabbed #v51rWorkspace #v51pDetailsButton[aria-pressed="true"],#v51oConsole .o-settings-link.active{background:#e1ebf9!important;color:var(--k-primary-dark)!important;border-color:#87a5cb!important;}
-/* Main tab strip is connected and square, as requested in V52J. */
+
 #v51uTabbed>.o-nav{background:#eef3f9!important;border-bottom-color:var(--k-primary)!important;}
 #v51uTabbed>.o-nav button{color:#5b6e88!important;border-right-color:#d6e1ee!important;}
 #v51uTabbed>.o-nav button.active{background:#fff!important;color:var(--k-primary)!important;border-color:var(--k-primary)!important;border-bottom:0!important;border-radius:0!important;}
 #v51uTabbed>.o-nav button:focus-visible{outline-color:var(--k-primary)!important;}
-/* Inner screen tabs: round outlines in the same navy family. */
+
 #v51uTabbed #v51rWorkspace #v42Tabs{background:#eef3f9!important;border:1px solid #e0e9f4!important;}
 #v51uTabbed #v51rWorkspace #v42Tabs .v42-tab{color:#576d87!important;}
 #v51uTabbed #v51rWorkspace #v42Tabs .v42-tab.active{color:var(--k-primary)!important;border:2px solid var(--k-primary)!important;background:white!important;box-shadow:0 1px 5px rgba(29,70,132,.08)!important;}
-/* Only the save action is filled in the bottom dock. */
+
 #v42QuickSave,#saveSection #save{background:var(--k-primary)!important;color:#fff!important;border:1px solid var(--k-primary)!important;box-shadow:0 2px 7px rgba(29,70,132,.14)!important;}
 #v42QuickSave:hover{background:var(--k-primary-dark)!important;}
 #v42Dock{border-color:#d9e4f1!important;box-shadow:0 -5px 20px rgba(29,70,132,.09)!important;}
-/* Preview is a primary workflow, not a competing green action. */
+
 #previewBeforeSave{background:var(--k-primary)!important;color:#fff!important;border:1px solid var(--k-primary)!important;border-radius:11px!important;}
 #previewBeforeSave:hover{background:var(--k-primary-dark)!important;}
-/* Consistent section accents, cards and controls. */
+
 #v51uTabbed .v52h-effects{border-color:#d3e0ef!important;border-radius:14px!important;}
 #v51uTabbed .v52h-effects-icon{background:#e5eef9!important;color:var(--k-primary)!important;}
 #v51uTabbed .v52h-effects>summary{color:var(--k-ink)!important;}
 #v51uTabbed input:focus-visible,#v51uTabbed select:focus-visible,#v51uTabbed textarea:focus-visible{outline:2px solid #3b70ac!important;outline-offset:1px!important;}
-/* Preserve status semantics: errors red, success green. */
+
 #status.error{background:#fff0f0!important;color:#9d2937!important;}
 #status.ok{background:#eaf7ef!important;color:#256b46!important;}
 @media(max-width:420px){#v42Dock>*{border-radius:10px!important;}#v51uTabbed #v51rWorkspace #v42Tabs .v42-tab.active{border-width:2px!important;}}
 </style>
 <style id="v52nMobileRefinement">
-/* V52N — V52K-based responsive editing density, without altering API or persistence. */
+
 :root{--n-blue:#1d4684;--n-edge:#dbe4ef;--n-soft:#f5f8fc}
 @media(max-width:720px){
  body{background:#f2f5fa!important}
@@ -1142,7 +1140,7 @@ body{background:#f0f4f9!important;color:#233952!important;}
  #v42QuickLoad{flex:1 1 29%!important}
  #v51zSaveNotice{bottom:calc(76px + env(safe-area-inset-bottom,0px))!important}
 }
-/* V52N subsection accordions: existing controls are moved, not duplicated. */
+
 #v51uTabbed .v52n-fold{border:1px solid #dce5ef!important;border-radius:11px!important;background:#fff!important;margin:11px 0!important;overflow:hidden!important;box-shadow:none!important;display:block!important}
 #v51uTabbed .v52n-fold>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 13px!important;min-height:48px!important;background:#f4f7fb!important;color:#253e61!important;font-size:13px!important;font-weight:800!important;cursor:pointer;list-style:none;touch-action:manipulation}
 #v51uTabbed .v52n-fold>summary::-webkit-details-marker{display:none}
@@ -1152,7 +1150,7 @@ body{background:#f0f4f9!important;color:#233952!important;}
 #v51uTabbed .v52n-fold>.v52n-fold-body{padding:11px 12px 13px!important;min-width:0}
 #v51uTabbed .v52n-fold-body>section{border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}
 #v51uTabbed .v52n-fold-body>div{max-width:100%}
-/* Always reveal a manually expanded accordion even when the existing quick-edit mode is active. */
+
 body.v51p-compact #v51uTabbed .v52n-fold[open] .v44-weather-style,
 body.v51p-compact #v51uTabbed .v52n-fold[open] .v43-layout,
 body.v51p-compact #v51uTabbed .v52n-fold[open] #v42ClockFormatSlot,
@@ -1164,7 +1162,7 @@ body.v51p-compact #v51uTabbed .v52n-fold[open] .v45-weather-background{display:b
 </style>
 
 <style id="v52oHierarchyAndCards">
-/* V52O: navigation text above the subsection typography, without increasing header height. */
+
 @media(max-width:720px){
  #v51uTabbed>.o-nav button{font-size:15px!important;font-weight:800!important;letter-spacing:-.035em!important;min-height:49px!important;line-height:1.15!important;gap:4px!important;padding:7px 2px!important}
  #v51uTabbed>.o-nav button .o-symbol{font-size:15px!important}
@@ -1177,7 +1175,7 @@ body.v51p-compact #v51uTabbed .v52n-fold[open] .v45-weather-background{display:b
  #v51uTabbed>.o-nav button{font-size:13.5px!important;gap:2px!important}
  #v51uTabbed #v51rWorkspace #v42Tabs .v42-tab{font-size:14px!important}
 }
-/* Accordion is the sole outer group: old nested panels are flat inset content. */
+
 #v51uTabbed #v42WeatherPanel .v52n-fold-body #v49IconPanel,
 #v51uTabbed #v42WeatherPanel .v52n-fold-body .v45-weather-background,
 #v51uTabbed #v42WeatherPanel .v52n-fold-body .v51x-selector,
@@ -1189,12 +1187,12 @@ body.v51p-compact #v51uTabbed .v52n-fold[open] .v45-weather-background{display:b
  background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
  margin:0!important;padding:0!important;
 }
-/* Location controls already live within the weather editor; remove extra heavy framing. */
+
 #v51uTabbed #v42WeatherPanel #v47LocationPanel{
  background:#f8fafc!important;border:0!important;border-left:3px solid #c6d8ec!important;
  border-radius:6px!important;box-shadow:none!important;padding:10px 11px!important;margin:10px 0!important;
 }
-/* Keep weather information sections distinguishable using headings and quiet rules. */
+
 #v51uTabbed #v42WeatherPanel .v52n-fold{border:1px solid #d7e2ee!important;border-radius:11px!important;margin:9px 0!important}
 #v51uTabbed #v42WeatherPanel .v52n-fold>summary{background:#f1f5fa!important;color:#24496c!important}
 #v51uTabbed #v42WeatherPanel .v52n-fold[open]>summary{border-bottom:1px solid #e0e8f0!important}
@@ -1204,15 +1202,15 @@ body.v51p-compact #v51uTabbed .v52n-fold[open] .v45-weather-background{display:b
 #v51uTabbed #v42WeatherPanel .v52n-fold-body .v49grid,
 #v51uTabbed #v42WeatherPanel .v52n-fold-body .v45-bg-grid{gap:9px!important}
 #v51uTabbed #v42WeatherPanel .v52n-fold-body .v51-toggle{border-radius:8px!important;box-shadow:none!important}
-/* Keep standard controls bounded but avoid each control's containing card. */
+
 #v51uTabbed #v42WeatherPanel .v44-weather-style,
 #v51uTabbed #v42ClockPanel .v44-weather-style{margin:8px 0 10px!important}
 #v51uTabbed #v42TextPanel .v52n-fold-body #v51eMessageBgPanel .grid{gap:9px!important}
-/* Preserve genuinely useful checkbox chips and the existing save/status wiring. */
+
 </style>
 
 <style id="v52pMobileUX">
-/* V52R — one visual hierarchy, one primary action, all existing inputs retained. */
+
 :root{--p-blue:#1d4684;--p-edge:#dbe4ee;--p-muted:#67798e;--p-paper:#f5f8fc}
 body>div[style*="position:sticky"][style*="TEST"]{display:none!important}
 #v51oConsole .o-actions{display:flex;align-items:center;gap:8px!important}
@@ -1281,9 +1279,9 @@ body>div[style*="position:sticky"][style*="TEST"]{display:none!important}
 </style>
 
 <style id="v52qNestedCardCleanup">
-/* V52R: preserve named outer setting groups, flatten only redundant nested surfaces. */
+
 :root{--q-line:#e4ebf3;--q-muted:#f6f8fc;--q-ink:#244b74}
-/* The accordion or named section is the card; the fields inside are content, not more cards. */
+
 #v51uTabbed :is(#v42ClockPanel,#v42TextPanel,#v42WeatherPanel) .v52n-fold-body :is(
   #v32FormatPanel,#v33DisplayPanel,#backgroundSection,
   .v44-weather-fields,.v44-weather-style,#v49IconPanel,
@@ -1299,7 +1297,7 @@ body>div[style*="position:sticky"][style*="TEST"]{display:none!important}
   padding:0!important;
   margin:0 0 11px!important;
 }
-/* The location picker is already in the weather editing panel; give it a title divider, not its own framed card. */
+
 #v51uTabbed #v42WeatherPanel #v47LocationPanel{
   background:transparent!important;border:0!important;border-radius:0!important;
   box-shadow:none!important;padding:3px 0 10px!important;margin:4px 0 11px!important;
@@ -1308,7 +1306,7 @@ body>div[style*="position:sticky"][style*="TEST"]{display:none!important}
 #v51uTabbed #v42WeatherPanel #v47LocationPanel .v47title{
   font-size:14px!important;color:var(--q-ink)!important;margin:1px 0 10px!important;
 }
-/* In time/date weather options, keep the section title but remove the second decorative panel. */
+
 #v51uTabbed #v42ClockPanel #v52gWeatherAfter .v44-weather-fields,
 #v51uTabbed #v42ClockPanel #v52gWeatherAfter .v44-weather-style,
 #v51uTabbed #v42ClockPanel #v52gWeatherAfter .v51x-selector,
@@ -1316,7 +1314,7 @@ body>div[style*="position:sticky"][style*="TEST"]{display:none!important}
   background:transparent!important;border:0!important;box-shadow:none!important;
   padding:0!important;border-radius:0!important;
 }
-/* Keep checkbox choices tappable without rendering each as a separate card. */
+
 #v51uTabbed #v42ClockPanel .v52n-fold-body :is(.v33modegrid,.v44-field-grid) label,
 #v51uTabbed #v42WeatherPanel .v52n-fold-body :is(.v44-field-grid,#weatherFields) label{
   background:transparent!important;border:0!important;box-shadow:none!important;
@@ -1328,7 +1326,7 @@ body>div[style*="position:sticky"][style*="TEST"]{display:none!important}
   display:block!important;font-size:13px!important;font-weight:800!important;
   color:var(--q-ink)!important;margin:4px 0 9px!important;
 }
-/* The effect accordion is already one box. Inner checkbox rows should not be boxes too. */
+
 #v51uTabbed :is(#v42ClockPanel,#v42TextPanel,#v42WeatherPanel) .v52h-effects-content label{
   background:transparent!important;border:0!important;box-shadow:none!important;
   padding:7px 3px!important;min-height:42px!important;
@@ -1337,16 +1335,16 @@ body>div[style*="position:sticky"][style*="TEST"]{display:none!important}
 #v51uTabbed :is(#v42ClockPanel,#v42TextPanel,#v42WeatherPanel) .v52h-effects-content label+label{
   border-top:1px solid var(--q-line)!important;
 }
-/* Remove the third framed control surface (animation toggle) but retain readable title and explanatory text. */
+
 #v51uTabbed #v42WeatherPanel .v52n-fold-body .v51-toggle{
   background:transparent!important;border:0!important;box-shadow:none!important;
   padding:8px 2px!important;border-radius:0!important;
 }
-/* Preserve input/select/textarea outlines: these are essential affordances, not extra cards. */
+
 #v51uTabbed :is(#v42ClockPanel,#v42TextPanel,#v42WeatherPanel) :is(input:not([type=checkbox]):not([type=radio]),select,textarea){
   border-radius:9px!important;
 }
-/* Detail groups are distinguished by spacing and a single soft separator, not stacked tinted panels. */
+
 #v51uTabbed :is(#v42ClockPanel,#v42TextPanel,#v42WeatherPanel) .v52n-fold-body{
   background:#fff!important;
 }
@@ -1360,7 +1358,7 @@ body>div[style*="position:sticky"][style*="TEST"]{display:none!important}
 </style>
 
 <style id="v52rThinQInspiredMobile">
-/* V52R: LG ThinQ-inspired visual rhythm; skin only, no changed configuration bindings. */
+
 :root{--r-bg:#f0f2f6;--r-paper:#fff;--r-ink:#1e2734;--r-muted:#667283;--r-primary:#38557f;--r-line:#e4e8ee}
 body{background:var(--r-bg)!important;color:var(--r-ink)!important;font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR','Malgun Gothic',Arial,sans-serif!important}
 main.wrap{max-width:900px}
@@ -1436,7 +1434,7 @@ main.wrap{max-width:900px}
 </style>
 
 <style id="v52sConnectedMainTabs">
-/* V52S: connected desktop-style tabs, modeled on the user's outlined screenshot. */
+
 @media(max-width:900px){
   #v51uTabbed{border-radius:0 0 18px 18px!important;overflow:visible!important;border-top:0!important}
   #v51uTabbed>.o-nav{
@@ -1480,8 +1478,7 @@ main.wrap{max-width:900px}
 @media(max-width:380px){#v52yMsgClock .msg-clock-grid{grid-template-columns:1fr}}
 </style>
 <style id="v52zRestoreV52SConnectedTabs">
-/* V52Z: restore V52S's connected rectangular tabs on the ACTUAL nav element.
-   The old #v51uTabbed selector never matched the actual #v51oConsole nav. */
+
 @media (max-width: 900px) {
   #v51oConsole { overflow: visible !important; }
   #v51oConsole > .o-nav {
@@ -1553,7 +1550,7 @@ main.wrap{max-width:900px}
     flex:0 0 auto !important;
   }
   #v51oConsole > .o-nav > button:focus-visible {outline:2px solid #4494bb !important;outline-offset:-5px !important;}
-  /* Keep a visible shared content boundary directly after the tabs. */
+  
   #v51oConsole > #v51oMenuHelp { margin-top:0 !important; }
 }
 @media (max-width:370px) {
@@ -1592,7 +1589,7 @@ body.v53a-modal-open{overflow:hidden}
 @media(max-width:380px){#v53aAnimationModal .v53a-dialog{padding:12px}#v53aAnimationModal .v53a-picks{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}#v53aAnimationModal .v53a-pick{font-size:12px;padding:7px 1px}}
 @media(prefers-reduced-motion:reduce){#v53aStage .wx50-meteor,#v53aStage .wx50-electric,#v53aStage .wx50-drop{display:none}}
 </style><style id="v53bWeather12SceneStyles">
-/* V53B: 12 WeatherAPI weather-scene backgrounds, shared by LCD and admin. */
+
 #wx50Scene.wx50-mist{--wx50-sky1:#6c8490;--wx50-sky2:#a6b5ba}
 #wx50Scene.wx50-drizzle{--wx50-sky1:#536f8c;--wx50-sky2:#9fb3c2}
 #wx50Scene.wx50-showers{--wx50-sky1:#365b78;--wx50-sky2:#809dad}
@@ -1616,7 +1613,7 @@ body.v53a-modal-open{overflow:hidden}
 #v53aAnimationModal .v53a-pick{min-width:0!important;white-space:normal!important;line-height:1.25;font-size:12px!important;padding:8px 5px!important;border-radius:9px!important}
 @media(max-width:520px){#v53aAnimationModal .v53a-picks{grid-template-columns:repeat(2,minmax(0,1fr));max-height:142px}#v53aAnimationModal .v53a-pick{min-height:41px}}
 </style><style id="v54-fixed-css">
-/* V54 FIX: actual existing wx50 scene classes, not unused CSS variables */
+
 #wx50Scene{--v54-darkness:.40;position:absolute;inset:0;background:linear-gradient(180deg,var(--v54-a) 0%,var(--v54-b) 53%,var(--v54-c) 100%)!important;isolation:isolate}
 #wx50Scene.wx50-sun{--v54-a:#3974a9;--v54-b:#608cb5;--v54-c:#9db6c8}
 #wx50Scene.wx50-moon{--v54-a:#152b50;--v54-b:#30466d;--v54-c:#62789c}
@@ -1632,7 +1629,7 @@ body.v53a-modal-open{overflow:hidden}
 #wx50Scene.wx50-thunder{--v54-a:#242d57;--v54-b:#4d527c;--v54-c:#827fa9}
 #wx50Scene::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(9,23,44,.12),rgba(9,23,44,.65) 45%,rgba(9,23,44,.67) 62%,rgba(9,23,44,.10));opacity:calc(.55 + var(--v54-darkness))}#wx50Scene::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-1%;height:19%;pointer-events:none;background:linear-gradient(168deg,transparent 31%,#6c92b080 32%,#6c92b080 50%,transparent 51%),linear-gradient(191deg,transparent 39%,#345c8580 40%,#345c8580 65%,transparent 66%);filter:blur(9px);opacity:.55}#wx50Scene .wx50-cloud{filter:blur(7px);opacity:.32!important}#wx50Scene .wx50-meteor,#wx50Scene .wx50-snow-decor{display:none!important}#wx50Scene .wx50-sun-disc{width:10vmin;height:10vmin;opacity:.75}#wx50Scene .wx50-moon-disc{width:10vmin;height:10vmin;opacity:.75}#wx50Scene .wx50-drop{opacity:.55}#wx50Scene .wx50-star{opacity:.25}#wx50Scene.v54-dawn{--v54-a:#344b77;--v54-b:#77779c;--v54-c:#b89fb3}#wx50Scene.v54-sunrise{--v54-a:#416da1;--v54-b:#8884a6;--v54-c:#c7a4ad}#wx50Scene.v54-sunset{--v54-a:#45567f;--v54-b:#9b7095;--v54-c:#d2a08f}#wx50Scene.v54-night{--v54-a:#14284a;--v54-b:#293f66;--v54-c:#5d7292}
 </style><style id="v55-watercolor-assets">
-/* V55: twelve real watercolor image assets; kept separate from weather particle effects */
+
 #weatherScreen #wx50Scene, #v42WeatherPreview #wx50Scene, #v53aStage #wx50Scene {
  background-image:none!important;background-size:cover!important;background-position:center center!important;
  background-repeat:no-repeat!important;animation:v55-pan 42s ease-in-out infinite alternate;
@@ -1649,7 +1646,7 @@ body.v53a-modal-open{overflow:hidden}
 @keyframes v55-pan {from{background-size:100% 100%}to{background-size:105% 105%}}
 @media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene,#v53aStage #wx50Scene{animation:none!important}}
 </style><style id="v55d-quiet-weather">
-/* V55F: calm original atmospheric artwork. Weather-only and no external dependencies. */
+
 #weatherScreen #wx50Scene,#v42WeatherPreview #wx50Scene,#v53aStage #wx50Scene{background-image:none!important;background-position:center!important;background-repeat:no-repeat!important;background-size:cover!important;animation:none!important;contain:paint}
 #weatherScreen #wx50Scene::before,#v53aStage #wx50Scene::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(9,21,31,.22),rgba(9,21,31,.48) 37%,rgba(9,21,31,.54) 65%,rgba(9,21,31,.16));opacity:calc(.5 + var(--v54-darkness,.4));}
 #weatherScreen #wx50Scene::after,#v53aStage #wx50Scene::after{display:none!important}
@@ -1675,7 +1672,7 @@ body.v53a-modal-open{overflow:hidden}
 #v42WeatherPreview #v43WeatherCard.v51x-layout .v51x-primary{width:max-content;max-width:100%;}
 #v42WeatherPreview.visible #v43WeatherCard.v55q-editable{border:3px dashed #65e8ff!important;outline:none!important;box-shadow:none!important;}
 </style><style id="v55q-r3-dock-uniform">
-/* V55Q-R5: all three dock actions use the save button's equal size. */
+
 #v42Dock{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important;align-items:stretch!important}
 #v42Dock>#v42QuickSave,#v42Dock>#v46QuickView,#v42Dock>#v42QuickLoad{
  grid-column:auto!important;grid-row:auto!important;flex:none!important;min-width:0!important;width:100%!important;
@@ -1700,14 +1697,14 @@ body.v53a-modal-open{overflow:hidden}
 #v43WeatherCard.v51x-layout .v42-extra{font-size:var(--v55r4-extra-size,45px)!important}
 #v43WeatherCard.v51x-layout{width:max-content!important;max-width:94%!important;min-width:0!important}
 </style><style id="v55s-pc-tabs-and-compact">
-/* V55S: connected desktop tabs match the mobile navigation. */
+
 #v51oConsole > .o-nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;padding:0!important;margin:10px 0 0!important;background:#edf1f6!important;border:0!important;border-bottom:3px solid #244c84!important;border-radius:0!important;overflow:visible!important;min-height:54px!important}
 #v51oConsole > .o-nav > button{position:relative!important;display:flex!important;flex-direction:row!important;justify-content:center!important;align-items:center!important;gap:6px!important;min-width:0!important;min-height:54px!important;margin:0!important;padding:8px 5px!important;background:transparent!important;color:#63748a!important;border:0!important;border-right:1px solid #dfe6ef!important;border-radius:0!important;box-shadow:none!important;white-space:normal!important;font-size:clamp(12px,1.15vw,16px)!important;font-weight:800!important}
 #v51oConsole > .o-nav > button:last-child{border-right:0!important}
 #v51oConsole > .o-nav > button.active,#v51oConsole > .o-nav > button[aria-pressed="true"]{z-index:2!important;background:white!important;color:#173b67!important;border:3px solid #244c84!important;border-bottom:0!important;margin-bottom:-3px!important;border-radius:0!important}
 #v51oConsole > .o-nav > button.active::after,#v51oConsole > .o-nav > button[aria-pressed="true"]::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:-3px!important;height:4px!important;background:white!important}
 #v51oConsole > .o-nav .o-symbol{font-size:16px!important;line-height:1!important}
-/* Compact is a genuine two-row layout; sizes remain independent. */
+
 #v43WeatherCard.v51x-layout.v51x-compact{display:grid!important;grid-template-columns:auto auto!important;grid-template-rows:auto auto auto!important;column-gap:16px!important;row-gap:7px!important;align-content:center!important;justify-content:center!important;justify-items:center!important;width:max-content!important;max-width:94%!important;min-width:0!important;padding:12px 18px!important;overflow:visible!important}
 #v43WeatherCard.v51x-compact .v51x-primary{grid-row:1!important;grid-column:1/-1!important;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;justify-content:center!important;align-items:center!important;gap:16px!important;width:max-content!important;max-width:100%!important}
 #v43WeatherCard.v51x-compact .v42-place{grid-row:2!important;grid-column:1!important;justify-self:end!important;white-space:nowrap!important}
@@ -1715,7 +1712,7 @@ body.v53a-modal-open{overflow:hidden}
 #v43WeatherCard.v51x-compact .v43-source{grid-row:3!important;grid-column:1/-1!important;justify-self:center!important}
 @media(max-width:620px){#v51oConsole > .o-nav > button{font-size:12px!important;gap:3px!important;padding:7px 2px!important}#v51oConsole > .o-nav .o-symbol{font-size:14px!important}}
 </style><style id="v55t-final-menu-fix">
-/* V55U: nav is moved by v51uConnectedTabsLogic into #v51uTabbed. */
+
 #v51uTabbed > nav.o-nav, #v51uTabbed > .o-nav {display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;padding:0!important;margin:10px 0 0!important;background:#eef1f6!important;border:0!important;border-bottom:3px solid #244c84!important;border-radius:0!important;overflow:visible!important;isolation:isolate!important;box-shadow:none!important;}
 #v51uTabbed > .o-nav > button {position:relative!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:6px!important;min-height:54px!important;padding:9px 5px!important;margin:0!important;background:transparent!important;color:#63748a!important;border:0!important;border-right:1px solid #dfe6ef!important;border-radius:0!important;box-shadow:none!important;font-size:clamp(13px,1.2vw,17px)!important;font-weight:800!important;white-space:normal!important;}
 #v51uTabbed > .o-nav > button:last-child {border-right:0!important;}
@@ -1724,7 +1721,7 @@ body.v53a-modal-open{overflow:hidden}
 #v51uTabbed > .o-nav .o-symbol {font-size:17px!important;line-height:1!important;}
 @media(max-width:620px){#v51uTabbed > .o-nav > button{font-size:12px!important;padding:7px 2px!important;gap:3px!important}}
 </style><style id="v55u-mobile-edge-tabs">
-/* V55U: mobile-only correction. Nav spans the outer settings panel edges. */
+
 @media (max-width:900px){
   #v51uTabbed > .o-nav,
   #v51uTabbed > nav.o-nav{
@@ -1765,7 +1762,7 @@ body.v53a-modal-open{overflow:hidden}
   #v51uTabbed > .o-nav > button .o-symbol{font-size:16px!important}
 }
 </style><style id="v55v-dock-font-match">
-/* V55V: use the same text size as the top three navigation tabs. */
+
 #v51uTabbed > .o-nav > button,
 #v42Dock > #v46QuickView,
 #v42Dock > #v42QuickLoad,
@@ -3724,7 +3721,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
 })();
 </script>
 <style id="v51zSaveInlineStyle">
-/* V52A: show save progress on the current screen; diagnostics is opt-in. */
+
 #v51zSaveNotice[hidden]{display:none!important}
 #v51zSaveNotice{position:fixed;left:50%;bottom:calc(78px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:180;width:min(calc(100% - 22px),620px);border:1px solid #bdd1e3;border-left:5px solid #19608e;border-radius:13px;background:#f8fbff;color:#18364f;box-shadow:0 8px 28px #102b4840;padding:12px 13px;line-height:1.45;box-sizing:border-box}
 #v51zSaveNotice.v51z-working{border-left-color:#2872a6;background:#f3f9ff}
@@ -4018,8 +4015,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
 </script>
 
 <style id="v52wLiveLCDPreviewStyle">
-/* The real 1920x1080 LCD engine is scaled as a single bitmap-like viewport.
-   No font is independently shrunk; layout, gaps and fitting match main.html. */
+
 #v52wLcdPreview{position:absolute;inset:0;overflow:hidden;background:#10283d;z-index:9;display:none;pointer-events:none}
 #v52wLcdPreview.is-visible{display:block}
 #v52wLcdPreview iframe{position:absolute;top:0;left:0;width:1920px;height:1080px;border:0;transform-origin:top left;pointer-events:none;background:#10283d}
@@ -4070,7 +4066,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
 </script>
 
 <style id="v52xSaveNoticePolish">
-/* V52X: larger, legible save notification, animated only while saving. */
+
 #v51zSaveNotice{
   width:min(calc(100% - 28px),560px)!important;
   padding:17px 18px!important;
@@ -4298,7 +4294,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #v43WeatherCard.v55q-editable{outline:3px dashed #62dcff;outline-offset:-3px}
 #v55qResizeHandle{position:absolute;right:3px;bottom:3px;z-index:90;width:42px;height:42px;border:2px solid white;border-radius:10px;background:#156c9c;color:white;display:flex;align-items:center;justify-content:center;font-size:23px;cursor:nwse-resize;touch-action:none;box-shadow:0 2px 9px #0008;user-select:none}
 #v55qResizeHandle[hidden]{display:none!important}
-/* V55Q-R1: weather card selection outline in admin editing preview. */
+
 #v42WeatherPreview.visible #v43WeatherCard.v55q-editable{
  border:4px dashed #65e8ff!important;outline:2px dashed #173a7a!important;
  outline-offset:3px!important;box-shadow:0 0 0 2px #ffffffaa!important;
