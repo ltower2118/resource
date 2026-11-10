@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V55M-20261110</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V55N-20261110</title><style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif}#bg,#shade{position:fixed;inset:0}#bg{background-size:cover;background-position:center;background-repeat:no-repeat}#shade{background:#000;pointer-events:none}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a}.center{top:66%;left:50%;transform:translate(-50%,-50%)}.top-left{top:4%;left:3%}.top-right{top:4%;right:3%}.bottom-left{bottom:4%;left:3%}.bottom-right{bottom:4%;right:3%}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer}body:hover #full,#full:focus{opacity:1}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10}
 #messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box}#messageScreen.active{display:flex}#messageScreen b,#messageScreen strong{font-weight:900}#messageScreen u{text-decoration:underline}#messageScreen mark{background:#fff176;color:#111}
 #boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease}
@@ -335,7 +335,7 @@ body[data-lcd-effect="none"] #v52yMessageClock{transition:none!important}
 #weatherScreen[data-background-mode="color"] > :is(#wx50Scene,.v55h-forest-photo,.v55h-forest-shade,.v55f-photo),
 #weatherScreen[data-background-mode="image"] > :is(#wx50Scene,.v55h-forest-photo,.v55h-forest-shade,.v55f-photo){display:none!important}
 #weatherScreen[data-background-mode="color"] #weatherContent,#weatherScreen[data-background-mode="image"] #weatherContent{z-index:3!important}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55M-20261110</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
+</style><style id="v55nFinalStyles">#weatherScreen[data-background-mode="color"] #wx50Scene,#weatherScreen[data-background-mode="image"] #wx50Scene,#weatherScreen[data-background-mode="color"] .v55h-forest-photo,#weatherScreen[data-background-mode="image"] .v55h-forest-photo,#weatherScreen[data-background-mode="color"] .v55h-forest-shade,#weatherScreen[data-background-mode="image"] .v55h-forest-shade{display:none!important}</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55N-20261110</div><div id="wxDebugV40" role="status">V45 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -495,7 +495,6 @@ function wx50Kind(code,isDay){
  return 'cloud';
 }
 function wx50MountScene(page,code,isDay,sceneConfig=config){
- if(sceneConfig.weatherAnimationEnabled!==true)return;
  const kind=wx50Kind(code,isDay);
  const scene=document.createElement('div');scene.id='wx50Scene';scene.className='wx50-'+kind;
  // Animation mode is exclusive: the scene covers the old image or color background.
@@ -769,7 +768,6 @@ function v55hForestName(code,isDay){
  return V55H_FOREST_FILES[wx50Kind(code,isDay)]||'cloud';
 }
 function v55hSetBackground(page,code,isDay){
- if(config.weatherAnimationEnabled!==true)return;
  const name=v55hForestName(code,isDay);
  const path='images/v55h_'+name+'.webp?v=55j-20261110';
  let photo=page.querySelector(':scope > .v55h-forest-photo');
@@ -784,28 +782,29 @@ function v55hSetBackground(page,code,isDay){
  }
  page.dataset.forestArt=name;
 }
-function v55mEnforceWeatherBackground(){
+/* V55N: one final background authority, called on every weather render. */
+function v55nApplyBackground(){
  const page=document.getElementById('weatherScreen');if(!page)return;
  const animated=config.weatherAnimationEnabled===true;
- const mode=animated?'animated':config.weatherBackgroundMode==='image'?'image':'color';
+ const mode=animated?'animated':(config.weatherBackgroundMode==='image'?'image':'color');
  const color=/^#[0-9a-f]{6}$/i.test(String(config.weatherBackgroundColor||''))?config.weatherBackgroundColor:'#122940';
  const path=String(config.weatherBackgroundImage||'images/background.jpg');
- const safe=/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(path)&&!path.includes('..');
+ const valid=/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(path)&&!path.includes('..');
  page.dataset.backgroundMode=mode;
  if(!animated){
-  page.querySelectorAll('#wx50Scene,.v55h-forest-photo,.v55h-forest-shade,.v55f-photo').forEach(el=>el.remove());
+  page.querySelectorAll('.v55h-forest-photo,.v55h-forest-shade,.v55f-photo,#wx50Scene').forEach(el=>el.remove());
   page.style.setProperty('background-color',color,'important');
-  page.style.setProperty('background-image',mode==='image'&&safe?'url("'+encodeURI(path)+'?v='+encodeURIComponent(String(config.version||'1'))+'")':'none','important');
-  page.style.setProperty('background-size','cover','important');
-  page.style.setProperty('background-position','center','important');
+  page.style.setProperty('background-image',mode==='image'&&valid?'url("'+encodeURI(path)+'?v='+encodeURIComponent(String(config.version||'1'))+'")':'none','important');
  }else{
   page.style.setProperty('background-image','none','important');
+  page.style.setProperty('background-color','#536574','important');
  }
+ page.dataset.v55nMode=mode;
 }
 function renderWeather(){
  const fields=Array.isArray(config.weatherFields)?config.weatherFields:['temp','condition','humidity'];
  const clockFields=Array.isArray(config.weatherClockFields)?config.weatherClockFields:fields;
- const clock=$('clockWeather'),page=$('weatherScreen');v45WeatherBackground();v55mEnforceWeatherBackground();
+ const clock=$('clockWeather'),page=$('weatherScreen');v45WeatherBackground();v55nApplyBackground();
  clock.classList.toggle('weather-on',!!config.weatherOnClock);
  if(!config.weatherOnClock&&!config.weatherPageEnabled){clock.textContent='';page.replaceChildren();delete page.dataset.weatherSignature;return}
  if(!weatherPayloadValidV35(wxData)){const msg='날씨 정보 준비 중';delete page.dataset.weatherSignature;page.textContent=msg;clock.textContent=msg;return}
@@ -829,7 +828,7 @@ function renderWeather(){
  const date=new Date(w.updatedAt||Date.now());
  const stale=Date.now()-(w.updatedAt||0)>30*60*1000;
  const sig=JSON.stringify([picked,w.updatedAt,stale,config.weatherCity,fields,config.weatherShowLocation,config.weatherPageX,config.weatherPageY,config.weatherPageSize,config.weatherConditionFontSize,config.weatherPageLayout,config.weatherPageFont,config.weatherPageColor,config.weatherIconStyle,config.weatherIconColorMode,config.weatherIconColor,config.weatherBackgroundMode,config.weatherBackgroundColor,config.weatherBackgroundImage,config.weatherAnimationEnabled===true,w.conditionCode,w.isDay,wx49ImageLuma.get(wxIconBg)]);
- if(page.dataset.weatherSignature===sig){v55mEnforceWeatherBackground();return;}
+ if(page.dataset.weatherSignature===sig){v55nApplyBackground();return;}
  page.dataset.weatherSignature=sig;
  page.replaceChildren();
  if(page.dataset.backgroundMode==='animated'){
@@ -852,7 +851,7 @@ function renderWeather(){
  sourceFoot.textContent='WeatherAPI.com · '+(stale?'이전 정보 · ':'')+'갱신 '+date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
  content.appendChild(sourceFoot);
  applyWeatherLayoutV43();
- v55mEnforceWeatherBackground();
+ v55nApplyBackground();
 }
 // V40: independent, single-endpoint JSONP transport. No overlapping requests.
 // V34 weatherCheck is known to return a flat object with ok, temperature, condition and humidity.
