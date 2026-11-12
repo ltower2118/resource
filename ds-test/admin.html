@@ -4987,7 +4987,7 @@ setTimeout(renderTab,300);window.addEventListener('pageshow',()=>setTimeout(rend
 (function(){'use strict';
 const $=id=>document.getElementById(id), ids=['weatherPageSize','weatherLocationFontSize','weatherExtraFontSize','weatherConditionFontSize','weatherPageLayout','r40TempScale','r40IconScale','r40ExtraScale'];
 const selectors={all:'#v43WeatherCard',temp:'#v43WeatherCard .v42-temp',location:'#v43WeatherCard .v42-place',extra:'#v43WeatherCard .v42-extra',condition:'#v43WeatherCard .v42-condition'};
-const panel=document.createElement('div');panel.id='r42Probe';panel.innerHTML='<strong>R42 날씨 편집 진단</strong><div><button id="r42Capture" type="button">현재 상태 검사</button><button id="r42Copy" type="button">결과 복사</button><button id="r42Hide" type="button">접기</button></div><pre id="r42Output">날씨 화면에서 요소를 누르거나 검사 버튼을 누르세요.</pre>';
+const panel=document.createElement('div');panel.id='r42Probe';panel.innerHTML='<strong>R49 날씨 편집 진단</strong><div><button id="r42Capture" type="button">현재 상태 검사</button><button id="r42Copy" type="button">결과 복사</button><button id="r42Hide" type="button">접기</button></div><pre id="r42Output">날씨 화면에서 요소를 누르거나 검사 버튼을 누르세요.</pre>';
 document.body.appendChild(panel);
 let role='all',last='';
 function inspect(){const preview=$('v42WeatherPreview'),card=$('v43WeatherCard');const input={};for(const id of ids)input[id]=$(id)?.value??null;
