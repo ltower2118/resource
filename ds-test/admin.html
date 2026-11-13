@@ -549,18 +549,6 @@ body.v51o-view-edit #v51pEditBar{display:flex}
 #v42SequencePanel #v42SequenceDurations .v33grid{gap:8px!important}
 #v51hMaintenancePanel p,#v51mShadowPanel p{line-height:1.55}
 
-body.v51p-compact.v51o-view-edit #v42ClockPanel .v44-weather-style,
-body.v51p-compact.v51o-view-edit #v42ClockPanel .v43-heading,
-body.v51p-compact.v51o-view-edit #v42ClockPanel .v43-layout,
-body.v51p-compact.v51o-view-edit #v42ClockPanel #v42ClockFormatSlot,
-body.v51p-compact.v51o-view-edit #v42ClockPanel #v42ClockBackgroundSlot,
-body.v51p-compact.v51o-view-edit #v42TextPanel #v51eMessageBgPanel,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v44-weather-style,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel #v49IconPanel,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v45-weather-background,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v43-heading,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v43-layout,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v42-refresh{display:none!important}
 #v42Dock{padding:7px 8px calc(7px + env(safe-area-inset-bottom))!important;gap:5px!important}
 #v42Dock>*{min-height:46px!important}
 #v51mCopyright{padding-top:15px!important;margin-bottom:6px!important}
@@ -1151,13 +1139,6 @@ body{background:#f0f4f9!important;color:#233952!important;}
 #v51uTabbed .v52n-fold-body>section{border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}
 #v51uTabbed .v52n-fold-body>div{max-width:100%}
 
-body.v51p-compact #v51uTabbed .v52n-fold[open] .v44-weather-style,
-body.v51p-compact #v51uTabbed .v52n-fold[open] .v43-layout,
-body.v51p-compact #v51uTabbed .v52n-fold[open] #v42ClockFormatSlot,
-body.v51p-compact #v51uTabbed .v52n-fold[open] #v42ClockBackgroundSlot,
-body.v51p-compact #v51uTabbed .v52n-fold[open] #v51eMessageBgPanel,
-body.v51p-compact #v51uTabbed .v52n-fold[open] #v49IconPanel,
-body.v51p-compact #v51uTabbed .v52n-fold[open] .v45-weather-background{display:block!important}
 @media(min-width:721px){#v51uTabbed .v52n-fold{margin:13px 0!important}}
 </style>
 
@@ -2311,7 +2292,7 @@ body.v51o-view-maintenance #previewSection .v52n-preview-title{display:block!imp
  <div id="v51oMenuHelp" class="o-help" aria-live="polite">편집할 화면을 선택하세요.</div>
  <div id="v51oState" class="o-status"><span class="o-indicator">● 현재 설정 확인 중</span><span class="o-detail">변경 후 저장</span></div>
 </section><div id="v51oSectionCaption" aria-live="polite"></div>
-<section id="v51rWorkspace" aria-label="화면 선택 및 편집 옵션"><div id="v51eLiveSequence" role="status" aria-live="polite" style="position:sticky;top:0;z-index:105;background:#153c76;color:white;padding:12px 15px;border-radius:10px;margin:8px 0 10px;font-weight:800;font-size:17px;box-shadow:0 3px 12px #153c7630">현재 화면 설정 확인 중…</div><div class="v52fPickerHeading"><span>편집할 화면</span><span class="v52fPickerHint">화면을 선택해 수정하세요</span></div><nav id="v42Tabs" role="tablist" aria-label="화면 편집 선택"><button type="button" role="tab" class="v42-tab active" data-v42tab="clock" aria-selected="true"><span>날짜·시간</span></button><button type="button" role="tab" class="v42-tab" data-v42tab="message" aria-selected="false"><span>문자</span></button><button type="button" role="tab" class="v42-tab" data-v42tab="weather" aria-selected="false"><span>날씨</span></button></nav><div id="v51pEditBar" role="group" aria-label="편집 옵션"><span id="v51pEditHint">자주 쓰는 설정만 표시</span><button type="button" id="v51pDetailsButton" aria-pressed="false">전체 설정 보기 <span aria-hidden="true">⌄</span></button></div></section><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
+<section id="v51rWorkspace" aria-label="화면 선택 및 편집 옵션"><div id="v51eLiveSequence" role="status" aria-live="polite" style="position:sticky;top:0;z-index:105;background:#153c76;color:white;padding:12px 15px;border-radius:10px;margin:8px 0 10px;font-weight:800;font-size:17px;box-shadow:0 3px 12px #153c7630">현재 화면 설정 확인 중…</div><div class="v52fPickerHeading"><span>편집할 화면</span><span class="v52fPickerHint">화면을 선택해 수정하세요</span></div><nav id="v42Tabs" role="tablist" aria-label="화면 편집 선택"><button type="button" role="tab" class="v42-tab active" data-v42tab="clock" aria-selected="true"><span>날짜·시간</span></button><button type="button" role="tab" class="v42-tab" data-v42tab="message" aria-selected="false"><span>문자</span></button><button type="button" role="tab" class="v42-tab" data-v42tab="weather" aria-selected="false"><span>날씨</span></button></nav></section><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  
  <div class="v33modegrid">
@@ -4199,23 +4180,6 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  setInterval(syncState,1200);
  switchView('edit',false);
  syncState();
-})();
-</script>
-<script id="v51pMobileDetailControl">
-/* V51P edit-level selector: changes layout visibility only, never settings or save payload. */
-(function(){
- const btn=document.getElementById('v51pDetailsButton');
- const hint=document.getElementById('v51pEditHint');
- if(!btn)return;
- document.body.classList.add('v51p-compact');
- function setFull(full){
-  document.body.classList.toggle('v51p-compact',!full);
-  btn.setAttribute('aria-pressed',String(full));
-  btn.innerHTML=full?'간편 편집으로 <span aria-hidden="true">⌃</span>':'전체 설정 보기 <span aria-hidden="true">⌄</span>';
-  hint.textContent=full?'모든 기존 기능 표시':'자주 쓰는 설정만 표시';
- }
- btn.addEventListener('click',function(){setFull(document.body.classList.contains('v51p-compact'));});
- setFull(false);
 })();
 </script>
 <script id="v51uConnectedTabsLogic">
