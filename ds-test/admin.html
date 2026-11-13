@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD-TEST 관리자 V55X-R73</title><style>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD-TEST 관리자 V55X-R76</title><style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}p{font-size:13px;color:#64748b;line-height:1.6}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}button:disabled{opacity:.5}.secondary{background:#e6edf6;color:#203452}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left}#pvBg,#pvShade{position:absolute;inset:0}#pvBg{background-size:cover;background-position:center}#pvShade{background:#000}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}#pvDate{position:absolute;font-weight:700;white-space:nowrap}
 #pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827}
 #pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere}#pvMessage.active{display:flex}#pvMessage b,#pvMessage strong{font-weight:900}#pvMessage u{text-decoration:underline}#pvMessage mark{background:#fff176;color:#111}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6}#messageEditor b,#messageEditor strong{font-weight:900}#messageEditor mark{background:#fff176;color:#111}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.editor-toolbar button{padding:8px 11px;font-size:13px}#previewStage{isolation:isolate}#pvMessage{z-index:5}#previewMode{font-weight:700;color:#18317a}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6}#status.error{background:#ffeaea;color:#a12b2b}#status.ok{background:#e6f5e9;color:#245d39}@media(max-width:540px){.grid{grid-template-columns:1fr}}
@@ -549,18 +549,6 @@ body.v51o-view-edit #v51pEditBar{display:flex}
 #v42SequencePanel #v42SequenceDurations .v33grid{gap:8px!important}
 #v51hMaintenancePanel p,#v51mShadowPanel p{line-height:1.55}
 
-body.v51p-compact.v51o-view-edit #v42ClockPanel .v44-weather-style,
-body.v51p-compact.v51o-view-edit #v42ClockPanel .v43-heading,
-body.v51p-compact.v51o-view-edit #v42ClockPanel .v43-layout,
-body.v51p-compact.v51o-view-edit #v42ClockPanel #v42ClockFormatSlot,
-body.v51p-compact.v51o-view-edit #v42ClockPanel #v42ClockBackgroundSlot,
-body.v51p-compact.v51o-view-edit #v42TextPanel #v51eMessageBgPanel,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v44-weather-style,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel #v49IconPanel,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v45-weather-background,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v43-heading,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v43-layout,
-body.v51p-compact.v51o-view-edit #v42WeatherPanel .v42-refresh{display:none!important}
 #v42Dock{padding:7px 8px calc(7px + env(safe-area-inset-bottom))!important;gap:5px!important}
 #v42Dock>*{min-height:46px!important}
 #v51mCopyright{padding-top:15px!important;margin-bottom:6px!important}
@@ -1151,13 +1139,6 @@ body{background:#f0f4f9!important;color:#233952!important;}
 #v51uTabbed .v52n-fold-body>section{border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}
 #v51uTabbed .v52n-fold-body>div{max-width:100%}
 
-body.v51p-compact #v51uTabbed .v52n-fold[open] .v44-weather-style,
-body.v51p-compact #v51uTabbed .v52n-fold[open] .v43-layout,
-body.v51p-compact #v51uTabbed .v52n-fold[open] #v42ClockFormatSlot,
-body.v51p-compact #v51uTabbed .v52n-fold[open] #v42ClockBackgroundSlot,
-body.v51p-compact #v51uTabbed .v52n-fold[open] #v51eMessageBgPanel,
-body.v51p-compact #v51uTabbed .v52n-fold[open] #v49IconPanel,
-body.v51p-compact #v51uTabbed .v52n-fold[open] .v45-weather-background{display:block!important}
 @media(min-width:721px){#v51uTabbed .v52n-fold{margin:13px 0!important}}
 </style>
 
@@ -2288,9 +2269,25 @@ body.v51o-view-maintenance #previewSection{display:none!important;}
  body.v51o-view-maintenance #v51hMaintenancePanel>textarea{display:block!important;width:calc(100% - 10px)!important;margin:0 5px!important;padding:10px!important;}
  body.v51o-view-maintenance #v51hMaintenancePanel>.buttons{margin:10px 5px!important;}
 }
-</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R65-20261110</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+</style><style id="v55xR74MaintenanceLiveLCD">
+/* Maintenance menu: show inline LCD preview; fullscreen only by explicit button. */
+body.v51o-view-maintenance #v51uTabbed #previewSection{display:block!important;visibility:visible!important;position:relative!important;margin:8px 0!important;padding:8px!important;}
+body.v51o-view-maintenance #previewSection .visual-preview-actions{display:none!important;}
+body.v51o-view-maintenance #previewSection .v52n-preview-title{display:block!important;}
+#v74MaintenanceLCD{position:absolute;inset:0;z-index:100;background:#10243a;color:white;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5%;overflow:hidden;pointer-events:none;}
+#v74MaintenanceLCD.active{display:flex!important;}
+#v74MaintenanceLCD strong{font-size:clamp(16px,3.8vw,42px);line-height:1.35;overflow-wrap:anywhere;max-width:100%;}
+#v74MaintenanceLCD p{font-size:clamp(11px,2.3vw,26px);color:#e5edf7;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin:10px 0 0;max-width:100%;}
+@media(max-width:720px){body.v51o-view-maintenance #v51uTabbed #previewSection{padding:8px!important;margin:8px 0!important;}#v74MaintenanceLCD strong{font-size:clamp(15px,4.5vw,28px)}#v74MaintenanceLCD p{font-size:clamp(10px,3vw,18px);margin-top:5px}}
+</style><style id="v55xR76UnifiedFoldFix">
+/* R76: all detailed settings are accessed through existing fold panels. */
+#v51pEditBar,#v51pDetailsButton,#v51pEditHint{display:none!important;}
+body.v51p-compact #v51uTabbed .v52n-fold-body,
+body.v51p-compact #v51uTabbed .v52n-fold[open] .v52n-fold-body{display:block!important;}
+</style>
+</head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div><main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R65-20261110</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
- <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V55X-R73</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+ <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V55X-R76</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -2301,7 +2298,7 @@ body.v51o-view-maintenance #previewSection{display:none!important;}
  <div id="v51oMenuHelp" class="o-help" aria-live="polite">편집할 화면을 선택하세요.</div>
  <div id="v51oState" class="o-status"><span class="o-indicator">● 현재 설정 확인 중</span><span class="o-detail">변경 후 저장</span></div>
 </section><div id="v51oSectionCaption" aria-live="polite"></div>
-<section id="v51rWorkspace" aria-label="화면 선택 및 편집 옵션"><div id="v51eLiveSequence" role="status" aria-live="polite" style="position:sticky;top:0;z-index:105;background:#153c76;color:white;padding:12px 15px;border-radius:10px;margin:8px 0 10px;font-weight:800;font-size:17px;box-shadow:0 3px 12px #153c7630">현재 화면 설정 확인 중…</div><div class="v52fPickerHeading"><span>편집할 화면</span><span class="v52fPickerHint">화면을 선택해 수정하세요</span></div><nav id="v42Tabs" role="tablist" aria-label="화면 편집 선택"><button type="button" role="tab" class="v42-tab active" data-v42tab="clock" aria-selected="true"><span>날짜·시간</span></button><button type="button" role="tab" class="v42-tab" data-v42tab="message" aria-selected="false"><span>문자</span></button><button type="button" role="tab" class="v42-tab" data-v42tab="weather" aria-selected="false"><span>날씨</span></button></nav><div id="v51pEditBar" role="group" aria-label="편집 옵션"><span id="v51pEditHint">자주 쓰는 설정만 표시</span><button type="button" id="v51pDetailsButton" aria-pressed="false">전체 설정 보기 <span aria-hidden="true">⌄</span></button></div></section><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
+<section id="v51rWorkspace" aria-label="화면 선택 및 편집 옵션"><div id="v51eLiveSequence" role="status" aria-live="polite" style="position:sticky;top:0;z-index:105;background:#153c76;color:white;padding:12px 15px;border-radius:10px;margin:8px 0 10px;font-weight:800;font-size:17px;box-shadow:0 3px 12px #153c7630">현재 화면 설정 확인 중…</div><div class="v52fPickerHeading"><span>편집할 화면</span><span class="v52fPickerHint">화면을 선택해 수정하세요</span></div><nav id="v42Tabs" role="tablist" aria-label="화면 편집 선택"><button type="button" role="tab" class="v42-tab active" data-v42tab="clock" aria-selected="true"><span>날짜·시간</span></button><button type="button" role="tab" class="v42-tab" data-v42tab="message" aria-selected="false"><span>문자</span></button><button type="button" role="tab" class="v42-tab" data-v42tab="weather" aria-selected="false"><span>날씨</span></button></nav></section><section id="previewSection"><div id="visualTools"><span id="vModeLabel" class="v-mode-label">시계 편집</span><button type="button" id="vClock">시계 편집</button><button type="button" id="vDate">날짜 편집</button><button type="button" id="vText">문자 화면</button><label>크기 <input type="number" id="vSize" min="12" max="600" value="100"></label><label>색상 <input type="color" id="vColor" value="#ffffff"></label><label>글꼴 <select id="vFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label class="v45-clock-bold" for="v45BoldToggle"><input type="checkbox" id="v45BoldToggle"> <b>굵게(B)</b></label><button type="button" id="vBold"><b>B</b></button><button type="button" id="vUnder"><u>U</u></button><button type="button" id="vLeft">왼쪽</button><button type="button" id="vCenter">가운데</button><button type="button" id="vRight">오른쪽</button></div><div id="v32FormatPanel">
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  
  <div class="v33modegrid">
@@ -4080,8 +4077,8 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  for(const el of [mode,title,txt])el.addEventListener('input',()=>{unsavedChanges=true;});
  const showMaintenancePreview=()=>{document.getElementById('v51kPreviewTitle').textContent=title.value.trim()||'안내 말씀';document.getElementById('v51hPreviewText').textContent=txt.value;layer.classList.add('show');document.getElementById('v51hPreviewClose').hidden=false;};
  // Checking the option immediately opens the local preview. LCD changes still require Save & Apply.
- mode.addEventListener('change',()=>{if(mode.checked)showMaintenancePreview();else close();});
- for(const el of [title,txt])el.addEventListener('input',()=>{if(layer.classList.contains('show')){document.getElementById('v51kPreviewTitle').textContent=title.value.trim()||'안내 말씀';document.getElementById('v51hPreviewText').textContent=txt.value;}});
+ mode.addEventListener('change',()=>{close(); if(typeof window.v74UpdateMaintenanceLCD==='function')window.v74UpdateMaintenanceLCD();});
+ for(const el of [title,txt])el.addEventListener('input',()=>{if(layer.classList.contains('show')){document.getElementById('v51kPreviewTitle').textContent=title.value.trim()||'안내 말씀';document.getElementById('v51hPreviewText').textContent=txt.value;} if(typeof window.v74UpdateMaintenanceLCD==='function')window.v74UpdateMaintenanceLCD();});
  document.getElementById('v51hPreview').onclick=showMaintenancePreview;
  document.getElementById('v51hPreviewClose').onclick=close;
  document.getElementById('v51hPreviewExit').onclick=close;
@@ -4189,23 +4186,6 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  setInterval(syncState,1200);
  switchView('edit',false);
  syncState();
-})();
-</script>
-<script id="v51pMobileDetailControl">
-/* V51P edit-level selector: changes layout visibility only, never settings or save payload. */
-(function(){
- const btn=document.getElementById('v51pDetailsButton');
- const hint=document.getElementById('v51pEditHint');
- if(!btn)return;
- document.body.classList.add('v51p-compact');
- function setFull(full){
-  document.body.classList.toggle('v51p-compact',!full);
-  btn.setAttribute('aria-pressed',String(full));
-  btn.innerHTML=full?'간편 편집으로 <span aria-hidden="true">⌃</span>':'전체 설정 보기 <span aria-hidden="true">⌄</span>';
-  hint.textContent=full?'모든 기존 기능 표시':'자주 쓰는 설정만 표시';
- }
- btn.addEventListener('click',function(){setFull(document.body.classList.contains('v51p-compact'));});
- setFull(false);
 })();
 </script>
 <script id="v51uConnectedTabsLogic">
@@ -5219,5 +5199,31 @@ setTimeout(renderTab,300);window.addEventListener('pageshow',()=>setTimeout(rend
   place();
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place,{once:true});
   window.addEventListener('pageshow',place);
+})();
+</script><script id="v55xR74MaintenanceLiveLogic">
+(function(){
+ const preview=document.getElementById('preview');
+ const mode=document.getElementById('v51hMaintenanceMode');
+ const title=document.getElementById('v51kMaintenanceTitle');
+ const text=document.getElementById('v51hMaintenanceText');
+ if(!preview||!mode||!title||!text)return;
+ const pane=document.createElement('div');pane.id='v74MaintenanceLCD';pane.setAttribute('aria-label','점검 안내 실시간 LCD 미리보기');
+ const heading=document.createElement('strong'),body=document.createElement('p');pane.append(heading,body);preview.appendChild(pane);
+ const update=()=>{
+  heading.textContent=title.value.trim()||'안내 말씀';
+  body.textContent=text.value;
+  pane.classList.toggle('active',mode.checked&&document.body.classList.contains('v51o-view-maintenance'));
+ };
+ window.v74UpdateMaintenanceLCD=update;
+ for(const el of [mode,title,text])el.addEventListener(el===mode?'change':'input',update);
+ const observer=new MutationObserver(update);observer.observe(document.body,{attributes:true,attributeFilter:['class']});
+ const originalFill=window.fill;
+ if(typeof originalFill==='function')window.fill=function(c){const result=originalFill.apply(this,arguments);update();return result;};
+ update();
+})();
+</script><script id="v55xR76CompactCleanup">
+(function(){
+ function cleanup(){document.body.classList.remove('v51p-compact');var bar=document.getElementById('v51pEditBar');if(bar)bar.remove();}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',cleanup,{once:true});else cleanup();
 })();
 </script></body></html>
