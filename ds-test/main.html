@@ -894,6 +894,9 @@ if(previewMode){
   // R132: set the forced landscape BEFORE apply() renders the first frame.
   window.__r131TestScene=(e.data.testScene && previewMode)?String(e.data.testScene):'';
   apply(e.data.config||{});
+  // R143: preview settings must paint the clock background too.
+  // Normal server refresh calls updateBackground(), but preview bypasses refresh.
+  updateBackground();
   // The sample is preview-only; never save it to server/device weather cache.
   const incoming=e.data.weatherData;
   if(incoming&&Number.isFinite(Number(incoming.temperature))){
