@@ -644,7 +644,7 @@ function submitSaveForm(payload){
   const form=document.createElement('form');form.method='POST';form.action=apiUrl();form.target=name;form.style.display='none';
   const field=document.createElement('input');field.type='hidden';field.name='payload';field.value=JSON.stringify(payload);form.appendChild(field);
   document.body.append(iframe,form);
-  if(!apiReady()||apiUrl().includes('AKfycbyu_8f6NIrFEZwayw1VLj3CaSjpN-PFI_-bQK8bYa28FbUHUkx-IgzrrqIAPFdpvZMQdg'))throw Error('독립 테스트 서버 주소가 필요합니다. 운영 서버 저장은 차단했습니다.');form.submit();
+  if(!apiReady())throw Error('설정 서버 주소를 확인하세요. 저장 요청은 보내지 않았습니다.');form.submit();
   setTimeout(()=>{form.remove();iframe.remove()},90000);
 }
 function querySaveStatus(requestId,timeoutMs=12000){
