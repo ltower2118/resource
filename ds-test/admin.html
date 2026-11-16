@@ -291,9 +291,24 @@ body:not(.v51o-view-maintenance) #v74MaintenanceLCD{display:none!important;visib
 #v53aAnimationModal #v53aAboutAnimation,
 #v53aAnimationModal .v53a-description>small{display:none!important;}
 #v53aAnimationModal .v53a-description{padding-top:8px!important;padding-bottom:8px!important;}
-</style><style id="r139-popup-clean-final">/* Only hide informational UI; keep JS targets and loading checks intact. */
-#v53aAnimationModal .v53a-description,
-#v53aAnimationModal #v53aStage > .v53a-overlay{display:none!important;}
+</style><style id="r139WeatherFiveGroupsStyle">
+#v42WeatherPanel .r139-wx-group{border:1px solid #cbd9e7;border-radius:12px;margin:10px 0;background:#fff;overflow:hidden}
+#v42WeatherPanel .r139-wx-group>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;min-height:53px;padding:13px 15px;background:#edf3fa;color:#143b63;font-size:16px;font-weight:850}
+#v42WeatherPanel .r139-wx-group>summary::-webkit-details-marker{display:none}
+#v42WeatherPanel .r139-wx-group>summary:after{content:'+';margin-left:auto;font-size:23px;line-height:1}
+#v42WeatherPanel .r139-wx-group[open]>summary:after{content:'−'}
+#v42WeatherPanel .r139-wx-group[open]>summary{background:#e5eff9;border-bottom:1px solid #cfdfed}
+#v42WeatherPanel .r139-wx-content{padding:12px;display:grid;gap:10px;min-width:0}
+#v42WeatherPanel .r139-wx-sub{font-size:15px;font-weight:800;color:#173b63;margin:10px 0 0;padding:8px 10px;background:#f2f6fb;border-left:3px solid #1d5c90;border-radius:5px}
+#v42WeatherPanel .r139-wx-content>.v42-refresh{margin:0!important;padding:0!important;border:0!important}
+#v42WeatherPanel .r139-wx-content #v47LocationPanel{margin:0}
+#v42WeatherPanel .r139-wx-content #weatherFields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#v42WeatherPanel .r139-wx-content #weatherFields label{display:flex;align-items:center;gap:7px;background:#f2f6fb;border-radius:8px;padding:10px;margin:0}
+#v42WeatherPanel .r139-wx-content #weatherFields input{min-height:0;width:auto}
+#v42WeatherPanel .r139-wx-content .r139-location-check{background:#f2f6fb;padding:10px;border-radius:8px;margin:0}
+#v42WeatherPanel .r139-wx-content .r139-location-check input{width:auto;min-height:0}
+#v42WeatherPanel .r139-wx-content .v45-weather-background,#v42WeatherPanel .r139-wx-content #v49IconPanel{margin:0}
+@media(max-width:550px){#v42WeatherPanel .r139-wx-content{padding:9px}#v42WeatherPanel .r139-wx-content #weatherFields{grid-template-columns:1fr}}
 </style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div>
   <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R139</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
@@ -3495,4 +3510,53 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(move,0));else setTimeout(move,0);
 })();
-</script><script id="r130-test-launch-script">(function(){function init(){const guide=document.getElementById('v53aAnimationGuide');const b=document.getElementById('r130TestLaunch'),n=document.getElementById('r130TestNote');if(guide&&b&&n){guide.appendChild(n);guide.appendChild(b)}if(b)b.addEventListener('click',()=>document.getElementById('v53aShowAll')?.click());}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init()})();</script></body></html>
+</script><script id="r130-test-launch-script">(function(){function init(){const guide=document.getElementById('v53aAnimationGuide');const b=document.getElementById('r130TestLaunch'),n=document.getElementById('r130TestNote');if(guide&&b&&n){guide.appendChild(n);guide.appendChild(b)}if(b)b.addEventListener('click',()=>document.getElementById('v53aShowAll')?.click());}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init()})();</script><script id="r139WeatherFiveGroupsScript">
+(function(){
+function arrange(){
+ const panel=document.getElementById('v42WeatherPanel');
+ if(!panel||panel.querySelector('#r139WeatherFiveGroups'))return;
+ const $=id=>document.getElementById(id);
+ const direct=Array.from(panel.children);
+ const root=document.createElement('div');root.id='r139WeatherFiveGroups';
+ function group(title){const d=document.createElement('details');d.className='r139-wx-group';const sm=document.createElement('summary');sm.textContent=title;const body=document.createElement('div');body.className='r139-wx-content';d.append(sm,body);root.appendChild(d);return body}
+ function heading(body,label){const h=document.createElement('div');h.className='r139-wx-sub';h.textContent=label;body.appendChild(h)}
+ function move(body,node){if(node)body.appendChild(node)}
+ const data=group('1. 날씨 데이터 제공');
+ const refresh=direct.find(x=>x.classList&&x.classList.contains('v42-refresh'));
+ const source=$('r115SourceBox'),diag=$('r116WeatherDiagnostics');
+ heading(data,'날씨 데이터 제공처');move(data,source);
+ heading(data,'날씨 제공처 연결 진단');move(data,diag);
+ heading(data,'날씨 갱신 주기');
+ if(refresh){move(data,refresh);}
+ const actions=direct.find(x=>x.classList&&x.classList.contains('v42-weather-actions'));
+ heading(data,'현재 날씨 확인');move(data,actions);
+ heading(data,'날씨 지역');
+ const old=$('weatherSection');
+ if(old){
+  const city=$('weatherCity');if(city&&city.closest('label'))move(data,city.closest('label'));
+  move(data,$('v47LocationPanel'));
+  const fields=$('weatherFields');
+  heading(data,'표시할 날씨 정보');move(data,fields);
+  const location=$('weatherShowLocation');
+  const locLabel=location&&location.closest('label');
+  if(locLabel){locLabel.classList.add('r139-location-check');move(data,locLabel)}
+  const preview=$('v33PreviewWeather');if(preview){const row=preview.closest('.buttons');move(data,row)}
+ }
+ const icon=group('2. 날씨 아이콘 스타일');move(icon,$('v49IconPanel'));
+ const bg=group('3. 날씨 배경 및 애니메이션');move(bg,direct.find(x=>x.classList&&x.classList.contains('v45-weather-background')));
+ const layout=group('4. 날씨 레이아웃 · 위치 · 전체 크기');
+ move(layout,direct.find(x=>x.classList&&x.classList.contains('v51x-selector')));
+ move(layout,direct.find(x=>x.classList&&x.classList.contains('v43-heading')));
+ move(layout,direct.find(x=>x.classList&&x.classList.contains('v43-layout')));
+ move(layout,direct.find(x=>x.classList&&x.classList.contains('v43-hint')));
+ const effect=group('5. 날씨 표시 효과');
+ move(effect,direct.find(x=>x.classList&&x.classList.contains('v44-weather-style')));
+ const remaining=direct.find(x=>x.tagName==='LABEL'&&x.querySelector('#weatherShowLocation'));
+ if(remaining){remaining.classList.add('r139-location-check');move(data,remaining)}
+ const slot=$('v42WeatherSlot');
+ if(slot){data.insertBefore(slot,data.firstChild)}
+ panel.appendChild(root);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(arrange,600));else setTimeout(arrange,600);
+})();
+</script></body></html>
