@@ -812,10 +812,10 @@ async function save(){
       tag.onerror=()=>doneNow(Error('서버 버전 확인 실패'));
       tag.src=apiUrl()+'?action=health&callback='+cb+'&_='+Date.now();document.head.appendChild(tag);
     });
-    if(!info||!['LCD-TEST-V52Y-20261108','LCD-TEST-V55Q-20261110','LCD-TEST-V55R-20261110','LCD-TEST-V55X-R2-20261110','LCD-TEST-V55X-R103'].includes(info.version)){
+    if(!info||!['LCD-TEST-V52Y-20261108','LCD-TEST-V55Q-20261110','LCD-TEST-V55R-20261110','LCD-TEST-V55X-R2-20261110','LCD-TEST-V55X-R103','LCD-DS-R140-WEATHER-20261116'].includes(info.version)){
       const real=String(info&&info.version||'확인 불가');
-      v30Diagnostic('서버 기능 호환성 확인 실패\n현재 서버 코드: '+real+'\n지원 서버 코드: V52Y / V55Q / V55R / V55V / LCD-TEST-V55X-R103\n현재 배포 버전과 관리자 코드를 확인하세요. 저장 요청은 보내지 않았습니다.');
-      message('TEST 서버 버전 불일치: '+real+' (지원: V52Y / V55Q / V55R / V55V / LCD-TEST-V55X-R103). 저장 요청은 보내지 않았습니다.','error');
+      v30Diagnostic('서버 기능 호환성 확인 실패\n현재 서버 코드: '+real+'\n지원 서버 코드: V52Y / V55Q / V55R / V55X / LCD-DS-R140-WEATHER-20261116\n현재 배포 버전과 관리자 코드를 확인하세요. 저장 요청은 보내지 않았습니다.');
+      message('TEST 서버 버전 불일치: '+real+' (지원: V52Y / V55Q / V55R / V55X / R140). 저장 요청은 보내지 않았습니다.','error');
       return;
     }
   } catch(e){v30Diagnostic('V51N 서버 배포 버전 검사 오류: '+e.message);message('서버 버전 확인 실패: '+e.message+' · 저장 요청은 보내지 않았습니다.','error');return;}
@@ -3446,10 +3446,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   const finish=(d,error)=>{if(finished)return;finished=true;clearTimeout(timer);tag.remove();try{delete window[cb]}catch(_){}btn.disabled=false;
    if(error){out.textContent='조회 실패: '+error;return;}
    const name=s=>s==='kma'?'기상청':s==='weatherapi'?'WeatherAPI':'확인 불가';
-   out.textContent='저장된 제공처: '+name(d.selectedSource)+'\n실제 응답: '+name(d.actualSource)+'\n연결 상태: '+(d.ok&&(d.sourceMatched===true||d.sourceMatches===true)?'정상 · 제공처 일치':'오류 또는 제공처 불일치')+'\n기온: '+(d.temperature??'-')+'°C / 습도: '+(d.humidity??'-')+'% / 풍속: '+(d.windKph??'-')+'km/h\n날씨: '+(d.condition||'-')+'\n기상청 실황 기준: '+(d.observedAt||'-')+' / 예보 기준: '+(d.forecastAt||'-')+'\n서버 버전: '+(d.serverVersion||'-')+(d.error?'\n오류: '+d.error:'');
+   out.textContent='저장된 제공처: '+name(d.selectedSource)+'\n실제 응답: '+name(d.actualSource)+'\n연결 상태: '+(d.ok&&d.sourceMatches?'정상 · 제공처 일치':'오류 또는 제공처 불일치')+'\n기온: '+(d.temperature??'-')+'°C / 습도: '+(d.humidity??'-')+'% / 풍속: '+(d.windKph??'-')+'km/h\n날씨: '+(d.condition||'-')+'\n기상청 실황 기준: '+(d.observedAt||'-')+' / 예보 기준: '+(d.forecastAt||'-')+'\n서버 버전: '+(d.serverVersion||'-')+(d.error?'\n오류: '+d.error:'');
   };
   const timer=setTimeout(()=>finish(null,'서버 응답 시간 초과'),18000);window[cb]=d=>finish(d);tag.onerror=()=>finish(null,'서버 연결 실패');
-  try{tag.src=apiUrl()+'?action=weatherCheck&callback='+encodeURIComponent(cb)+'&_='+Date.now();document.head.appendChild(tag)}catch(e){finish(null,String(e.message||e))}
+  try{tag.src=apiUrl()+'?action=weatherDiagnostics&callback='+encodeURIComponent(cb)+'&_='+Date.now();document.head.appendChild(tag)}catch(e){finish(null,String(e.message||e))}
  });
 })();
 </script><script id="v55x-r117-weather-controls-order">
