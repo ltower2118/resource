@@ -16,9 +16,7 @@ body[data-lcd-effect="none"] #messageScreen,body[data-lcd-effect="none"] #messag
 #weatherScreen[data-weather-background-mode="color"] > .v55h-forest-shade,
 #weatherScreen[data-weather-background-mode="image"] > .v55h-forest-photo,
 #weatherScreen[data-weather-background-mode="image"] > .v55h-forest-shade{display:none!important;}#weatherScreen[data-weather-background-mode="color"],
-#weatherScreen[data-weather-background-mode="image"]{background-size:cover;background-position:center;background-repeat:no-repeat;}</style><style id="v55x-r102-realistic-rain">
-/* Rain-only layered streaks: override legacy thin/low-opacity rain styles. */
-#weatherScreen #wx50Scene.wx50-rain .wx50-drop,
+#weatherScreen[data-weather-background-mode="image"]{background-size:cover;background-position:center;background-repeat:no-repeat;}</style><style id="v55x-r102-realistic-rain">#weatherScreen #wx50Scene.wx50-rain .wx50-drop,
 #weatherScreen #wx50Scene.wx50-showers .wx50-drop,
 #weatherScreen #wx50Scene.wx50-drizzle .wx50-drop{
   width:var(--rain-width,2.4px)!important;
@@ -40,17 +38,12 @@ body[data-lcd-effect="none"] #messageScreen,body[data-lcd-effect="none"] #messag
   from{transform:translate3d(2vw,-15vh,0) rotate(11deg)}
   to{transform:translate3d(-10vw,120vh,0) rotate(11deg)}
 }
-@media (prefers-reduced-motion:reduce){#weatherScreen #wx50Scene .wx50-drop{animation:none!important;}}
-</style><style id="r109MainTextStyle">
-.r109-lcd-text{position:absolute;z-index:22;transform:translate(-50%,-50%);white-space:pre-wrap;overflow-wrap:anywhere;max-width:92%;text-align:center;line-height:1.25;pointer-events:none;text-shadow:0 2px 8px #000a}
+@media (prefers-reduced-motion:reduce){#weatherScreen #wx50Scene .wx50-drop{animation:none!important;}}</style><style id="r109MainTextStyle">.r109-lcd-text{position:absolute;z-index:22;transform:translate(-50%,-50%);white-space:pre-wrap;overflow-wrap:anywhere;max-width:92%;text-align:center;line-height:1.25;pointer-events:none;text-shadow:0 2px 8px #000a}
 #r109ClockText{position:fixed;z-index:7;opacity:0;transition:opacity var(--lcd-transition-ms) ease}
 body[data-lcd-screen="clock"] #r109ClockText{opacity:1}
 #r109WeatherText{position:fixed;z-index:24;opacity:0;transition:opacity var(--lcd-transition-ms) ease}
 body[data-lcd-screen="weather"] #r109WeatherText{opacity:1}body:has(#v51hMaintenance[aria-hidden="false"]) #r109WeatherText,body:has(#v51hMaintenance[aria-hidden="false"]) #r109ClockText{opacity:0!important}
-body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}
-</style><style id="v55x-r120-night-sky">
-/* Only the clear-night weather animation. No effect on other weather scenes. */
-#weatherScreen #wx50Scene.wx50-moon{background:radial-gradient(ellipse at 52% 112%,#203f70 0%,#0b244b 48%,#04112c 100%)!important;overflow:hidden!important;}
+body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style><style id="v55x-r120-night-sky">#weatherScreen #wx50Scene.wx50-moon{background:radial-gradient(ellipse at 52% 112%,#203f70 0%,#0b244b 48%,#04112c 100%)!important;overflow:hidden!important;}
 #weatherScreen #wx50Scene.wx50-moon .wx50-moon-disc,#weatherScreen #wx50Scene.wx50-moon .wx50-star{display:none!important;}
 #weatherScreen #wx50Scene.wx50-moon .r120-night-stars{position:absolute;inset:-18%;z-index:2;pointer-events:none;transform-origin:center;animation:r120-sky-rotate 540s linear infinite;}
 #weatherScreen #wx50Scene.wx50-moon .r120-night-star{position:absolute;display:block;width:var(--star-size,1.4px);height:var(--star-size,1.4px);border-radius:50%;background:#dbe9ff;opacity:var(--star-alpha,.25);animation:r120-twinkle var(--twinkle-time,15s) ease-in-out infinite;animation-delay:var(--twinkle-delay,0s);}
@@ -59,7 +52,7 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}
 @keyframes r120-twinkle{0%,100%{opacity:calc(var(--star-alpha,.25)*.45)}48%{opacity:var(--star-alpha,.25)}65%{opacity:calc(var(--star-alpha,.25)*.65)}}
 @media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-moon .r120-night-stars,#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:none!important}}
 
-/* R123: quiet moonless meadow at the bottom quarter; original landscape artwork in CSS/SVG. */
+
 #weatherScreen #wx50Scene.wx50-moon .r121-meadow{position:absolute;inset:auto 0 0;height:26%;z-index:5;pointer-events:none;overflow:hidden;background:linear-gradient(180deg,transparent 0%,rgba(20,57,47,.15) 12%,rgba(26,67,52,.58) 40%,#12352d 100%);}
 #weatherScreen #wx50Scene.wx50-moon .r121-meadow:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 25% at 27% 45%,rgba(96,145,94,.32),transparent 95%),radial-gradient(ellipse 55% 25% at 77% 65%,rgba(70,126,82,.27),transparent 95%),linear-gradient(180deg,transparent 25%,rgba(4,25,34,.25) 95%);}
 #weatherScreen #wx50Scene.wx50-moon .r122-ground{position:absolute;inset:0;width:100%;height:100%;opacity:.9;}
@@ -67,52 +60,36 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}
 #weatherScreen #wx50Scene.wx50-moon .r121-constellation{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:.46;pointer-events:none;}
 #weatherScreen #wx50Scene.wx50-moon .r121-constellation line{stroke:#a9c9f2;stroke-width:.055;opacity:.17;}
 #weatherScreen #wx50Scene.wx50-moon .r121-constellation circle{fill:#e6f4ff;filter:drop-shadow(0 0 1px #d6e9ff);}
-#weatherScreen #wx50Scene.wx50-moon .r120-night-glow{box-shadow:0 0 4px 1px #bdd9ff48;}
-</style><style id="r123-realistic-landscape">
-#weatherScreen #wx50Scene.wx50-moon .r121-meadow{background:transparent!important;height:27%!important;}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-glow{box-shadow:0 0 4px 1px #bdd9ff48;}</style><style id="r123-realistic-landscape">#weatherScreen #wx50Scene.wx50-moon .r121-meadow{background:transparent!important;height:27%!important;}
 #weatherScreen #wx50Scene.wx50-moon .r121-meadow:before{display:none!important;}
 #weatherScreen #wx50Scene.wx50-moon .r122-ground{opacity:1!important;filter:none!important;shape-rendering:geometricPrecision;}
-#weatherScreen #wx50Scene.wx50-moon .r121-grass{display:none!important;}
-</style><style id="r124-natural-grass-and-stars">
-#weatherScreen #wx50Scene.wx50-moon .r121-meadow{height:27%!important;background:none!important;filter:none!important}
+#weatherScreen #wx50Scene.wx50-moon .r121-grass{display:none!important;}</style><style id="r124-natural-grass-and-stars">#weatherScreen #wx50Scene.wx50-moon .r121-meadow{height:27%!important;background:none!important;filter:none!important}
 #weatherScreen #wx50Scene.wx50-moon .r121-meadow:before{display:none!important}
 #weatherScreen #wx50Scene.wx50-moon .r122-ground{opacity:1!important;filter:none!important;shape-rendering:geometricPrecision}
 #weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:r124-starlight var(--twinkle-time,5s) ease-in-out infinite!important;animation-delay:var(--twinkle-delay,0s)!important;box-shadow:0 0 3px rgba(185,219,255,.35)}
 #weatherScreen #wx50Scene.wx50-moon .r120-night-glow{box-shadow:0 0 5px 1px rgba(204,231,255,.75),0 0 13px 2px rgba(126,179,245,.35)!important}
 @keyframes r124-starlight{0%,100%{opacity:.10;transform:scale(.65)}25%{opacity:calc(var(--star-alpha,.4)*.65);transform:scale(.9)}48%{opacity:1;transform:scale(1.55)}66%{opacity:calc(var(--star-alpha,.4)*.5);transform:scale(.8)}83%{opacity:.22;transform:scale(.72)}}
-@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:none!important;opacity:.45!important}}
-</style><style id="r125-static-landscape">
-#weatherScreen #wx50Scene.wx50-moon .r121-meadow{position:absolute!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:3!important;overflow:hidden!important;background:transparent!important;pointer-events:none!important}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:none!important;opacity:.45!important}}</style><style id="r125-static-landscape">#weatherScreen #wx50Scene.wx50-moon .r121-meadow{position:absolute!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:3!important;overflow:hidden!important;background:transparent!important;pointer-events:none!important}
 #weatherScreen #wx50Scene.wx50-moon .r125-landscape{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:none!important;transform:none!important;animation:none!important;pointer-events:none}
 #weatherScreen #wx50Scene.wx50-moon .r122-ground,#weatherScreen #wx50Scene.wx50-moon .r121-grass{display:none!important}
-#weatherScreen #wx50Scene.wx50-moon .r120-night-stars{z-index:2!important}
-</style><style id="r126-clear-night-fix">
-/* Exact approved meadow artwork remains static. Stars are above its opaque sky. */
-#weatherScreen #wx50Scene.wx50-moon .r121-meadow{z-index:1!important;}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-stars{z-index:2!important}</style><style id="r126-clear-night-fix">#weatherScreen #wx50Scene.wx50-moon .r121-meadow{z-index:1!important;}
 #weatherScreen #wx50Scene.wx50-moon .r125-landscape{object-position:center!important;}
 #weatherScreen #wx50Scene.wx50-moon .r120-night-stars{z-index:4!important;inset:-12%!important;animation-duration:420s!important;mask-image:linear-gradient(to bottom,#000 0%,#000 64%,transparent 81%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 64%,transparent 81%);}
 #weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation-name:r126-starlight!important;box-shadow:0 0 3px rgba(210,232,255,.35);}
 #weatherScreen #wx50Scene.wx50-moon .r120-night-glow{box-shadow:0 0 6px 1px rgba(223,240,255,.86),0 0 15px 2px rgba(143,194,255,.36)!important;}
 #weatherScreen #wx50Scene.wx50-moon .r121-constellation{opacity:.62!important;}
 @keyframes r126-starlight{0%,100%{opacity:.12;transform:scale(.7)}18%{opacity:calc(var(--star-alpha,.4)*.75);transform:scale(.95)}42%{opacity:1;transform:scale(1.85)}58%{opacity:calc(var(--star-alpha,.4)*.45);transform:scale(.85)}79%{opacity:.75;transform:scale(1.25)}}
-@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-moon .r120-night-stars,#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:none!important;opacity:.55!important}}
-</style><style id="r129-sky-landscape">
-/* R129: landscape overlays are exclusive to clear twilight and cloudy scenes. */
-#wx50Scene .r129-landscape{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;pointer-events:none;animation:none!important;filter:none!important}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-moon .r120-night-stars,#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:none!important;opacity:.55!important}}</style><style id="r129-sky-landscape">#wx50Scene .r129-landscape{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;pointer-events:none;animation:none!important;filter:none!important}
 #wx50Scene.r129-sunrise .wx50-sun-disc,#wx50Scene.r129-sunset .wx50-sun-disc{display:none!important}
 #wx50Scene.r129-overcast .wx50-cloud{opacity:.08!important}
-#wx50Scene.r129-sunrise::before,#wx50Scene.r129-sunset::before,#wx50Scene.r129-overcast::before{display:none!important}
-</style><style id="r133-clear-day-sky">
-/* R133: same night meadow photograph, brighter daytime sky, animated clouds. */
-#weatherScreen #wx50Scene.wx50-sun.r133-clear-day{background:#174b88!important;}
+#wx50Scene.r129-sunrise::before,#wx50Scene.r129-sunset::before,#wx50Scene.r129-overcast::before{display:none!important}</style><style id="r133-clear-day-sky">#weatherScreen #wx50Scene.wx50-sun.r133-clear-day{background:#174b88!important;}
 #weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:none;z-index:0;pointer-events:none;}
 #weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-sky{position:absolute;inset:0 0 22%;background:linear-gradient(180deg,rgba(25,91,160,.65),rgba(35,112,190,.38) 62%,rgba(65,140,202,.05));z-index:1;pointer-events:none;}
 #weatherScreen #wx50Scene.wx50-sun.r133-clear-day .wx50-sun-disc{z-index:3!important;left:12%!important;top:14%!important;width:11vmin!important;height:11vmin!important;background:#fff4c0!important;opacity:.92!important;box-shadow:0 0 35px 12px #ffe9a18a,0 0 95px 34px #ffe9a13c!important;}
 #weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-cloud{position:absolute;z-index:3;left:-25%;width:var(--cloud-width,22%);height:var(--cloud-height,5%);top:var(--cloud-top,20%);background:radial-gradient(ellipse at 30% 60%,#ffffff94 0%,#ffffff5b 35%,transparent 75%),radial-gradient(ellipse at 65% 40%,#ffffff90 0%,#ffffff48 40%,transparent 80%);opacity:var(--cloud-alpha,.48);filter:blur(8px);border-radius:60%;animation:r133-cloud-pass var(--cloud-duration,130s) linear infinite;animation-delay:var(--cloud-delay,0s);pointer-events:none;}
 #weatherScreen #wx50Scene.wx50-sun.r133-clear-day::before,#weatherScreen #wx50Scene.wx50-sun.r133-clear-day::after{display:none!important;}
 @keyframes r133-cloud-pass{from{transform:translate3d(0,0,0)}to{transform:translate3d(145vw,0,0)}}
-@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-cloud{animation:none!important;left:35%!important;}}
-</style><style id="r134-static-clear-day">#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .wx50-sun-disc,#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-cloud,#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-sky{display:none!important;animation:none!important}#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-photo{filter:none!important}</style><style id="r136-weather-photo-style">#weatherScreen #wx50Scene .r136-weather-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;animation:none!important;filter:none!important}#weatherScreen #wx50Scene .r136-weather-photo~.wx50-cloud,#weatherScreen #wx50Scene .r136-weather-photo~.wx50-drop,#weatherScreen #wx50Scene .r136-weather-photo~.wx50-flake{z-index:2}</style><style id="r138-winter-thunder-fix">#weatherScreen #wx50Scene.wx50-sleet .wx50-drop{display:none!important}#weatherScreen #wx50Scene.wx50-sleet .wx50-flake{animation-name:wx50-snowfall!important}#weatherScreen #wx50Scene.wx50-blizzard .wx50-flake{animation-name:v53b-blizzard-fall!important}#weatherScreen #wx50Scene.wx50-snow .wx50-flake,#weatherScreen #wx50Scene.wx50-sleet .wx50-flake{opacity:.85!important}#weatherScreen #wx50Scene.wx50-blizzard .wx50-flake{opacity:.95!important}#weatherScreen #wx50Scene.wx50-thunder .wx50-electric{z-index:5!important}#weatherScreen #wx50Scene.wx50-thunder .wx50-electric-haze{z-index:4!important}</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R139</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-cloud{animation:none!important;left:35%!important;}}</style><style id="r134-static-clear-day">#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .wx50-sun-disc,#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-cloud,#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-sky{display:none!important;animation:none!important}#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-photo{filter:none!important}</style><style id="r136-weather-photo-style">#weatherScreen #wx50Scene .r136-weather-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;animation:none!important;filter:none!important}#weatherScreen #wx50Scene .r136-weather-photo~.wx50-cloud,#weatherScreen #wx50Scene .r136-weather-photo~.wx50-drop,#weatherScreen #wx50Scene .r136-weather-photo~.wx50-flake{z-index:2}</style><style id="r138-winter-thunder-fix">#weatherScreen #wx50Scene.wx50-sleet .wx50-drop{display:none!important}#weatherScreen #wx50Scene.wx50-sleet .wx50-flake{animation-name:wx50-snowfall!important}#weatherScreen #wx50Scene.wx50-blizzard .wx50-flake{animation-name:v53b-blizzard-fall!important}#weatherScreen #wx50Scene.wx50-snow .wx50-flake,#weatherScreen #wx50Scene.wx50-sleet .wx50-flake{opacity:.85!important}#weatherScreen #wx50Scene.wx50-blizzard .wx50-flake{opacity:.95!important}#weatherScreen #wx50Scene.wx50-thunder .wx50-electric{z-index:5!important}#weatherScreen #wx50Scene.wx50-thunder .wx50-electric-haze{z-index:4!important}</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R139</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -354,7 +331,7 @@ function wx50MountScene(page,code,isDay,sceneConfig=config){
   for(const points of shapes){for(let i=1;i<points.length;i++){const line=document.createElementNS(NS,'line');line.setAttribute('x1',points[i-1][0]);line.setAttribute('y1',points[i-1][1]);line.setAttribute('x2',points[i][0]);line.setAttribute('y2',points[i][1]);constellation.appendChild(line)}for(const [x,y] of points){const star=document.createElementNS(NS,'circle');star.setAttribute('cx',x);star.setAttribute('cy',y);star.setAttribute('r','.15');constellation.appendChild(star)}}
   const meadow=document.createElement('div');meadow.className='r121-meadow';scene.appendChild(meadow);
   const landscape=document.createElement('img');landscape.className='r125-landscape';landscape.alt='';landscape.decoding='async';landscape.src='images/weather_clear_night.webp';meadow.appendChild(landscape);
-  const grass=document.createDocumentFragment();for(let i=0;i<0;i++){const blade=document.createElement('span');blade.className='r121-grass';blade.style.left=((i*79.37+11)%100)+'%';blade.style.setProperty('--grass-bottom',((i*13)%55)+'%');blade.style.setProperty('--blade-height',(5+(i*19)%27)+'px');blade.style.setProperty('--grass-width',i%4===0?'2px':'1px');blade.style.setProperty('--blade-angle',(((i*17)%69)-34)+'deg');blade.style.setProperty('--blade-alpha',(.13+(i%7)*.065).toFixed(2));grass.appendChild(blade)}/* R123: detailed vector grass is already in the SVG; legacy artificial blades omitted. */
+  /* Legacy zero-iteration grass generator removed; landscape WebP remains unchanged. */
  }
  // V50C rain remains unchanged. More clouds elsewhere, but keep them small and transparent.
  const clouds=['rain','drizzle','showers','sleet'].includes(kind)?1:kind==='partly'?2:kind==='cloud'||kind==='mist'?2:kind==='thunder'?2:['snow','blizzard'].includes(kind)?1:0;
