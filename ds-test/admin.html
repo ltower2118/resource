@@ -285,6 +285,12 @@ body:not(.v51o-view-maintenance) #v74MaintenanceLCD{display:none!important;visib
 #wx50Scene.r129-sunrise .wx50-sun-disc,#wx50Scene.r129-sunset .wx50-sun-disc{display:none!important}
 #wx50Scene.r129-overcast .wx50-cloud{opacity:.08!important}
 #wx50Scene.r129-sunrise::before,#wx50Scene.r129-sunset::before,#wx50Scene.r129-overcast::before{display:none!important}
+</style><style id="r139-clean-weather-popup">/* Hide informational labels only; preserve DOM and JS image diagnostics. */
+#v53aAnimationModal #v53aStageCaption,
+#v53aAnimationModal #v53aAboutWeather,
+#v53aAnimationModal #v53aAboutAnimation,
+#v53aAnimationModal .v53a-description>small{display:none!important;}
+#v53aAnimationModal .v53a-description{padding-top:8px!important;padding-bottom:8px!important;}
 </style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div>
   <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R139</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
