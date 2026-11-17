@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V55X-R168</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}body:hover #full,#full:focus{opacity:1;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;z-index:60;font:12px Arial,sans-serif;color:#fff;background:#0008;padding:5px 8px;border-radius:5px;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V55X-R169</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}body:hover #full,#full:focus{opacity:1;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;z-index:60;font:12px Arial,sans-serif;color:#fff;background:#0008;padding:5px 8px;border-radius:5px;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
 body[data-lcd-screen="message"] #time,body[data-lcd-screen="message"] #date{opacity:0!important;}body[data-lcd-screen="clock"] #messageScreen,body[data-lcd-screen="clock"] #messageBlocks{opacity:0!important;}body[data-lcd-screen="message"] #messageScreen.active,body[data-lcd-screen="message"] #messageBlocks.active{opacity:1!important;}body[data-lcd-effect="slide"][data-lcd-screen="message"] #bg,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #shade,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #time,
@@ -168,7 +168,7 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
   #weatherScreen #wx50Scene .wx50-drop,
   #weatherScreen #wx50Scene .wx50-flake{animation:none!important;}
 }
-</style><style id="r168-particle-engine-css">
+</style><style id="r169-particle-engine-css">
 /* R167: CSS looping disabled; per-particle motion is managed independently. */
 #weatherScreen #wx50Scene .wx50-drop,
 #weatherScreen #wx50Scene .wx50-flake {
@@ -177,7 +177,7 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
  top:0!important; will-change:transform;
 }
 @media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene .wx50-drop,#weatherScreen #wx50Scene .wx50-flake{display:none!important}}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R168</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R169</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -261,36 +261,54 @@ window.addEventListener('error',function(e){
    window.lcdRecoveryLogV52T('JS',e.target&&e.target.tagName==='SCRIPT'?'필수 스크립트 로딩 실패':'실행 오류: '+String(e.message||'알 수 없음'));
  },true);
 })();
-</script><script id="r168-independent-particle-engine">
+</script><script id="r169-independent-particle-engine">
 (function(){
- const fields=new Map();let running=false,last=0,frames=0;
+ 'use strict';
+ const fields=new Map();let running=false,last=0,frames=0,moved=0,skipped=0,loops=0,errors=0,lastFrameAt=0;
  const preview=new URLSearchParams(location.search).get('preview')==='1';
+ const diag=new URLSearchParams(location.search).has('rainDiag');
+ let diagnostic=null;
  function attach(scene){
+  if(!scene||fields.has(scene))return;
   const els=Array.from(scene.querySelectorAll('.wx50-drop,.wx50-flake'));
   if(!els.length)return;
   const kind=(scene.className.match(/wx50-(drizzle|showers|rain|snow|sleet|blizzard)/)||[])[1]||'rain';
-  const particles=els.map((el,i)=>({el,phase:(i*.61803398875)%1,duration:Math.max(1,parseFloat(el.style.getPropertyValue('--duration'))||4),snow:el.classList.contains('wx50-flake'),drift:kind==='blizzard'?-0.38:el.classList.contains('wx50-flake')?.06:-.09}));
+  const particles=els.map((el,i)=>({el,phase:(i*.61803398875)%1,duration:Math.max(1,parseFloat(el.style.getPropertyValue('--duration'))||4),snow:el.classList.contains('wx50-flake'),drift:kind==='blizzard'?-.38:el.classList.contains('wx50-flake')?.06:-.09,lastY:null}));
   fields.set(scene,particles);
   if(!running){running=true;last=0;requestAnimationFrame(tick)}
  }
+ function updateDiagnostic(){
+  if(!diag)return;
+  if(!diagnostic){diagnostic=document.createElement('div');diagnostic.id='r169MotionDiagnostic';diagnostic.style.cssText='position:fixed;left:12px;top:12px;z-index:2147483000;background:#001b35ed;color:#fff;border:2px solid #7ad8ff;border-radius:9px;padding:10px 12px;font:13px/1.5 monospace;white-space:pre;pointer-events:none';document.body.appendChild(diagnostic)}
+  let count=0,delta='-';for(const particles of fields.values()){count+=particles.length;const p=particles[0];if(p&&p.lastY!==null)delta=p.lastY.toFixed(1)+'px'}
+  diagnostic.textContent='R169 motion diagnostic\nframes: '+frames+'  moved: '+moved+'\nscreen: '+(document.body.dataset.lcdScreen||'-')+'  preview: '+preview+'\nparticles: '+count+'  fields: '+fields.size+'\nfirst particle y: '+delta+'\nloops: '+loops+'  errors: '+errors+'  skipped: '+skipped;
+ }
  function tick(now){
-  const dt=last?Math.min(Math.max((now-last)/1000,0),.08):.016;last=now;frames++;
-  for(const [scene,particles] of fields){
-   if(!scene.isConnected){fields.delete(scene);continue}
-   const weather=document.body.dataset.lcdScreen==='weather';
-   if(!weather && !preview)continue;
-   const w=scene.clientWidth||window.innerWidth,h=scene.clientHeight||window.innerHeight;
-   for(const p of particles){
-    p.phase=(p.phase+dt/p.duration)%1;
-    const y=(-.07+1.17*p.phase)*h;
-    const x=p.drift*p.phase*w;
-    p.el.style.setProperty('transform','translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0)'+(p.snow?'':' rotate(11deg)'),'important');
+  try{
+   const dt=last?Math.min(Math.max((now-last)/1000,0),.08):.016;last=now;frames++;lastFrameAt=Date.now();
+   for(const [scene,particles] of fields){
+    if(!scene.isConnected){fields.delete(scene);continue}
+    // R169: do not stop motion when the LCD switches to clock/message.
+    // CSS visibility alone controls whether the weather scene is visible.
+    const w=scene.clientWidth||window.innerWidth||1920,h=scene.clientHeight||window.innerHeight||1080;
+    for(const p of particles){
+     const next=p.phase+dt/p.duration;
+     if(next>=1)loops++;
+     p.phase=next%1;
+     const y=(-.07+1.17*p.phase)*h;
+     const x=p.drift*p.phase*w;
+     p.el.style.setProperty('transform','translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0)'+(p.snow?'':' rotate(11deg)'),'important');
+     if(p.lastY!==null&&Math.abs(y-p.lastY)>.001)moved++;
+     p.lastY=y;
+    }
    }
-  }
-  if(fields.size)requestAnimationFrame(tick);else{running=false;last=0}
+   if(diag&&frames%15===0)updateDiagnostic();
+  }catch(e){errors++;if(errors<5)console.error('[R169 particle engine]',e)}
+  if(fields.size)requestAnimationFrame(tick);else{running=false;last=0;updateDiagnostic()}
  }
  window.r167AttachParticles=attach;
- window.r168ParticleStatus=()=>({frames,scenes:fields.size,screen:document.body.dataset.lcdScreen});
+ window.r169ParticleStatus=()=>({frames,moved,skipped,loops,errors,lastFrameAt,scenes:fields.size,screen:document.body.dataset.lcdScreen,particles:Array.from(fields.values()).reduce((n,a)=>n+a.length,0),firstY:(Array.from(fields.values())[0]||[])[0]?.lastY??null});
+ window.r168ParticleStatus=window.r169ParticleStatus;
 })();
 </script><script src="config.js?v=V51-20261105"></script><script src="shared.js?v=V51-20261105"></script><script>
 
