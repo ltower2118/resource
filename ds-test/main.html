@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V55X-R167</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}body:hover #full,#full:focus{opacity:1;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;z-index:60;font:12px Arial,sans-serif;color:#fff;background:#0008;padding:5px 8px;border-radius:5px;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>LCD 시계 V55X-R168</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}body:hover #full,#full:focus{opacity:1;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;z-index:60;font:12px Arial,sans-serif;color:#fff;background:#0008;padding:5px 8px;border-radius:5px;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
 body[data-lcd-screen="message"] #time,body[data-lcd-screen="message"] #date{opacity:0!important;}body[data-lcd-screen="clock"] #messageScreen,body[data-lcd-screen="clock"] #messageBlocks{opacity:0!important;}body[data-lcd-screen="message"] #messageScreen.active,body[data-lcd-screen="message"] #messageBlocks.active{opacity:1!important;}body[data-lcd-effect="slide"][data-lcd-screen="message"] #bg,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #shade,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #time,
@@ -168,7 +168,7 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
   #weatherScreen #wx50Scene .wx50-drop,
   #weatherScreen #wx50Scene .wx50-flake{animation:none!important;}
 }
-</style><style id="r167-particle-engine-css">
+</style><style id="r168-particle-engine-css">
 /* R167: CSS looping disabled; per-particle motion is managed independently. */
 #weatherScreen #wx50Scene .wx50-drop,
 #weatherScreen #wx50Scene .wx50-flake {
@@ -177,7 +177,7 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
  top:0!important; will-change:transform;
 }
 @media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene .wx50-drop,#weatherScreen #wx50Scene .wx50-flake{display:none!important}}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R167</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R168</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -261,47 +261,36 @@ window.addEventListener('error',function(e){
    window.lcdRecoveryLogV52T('JS',e.target&&e.target.tagName==='SCRIPT'?'필수 스크립트 로딩 실패':'실행 오류: '+String(e.message||'알 수 없음'));
  },true);
 })();
-</script><script id="r167-independent-particle-engine">
-/* Independent per-particle field. One RAF drives only connected, visible weather scenes.
-   No particle group restart; each particle wraps offscreen independently. */
+</script><script id="r168-independent-particle-engine">
 (function(){
- const fields=new WeakMap();
- const active=new Set();
- let running=false,previous=0;
- const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)');
+ const fields=new Map();let running=false,last=0,frames=0;
+ const preview=new URLSearchParams(location.search).get('preview')==='1';
  function attach(scene){
-   const elements=Array.from(scene.querySelectorAll('.wx50-drop,.wx50-flake'));
-   if(!elements.length)return;
-   const kind=(scene.className.match(/wx50-(drizzle|showers|rain|snow|sleet|blizzard)/)||[])[1]||'rain';
-   const particles=elements.map((el,i)=>{
-     const duration=Math.max(1,parseFloat(el.style.getPropertyValue('--duration'))||4);
-     const phase=((i*0.61803398875)%1);
-     const snow=el.classList.contains('wx50-flake');
-     return {el,phase,snow,duration,x:((i*47.13+13)%100)/100,drift:kind==='blizzard'?-0.38:snow?0.06:-0.09,angle:snow?0:11};
-   });
-   fields.set(scene,{particles,kind});active.add(scene);
-   if(!running){running=true;previous=0;requestAnimationFrame(tick)}
+  const els=Array.from(scene.querySelectorAll('.wx50-drop,.wx50-flake'));
+  if(!els.length)return;
+  const kind=(scene.className.match(/wx50-(drizzle|showers|rain|snow|sleet|blizzard)/)||[])[1]||'rain';
+  const particles=els.map((el,i)=>({el,phase:(i*.61803398875)%1,duration:Math.max(1,parseFloat(el.style.getPropertyValue('--duration'))||4),snow:el.classList.contains('wx50-flake'),drift:kind==='blizzard'?-0.38:el.classList.contains('wx50-flake')?.06:-.09}));
+  fields.set(scene,particles);
+  if(!running){running=true;last=0;requestAnimationFrame(tick)}
  }
  function tick(now){
-   const delta=previous?Math.min((now-previous)/1000,.08):0;previous=now;
-   for(const scene of active){
-     if(!scene.isConnected){active.delete(scene);continue}
-     const field=fields.get(scene);if(!field)continue;
-     const visible=document.body.dataset.lcdScreen==='weather' || document.body.dataset.lcdScreen===undefined && new URLSearchParams(location.search).has('preview');
-     if(!visible||document.hidden||reduced?.matches)continue;
-     const w=scene.clientWidth||window.innerWidth,h=scene.clientHeight||window.innerHeight;
-     for(const p of field.particles){
-       p.phase+=delta/p.duration;
-       if(p.phase>=1)p.phase-=Math.floor(p.phase);
-       // Start 6% above viewport; finish 6% below. Reposition only when fully outside.
-       const y=(-.065+p.phase*1.14)*h;
-       const x=p.drift*p.phase*w; // CSS left already supplies horizontal origin
-       p.el.style.transform='translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0)'+(p.angle?' rotate('+p.angle+'deg)':'');
-     }
+  const dt=last?Math.min(Math.max((now-last)/1000,0),.08):.016;last=now;frames++;
+  for(const [scene,particles] of fields){
+   if(!scene.isConnected){fields.delete(scene);continue}
+   const weather=document.body.dataset.lcdScreen==='weather';
+   if(!weather && !preview)continue;
+   const w=scene.clientWidth||window.innerWidth,h=scene.clientHeight||window.innerHeight;
+   for(const p of particles){
+    p.phase=(p.phase+dt/p.duration)%1;
+    const y=(-.07+1.17*p.phase)*h;
+    const x=p.drift*p.phase*w;
+    p.el.style.setProperty('transform','translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0)'+(p.snow?'':' rotate(11deg)'),'important');
    }
-   if(active.size)requestAnimationFrame(tick);else{running=false;previous=0}
+  }
+  if(fields.size)requestAnimationFrame(tick);else{running=false;last=0}
  }
  window.r167AttachParticles=attach;
+ window.r168ParticleStatus=()=>({frames,scenes:fields.size,screen:document.body.dataset.lcdScreen});
 })();
 </script><script src="config.js?v=V51-20261105"></script><script src="shared.js?v=V51-20261105"></script><script>
 
@@ -524,7 +513,7 @@ function wx50MountScene(page,code,isDay,sceneConfig=config){
   }
  }
  // R167: initialize independent continuous particle positions, no CSS iteration boundaries.
- r167AttachParticles(scene);
+ /* R168: attach after scene enters DOM */
  // Thunder effects are independent of precipitation. Never reference undefined bolt data.
  if(kind==='thunder'){
   const bolts=[
@@ -544,6 +533,7 @@ function wx50MountScene(page,code,isDay,sceneConfig=config){
  }
  r129ApplyLandscape(scene,code,isDay);
  page.appendChild(scene);
+ if(window.r167AttachParticles)window.r167AttachParticles(scene);
 }
 
 const $=id=>document.getElementById(id);let wxData=null;let wxLast=0;let wxPending=false;let wxError='';let wxCachedLocation='';let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;const previewMode=new URLSearchParams(location.search).get('preview')==='1';let previewOverride=null;let previewScreen='clock';document.body.dataset.lcdScreen='clock';document.body.dataset.lcdEffect='none';
