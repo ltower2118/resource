@@ -99,21 +99,8 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
 @keyframes r148-turn{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 @keyframes r148-pulse{from{opacity:calc(var(--alpha,.8)*.48)}to{opacity:var(--alpha,.8)}}
 @media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-cloud .r148-rotation,#weatherScreen #wx50Scene.wx50-cloud .r148-star{animation:none!important}}
-</style><style id="r155-natural-cloud-motion">
-/* R155: independent drifting cloud layer; backgrounds and existing stars remain intact. */
-#weatherScreen #wx50Scene .r155-cloud-layer{position:absolute;inset:0;z-index:7;overflow:hidden;pointer-events:none;isolation:isolate;}
-#weatherScreen #wx50Scene .r155-big-cloud{position:absolute;left:0;top:var(--r155-top,15%);width:var(--r155-width,36vw);height:var(--r155-height,14vh);min-width:220px;min-height:65px;opacity:var(--r155-opacity,.40);filter:blur(9px);border-radius:50%;background:radial-gradient(ellipse 32% 55% at 22% 66%,var(--r155-cloud-color) 0%,transparent 96%),radial-gradient(ellipse 35% 67% at 47% 44%,var(--r155-cloud-color) 0%,transparent 96%),radial-gradient(ellipse 32% 55% at 72% 65%,var(--r155-cloud-color) 0%,transparent 96%),radial-gradient(ellipse 42% 38% at 48% 75%,var(--r155-cloud-color) 0%,transparent 96%);transform:translate3d(-65vw,0,0);animation:r155-cloud-cross var(--r155-duration,210s) linear infinite;animation-delay:var(--r155-delay,0s);will-change:transform;}
-#weatherScreen #wx50Scene .r155-cloud-layer{--r155-cloud-color:rgba(247,250,255,.83)}
-#weatherScreen #wx50Scene.wx50-moon .r155-cloud-layer{--r155-cloud-color:rgba(135,158,192,.72)}
-#weatherScreen #wx50Scene.wx50-cloud.r155-night .r155-cloud-layer{--r155-cloud-color:rgba(141,160,188,.75)}
-#weatherScreen #wx50Scene.wx50-cloud:not(.r155-night) .r155-cloud-layer{--r155-cloud-color:rgba(224,232,240,.88)}
-#weatherScreen #wx50Scene.wx50-partly .r155-cloud-layer{--r155-cloud-color:rgba(245,248,255,.80)}
-#weatherScreen #wx50Scene.r155-cloud-motion > .wx50-cloud,#weatherScreen #wx50Scene.r155-cloud-motion > .r133-day-cloud{display:none!important;}
-#weatherScreen #wx50Scene.r155-cloud-motion .r148-sky{z-index:6!important;}
-#weatherScreen #wx50Scene.r155-cloud-motion .r155-cloud-layer{z-index:7!important;}
-#weatherScreen #weatherContent{z-index:9!important;}
-@keyframes r155-cloud-cross{from{transform:translate3d(-65vw,0,0)}to{transform:translate3d(115vw,0,0)}}
-@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene .r155-big-cloud{animation:none!important;transform:translate3d(12vw,0,0)!important;}}
+</style><style id="r155-static-clouds">/* Cloud animation disabled; static existing cloud shapes only. */
+#weatherScreen #wx50Scene .wx50-cloud,#weatherScreen #wx50Scene .r133-day-cloud{animation:none!important;will-change:auto!important;transform:none!important;}
 </style></head><body><div id="bg"></div><div id="shade"></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R155</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
@@ -388,30 +375,6 @@ function wx50MountScene(page,code,isDay,sceneConfig=config){
   /* Legacy zero-iteration grass generator removed; landscape WebP remains unchanged. */
  }
   // R155: natural large cloud drift on clear day/night and cloudy day/night.
-  // Decorative overlay only: no background/WebP, weather text, or constellation changes.
-  if(['sun','moon','cloud','partly'].includes(kind)){
-    const night=(kind==='moon')||(kind==='cloud'&&(Number(isDay)===0 || (new Date().getHours()>=18 || new Date().getHours()<6)));
-    scene.classList.add('r155-cloud-motion');
-    if(night)scene.classList.add('r155-night');
-    const layer=document.createElement('div');layer.className='r155-cloud-layer';layer.setAttribute('aria-hidden','true');
-    const count=(kind==='sun'||kind==='moon')?2:3;
-    const profiles=[
-      {top:'10%',width:'39vw',height:'16vh',duration:225,delay:-62,opacity:.40},
-      {top:'27%',width:'31vw',height:'12vh',duration:185,delay:-137,opacity:.31},
-      {top:'43%',width:'43vw',height:'17vh',duration:255,delay:-201,opacity:.34}
-    ];
-    for(let i=0;i<count;i++){
-      const spec=profiles[i],cloud=document.createElement('div');cloud.className='r155-big-cloud';
-      cloud.style.setProperty('--r155-top',spec.top);
-      cloud.style.setProperty('--r155-width',spec.width);
-      cloud.style.setProperty('--r155-height',spec.height);
-      cloud.style.setProperty('--r155-duration',spec.duration+'s');
-      cloud.style.setProperty('--r155-delay',spec.delay+'s');
-      cloud.style.setProperty('--r155-opacity',String(kind==='sun'?spec.opacity*.75:kind==='moon'?spec.opacity*.70:spec.opacity));
-      layer.appendChild(cloud);
-    }
-    scene.appendChild(layer);
-  }
  // V50C rain remains unchanged. More clouds elsewhere, but keep them small and transparent.
  const clouds=['rain','drizzle','showers','sleet'].includes(kind)?1:kind==='partly'?2:kind==='cloud'||kind==='mist'?2:kind==='thunder'?2:['snow','blizzard'].includes(kind)?1:0;
  const positions={partly:[[-10,17],[43,12],[76,41]],cloud:[[-12,11],[28,25],[70,15],[82,48]],snow:[[-10,14],[38,8],[77,24]],thunder:[[-12,8],[23,13],[57,5],[82,27],[40,44]]};
