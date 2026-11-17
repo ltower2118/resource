@@ -3615,4 +3615,65 @@ function init(){const panel=document.getElementById('v42TextPanel');if(!panel)re
  sync();new MutationObserver(sync).observe(choices,{childList:true});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,900));else setTimeout(init,900);
-})();</script></body></html>
+})();</script><style id="r154-preview-navigation-css">#r31Quick,#r149ClockGroup,.r150-group,#v42WeatherPanel{scroll-margin-top:18px}#preview :is(#pvTime,#pvDate,#v42ClockWeatherPreview,#v13Canvas .v13block,#pvV52YMessageClock .v52y-pr,#v43WeatherCard){cursor:pointer}</style><script id="r154-preview-navigation">
+(function(){'use strict';
+function by(id){return document.getElementById(id)}
+function currentPage(){return document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock'}
+function openEditor(page,target){
+  const tab=document.querySelector('[data-v42tab="'+page+'"]');
+  if(!tab)return;
+  if(currentPage()!==page)tab.click();
+  const start=Date.now();
+  function apply(){
+    const choices=by('r32Choices');
+    const button=choices?.querySelector('button[data-target="'+target+'"]');
+    if(!button){if(Date.now()-start<1800)setTimeout(apply,70);return}
+    if(!button.classList.contains('active'))button.click();
+    if(page==='message'){
+      const group=by('r150-'+target);
+      if(group){group.hidden=false;group.querySelectorAll('details').forEach(d=>d.open=true)}
+    }
+    const section=page==='clock'?by('r149ClockGroup'):page==='message'?by('r150-'+target):by('v42WeatherPanel');
+    const anchor=section&&!section.hidden?section:by('r31Quick');
+    if(anchor)requestAnimationFrame(()=>anchor.scrollIntoView({behavior:'smooth',block:'start'}));
+  }
+  setTimeout(apply,110);
+}
+function previewPage(){
+  const selected=currentPage();
+  // The selected editing page determines the meaning of date/time in the preview.
+  return selected;
+}
+function targetFor(el,page){
+  if(el.closest('#pvV52YMessageClock')){
+    if(page!=='message')return null;
+    const x=el.closest('.v52y-pr');
+    const key=(x?.id||'')+' '+(x?.className||'')+' '+(x?.dataset?.type||'');
+    return /date/i.test(key)?'messageDate':/time/i.test(key)?'messageTime':null;
+  }
+  if(el.closest('#pvTime'))return page==='message'?'messageTime':page==='clock'?'time':null;
+  if(el.closest('#pvDate'))return page==='message'?'messageDate':page==='clock'?'date':null;
+  if(el.closest('#v42ClockWeatherPreview'))return page==='clock'?'clockWeather':null;
+  if(el.closest('#v43WeatherCard,#v42WeatherPreview'))return page==='weather'?'weather':null;
+  if(el.closest('#v13Canvas .v13block,#pvMessage .message-content,#pvMessage'))return page==='message'?'block':null;
+  if(el.closest('.r109-preview-text'))return page==='clock'?'clockText':null;
+  return null;
+}
+let down=null;
+const preview=by('preview');
+if(!preview)return;
+preview.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,t:Date.now()}},true);
+preview.addEventListener('click',e=>{
+  if(down&&Math.hypot(e.clientX-down.x,e.clientY-down.y)>9)return; // drag should never navigate
+  const page=previewPage(),target=targetFor(e.target,page);
+  if(target)openEditor(page,target);
+},false);
+// Some draggable overlays consume click; a short stationary tap still selects them.
+preview.addEventListener('pointerup',e=>{
+  if(!down||Math.hypot(e.clientX-down.x,e.clientY-down.y)>9)return;
+  const page=previewPage(),target=targetFor(e.target,page);
+  if(target)setTimeout(()=>openEditor(page,target),0);
+},false);
+window.r154OpenPreviewEditor=openEditor;
+})();
+</script></body></html>
