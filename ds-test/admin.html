@@ -342,7 +342,7 @@ body:not(.v51o-view-maintenance) #v74MaintenanceLCD{display:none!important;visib
 #v42TextPanel .r150-group-body input[type=checkbox]{width:20px!important;height:20px!important;min-height:20px!important;}
 #r32Choices{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;}
 #r32Choices button{min-width:0!important;min-height:43px!important;padding:8px 4px!important;font-size:13px!important;white-space:normal!important;}
-@media(max-width:620px){#v42TextPanel .r150-group-body{padding:9px!important;gap:8px!important;}#v42TextPanel .r150-group-head{padding:10px 11px!important;}#v42TextPanel #v13Panel .v13row>label{flex-basis:calc(50% - 7px)!important;}#v42TextPanel .r150-group-body .msg-clock-grid{gap:8px!important;}#v42TextPanel .r150-group-body .msg-clock-grid>label{font-size:13px!important;}#r32Choices button{font-size:12px!important;}}
+@media(max-width:620px){#v42TextPanel .r150-group-body{padding:9px!important;gap:8px!important;}#v42TextPanel .r150-group-head{padding:10px 11px!important;}#v42TextPanel #v13Panel .v13row>label{flex-basis:calc(50% - 7px)!important;}#v42TextPanel .r150-group-body .msg-clock-grid{gap:8px!important;}#v42TextPanel .r150-group-body .msg-clock-grid>label{font-size: 17px !important;}#r32Choices button{font-size: 16px !important;}}
 @media(max-width:370px){#v42TextPanel .r150-group-body .msg-clock-grid{grid-template-columns:1fr!important;}}
 </style><style id="r152-message-weather-first-polish">
 /* R152: presentation only. Existing controls, IDs, listeners and saved values stay intact. */
@@ -433,16 +433,16 @@ body:not(.v51o-view-maintenance) #v74MaintenanceLCD{display:none!important;visib
  --r158-nav-sequence-bg:#f1f5f9; --r158-nav-sequence-fg:#425b73;
  --r158-nav-maintenance-bg:#f1f5f9; --r158-nav-maintenance-fg:#425b73;
  --r158-nav-active-bg:#ffffff; --r158-nav-active-fg:#153c63;
- --r158-nav-height:56px; --r158-nav-font:15px;
+ --r158-nav-height:56px; --r158-nav-font:18px;
  /* [02] Screen-edit tabs: clock / message / weather */
  --r158-tab-clock-bg:#e9f0f6; --r158-tab-message-bg:#e9f0f6;
  --r158-tab-weather-bg:#e9f0f6; --r158-tab-fg:#435c75;
  --r158-tab-active-bg:#ffffff; --r158-tab-active-fg:#123c68;
- --r158-tab-height:50px; --r158-tab-font:14px;
+ --r158-tab-height:50px; --r158-tab-font:18px;
  /* [03] Fixed action buttons */
- --r158-save-bg:#175887; --r158-save-fg:#ffffff; --r158-save-font:15px;
- --r158-view-bg:#e5efff; --r158-view-fg:#183d75; --r158-view-font:14px;
- --r158-load-bg:#087f8c; --r158-load-fg:#ffffff; --r158-load-font:14px;
+ --r158-save-bg:#175887; --r158-save-fg:#ffffff; --r158-save-font:18px;
+ --r158-view-bg:#e5efff; --r158-view-fg:#183d75; --r158-view-font:18px;
+ --r158-load-bg:#087f8c; --r158-load-fg:#ffffff; --r158-load-font:18px;
  --r158-dock-height:50px; --r158-dock-radius:10px;
  /* [04] Other standalone buttons */
  --r158-preview-bg:#15705b; --r158-preview-fg:#ffffff;
@@ -527,10 +527,10 @@ body:not(.v51o-view-maintenance) #v74MaintenanceLCD{display:none!important;visib
 <div id="v33DisplayPanel" role="group" aria-label="LCD 시간과 날짜 표시 선택">
  
  <div class="v33modegrid">
- <label><input type="radio" name="v33DisplayMode" value="both"> 시간 + 날짜 모두 표시</label>
- <label><input type="radio" name="v33DisplayMode" value="time"> 시간만 표시</label>
- <label><input type="radio" name="v33DisplayMode" value="date"> 날짜만 표시</label>
- <label><input type="radio" name="v33DisplayMode" value="none"> 모두 숨김</label>
+ <label style="font-size: 16px;"><input type="radio" name="v33DisplayMode" value="both"> 시간 + 날짜 모두 표시</label>
+ <label style="font-size: 16px;"><input type="radio" name="v33DisplayMode" value="time"> 시간만 표시</label>
+ <label style="font-size: 16px;"><input type="radio" name="v33DisplayMode" value="date"> 날짜만 표시</label>
+ <label style="font-size: 16px;"><input type="radio" name="v33DisplayMode" value="none"> 모두 숨김</label>
  </div>
  <p>선택 즉시 위 미리보기에 반영됩니다. 저장하면 실제 LCD에 적용됩니다.</p>
 </div><div class="v32formgrid">
