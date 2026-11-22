@@ -5207,13 +5207,33 @@ body.r291-modal-open{overflow:hidden!important}
 <div id="r291ImageModal" hidden role="dialog" aria-modal="true" aria-labelledby="r291ImageTitle"><div id="r291ImageDialog"><div id="r291ImageDialogHead"><strong id="r291ImageTitle">배경 이미지 등록 · 선택</strong><button type="button" id="r291ImageClose" aria-label="이미지 창 닫기">✕ 닫기</button></div><div id="r291ImageHost"></div></div></div>
 <script id="r291ImageModalScript">(function(){'use strict';
 const get=id=>document.getElementById(id);const modal=get('r291ImageModal'),host=get('r291ImageHost'),manager=get('r289ImageManager');
-if(!modal||!host||!manager)return;host.appendChild(manager);
+if(!modal||!host||!manager)return;
+// Keep the manager in its original location until the dialog actually opens.
+const originalParent=manager.parentNode;
+const originalNext=manager.nextSibling;
+function restoreManager(){
+  if(originalNext&&originalNext.parentNode===originalParent)originalParent.insertBefore(manager,originalNext);
+  else originalParent.appendChild(manager);
+}
+
 const launch=document.createElement('button');launch.type='button';launch.id='r291ImageLaunch';launch.textContent='🖼 이미지 업로드 · 배경 선택';
 const bg=get('messageBackgroundImage');
 if(bg){const parent=bg.closest('label')||bg.parentElement;parent.insertAdjacentElement('afterend',launch)}else{const textPanel=get('v42TextPanel');if(textPanel)textPanel.insertAdjacentElement('afterbegin',launch)}
 let focusBefore=null;
-function open(){focusBefore=document.activeElement;modal.hidden=false;document.body.classList.add('r291-modal-open');get('r291ImageClose').focus();}
-function close(){modal.hidden=true;document.body.classList.remove('r291-modal-open');if(focusBefore&&focusBefore.isConnected)focusBefore.focus();}
+function open(){
+  focusBefore=document.activeElement;
+  host.appendChild(manager);
+  modal.hidden=false;
+  document.body.classList.add('r291-modal-open');
+  get('r291ImageClose').focus();
+}
+function close(){
+  modal.hidden=true;
+  document.body.classList.remove('r291-modal-open');
+  restoreManager();
+  if(focusBefore&&focusBefore.isConnected)focusBefore.focus({preventScroll:true});
+}
+
 launch.addEventListener('click',open);get('r291ImageClose').addEventListener('click',close);
 modal.addEventListener('click',e=>{if(e.target===modal)close()});
 document.addEventListener('keydown',e=>{if(!modal.hidden&&e.key==='Escape'){e.preventDefault();close()}});
