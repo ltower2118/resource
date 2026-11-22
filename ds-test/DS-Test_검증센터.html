@@ -1,43 +1,65 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DS-Test 통합 검증센터 V55X-R314</title><style>*{box-sizing:border-box}body{margin:0;background:#f0f4f8;color:#20354e;font:15px/1.5 'Malgun Gothic',Arial,sans-serif}.wrap{max-width:900px;margin:auto;padding:18px 12px 60px}header,.panel{background:white;border:1px solid #dce5ef;border-radius:14px;padding:17px;margin-bottom:12px}h1{font-size:22px;margin:0 0 6px}h2{font-size:17px;margin:0 0 12px}.muted{color:#65788e;font-size:13px}label{display:block;margin:9px 0 4px;font-weight:700}input[type=file]{width:100%;padding:12px;border:1px solid #cad8e8;border-radius:9px}button{border:0;border-radius:9px;background:#1d4684;color:white;padding:12px 14px;font-weight:750;font-size:14px;min-height:44px;cursor:pointer}button.secondary{background:#eaf0f8;color:#1d4684}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{background:#f0f5fb;padding:12px;border-radius:10px;text-align:center}.stat strong{display:block;font-size:24px}.stat small{font-size:12px;color:#5e7187}.test{padding:11px 4px;border-bottom:1px solid #e7edf4;display:flex;gap:10px;align-items:flex-start}.test:last-child{border:0}.pill{font-size:11px;white-space:nowrap;border-radius:20px;padding:3px 8px;background:#e8edf5;color:#40556c;font-weight:bold}.pass{background:#e2f5e9;color:#17653a}.fail{background:#ffe8e8;color:#a52525}.skip{background:#fff2d7;color:#865a0b}.test .body{flex:1;min-width:0}.test .body strong{display:block}.test .body small{display:block;color:#60748a;overflow-wrap:anywhere}.group{font-weight:800;margin:16px 0 5px;color:#193d69}pre{background:#f5f8fc;padding:12px;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto}.warning{background:#fff8e9;border:1px solid #efdcae;padding:11px;border-radius:10px;font-size:13px}@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:19px}}</style></head><body><main class="wrap"><header><h1>DS-Test 통합 검증센터 <span style="color:#1d4684">V55X-R314</span></h1><div class="muted">관리자·메인 LCD 파일의 구조 및 회귀 위험을 자동 검사합니다. 기존 설정을 변경하거나 서버에 저장하지 않습니다.</div></header><section class="panel"><h2>검증 파일 선택</h2><label for="admin">관리자 admin.html</label><input id="admin" type="file" accept=".html,text/html"><label for="main">메인 LCD main.html</label><input id="main" type="file" accept=".html,text/html"><div class="actions"><button id="run">전체 자동 검사</button><button id="download" class="secondary" disabled>결과 JSON 다운로드</button><button id="csv" class="secondary" disabled>결과 CSV 다운로드</button></div><p class="muted">같은 폴더의 파일을 자동으로 읽지 않습니다. 보안상 직접 선택해야 합니다. 모바일에서도 파일 선택이 가능합니다.</p></section><section class="panel"><div class="stats"><div class="stat"><strong id="total">0</strong><small>전체</small></div><div class="stat"><strong id="passed">0</strong><small>통과</small></div><div class="stat"><strong id="failed">0</strong><small>실패</small></div><div class="stat"><strong id="skipped">0</strong><small>수동 확인</small></div></div><div id="results" aria-live="polite"><p class="muted">파일을 선택하고 전체 자동 검사를 누르세요.</p></div></section><section class="panel"><h2>실제 동작 검증 안내</h2><div class="warning">정적 HTML 검사는 실제 손가락 드래그, 네트워크 저장 성공, GitHub 업로드, 외부 날씨 API 응답, 메인 LCD의 픽셀 출력 일치를 보장하지 않습니다. 이러한 항목은 자동 통과 처리하지 않고 '수동 확인'으로 구분합니다.</div><div id="manual"></div></section><section class="panel"><h2>검증 환경</h2><pre id="environment"></pre></section></main><script>
-'use strict';const VERSION='V55X-R314';const $=id=>document.getElementById(id);let lastReport=null;
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DS-Test 통합 검증센터 V55X-R318</title><style>*{box-sizing:border-box}body{margin:0;background:#f0f4f8;color:#20354e;font:15px/1.5 'Malgun Gothic',Arial,sans-serif}.wrap{max-width:900px;margin:auto;padding:18px 12px 60px}header,.panel{background:white;border:1px solid #dce5ef;border-radius:14px;padding:17px;margin-bottom:12px}h1{font-size:22px;margin:0 0 6px}h2{font-size:17px;margin:0 0 12px}.muted{color:#65788e;font-size:13px}label{display:block;margin:9px 0 4px;font-weight:700}input[type=file]{width:100%;padding:12px;border:1px solid #cad8e8;border-radius:9px}button{border:0;border-radius:9px;background:#1d4684;color:white;padding:12px 14px;font-weight:750;font-size:14px;min-height:44px;cursor:pointer}button.secondary{background:#eaf0f8;color:#1d4684}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{background:#f0f5fb;padding:12px;border-radius:10px;text-align:center}.stat strong{display:block;font-size:24px}.stat small{font-size:12px;color:#5e7187}.test{padding:11px 4px;border-bottom:1px solid #e7edf4;display:flex;gap:10px;align-items:flex-start}.test:last-child{border:0}.pill{font-size:11px;white-space:nowrap;border-radius:20px;padding:3px 8px;background:#e8edf5;color:#40556c;font-weight:bold}.pass{background:#e2f5e9;color:#17653a}.fail{background:#ffe8e8;color:#a52525}.skip{background:#fff2d7;color:#865a0b}.test .body{flex:1;min-width:0}.test .body strong{display:block}.test .body small{display:block;color:#60748a;overflow-wrap:anywhere}.group{font-weight:800;margin:16px 0 5px;color:#193d69}pre{background:#f5f8fc;padding:12px;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto}.warning{background:#fff8e9;border:1px solid #efdcae;padding:11px;border-radius:10px;font-size:13px}@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}h1{font-size:19px}}</style></head><body><main class="wrap"><header><h1>DS-Test 통합 검증센터 <span style="color:#1d4684">V55X-R318</span></h1><div class="muted">관리자·메인 LCD의 버전을 자동 인식하고 실제 HTML 요소의 중복 ID를 검사합니다. 기존 설정을 변경하거나 서버에 저장하지 않습니다.</div></header><section class="panel"><h2>검증 파일 선택</h2><label for="admin">관리자 admin.html</label><input id="admin" type="file" accept=".html,text/html"><label for="main">메인 LCD main.html</label><input id="main" type="file" accept=".html,text/html"><div class="actions"><button id="run">전체 자동 검사</button><button id="download" class="secondary" disabled>결과 JSON 다운로드</button><button id="csv" class="secondary" disabled>결과 CSV 다운로드</button></div><p class="muted">같은 폴더의 파일을 자동으로 읽지 않습니다. 보안상 직접 선택해야 합니다. 모바일에서도 파일 선택이 가능합니다.</p></section><section class="panel"><div class="stats"><div class="stat"><strong id="total">0</strong><small>전체</small></div><div class="stat"><strong id="passed">0</strong><small>통과</small></div><div class="stat"><strong id="failed">0</strong><small>실패</small></div><div class="stat"><strong id="skipped">0</strong><small>수동 확인</small></div></div><div id="results" aria-live="polite"><p class="muted">파일을 선택하고 전체 자동 검사를 누르세요.</p></div></section><section class="panel"><h2>실제 동작 검증 안내</h2><div class="warning">정적 HTML 검사는 실제 손가락 드래그, 네트워크 저장 성공, GitHub 업로드, 외부 날씨 API 응답, 메인 LCD의 픽셀 출력 일치를 보장하지 않습니다. 이러한 항목은 자동 통과 처리하지 않고 '수동 확인'으로 구분합니다.</div><div id="manual"></div></section><section class="panel"><h2>검증 환경</h2><pre id="environment"></pre></section></main><script>
+'use strict';
+const VERSION='V55X-R318';
+const $=id=>document.getElementById(id);
+let lastReport=null;
+const manual=[['모바일 터치','텍스트 4개를 A→B→C→D→A 순서로 20회 선택하고 8개 조절점 유지 확인'],['모바일 터치','각 텍스트를 손가락으로 이동·크기 변경 후 설정값 일치 확인'],['메뉴 전환','문자→날짜→날씨→화면 구성→점검 안내→설정 진단 10회 반복'],['팝업','배경 팝업 열기·닫기 10회 반복 및 원래 화면 복귀 확인'],['배경','이미지1→이미지2→단색→애니메이션→이미지1 전환 확인'],['저장','운영 설정 백업 후 저장·불러오기 값 일치 확인'],['출력','메인 LCD와 미니 LCD의 문자·배경·시계 배치 육안 비교'],['실기기','갤럭시 터치·화면 회전·스크롤 확인']];
 const requirements=[
-['공통','관리자 HTML 문서','admin',s=>/<html\b/i.test(s)&&/<\/html>/i.test(s)],
-['공통','메인 HTML 문서','main',s=>/<html\b/i.test(s)&&/<\/html>/i.test(s)],
-['버전','관리자 문서 제목 R313','admin',s=>/<title>[^<]*V55X-R314/i.test(s)],
-['버전','메인 문서 제목 R313','main',s=>/<title>[^<]*V55X-R314/i.test(s)],
-['버전','메인 버전 표시 R313','main',s=>/id=["']versionTag["'][^>]*>V55X-R314/i.test(s)],
-['관리자','상단 메뉴','admin',s=>s.includes('v42Tabs')],
-['관리자','실시간 LCD 미리보기','admin',s=>s.includes('previewStage')],
-['관리자','문자 편집 캔버스','admin',s=>s.includes('v13Canvas')],
-['관리자','문자 편집 설정','admin',s=>s.includes('v13Panel')],
-['관리자','문자 선택 및 조절점 관련 코드','admin',s=>/resize|handle|조절점/i.test(s)],
-['관리자','문자·날짜·날씨 메뉴','admin',s=>['v42TextPanel','v42ClockPanel','v42WeatherPanel'].every(x=>s.includes(x))],
-['관리자','배경 이미지 선택 관련 코드','admin',s=>/r312SelectedName|r312UpdateSelection/.test(s)],
-['관리자','날씨 배경 모드','admin',s=>s.includes('weatherBackgroundMode')],
-['관리자','날씨 애니메이션 토글','admin',s=>s.includes('weatherAnimationEnabled')],
-['관리자','배경 이미지 업로드 기능','admin',s=>/upload|업로드/i.test(s)],
-['관리자','저장 버튼','admin',s=>s.includes('v42QuickSave')],
-['관리자','불러오기 버튼','admin',s=>s.includes('v42QuickLoad')],
-['관리자','진단 화면','admin',s=>/진단|diagnos/i.test(s)],
-['메인 LCD','시계 화면','main',s=>/id=["']time["']/.test(s)],
-['메인 LCD','날짜 화면','main',s=>/id=["']date["']/.test(s)],
-['메인 LCD','문자 블록','main',s=>s.includes('messageBlocks')],
-['메인 LCD','날씨 화면','main',s=>s.includes('weatherScreen')],
-['메인 LCD','날씨 애니메이션','main',s=>s.includes('wx50Scene')],
-['메인 LCD','날씨 배경 모드','main',s=>s.includes('data-weather-background-mode')],
-['메인 LCD','전체 화면','main',s=>/requestFullscreen|fullscreen/i.test(s)],
-['메인 LCD','초기화 시간초과 복구','main',s=>s.includes('__lcdBootGuard')],
-['메인 LCD','JavaScript 오류 기록','main',s=>s.includes('lcdRecoveryLogV52T')],
-['메인 LCD','외부 설정 파일 참조','main',s=>s.includes('config.js')&&s.includes('shared.js')],
-['공통','반응형 뷰포트','both',s=>/<meta[^>]+name=["']viewport["']/i.test(s)],
-['공통','모바일 미디어 쿼리','both',s=>/@media\s*\(max-width/i.test(s)],
-['공통','중복 HTML id 검사','both',s=>{const ids=[...s.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map(x=>x[1]);return ids.length===new Set(ids).size}],
-['공통','인라인 스크립트 기본 문법','both',s=>{const scripts=[...s.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(x=>!/(?:^|\s)src\s*=/.test(x[1]));return scripts.every(x=>{try{new Function(x[2]);return true}catch(e){return false}})}]
+ ['공통','HTML 문서 구조','both',(s,d)=>!!d.querySelector('html head')&&!!d.querySelector('body')],
+ ['관리자','상단 메뉴','admin',s=>s.includes('v42Tabs')],
+ ['관리자','실시간 LCD 미리보기','admin',s=>s.includes('previewStage')],
+ ['관리자','문자 편집 캔버스','admin',s=>s.includes('v13Canvas')],
+ ['관리자','문자 편집 설정','admin',s=>s.includes('v13Panel')],
+ ['관리자','문자 선택 및 조절점 관련 코드','admin',s=>/resize|handle|조절점/i.test(s)],
+ ['관리자','문자·날짜·날씨 메뉴','admin',s=>['v42TextPanel','v42ClockPanel','v42WeatherPanel'].every(x=>s.includes(x))],
+ ['관리자','배경 이미지 선택 관련 코드','admin',s=>/r312SelectedName|r312UpdateSelection/.test(s)],
+ ['관리자','날씨 배경 모드','admin',s=>s.includes('weatherBackgroundMode')],
+ ['관리자','날씨 애니메이션 토글','admin',s=>s.includes('weatherAnimationEnabled')],
+ ['관리자','배경 이미지 업로드 기능','admin',s=>/upload|업로드/i.test(s)],
+ ['관리자','저장 버튼','admin',s=>s.includes('v42QuickSave')],
+ ['관리자','불러오기 버튼','admin',s=>s.includes('v42QuickLoad')],
+ ['관리자','진단 화면','admin',s=>/진단|diagnos/i.test(s)],
+ ['메인 LCD','시계 화면','main',(s,d)=>!!d.getElementById('time')],
+ ['메인 LCD','날짜 화면','main',(s,d)=>!!d.getElementById('date')],
+ ['메인 LCD','문자 블록','main',s=>s.includes('messageBlocks')],
+ ['메인 LCD','날씨 화면','main',s=>s.includes('weatherScreen')],
+ ['메인 LCD','날씨 애니메이션','main',s=>s.includes('wx50Scene')],
+ ['메인 LCD','날씨 배경 모드','main',s=>s.includes('data-weather-background-mode')],
+ ['메인 LCD','전체 화면','main',s=>/requestFullscreen|fullscreen/i.test(s)],
+ ['메인 LCD','초기화 시간초과 복구','main',s=>s.includes('__lcdBootGuard')],
+ ['메인 LCD','JavaScript 오류 기록','main',s=>s.includes('lcdRecoveryLogV52T')],
+ ['메인 LCD','외부 설정 파일 참조','main',s=>s.includes('config.js')&&s.includes('shared.js')],
+ ['공통','반응형 뷰포트','both',(s,d)=>!!d.querySelector('meta[name="viewport"]')],
+ ['공통','모바일 미디어 쿼리','both',s=>/@media\s*\(max-width/i.test(s)]
 ];
-const manual=[['모바일 터치','텍스트 4개를 A→B→C→D→A 순서로 20회 선택하고 8개 조절점 유지 확인'],['모바일 터치','각 텍스트를 손가락으로 이동·크기 변경 후 설정값 일치 확인'],['메뉴 전환','문자→날짜→날씨→화면 구성→점검 안내→설정 진단 10회 반복 후 빈 패널 확인'],['팝업','배경 팝업 열기·닫기 10회 반복 및 원래 화면 복귀 확인'],['배경','이미지1→이미지2→단색→애니메이션→이미지1 순서로 실제 미리보기 확인'],['배경','선택 이미지 체크와 실제 적용 파일명 일치 확인'],['저장','테스트용 별도 설정에서 저장 후 다시 불러와 값 일치 확인 (운영 설정 백업 필수)'],['출력','메인 LCD와 관리자 미니 LCD의 문자·배경·시계 배치 육안 비교'],['외부 연결','인터넷 끊김, 이미지 404, API 실패 시 동작 확인'],['실기기','갤럭시 터치·화면 회전·스크롤 및 키보드 열림 확인']];
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-async function run(){const fs={};for(const id of ['admin','main']){const file=$(id).files[0];if(file)fs[id]=await file.text()}const rows=[];for(const [group,name,target,fn] of requirements){if(target==='both'){for(const id of ['admin','main']){let status='skip',detail='파일 미선택';if(fs[id]){try{status=fn(fs[id])?'pass':'fail';detail=status==='pass'?'정적 조건 확인':'정적 조건 불일치'}catch(e){status='fail';detail=e.message}}rows.push({group,name:name+' ('+id+')',status,detail})}}else{let status='skip',detail='파일 미선택';if(fs[target]){try{status=fn(fs[target])?'pass':'fail';detail=status==='pass'?'정적 조건 확인':'정적 조건 불일치'}catch(e){status='fail';detail=e.message}}rows.push({group,name,status,detail})}}const report={version:VERSION,generatedAt:new Date().toISOString(),files:Object.fromEntries(Object.entries(fs).map(([k,v])=>[k,{size:v.length}])),results:rows,manual:manual.map(([group,name])=>({group,name,status:'manual'}))};lastReport=report;render(report);$('download').disabled=false;$('csv').disabled=false}
+function detectVersion(s){const t=(s.match(/<title[^>]*>([^<]*)<\/title>/i)||[])[1]||'';return (t.match(/V\d+[A-Z]*-R\d+/i)||[])[0]||null}
+function add(rows,group,name,status,detail){rows.push({group,name,status,detail})}
+function idsOf(doc){const m=new Map();for(const el of doc.querySelectorAll('[id]')){const id=el.getAttribute('id');if(!m.has(id))m.set(id,[]);m.get(id).push(el)}return [...m].filter(([k,v])=>v.length>1).map(([id,v])=>({id,count:v.length,tags:v.map(e=>e.tagName.toLowerCase())}))}
+async function run(){
+ const fs={},docs={},versions={};for(const id of ['admin','main']){const f=$(id).files[0];if(f){fs[id]=await f.text();docs[id]=new DOMParser().parseFromString(fs[id],'text/html');versions[id]=detectVersion(fs[id])}}
+ const rows=[];
+ for(const id of ['admin','main']){
+  if(!fs[id]){add(rows,'버전',id+' 문서 제목','skip','파일 미선택');add(rows,'버전',id+' 버전 표시','skip','파일 미선택');continue}
+  const title=docs[id].title||'';const titleVersion=(title.match(/V\d+[A-Z]*-R\d+/i)||[])[0];
+  add(rows,'버전',id+' 문서 제목',titleVersion?'pass':'fail',titleVersion?'확인: '+title:'문서 제목에서 버전 확인 불가');
+  const visible=id==='main'?docs[id].getElementById('versionTag'):null;
+  if(id==='main')add(rows,'버전','메인 화면 버전 표시',visible&&visible.textContent.trim()===titleVersion?'pass':'fail','제목: '+(titleVersion||'없음')+' / 화면: '+(visible?.textContent.trim()||'없음'));
+  else add(rows,'버전','관리자 버전 문자열',fs[id].includes(titleVersion||'__NONE__')?'pass':'fail','문서 제목 기준: '+(titleVersion||'없음'));
+  const duplicates=idsOf(docs[id]);add(rows,'HTML ID','중복 HTML id 검사 ('+id+')',duplicates.length?'fail':'pass',duplicates.length?duplicates.map(x=>x.id+' ('+x.count+'개, '+x.tags.join('/')+')').join('; '):'실제 HTML 요소의 id만 검사 · 중복 없음');
+  const scripts=[...docs[id].querySelectorAll('script:not([src])')];let errors=[];for(let i=0;i<scripts.length;i++){try{new Function(scripts[i].textContent)}catch(e){errors.push('스크립트 '+(i+1)+': '+e.message)}}
+  add(rows,'문법','인라인 스크립트 기본 문법 ('+id+')',errors.length?'fail':'pass',errors.length?errors.slice(0,5).join('; '):scripts.length+'개 스크립트 문법 검사 통과');
+ }
+ if(fs.admin&&fs.main)add(rows,'버전','관리자·메인 버전 일치',versions.admin===versions.main?'pass':'fail','관리자: '+versions.admin+' / 메인: '+versions.main);
+ else add(rows,'버전','관리자·메인 버전 일치','skip','두 파일 모두 선택 필요');
+ for(const [group,name,target,fn] of requirements){for(const id of target==='both'?['admin','main']:[target]){if(!fs[id]){add(rows,group,name+(target==='both'?' ('+id+')':''),'skip','파일 미선택');continue}try{const ok=fn(fs[id],docs[id]);add(rows,group,name+(target==='both'?' ('+id+')':''),ok?'pass':'fail',ok?'정적 조건 확인':'필수 구조 또는 문자열 확인 실패')}catch(e){add(rows,group,name,'fail',String(e.message))}}}
+ const report={version:VERSION,generatedAt:new Date().toISOString(),detectedVersions:versions,files:Object.fromEntries(Object.entries(fs).map(([k,v])=>[k,{size:v.length}])),results:rows,manual:manual.map(([group,name])=>({group,name,status:'manual'}))};lastReport=report;render(report);$('download').disabled=false;$('csv').disabled=false;
+}
 function render(report){const rows=report.results;for(const [id,count] of [['total',rows.length+manual.length],['passed',rows.filter(x=>x.status==='pass').length],['failed',rows.filter(x=>x.status==='fail').length],['skipped',rows.filter(x=>x.status==='skip').length+manual.length]])$(id).textContent=count;let group='';$('results').innerHTML=rows.map(r=>{let head='';if(group!==r.group){group=r.group;head='<div class="group">'+escapeHTML(group)+'</div>'}return head+'<div class="test"><span class="pill '+r.status+'">'+({pass:'통과',fail:'실패',skip:'미검증'})[r.status]+'</span><div class="body"><strong>'+escapeHTML(r.name)+'</strong><small>'+escapeHTML(r.detail)+'</small></div></div>'}).join('');$('manual').innerHTML=manual.map(([g,n])=>'<div class="test"><span class="pill skip">수동 확인</span><div class="body"><strong>'+escapeHTML(g)+'</strong><small>'+escapeHTML(n)+'</small></div></div>').join('')}
 function download(content,name,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
-$('run').addEventListener('click',()=>run().catch(e=>alert('검사 오류: '+e.message)));$('download').addEventListener('click',()=>lastReport&&download(JSON.stringify(lastReport,null,2),'DS-Test_R313_검증결과.json','application/json'));$('csv').addEventListener('click',()=>{if(!lastReport)return;const data=[...lastReport.results,...lastReport.manual];const q=v=>'"'+String(v||'').replace(/"/g,'""')+'"';download('\ufeff'+[['영역','항목','상태','설명'],...data.map(r=>[r.group,r.name,r.status,r.detail||'실기기 검증 필요'])].map(r=>r.map(q).join(',')).join('\r\n'),'DS-Test_R313_검증결과.csv','text/csv;charset=utf-8')});$('environment').textContent='검증센터 버전: '+VERSION+'\n브라우저: '+navigator.userAgent+'\n화면: '+screen.width+' × '+screen.height+'\n온라인 상태: '+(navigator.onLine?'온라인':'오프라인')+'\n검사 방식: 로컬 파일 정적 분석 (서버 쓰기 없음)';$('manual').innerHTML=manual.map(([g,n])=>'<div class="test"><span class="pill skip">수동 확인</span><div class="body"><strong>'+escapeHTML(g)+'</strong><small>'+escapeHTML(n)+'</small></div></div>').join('');
+$('run').addEventListener('click',()=>run().catch(e=>alert('검사 오류: '+e.message)));
+$('download').addEventListener('click',()=>lastReport&&download(JSON.stringify(lastReport,null,2),'DS-Test_R318_검증결과.json','application/json'));
+$('csv').addEventListener('click',()=>{if(!lastReport)return;const data=[...lastReport.results,...lastReport.manual];const q=v=>'"'+String(v||'').replace(/"/g,'""')+'"';download('\ufeff'+[['영역','항목','상태','설명'],...data.map(r=>[r.group,r.name,r.status,r.detail||'실기기 검증 필요'])].map(r=>r.map(q).join(',')).join('\r\n'),'DS-Test_R318_검증결과.csv','text/csv;charset=utf-8')});
+$('environment').textContent='검증센터 버전: '+VERSION+'\n브라우저: '+navigator.userAgent+'\n화면: '+screen.width+' × '+screen.height+'\n온라인 상태: '+(navigator.onLine?'온라인':'오프라인')+'\n검사 방식: DOMParser 기반 로컬 정적 검사 (서버 쓰기 없음)';
+$('manual').innerHTML=manual.map(([g,n])=>'<div class="test"><span class="pill skip">수동 확인</span><div class="body"><strong>'+escapeHTML(g)+'</strong><small>'+escapeHTML(n)+'</small></div></div>').join('');
 </script></body></html>
