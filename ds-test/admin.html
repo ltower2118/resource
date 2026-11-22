@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 관리자 V55X-R318</title><style>*{box-sizing:border-box;}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif;}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{font-size:24px;margin:0 0 8px;}h2{font-size:18px;margin:0 0 12px;}p{font-size:13px;color:#64748b;line-height:1.6;}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage.active{display:flex;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0;}.editor-toolbar button{padding:8px 11px;font-size:13px;}#previewStage{isolation:isolate;}#pvMessage{z-index:5;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}#status.error{background:#ffeaea;color:#a12b2b;}#status.ok{background:#e6f5e9;color:#245d39;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection{position:sticky;top:0;z-index:40;margin:0 0 12px;padding:10px 14px;background:#fff;box-shadow:0 5px 20px #17283b20;}#previewSection h2{font-size:15px;margin:0 0 7px;}#previewSection>p{margin:6px 0 0;font-size:11px;}#preview{width:100%;max-height:35vh;aspect-ratio:16/9;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;z-index:6;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{position:sticky;top:0;z-index:55;background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;display:flex;flex-wrap:wrap;gap:7px;align-items:center;box-shadow:0 5px 14px #1112;}#visualTools button{padding:9px 12px;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewSection{position:relative!important;top:auto!important;}#preview{height:auto!important;max-height:none!important;aspect-ratio:16/9;}#previewStage{transform-origin:0 0;}#visualHelp{font-size:12px;color:#64748b;margin:4px 0;}@media (max-width:600px){#visualTools{gap:5px;}#visualTools button{padding:8px;}#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{position:sticky!important;top:0!important;z-index:60;background:#fff;box-shadow:0 8px 24px #14233b22;padding:10px!important;}#visualTools{position:relative!important;top:auto!important;box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;max-height:none!important;height:auto!important;width:100%;overflow:hidden;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{position:relative!important;top:auto!important;z-index:1!important;max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;color:white;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;z-index:30;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.selected{border:2px dashed #5ce6ff;background:rgba(255,255,255,.06);}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;min-height:75px;padding:10px;border:1px solid #ccd7e4;border-radius:8px;font-size:17px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;overflow:visible!important;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:'↔';display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 관리자 V55X-R319</title><style>*{box-sizing:border-box;}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif;}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{font-size:24px;margin:0 0 8px;}h2{font-size:18px;margin:0 0 12px;}p{font-size:13px;color:#64748b;line-height:1.6;}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage.active{display:flex;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0;}.editor-toolbar button{padding:8px 11px;font-size:13px;}#previewStage{isolation:isolate;}#pvMessage{z-index:5;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}#status.error{background:#ffeaea;color:#a12b2b;}#status.ok{background:#e6f5e9;color:#245d39;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection{position:sticky;top:0;z-index:40;margin:0 0 12px;padding:10px 14px;background:#fff;box-shadow:0 5px 20px #17283b20;}#previewSection h2{font-size:15px;margin:0 0 7px;}#previewSection>p{margin:6px 0 0;font-size:11px;}#preview{width:100%;max-height:35vh;aspect-ratio:16/9;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;z-index:6;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{position:sticky;top:0;z-index:55;background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;display:flex;flex-wrap:wrap;gap:7px;align-items:center;box-shadow:0 5px 14px #1112;}#visualTools button{padding:9px 12px;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewSection{position:relative!important;top:auto!important;}#preview{height:auto!important;max-height:none!important;aspect-ratio:16/9;}#previewStage{transform-origin:0 0;}#visualHelp{font-size:12px;color:#64748b;margin:4px 0;}@media (max-width:600px){#visualTools{gap:5px;}#visualTools button{padding:8px;}#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{position:sticky!important;top:0!important;z-index:60;background:#fff;box-shadow:0 8px 24px #14233b22;padding:10px!important;}#visualTools{position:relative!important;top:auto!important;box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;max-height:none!important;height:auto!important;width:100%;overflow:hidden;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{position:relative!important;top:auto!important;z-index:1!important;max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;color:white;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;z-index:30;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.selected{border:2px dashed #5ce6ff;background:rgba(255,255,255,.06);}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;min-height:75px;padding:10px;border:1px solid #ccd7e4;border-radius:8px;font-size:17px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;overflow:visible!important;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:'↔';display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
 body.v16-message-mode #visualTools > #vBold,
 body.v16-message-mode #visualTools > #vUnder,
 body.v16-message-mode #visualTools > #vLeft,
@@ -513,7 +513,7 @@ body:not(.v51o-view-maintenance) #v74MaintenanceLCD{display:none!important;visib
 @keyframes r194-sky-turn{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes r194-star-twinkle{0%,100%{opacity:.12;transform:scale(.7)}45%{opacity:var(--star-alpha,.3);transform:scale(1.25)}}
 @media(prefers-reduced-motion:reduce){#v42WeatherPreview #wx50Scene.wx50-moon .r120-night-stars,#v42WeatherPreview #wx50Scene.wx50-moon .r120-night-star{animation:none!important}}</style><style id="r203-fixed-colon">.r185-time .r203-blink-colon{display:inline;visibility:visible;transition:opacity .12s linear;}</style><style id="r206-mobile-mini-css">#r205MiniLCD{display:none;position:fixed;top:12px;right:12px;bottom:auto;z-index:2147482000;width:270px;max-width:calc(100vw - 24px);padding:13px 16px;border-radius:14px;background:#10253df5;color:#e9f7ff;border:1px solid #6a91b0;box-shadow:0 6px 24px #0005;font-family:Arial,sans-serif;touch-action:none;user-select:none;cursor:grab;overflow:hidden}#r205MiniLCD .r205-mini-head{font-size:12px;color:#9cc7df;letter-spacing:.03em;margin-bottom:6px;padding-right:28px}#r205MiniLCD .r205-mini-time{font-size:clamp(31px,8vw,42px);font-weight:700;letter-spacing:-.045em;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1.2}#r205MiniLCD .r205-mini-date{font-size:14px;color:#c6d9e9;margin-top:6px;white-space:normal;line-height:1.35}#r205MiniLCD .r205-mini-close{position:absolute;right:7px;top:5px;border:0;background:transparent;color:#d5e7f5;font-size:22px;min-height:32px;padding:0 7px;cursor:pointer}#r205MiniToggle{display:none!important}@media(max-width:700px){#r205MiniLCD.r206-visible{display:block!important}#r205MiniLCD:not(.r206-visible){display:none!important}}@media(min-width:701px){#r205MiniLCD{display:none!important}}</style><style id="r207-floating-preview-css">#r205MiniLCD,#r205MiniToggle{display:none!important}#r207Float{display:none;position:fixed;z-index:2147482000;box-sizing:content-box;overflow:hidden;border:2px solid #77a6ca;border-radius:9px;background:#10253d;box-shadow:0 6px 24px #0007;touch-action:none;user-select:none;cursor:grab}#r207Float.r207-visible{display:block}#r207Viewport{position:absolute;inset:0;overflow:hidden;pointer-events:none}#r207Float #previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left;overflow:hidden;pointer-events:none}#r207Float #previewStage *{pointer-events:none!important}#r207Resize{position:absolute;bottom:0;right:0;z-index:10;width:37px;height:37px;border-radius:9px 0 0 0;background:#143c67dc;color:white;border:1px solid #a9cbe6;display:grid;place-items:center;font:26px Arial;cursor:nwse-resize;touch-action:none}@media(min-width:701px){#r207Float{display:none!important}}</style><style id="r208-clock-stable">#r185Clock .r185-time{white-space:nowrap;letter-spacing:-.055em}#r185Clock .r185-time>span{display:inline-block;vertical-align:baseline;transition:none!important;animation:none!important;filter:none!important;text-shadow:none!important}#r185Clock .r185-time>.r203-blink-colon{width:.42em;text-align:center}body.r185-on[data-lcd-screen="clock"] #time,body.r185-on[data-lcd-screen="clock"] #date{display:none!important}</style><style id="r209-clock-clarity">#r185Clock .r185-time{display:flex!important;align-items:baseline;justify-content:center;white-space:nowrap;letter-spacing:0!important;font-variant-numeric:tabular-nums;line-height:1!important}#r185Clock .r185-time>span{display:block;flex:none;letter-spacing:-.045em;line-height:1!important;animation:none!important;transition:none!important;text-shadow:none!important;filter:none!important}#r185Clock .r185-time>.r203-blink-colon{width:.30em!important;text-align:center;letter-spacing:0!important}#r185Clock .r185-period,#r185Clock .r185-date{flex-shrink:0}#r185Clock,#r185Clock *{font-synthesis:none}#previewStage.r185-on #pvTime,#previewStage.r185-on #pvDate{display:none!important;visibility:hidden!important;opacity:0!important}body.r185-on[data-lcd-screen="clock"] #time,body.r185-on[data-lcd-screen="clock"] #date{display:none!important;visibility:hidden!important;opacity:0!important}</style><style id="r209-key-style">.r209-key-wrap{position:relative;width:100%}.r209-key-wrap #key{width:100%;padding-right:58px!important}.r209-key-wrap #r209ShowKey{position:absolute;right:5px;top:50%;transform:translateY(-50%);height:36px;min-height:36px;width:44px;padding:4px;border:0;background:transparent;color:#1b476b;font-size:22px;border-radius:7px}.r209-key-wrap #r209ShowKey:focus-visible{outline:2px solid #246cb0}</style><style id="r225-settings-organization">
-/* R225: visual grouping only; controls and IDs remain unchanged. */
+
 .v225-settings-group{margin:10px 0;border:1px solid #d8e2ec;border-radius:12px;background:#fff;overflow:hidden;}
 .v225-settings-group>summary{list-style:none;display:flex;align-items:center;gap:9px;min-height:48px;padding:12px 14px;background:#f3f7fb;color:#193b5d;font-size:15px;font-weight:800;cursor:pointer;user-select:none;}
 .v225-settings-group>summary::-webkit-details-marker{display:none;}
@@ -544,14 +544,14 @@ body:not(.v51o-view-maintenance) #v74MaintenanceLCD{display:none!important;visib
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style id="r228-admin-typography">
-/* Admin UI typography only. LCD preview typography remains controlled by its own settings. */
+
 html, body, .wrap, #v51oConsole, #v51uTabbed, #v51rWorkspace,
 #v42ClockPanel, #v42TextPanel, #v42WeatherPanel, #v42SequencePanel,
 #v51hMaintenancePanel, #v51mShadowPanel, #saveSection,
 #v42Tabs, #v51oSectionCaption, #v51pEditBar, #v42Dock {
   font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', Arial, sans-serif !important;
 }
-/* Controls and navigation inherit the same family without overriding LCD preview content. */
+
 #v51oConsole button, #v51uTabbed button, #v42Dock button,
 #v42ClockPanel button, #v42TextPanel button, #v42WeatherPanel button,
 #v42SequencePanel button, #saveSection button,
@@ -565,7 +565,7 @@ html, body, .wrap, #v51oConsole, #v51uTabbed, #v51rWorkspace,
 #v51uTabbed input, #v51uTabbed select, #v51uTabbed textarea { font-weight:400; }
 </style>
 <style id="r229-group-repair">
-/* R229: use the existing v52n details structure; no duplicate empty headings. */
+
 #v42ClockPanel .v52n-fold>summary,#v42TextPanel .v52n-fold>summary,#v42WeatherPanel .v52n-fold>summary{cursor:pointer;}
 #v42ClockPanel .v52n-fold>summary::after,#v42TextPanel .v52n-fold>summary::after,#v42WeatherPanel .v52n-fold>summary::after{color:#164a78!important;font-weight:900!important;}
 #v42ClockPanel #r185Panel>summary{color:#153c63!important;cursor:pointer;}
@@ -579,7 +579,7 @@ html, body, .wrap, #v51oConsole, #v51uTabbed, #v51rWorkspace,
 body.r239-basic .r239-advanced{display:none!important}
 @media(max-width:620px){#r239ModeBar{padding:9px;gap:6px}#r239ModeBar .r239-caption{font-size:12px}#r239ModeBar button{padding:8px 11px;font-size:13px}}
 </style><style id="r241-weather-animation-fallback">
-/* R241: always provide a visible weather-specific scene underneath optional images. */
+
 #weatherScreen[data-weather-background-mode="animated"] #wx50Scene,
 #v42WeatherPreview[data-background-mode="animated"] #wx50Scene{
  background-color:var(--r241-bottom,#526f91)!important;
@@ -596,7 +596,7 @@ body.r239-basic .r239-advanced{display:none!important}
 #wx50Scene.wx50-snow,#wx50Scene.wx50-blizzard{--r241-top:#607a9a;--r241-mid:#9cb0c8;--r241-bottom:#d2dce7}
 #wx50Scene.wx50-sleet{--r241-top:#3d5775;--r241-mid:#738aa7;--r241-bottom:#b5c3d1}
 #wx50Scene.wx50-thunder{--r241-top:#17243c;--r241-mid:#394b6a;--r241-bottom:#697895}
-/* Keep existing image, animation, and text layers untouched. */
+
 </style><style id="r244LayoutWorkflowStyle">
 #v42TextPanel .r244-live-banner{display:flex;flex-direction:column;gap:4px;padding:12px 14px;margin:12px 0;background:#eaf3ff;border:1px solid #a9c8e9;border-left:4px solid #185a92;border-radius:10px;color:#163d63}
 #v42TextPanel .r244-live-banner b{font-size:15px}#v42TextPanel .r244-live-banner span{font-size:13px;line-height:1.5}
@@ -611,7 +611,7 @@ body.r239-basic .r239-advanced{display:none!important}
 #v42TextPanel .r30-buttons{display:flex;flex-wrap:wrap;gap:8px}
 #v42TextPanel .r30-buttons button{flex:1 1 170px;white-space:normal}
 </style><style id="r246LibraryButtonHierarchy">
-/* R246: Visual hierarchy only. Existing IDs, handlers and save behavior unchanged. */
+
 #v42TextPanel #v55xR30Library .r30-buttons button{min-height:46px;padding:10px 12px;border-radius:10px;box-shadow:none!important;font-weight:650;transition:background-color .15s,border-color .15s,color .15s;}
 #v42TextPanel #v55xR30Library #r30Refresh,
 #v42TextPanel #v55xR30Library #r30Load,
@@ -623,7 +623,7 @@ body.r239-basic .r239-advanced{display:none!important}
 @media(hover:hover){#v42TextPanel #v55xR30Library #r30Refresh:hover,#v42TextPanel #v55xR30Library #r30Load:hover,#v42TextPanel #v55xR30Library #r30Overwrite:hover{background:#e5ebf3!important;}#v42TextPanel #v55xR30Library #r30Delete:hover{background:#faeeee!important;color:#9b2d39!important;border-color:#e2b9c0!important;}#v42TextPanel #v55xR30Library #r30Save:hover{background:#163c70!important;}}
 @media(max-width:600px){#v42TextPanel #v55xR30Library .r30-buttons{gap:7px;}#v42TextPanel #v55xR30Library .r30-buttons button{min-height:46px;}}
 </style><style id="r253-mobile-detail-layout">
-/* R253: presentation only; preserve DOM ids, listeners and stored settings. */
+
 #v42ClockPanel,#v42TextPanel,#v42WeatherPanel{min-width:0;overflow-wrap:anywhere}
 #v42ClockPanel *,#v42TextPanel *,#v42WeatherPanel *{min-width:0}
 #v42ClockPanel input,#v42ClockPanel select,#v42ClockPanel textarea,#v42TextPanel input,#v42TextPanel select,#v42TextPanel textarea,#v42WeatherPanel input,#v42WeatherPanel select,#v42WeatherPanel textarea{max-width:100%;box-sizing:border-box}
@@ -680,7 +680,7 @@ body.r279-hide-guides #v13Canvas .v13block.selected{border-color:transparent!imp
 #r279Panel .r279-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
 #r279Panel label{font-size:13px;margin:0}#r279Panel input[type=number]{width:90px;min-height:40px}#r279Panel button{min-height:39px;padding:8px 12px;background:#edf3fa;color:#244b70;border:1px solid #cad8e7}#r279Panel button[aria-pressed=true]{background:#244b70;color:#fff}
 </style><style id="r280-toolbar-css">.r274-toolbar.active{max-width:min(900px,calc(100vw - 16px))!important}.r280-extra{display:flex;flex-wrap:wrap;align-items:center;gap:7px;width:100%;padding-top:7px;border-top:1px solid #dbe5ef}.r280-extra label{display:flex;align-items:center;gap:5px;margin:0;font-size:12px;font-weight:700;white-space:nowrap}.r280-extra select{width:auto;max-width:145px;min-height:36px;padding:5px}.r280-extra input[type=number]{width:75px;min-height:36px;padding:5px}.r280-extra #r280Spacing:not([hidden]){display:flex;flex-wrap:wrap;align-items:center;gap:8px;width:100%}.r280-extra #r280Spacing[hidden]{display:none!important}.r280-extra .r280-toggle{background:#e8eff8!important;color:#244b74!important;border:1px solid #cbd9e9!important}.r274-toolbar{max-height:65vh;overflow-y:auto}@media(max-width:600px){.r280-extra{gap:5px}.r280-extra label{font-size:11px}.r280-extra select{max-width:115px}}</style><style id="r286-flat-editor-ui">
-/* R286: visual-only flattening. Preserve all controls, IDs, listeners and data. */
+
 #v42TextPanel #v13Panel, #v42TextPanel #r150-block, #v42TextPanel .r150-group-body{background:transparent!important;box-shadow:none!important;outline:0!important;}
 #v42TextPanel #v13Panel{border:0!important;border-radius:0!important;padding:0!important;margin:0!important;}
 #v42TextPanel #r279Panel,#v42TextPanel #r270MessageSize,#v42TextPanel #r248Editor,#v42TextPanel #r256SaveActions{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;outline:0!important;padding:10px 0!important;margin:8px 0!important;}
@@ -694,12 +694,12 @@ body.r279-hide-guides #v13Canvas .v13block.selected{border-color:transparent!imp
 #v42TextPanel .r270-size-hint,#v42TextPanel #r279Panel small{font-size:11px!important;color:#78889a!important;}
 @media(max-width:720px){#v42TextPanel #r279Panel,#v42TextPanel #r270MessageSize,#v42TextPanel #r248Editor{padding:8px 0 12px!important;margin:5px 0!important;}#v42TextPanel #v13Panel .v13row>label{min-width:0!important;}#v42TextPanel #r279Panel button{padding:8px 10px!important;}}
 </style><style id="r288-scroll-edit-stability">
-/* Keep active editor controls visible while the page scrolls. */
+
 #r274Tools.active{position:fixed!important;left:8px!important;right:8px!important;top:auto!important;bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;width:auto!important;max-width:900px!important;margin:0 auto!important;max-height:min(40dvh,340px)!important;overflow:auto!important;overscroll-behavior:contain!important;z-index:10030!important;}
 #r274Tools.active[hidden]{display:flex!important;}
 @media(min-width:901px){#r274Tools.active{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(900px,calc(100vw - 24px))!important;}}
 </style><style id="r290-ui-fix">
-/* Keep DOM and event bindings intact; remove only nested visual shells. */
+
 #v42TextPanel #r150-block,#v42TextPanel #r150-block .r150-group-body,
 #v42TextPanel #v13Panel,#v42TextPanel #r279Panel,
 #v42TextPanel #r270MessageSize,#v42TextPanel #r248Editor,
@@ -710,8 +710,7 @@ body.r279-hide-guides #v13Canvas .v13block.selected{border-color:transparent!imp
 #v42TextPanel #r270MessageSize.r270-size-panel{width:100%!important;}
 #v42TextPanel #r256SaveActions{padding:8px 0!important;}
 #v42TextPanel #r279Panel strong,#v42TextPanel #r270MessageSize .r270-title{color:#173a62!important;}
-/* Hide entire editor on non-edit navigation and on non-message subtabs.
-   Override legacy display:block!important rules, including mobile. */
+
 body:not(.v51o-view-edit) #v42TextPanel,
 body:not(.v51o-view-edit) #r150-block,
 body:not(.v51o-view-edit) #v13Panel,
@@ -723,7 +722,7 @@ body.v51o-view-edit:has([data-v42tab="message"][aria-selected="false"]) #v13Pane
 @media(max-width:620px){#v42TextPanel #r279Panel,#v42TextPanel #r270MessageSize,#v42TextPanel #r248Editor{padding:9px 0!important;margin:7px 0!important;}#v42TextPanel #v13Panel{padding:0!important;}}
 </style>
 <style id="r299-flat-message-layout">
-/* R299: presentation-only flattening; all existing inputs and event handlers remain intact. */
+
 body.r296-message-tab #v42TextPanel{background:#fff!important;border:1px solid #e1e7ee!important;border-radius:13px!important;padding:14px!important;}
 body.r296-message-tab #v42TextPanel #v13Panel,
 body.r296-message-tab #v42TextPanel #r279Panel,
@@ -747,7 +746,7 @@ body.r296-message-tab #v42TextPanel #r279Panel input[type=number]{background:#ff
 @media(max-width:620px){body.r296-message-tab #v42TextPanel{padding:12px!important;}body.r296-message-tab #v42TextPanel #r279Panel .r279-row button{flex:1 1 27%!important;min-width:0!important;padding:8px 5px!important;}body.r296-message-tab #v42TextPanel #r279Panel .r279-row label{flex:1 1 42%!important;min-width:0!important;}body.r296-message-tab #v42TextPanel #r279Panel input[type=number]{width:95px!important;max-width:100%!important;}}
 </style>
 <style id="r300-actual-flat-layout">
-/* R300: remove the actual nested card decoration regardless of body tab class. */
+
 #v51uTabbed #v42TextPanel{background:#fff!important;border:1px solid #dfe6ed!important;box-shadow:none!important;padding:12px!important;}
 #v51uTabbed #v42TextPanel #v13Panel,
 #v51uTabbed #v42TextPanel #r279Panel,
@@ -774,7 +773,7 @@ body.r296-message-tab #v42TextPanel #r279Panel input[type=number]{background:#ff
 @media(max-width:620px){#v51uTabbed #v42TextPanel{padding:10px!important;}#v51uTabbed #v42TextPanel #r279Panel,#v51uTabbed #v42TextPanel #r270MessageSize{margin-top:0!important;}}
 </style>
 <style id="r301-flat-text-real-dom">
-/* R301: v42TextPanel is outside v51uTabbed. Remove actual nested surfaces. */
+
 #v42TextPanel #v13Panel,
 #v42TextPanel #r279Panel,
 #v42TextPanel #r270MessageSize,
@@ -797,14 +796,13 @@ body.r296-message-tab #v42TextPanel #r279Panel input[type=number]{background:#ff
 #v42TextPanel #r270MessageSize {padding-top:0!important;padding-bottom:14px!important;margin:0 0 12px!important;border-bottom:1px solid #e5eaf0!important;}
 #v42TextPanel #r248Editor {padding-top:12px!important;margin-top:12px!important;border-top:1px solid #e5eaf0!important;}
 #v42TextPanel .r279-row {gap:8px!important;}
-/* Image manager is a modal-only feature, never a standalone bottom panel. */
+
 body > #r289ImageManager {display:none!important;}
 #r291ImageModal[hidden] {display:none!important;}
 #r291ImageHost > #r289ImageManager {display:block!important;}
 @media(max-width:620px){#v42TextPanel #r279Panel,#v42TextPanel #r270MessageSize{margin-top:0!important;}}
 </style><style id="r302-message-flat-structure">
-/* R302: real runtime hierarchy is v42TextPanel > r150-group > body > v13Panel.
-   Remove ALL decorative card shells while retaining the input nodes and listeners. */
+
 #v42TextPanel{background:#fff!important;border:1px solid #e2e8ef!important;box-shadow:none!important;}
 #v42TextPanel .r150-group,
 #v42TextPanel .r150-group-body,
@@ -835,7 +833,7 @@ body > #r289ImageManager {display:none!important;}
 #v42TextPanel .r150-group[hidden]{display:none!important;}
 @media(max-width:620px){#v42TextPanel{padding:12px!important;}#v42TextPanel .r150-group-head{padding:6px 0!important;}#v42TextPanel .r150-group-body{gap:0!important;}#v42TextPanel #r279Panel .r279-row button{min-height:44px!important;}}
 </style><style id="r303-flat-layout">
-/* R303: flatten actual runtime containers, including those moved outside v51uTabbed. */
+
 #v42TextPanel #r150-block,#v42TextPanel .r150-group-body,
 #v42TextPanel #v13Panel,#v42TextPanel #r279Panel,
 #v42TextPanel #r270MessageSize,#v42TextPanel #r248Editor,
@@ -859,7 +857,7 @@ body.r296-message-tab #previewSection #r294Actions{display:grid!important;}
 #previewSection #r294Actions button{min-height:44px;font-size:clamp(11px,2.8vw,14px);padding:7px 2px;white-space:normal;}
 @media(max-width:520px){#v42TextPanel{padding:11px!important;}#r150-block .r150-group-body{padding:0!important;}}
 </style><style id="r304-single-detail-card">
-/* R304: one visible shell around ALL character-box settings. The title stays outside. */
+
 #v42TextPanel #r150-block,
 #r150-block.r266-editor-after-quick{
  background:transparent!important;border:0!important;box-shadow:none!important;
@@ -880,7 +878,7 @@ body.r296-message-tab #previewSection #r294Actions{display:grid!important;}
  box-shadow:none!important;outline:0!important;
  padding:12px!important;margin:0!important;min-width:0!important;
 }
-/* Inner groups stay visually flat; retain controls and event bindings. */
+
 #r150-block .r150-group-body :is(#v13Panel,#r279Panel,#r270MessageSize,#r248Editor,#r256SaveActions,.r270-size-panel,.r280-panel,.r150-card,.r150-inner,.r280-box,.r270-box){
  background:transparent!important;border:0!important;border-radius:0!important;
  box-shadow:none!important;outline:0!important;
@@ -894,7 +892,7 @@ body.r296-message-tab #previewSection #r294Actions{display:grid!important;}
  #r150-block > .r150-group-head{font-size:18px!important;}
 }
 </style><style id="r310-button-feedback">
-/* R310: keyboard/touch feedback and persistent state for actual toggle controls */
+
 button, .btn, [role="button"]{transition:filter .12s ease,transform .12s ease,box-shadow .12s ease; -webkit-tap-highlight-color:transparent}
 button:active,.btn:active,[role="button"]:active{filter:brightness(.82)!important;transform:scale(.975)}
 button:focus-visible,[role="button"]:focus-visible{outline:3px solid #24a6d2!important;outline-offset:2px!important}
@@ -910,9 +908,9 @@ button.r310-selected::after{content:' ✓';font-weight:900}
 #r289Grid .r289-item.r312-selected:after{content:'✓ 선택됨';position:absolute;right:9px;top:9px;padding:4px 7px;border-radius:7px;background:#1466a1;color:#fff;font-size:12px;font-weight:800;pointer-events:none}
 #r289Grid .r306-image-choice[aria-pressed="true"]{outline:none!important}
 </style><style id="r312PreviewNoticeStyle">#r312PreviewNotice{display:grid;gap:5px;margin:10px 0 12px;padding:11px 12px;background:#f0f7ff;border:1px solid #c9ddf3;border-radius:10px;color:#20456f;line-height:1.45;font-size:13px}#r312PreviewNotice strong{font-size:14px;color:#165b83}#r312PreviewNotice span{color:#52677e;font-size:12px}</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div>
-  <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R318</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+  <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R319</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
- <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V55X-R318</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+ <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V55X-R319</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -1056,7 +1054,7 @@ button.r310-selected::after{content:' ✓';font-weight:900}
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R318" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R318" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R318" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R319" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R319" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R319" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
 <style id="r130-test-style">#v53aAnimationModal .v53a-picks{max-height:32vh;overflow:auto}#r130TestNote{margin:8px 0;padding:10px 12px;border-radius:9px;background:#e9f4ff;color:#173e67;font-size:13px;line-height:1.5}#r130TestLaunch{margin:9px 0;background:#173a70;color:#fff}#v53aStage .r129-landscape{object-fit:cover}#v53aStage #wx50Scene{position:absolute;inset:0;overflow:hidden}#v53aStage .v53a-overlay{z-index:10;pointer-events:none}</style>
 <div id="r130TestNote">12종 날씨와 일출·일몰을 현재 시각에 관계없이 테스트할 수 있습니다. 테스트 결과는 실제 LCD·서버 설정에 저장되지 않습니다.</div>
 <button type="button" id="r130TestLaunch">12종 날씨 · 일출/일몰 테스트 열기</button>
@@ -1508,7 +1506,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V55X-R318&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V55X-R319&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1707,8 +1705,8 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=['clock','message','weather'].includes(mode)?mode:'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R318';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
- if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R318';}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R319';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R319';}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock');
@@ -2286,7 +2284,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 관리자 V55X-R318';
+ document.title='LCD 관리자 V55X-R319';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2303,7 +2301,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 관리자 V55X-R318';
+document.title='LCD 관리자 V55X-R319';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -3220,7 +3218,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  const layer=document.createElement('div');layer.id='v52wLcdPreview';
  const frame=document.createElement('iframe');frame.title='실제 LCD 엔진 날씨 실시간 미리보기';
  frame.loading='lazy';frame.setAttribute('aria-label','날씨 LCD 출력과 동일한 배치 미리보기');
- frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R318';
+ frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R319';
  layer.appendChild(frame);
  const tag=document.createElement('span');tag.id='v52wLcdPreviewTag';tag.textContent='실제 LCD 배치 · 16:9';layer.appendChild(tag);
  viewport.appendChild(layer);
@@ -3357,7 +3355,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
   if(!lcdTestFrame){
    lcdTestFrame=document.createElement('iframe');lcdTestFrame.title='실제 LCD 엔진 날씨 애니메이션 테스트';
    lcdTestFrame.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;background:#10243a';
-   lcdTestFrame.src='main.html?preview=1&previewScreen=weather&v=V55X-R318';
+   lcdTestFrame.src='main.html?preview=1&previewScreen=weather&v=V55X-R319';
    stage.replaceChildren(lcdTestFrame);
    lcdTestFrame.addEventListener('load',()=>setTimeout(sendTest,150));
   }else sendTest();
@@ -4904,7 +4902,7 @@ const float=document.getElementById('r207Float');let start=null;document.addEven
 setInterval(()=>{document.body.classList.toggle('r251-text-active',typeof visualTarget!=='undefined'&&visualTarget==='message');if(!editing)refresh(false)},250);refresh(true)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
 <style id="r252-unified-edit-layout">
-/* Shared page rhythm: preview -> quick edit -> active page editor -> advanced groups. */
+
 #r31Quick{margin-top:10px!important;margin-bottom:12px!important;}
 #v42ClockPanel,#v42TextPanel,#v42WeatherPanel{margin-top:10px!important;}
 #v42ClockPanel>.r252-section-intro,#v42TextPanel>.r252-section-intro,#v42WeatherPanel>.r252-section-intro{font-size:13px;color:#60758b;line-height:1.5;margin:-4px 0 12px;padding:9px 11px;background:#f1f6fb;border:1px solid #dce7f0;border-radius:9px;}
@@ -5057,7 +5055,7 @@ function start(){arrange();document.addEventListener('click',selectMessage,true)
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();</script><style id="r266-message-editor-placement">
-/* Only the existing message editor group is moved; no duplicate controls. */
+
 #r150-block.r266-editor-after-quick{width:100%;max-width:100%;margin:10px 0 16px;box-sizing:border-box;scroll-margin-top:18px;}
 #r150-block.r266-editor-after-quick .r150-group-body{display:block!important;min-width:0;padding:12px;}
 #r150-block.r266-editor-after-quick #v13Panel{display:block!important;width:100%;min-width:0;}
@@ -5499,7 +5497,7 @@ document.addEventListener('keydown',e=>{if(!modal.hidden&&e.key==='Escape'){e.pr
 })();</script>
 
 <style id="r292-stability-css">
-/* Only the selected text owns resize handles. */
+
 #v13Canvas .v13block:not(.selected) .r279-handle{display:none!important}
 #v13Canvas .v13block.selected .r279-handle{display:block!important}
 body:not(.v51o-view-edit) #r274Tools,body:not(.v51o-view-edit) #r281EditStart{display:none!important}
@@ -5509,13 +5507,13 @@ body:has([data-v42tab="message"][aria-selected="false"]) #r281EditStart{display:
 
 
 <style id="r293-repeat-selection-css">
-/* Keep one active selection and one set of eight handles for any block count. */
+
 #v13Canvas .v13block:not(.selected) .r279-handle{display:none!important}
 body:not(.v51o-view-edit) #r274Tools{display:none!important}
 </style>
 
 <style id="r294-mobile-unified-style">
-/* R294: one persistent message inspector; remove redundant quick editor only in message mode. */
+
 body.v51o-view-edit:has([data-v42tab="message"][aria-selected="true"]) #r31Quick{display:none!important}
 #r294Actions{display:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0;padding:0}
 body.v51o-view-edit:has([data-v42tab="message"][aria-selected="true"]) #r294Actions{display:grid}
@@ -5584,7 +5582,7 @@ window.r294SelectBlock=select;window.r295SelectBlock=select;window.r298SelectBlo
 window.r292RestoreImageView=function(){const modal=$('r291ImageModal');if(modal)modal.hidden=true;document.body.classList.remove('r291-modal-open')};
 })();</script>
 <style id="r296-unified-message-ui">
-/* R296: message tab has one inspector (#v13Panel); quick edit is legacy for other tabs. */
+
 body.r296-message-tab #r31Quick{display:none!important}
 body.r296-message-tab #r294Inspector{display:none!important}
 body.r296-message-tab #v42TextPanel #v13Panel{display:block!important;border:0!important;background:transparent!important;padding:0!important;margin:0!important;box-shadow:none!important}
@@ -5614,7 +5612,7 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
 <style id="r297-stable-inspector">
-/* Preserve one persistent inspector and visible handles across repeated selections. */
+
 body.r296-message-tab #v42TextPanel #v13Panel{visibility:visible!important;opacity:1!important}
 body.r296-message-tab #v13Canvas .v13block.selected .r279-handle{display:block!important}
 @media(max-width:620px){body.r296-message-tab #r294Actions button{min-height:48px}}
@@ -5658,8 +5656,7 @@ window.addEventListener('load',place,{once:true});
 setTimeout(place,750);setTimeout(place,1600);
 })();</script>
 <style id="r305QuickPanelIntegration">
-/* Keep the legacy quick editor and its event bindings for clock/weather compatibility.
-   On the message tab, the LCD canvas and the unified text panel are the sole editor. */
+
 html body.r305-message-mode #r31Quick,
 html body.r305-message-mode #r31Quick[style],
 html body.r305-message-mode #v51uTabbed #r31Quick,
@@ -5697,7 +5694,7 @@ html body.r305-message-mode #r180WeatherQuick {display:none!important;}
 </script>
 <style id="r306Styles">
 #r306ModeBar{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}#r306ModeBar button{min-height:45px;background:#edf2f8;color:#264567;border:1px solid #cbd8e7}#r306ModeBar button[aria-pressed="true"]{background:#1d4684;color:#fff}#r306ColorPane{padding:10px 2px 16px}#r306ColorPane[hidden],#r306ImagePane[hidden]{display:none!important}#r306ColorPane input{width:100%;height:48px}#r306ApplyColor{width:100%;margin-top:12px}#r306ImagePane #r289ImageManager{border:0;background:transparent;padding:5px 0;margin:0}#r306ImagePane #r289ImageManager>h3{display:none}#r306ManageToggle{width:100%;margin:6px 0}#r306ImagePane .r289-item .r306-image-choice{display:block;width:100%;padding:0;background:transparent!important;color:#253c59!important;border:0!important;text-align:left;min-height:0}#r306ImagePane .r289-item .r306-image-choice img{width:100%}#r306ImagePane .r289-item .r306-delete{display:none;width:100%;margin-top:6px}#r306ImagePane.r306-managing .r306-delete{display:block}#r306ImagePane .r289-grid{grid-template-columns:repeat(2,minmax(0,1fr))} .r306-presets{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}.r306-presets button{height:43px;border:2px solid #b7c7d8;border-radius:8px}
-/* No blank legacy quick-edit area outside the edit view */
+
 body:not(.v51o-view-edit) #r31Quick{display:none!important}
 </style><script id="r306BackgroundUnified">(function(){'use strict';
 const $=id=>document.getElementById(id);const modal=$('r291ImageModal');if(!modal)return;
@@ -5714,8 +5711,7 @@ $('r306ManageToggle').addEventListener('click',()=>{const on=image.classList.tog
 new MutationObserver(()=>{if(!modal.hidden){const t=target();const input=$(t==='clock'?'clockBackgroundColor':t==='weather'?'weatherBackgroundColor':'v51eMessageBgColor');if(input&&/^#[0-9a-f]{6}$/i.test(input.value))$('r306ColorValue').value=input.value;mode('image');if(typeof window.r312UpdateSelection==='function')window.r312UpdateSelection();image.classList.remove('r306-managing');$('r306ManageToggle').setAttribute('aria-pressed','false');$('r306ManageToggle').textContent='이미지 관리 · 삭제';}}).observe(modal,{attributes:true,attributeFilter:['hidden']});
 })();</script>
 <style id="r307PageVisibilityGuard">
-/* R307: the message editor is physically outside the dynamically built tab shell.
-   Hide the WHOLE section (heading and empty shell included) except in edit/message. */
+
 html body:not(.v51o-view-edit) #v42TextPanel,
 html body.v51o-view-edit:not(.r307-message-active) #v42TextPanel,
 html body:not(.v51o-view-edit) #r294Inspector,
@@ -5724,7 +5720,7 @@ html body.v51o-view-edit:not(.r307-message-active) #r294Inspector {
 }
 html body:not(.v51o-view-edit) #r294Actions,
 html body.v51o-view-edit:not(.r307-message-active) #r294Actions {display:none!important;}
-/* Do not override visibility on the actual message tab: existing panel rules own it. */
+
 </style>
 <script id="r307PageVisibilityRuntime">(function(){'use strict';
  const body=document.body;
@@ -5756,8 +5752,7 @@ html body.v51o-view-edit:not(.r307-message-active) #r294Actions {display:none!im
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();</script>
 <style id="r308ActualDetachedGroupGuard">
-/* R308: r266 moves #r150-block outside #v42TextPanel, next to #r31Quick.
-   Hide the detached section itself, not just the original text panel. */
+
 html body:not(.v51o-view-edit) #r150-block,
 html body.v51o-view-edit:not(.r307-message-active) #r150-block,
 html body:not(.v51o-view-edit) #r150-block.r266-editor-after-quick,
