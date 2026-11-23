@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 관리자 V55X-R334</title><style>*{box-sizing:border-box;}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif;}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{font-size:24px;margin:0 0 8px;}h2{font-size:18px;margin:0 0 12px;}p{font-size:13px;color:#64748b;line-height:1.6;}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage.active{display:flex;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0;}.editor-toolbar button{padding:8px 11px;font-size:13px;}#previewStage{isolation:isolate;}#pvMessage{z-index:5;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}#status.error{background:#ffeaea;color:#a12b2b;}#status.ok{background:#e6f5e9;color:#245d39;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection{position:sticky;top:0;z-index:40;margin:0 0 12px;padding:10px 14px;background:#fff;box-shadow:0 5px 20px #17283b20;}#previewSection h2{font-size:15px;margin:0 0 7px;}#previewSection>p{margin:6px 0 0;font-size:11px;}#preview{width:100%;max-height:35vh;aspect-ratio:16/9;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;z-index:6;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{position:sticky;top:0;z-index:55;background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;display:flex;flex-wrap:wrap;gap:7px;align-items:center;box-shadow:0 5px 14px #1112;}#visualTools button{padding:9px 12px;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewSection{position:relative!important;top:auto!important;}#preview{height:auto!important;max-height:none!important;aspect-ratio:16/9;}#previewStage{transform-origin:0 0;}#visualHelp{font-size:12px;color:#64748b;margin:4px 0;}@media (max-width:600px){#visualTools{gap:5px;}#visualTools button{padding:8px;}#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{position:sticky!important;top:0!important;z-index:60;background:#fff;box-shadow:0 8px 24px #14233b22;padding:10px!important;}#visualTools{position:relative!important;top:auto!important;box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;max-height:none!important;height:auto!important;width:100%;overflow:hidden;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{position:relative!important;top:auto!important;z-index:1!important;max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;color:white;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;z-index:30;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.selected{border:2px dashed #5ce6ff;background:rgba(255,255,255,.06);}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;min-height:75px;padding:10px;border:1px solid #ccd7e4;border-radius:8px;font-size:17px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;overflow:visible!important;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:'↔';display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 관리자 V55X-R335</title><style>*{box-sizing:border-box;}body{margin:0;background:#edf2f7;color:#1d2d42;font-family:Arial,'Malgun Gothic',sans-serif;}.wrap{max-width:880px;margin:auto;padding:20px 15px 80px;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{font-size:24px;margin:0 0 8px;}h2{font-size:18px;margin:0 0 12px;}p{font-size:13px;color:#64748b;line-height:1.6;}label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;aspect-ratio:16/9;background:#223a57;border-radius:12px;overflow:hidden;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:top left;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage.active{display:flex;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{min-height:125px;max-height:330px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0;}.editor-toolbar button{padding:8px 11px;font-size:13px;}#previewStage{isolation:isolate;}#pvMessage{z-index:5;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}#status.error{background:#ffeaea;color:#a12b2b;}#status.ok{background:#e6f5e9;color:#245d39;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection{position:sticky;top:0;z-index:40;margin:0 0 12px;padding:10px 14px;background:#fff;box-shadow:0 5px 20px #17283b20;}#previewSection h2{font-size:15px;margin:0 0 7px;}#previewSection>p{margin:6px 0 0;font-size:11px;}#preview{width:100%;max-height:35vh;aspect-ratio:16/9;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;z-index:6;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{position:sticky;top:0;z-index:55;background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;display:flex;flex-wrap:wrap;gap:7px;align-items:center;box-shadow:0 5px 14px #1112;}#visualTools button{padding:9px 12px;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewSection{position:relative!important;top:auto!important;}#preview{height:auto!important;max-height:none!important;aspect-ratio:16/9;}#previewStage{transform-origin:0 0;}#visualHelp{font-size:12px;color:#64748b;margin:4px 0;}@media (max-width:600px){#visualTools{gap:5px;}#visualTools button{padding:8px;}#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{position:sticky!important;top:0!important;z-index:60;background:#fff;box-shadow:0 8px 24px #14233b22;padding:10px!important;}#visualTools{position:relative!important;top:auto!important;box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;max-height:none!important;height:auto!important;width:100%;overflow:hidden;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{position:relative!important;top:auto!important;z-index:1!important;max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;color:white;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;z-index:30;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.selected{border:2px dashed #5ce6ff;background:rgba(255,255,255,.06);}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;min-height:75px;padding:10px;border:1px solid #ccd7e4;border-radius:8px;font-size:17px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;overflow:visible!important;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:'↔';display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
 body.v16-message-mode #visualTools > #vBold,
 body.v16-message-mode #visualTools > #vUnder,
 body.v16-message-mode #visualTools > #vLeft,
@@ -667,9 +667,9 @@ body.r239-basic .r239-advanced{display:none!important}
 #r254PcResize{position:absolute;right:0;bottom:0;width:36px;height:36px;display:grid;place-items:center;background:#164a78e8;color:white;border:1px solid #a6c6dd;border-radius:9px 0 0 0;cursor:nwse-resize;font:24px Arial;z-index:5}
 #r254PcFloat:focus-visible{outline:3px solid #72c2ed}
 </style><style id="r256-text-workflow">body.v51o-view-edit.r251-text-active #v13Panel #r248Editor{display:block!important;position:static!important;margin:10px 0!important;padding:12px!important;background:#f6f9fd;border:1px solid #cbdbe9;border-radius:10px}#v13Panel #v13TextInput,#v13Panel #v16LiveHint{display:none!important}#v13Panel>label:has(+ #v16LiveHint){display:none!important}#r256SaveActions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}#r256SaveActions button{flex:1 1 190px;min-height:46px}#r256SaveActions .r256-primary{background:#1d5488;color:white}#r256SaveActions .r256-neutral{background:#eaf0f6;color:#24415c;border:1px solid #cbd9e6}#r248Editor .tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}#r248Editor .tools label{display:flex;align-items:center;gap:8px}#r248Editor .tools input[type=color]{width:54px;min-height:42px}#r248Rich{background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:12px;min-height:115px;white-space:pre-wrap;overflow-wrap:anywhere}#v42TextPanel #v55xR30Library{margin-top:12px}@media(max-width:620px){#r256SaveActions{display:grid;grid-template-columns:1fr 1fr}#r256SaveActions button{min-width:0;padding:10px 5px;font-size:13px}}</style><style id="r332BroadcastPreviewStyle">#r332BroadcastState{display:inline-flex;align-items:center;gap:6px;margin:5px 0 9px;padding:7px 11px;border:1px solid #cbd9e5;border-radius:20px;background:#edf3f9;color:#36536b;font-size:13px;font-weight:800}#r332BroadcastState.active{background:#e2f4e9;color:#17633b;border-color:#91d3a9}#r332LibraryPreview{margin:12px 0;padding:13px;border:1px solid #cbd9e6;border-radius:12px;background:#f7fafc}#r332LibraryPreview h4{margin:0 0 8px;font-size:15px}#r332LibraryCanvas{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#101827;border:2px solid #8fa8bf;border-radius:8px}#r332LibraryStage{position:absolute;inset:0;width:1920px;height:1080px;transform-origin:top left;pointer-events:none}#r332LibraryInfo{font-size:12px;color:#536b81;margin:8px 0 0;line-height:1.5}#r332LibraryPreview button{margin-top:8px;background:#e5eff9;color:#184a76;border:1px solid #bcd0e2}#r332BroadcastState.mini{position:absolute;top:5px;left:5px;z-index:30;margin:0;pointer-events:none;font-size:11px;padding:4px 7px}#r332LibraryPreview [hidden]{display:none!important}</style><style id="r334LayoutFix">#r334PriorityDetails{width:100%;min-width:0;flex:1 0 100%;grid-column:1/-1;margin-top:8px}#r334PriorityDetails #r333BroadcastInfo{margin:0;padding:10px;border-radius:10px;background:#f4f8fc;border:1px solid #d6e4ef;font-size:13px}#r334PriorityDetails #r333BroadcastInfo>strong{display:none}#r334PriorityDetails #r333NormalPreview{margin-top:8px}body:not(.v51o-view-edit) #r207Float{display:none!important}#r207Float:not(.r207-visible){display:none!important}</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div>
-  <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R334</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+  <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R335</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
- <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V55X-R334</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+ <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V55X-R335</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -813,7 +813,7 @@ body.r239-basic .r239-advanced{display:none!important}
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R334" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R334" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R334" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R335" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R335" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R335" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
 <style id="r130-test-style">#v53aAnimationModal .v53a-picks{max-height:32vh;overflow:auto}#r130TestNote{margin:8px 0;padding:10px 12px;border-radius:9px;background:#e9f4ff;color:#173e67;font-size:13px;line-height:1.5}#r130TestLaunch{margin:9px 0;background:#173a70;color:#fff}#v53aStage .r129-landscape{object-fit:cover}#v53aStage #wx50Scene{position:absolute;inset:0;overflow:hidden}#v53aStage .v53a-overlay{z-index:10;pointer-events:none}</style>
 <div id="r130TestNote">12종 날씨와 일출·일몰을 현재 시각에 관계없이 테스트할 수 있습니다. 테스트 결과는 실제 LCD·서버 설정에 저장되지 않습니다.</div>
 <button type="button" id="r130TestLaunch">12종 날씨 · 일출/일몰 테스트 열기</button>
@@ -1264,7 +1264,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V55X-R334&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V55X-R335&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1463,8 +1463,8 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=['clock','message','weather'].includes(mode)?mode:'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R334';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
- if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R334';}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R335';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R335';}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock');
@@ -2040,7 +2040,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 관리자 V55X-R334';
+ document.title='LCD 관리자 V55X-R335';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2057,7 +2057,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 관리자 V55X-R334';
+document.title='LCD 관리자 V55X-R335';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -2974,7 +2974,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  const layer=document.createElement('div');layer.id='v52wLcdPreview';
  const frame=document.createElement('iframe');frame.title='실제 LCD 엔진 날씨 실시간 미리보기';
  frame.loading='lazy';frame.setAttribute('aria-label','날씨 LCD 출력과 동일한 배치 미리보기');
- frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R334';
+ frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R335';
  layer.appendChild(frame);
  const tag=document.createElement('span');tag.id='v52wLcdPreviewTag';tag.textContent='실제 LCD 배치 · 16:9';layer.appendChild(tag);
  viewport.appendChild(layer);
@@ -3111,7 +3111,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
   if(!lcdTestFrame){
    lcdTestFrame=document.createElement('iframe');lcdTestFrame.title='실제 LCD 엔진 날씨 애니메이션 테스트';
    lcdTestFrame.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;background:#10243a';
-   lcdTestFrame.src='main.html?preview=1&previewScreen=weather&v=V55X-R334';
+   lcdTestFrame.src='main.html?preview=1&previewScreen=weather&v=V55X-R335';
    stage.replaceChildren(lcdTestFrame);
    lcdTestFrame.addEventListener('load',()=>setTimeout(sendTest,150));
   }else sendTest();
@@ -4936,4 +4936,365 @@ if(rows){
 }
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();setInterval(render,1500);
-})();</script></body></html>
+})();</script>
+<!-- R335: restored R309 message editing components -->
+<style id="r274-direct-style">
+#r274Tools{position:fixed;z-index:10020;display:none;gap:6px;align-items:center;flex-wrap:wrap;max-width:min(95vw,650px);background:#f7faff;border:1px solid #9db9d8;border-radius:10px;padding:8px;box-shadow:0 5px 24px #102e4a44;color:#193653}
+#r274Tools.active{display:flex}#r274Tools button{font-size:13px;padding:7px 9px;min-height:35px;background:#e9f0fa;color:#163b66;border:1px solid #b9cfe3;border-radius:6px}#r274Tools input[type=color]{width:35px;height:35px;padding:1px}#r274Tools input[type=number]{width:67px;min-height:35px}#r274Tools label{display:flex;align-items:center;gap:3px;font-size:12px}#r274Tools .r274-status{width:100%;font-size:11px;color:#435e78}
+#v13Canvas .v13block.r274-editing .v15-label{cursor:text;outline:2px dashed #58a0e0;outline-offset:5px;user-select:text!important;-webkit-user-select:text!important;pointer-events:auto!important}
+#v13Canvas .v13block.r274-editing .v15-resize{display:none!important}
+@media (max-width:900px) and (pointer:coarse){
+#r281EditStart:not([hidden]){display:block;position:fixed;z-index:10019;right:12px;bottom:calc(86px + env(safe-area-inset-bottom,0px));background:#164d87;color:#fff;border:2px solid #fff;box-shadow:0 3px 14px #0005;border-radius:12px;min-height:48px;padding:10px 16px;font-size:15px;font-weight:800;}
+#r274Tools.active{position:fixed!important;left:8px!important;right:8px!important;top:auto!important;bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;width:auto!important;max-width:none!important;max-height:38dvh!important;overflow-y:auto!important;overscroll-behavior:contain!important;z-index:10030!important;padding:9px!important;}
+#v13Canvas .v13block.r274-editing{touch-action:auto!important;user-select:text!important;-webkit-user-select:text!important;}
+#v13Canvas .v13block.r274-editing .v15-label{touch-action:auto!important;user-select:text!important;-webkit-user-select:text!important;}
+}
+</style>
+<style id="r279-canvas-style">
+#v13Canvas .v13block.selected{border:2px solid #38bdf8!important;outline:1px solid #fff9;outline-offset:2px;background:rgba(40,110,180,.045)!important}
+#v13Canvas .v13block .r279-handle{position:absolute;width:13px;height:13px;border:2px solid #1385c7;border-radius:3px;background:white;z-index:8;touch-action:none;pointer-events:auto;box-shadow:0 1px 4px #0005}
+#v13Canvas .v13block:not(.selected) .r279-handle,#v13Canvas .v13block.r274-editing .r279-handle{display:none!important}
+.r279-handle[data-side=tl]{left:-8px;top:-8px;cursor:nwse-resize}.r279-handle[data-side=tr]{right:-8px;top:-8px;cursor:nesw-resize}.r279-handle[data-side=bl]{left:-8px;bottom:-8px;cursor:nesw-resize}.r279-handle[data-side=br]{right:-8px;bottom:-8px;cursor:nwse-resize}
+.r279-handle[data-side=ml]{left:-8px;top:50%;transform:translateY(-50%);cursor:ew-resize}.r279-handle[data-side=mr]{right:-8px;top:50%;transform:translateY(-50%);cursor:ew-resize}
+.r279-handle[data-side=tm]{left:50%;top:-8px;transform:translateX(-50%);cursor:ns-resize}.r279-handle[data-side=bm]{left:50%;bottom:-8px;transform:translateX(-50%);cursor:ns-resize}
+#v13Canvas .v15-resize{display:none!important}
+body.r279-hide-guides #v22Guides,body.r279-hide-guides #v13Canvas .v13block.selected{outline:none!important}
+body.r279-hide-guides #v13Canvas .v13block.selected{border-color:transparent!important;background:transparent!important}
+#r279Panel{border:1px solid #cbd9e9;background:#f7faff;border-radius:11px;padding:12px;margin:10px 0}
+#r279Panel .r279-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+#r279Panel label{font-size:13px;margin:0}#r279Panel input[type=number]{width:90px;min-height:40px}#r279Panel button{min-height:39px;padding:8px 12px;background:#edf3fa;color:#244b70;border:1px solid #cad8e7}#r279Panel button[aria-pressed=true]{background:#244b70;color:#fff}
+</style>
+<style id="r284-resize-style">
+#v13Canvas .v13block .r279-handle{width:23px!important;height:23px!important;border:3px solid #1274c4!important;border-radius:6px!important;background:#fff!important;box-shadow:0 0 0 3px #fff,0 2px 8px #0007!important;z-index:12!important}
+#v13Canvas .v13block .r279-handle[data-side=tl]{left:-12px;top:-12px}#v13Canvas .v13block .r279-handle[data-side=tr]{right:-12px;top:-12px}#v13Canvas .v13block .r279-handle[data-side=bl]{left:-12px;bottom:-12px}#v13Canvas .v13block .r279-handle[data-side=br]{right:-12px;bottom:-12px}
+#v13Canvas .v13block .r279-handle[data-side=ml]{left:-12px}#v13Canvas .v13block .r279-handle[data-side=mr]{right:-12px}
+#r284Selection{position:absolute;z-index:45;border:3px dashed #20b8ff;pointer-events:none;display:none;box-sizing:border-box}
+#r284Selection .r284-handle{position:absolute;width:24px;height:24px;background:white;border:3px solid #147ac4;border-radius:6px;pointer-events:auto;touch-action:none;box-shadow:0 0 0 3px white,0 2px 8px #0007}
+#r284Selection [data-side=tl]{left:-13px;top:-13px}#r284Selection [data-side=tm]{left:50%;top:-13px;transform:translateX(-50%)}#r284Selection [data-side=tr]{right:-13px;top:-13px}#r284Selection [data-side=ml]{left:-13px;top:50%;transform:translateY(-50%)}#r284Selection [data-side=mr]{right:-13px;top:50%;transform:translateY(-50%)}#r284Selection [data-side=bl]{left:-13px;bottom:-13px}#r284Selection [data-side=bm]{left:50%;bottom:-13px;transform:translateX(-50%)}#r284Selection [data-side=br]{right:-13px;bottom:-13px}
+#r284ClockTools{display:none;position:relative;z-index:55;background:#f2f7ff;border:1px solid #b8cfe7;border-radius:11px;padding:10px;margin:8px 0;gap:9px;flex-wrap:wrap;align-items:center}
+#r284ClockTools.active{display:flex}#r284ClockTools label{display:flex;gap:5px;align-items:center;font-size:13px;font-weight:700;margin:0}#r284ClockTools input[type=number]{width:88px}#r284ClockTools input[type=color]{width:44px;height:38px;padding:2px}#r284ClockTools button{padding:9px}
+@media(pointer:coarse){#v13Canvas .v13block .r279-handle,#r284Selection .r284-handle{width:28px!important;height:28px!important}}
+</style>
+<style id="r292-stability-css">
+/* Only the selected text owns resize handles. */
+#v13Canvas .v13block:not(.selected) .r279-handle{display:none!important}
+#v13Canvas .v13block.selected .r279-handle{display:block!important}
+body:not(.v51o-view-edit) #r274Tools,body:not(.v51o-view-edit) #r281EditStart{display:none!important}
+body:has([data-v42tab="message"][aria-selected="false"]) #r274Tools,
+body:has([data-v42tab="message"][aria-selected="false"]) #r281EditStart{display:none!important}
+</style>
+<style id="r293-repeat-selection-css">
+/* Keep one active selection and one set of eight handles for any block count. */
+#v13Canvas .v13block:not(.selected) .r279-handle{display:none!important}
+body:not(.v51o-view-edit) #r274Tools{display:none!important}
+</style>
+<style id="r294-mobile-unified-style">
+/* R294: one persistent message inspector; remove redundant quick editor only in message mode. */
+body.v51o-view-edit:has([data-v42tab="message"][aria-selected="true"]) #r31Quick{display:none!important}
+#r294Actions{display:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0;padding:0}
+body.v51o-view-edit:has([data-v42tab="message"][aria-selected="true"]) #r294Actions{display:grid}
+#r294Actions button{min-width:0;min-height:46px;padding:8px 3px;font-size:13px;line-height:1.25;background:#edf4fa;color:#17466d;border:1px solid #bfd3e4;border-radius:9px}
+#r294Inspector{display:none;padding:10px 12px;margin:8px 0;background:#f2f7fc;border:1px solid #cddfea;border-radius:10px;font-size:14px;color:#214563;font-weight:750}
+body.v51o-view-edit:has([data-v42tab="message"][aria-selected="true"]) #r294Inspector{display:block}
+#v13Canvas .v13block:not(.selected) .r279-handle{display:none!important}
+#v13Canvas .v13block.selected .r279-handle{display:block!important}
+body:not(.v51o-view-edit) #r274Tools{display:none!important}
+@media(max-width:620px){#r294Actions{gap:4px}#r294Actions button{font-size:12px;padding:7px 2px;min-height:48px}}
+</style>
+<style id="r296-unified-message-ui">
+/* R296: message tab has one inspector (#v13Panel); quick edit is legacy for other tabs. */
+body.r296-message-tab #r31Quick{display:none!important}
+body.r296-message-tab #r294Inspector{display:none!important}
+body.r296-message-tab #v42TextPanel #v13Panel{display:block!important;border:0!important;background:transparent!important;padding:0!important;margin:0!important;box-shadow:none!important}
+body.r296-message-tab #v42TextPanel #v13Panel[hidden]{display:none!important}
+body.r296-message-tab #v13Panel #v13Add,
+body.r296-message-tab #v13Panel #v13Delete{display:none!important}
+body.r296-message-tab #r294Actions{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:9px 0 11px}
+body.r296-message-tab #r294Actions button{min-height:46px;touch-action:manipulation}
+body.r296-message-tab #v42TextPanel{scroll-margin-top:12px}
+@media(max-width:520px){body.r296-message-tab #r294Actions{gap:4px}body.r296-message-tab #r294Actions button{font-size:12px;padding:7px 2px}}
+</style>
+<style id="r297-stable-inspector">
+/* Preserve one persistent inspector and visible handles across repeated selections. */
+body.r296-message-tab #v42TextPanel #v13Panel{visibility:visible!important;opacity:1!important}
+body.r296-message-tab #v13Canvas .v13block.selected .r279-handle{display:block!important}
+@media(max-width:620px){body.r296-message-tab #r294Actions button{min-height:48px}}
+</style>
+<script id="r274-direct-editor">(function(){'use strict';
+function init(){if(typeof v13Get!=='function'||typeof v13Render!=='function')return;
+const canvas=document.getElementById('v13Canvas'),rich=document.getElementById('r248Rich');if(!canvas||!rich)return;
+const bar=document.createElement('div');bar.id='r274Tools';bar.innerHTML='<button type="button" id="r274Done">편집 완료</button><label>전체색 <input type="color" id="r274AllColor"></label><label>크기 <input type="number" id="r274Size" min="16" max="300"></label><label>부분색 <input type="color" id="r274Color" value="#e53935"></label><button type="button" id="r274ColorApply">적용</button><label>형광펜 <input type="color" id="r274Highlight" value="#fff176"></label><button type="button" id="r274HighlightApply">적용</button><button type="button" id="r274Under">밑줄</button><span class="r274-status" id="r274State">문자를 드래그해 부분 서식을 적용할 수 있습니다.</span>';document.body.appendChild(bar);
+// R280: a single inline toolbar; advanced controls use existing messageBlocks fields.
+const r280Extra=document.createElement('div');r280Extra.className='r280-extra';
+r280Extra.innerHTML='<label>글꼴 <select id="r280Font"></select></label><label>정렬 <select id="r280Align"><option value="left">왼쪽</option><option value="center">가운데</option><option value="right">오른쪽</option></select></label><button type="button" class="r280-toggle" id="r280More" aria-expanded="false">간격 · 세부 ▾</button><div id="r280Spacing" hidden><label>글자 간격 <input id="r280Letter" type="number" min="-5" max="30" step="0.5"></label><label>줄 간격 <input id="r280Line" type="number" min="0.7" max="3" step="0.1"></label></div>';
+bar.insertBefore(r280Extra,bar.querySelector('.r274-status'));
+const $=id=>document.getElementById(id);let label=null,box=null,saved=null;
+function clean(h){return typeof window.r251SafeRich==='function'?window.r251SafeRich(h):h}
+function r280Block(){return box?v13Blocks.find(x=>x.id===box.dataset.id):null}
+const r280Fonts=[['','기존 글꼴'],['Noto Sans KR','Noto Sans KR'],['Malgun Gothic','맑은 고딕'],['Arial','Arial'],['Nanum Gothic','나눔고딕']];
+$('r280Font').innerHTML=r280Fonts.map(([v,n])=>'<option value="'+v+'">'+n+'</option>').join('');
+$('r280More').onclick=()=>{const panel=$('r280Spacing');panel.hidden=!panel.hidden;$('r280More').setAttribute('aria-expanded',String(!panel.hidden))};
+function r280Refresh(){const b=r280Block();if(!b)return;$('r280Font').value=b.font||'';$('r280Align').value=b.align||'center';$('r280Letter').value=Number(b.letterSpacing)||0;$('r280Line').value=Number(b.lineHeight)||1.2}
+function r280Change(key,val){const b=r280Block();if(!b)return;b[key]=val;const el=box;if(key==='align')el.style.textAlign=val;if(key==='font')el.style.fontFamily=val||'inherit';if(key==='letterSpacing')el.style.letterSpacing=val+'px';if(key==='lineHeight')el.style.lineHeight=String(val);try{v13Mark()}catch(_){};r280Refresh()}
+$('r280Font').onchange=e=>r280Change('font',e.target.value);
+$('r280Align').onchange=e=>r280Change('align',e.target.value);
+$('r280Letter').onchange=e=>r280Change('letterSpacing',Math.max(-5,Math.min(30,Number(e.target.value)||0)));
+$('r280Line').onchange=e=>r280Change('lineHeight',Math.max(.7,Math.min(3,Number(e.target.value)||1.2)));
+function place(){if(!box)return;const rect=box.getBoundingClientRect(),w=bar.offsetWidth||460;bar.style.left=Math.max(8,Math.min(innerWidth-w-8,rect.left))+'px';bar.style.top=Math.max(8,Math.min(innerHeight-100,rect.bottom+10))+'px';if(rect.bottom+105>innerHeight)bar.style.top=Math.max(8,rect.top-105)+'px'}
+function remember(){const s=window.getSelection();if(!label||!s||!s.rangeCount||s.isCollapsed)return;const r=s.getRangeAt(0);if(label.contains(r.commonAncestorContainer))saved=r.cloneRange()}
+function sync(){if(!label||!box)return;const b=v13Blocks.find(x=>x.id===box.dataset.id);if(!b)return;const html=clean(label.innerHTML);b.html=html;b.text=label.innerText.replace(/\r/g,'').slice(0,1000);const t=$('v13TextInput');if(t)t.value=b.text;rich.innerHTML=html;rich.dataset.signature=html+'\u0000'+b.text;try{v13Mark()}catch(_){}if(typeof sendPreview==='function'&&$('previewModal')&&!$('previewModal').hidden)sendPreview()}
+function close(){if(!label)return;sync();window.r278DirectActive=false;label.contentEditable='false';box.classList.remove('r274-editing','editing');bar.classList.remove('active');label=null;box=null;saved=null;v13Editing=false;try{v13Render()}catch(_){}}
+window.r292CloseDirectEditor=close;
+function open(el){const b=v13Blocks.find(x=>x.id===el.dataset.id);if(!b)return;if(label)close();v13Selected=b.id;v13Controls();box=el;label=el.querySelector('.v15-label');if(!label)return;label.innerHTML=clean(b.html||'')||'';if(!b.html)label.textContent=b.text;label.contentEditable='true';window.r278DirectActive=true;box.classList.add('r274-editing','editing');v13Editing=true;$('r274AllColor').value=/^#[0-9a-f]{6}$/i.test(b.color)?b.color:'#ffffff';$('r274Size').value=b.size;bar.classList.add('active');r280Refresh();place();label.focus();$('r274State').textContent='부분 서식은 글자를 선택한 뒤 적용하세요.'}
+function apply(prop,value){if(!label)return;const s=window.getSelection();let r=s&&s.rangeCount&&!s.isCollapsed&&label.contains(s.getRangeAt(0).commonAncestorContainer)?s.getRangeAt(0).cloneRange():saved&&label.contains(saved.commonAncestorContainer)?saved.cloneRange():null;if(!r||r.collapsed){$('r274State').textContent='먼저 문자 안에서 적용할 글자를 드래그하세요.';return}if(prop==='underline'){
+  // Restore the selected range before invoking the browser's native toggle.
+  const selection=window.getSelection();selection.removeAllRanges();selection.addRange(r);
+  label.focus({preventScroll:true});selection.removeAllRanges();selection.addRange(r);
+  let done=false;try{done=document.execCommand('underline',false,null)}catch(_){}
+  if(!done){const node=document.createElement('u');node.appendChild(r.extractContents());r.insertNode(node)}
+  saved=null;sync();$('r274State').textContent='밑줄 켜기/끄기 적용됨';return;
+}
+const node=document.createElement('span');node.style.setProperty(prop,value);node.appendChild(r.extractContents());r.insertNode(node);saved=null;sync();$('r274State').textContent='부분 서식 반영됨';label.focus()}
+canvas.addEventListener('dblclick',e=>{const el=e.target.closest('.v13block');if(!el)return;e.preventDefault();e.stopImmediatePropagation();open(el)},true);
+// R281: Mobile explicit edit control. Single tap selects; editing starts only via button.
+const mobileEdit=document.createElement('button');mobileEdit.type='button';mobileEdit.id='r281EditStart';mobileEdit.textContent='선택 문자 직접 편집';mobileEdit.hidden=true;mobileEdit.setAttribute('aria-label','선택한 문자 상자 직접 편집');document.body.appendChild(mobileEdit);
+let mobileTarget=null;
+const mobileMode=()=>window.matchMedia('(max-width: 900px) and (pointer: coarse)').matches;
+function showMobileEdit(el){if(!mobileMode()||label)return;mobileTarget=el;mobileEdit.hidden=false;}
+canvas.addEventListener('click',e=>{const el=e.target.closest('.v13block');if(el&&mobileMode()&&!label)showMobileEdit(el)},false);
+
+// R282: Two short taps on the same selected text box start the existing editor.
+// Ignore movement/resize handles so dragging and resizing are unchanged.
+let r282Tap=null,r282Down=null;
+canvas.addEventListener('pointerdown',e=>{
+ if(!mobileMode()||label||e.pointerType==='mouse'){r282Down=null;return;}
+ const el=e.target.closest('.v13block');
+ if(!el||e.target.closest('.r279-handle,.v15-resize')||e.target.isContentEditable){r282Down=null;return;}
+ r282Down={id:el.dataset.id,x:e.clientX,y:e.clientY,t:Date.now(),pointerId:e.pointerId};
+},true);
+canvas.addEventListener('pointercancel',()=>{r282Down=null},true);
+canvas.addEventListener('pointerup',e=>{
+ if(!mobileMode()||label||!r282Down||e.pointerId!==r282Down.pointerId)return;
+ const down=r282Down;r282Down=null;
+ if(Math.hypot(e.clientX-down.x,e.clientY-down.y)>14||Date.now()-down.t>550){r282Tap=null;return;}
+ const el=e.target.closest('.v13block');if(!el||el.dataset.id!==down.id){r282Tap=null;return;}
+ const now=Date.now();
+ if(r282Tap&&r282Tap.id===down.id&&now-r282Tap.time<=380&&Math.hypot(e.clientX-r282Tap.x,e.clientY-r282Tap.y)<=28){
+   r282Tap=null;mobileEdit.hidden=true;
+   // Reuse the same open() path as the 'select text direct edit' button.
+   setTimeout(()=>{if(!label&&el.isConnected)open(el)},0);
+ }else{r282Tap={id:down.id,time:now,x:e.clientX,y:e.clientY};showMobileEdit(el)}
+},true);
+
+mobileEdit.addEventListener('pointerdown',e=>e.stopPropagation());
+mobileEdit.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const el=mobileTarget;if(!el||!el.isConnected)return;mobileEdit.hidden=true;open(el);},false);
+const r281Open=open;open=function(el){mobileEdit.hidden=true;r281Open(el);};
+
+canvas.addEventListener('focusout',e=>{if(label&&label.contains(e.target))e.stopImmediatePropagation()},true);
+canvas.addEventListener('input',e=>{if(label&&label.contains(e.target))sync()},true);
+canvas.addEventListener('mouseup',remember,true);canvas.addEventListener('keyup',remember,true);canvas.addEventListener('touchend',()=>setTimeout(remember,30),true);
+// R287: keep the selected range when native color picker steals focus.
+document.addEventListener('selectionchange',()=>{if(label)remember()});
+let r287PickerActive=false;let r287PickerUntil=0;
+for(const pickerId of ['r274AllColor','r274Color','r274Highlight']){
+ const picker=$(pickerId);if(!picker)continue;
+ const hold=()=>{remember();r287PickerActive=true;r287PickerUntil=Date.now()+1500};
+ picker.addEventListener('pointerdown',hold,true);picker.addEventListener('focus',hold,true);
+ picker.addEventListener('input',()=>{r287PickerUntil=Date.now()+1500});
+ picker.addEventListener('change',()=>{r287PickerUntil=Date.now()+1500;setTimeout(()=>{r287PickerActive=false},250)});
+ picker.addEventListener('blur',()=>{setTimeout(()=>{r287PickerActive=false},400)});
+}
+
+for(const id of ['r274ColorApply','r274HighlightApply','r274Under'])$(id).addEventListener('pointerdown',e=>e.preventDefault());
+const r284Bold=document.createElement('button');r284Bold.type='button';r284Bold.id='r284PartialBold';r284Bold.textContent='B 굵게';r284Bold.title='선택 글자 굵게 켜기/끄기';bar.insertBefore(r284Bold,bar.querySelector('#r274Done'));
+r284Bold.addEventListener('mousedown',e=>e.preventDefault());r284Bold.onclick=()=>{if(!label)return;const sel=window.getSelection();let r=sel&&sel.rangeCount&&!sel.isCollapsed&&label.contains(sel.getRangeAt(0).commonAncestorContainer)?sel.getRangeAt(0).cloneRange():saved;if(!r||r.collapsed){$('r274State').textContent='굵게 적용할 글자를 선택하세요.';return;}label.focus({preventScroll:true});sel.removeAllRanges();sel.addRange(r);try{document.execCommand('bold',false,null)}catch(_){}saved=null;sync();$('r274State').textContent='굵게 켜기/끄기 적용됨';};
+$('r274ColorApply').onclick=()=>apply('color',$('r274Color').value);$('r274HighlightApply').onclick=()=>apply('background-color',$('r274Highlight').value);$('r274Under').onclick=()=>apply('underline','');$('r274Done').onclick=close;
+// R285: use the selected block ID, not the potentially stale v13Get() selection.
+// Keep the contenteditable DOM intact while editing, but commit the exact same
+// sanitized HTML and whole-block color that the LCD renderer will read.
+function r285SetWholeColor(color){
+ if(!box||!/^#[0-9a-f]{6}$/i.test(color))return;
+ const b=v13Blocks.find(item=>item.id===box.dataset.id);if(!b)return;
+ const root=label||box.querySelector('.v15-label');
+ if(root){
+  root.querySelectorAll('*').forEach(el=>{
+   if(el.style){el.style.removeProperty('color');el.style.removeProperty('-webkit-text-fill-color');
+    if(!el.style.length)el.removeAttribute('style');}
+   if(el.hasAttribute('color'))el.removeAttribute('color');
+   if(el.tagName==='FONT')el.removeAttribute('color');
+  });
+  // The visible text is a nested .v15-label, not the outer .v13block.
+  // Force its live color as well; an old inline label color can otherwise win.
+  root.style.setProperty('color',color,'important');
+  root.style.removeProperty('-webkit-text-fill-color');
+  // Remove obsolete inline colors but preserve highlights, bold and underline.
+  const sanitized=clean(root.innerHTML);
+  b.html=sanitized;
+  b.text=root.innerText.replace(/\r/g,'').slice(0,1000);
+  if(label){
+   const t=$('v13TextInput');if(t)t.value=b.text;
+   rich.innerHTML=sanitized;rich.dataset.signature=sanitized+'\u0000'+b.text;
+  }
+ }
+ b.color=color;
+ box.style.setProperty('color',color,'important');
+ if(label)label.style.setProperty('color',color,'important');
+ const visibleLabel=box.querySelector('.v15-label');
+ if(visibleLabel)visibleLabel.style.setProperty('color',color,'important');
+ const colorInput=$('v13Color');if(colorInput)colorInput.value=color;
+ try{v13Mark()}catch(_){}
+ // Re-render only outside direct editing, otherwise selection/caret is lost.
+ if(!label){try{v13Render()}catch(_){}}
+ $('r274State').textContent='전체 글자색 반영됨 · 편집 완료 후에도 유지됩니다.';
+}
+$('r274AllColor').addEventListener('input',e=>r285SetWholeColor(e.target.value));
+$('r274AllColor').addEventListener('change',e=>r285SetWholeColor(e.target.value));
+$('r274Size').addEventListener('input',e=>{if(!box)return;const b=v13Get(),v=Math.max(16,Math.min(300,Number(e.target.value)||100));if(!b)return;b.size=v;box.style.fontSize=v+'px';$('v13Size').value=v;v13Mark()});
+window.addEventListener('resize',()=>{if(label)place()}); // R288: no scroll-driven repositioning
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&label)close()});
+// R288: scrolling/touch gestures must never implicitly end editing.
+// Explicit Done / Escape / selecting a different block remain available.
+document.addEventListener('pointerdown',e=>{
+ if(!label||bar.contains(e.target)||box.contains(e.target))return;
+ if(r287PickerActive||Date.now()<r287PickerUntil)return;
+ // Do not close on a touch gesture, on a scroll container, or on controls.
+ if(e.pointerType!=='mouse')return;
+ if(e.target.closest('button,input,select,textarea,label,summary,[contenteditable],#v42Dock,#v51uTabbed'))return;
+ // A click on empty page background should not discard a rich-text selection.
+},true);
+// Store the last real range even if browser clears its visible highlight on scroll.
+window.addEventListener('scroll',()=>{if(label&&saved&&!saved.collapsed){
+ const state=document.getElementById('r274State');
+ if(state)state.textContent='선택 범위 보관 중 · 스크롤 후에도 서식을 적용할 수 있습니다.';
+}}, {passive:true});
+window.r278Inspect=()=>v13Blocks.map(b=>({id:b.id,text:b.text,html:b.html,previewHtml:document.querySelector('#v13Canvas .v13block[data-id=\"'+CSS.escape(b.id)+'\"] .v15-label')?.innerHTML||''}));const oldRead=readForm;readForm=function(){if(label)sync();const result=oldRead();if(Array.isArray(result.messageBlocks)){for(const item of result.messageBlocks){const block=v13Blocks.find(b=>b.id===item.id);if(block){item.html=clean(block.html||'');item.text=block.text;}}}return result};
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script>
+<script id="r279-canvas-controls">(function(){'use strict';
+function init(){if(typeof v13Render!=='function'||typeof v13Get!=='function')return;
+const panel=document.getElementById('v13Panel'),canvas=document.getElementById('v13Canvas');if(!panel||!canvas)return;
+const ui=document.createElement('div');ui.id='r279Panel';ui.innerHTML='<strong>문자 정렬 · 간격 · 선택 상자</strong><div class="r279-row"><button type="button" data-align="left">왼쪽</button><button type="button" data-align="center">가운데</button><button type="button" data-align="right">오른쪽</button><label>글자 간격(px) <input id="r279Letter" type="number" min="-5" max="30" step="0.5"></label><label>줄 간격 <input id="r279Line" type="number" min="0.7" max="3" step="0.1"></label></div><label><input id="r279Guides" type="checkbox" checked> 편집 안내선 표시 (실제 LCD에는 출력되지 않음)</label><p style="margin:6px 0;font-size:12px">가운데 드래그: 위치 · 좌우 끝점: 상자 너비 · 모서리: 글자 크기 · 위아래 끝점: 줄 간격</p>';
+panel.insertBefore(ui,panel.firstChild);
+const letter=ui.querySelector('#r279Letter'),line=ui.querySelector('#r279Line'),guide=ui.querySelector('#r279Guides');
+try{guide.checked=localStorage.getItem('r279-guides')!=='off'}catch(e){}document.body.classList.toggle('r279-hide-guides',!guide.checked);
+guide.addEventListener('change',()=>{document.body.classList.toggle('r279-hide-guides',!guide.checked);try{localStorage.setItem('r279-guides',guide.checked?'on':'off')}catch(e){}});
+function current(){return typeof v13Get==='function'?v13Get():null}
+function update(){const b=current();if(!b)return;letter.value=Number(b.letterSpacing)||0;line.value=Number(b.lineHeight)||1.2;ui.querySelectorAll('[data-align]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.align===(b.align||'center'))))}
+function changed(){try{v13Mark();v13Render()}catch(e){}}
+ui.querySelectorAll('[data-align]').forEach(btn=>btn.addEventListener('click',()=>{const b=current();if(!b)return;b.align=btn.dataset.align;const old=document.getElementById('v22Align');if(old)old.value=b.align;changed();update()}));
+letter.addEventListener('input',()=>{const b=current();if(!b)return;b.letterSpacing=Math.max(-5,Math.min(30,Number(letter.value)||0));changed()});
+line.addEventListener('input',()=>{const b=current();if(!b)return;b.lineHeight=Math.max(.7,Math.min(3,Number(line.value)||1.2));changed()});
+function decorate(){for(const el of canvas.querySelectorAll('.v13block')){const b=v13Blocks.find(x=>x.id===el.dataset.id);if(!b)continue;el.style.letterSpacing=(Number(b.letterSpacing)||0)+'px';el.style.lineHeight=String(Number(b.lineHeight)||1.2);for(const side of ['tl','tm','tr','ml','mr','bl','bm','br'])if(!el.querySelector('.r279-handle[data-side="'+side+'"]')){const h=document.createElement('span');h.className='r279-handle';h.dataset.side=side;h.setAttribute('aria-label','문자 상자 크기 조절');el.appendChild(h)}}update()}
+const old=v13Render;v13Render=function(){old();decorate()};decorate();
+let drag=null;
+canvas.addEventListener('pointerdown',e=>{const h=e.target.closest('.r279-handle');if(!h)return;const el=h.closest('.v13block'),b=v13Blocks.find(x=>x.id===el.dataset.id);if(!b)return;e.stopPropagation();e.preventDefault();v13Selected=b.id;drag={id:b.id,side:h.dataset.side,x:e.clientX,y:e.clientY,width:Number(b.width)||900,size:Number(b.size)||100,line:Number(b.lineHeight)||1.2,px:Number(b.x)||50};h.setPointerCapture(e.pointerId)},true);
+canvas.addEventListener('pointermove',e=>{if(!drag)return;const b=v13Blocks.find(x=>x.id===drag.id);if(!b)return;const scale=(document.getElementById('preview').clientWidth||1)/1920;const dx=(e.clientX-drag.x)/scale,dy=(e.clientY-drag.y)/scale;const side=drag.side;
+if(side==='ml'||side==='mr'){const change=side==='mr'?dx:-dx;b.width=Math.max(100,Math.min(1800,Math.round(drag.width+change)));if(side==='ml')b.x=Math.max(0,Math.min(100,drag.px+(dx/1920*50)))}
+else if(side==='tm'||side==='bm'){b.lineHeight=Math.max(.7,Math.min(3,Math.round((drag.line+(side==='bm'?dy:-dy)/180)*10)/10))}
+else{const delta=(side.includes('r')?dx:-dx)+(side.includes('b')?dy:-dy);b.size=Math.max(16,Math.min(300,Math.round(drag.size+delta*.18)))}
+const el=canvas.querySelector('.v13block[data-id="'+drag.id+'"]');if(el){el.style.width=b.width+'px';el.style.fontSize=b.size+'px';el.style.lineHeight=String(b.lineHeight)}try{v13Mark()}catch(e){};e.stopPropagation();e.preventDefault()},true);
+function end(e){if(!drag)return;drag=null;changed();update();e.stopPropagation()}
+canvas.addEventListener('pointerup',end,true);canvas.addEventListener('pointercancel',end,true);
+canvas.addEventListener('click',()=>setTimeout(update,0));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script>
+<script id="r295-single-selection">(function(){'use strict';
+const $=id=>document.getElementById(id);
+const canvas=$('v13Canvas');
+const blocks=()=>typeof v13Blocks!=='undefined'?v13Blocks:[];
+const active=()=>document.body.classList.contains('v51o-view-edit')&&document.querySelector('[data-v42tab="message"]')?.getAttribute('aria-selected')==='true';
+let selectedId=null, switching=false;
+const sides=['tl','tm','tr','ml','mr','bl','bm','br'];
+function select(id){
+ if(!active()||switching)return false;
+ const block=blocks().find(b=>String(b.id)===String(id));if(!block)return false;
+ switching=true;
+ try{
+  selectedId=block.id;
+  if(typeof v13Selected!=='undefined')v13Selected=block.id;
+  if(typeof v13Controls==='function')v13Controls();
+  if(canvas)for(const el of canvas.querySelectorAll('.v13block')){
+   const chosen=String(el.dataset.id)===String(block.id);el.classList.toggle('selected',chosen);
+   if(chosen)for(const side of sides)if(!el.querySelector('.r279-handle[data-side="'+side+'"]')){
+    const handle=document.createElement('span');handle.className='r279-handle';handle.dataset.side=side;handle.setAttribute('aria-label','크기 조절');el.appendChild(handle);
+   }
+  }
+  const values={v13Size:block.size||100,v13Width:block.width||900,v13Color:block.color||'#ffffff',v13Font:block.font||'Malgun Gothic',v22Align:block.align||'center',r274Size:block.size||100,r274AllColor:block.color||'#ffffff',r280Font:block.font||'Malgun Gothic',r280Align:block.align||'center',r280Letter:Number(block.letterSpacing)||0,r280Line:Number(block.lineHeight)||1.2,r279Letter:Number(block.letterSpacing)||0,r279Line:Number(block.lineHeight)||1.2};
+  for(const [key,value] of Object.entries(values)){const input=$(key);if(input)input.value=value;}
+  for(const [key,value] of [['v13Bold',!!block.bold],['v13Under',!!block.underline],['v13Wrap',block.wrap!==false]])if($(key))$(key).checked=value;
+  if($('v13TextInput'))$('v13TextInput').value=block.text||'';
+  $('r279Panel')?.querySelectorAll('[data-align]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.align===(block.align||'center'))));
+  const index=blocks().findIndex(b=>b.id===block.id)+1;
+  if($('r294Inspector'))$('r294Inspector').textContent='선택 문자 · '+index+'번 / '+blocks().length+'개';
+  return true;
+ }finally{switching=false;}
+}
+function clear(){selectedId=null;if(canvas)canvas.querySelectorAll('.v13block').forEach(el=>el.classList.remove('selected'));$('r274Tools')?.classList.remove('active');if($('r294Inspector'))$('r294Inspector').textContent='문자를 선택하면 상세 설정이 표시됩니다.';}
+if(canvas){
+ // Single delegated selection route. Do not recreate the panel or rebuild blocks on selection.
+ canvas.addEventListener('pointerdown',e=>{
+  const el=e.target.closest('.v13block');if(!el||!active()||e.target.closest('.r279-handle,.v15-resize')||e.target.isContentEditable||el.classList.contains('editing'))return;
+  if(selectedId!==el.dataset.id&&window.r278DirectActive)try{window.r292CloseDirectEditor?.()}catch(_){}
+  select(el.dataset.id);
+ },true);
+ /* R298: click selection removed; pointerdown is the sole selection entry. */
+}
+const actions=document.createElement('div');actions.id='r294Actions';actions.innerHTML='<button type="button" data-r294="add">＋ 텍스트 추가</button><button type="button" data-r294="copy">복제</button><button type="button" data-r294="delete">삭제</button><button type="button" data-r294="background">배경 이미지</button>';
+$('previewSection')?.insertAdjacentElement('afterend',actions);
+const inspector=document.createElement('div');inspector.id='r294Inspector';inspector.textContent='문자를 선택하면 상세 설정이 표시됩니다.';$('v42TextPanel')?.insertAdjacentElement('afterbegin',inspector);
+actions.addEventListener('click',e=>{const key=e.target.closest('button')?.dataset.r294;if(!key)return;
+ if(key==='add'){$('v13Add')?.click();requestAnimationFrame(()=>{if(typeof v13Selected!=='undefined'&&v13Selected)select(v13Selected)})}
+ if(key==='delete'){$('v13Delete')?.click();requestAnimationFrame(()=>{if(typeof v13Selected!=='undefined'&&v13Selected&&blocks().some(b=>b.id===v13Selected))select(v13Selected);else clear()})}
+ if(key==='background')$('r291ImageLaunch')?.click();
+ if(key==='copy'){const b=blocks().find(x=>x.id===(selectedId||(typeof v13Selected!=='undefined'?v13Selected:null)));if(!b)return;const clone=JSON.parse(JSON.stringify(b));clone.id='b'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);clone.x=Math.min(95,(Number(b.x)||50)+3);clone.y=Math.min(95,(Number(b.y)||50)+3);blocks().push(clone);if(typeof v13Mark==='function')v13Mark();if(typeof v13Render==='function')v13Render();select(clone.id)}
+});
+document.addEventListener('click',e=>{const nav=e.target.closest?.('[data-v42tab],#v51oConsole .o-nav button,#v51uTabbed>.o-nav button,#v51oConsole .o-subnav button');if(nav&&!nav.matches('[data-v42tab="message"]'))clear()},true);
+const obs=new MutationObserver(()=>{if(!active()&&selectedId!==null)clear()});
+obs.observe(document.body,{attributes:true,attributeFilter:['class']});if($('v42Tabs'))obs.observe($('v42Tabs'),{subtree:true,attributes:true,attributeFilter:['aria-selected']});
+window.r294SelectBlock=select;window.r295SelectBlock=select;window.r298SelectBlock=select;
+window.r292RestoreImageView=function(){const modal=$('r291ImageModal');if(modal)modal.hidden=true;document.body.classList.remove('r291-modal-open')};
+})();</script>
+<script id="r296-message-ui-sync">(function(){'use strict';
+function sync(){
+ const tab=document.querySelector('[data-v42tab="message"]');
+ const on=document.body.classList.contains('v51o-view-edit') && !!tab && (tab.getAttribute('aria-selected')==='true'||tab.classList.contains('active'));
+ document.body.classList.toggle('r296-message-tab',on);
+ const actions=document.getElementById('r294Actions');
+ if(actions){actions.hidden=!on;actions.setAttribute('aria-hidden',String(!on));}
+}
+function init(){
+ sync();
+ const tabs=document.getElementById('v42Tabs');
+ if(tabs)new MutationObserver(sync).observe(tabs,{subtree:true,attributes:true,attributeFilter:['aria-selected','class']});
+ new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:['class']});
+ document.addEventListener('click',function(e){if(e.target.closest('[data-v42tab],#v51oConsole .o-nav button'))queueMicrotask(sync)},false);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script>
+<script id="r298-selection-health">(function(){'use strict';
+/* No click/pointerup re-selection: R295 pointerdown is the single selection route.
+   Observe DOM refreshes only to restore the visual selected class/handles, without
+   re-entering v13Controls or modifying the stored text/HTML. */
+const canvas=document.getElementById('v13Canvas');if(!canvas)return;
+let pending=false;
+const sides=['tl','tm','tr','ml','mr','bl','bm','br'];
+function active(){const tab=document.querySelector('[data-v42tab="message"]');return document.body.classList.contains('v51o-view-edit')&&!!tab&&(tab.getAttribute('aria-selected')==='true'||tab.classList.contains('active'));}
+function paint(){pending=false;if(!active())return;
+ const id=typeof v13Selected!=='undefined'?v13Selected:null;
+ if(id==null)return;
+ const blocks=typeof v13Blocks!=='undefined'?v13Blocks:[];
+ if(!blocks.some(b=>String(b.id)===String(id)))return;
+ for(const el of canvas.querySelectorAll('.v13block')){
+  const chosen=String(el.dataset.id)===String(id);
+  if(el.classList.contains('selected')!==chosen)el.classList.toggle('selected',chosen);
+  if(chosen)for(const side of sides)if(!el.querySelector('.r279-handle[data-side="'+side+'"]')){
+   const handle=document.createElement('span');handle.className='r279-handle';handle.dataset.side=side;handle.setAttribute('aria-label','크기 조절');el.appendChild(handle);
+  }
+ }
+}
+const observer=new MutationObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(paint)});
+observer.observe(canvas,{childList:true,subtree:true});
+})();</script>
+</body></html>
