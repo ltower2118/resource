@@ -1,0 +1,59 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;width:100%;overflow:hidden}
+body{background:linear-gradient(135deg,#102a4e 0%,#07192c 67%,#0d2640 100%);color:#fff;font-family:"Malgun Gothic","Noto Sans KR",Arial,sans-serif}
+.top{position:absolute;top:45px;left:60px;right:60px;display:flex;justify-content:space-between;color:#d9e8f7;align-items:center}
+.brand{font-weight:750;font-size:23px;letter-spacing:1px}
+.status{font-size:25px;color:#d7eaf8}
+.center{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);text-align:center;width:100%}
+.time{font-size:clamp(125px,12.5vw,220px);font-weight:750;letter-spacing:-.045em;line-height:1.1;font-variant-numeric:tabular-nums;text-shadow:0 8px 18px #001a3260}
+.date{margin-top:26px;font-size:45px;color:#e3eef9;font-weight:600;letter-spacing:3px}
+.note{position:absolute;bottom:107px;left:60px;font-size:20px;color:#b8cbe1}
+.r369-moving{font-size:44px!important}
+</style><style id="r369-news-ticker-main-style">
+#r369Ticker{position:fixed;left:0;right:0;bottom:0;width:100%;height:clamp(40px,6.9vh,90px);z-index:55;display:flex;align-items:center;overflow:hidden;pointer-events:none;isolation:isolate;box-sizing:border-box}
+#r369Ticker[hidden]{display:none!important}
+#r369Ticker .r369-moving{position:absolute;left:100%;top:50%;white-space:nowrap;line-height:1.15;font-weight:750;will-change:transform;animation:r369-crawl var(--r369-duration,24s) linear infinite}
+@keyframes r369-crawl{from{transform:translate3d(0,-50%,0)}to{transform:translate3d(calc(-100% - var(--r369-area-width,1920px)),-50%,0)}}
+@media (prefers-reduced-motion:reduce){#r369Ticker .r369-moving{animation-play-state:paused}}
+</style></head><body data-lcd-screen="clock">
+<div class="top"><div class="brand">DS정식 LCD 시계 <span style="font-weight:400;color:#84b0d2;font-size:20px">V55X-R369</span></div><div class="status">☀ &nbsp;서울 14°C</div></div>
+<div class="center"><div class="time">14:28:36</div><div class="date">2026년 11월 25일 수요일</div></div>
+<div class="note">시설 안내 디스플레이</div>
+<script>window.config={tickerEnabled:true,tickerText:'공지사항  ·  오늘 오후 3시 시설 안전 점검이 예정되어 있습니다.  ·  이용에 협조해 주셔서 감사합니다.  ·  안내 문의: 관리사무소',tickerSpeed:85,tickerFontSize:58,tickerColor:'#ffffff',tickerBackground:'#155787'};</script>
+<script id="r369-news-ticker-main-runtime">
+(function(){'use strict';
+  const bar=document.createElement('div');bar.id='r369Ticker';bar.hidden=true;bar.setAttribute('aria-hidden','true');
+  const moving=document.createElement('div');moving.className='r369-moving';bar.appendChild(moving);document.body.appendChild(bar);
+  const num=(v,lo,hi,d)=>Number.isFinite(Number(v))&&String(v).trim()!==''?Math.min(hi,Math.max(lo,Number(v))):d;
+  const color=(v,d)=>/^#[0-9a-f]{6}$/i.test(String(v||''))?String(v):d;
+  let signature='',areaWidth=0;
+  function sync(){
+    const c=typeof config==='object'&&config?config:{};
+    const text=String(c.tickerText||'').slice(0,500);
+    const enabled=(c.tickerEnabled===true||c.tickerEnabled==='true'||c.tickerEnabled===1)&&!!text.trim();
+    if(!enabled){bar.hidden=true;signature='';return;}
+    bar.hidden=false;
+    const font=num(c.tickerFontSize,24,90,44),speed=num(c.tickerSpeed,20,200,75);
+    const fg=color(c.tickerColor,'#ffffff'),bg=color(c.tickerBackground,'#102b48');
+    const width=bar.clientWidth||innerWidth||1920;
+    const sig=JSON.stringify([text,font,speed,fg,bg,width]);
+    if(sig===signature)return;
+    signature=sig;
+    bar.style.height='clamp(40px,'+((font+28)/1080*100).toFixed(2)+'vh,110px)';
+    bar.style.backgroundColor=bg;
+    moving.style.fontSize='clamp(18px,'+(font/1080*100).toFixed(2)+'vh,95px)';
+    moving.style.color=fg;
+    moving.textContent=text;
+    // Both size and speed scale with the actual physical display width.
+    const ratio=Math.max(.22,width/1920);
+    const duration=(width+moving.scrollWidth)/(speed*ratio);
+    bar.style.setProperty('--r369-area-width',width+'px');
+    bar.style.setProperty('--r369-duration',Math.max(3,duration).toFixed(2)+'s');
+    moving.style.animation='none';void moving.offsetWidth;moving.style.animation='';
+  }
+  window.r369TickerStatus=()=>({enabled:!bar.hidden,text:moving.textContent,duration:bar.style.getPropertyValue('--r369-duration'),screen:document.body.dataset.lcdScreen});
+  addEventListener('resize',()=>{signature='';sync()});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){signature='';sync()}});
+  setInterval(sync,700);sync();
+})();
+</script></body></html>
