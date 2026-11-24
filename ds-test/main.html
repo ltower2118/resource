@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS정식 LCD 시계 V55X-R356</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;z-index:60;font:12px Arial,sans-serif;color:#fff;background:#0008;padding:5px 8px;border-radius:5px;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS정식 LCD 시계 V55X-R357</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;z-index:60;font:12px Arial,sans-serif;color:#fff;background:#0008;padding:5px 8px;border-radius:5px;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
 body[data-lcd-screen="message"] #time,body[data-lcd-screen="message"] #date{opacity:0!important;}body[data-lcd-screen="clock"] #messageScreen,body[data-lcd-screen="clock"] #messageBlocks{opacity:0!important;}body[data-lcd-screen="message"] #messageScreen.active,body[data-lcd-screen="message"] #messageBlocks.active{opacity:1!important;}body[data-lcd-effect="slide"][data-lcd-screen="message"] #bg,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #shade,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #time,
@@ -192,7 +192,19 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
 }
 #weatherScreen[data-weather-background-mode="animated"] > .v55h-forest-photo:not([data-status="ok"]){display:none!important;}
 #weatherScreen[data-weather-background-mode="animated"]:not(.r356-photo-ready) > .v55h-forest-shade{display:none!important;}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R355</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+</style><style id="r357-weather-actual-assets-css">
+/* Weather page only: the R357 weather_*.webp photo is the single primary scenic image. */
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready > #wx50Scene {
+ background:transparent!important;background-image:none!important;
+}
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready #wx50Scene .r136-weather-photo,
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready #wx50Scene .r129-landscape,
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready #wx50Scene .r133-day-photo,
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready #wx50Scene .r125-landscape {
+ display:none!important;
+}
+/* Preserve the existing R356 gradient if both webp and jpg are absent. */
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R357</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -798,27 +810,55 @@ function v45WeatherBackground(){
  page.style.backgroundColor=color;
  page.style.backgroundImage=mode==='image'&&safe?'url("'+encodeURI(path)+'?v='+encodeURIComponent(String(config.version||'1'))+'")':'none';
 }
-const V55H_FOREST_FILES={sun:'sun',moon:'sun',partly:'partly',cloud:'cloud',mist:'mist',drizzle:'drizzle',rain:'rain',showers:'showers',snow:'snow',blizzard:'snow',sleet:'sleet',thunder:'thunder'};
+// R357: This map uses the REAL filenames in the deployed images/ directory.
+// The former v55h_*.webp filenames do not exist in the user's repository.
+const R357_WEATHER_ASSETS=Object.freeze({
+ clear_day:'weather_clear_day.webp',clear_night:'weather_clear_night.webp',
+ sunrise:'weather_sunrise.webp',sunset:'weather_sunset.webp',
+ partly:'weather_partly.webp',partly_night:'weather_partly_night.webp',
+ cloud:'weather_cloud.webp',mist:'weather_mist.webp',
+ drizzle:'weather_drizzle.webp',rain:'weather_rain.webp',showers:'weather_showers.webp',
+ snow:'weather_snow.webp',blizzard:'weather_blizzard.webp',sleet:'weather_sleet.webp',
+ thunder:'weather_thunder.webp',sunshower:'weather_sunshower.webp'
+});
 function v55hForestName(code,isDay){
- const n=Number(code);if(n===1009)return 'overcast';
+ const n=Number(code),day=Number(isDay)!==0;
+ if(n===1000)return !day?'clear_night':(r129LandscapeKind(code,isDay)||'clear_day');
+ if(n===1003&&!day)return 'partly_night';
+ if(n===1009)return 'cloud';
  if([1030,1135,1147].includes(n))return 'mist';
  if([1063,1180,1186,1192,1240].includes(n))return 'sunshower';
- return V55H_FOREST_FILES[wx50Kind(code,isDay)]||'cloud';
+ return wx50Kind(code,isDay)||'cloud';
 }
 function v55hSetBackground(page,code,isDay){
  const name=v55hForestName(code,isDay);
- const path='images/v55h_'+name+'.webp?v=55h-20261109';
+ const file=R357_WEATHER_ASSETS[name]||R357_WEATHER_ASSETS.cloud;
+ const path='images/'+file+'?v=V55X-R357';
+ const jpeg='images/'+file.replace(/\.webp$/i,'.jpg')+'?v=V55X-R357';
  let photo=page.querySelector(':scope > .v55h-forest-photo');
  if(!photo){photo=document.createElement('img');photo.className='v55h-forest-photo';photo.alt='';photo.decoding='async';page.prepend(photo)}
  let shade=page.querySelector(':scope > .v55h-forest-shade');
  if(!shade){shade=document.createElement('div');shade.className='v55h-forest-shade';photo.after(shade)}
  if(photo.dataset.path!==path){
-   // R356: a missing optional weather image must not leave the animated page transparent.
    photo.dataset.path=path;
    photo.dataset.status='pending';
+   photo.dataset.attempt='webp';
    page.classList.remove('r356-photo-ready');
-   photo.onload=()=>{if(photo.dataset.path!==path)return;photo.dataset.status='ok';page.classList.add('r356-photo-ready');console.info('[V55H] weather image loaded',photo.currentSrc)};
-   photo.onerror=()=>{if(photo.dataset.path!==path)return;photo.dataset.status='failed';page.classList.remove('r356-photo-ready');console.warn('[V55H] weather image unavailable; using weather gradient:',name);window.lcdRecoveryLogV52T?.('WEATHER_IMAGE','이미지 로딩 실패, 기본 날씨 배경 사용: '+name)};
+   photo.onload=()=>{
+     if(photo.dataset.path!==path)return;
+     photo.dataset.status='ok';
+     page.classList.add('r356-photo-ready');
+   };
+   photo.onerror=()=>{
+     if(photo.dataset.path!==path)return;
+     if(photo.dataset.attempt==='webp'){
+       photo.dataset.attempt='jpg';photo.src=jpeg;return;
+     }
+     photo.dataset.status='failed';
+     page.classList.remove('r356-photo-ready');
+     console.warn('[R357] weather image unavailable (WebP/JPG); falling back to scene:',name);
+     window.lcdRecoveryLogV52T?.('WEATHER_IMAGE','날씨 이미지 로딩 실패: '+name);
+   };
    photo.src=path;
  }
  page.dataset.forestArt=name;
@@ -911,6 +951,8 @@ window.r354WeatherAutoLinkState=function(){
  return {enabled:config.weatherAnimationEnabled===true,rawWeatherCode:wxData?.conditionCode??null,
   condition:wxData?.condition||'',kind:ready?wx50Kind(wxData.conditionCode,wxData.isDay):'loading',
   scene:s?.className||'none',imageStatus:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.status||'none',
+  imagePath:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.path||'',
+  imageAttempt:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.attempt||'',
   weatherAvailable:ready,lastResponse:wxLastResponseV40,mode:page?.dataset.weatherBackgroundMode||'none'};
 };
 // V40: independent, single-endpoint JSONP transport. No overlapping requests.
