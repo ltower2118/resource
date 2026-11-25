@@ -956,6 +956,13 @@ body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!impo
   #v55xR13Overview>summary #r373StatusPills #r23ReservationFlag,
   #v55xR13Overview>summary #r373StatusPills #r373TickerFlag{font-size:12px!important;padding:6px 9px!important}
 }
+</style><style id="r379-mobile-clock-choice-fix">
+/* R379: direct touch buttons avoid unreliable native mobile select popups. */
+#r370ClockPanel .r379-design-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 11px}
+#r370ClockPanel .r379-design-choice{background:#fff!important;color:#23435f!important;border:1.5px solid #b5cbdc!important;border-radius:10px!important;padding:11px 7px!important;min-height:54px!important;display:flex!important;align-items:center;justify-content:center;text-align:center;font-size:13px!important;font-weight:800!important;line-height:1.35!important;cursor:pointer;touch-action:manipulation;position:relative;z-index:2;white-space:normal!important}
+#r370ClockPanel .r379-design-choice[aria-pressed="true"]{background:#1d4684!important;color:white!important;border-color:#1d4684!important}
+#r370ClockPanel .r379-choice-note{margin:2px 0 8px;font-size:12px;color:#526981}
+@media(max-width:520px){#r370ClockPanel .r379-design-buttons{grid-template-columns:1fr;gap:7px}#r370ClockPanel .r379-design-choice{min-height:48px!important;font-size:14px!important;justify-content:flex-start;padding:10px 13px!important}}
 </style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div>
   <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R378</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
@@ -6697,6 +6704,12 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    if(!panel)return;
    const group=document.createElement('section');group.id='r370ClockPanel';group.setAttribute('aria-label','아날로그 시계 디자인 선택');
    group.innerHTML=`<h3>🕒 시계 디자인</h3><p class="r370-note">기존 디지털 시계를 유지하거나, 사진처럼 아날로그 바늘과 날짜 플립 표시가 있는 시계를 선택하세요. 시계 화면에만 적용됩니다.</p>
+   <p class="r379-choice-note">모바일에서도 아래 디자인을 터치하면 바로 선택할 수 있습니다.</p>
+   <div class="r379-design-buttons" role="group" aria-label="시계 디자인 빠른 선택">
+    <button type="button" class="r379-design-choice" data-clock-style="digital" aria-pressed="true">기존 디지털 시계</button>
+    <button type="button" class="r379-design-choice" data-clock-style="flip" aria-pressed="false">사각 아날로그 · 날짜 플립</button>
+    <button type="button" class="r379-design-choice" data-clock-style="board" aria-pressed="false">벽걸이형 · 안내문</button>
+   </div>
    <div class="r370-fields">
     <label class="r370-wide">디자인 선택<select id="clockVisualStyle"><option value="digital">기존 디지털 시계 (변경 없음)</option><option value="flip">사각 아날로그 + 요일·날짜 플립</option><option value="board">벽걸이형 · 왼쪽 시계 + 오른쪽 안내문</option></select></label>
     <label>시계 색상<select id="clockVisualTone"><option value="dark">검정 · 클래식</option><option value="light">화이트 · 클래식</option></select></label>
@@ -6738,9 +6751,20 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    }
    function updatePanel(){
      const c=readValues(),analog=c.clockVisualStyle!=='digital',board=c.clockVisualStyle==='board';
+     group.querySelectorAll('[data-clock-style]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.clockStyle===c.clockVisualStyle)));
      $('r370BoardLabel').hidden=!board;
      $('r370ClockState').textContent=analog?'실시간 LCD 미리보기에서 디자인 확인 후 하단 저장·반영을 누르세요.':'기존 디지털 시계 표시 중 · 저장된 다른 시계 설정은 유지됩니다.';
    }
+   group.querySelectorAll('[data-clock-style]').forEach(btn=>{
+     btn.addEventListener('click',()=>{
+       const input=$('clockVisualStyle');if(!input)return;
+       input.value=btn.dataset.clockStyle;
+       input.dispatchEvent(new Event('change',{bubbles:true}));
+       if(typeof previewScreen!=='undefined')previewScreen='clock';
+       if(typeof preview==='function')preview();
+       if(typeof window.r370ClockDraw==='function')window.r370ClockDraw();
+     });
+   });
    for(const key of Object.keys(defaults)){
      const input=$(key);if(!input)continue;
      for(const e of ['input','change'])input.addEventListener(e,()=>{if(typeof unsavedChanges==='boolean')unsavedChanges=true;updatePanel();draw();if(typeof preview==='function')preview();});
