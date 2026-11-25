@@ -5974,6 +5974,10 @@ bar.addEventListener('pointerdown',e=>e.stopPropagation());
 document.addEventListener('pointerdown',e=>{
  if(!active || !messageMode())return;
  const t=e.target;
+ // R383: The shared color picker is appended to document.body, outside
+ // the toolbar. Palette/RGB/HEX taps must NOT end the active LCD edit.
+ const palette=document.getElementById('v55pPicker');
+ if((palette && !palette.hidden) || t.closest?.('#v55pPicker'))return;
  if(bar.contains(t)||preview.contains(t)||active.shell?.contains(t))return;
  close();
 },true);
@@ -7083,54 +7087,70 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </script>
 <script id="r381-text-style-reconciliation">
 (function(){'use strict';
- const picker=document.getElementById('r344Color');if(!picker)return;
- function clearChildColors(root){
-   if(!root)return;
-   for(const el of root.querySelectorAll('[style]')){
-     el.style.removeProperty('color');
-     if(!el.getAttribute('style')?.trim())el.removeAttribute('style');
-   }
+ const controls={
+  r344Color:['color','-webkit-text-fill-color'],
+  r344Font:['font-family','font'],
+  r344Size:['font-size','font'],
+  r344Bold:['font-weight'],
+  r344Under:['text-decoration','text-decoration-line']
+ };
+ const get=id=>document.getElementById(id);
+ function selectedBlock(){
+  return (typeof v13Get==='function')?v13Get():null;
  }
- // A rich-text block can have nested inline color spans. Those spans override
- // the chosen whole-block color, making the original R344 color picker appear inert.
- picker.addEventListener('input',()=>{
-   if(typeof v13Get!=='function')return;
-   const b=v13Get();if(!b)return;
-   if(b.html){
-      const tmp=document.createElement('div');tmp.innerHTML=b.html;clearChildColors(tmp);
-      b.html=(typeof window.r251SafeRich==='function'?window.r251SafeRich(tmp.innerHTML):tmp.innerHTML);
+ // The editor controls style the entire selected block, not just an
+ // arbitrary DOM selection. Nested rich-text spans previously won over
+ // changes to the block's outer font/color/size.
+ function stripChildOverrides(root,properties){
+  if(!root)return;
+  for(const child of root.querySelectorAll('*')){
+   if(child.style){
+    for(const property of properties)child.style.removeProperty(property);
+    if(!child.getAttribute('style')?.trim())child.removeAttribute('style');
    }
-   clearChildColors(document.querySelector('#v13Canvas .v13block.selected .v15-label'));
-   // A mobile floating LCD is in a shadow root. Update the actual editing label,
-   // so a later blur/commit does not restore the old child-level color.
-   for(const container of [document.getElementById('r207Float'),document.getElementById('r254PcFloat')]){
-     const root=container?.querySelector('#r207Viewport,#r254PcViewport')?.shadowRoot;
-     if(root)for(const label of root.querySelectorAll('.v15-label[contenteditable="true"]'))clearChildColors(label);
+   if(child.tagName==='FONT'){
+    if(properties.includes('color'))child.removeAttribute('color');
+    if(properties.includes('font-family'))child.removeAttribute('face');
+    if(properties.includes('font-size'))child.removeAttribute('size');
    }
- },true);
- // Apply full-block formatting to the visible label as well as its parent.
- // Some legacy inline styles otherwise win against the selected block values.
- function forceSelectedStyle(){
-   if(typeof v13Get!=='function')return;
-   const b=v13Get();if(!b)return;
-   const boxes=[...document.querySelectorAll('#v13Canvas .v13block.selected')];
-   for(const container of [document.getElementById('r207Float'),document.getElementById('r254PcFloat')]){
-     const shadow=container?.querySelector('#r207Viewport,#r254PcViewport')?.shadowRoot;
-     if(shadow)boxes.push(...shadow.querySelectorAll('.v13block[data-id="'+CSS.escape(String(b.id))+'"]'));
-   }
-   for(const box of boxes){
-     if(box.dataset.id!==String(b.id))continue;
-     const label=box.querySelector('.v15-label');if(!label)continue;
-     label.style.setProperty('color',b.color||'#ffffff','important');
-     label.style.setProperty('font-family',b.font||'Malgun Gothic','important');
-     label.style.setProperty('font-size',Math.max(16,Number(b.size)||100)+'px','important');
-     label.style.setProperty('font-weight',b.bold?'800':'400','important');
-     label.style.setProperty('text-decoration',b.underline?'underline':'none','important');
-   }
+  }
  }
- for(const id of ['r344Font','r344Size','r344Color','r344Bold','r344Under']){
-   const el=document.getElementById(id);if(!el)continue;
-   el.addEventListener(id==='r344Bold'||id==='r344Under'?'click':'input',()=>requestAnimationFrame(forceSelectedStyle));
+ function matchingLabels(id){
+  const boxes=[...document.querySelectorAll('#v13Canvas .v13block')];
+  for(const shell of [get('r207Float'),get('r254PcFloat')]){
+   const root=shell?.querySelector('#r207Viewport,#r254PcViewport')?.shadowRoot;
+   if(root)boxes.push(...root.querySelectorAll('.v13block'));
+  }
+  return boxes.filter(box=>String(box.dataset.id)===String(id))
+   .map(box=>box.querySelector('.v15-label')).filter(Boolean);
+ }
+ function applyWholeBlock(id){
+  const b=selectedBlock();if(!b)return;
+  const properties=controls[id];if(!properties)return;
+  if(b.html){
+   const temp=document.createElement('div');temp.innerHTML=b.html;
+   stripChildOverrides(temp,properties);
+   b.html=(typeof window.r251SafeRich==='function'?window.r251SafeRich(temp.innerHTML):temp.innerHTML);
+  }
+  // The contenteditable currently shown in the LCD must also be normalized;
+  // otherwise the editor's final commit would restore the old nested style.
+  for(const label of matchingLabels(b.id)){
+   stripChildOverrides(label,properties);
+   label.style.setProperty('color',b.color||'#ffffff','important');
+   label.style.setProperty('font-family',b.font||'Malgun Gothic','important');
+   label.style.setProperty('font-size',Math.max(16,Number(b.size)||100)+'px','important');
+   label.style.setProperty('font-weight',b.bold?'800':'400','important');
+   label.style.setProperty('text-decoration',b.underline?'underline':'none','important');
+  }
+ }
+ for(const id of Object.keys(controls)){
+  const element=get(id);if(!element)continue;
+  const type=id==='r344Bold'||id==='r344Under'?'click':'input';
+  // R344 applies first, then synchronize any old inline formatting.
+  element.addEventListener(type,()=>requestAnimationFrame(()=>applyWholeBlock(id)));
+  // Native dropdowns and numeric inputs can emit change without input
+  // on some mobile browser versions.
+  if(type==='input')element.addEventListener('change',()=>requestAnimationFrame(()=>applyWholeBlock(id)));
  }
 })();
 </script>
