@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS정식 LCD 시계 V55X-R371</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,"Malgun Gothic",sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;font:12px Arial,sans-serif;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS정식 LCD 시계 V55X-R372</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,"Malgun Gothic",sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;font:12px Arial,sans-serif;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
 body[data-lcd-screen="message"] #time,body[data-lcd-screen="message"] #date{opacity:0!important;}body[data-lcd-screen="clock"] #messageScreen,body[data-lcd-screen="clock"] #messageBlocks{opacity:0!important;}body[data-lcd-screen="message"] #messageScreen.active,body[data-lcd-screen="message"] #messageBlocks.active{opacity:1!important;}body[data-lcd-effect="slide"][data-lcd-screen="message"] #bg,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #shade,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #time,
@@ -254,6 +254,13 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
  border-radius:8px;padding:9px 11px;font:12px/1.55 monospace;
  max-width:min(95vw,440px);white-space:pre-wrap;overflow-wrap:anywhere;
  pointer-events:none;}
+</style><style id="r372-news-ticker-main-style">
+/* R372: scrolling uses a compositor transform, never CSS-animation restarts on screen switch. */
+#r371Ticker .r371-moving{animation:none;transform:translateY(-50%);}
+#r371Ticker.r372-card-mode .r371-moving{white-space:pre-line;text-align:center;line-height:1.20;transform-origin:center;overflow-wrap:anywhere;perspective:900px;will-change:transform,opacity}
+#r371Ticker.r372-card-mode .r371-label{max-width:26%;}
+#r371Ticker.r372-card-mode .r371-moving{z-index:1}
+
 </style><style id="r371-news-ticker-main-style">
 #r371Ticker{position:fixed;left:0;right:0;bottom:0;width:100%;height:clamp(40px,6.9vh,95px);z-index:55;display:flex;align-items:center;overflow:hidden;pointer-events:none;isolation:isolate;box-sizing:border-box}
 #r371Ticker[hidden]{display:none!important}
@@ -337,7 +344,7 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
 body.r370-clock-selected[data-lcd-screen="clock"]>#time,body.r370-clock-selected[data-lcd-screen="clock"]>#date,body.r370-clock-selected[data-lcd-screen="clock"]>#r185Clock{display:none!important}
 body.r370-clock-selected[data-lcd-screen="clock"]>#clockWeather{z-index:38!important}
 body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!important}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R371</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R372</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -471,7 +478,7 @@ window.addEventListener('error',function(e){
  window.r169ParticleStatus=()=>({frames,moved,skipped,loops,errors,lastFrameAt,scenes:fields.size,screen:document.body.dataset.lcdScreen,particles:Array.from(fields.values()).reduce((n,a)=>n+a.length,0),firstY:(Array.from(fields.values())[0]||[])[0]?.lastY??null});
  window.r168ParticleStatus=window.r169ParticleStatus;
 })();
-</script><script src="config.js?v=V55X-R371"></script><script src="shared.js?v=V51-20261105"></script><script>
+</script><script src="config.js?v=V55X-R372"></script><script src="shared.js?v=V51-20261105"></script><script>
 
 /* V49: standalone original SVG line icons; no external icon assets or network requests. */
 const WX49_NS='http://www.w3.org/2000/svg';
@@ -966,8 +973,8 @@ function v55hForestName(code,isDay){
 function v55hSetBackground(page,code,isDay){
  const name=v55hForestName(code,isDay);
  const file=R357_WEATHER_ASSETS[name]||R357_WEATHER_ASSETS.cloud;
- const path='images/'+file+'?v=V55X-R371';
- const jpeg='images/'+file.replace(/\.webp$/i,'.jpg')+'?v=V55X-R371';
+ const path='images/'+file+'?v=V55X-R372';
+ const jpeg='images/'+file.replace(/\.webp$/i,'.jpg')+'?v=V55X-R372';
  let photo=page.querySelector(':scope > .v55h-forest-photo');
  if(!photo){photo=document.createElement('img');photo.className='v55h-forest-photo';photo.alt='';photo.decoding='async';page.prepend(photo)}
  let shade=page.querySelector(':scope > .v55h-forest-shade');
@@ -1649,7 +1656,7 @@ body:not(.r358-weather-diag) #r358WeatherDiag{display:none!important}
   }
   function status(){
     var s=scene(),photo=page.querySelector(':scope > .v55h-forest-photo, :scope > #wx50Scene .v55f-photo');
-    return {version:'V55X-R371',view:isMain?'LCD':'admin',screen:isMain?(document.body.dataset.lcdScreen||'-'):'preview',
+    return {version:'V55X-R372',view:isMain?'LCD':'admin',screen:isMain?(document.body.dataset.lcdScreen||'-'):'preview',
       mode:mode()||'-',kind:s?s.className:'none',nightPhoto:photo?.getAttribute('src')||'-',
       photoStatus:photo?.dataset.status||'-',eligible:eligible(),visible:visible(),
       canvas:!!canvas&&canvas.isConnected,starCount:points.length,
@@ -1687,6 +1694,73 @@ body:not(.r358-weather-diag) #r358WeatherDiag{display:none!important}
   setInterval(sync,900);if(diag)setInterval(refreshDiag,1000);sync();
 })();
 
+</script><script id="r372-common-news-plan">
+(function(root){'use strict';
+ const hhmm=v=>{const m=/^([01]\d|2[0-3]):([0-5]\d)$/.exec(String(v||''));return m?Number(m[1])*60+Number(m[2]):-1};
+ const dateKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+ const dayStart=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+ const KST_FORMAT=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+ function koreanWallTime(instant){const parts={};for(const v of KST_FORMAT.formatToParts(instant))parts[v.type]=v.value;return new Date(Number(parts.year),Number(parts.month)-1,Number(parts.day),Number(parts.hour),Number(parts.minute),Number(parts.second));}
+ function occurrence(item,date){
+  if(!item||item.enabled===false||!String(item.text||'').trim())return null;
+  const start=hhmm(item.startTime),end=hhmm(item.endTime);
+  if(start<0||end<0||start===end)return null;
+  if(item.startDate&&dateKey(date)<item.startDate)return null;
+  if(item.endDate&&dateKey(date)>item.endDate)return null;
+  const weekdays=Array.isArray(item.weekdays)?item.weekdays.map(Number):[1,2,3,4,5];
+  if(!weekdays.includes(date.getDay()))return null;
+  const begin=new Date(date.getTime()+start*60000);
+  const finish=new Date(date.getTime()+(end+(end<=start?1440:0))*60000);
+  return {begin,finish};
+ }
+ function plan(c,instant){
+  c=c&&typeof c==='object'?c:{};
+  const now=koreanWallTime(instant instanceof Date?instant:new Date(instant||Date.now()));
+  const mode=['off','always','schedule','mixed'].includes(c.tickerMode)?c.tickerMode:
+   (c.tickerEnabled===true||c.tickerEnabled==='true'||c.tickerEnabled===1?'always':'off');
+  const list=Array.isArray(c.tickerSchedule)?c.tickerSchedule:[];
+  const candidates=[],future=[];
+  if(mode==='schedule'||mode==='mixed'){
+   const today=dayStart(now);
+   for(let i=0;i<list.length;i++){
+    const item=list[i];
+    for(let offset=-1;offset<=34;offset++){
+     const day=new Date(today.getFullYear(),today.getMonth(),today.getDate()+offset);
+     const span=occurrence(item,day);
+     if(!span)continue;
+     const detail={...item,index:i,startAt:span.begin,endAt:span.finish};
+     if(now>=span.begin&&now<span.finish)candidates.push(detail);
+     else if(span.begin>now)future.push(detail);
+     if(candidates.some(v=>v.index===i))break;
+    }
+   }
+  }
+  candidates.sort((a,b)=>(Number(b.priority)||0)-(Number(a.priority)||0)||a.index-b.index);
+  future.sort((a,b)=>a.startAt-b.startAt||((Number(b.priority)||0)-(Number(a.priority)||0)));
+  const active=candidates[0]||null,next=future[0]||null;
+  const base=String(c.tickerText||'').trim();
+  const afterEnd=c.tickerAfterEnd==='base'?'base':'hide';
+  let chosen=null,phase='off';
+  if(mode==='off')phase='off';
+  else if(active){chosen={text:String(active.text).slice(0,500),name:active.title||'예약',kind:'reservation',item:active};phase='running';}
+  else if(mode==='always'){if(base)chosen={text:base.slice(0,500),name:'상시',kind:'always'};phase=chosen?'always':'empty';}
+  else{
+   if(mode==='mixed'&&afterEnd==='base'&&base)chosen={text:base.slice(0,500),name:'상시',kind:'always'};
+   const hasSchedule=list.some(x=>x&&x.enabled!==false&&String(x.text||'').trim());
+   phase=next?'waiting':hasSchedule?'ended':'empty';
+   if(chosen)phase='base';
+  }
+  return {mode,now,active,next,chosen,phase,afterEnd,list};
+ }
+ function groups(text){return String(text||'').replace(/\r\n?/g,'\n').split(/\n\s*\n+/).map(s=>s.split('\n').map(v=>v.trim()).filter(Boolean).slice(0,3).join('\n')).filter(Boolean).slice(0,50);}
+ function timeLabel(d){return d?new Intl.DateTimeFormat('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(d):'-';}
+ function weekLabel(days){return Array.isArray(days)?days.map(Number).map(d=>['일','월','화','수','목','금','토'][d]).filter(Boolean).join('·'):'월·화·수·목·금';}
+ function description(item){if(!item)return '';
+  return (item.title||'예약 자막')+' · '+(item.startDate||'날짜 제한 없음')+' ~ '+(item.endDate||'날짜 제한 없음')+' · '+weekLabel(item.weekdays)+' · '+(item.startTime||'--:--')+'~'+(item.endTime||'--:--')+' · 우선순위 '+(item.priority||0);
+ }
+ root.r372TickerPlan={plan,groups,timeLabel,description,occurrence};
+})(window);
+
 </script><script id="r371-news-ticker-main-runtime">
 (function(){'use strict';
  const bar=document.createElement('div');bar.id='r371Ticker';bar.hidden=true;bar.setAttribute('aria-hidden','true');
@@ -1699,50 +1773,81 @@ body:not(.r358-weather-diag) #r358WeatherDiag{display:none!important}
   'eu-minimal':{tag:'안내',fg:'#283544',bg:'#ffffff',tagBg:'#aa1e2e',tagFg:'#ffffff'},
   'eu-blue':{tag:'INFO',fg:'#193e5e',bg:'#eef7fc',tagBg:'#1485ad',tagFg:'#ffffff'}
  };
+ const planner=window.r372TickerPlan;
  const num=(v,lo,hi,f)=>Number.isFinite(Number(v))&&String(v).trim()!==''?Math.min(hi,Math.max(lo,Number(v))):f;
  const hex=(v,f)=>/^#[0-9a-f]{6}$/i.test(String(v||''))?String(v):f;
- const hh=s=>{const m=/^(\d\d):(\d\d)$/.exec(String(s||''));return m?Number(m[1])*60+Number(m[2]):-1};
- function activeAt(date,list){const mins=date.getHours()*60+date.getMinutes(),found=[];
-  if(!Array.isArray(list))return null;
-  list.forEach((v,i)=>{if(!v||v.enabled===false||!String(v.text||'').trim())return;
-   const start=hh(v.startTime),end=hh(v.endTime);if(start<0||end<0||start>1439||end>1439)return;
-   const day=new Date(date);
-   if(start<end){if(mins<start||mins>=end)return;}
-   else if(start>end){if(mins>=start){}else if(mins<end){day.setDate(day.getDate()-1);}else return;}
-   else return;
-   const key=day.getFullYear()+'-'+String(day.getMonth()+1).padStart(2,'0')+'-'+String(day.getDate()).padStart(2,'0');
-   if((v.startDate&&key<v.startDate)||(v.endDate&&key>v.endDate))return;
-   const weekdays=Array.isArray(v.weekdays)?v.weekdays:[1,2,3,4,5];if(!weekdays.map(Number).includes(day.getDay()))return;
-   found.push({...v,index:i});
-  });found.sort((a,b)=>num(b.priority,0,9,0)-num(a.priority,0,9,0)||a.index-b.index);return found[0]||null;
+ let identity='',motion=null,frameMode='',itemIndex=-1,phaseAt=0,lastPlan=null,starts=0;
+ const moving=bar.querySelector('.r371-moving'),label=bar.querySelector('.r371-label'),top=bar.querySelector('.r371-topline');
+ function stopMotion(){if(motion){try{motion.cancel()}catch(_){ }motion=null;}moving.getAnimations().forEach(a=>{if(a!==motion)try{a.cancel()}catch(_){}});moving.style.animation='none';}
+ function onPositionFrame(){
+  if(bar.hidden)return;
+  const w=bar.clientWidth||innerWidth||1920;
+  const textWidth=moving.scrollWidth||w;
+  const speed=num(lastPlan?.speed,20,200,75);
+  const duration=Math.max(4500,1000*(w+textWidth)/speed);
+  // A compositor-driven animation is not recreated by every LCD screen transition or config poll.
+  if(moving.animate){motion=moving.animate([
+   {transform:'translate3d(0,-50%,0)'},
+   {transform:'translate3d('+(-w-textWidth)+'px,-50%,0)'}
+  ],{duration,iterations:Infinity,easing:'linear'});}
+  else{bar.style.setProperty('--r371-area-width',w+'px');bar.style.setProperty('--r371-duration',(duration/1000)+'s');moving.style.animation='r371-crawl '+(duration/1000)+'s linear infinite';}
+  starts++;
  }
- function selectedAt(c,date){const mode=['off','always','schedule','mixed'].includes(c.tickerMode)?c.tickerMode:(c.tickerEnabled===true||c.tickerEnabled==='true'||c.tickerEnabled===1?'always':'off');
-  if(mode==='off')return null;
-  const active=(mode==='schedule'||mode==='mixed')?activeAt(date,c.tickerSchedule):null;
-  if(active)return {text:String(active.text).slice(0,500),name:active.title||'예약'};
-  if(mode==='always'||mode==='mixed')return String(c.tickerText||'').trim()?{text:String(c.tickerText).slice(0,500),name:'상시'}:null;
-  return null;
+ function chooseGroup(i,fx,groups,holdSeconds){
+  if(frameMode===fx&&itemIndex===i)return;
+  frameMode=fx;itemIndex=i;moving.textContent=groups[i]||'';
+  stopMotion();
+  moving.style.left=label.offsetWidth+'px';moving.style.right='0';moving.style.width='calc(100% - '+label.offsetWidth+'px)';
+  moving.style.top=top.hidden?'50%':'65%';
+  moving.classList.add('r372-card');moving.style.whiteSpace='pre-line';
+  let keyframes;
+  if(fx==='flip')keyframes=[{opacity:.04,transform:'translateY(-50%) rotateX(-85deg)'},{opacity:1,transform:'translateY(-50%) rotateX(0deg)'}];
+  else if(fx==='fade')keyframes=[{opacity:0,transform:'translateY(-50%)'},{opacity:1,transform:'translateY(-50%)'}];
+  else if(fx==='slide')keyframes=[{opacity:0,transform:'translateY(40%)'},{opacity:1,transform:'translateY(-50%)'}];
+  else keyframes=[{opacity:1,transform:'translateY(-50%)'},{opacity:1,transform:'translateY(-50%)'}];
+  if(moving.animate&&fx!=='static')motion=moving.animate(keyframes,{duration:fx==='flip'?850:650,easing:'ease-out',fill:'both'});
+  else moving.style.transform='translateY(-50%)';
  }
- let signature='',lastVisible=false,lastName='';
- function sync(){const c=typeof config==='object'&&config?config:{};const selected=selectedAt(c,new Date()),text=selected?.text||'';
-  if(!text.trim()){bar.hidden=true;signature='';lastVisible=false;lastName='';return;}
-  bar.hidden=false;lastName=selected.name;
-  const design=themes[c.tickerDesign]?c.tickerDesign:'eu-blue',p=themes[design];
-  const font=num(c.tickerFontSize,24,90,44),speed=num(c.tickerSpeed,20,200,75),color=hex(c.tickerColor,p.fg),bg=hex(c.tickerBackground,p.bg);
-  const width=bar.clientWidth||innerWidth||1920,sig=JSON.stringify([text,font,speed,color,bg,width,design]);
-  if(sig===signature)return;signature=sig;
-  bar.classList.toggle('r371-two-line',!!p.top);bar.style.height='clamp(42px,'+((font+(p.top?54:28))/1080*100).toFixed(2)+'vh,120px)';bar.style.backgroundColor=bg;
-  const label=bar.querySelector('.r371-label');label.textContent=p.tag;label.style.color=p.tagFg;label.style.background=p.tagBg;label.style.fontSize='clamp(12px,'+(font*.5/1080*100).toFixed(2)+'vh,40px)';
-  const top=bar.querySelector('.r371-topline');top.hidden=!p.top;if(p.top)top.textContent=p.top;
-  const moving=bar.querySelector('.r371-moving');moving.style.color=color;moving.style.fontSize='clamp(18px,'+(font/1080*100).toFixed(2)+'vh,95px)';moving.textContent=text;
-  const ratio=Math.max(.22,width/1920),duration=(width+moving.scrollWidth)/(speed*ratio);
-  bar.style.setProperty('--r371-area-width',width+'px');bar.style.setProperty('--r371-duration',Math.max(4,duration).toFixed(2)+'s');moving.style.animation='none';void moving.offsetWidth;moving.style.animation='';
+ function sync(){
+  const c=typeof config==='object'&&config?config:{};
+  const p=planner.plan(c,new Date());lastPlan={...p,speed:c.tickerSpeed};
+  const selected=p.chosen,text=selected?.text||'';
+  if(!text.trim()){if(!bar.hidden){stopMotion();bar.hidden=true;}identity='';frameMode='';itemIndex=-1;return;}
+  const design=themes[c.tickerDesign]?c.tickerDesign:'eu-blue',t=themes[design];
+  const effect=['scroll','flip','fade','slide','static'].includes(c.tickerEffect)?c.tickerEffect:'scroll';
+  const font=num(c.tickerFontSize,24,90,44),speed=num(c.tickerSpeed,20,200,75);
+  const hold=num(c.tickerHoldSeconds,3,30,7),color=hex(c.tickerColor,t.fg),bg=hex(c.tickerBackground,t.bg);
+  const pieces=planner.groups(text),groups=pieces.length?pieces:[''];
+  const lineCount=effect==='scroll'?1:Math.min(3,Math.max(...groups.map(g=>g.split('\n').length),1));
+  const signature=JSON.stringify([text,design,effect,font,speed,hold,color,bg]);
+  if(signature!==identity){
+   stopMotion();identity=signature;frameMode='';itemIndex=-1;phaseAt=Date.now();
+   bar.hidden=false;bar.classList.toggle('r371-two-line',!!t.top);bar.classList.toggle('r372-card-mode',effect!=='scroll');
+   bar.style.backgroundColor=bg;
+   bar.style.height='clamp(42px,'+(Math.min(29,((font*1.22*lineCount+(t.top?54:25))/1080*100))).toFixed(2)+'vh,'+(effect==='scroll'?132:300)+'px)';
+   label.textContent=t.tag;label.style.color=t.tagFg;label.style.background=t.tagBg;
+   label.style.fontSize='clamp(12px,'+(font*.5/1080*100).toFixed(2)+'vh,40px)';
+   top.hidden=!t.top;if(t.top)top.textContent=t.top;
+   moving.style.color=color;moving.style.fontSize='clamp(18px,'+(font/1080*100).toFixed(2)+'vh,95px)';
+   moving.classList.toggle('r372-card',effect!=='scroll');
+   if(effect==='scroll'){
+    moving.style.left='100%';moving.style.right='auto';moving.style.width='max-content';moving.style.whiteSpace='nowrap';
+    moving.style.top=t.top?'66%':'50%';moving.textContent=groups.map(s=>s.replace(/\n/g,' · ')).join('     ◆     ');
+    // Two animation frames let font sizing settle; do not force layout-reset animation on polls.
+    requestAnimationFrame(()=>{if(identity===signature&&effect==='scroll'&&!bar.hidden)onPositionFrame()});
+   }
+  }
+  if(effect!=='scroll'){
+   const index=effect==='static'?0:Math.floor((Date.now()-phaseAt)/(hold*1000))%groups.length;
+   chooseGroup(index,effect,groups,hold);
+  }
  }
- window.r371TickerAt=(when,c)=>selectedAt(c||{},new Date(when));
- window.r371TickerStatus=()=>({enabled:!bar.hidden,text:bar.querySelector('.r371-moving').textContent,name:lastName,design:bar.className,duration:bar.style.getPropertyValue('--r371-duration'),screen:document.body.dataset.lcdScreen});
+ window.r371TickerAt=(when,c)=>planner.plan(c||{},new Date(when)).chosen;
+ window.r372TickerPlanAt=(when,c)=>planner.plan(c||{},new Date(when));
+ window.r371TickerStatus=()=>({enabled:!bar.hidden,text:moving.textContent,name:lastPlan?.chosen?.name||'',phase:lastPlan?.phase||'off',effect:(typeof config==='object'&&config?config.tickerEffect:'scroll')||'scroll',motionStarts:starts,animationTime:motion?.currentTime??null,screen:document.body.dataset.lcdScreen});
  window.r369TickerStatus=window.r371TickerStatus;
- addEventListener('resize',()=>{signature='';sync()});document.addEventListener('visibilitychange',()=>{if(!document.hidden){signature='';sync()}});
- setInterval(sync,700);sync();
+ addEventListener('resize',()=>{if(!bar.hidden&&identity){stopMotion();const current=identity;identity='';sync();}});
+ setInterval(sync,350);sync();
 })();
 
 </script><script id="r370-analog-clock-runtime">
