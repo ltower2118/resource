@@ -1,0 +1,11 @@
+{
+  "status": "TEST CANDIDATE ONLY - NOT DEPLOYED",
+  "production_unchanged": true,
+  "production_server_url_preserved": true,
+  "test_server_url_separate": true,
+  "admin_main_version": "V55X-R182",
+  "syntax": "PASS",
+  "server": "TEST baseline only; KMA production integration NOT COMPLETE",
+  "browser_integration": "NOT RUN",
+  "live_save": "NOT RUN"
+}

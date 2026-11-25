@@ -1,0 +1,2020 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS정식 LCD 시계 V55X-R378</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,"Malgun Gothic",sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;font:12px Arial,sans-serif;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
+body[data-lcd-screen="message"] #time,body[data-lcd-screen="message"] #date{opacity:0!important;}body[data-lcd-screen="clock"] #messageScreen,body[data-lcd-screen="clock"] #messageBlocks{opacity:0!important;}body[data-lcd-screen="message"] #messageScreen.active,body[data-lcd-screen="message"] #messageBlocks.active{opacity:1!important;}body[data-lcd-effect="slide"][data-lcd-screen="message"] #bg,
+body[data-lcd-effect="slide"][data-lcd-screen="message"] #shade,
+body[data-lcd-effect="slide"][data-lcd-screen="message"] #time,
+body[data-lcd-effect="slide"][data-lcd-screen="message"] #date{translate:0 calc(-1 * var(--lcd-shift));}body[data-lcd-effect="slide"][data-lcd-screen="clock"] #messageScreen,
+body[data-lcd-effect="slide"][data-lcd-screen="clock"] #messageBlocks{translate:0 var(--lcd-shift);}body[data-lcd-effect="slide"][data-lcd-screen="clock"] #bg,
+body[data-lcd-effect="slide"][data-lcd-screen="clock"] #shade,
+body[data-lcd-effect="slide"][data-lcd-screen="clock"] #time,
+body[data-lcd-effect="slide"][data-lcd-screen="clock"] #date,
+body[data-lcd-effect="slide"][data-lcd-screen="message"] #messageScreen,
+body[data-lcd-effect="slide"][data-lcd-screen="message"] #messageBlocks{translate:0 0;}body[data-lcd-effect="none"] #bg,body[data-lcd-effect="none"] #shade,
+body[data-lcd-effect="none"] #time,body[data-lcd-effect="none"] #date,
+body[data-lcd-effect="none"] #messageScreen,body[data-lcd-effect="none"] #messageBlocks{transition:none!important;}@media (prefers-reduced-motion:reduce){#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:none!important;}}#weatherScreen{inset:0;z-index:12;align-items:center;justify-content:center;flex-direction:column;text-align:center;opacity:0;pointer-events:none;transition:opacity var(--lcd-transition-ms) ease,translate var(--lcd-transition-ms) ease;}#weatherScreen .wx-place{font-size:clamp(24px,3vw,52px);color:#c8e0f8;margin-bottom:14px;}#weatherScreen .wx-main{font-size:clamp(55px,9vw,180px);font-weight:inherit;line-height:1.1;}#weatherScreen .wx-condition{font-size:clamp(24px,4vw,74px);margin:14px 0;}#weatherScreen .wx-extra{font-size:clamp(19px,2.8vw,43px);display:flex;gap:2vw;flex-wrap:wrap;justify-content:center;}#weatherScreen .wx-foot{position:absolute;bottom:2.5vw;font-size:clamp(12px,1.25vw,20px);color:#b7cce0;}#clockWeather{position:fixed;z-index:6;text-align:center;opacity:0;pointer-events:none;transition:opacity var(--lcd-transition-ms) ease;}body[data-lcd-screen="clock"] #clockWeather.weather-on{opacity:1;}body[data-lcd-screen="weather"] #weatherScreen{opacity:1;}body[data-lcd-screen="weather"] #bg,body[data-lcd-screen="weather"] #shade,body[data-lcd-screen="weather"] #time,body[data-lcd-screen="weather"] #date{opacity:0!important;}body[data-lcd-screen="weather"] #messageScreen,body[data-lcd-screen="weather"] #messageBlocks{opacity:0!important;}body[data-lcd-screen="message"] #clockWeather,body[data-lcd-screen="weather"] #clockWeather{opacity:0!important;}body[data-lcd-effect="none"] #weatherScreen,body[data-lcd-effect="none"] #clockWeather{transition:none!important;}@media (prefers-reduced-motion:reduce){#weatherScreen,#clockWeather{transition:none!important;}}#wxDebugV40{display:none;position:fixed;left:12px;bottom:12px;z-index:999999;max-width:min(94vw,850px);min-width:min(92vw,380px);padding:15px 18px;background:#001b35f2;color:#fff;border:3px solid #71d1ff;border-radius:12px;font:700 clamp(15px,2.0vw,24px)/1.55 Arial,"Malgun Gothic",sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 5px 30px #000b;pointer-events:none;}body.wx-debug-v40 #wxDebugV40{display:block!important;}body.wx-debug-v40:fullscreen #wxDebugV40,html:fullscreen body.wx-debug-v40 #wxDebugV40{display:block!important;}body:not(.wx-debug-v40) #wxDebugV40{display:none!important;}body.wx-test-v40 #versionTag{display:block!important;z-index:999998;}#weatherScreen{background-color:#122940;background-size:cover;background-position:center;background-repeat:no-repeat;}#weatherContent .wx-main{font-weight:inherit;}#clockWeather{top:12%;left:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);font-size:40px;white-space:normal;max-width:92vw;line-height:1.25;overflow-wrap:anywhere;box-sizing:border-box;background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important;text-shadow:0 2px 7px #000a;}#weatherScreen{display:block;padding:0;overflow:hidden;}#weatherContent{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:min(86%,1600px);max-height:95%;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;line-height:1.18;}#weatherContent .wx-place{font-size:calc(var(--wx-page-size, 135px) * .34);margin-bottom:.15em;}#weatherContent .wx-main{font-size:var(--wx-page-size, 135px);line-height:1.13;}#weatherContent .wx-condition{font-size:calc(var(--wx-page-size, 135px) * .55);margin:.16em 0;}#weatherContent .wx-extra{font-size:calc(var(--wx-page-size, 135px) * .34);justify-content:center;}#weatherContent .wx-foot{position:static;right:auto;bottom:auto;left:auto;top:auto;z-index:2;max-width:100%;margin:1.1em 0 0;padding:0;background:none;border:0;color:inherit;opacity:.65;font-size:clamp(11px,1vw,17px);font-weight:400;line-height:1.4;text-align:center;text-shadow:0 1px 3px #0008;pointer-events:none;white-space:normal;}#weatherContent .wx-place{color:inherit;}.wx49-icon{width:1em;height:1em;flex:0 0 1em;display:inline-block;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.14em;overflow:visible;}.wx49-emoji{display:inline-block;flex:0 0 auto;font-size:.9em;line-height:1;}.wx-main,.v42-temp{display:flex;align-items:center;justify-content:center;gap:.16em;min-width:0;}#clockWeather,#v42ClockWeatherPreview{align-items:center;justify-content:center;gap:.18em;}#clockWeather.weather-on,#v42ClockWeatherPreview.visible{display:flex;}#v42WeatherPreview .wx49-icon,#weatherScreen .wx49-icon{width:.95em;height:.95em;flex-basis:.95em;}#weatherScreen #wx50Scene{overflow:hidden;pointer-events:none;opacity:1;}#wx50Scene{--wx50-sky1:#65b4e7;--wx50-sky2:#d1ecf8;background:linear-gradient(160deg,var(--wx50-sky1),var(--wx50-sky2));}#wx50Scene.wx50-sun{--wx50-sky1:#2788d1;--wx50-sky2:#a9dff8;}#wx50Scene.wx50-moon{--wx50-sky1:#07172f;--wx50-sky2:#24496c;}#wx50Scene.wx50-partly{--wx50-sky1:#4b9fda;--wx50-sky2:#b6dceb;}#wx50Scene.wx50-cloud{--wx50-sky1:#607c99;--wx50-sky2:#b0c1cc;}#wx50Scene.wx50-rain{--wx50-sky1:#233e5d;--wx50-sky2:#718ea4;}#wx50Scene.wx50-snow{--wx50-sky1:#819eb7;--wx50-sky2:#d9e9f4;}#wx50Scene.wx50-thunder{--wx50-sky1:#17233d;--wx50-sky2:#495775;}#wx50Scene.wx50-over-image{background:linear-gradient(160deg,#203f6060,#0c284750);}#wx50Scene .wx50-sun-disc{position:absolute;width:16vmin;height:16vmin;left:15%;top:15%;border-radius:50%;background:#fff4bd;box-shadow:0 0 42px 15px #fff5bd77,0 0 105px 35px #ffedac4d;animation:wx50-breathe 9s ease-in-out infinite alternate;}#wx50Scene .wx50-moon-disc{position:absolute;width:16vmin;height:16vmin;right:17%;top:13%;border-radius:50%;background:#e7eff9;box-shadow:0 0 40px 12px #dce9f344;}#wx50Scene .wx50-moon-disc:after{content:"";position:absolute;width:85%;height:85%;left:30%;top:-15%;border-radius:50%;background:#07172f;}#wx50Scene .wx50-cloud{position:absolute;width:260px;height:72px;border-radius:100px;background:#f6fbffe0;filter:drop-shadow(0 15px 16px #17324b16);animation:wx50-drift 33s ease-in-out infinite alternate;will-change:transform;}#wx50Scene .wx50-cloud:before,#wx50Scene .wx50-cloud:after{content:"";position:absolute;border-radius:50%;background:inherit;}#wx50Scene .wx50-cloud:before{width:112px;height:112px;left:39px;bottom:24px;}#wx50Scene .wx50-cloud:after{width:137px;height:137px;left:106px;bottom:15px;}#wx50Scene.wx50-cloud .wx50-cloud,#wx50Scene.wx50-rain .wx50-cloud,#wx50Scene.wx50-thunder .wx50-cloud{background:#d4e0e9df;}#wx50Scene.wx50-partly .wx50-cloud{background:#f3f8ffba;filter:blur(1.5px);animation-duration:58s;}#wx50Scene.wx50-cloud .wx50-cloud{background:#d7e1eac0;filter:blur(2.2px);animation-duration:66s;}#wx50Scene.wx50-snow .wx50-cloud{background:#edf5fc9a;filter:blur(2px);animation-duration:62s;}#wx50Scene.wx50-thunder .wx50-cloud{background:#8f9eb29a;filter:blur(2.5px);animation-duration:68s;}#wx50Scene .wx50-drop{position:absolute;top:-10%;height:35px;width:2px;background:#c9eaffbb;transform:rotate(12deg);animation:wx50-rainfall var(--duration,1.6s) linear infinite;animation-delay:var(--delay,0s);will-change:transform;}#wx50Scene .wx50-flake{position:absolute;top:-7%;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 6px #ffffffaa;animation:wx50-snowfall var(--duration,8s) linear infinite;animation-delay:var(--delay,0s);will-change:transform;}#wx50Scene .wx50-flake.wx50-crystal{width:auto;height:auto;background:none;border-radius:0;box-shadow:none;font:24px/1 "Malgun Gothic",sans-serif;color:#f6fbff;text-shadow:0 0 8px #fff8;}#wx50Scene .wx50-snow-decor{position:absolute;font:clamp(23px,4vw,54px)/1 "Malgun Gothic",sans-serif;color:#f5fcff;opacity:.22;text-shadow:0 0 12px #ffffff88;animation:wx50-snow-glide 13s ease-in-out infinite alternate;will-change:transform;}#wx50Scene .wx50-star{position:absolute;width:2px;height:2px;background:#e4edfc;border-radius:50%;opacity:.35;box-shadow:0 0 2px 1px #b8d5fa30;}#wx50Scene .wx50-star.wx50-bright{width:3px;height:3px;opacity:.35;box-shadow:0 0 2px 1px #b8d5fa30;animation:wx50-solo-twinkle 16s ease-in-out infinite;animation-delay:var(--delay,0s);}#wx50Scene .wx50-meteor{position:absolute;top:var(--meteor-top,5%);left:var(--meteor-left,87%);width:115px;height:2px;border-radius:6px;background:linear-gradient(90deg,transparent 0%,#d9edff66 45%,#ffffff 100%);filter:drop-shadow(0 0 5px #c6e8ff);opacity:0;transform:rotate(-38deg);transform-origin:right center;animation:wx50-meteor-fall var(--meteor-duration,10s) linear infinite;animation-delay:var(--meteor-delay,0s);will-change:transform,opacity;}#wx50Scene .wx50-meteor:after{content:"";position:absolute;right:-2px;top:-2px;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 9px 4px #b9ddff;}#wx50Scene .wx50-electric{position:absolute;top:6%;left:var(--bolt-left,53%);width:var(--bolt-width,29%);height:78%;overflow:visible;filter:drop-shadow(0 0 5px #a9dfff99);}#wx50Scene .wx50-electric path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:550;stroke-dashoffset:550;opacity:0;animation:wx50-crackle 9s linear infinite;animation-delay:var(--bolt-delay,0s);}#wx50Scene .wx50-electric .wx50-core-glow{stroke:#77bfff;stroke-width:12;filter:blur(7px);}#wx50Scene .wx50-electric .wx50-core{stroke:#e9f8ff;stroke-width:3.1;}#wx50Scene .wx50-electric .wx50-branch{stroke:#b5eaff;stroke-width:1.8;animation-name:wx50-crackle-branch;animation-delay:calc(var(--bolt-delay,0s) - .16s);}#wx50Scene .wx50-electric .wx50-branch.second{stroke-width:1.4;animation-delay:calc(var(--bolt-delay,0s) - .3s);}#wx50Scene .wx50-electric .wx50-branch.third{stroke-width:1.2;animation-delay:calc(var(--bolt-delay,0s) - .4s);}#wx50Scene .wx50-electric-haze{position:absolute;inset:0;background:radial-gradient(ellipse at var(--haze-x,50%) 37%,#b9e5ff22,transparent 32%);opacity:0;animation:wx50-haze 9s linear infinite;animation-delay:var(--bolt-delay,0s);}@keyframes wx50-drift{from{transform:translate3d(-5vw,0,0) scale(var(--wx50-scale,1));}to{transform:translate3d(8vw,0,0) scale(var(--wx50-scale,1));}}@keyframes wx50-breathe{from{opacity:.8;transform:scale(.97);}to{opacity:1;transform:scale(1.05);}}@keyframes wx50-rainfall{from{transform:translate3d(0,-12vh,0) rotate(12deg);}to{transform:translate3d(-12vw,115vh,0) rotate(12deg);}}@keyframes wx50-snowfall{from{transform:translate3d(0,-10vh,0);}to{transform:translate3d(7vw,112vh,0);}}@keyframes wx50-snow-glide{from{transform:translate3d(-7px,4px,0) rotate(-9deg);}to{transform:translate3d(13px,-12px,0) rotate(12deg);}}@keyframes wx50-solo-twinkle{0%,3%,20%,100%{opacity:.35;transform:scale(1);box-shadow:0 0 2px 1px #b8d5fa30;}8%{opacity:.9;transform:scale(1.45);box-shadow:0 0 7px 2px #e8f3ffb8;}12%{opacity:1;transform:scale(1.65);box-shadow:0 0 10px 3px #d8eaffd0;}16%{opacity:.48;transform:scale(1.1);box-shadow:0 0 4px 1px #c7dfff50;}}@keyframes wx50-twinkle{from{opacity:.48;transform:scale(.88);}to{opacity:1;transform:scale(1.18);}}@keyframes wx50-meteor-fall{0%,8%{opacity:0;transform:translate3d(0,0,0) rotate(-38deg);}9%{opacity:1;}14%{opacity:1;}19%,100%{opacity:0;transform:translate3d(-39vw,37vh,0) rotate(-38deg);}}@keyframes wx50-crackle{0%,9%,43%,100%{opacity:0;stroke-dashoffset:550;}11%{opacity:.65;stroke-dashoffset:350;}13%{opacity:.95;stroke-dashoffset:100;}15%{opacity:.28;stroke-dashoffset:0;}18%{opacity:.85;stroke-dashoffset:0;}20%{opacity:.18;stroke-dashoffset:0;}23%{opacity:1;stroke-dashoffset:0;}26%{opacity:.38;stroke-dashoffset:0;}29%{opacity:.9;stroke-dashoffset:0;}33%{opacity:.22;stroke-dashoffset:0;}37%{opacity:.78;stroke-dashoffset:0;}41%{opacity:0;stroke-dashoffset:0;}}@keyframes wx50-crackle-branch{0%,12%,44%,100%{opacity:0;stroke-dashoffset:550;}14%{opacity:.75;stroke-dashoffset:120;}17%{opacity:.1;stroke-dashoffset:0;}21%{opacity:.9;stroke-dashoffset:0;}24%{opacity:.2;stroke-dashoffset:0;}28%{opacity:.78;stroke-dashoffset:0;}31%{opacity:.12;stroke-dashoffset:0;}36%{opacity:.85;stroke-dashoffset:0;}42%{opacity:0;stroke-dashoffset:0;}}@keyframes wx50-haze{0%,9%,42%,100%{opacity:0;}13%,23%,32%{opacity:.65;}18%,28%,38%{opacity:.16;}}body:not([data-lcd-screen=weather]) #wx50Scene *{animation-play-state:paused!important;}@media (prefers-reduced-motion:reduce){#wx50Scene *{animation:none!important;}#wx50Scene .wx50-drop,#wx50Scene .wx50-electric,#wx50Scene .wx50-meteor{display:none!important;}}</style><style id="v51hMaintenanceStyle">#v51hMaintenance{position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;background:#10243a;color:#fff;padding:7vw;text-align:center;font-family:"Malgun Gothic",Arial,sans-serif;}#v51hMaintenance[aria-hidden="false"]{display:flex;}#v51hMaintenance .v51h-inner{max-width:90vw;}#v51hMaintenance .v51h-title{font-size:clamp(28px,4.5vw,82px);font-weight:800;margin:0 0 2.5rem;}#v51hMaintenance .v51h-body{font-size:clamp(18px,2.4vw,44px);line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;color:#dce9f5;}</style><style id="v51mRenderStyles">#versionTag{background:transparent!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-shadow:none!important;z-index:65;color:#ffffff;}body[data-time-shadow="off"] #time,body[data-date-shadow="off"] #date{text-shadow:none!important;}body[data-clock-weather-shadow="off"] #clockWeather,body[data-clock-weather-shadow="off"] #clockWeather *,body[data-weather-shadow="off"] #weatherContent,body[data-weather-shadow="off"] #weatherContent *{text-shadow:none!important;}body[data-message-shadow="off"] #messageScreen,body[data-message-shadow="off"] #messageScreen *,body[data-message-shadow="off"] #messageBlocks,body[data-message-shadow="off"] #messageBlocks *{text-shadow:none!important;}body[data-message-shadow="on"] #messageScreen .message-content,body[data-message-shadow="on"] #messageBlocks .lcd-block{text-shadow:0 2px 8px #000a;}body[data-weather-shadow="on"] #weatherContent .wx-place,body[data-weather-shadow="on"] #weatherContent .wx-main,body[data-weather-shadow="on"] #weatherContent .wx-condition,body[data-weather-shadow="on"] #weatherContent .wx-extra{text-shadow:0 2px 7px #000a;}#clockWeather.v51x-horizontal{display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:.22em;max-width:94vw;white-space:normal;line-height:1.32;text-align:center;}#clockWeather.v51x-summary{display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:.25em;max-width:94vw;white-space:pre-line;line-height:1.32;text-align:center;}#clockWeather.v51x-compact{display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:.2em;max-width:94vw;white-space:normal;line-height:1.2;text-align:center;}#clockWeather.v51x-compact .wx49-icon{width:.8em;height:.8em;flex-basis:.8em;}#weatherContent.v51x-layout{box-sizing:border-box;max-width:92%;width:min(90%,1680px);display:flex;align-items:center;justify-content:center;gap:min(1.6vh,18px);text-align:center;}#weatherContent.v51x-layout .v51x-primary{display:flex;align-items:center;justify-content:center;gap:min(2.5vw,40px);max-width:100%;min-width:0;flex-wrap:wrap;}#weatherContent.v51x-layout .wx-main{min-width:0;line-height:1.08;white-space:nowrap;font-size:min(var(--wx-page-size,135px),23vh);}#weatherContent.v51x-layout .wx-main .wx49-icon{flex-shrink:0;}#weatherContent.v51x-layout .wx-place{font-size:min(calc(var(--wx-page-size,135px)*.3),7vh);margin:0;line-height:1.2;overflow-wrap:anywhere;}#weatherContent.v51x-layout .wx-condition{font-size:min(calc(var(--wx-page-size,135px)*.46),10vh);line-height:1.15;margin:0;overflow-wrap:anywhere;}#weatherContent.v51x-layout .wx-extra{font-size:min(calc(var(--wx-page-size,135px)*.26),5.5vh);line-height:1.4;display:flex;flex-wrap:wrap;gap:.25em .8em;justify-content:center;max-width:100%;overflow-wrap:anywhere;}#weatherContent.v51x-layout .wx-foot{position:static!important;margin:.7em 0 0!important;font-size:clamp(11px,1vw,17px)!important;line-height:1.25;flex:none;}#weatherContent.v51x-layout.v51x-horizontal .v51x-primary{flex-direction:row;flex-wrap:nowrap;}#weatherContent.v51x-layout.v51x-horizontal .wx-main{font-size:min(calc(var(--wx-page-size,135px)*.82),17vh);}#weatherContent.v51x-layout.v51x-horizontal .wx-condition{font-size:min(calc(var(--wx-page-size,135px)*.39),8vh);}#weatherContent.v51x-layout.v51x-summary .v51x-primary{flex-direction:column;gap:min(1.2vh,13px);}#weatherContent.v51x-layout.v51x-summary .wx-main{font-size:min(var(--wx-page-size,135px),23vh);}#weatherContent.v51x-layout.v51x-compact .v51x-primary{flex-direction:row;flex-wrap:nowrap;gap:min(1.5vw,25px);}#weatherContent.v51x-layout.v51x-compact .wx-main{font-size:min(calc(var(--wx-page-size,135px)*.72),16vh);}#weatherContent.v51x-layout.v51x-compact .wx-condition{font-size:min(calc(var(--wx-page-size,135px)*.34),7vh);}#weatherContent.v51x-layout.v51x-compact .wx-extra{font-size:min(calc(var(--wx-page-size,135px)*.21),4.4vh);}@media (max-width:750px){#weatherContent.v51x-layout .v51x-primary{flex-wrap:wrap!important;}#weatherContent.v51x-layout .wx-main{font-size:min(var(--wx-page-size,135px),18vh);}}#weatherContent.v51x-layout{max-height:none;overflow:visible;}#weatherContent.v51x-layout .wx-main{font-size:var(--v51y-temp-px,135px);}#weatherContent.v51x-layout .wx-main .wx49-icon{width:1em;height:1em;flex:0 0 1em;}#weatherContent.v51x-layout .wx-main .wx49-emoji{font-size:.9em;}#weatherContent.v51x-layout .wx-condition{font-size:var(--v51y-condition-px,40px);}#weatherContent.v51x-layout .wx-extra{font-size:var(--v51y-extra-px,40px);}#weatherContent.v51x-layout.v51x-horizontal .wx-main{font-size:var(--v51y-temp-horizontal-px,135px);}#weatherContent.v51x-layout.v51x-horizontal .wx-condition{font-size:var(--v51y-condition-horizontal-px,40px);}#weatherContent.v51x-layout.v51x-compact .wx-main{font-size:var(--v51y-temp-compact-px,135px);}#weatherContent.v51x-layout.v51x-compact .wx-condition{font-size:var(--v51y-condition-compact-px,40px);}#weatherContent.v51x-layout.v51x-compact .wx-extra{font-size:var(--v51y-extra-compact-px,40px);}#weatherContent.v51x-layout .wx-condition,
+#weatherContent.v51x-layout.v51x-horizontal .wx-condition,
+#weatherContent.v51x-layout.v51x-compact .wx-condition{font-size:var(--v52u-status-font-size,60px);}#offline,#offline.visible{display:none!important;}body:not(.wx-debug-v40) #status{display:none!important;}#v52yMessageClock{position:fixed;inset:0;z-index:15;pointer-events:none;opacity:0;transition:opacity var(--lcd-transition-ms) ease;}body[data-lcd-screen="message"] #v52yMessageClock{opacity:1;}#v52yMessageTime,#v52yMessageDate{position:absolute;white-space:nowrap;transform:translate(-50%,-50%);font-variant-numeric:tabular-nums;max-width:96vw;line-height:1.2;}body[data-lcd-effect="none"] #v52yMessageClock{transition:none!important;}@media (prefers-reduced-motion:reduce){#v52yMessageClock{transition:none!important;}}</style><style id="v53bWeather12SceneStyles">#wx50Scene.wx50-mist{--wx50-sky1:#6c8490;--wx50-sky2:#a6b5ba;}#wx50Scene.wx50-drizzle{--wx50-sky1:#536f8c;--wx50-sky2:#9fb3c2;}#wx50Scene.wx50-showers{--wx50-sky1:#365b78;--wx50-sky2:#809dad;}#wx50Scene.wx50-blizzard{--wx50-sky1:#617b97;--wx50-sky2:#d4e4f0;}#wx50Scene.wx50-sleet{--wx50-sky1:#485b77;--wx50-sky2:#a9c0d2;}#wx50Scene.wx50-mist .wx50-cloud{filter:blur(20px);opacity:.22!important;animation-duration:85s;}#wx50Scene.wx50-mist:after{content:"";position:absolute;inset:-10%;background:repeating-linear-gradient(0deg,transparent 0 44px,#e5f3f633 65px,transparent 113px);filter:blur(23px);animation:v53b-fog-drift 30s ease-in-out infinite alternate;}#wx50Scene.wx50-drizzle .wx50-drop{width:1px;height:13px;opacity:.38!important;}#wx50Scene.wx50-showers .wx50-drop{opacity:.65;animation-name:v53b-shower-fall;}#wx50Scene.wx50-rain .wx50-drop{width:3px;height:41px;opacity:.85!important;}#wx50Scene.wx50-blizzard .wx50-flake{animation-name:v53b-blizzard-fall;opacity:.9!important;}#wx50Scene.wx50-sleet .wx50-drop{background:#dbe7f5;width:2px;height:21px;}#wx50Scene.wx50-sleet .wx50-crystal{font-size:15px!important;opacity:.8!important;}#wx50Scene.wx50-blizzard .wx50-cloud,#wx50Scene.wx50-sleet .wx50-cloud{background:#dbe7f2a8;}@keyframes v53b-fog-drift{from{transform:translateX(-10%);}to{transform:translateX(10%);}}@keyframes v53b-shower-fall{0%,12%{opacity:.08;transform:translate3d(0,-12vh,0) rotate(12deg);}23%,60%{opacity:.8;}75%,100%{opacity:.04;transform:translate3d(-12vw,115vh,0) rotate(12deg);}}@keyframes v53b-blizzard-fall{from{transform:translate3d(15vw,-10vh,0);}to{transform:translate3d(-48vw,112vh,0);}}@media (prefers-reduced-motion:reduce){#wx50Scene.wx50-mist:after{animation:none!important;}}</style><style id="v54-fixed-css">#weatherScreen #wx50Scene{--v54-darkness:.40;position:absolute;inset:0;}#weatherScreen #wx50Scene.wx50-sun{--v54-a:#3974a9;--v54-b:#608cb5;--v54-c:#9db6c8;}#weatherScreen #wx50Scene.wx50-moon{--v54-a:#152b50;--v54-b:#30466d;--v54-c:#62789c;}#weatherScreen #wx50Scene.wx50-partly{--v54-a:#4777a6;--v54-b:#6b91b6;--v54-c:#a6bcd2;}#weatherScreen #wx50Scene.wx50-cloud{--v54-a:#455d80;--v54-b:#7185a3;--v54-c:#b0bbcb;}#weatherScreen #wx50Scene.wx50-mist{--v54-a:#556e88;--v54-b:#8198ac;--v54-c:#c1cbd3;}#weatherScreen #wx50Scene.wx50-drizzle{--v54-a:#365c82;--v54-b:#6184a4;--v54-c:#9eb8cc;}#weatherScreen #wx50Scene.wx50-rain{--v54-a:#294765;--v54-b:#4b6c8d;--v54-c:#8caac1;}#weatherScreen #wx50Scene.wx50-showers{--v54-a:#41678d;--v54-b:#6385a5;--v54-c:#a5bbce;}#weatherScreen #wx50Scene.wx50-snow{--v54-a:#596d9b;--v54-b:#899ac3;--v54-c:#c1c8dd;}#weatherScreen #wx50Scene.wx50-blizzard{--v54-a:#425a7d;--v54-b:#718ba9;--v54-c:#b4c6d6;}#weatherScreen #wx50Scene.wx50-sleet{--v54-a:#415e81;--v54-b:#7189ac;--v54-c:#a9b8cc;}#weatherScreen #wx50Scene.wx50-thunder{--v54-a:#242d57;--v54-b:#4d527c;--v54-c:#827fa9;}#weatherScreen #wx50Scene::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(9,23,44,.12),rgba(9,23,44,.65) 45%,rgba(9,23,44,.67) 62%,rgba(9,23,44,.10));opacity:calc(.55 + var(--v54-darkness));}#weatherScreen #wx50Scene::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-1%;height:19%;pointer-events:none;background:linear-gradient(168deg,transparent 31%,#6c92b080 32%,#6c92b080 50%,transparent 51%),linear-gradient(191deg,transparent 39%,#345c8580 40%,#345c8580 65%,transparent 66%);filter:blur(9px);opacity:.55;}#weatherScreen #wx50Scene .wx50-cloud{filter:blur(7px);}#weatherScreen #wx50Scene .wx50-sun-disc{width:10vmin;height:10vmin;opacity:.75;}#weatherScreen #wx50Scene .wx50-moon-disc{width:10vmin;height:10vmin;opacity:.75;}#weatherScreen #wx50Scene .wx50-star{opacity:.25;}#weatherScreen #wx50Scene.v54-dawn{--v54-a:#344b77;--v54-b:#77779c;--v54-c:#b89fb3;}#weatherScreen #wx50Scene.v54-sunrise{--v54-a:#416da1;--v54-b:#8884a6;--v54-c:#c7a4ad;}#weatherScreen #wx50Scene.v54-sunset{--v54-a:#45567f;--v54-b:#9b7095;--v54-c:#d2a08f;}#weatherScreen #wx50Scene.v54-night{--v54-a:#14284a;--v54-b:#293f66;--v54-c:#5d7292;}</style><style id="v55-watercolor-assets">#weatherScreen #wx50Scene, #v42WeatherPreview #wx50Scene, #v53aStage #wx50Scene{background-image:none!important;background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;animation:v55-pan 42s ease-in-out infinite alternate;}#weatherScreen #wx50Scene::before,#v53aStage #wx50Scene::before{z-index:0;opacity:calc(.55 + var(--v54-darkness,.40));}#weatherScreen #wx50Scene .wx50-sun-disc,#v53aStage #wx50Scene .wx50-sun-disc{opacity:.24!important;}#weatherScreen #wx50Scene .wx50-moon-disc,#v53aStage #wx50Scene .wx50-moon-disc{opacity:.35!important;}@keyframes v55-pan{from{background-size:100% 100%;}to{background-size:105% 105%;}}@media (prefers-reduced-motion:reduce){#weatherScreen #wx50Scene,#v53aStage #wx50Scene{animation:none!important;}}</style><style id="v55d-quiet-weather">#weatherScreen #wx50Scene,#v42WeatherPreview #wx50Scene,#v53aStage #wx50Scene{background-image:none!important;background-position:center!important;background-repeat:no-repeat!important;background-size:cover!important;animation:none!important;contain:paint;}#weatherScreen #wx50Scene::before,#v53aStage #wx50Scene::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(9,21,31,.22),rgba(9,21,31,.48) 37%,rgba(9,21,31,.54) 65%,rgba(9,21,31,.16));opacity:calc(.5 + var(--v54-darkness,.4));}#weatherScreen #wx50Scene::after,#v53aStage #wx50Scene::after{display:none!important;}#weatherScreen #wx50Scene .wx50-cloud,#v53aStage #wx50Scene .wx50-cloud{opacity:.08!important;filter:blur(6px)!important;animation-duration:85s!important;}#weatherScreen #wx50Scene .wx50-sun-disc,#weatherScreen #wx50Scene .wx50-moon-disc{opacity:.22!important;}#weatherScreen #wx50Scene .wx50-drop{opacity:.32!important;height:20px!important;width:1px!important;}#weatherScreen #wx50Scene .wx50-flake{opacity:.38!important;width:5px!important;height:5px!important;}#weatherScreen #wx50Scene .wx50-meteor,#weatherScreen #wx50Scene .wx50-snow-decor{display:none!important;}@media (prefers-reduced-motion:reduce){#wx50Scene *,#wx50Scene:before{animation:none!important;}}</style><style id="v55f-force-image">#wx50Scene{isolation:isolate!important;background-color:#536777!important;background-image:none!important;}#wx50Scene>.v55f-photo{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;z-index:0!important;pointer-events:none!important;opacity:1!important;filter:none!important;animation:none!important;}#wx50Scene::before{z-index:1!important;background:linear-gradient(180deg,rgba(12,22,33,.14),rgba(12,22,33,.40) 45%,rgba(12,22,33,.43) 65%,rgba(12,22,33,.08))!important;opacity:1!important;}#wx50Scene::after{display:none!important;}#wx50Scene>.wx50-cloud,#wx50Scene>.wx50-drop,#wx50Scene>.wx50-flake,#wx50Scene>.wx50-crystal,#wx50Scene>.wx50-sun-disc,#wx50Scene>.wx50-moon-disc{z-index:2!important;}</style><style id="v55h-forest-independent">#weatherScreen{position:fixed;isolation:isolate;background:#536574;background-image:none;}#weatherScreen>.v55h-forest-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;opacity:1;pointer-events:none;}#weatherScreen>.v55h-forest-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(9,18,29,.18),rgba(9,18,29,.40) 38%,rgba(9,18,29,.47) 65%,rgba(9,18,29,.13));}#weatherScreen #wx50Scene{z-index:2!important;background:transparent!important;background-image:none!important;contain:layout style;isolation:auto;}#weatherScreen #wx50Scene::before,#weatherScreen #wx50Scene::after{display:none!important;}#weatherScreen #weatherContent{z-index:3!important;}#weatherScreen #wx50Scene .wx50-cloud{opacity:.09!important;}@media (prefers-reduced-motion:reduce){#weatherScreen #wx50Scene *{animation:none!important;}}</style><style id="v55x-r3-weather-mode-fix">#weatherScreen[data-weather-background-mode="color"] > .v55h-forest-photo,
+#weatherScreen[data-weather-background-mode="color"] > .v55h-forest-shade,
+#weatherScreen[data-weather-background-mode="image"] > .v55h-forest-photo,
+#weatherScreen[data-weather-background-mode="image"] > .v55h-forest-shade{display:none!important;}#weatherScreen[data-weather-background-mode="color"],
+#weatherScreen[data-weather-background-mode="image"]{background-size:cover;background-position:center;background-repeat:no-repeat;}</style><style id="v55x-r102-realistic-rain">#weatherScreen #wx50Scene.wx50-rain .wx50-drop,
+#weatherScreen #wx50Scene.wx50-showers .wx50-drop,
+#weatherScreen #wx50Scene.wx50-drizzle .wx50-drop{
+  width:var(--rain-width,2.4px)!important;
+  height:var(--rain-length,48px)!important;
+  opacity:var(--rain-opacity,.72)!important;
+  border-radius:8px!important;
+  background:linear-gradient(180deg,rgba(221,241,255,0),rgba(210,235,255,.75) 32%,rgba(239,249,255,.96) 88%,rgba(225,243,255,.15))!important;
+  box-shadow:0 0 3px rgba(185,223,255,.45)!important;
+  transform:rotate(11deg);
+  animation-name:v55x-r102-rainfall!important;
+  animation-duration:var(--duration,1.3s)!important;
+  animation-timing-function:linear!important;
+  animation-iteration-count:infinite!important;
+  animation-delay:var(--delay,0s)!important;
+}
+#weatherScreen #wx50Scene.wx50-drizzle .wx50-drop{opacity:calc(var(--rain-opacity,.72)*.56)!important;width:1.5px!important;height:26px!important;}
+#weatherScreen #wx50Scene.wx50-showers .wx50-drop{opacity:calc(var(--rain-opacity,.72)*.85)!important;}
+@keyframes v55x-r102-rainfall{
+  from{transform:translate3d(2vw,-15vh,0) rotate(11deg)}
+  to{transform:translate3d(-10vw,120vh,0) rotate(11deg)}
+}
+@media (prefers-reduced-motion:reduce){#weatherScreen #wx50Scene .wx50-drop{animation:none!important;}}</style><style id="r109MainTextStyle">.r109-lcd-text{position:absolute;z-index:22;transform:translate(-50%,-50%);white-space:pre-wrap;overflow-wrap:anywhere;max-width:92%;text-align:center;line-height:1.25;pointer-events:none;text-shadow:0 2px 8px #000a}
+#r109ClockText{position:fixed;z-index:7;opacity:0;transition:opacity var(--lcd-transition-ms) ease}
+body[data-lcd-screen="clock"] #r109ClockText{opacity:1}
+#r109WeatherText{position:fixed;z-index:24;opacity:0;transition:opacity var(--lcd-transition-ms) ease}
+body[data-lcd-screen="weather"] #r109WeatherText{opacity:1}body:has(#v51hMaintenance[aria-hidden="false"]) #r109WeatherText,body:has(#v51hMaintenance[aria-hidden="false"]) #r109ClockText{opacity:0!important}
+body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style><style id="v55x-r120-night-sky">#weatherScreen #wx50Scene.wx50-moon{background:radial-gradient(ellipse at 52% 112%,#203f70 0%,#0b244b 48%,#04112c 100%)!important;overflow:hidden!important;}
+#weatherScreen #wx50Scene.wx50-moon .wx50-moon-disc,#weatherScreen #wx50Scene.wx50-moon .wx50-star{display:none!important;}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-stars{position:absolute;pointer-events:none;animation:r120-sky-rotate 540s linear infinite;}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-star{position:absolute;display:block;width:var(--star-size,1.4px);height:var(--star-size,1.4px);border-radius:50%;background:#dbe9ff;opacity:var(--star-alpha,.25);animation:r120-twinkle var(--twinkle-time,15s) ease-in-out infinite;animation-delay:var(--twinkle-delay,0s);}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-glow{width:3px;height:3px;}
+@keyframes r120-sky-rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes r120-twinkle{0%,100%{opacity:calc(var(--star-alpha,.25)*.45)}48%{opacity:var(--star-alpha,.25)}65%{opacity:calc(var(--star-alpha,.25)*.65)}}
+@media(prefers-reduced-motion:reduce){}
+#weatherScreen #wx50Scene.wx50-moon .r121-meadow{inset:auto 0 0;}
+#weatherScreen #wx50Scene.wx50-moon .r121-meadow:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 25% at 27% 45%,rgba(96,145,94,.32),transparent 95%),radial-gradient(ellipse 55% 25% at 77% 65%,rgba(70,126,82,.27),transparent 95%),linear-gradient(180deg,transparent 25%,rgba(4,25,34,.25) 95%);}
+#weatherScreen #wx50Scene.wx50-moon .r122-ground{position:absolute;inset:0;width:100%;height:100%;}
+#weatherScreen #wx50Scene.wx50-moon .r121-grass{position:absolute;bottom:var(--grass-bottom,0px);width:var(--grass-width,1px);height:var(--blade-height,18px);background:linear-gradient(to top,#1e513c,#83a36e88);transform:rotate(var(--blade-angle,0deg));transform-origin:bottom;opacity:var(--blade-alpha,.42);border-radius:90% 90% 0 0;}
+#weatherScreen #wx50Scene.wx50-moon .r121-constellation{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;}
+#weatherScreen #wx50Scene.wx50-moon .r121-constellation line{stroke:#a9c9f2;}
+#weatherScreen #wx50Scene.wx50-moon .r121-constellation circle{fill:#e6f4ff;}
+</style><style id="r123-realistic-landscape">
+
+
+#weatherScreen #wx50Scene.wx50-moon .r121-grass{display:none!important;}</style><style id="r124-natural-grass-and-stars">#weatherScreen #wx50Scene.wx50-moon .r121-meadow{filter:none!important}
+#weatherScreen #wx50Scene.wx50-moon .r121-meadow:before{display:none!important}
+#weatherScreen #wx50Scene.wx50-moon .r122-ground{opacity:1!important;filter:none!important;shape-rendering:geometricPrecision}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:r124-starlight var(--twinkle-time,5s) ease-in-out infinite!important;animation-delay:var(--twinkle-delay,0s)!important;}
+
+@keyframes r124-starlight{0%,100%{opacity:.10;transform:scale(.65)}25%{opacity:calc(var(--star-alpha,.4)*.65);transform:scale(.9)}48%{opacity:1;transform:scale(1.55)}66%{opacity:calc(var(--star-alpha,.4)*.5);transform:scale(.8)}83%{opacity:.22;transform:scale(.72)}}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:none!important;opacity:.45!important}}</style><style id="r125-static-landscape">#weatherScreen #wx50Scene.wx50-moon .r121-meadow{position:absolute!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:100%!important;overflow:hidden!important;background:transparent!important;pointer-events:none!important}
+#weatherScreen #wx50Scene.wx50-moon .r125-landscape{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:none!important;transform:none!important;animation:none!important;pointer-events:none}
+#weatherScreen #wx50Scene.wx50-moon .r122-ground,#weatherScreen #wx50Scene.wx50-moon .r121-grass{display:none!important}
+</style><style id="r126-clear-night-fix">#weatherScreen #wx50Scene.wx50-moon .r121-meadow{z-index:1!important;}
+#weatherScreen #wx50Scene.wx50-moon .r125-landscape{object-position:center!important;}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-stars{z-index:4!important;inset:-12%!important;mask-image:linear-gradient(to bottom,#000 0%,#000 64%,transparent 81%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 64%,transparent 81%);}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation-name:r126-starlight!important;}
+
+
+@keyframes r126-starlight{0%,100%{opacity:.12;transform:scale(.7)}18%{opacity:calc(var(--star-alpha,.4)*.75);transform:scale(.95)}42%{opacity:1;transform:scale(1.85)}58%{opacity:calc(var(--star-alpha,.4)*.45);transform:scale(.85)}79%{opacity:.75;transform:scale(1.25)}}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-moon .r120-night-stars,#weatherScreen #wx50Scene.wx50-moon .r120-night-star{animation:none!important;opacity:.55!important}}</style><style id="r129-sky-landscape">#wx50Scene .r129-landscape{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;pointer-events:none;animation:none!important;filter:none!important}
+#wx50Scene.r129-sunrise .wx50-sun-disc,#wx50Scene.r129-sunset .wx50-sun-disc{display:none!important}
+#wx50Scene.r129-overcast .wx50-cloud{opacity:.08!important}
+#wx50Scene.r129-sunrise::before,#wx50Scene.r129-sunset::before,#wx50Scene.r129-overcast::before{display:none!important}</style><style id="r133-clear-day-sky">#weatherScreen #wx50Scene.wx50-sun.r133-clear-day{background:#174b88!important;}
+#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;}
+#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-sky{position:absolute;inset:0 0 22%;background:linear-gradient(180deg,rgba(25,91,160,.65),rgba(35,112,190,.38) 62%,rgba(65,140,202,.05));z-index:1;pointer-events:none;}
+#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .wx50-sun-disc{z-index:3!important;left:12%!important;top:14%!important;width:11vmin!important;height:11vmin!important;background:#fff4c0!important;opacity:.92!important;box-shadow:0 0 35px 12px #ffe9a18a,0 0 95px 34px #ffe9a13c!important;}
+#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-cloud{position:absolute;z-index:3;left:-25%;width:var(--cloud-width,22%);height:var(--cloud-height,5%);top:var(--cloud-top,20%);background:radial-gradient(ellipse at 30% 60%,#ffffff94 0%,#ffffff5b 35%,transparent 75%),radial-gradient(ellipse at 65% 40%,#ffffff90 0%,#ffffff48 40%,transparent 80%);opacity:var(--cloud-alpha,.48);filter:blur(8px);border-radius:60%;animation:r133-cloud-pass var(--cloud-duration,130s) linear infinite;animation-delay:var(--cloud-delay,0s);pointer-events:none;}
+#weatherScreen #wx50Scene.wx50-sun.r133-clear-day::before,#weatherScreen #wx50Scene.wx50-sun.r133-clear-day::after{display:none!important;}
+@keyframes r133-cloud-pass{from{transform:translate3d(0,0,0)}to{transform:translate3d(145vw,0,0)}}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-cloud{animation:none!important;left:35%!important;}}</style><style id="r134-static-clear-day">#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .wx50-sun-disc,#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-cloud,#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-sky{display:none!important;animation:none!important}#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r133-day-photo{filter:none!important}</style><style id="r136-weather-photo-style">#weatherScreen #wx50Scene .r136-weather-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;animation:none!important;filter:none!important}#weatherScreen #wx50Scene .r136-weather-photo~.wx50-cloud,#weatherScreen #wx50Scene .r136-weather-photo~.wx50-drop,#weatherScreen #wx50Scene .r136-weather-photo~.wx50-flake{z-index:2}</style><style id="r138-winter-thunder-fix">#weatherScreen #wx50Scene.wx50-sleet .wx50-drop{display:none!important}#weatherScreen #wx50Scene.wx50-sleet .wx50-flake{animation-name:wx50-snowfall!important}#weatherScreen #wx50Scene.wx50-blizzard .wx50-flake{animation-name:v53b-blizzard-fall!important}#weatherScreen #wx50Scene.wx50-snow .wx50-flake,#weatherScreen #wx50Scene.wx50-sleet .wx50-flake{opacity:.85!important}#weatherScreen #wx50Scene.wx50-blizzard .wx50-flake{opacity:.95!important}#weatherScreen #wx50Scene.wx50-thunder .wx50-electric{z-index:5!important}#weatherScreen #wx50Scene.wx50-thunder .wx50-electric-haze{z-index:4!important}</style><style id="r155-static-clouds">
+#weatherScreen #wx50Scene .wx50-cloud,#weatherScreen #wx50Scene .r133-day-cloud{animation:none!important;will-change:auto!important;transform:none!important;}
+</style><style id="r169-particle-engine-css">
+#weatherScreen #wx50Scene .wx50-drop,
+#weatherScreen #wx50Scene .wx50-flake {
+ animation:none!important; animation-name:none!important;
+ animation-delay:0s!important; animation-play-state:paused!important;
+ top:0!important; will-change:transform;
+}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene .wx50-drop,#weatherScreen #wx50Scene .wx50-flake{display:none!important}}
+</style><style id="r170-natural-rain-style">
+#weatherScreen #wx50Scene.wx50-drizzle .wx50-drop,
+#weatherScreen #wx50Scene.wx50-showers .wx50-drop,
+#weatherScreen #wx50Scene.wx50-rain .wx50-drop{
+ width:calc(var(--rain-width,1.5px) * .48)!important;
+ height:calc(var(--rain-length,40px) * .78)!important;
+ box-shadow:0 0 1px rgba(185,223,255,.20)!important;
+}
+</style><style id="r174-partly-sun-reflection">
+#weatherScreen #wx50Scene.wx50-partly .wx50-sun-disc{display:none!important;}
+#weatherScreen #wx50Scene.wx50-partly .r174-sun-reflection{
+ position:absolute;left:17%;top:24%;width:28vmin;height:28vmin;
+ transform:translate(-50%,-50%);border-radius:50%;z-index:3;
+ pointer-events:none;mix-blend-mode:screen;
+ background:radial-gradient(circle,rgba(255,250,221,.37) 0%,rgba(255,244,202,.20) 17%,rgba(255,243,207,.08) 39%,transparent 72%);
+ animation:r174-sun-breathe 11s ease-in-out infinite alternate;
+}
+#weatherScreen #wx50Scene.wx50-partly .r174-sun-reflection::after{
+ content:"";position:absolute;inset:-20%;border-radius:50%;
+ background:conic-gradient(from 12deg,transparent 0deg,rgba(255,247,218,.08) 14deg,transparent 28deg,transparent 75deg,rgba(255,249,223,.07) 89deg,transparent 105deg,transparent 180deg,rgba(255,247,218,.06) 195deg,transparent 210deg,transparent 360deg);
+ filter:blur(17px);animation:r174-ray-shift 24s ease-in-out infinite alternate;
+}
+@keyframes r174-sun-breathe{from{opacity:.42;transform:translate(-50%,-50%) scale(.91)}to{opacity:.78;transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes r174-ray-shift{from{transform:rotate(-9deg);opacity:.42}to{transform:rotate(9deg);opacity:.75}}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene.wx50-partly .r174-sun-reflection,#weatherScreen #wx50Scene.wx50-partly .r174-sun-reflection::after{animation:none!important}}
+</style><style id="r178-clear-day-sun-rays">
+#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r178-sun-rays{
+ position:absolute;left:12%;top:14%;width:30vmin;height:30vmin;
+ transform:translate(-50%,-50%);pointer-events:none;z-index:3;
+ border-radius:50%;mix-blend-mode:screen;opacity:.72;
+ background:radial-gradient(circle,rgba(255,248,209,.30) 0%,rgba(255,246,194,.14) 20%,rgba(255,243,185,.06) 40%,transparent 68%);
+}
+#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r178-sun-rays::before{
+ content:"";position:absolute;inset:-18%;border-radius:50%;
+ background:repeating-conic-gradient(from 0deg,rgba(255,250,224,.17) 0deg,rgba(255,248,217,.035) 8deg,transparent 18deg,transparent 36deg);
+ -webkit-mask-image:radial-gradient(circle,transparent 0 19%,#0008 35%,#000 49%,transparent 76%);
+ mask-image:radial-gradient(circle,transparent 0 19%,#0008 35%,#000 49%,transparent 76%);
+ filter:blur(9px);animation:r178-sun-rotate 100s linear infinite;
+}
+#weatherScreen #wx50Scene.wx50-sun.r133-clear-day .r178-sun-rays::after{
+ content:"";position:absolute;inset:14%;border-radius:50%;
+ background:radial-gradient(circle,rgba(255,250,221,.24),rgba(255,244,188,.08) 43%,transparent 72%);
+ animation:r178-sun-glow 12s ease-in-out infinite alternate;
+}
+@keyframes r178-sun-rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes r178-sun-glow{from{opacity:.55;transform:scale(.94)}to{opacity:.90;transform:scale(1.08)}}
+@media(prefers-reduced-motion:reduce){#weatherScreen #wx50Scene .r178-sun-rays::before,#weatherScreen #wx50Scene .r178-sun-rays::after{animation:none!important}}
+</style><style id="r179-weather-clock-style">#r179WeatherClock{position:absolute;inset:0;z-index:5;pointer-events:none}#r179WeatherClock>div{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;line-height:1.2;font-variant-numeric:tabular-nums}#r179WeatherClock .r179-clock-hidden{display:none!important}</style><style id="r185Styles">.r185-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.r185-grid label{font-size:13px}.r185-grid input{width:100%}#r185Clock{position:absolute;z-index:19;display:none;align-items:center;justify-content:center;gap:var(--r185-gap,12px);white-space:nowrap;color:white;pointer-events:none;transform:translate(-50%,-50%) scale(var(--r185-scale,1));transform-origin:center}.r185-period{display:flex;flex-direction:column;line-height:1.05;gap:.12em;font-weight:var(--r185-weight,400)}.r185-time{font-weight:var(--r185-weight,400);line-height:1;letter-spacing:-.055em;font-variant-numeric:tabular-nums}.r185-line{width:2px;background:currentColor;height:.76em;align-self:center}.r185-date{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;font-weight:var(--r185-weight,400)}.r185-period .inactive{opacity:.055}.r185-time{margin-right:12px}.r185-line{margin-right:12px}.r185-date[hidden]{display:none!important}.r185-weekday[hidden],.r185-day[hidden]{display:none!important}body[data-lcd-screen="clock"].r185-on #time,body[data-lcd-screen="clock"].r185-on #date{opacity:0!important}body[data-lcd-screen="clock"].r185-on #r185Clock{display:flex!important}body:not([data-lcd-screen="clock"]) #r185Clock{display:none!important;opacity:0!important}body[data-lcd-screen="clock"].r185-on #r185Clock{visibility:visible!important;opacity:1!important}body.r188-clock-preview #previewStage.r185-on #r185Clock{display:flex!important}body:not(.r188-clock-preview) #previewStage #r185Clock{display:none!important}@media(max-width:600px){.r185-grid{grid-template-columns:1fr 1fr}}</style><style id="r194-night-sky">
+#weatherScreen #wx50Scene.wx50-moon .r120-night-stars{animation-duration:1200s!important;transform-origin:50% 50%!important}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-star{box-shadow:0 0 2px rgba(195,223,255,.25)!important;animation-duration:var(--twinkle-time,12s)!important}
+#weatherScreen #wx50Scene.wx50-moon .r120-night-glow{box-shadow:0 0 4px rgba(204,231,255,.48)!important}
+#weatherScreen #wx50Scene.wx50-moon .r121-constellation{opacity:.48!important}
+#weatherScreen #wx50Scene.wx50-moon .r121-constellation line{opacity:.10!important;stroke-width:.045!important}
+#weatherScreen #wx50Scene.wx50-moon .r121-constellation circle{filter:drop-shadow(0 0 .5px #d6e9ff)}
+#weatherScreen #wx50Scene.wx50-moon .r121-constellation .r194-polaris{fill:#fff;filter:drop-shadow(0 0 1.5px #e6f5ff)}
+</style><style id="r197-priority-style">body.r197-priority-active #messageScreen.active,body.r197-priority-active #messageBlocks.active{opacity:1!important;visibility:visible!important;translate:0 0!important;transition:none!important}body.r197-priority-active #weatherScreen,body.r197-priority-active #clockWeather,body.r197-priority-active #time,body.r197-priority-active #date,body.r197-priority-active #r185Clock,body.r197-priority-active #r109ClockText,body.r197-priority-active #r109WeatherText{opacity:0!important;pointer-events:none!important}body.r197-priority-active #messageScreen,body.r197-priority-active #messageBlocks{z-index:40!important}body.r197-priority-active #v52yMessageClock{z-index:41!important}</style><style id="r203-fixed-colon">.r185-time .r203-blink-colon{display:inline;visibility:visible;transition:opacity .12s linear;}</style><style id="r205-clock-stability">body.r185-on[data-lcd-screen="clock"] #r185Clock{transition:none!important;filter:none!important;backdrop-filter:none!important;will-change:auto!important;isolation:isolate}#r185Clock .r185-time,#r185Clock .r185-period,#r185Clock .r185-date,#r185Clock .r185-line{transition:none!important;animation:none!important;filter:none!important;will-change:auto!important;text-shadow:none!important}#r185Clock .r185-time{font-kerning:none;text-rendering:geometricPrecision}#r185Clock .r203-blink-colon{transition:none!important}body.r185-on[data-lcd-screen="clock"] #r185Clock *{backface-visibility:visible}</style><style id="r208-clock-stable">#r185Clock .r185-time>span{vertical-align:baseline;}</style><style id="r209-clock-clarity">#r185Clock .r185-time{display:flex!important;align-items:baseline;justify-content:center;white-space:nowrap;letter-spacing:0!important;font-variant-numeric:tabular-nums;line-height:1!important}#r185Clock .r185-time>span{display:block;flex:none;letter-spacing:-.045em;line-height:1!important;animation:none!important;transition:none!important;text-shadow:none!important;filter:none!important}#r185Clock .r185-time>.r203-blink-colon{width:.30em!important;text-align:center;letter-spacing:0!important}#r185Clock .r185-period,#r185Clock .r185-date{flex-shrink:0}#r185Clock,#r185Clock *{font-synthesis:none}#previewStage.r185-on #pvTime,#previewStage.r185-on #pvDate{display:none!important;visibility:hidden!important;opacity:0!important}body.r185-on[data-lcd-screen="clock"] #time,body.r185-on[data-lcd-screen="clock"] #date{display:none!important;visibility:hidden!important;opacity:0!important}</style><style id="r241-weather-animation-fallback">
+/* R241: always provide a visible weather-specific scene underneath optional images. */
+#weatherScreen[data-weather-background-mode="animated"] #wx50Scene,
+#v42WeatherPreview[data-background-mode="animated"] #wx50Scene{
+ background-color:var(--r241-bottom,#526f91)!important;
+ background-image:linear-gradient(180deg,var(--r241-top,#244d78) 0%,var(--r241-mid,#497ba2) 55%,var(--r241-bottom,#8da9bb) 100%)!important;
+ background-size:cover!important;
+}
+#wx50Scene.wx50-sun{--r241-top:#236ba8;--r241-mid:#528ec0;--r241-bottom:#a1c4d9}
+#wx50Scene.wx50-partly{--r241-top:#426b9d;--r241-mid:#7199ba;--r241-bottom:#b6c9d4}
+#wx50Scene.wx50-cloud{--r241-top:#4b647e;--r241-mid:#74899e;--r241-bottom:#a7b4c0}
+#wx50Scene.wx50-moon{--r241-top:#07152d;--r241-mid:#17345a;--r241-bottom:#3b587a}
+#wx50Scene.wx50-mist{--r241-top:#556878;--r241-mid:#80939c;--r241-bottom:#bac5c8}
+#wx50Scene.wx50-drizzle{--r241-top:#36536f;--r241-mid:#5c7c98;--r241-bottom:#91a9ba}
+#wx50Scene.wx50-rain,#wx50Scene.wx50-showers{--r241-top:#203b58;--r241-mid:#466783;--r241-bottom:#839eb1}
+#wx50Scene.wx50-snow,#wx50Scene.wx50-blizzard{--r241-top:#607a9a;--r241-mid:#9cb0c8;--r241-bottom:#d2dce7}
+#wx50Scene.wx50-sleet{--r241-top:#3d5775;--r241-mid:#738aa7;--r241-bottom:#b5c3d1}
+#wx50Scene.wx50-thunder{--r241-top:#17243c;--r241-mid:#394b6a;--r241-bottom:#697895}
+/* Keep existing image, animation, and text layers untouched. */
+</style><style id="r353-weather-only-link-style">
+/* R353 - The animated scene stays weather-specific even if optional image files are absent. */
+#weatherScreen[data-weather-background-mode="animated"] > #wx50Scene{
+ background-color:var(--r241-bottom,#526f91)!important;
+ background-image:linear-gradient(180deg,var(--r241-top,#244d78),var(--r241-mid,#497ba2) 55%,var(--r241-bottom,#8da9bb))!important;
+}
+/* If the weather-specific illustration is present, do not cover it with a gradient. */
+#weatherScreen[data-weather-background-mode="animated"]:has(> .v55h-forest-photo[data-status="ok"]) > #wx50Scene{
+ background-color:transparent!important;background-image:none!important;
+}
+/* Keep static background selection unchanged when animation is disabled. */
+#weatherScreen[data-weather-background-mode="color"] > #wx50Scene,
+#weatherScreen[data-weather-background-mode="image"] > #wx50Scene{display:none!important;}
+</style><style id="r356-weather-gradient-fallback">
+/* Weather-page only. When the optional v55h photo is missing, restore the 12 scene colors. */
+#weatherScreen[data-weather-background-mode="animated"]:not(.r356-photo-ready) > #wx50Scene {
+ background:linear-gradient(180deg,var(--v54-a,#36587a) 0%,var(--v54-b,#678baa) 54%,var(--v54-c,#a8bdcc) 100%)!important;
+ background-color:#36587a!important;
+}
+#weatherScreen[data-weather-background-mode="animated"] > .v55h-forest-photo:not([data-status="ok"]){display:none!important;}
+#weatherScreen[data-weather-background-mode="animated"]:not(.r356-photo-ready) > .v55h-forest-shade{display:none!important;}
+</style><style id="r357-weather-actual-assets-css">
+/* Weather page only: the R357 weather_*.webp photo is the single primary scenic image. */
+
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready #wx50Scene .r136-weather-photo,
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready #wx50Scene .r129-landscape,
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready #wx50Scene .r133-day-photo,
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready #wx50Scene .r125-landscape {
+ display:none!important;
+}
+/* Preserve the existing R356 gradient if both webp and jpg are absent. */
+</style><style id="r358-sunny-photo-priority">
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready > .v55h-forest-photo[data-status="ok"]{display:block!important;visibility:visible!important;opacity:1!important;z-index:0!important}
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready > .v55h-forest-shade{display:block!important;z-index:1!important}
+#weatherScreen[data-weather-background-mode="animated"].r356-photo-ready > #wx50Scene{z-index:2!important;background:transparent!important;background-image:none!important}
+#weatherScreen[data-weather-background-mode="animated"] > #weatherContent{z-index:3!important}
+</style>
+<style id="r359-clear-night-stars-360">
+/* R359 - Clear night only. WebP background remains stationary; stars and constellations rotate. */
+@keyframes r359-night-stars-360{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+#weatherScreen[data-weather-background-mode="animated"] > #wx50Scene.wx50-moon .r120-night-stars,
+#v42WeatherPreview[data-background-mode="animated"] #wx50Scene.wx50-moon .r120-night-stars,
+#v53aStage #wx50Scene.wx50-moon .r120-night-stars{
+ position:absolute!important;inset:-12%!important;z-index:6!important;
+ transform-origin:50% 50%!important;
+ animation-name:r359-night-stars-360!important;
+ animation-duration:180s!important;
+ animation-timing-function:linear!important;
+ animation-iteration-count:infinite!important;
+ opacity:1!important;will-change:transform;
+ pointer-events:none!important;
+}
+#weatherScreen[data-weather-background-mode="animated"] > #wx50Scene.wx50-moon .r120-night-star,
+#v42WeatherPreview[data-background-mode="animated"] #wx50Scene.wx50-moon .r120-night-star,
+#v53aStage #wx50Scene.wx50-moon .r120-night-star{
+ position:absolute!important;display:block!important;
+ width:max(1.8px,calc(var(--star-size,1.4px) + .9px))!important;
+ height:max(1.8px,calc(var(--star-size,1.4px) + .9px))!important;
+ border-radius:50%!important;background:#edf7ff!important;
+ box-shadow:0 0 4px 1px rgba(199,226,255,.64)!important;
+}
+/* A user who explicitly selects weather animation gets the rotation regardless of OS reduced-motion settings. */
+</style>
+<style id="r361-night-canvas-style">
+/* Weather-only R361: independent visible starfield above the WebP and under text. */
+#weatherScreen.r361-night-active > .r361-night-canvas,
+#v42WeatherPreview.r361-night-active > .r361-night-canvas{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ display:block!important;visibility:visible!important;opacity:1!important;
+ pointer-events:none!important;background:transparent!important;
+ transform:none!important;filter:none!important;contain:none!important;
+}
+#weatherScreen.r361-night-active > .r361-night-canvas{z-index:2!important;}
+#v42WeatherPreview.r361-night-active > .r361-night-canvas{z-index:1!important;}
+#weatherScreen.r361-night-active #wx50Scene.wx50-moon .r120-night-stars,
+#v42WeatherPreview.r361-night-active #wx50Scene.wx50-moon .r120-night-stars{
+ opacity:0!important;visibility:hidden!important;
+}
+#r361NightDiag{position:fixed;left:8px;top:8px;z-index:2147483610;
+ background:rgba(4,22,43,.94);color:#fff;border:2px solid #66cefa;
+ border-radius:8px;padding:9px 11px;font:12px/1.55 monospace;
+ max-width:min(95vw,440px);white-space:pre-wrap;overflow-wrap:anywhere;
+ pointer-events:none;}
+</style><style id="r372-news-ticker-main-style">
+/* R372: scrolling uses a compositor transform, never CSS-animation restarts on screen switch. */
+#r371Ticker .r371-moving{animation:none;transform:translateY(-50%);}
+#r371Ticker.r372-card-mode .r371-moving{white-space:pre-line;text-align:center;line-height:1.20;transform-origin:center;overflow-wrap:anywhere;perspective:900px;will-change:transform,opacity}
+#r371Ticker.r372-card-mode .r371-label{max-width:26%;}
+#r371Ticker.r372-card-mode .r371-moving{z-index:1}
+
+</style><style id="r371-news-ticker-main-style">
+#r371Ticker{position:fixed;left:0;right:0;bottom:0;width:100%;height:clamp(40px,6.9vh,95px);z-index:55;display:flex;align-items:center;overflow:hidden;pointer-events:none;isolation:isolate;box-sizing:border-box}
+#r371Ticker[hidden]{display:none!important}
+#r371Ticker .r371-label{position:absolute;left:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:0 clamp(9px,1.2vw,25px);font-weight:900;white-space:nowrap;z-index:2}
+#r371Ticker .r371-moving{position:absolute;left:100%;top:50%;white-space:nowrap;line-height:1.15;font-weight:750;will-change:transform;animation:r371-crawl var(--r371-duration,24s) linear infinite}
+#r371Ticker.r371-two-line .r371-topline{position:absolute;top:0;left:0;right:0;height:30%;display:flex;align-items:center;padding-left:1.2vw;font-size:clamp(10px,1.8vh,22px);font-weight:900;background:#e9f2fa;color:#183957;z-index:1}
+#r371Ticker.r371-two-line .r371-moving{top:66%}
+@keyframes r371-crawl{from{transform:translate3d(0,-50%,0)}to{transform:translate3d(calc(-100% - var(--r371-area-width,1920px)),-50%,0)}}
+@media (prefers-reduced-motion:reduce){#r371Ticker .r371-moving{animation-play-state:paused}}
+</style><style id="r377-news-ticker-main-style">
+/* R377: fade in at left aligned text start, then move left. WAAPI is primary. */
+@keyframes r377-left-fade-scroll {
+  0%{transform:translate3d(0,-50%,0);opacity:0}
+  5%{transform:translate3d(0,-50%,0);opacity:1}
+  14%{transform:translate3d(0,-50%,0);opacity:1}
+  100%{transform:translate3d(var(--r377-travel,-400px),-50%,0);opacity:1}
+}
+
+/* R378: no extra white heading strip for US information/news themes. */
+#r371Ticker .r371-topline{display:none!important}
+#r371Ticker .r371-label{max-width:35%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+</style><style id="r370-analog-clock-style">
+/* R370: self-contained clock-only scene; inactive in the default digital mode. */
+#r370ClockPanel{padding:13px;margin:8px 0 18px;border:1px solid #c9d8e7;background:#f3f8fd;border-radius:12px}
+#r370ClockPanel h3{font-size:18px;color:#153e65;margin:0 0 7px}
+#r370ClockPanel .r370-note{margin:5px 0 10px;font-size:13px;line-height:1.5;color:#536c81}
+#r370ClockPanel .r370-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#r370ClockPanel label{margin:0;display:flex;flex-direction:column;gap:5px;font-size:14px;font-weight:750}
+#r370ClockPanel select,#r370ClockPanel input[type="text"]{width:100%;min-width:0;min-height:46px;background:#fff;border:1px solid #c0d1e2;border-radius:9px;padding:8px 10px;font-size:15px}
+#r370ClockPanel .r370-check{display:flex;align-items:center;gap:9px;min-height:46px}
+#r370ClockPanel .r370-check input{width:23px;height:23px;min-height:23px;margin:0;accent-color:#1c638d}
+#r370ClockPanel .r370-wide{grid-column:1/-1}
+#r370ClockPanel #r370ClockState{font-size:12px;color:#345777;margin-top:10px;display:block}
+#r370ClockPanel [hidden]{display:none!important}
+@media(max-width:490px){#r370ClockPanel{padding:11px}#r370ClockPanel .r370-fields{gap:8px}#r370ClockPanel label{font-size:13px}}
+#r370Clock{position:absolute;inset:0;width:1920px;height:1080px;z-index:37;pointer-events:none;user-select:none;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;overflow:hidden}
+#r370Clock[hidden]{display:none!important}
+#r370Clock .r370-scene{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#343b45,#111820 78%)}
+#r370Clock .r370-housing{position:absolute;box-sizing:border-box;border:16px solid #2d343c;background:#24272d;box-shadow:0 20px 70px #0009,inset 0 0 0 5px #555e68,inset 0 0 30px #0009;overflow:hidden}
+#r370Clock.r370-style-flip .r370-housing{width:820px;height:1004px;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:38px}
+#r370Clock .r370-inner{position:absolute;inset:12px;border:4px solid #151a21;border-radius:16px;background:linear-gradient(145deg,#2a2b2f,#15181e)}
+#r370Clock .r370-calendar{position:absolute;top:43px;left:6%;right:6%;height:142px;display:flex;gap:11px;align-items:stretch;justify-content:space-between}
+#r370Clock .r370-flip-tile{position:relative;flex:1;min-width:0;border-radius:10px;color:#f9fbff;background:linear-gradient(#343538 0 49.4%,#111317 50%,#282a2e 51%);box-shadow:inset 0 4px 13px #0006,0 4px 8px #0007;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:78px;font-weight:900;letter-spacing:-.06em;text-shadow:0 3px 4px #0005;font-family:'Arial Narrow',Arial,sans-serif;font-stretch:condensed}
+#r370Clock .r370-flip-tile::after{content:'';position:absolute;inset:50% 0 auto;border-top:2px solid #08090b;box-shadow:0 1px 2px #5a5a5b5c;pointer-events:none}
+#r370Clock .r370-flip-tile[data-r370-flip="1"]{animation:r370-flip .6s ease-in-out}
+@keyframes r370-flip{0%{transform:perspective(600px) rotateX(0)}35%{transform:perspective(600px) rotateX(-9deg)}80%,100%{transform:perspective(600px) rotateX(0)}}
+#r370Clock .r370-dial{position:absolute;left:50%;top:62%;width:630px;height:630px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,#2a2d31,#1c2026 70%,#11151b 100%);box-shadow:inset 0 0 30px #0008}
+#r370Clock .r370-tick{position:absolute;left:50%;top:50%;width:4px;height:18px;border-radius:2px;background:#e8e8e9;transform-origin:50% 312px}
+#r370Clock .r370-tick.major{height:27px;width:7px;background:#f8f8f8}
+#r370Clock .r370-numeral{position:absolute;transform:translate(-50%,-50%);font-size:53px;line-height:1;color:#f6f6f6;font-family:Arial,sans-serif;font-weight:520}
+#r370Clock .r370-brand{position:absolute;left:0;right:0;top:40%;font-size:16px;text-align:center;letter-spacing:.19em;color:#c9c9ca}
+#r370Clock .r370-axis{position:absolute;left:50%;top:50%;width:18px;height:18px;border-radius:50%;transform:translate(-50%,-50%);background:#f9f9f9;z-index:8;box-shadow:0 2px 5px #0008}
+#r370Clock .r370-hand{position:absolute;top:50%;left:50%;width:0;height:0;transform:rotate(var(--r370-rotate,0deg));transform-origin:0 0;z-index:5}
+#r370Clock .r370-hand::before{content:'';position:absolute;bottom:-32px;left:50%;transform:translateX(-50%);width:var(--r370-hand-width);height:var(--r370-hand-length);background:var(--r370-hand-color,#fff);clip-path:polygon(31% 0,69% 0,87% 85%,100% 100%,0 100%,13% 85%);border-radius:4px}
+#r370Clock .r370-hour{--r370-hand-length:205px;--r370-hand-width:28px;z-index:6}
+#r370Clock .r370-minute{--r370-hand-length:280px;--r370-hand-width:19px;z-index:7}
+#r370Clock .r370-second{--r370-hand-length:290px;--r370-hand-width:4px;--r370-hand-color:#c84c4c;z-index:8}
+#r370Clock .r370-footer{position:absolute;left:0;right:0;bottom:28px;text-align:center;font-size:17px;color:#9facb9;letter-spacing:.13em}
+/* Wallboard: clock in the left column; customizable text on the right. */
+#r370Clock.r370-style-board .r370-scene{background:#ece5d8}
+#r370Clock.r370-style-board .r370-housing{left:50%;top:50%;transform:translate(-50%,-50%);width:1840px;height:920px;border-radius:6px;border:16px ridge #8c8e8b;background:#151617;box-shadow:0 22px 48px #0005,inset 0 0 3px #aab3b0}
+#r370Clock.r370-style-board .r370-inner{inset:7px;border:0;border-radius:0;background:linear-gradient(100deg,#303237 0 34.5%,#18191c 34.5% 100%)}
+#r370Clock.r370-style-board .r370-calendar{top:68px;left:4%;right:65%;height:101px;gap:6px}
+#r370Clock.r370-style-board .r370-flip-tile{font-size:54px;border-radius:5px}
+#r370Clock.r370-style-board .r370-dial{top:47%;left:17.3%;width:490px;height:490px;background:transparent;box-shadow:none}
+#r370Clock.r370-style-board .r370-tick{transform-origin:50% 241px;height:15px}
+#r370Clock.r370-style-board .r370-tick.major{height:22px;width:6px}
+#r370Clock.r370-style-board .r370-numeral{font-size:42px}
+#r370Clock.r370-style-board .r370-brand{top:40%;font-size:12px}
+#r370Clock.r370-style-board .r370-hour{--r370-hand-length:160px;--r370-hand-width:24px}
+#r370Clock.r370-style-board .r370-minute{--r370-hand-length:220px;--r370-hand-width:17px}
+#r370Clock.r370-style-board .r370-second{--r370-hand-length:215px}
+#r370Clock.r370-style-board .r370-footer{left:4%;right:65%;bottom:72px;font-size:16px}
+#r370Clock .r370-board-message{display:none}
+#r370Clock.r370-style-board .r370-board-message{position:absolute;display:flex;left:37%;right:5%;top:5%;bottom:5%;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px;gap:26px}
+#r370Clock .r370-board-title{font-size:85px;line-height:1.35;font-weight:800;word-break:keep-all;overflow-wrap:anywhere;white-space:pre-wrap;text-shadow:0 2px 10px #0005;max-height:65%;overflow:hidden}
+#r370Clock .r370-board-time{font-size:44px;letter-spacing:.08em;font-variant-numeric:tabular-nums;color:#cbd4db}
+#r370Clock .r370-board-stripe{height:3px;width:58%;background:#6b8997;opacity:.4}
+/* Optional bright case, like the white variations in the user's clock photos. */
+#r370Clock.r370-tone-light .r370-housing{background:#e6e5e2;border-color:#b7b8ba;box-shadow:0 20px 60px #0006,inset 0 0 0 4px #ddd}
+#r370Clock.r370-tone-light .r370-inner{background:linear-gradient(140deg,#f6f4f0,#d5d5d4)}
+#r370Clock.r370-tone-light .r370-dial{background:#eceae6}
+#r370Clock.r370-tone-light .r370-tick,#r370Clock.r370-tone-light .r370-numeral{color:#22252a;background:#22252a}
+#r370Clock.r370-tone-light .r370-numeral{background:transparent}
+#r370Clock.r370-tone-light .r370-hour,#r370Clock.r370-tone-light .r370-minute{--r370-hand-color:#252930}
+#r370Clock.r370-tone-light .r370-brand,#r370Clock.r370-tone-light .r370-footer{color:#333}
+#r370Clock.r370-tone-light .r370-flip-tile{color:#fafafa}
+#r370Clock.r370-style-board.r370-tone-light .r370-board-title{color:#232931;text-shadow:none}
+#r370Clock.r370-style-board.r370-tone-light .r370-board-time{color:#485968}
+#r370Clock.r370-style-board.r370-tone-light .r370-inner{background:linear-gradient(100deg,#eae8e5 0 34.5%,#f4f3ef 34.5% 100%)}
+/* Isolate to date/time clock screen, do not alter weather, message or schedule. */
+#previewStage.r370-clock-selected>#pvTime,#previewStage.r370-clock-selected>#pvDate,#previewStage.r370-clock-selected>#r185Clock{display:none!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#time,body.r370-clock-selected[data-lcd-screen="clock"]>#date,body.r370-clock-selected[data-lcd-screen="clock"]>#r185Clock{display:none!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#clockWeather{z-index:38!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!important}
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R378</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
+조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
+window.addEventListener('error',function(e){
+ if(e.target && e.target.tagName==='SCRIPT'){
+   var o=document.getElementById('offline'),b=document.getElementById('boot');
+   if(o){o.classList.remove('visible');} if(window.wxDebugShowV40)window.wxDebugShowV40('필수 설정 스크립트 로드 실패');
+   if(b){b.classList.add('hide');setTimeout(()=>b.remove(),750)}
+ }
+},true);
+</script><script>
+(function(){
+ var qs=new URLSearchParams(location.search);
+ var debug=qs.has('debug')||qs.has('weatherTest');
+ if(debug)document.body.classList.add('wx-debug-v40');
+ if(qs.has('weatherTest'))document.body.classList.add('wx-test-v40');
+ function show(msg){if(!debug)return;var el=document.getElementById('wxDebugV40');if(el)el.textContent='LCD 날씨 진단 V55X-R65\n'+msg;}
+ window.wxDebugShowV40=show;
+ window.addEventListener('error',function(e){if(e.target&&e.target.tagName==='SCRIPT')show('외부 스크립트 로드 실패: '+(e.target.src||''));else if(e.message)show('JavaScript 실행 오류: '+e.message+' (줄 '+(e.lineno||'?')+')')},true);
+ window.addEventListener('unhandledrejection',function(e){show('비동기 실행 오류: '+String(e.reason&&e.reason.message||e.reason))});
+ show('설정 파일 및 서버 연결 확인 중...');
+})();
+</script><script>
+/* V41 boot guard: runs BEFORE external scripts; no permanent loading screen. */
+(function(){
+ var done=false, timer;
+ function $boot(id){return document.getElementById(id)}
+ function finish(ok, detail){
+  if(done)return;done=true;clearTimeout(timer);
+  var boot=$boot('boot'),offline=$boot('offline'),hint=$boot('offlineHint');
+  if(!ok){
+   if(offline)offline.classList.remove('visible');
+   if(hint)hint.textContent=String(detail||'설정 서버 응답이 없습니다. 연결을 확인해 주세요.');
+   if(typeof window.wxDebugShowV40==='function')window.wxDebugShowV40('시작 오류: '+String(detail||'시간 초과'));
+  }else if(offline){offline.classList.remove('visible')}
+  if(boot){boot.classList.add('hide');setTimeout(function(){if(boot.parentNode)boot.remove()},800)}
+ }
+ window.__lcdBootGuard={ready:function(){finish(true)},fail:function(reason){finish(false,reason)},get finished(){return done}};
+ timer=setTimeout(function(){
+  var detail='초기화 시간 초과 (15초). config.js / shared.js / Apps Script 주소를 확인하세요.';
+  if(typeof window.DEFAULT==='undefined' && typeof window.getRemote!=='function')detail+=' 필수 스크립트가 실행되지 않았습니다.';
+  finish(false,detail);
+  if(!window.__lcdCoreStartedV52T){
+   var t=document.getElementById('time'),d=document.getElementById('date');
+   var paint=function(){
+    if(window.__lcdCoreStartedV52T){clearInterval(window.__lcdFallbackTimerV52T);return;}
+    var now=new Date();
+    if(t){t.textContent=now.toLocaleTimeString('ko-KR',{hour12:false});t.style.cssText='display:block;font-size:clamp(54px,10vw,190px);color:#fff'}
+    if(d){d.textContent=now.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});d.style.cssText='display:block;top:67%;left:50%;transform:translate(-50%,-50%);font-size:clamp(20px,3vw,54px);color:#fff'}
+   };
+   paint();window.__lcdFallbackTimerV52T=setInterval(paint,1000);
+   window.lcdRecoveryLogV52T?.('BOOT','필수 스크립트 초기화 실패 · 기본 시계 표시');
+  }
+ },15000);
+ window.addEventListener('error',function(e){
+  if(done)return;
+  if(e.target&&e.target.tagName==='SCRIPT')finish(false,'필수 파일 로드 실패: '+(e.target.src||'알 수 없음'));
+  else if(e.message)finish(false,'JavaScript 오류: '+e.message+' (줄 '+(e.lineno||'?')+')');
+ },true);
+ window.addEventListener('unhandledrejection',function(e){
+  if(!done)finish(false,'초기 비동기 오류: '+String(e.reason&&e.reason.message||e.reason));
+ });
+})();
+</script><script id="v52tRecoveryLog">
+/* Client-side diagnostic only: never transmits additional data and never interrupts LCD output. */
+(function(){
+ const KEY='lcd_v52t_diagnostics';let lastEvent='';let lastAt=0;
+ window.lcdRecoveryLogV52T=function(kind,message){
+  try{
+   const label=String(kind||'INFO').slice(0,35);
+   const info=String(message||'').replace(/https?:\/\/[^\s]+/g,'[URL]').slice(0,220);
+   const signature=label+'|'+info;const now=Date.now();
+   if(signature===lastEvent&&now-lastAt<60000)return;
+   lastEvent=signature;lastAt=now;
+   let records=[];try{const parsed=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(parsed))records=parsed}catch(_){}
+   records.push({at:now,kind:label,message:info});
+   localStorage.setItem(KEY,JSON.stringify(records.slice(-25)));
+  }catch(_){}
+ };
+ window.addEventListener('unhandledrejection',function(e){window.lcdRecoveryLogV52T('JS','비동기 처리 오류: '+String(e.reason&&e.reason.message||e.reason))});
+ window.addEventListener('error',function(e){
+   window.lcdRecoveryLogV52T('JS',e.target&&e.target.tagName==='SCRIPT'?'필수 스크립트 로딩 실패':'실행 오류: '+String(e.message||'알 수 없음'));
+ },true);
+})();
+</script><script id="r169-independent-particle-engine">
+(function(){
+ 'use strict';
+ const fields=new Map();let running=false,last=0,frames=0,moved=0,skipped=0,loops=0,errors=0,lastFrameAt=0;
+ const preview=new URLSearchParams(location.search).get('preview')==='1';
+ const diag=new URLSearchParams(location.search).has('rainDiag');
+ let diagnostic=null;
+ function attach(scene){
+  if(!scene||fields.has(scene))return;
+  const els=Array.from(scene.querySelectorAll('.wx50-drop,.wx50-flake'));
+  if(!els.length)return;
+  const kind=(scene.className.match(/wx50-(drizzle|showers|rain|snow|sleet|blizzard)/)||[])[1]||'rain';
+  const particles=els.map((el,i)=>({el,phase:(i*.61803398875)%1,duration:Math.max(.65,(parseFloat(el.style.getPropertyValue('--duration'))||4)*(el.classList.contains('wx50-flake')?1:.70)),snow:el.classList.contains('wx50-flake'),baseOpacity:Math.max(.12,Math.min(.85,parseFloat(el.style.getPropertyValue('--rain-opacity'))||.6)),drift:kind==='blizzard'?-.38:el.classList.contains('wx50-flake')?.06:-.09,lastY:null}));
+  fields.set(scene,particles);
+  if(!running){running=true;last=0;requestAnimationFrame(tick)}
+ }
+ function updateDiagnostic(){
+  if(!diag)return;
+  if(!diagnostic){diagnostic=document.createElement('div');diagnostic.id='r169MotionDiagnostic';diagnostic.style.cssText='position:fixed;left:12px;top:12px;z-index:2147483000;background:#001b35ed;color:#fff;border:2px solid #7ad8ff;border-radius:9px;padding:10px 12px;font:13px/1.5 monospace;white-space:pre;pointer-events:none';document.body.appendChild(diagnostic)}
+  let count=0,delta='-';for(const particles of fields.values()){count+=particles.length;const p=particles[0];if(p&&p.lastY!==null)delta=p.lastY.toFixed(1)+'px'}
+  diagnostic.textContent='R169 motion diagnostic\nframes: '+frames+'  moved: '+moved+'\nscreen: '+(document.body.dataset.lcdScreen||'-')+'  preview: '+preview+'\nparticles: '+count+'  fields: '+fields.size+'\nfirst particle y: '+delta+'\nloops: '+loops+'  errors: '+errors+'  skipped: '+skipped;
+ }
+ function tick(now){
+  try{
+   const dt=last?Math.min(Math.max((now-last)/1000,0),.08):.016;last=now;frames++;lastFrameAt=Date.now();
+   for(const [scene,particles] of fields){
+    if(!scene.isConnected){fields.delete(scene);continue}
+    // R169: do not stop motion when the LCD switches to clock/message.
+    // CSS visibility alone controls whether the weather scene is visible.
+    const w=scene.clientWidth||window.innerWidth||1920,h=scene.clientHeight||window.innerHeight||1080;
+    for(const p of particles){
+     const next=p.phase+dt/p.duration;
+     if(next>=1)loops++;
+     p.phase=next%1;
+     const y=(-.07+1.17*p.phase)*h;
+     const x=p.drift*p.phase*w;
+     p.el.style.setProperty('transform','translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0)'+(p.snow?'':' rotate(11deg)'),'important');
+     if(!p.snow){const edge=Math.min(1,p.phase/.105,(1-p.phase)/.065);p.el.style.setProperty('opacity',(p.baseOpacity*Math.max(0,edge)*.70).toFixed(3),'important');}
+     if(p.lastY!==null&&Math.abs(y-p.lastY)>.001)moved++;
+     p.lastY=y;
+    }
+   }
+   if(diag&&frames%15===0)updateDiagnostic();
+  }catch(e){errors++;if(errors<5)console.error('[R169 particle engine]',e)}
+  if(fields.size)requestAnimationFrame(tick);else{running=false;last=0;updateDiagnostic()}
+ }
+ window.r167AttachParticles=attach;
+ window.r169ParticleStatus=()=>({frames,moved,skipped,loops,errors,lastFrameAt,scenes:fields.size,screen:document.body.dataset.lcdScreen,particles:Array.from(fields.values()).reduce((n,a)=>n+a.length,0),firstY:(Array.from(fields.values())[0]||[])[0]?.lastY??null});
+ window.r168ParticleStatus=window.r169ParticleStatus;
+})();
+</script><script src="config.js?v=V55X-R378"></script><script src="shared.js?v=V51-20261105"></script><script>
+
+/* V49: standalone original SVG line icons; no external icon assets or network requests. */
+const WX49_NS='http://www.w3.org/2000/svg';
+const WX49_SHAPES={
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/>',
+ moon:'<path d="M11.83 2.05 C7.9 2.85 5.16 5.10 3.90 7.76 C2.63 10.46 2.72 13.44 3.70 15.85 C5.54 20.25 10.28 22.83 14.79 21.87 C17.24 21.47 19.54 19.72 20.98 18.05 C16.60 17.41 13.32 15.76 11.52 12.44 C9.97 9.66 9.63 5.78 11.83 2.05 Z M9.14 4.22 C7.85 4.98 6.65 6.08 5.62 7.65 C4.62 9.18 4.20 10.79 4.31 12.69 C4.55 16.68 7.54 19.54 10.85 20.38 C13.48 21.08 16.31 20.31 18.04 18.88 C13.97 17.98 11.10 15.58 9.77 12.10 C8.89 9.73 8.49 6.65 9.14 4.22 Z" fill="currentColor" fill-rule="evenodd" stroke="none"/>',
+ cloud:'<path d="M7 19h11a4.5 4.5 0 0 0 .2-9 7 7 0 0 0-13.3 1.6A3.8 3.8 0 0 0 7 19Z"/>',
+ partly:'<circle cx="7" cy="7" r="3"/><path d="M7 1v2M1 7h2M2.8 2.8l1.5 1.5M12 3l-1.5 1.5"/><path d="M8 20h10a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 13a3.6 3.6 0 0 0 3 7Z"/>',
+ rain:'<path d="M7 15h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 8a3.8 3.8 0 0 0 2 7Z"/><path d="M8 18l-1 3M13 18l-1 3M18 18l-1 3"/>',
+ snow:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M9 17v5M6.5 19.5h5M16 17v5M13.5 19.5h5"/>',
+ thunder:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M13 15l-3 4h3l-2 4 6-6h-4l2-2"/>',
+ mist:'<path d="M7 12h11a4 4 0 0 0 .2-8A7 7 0 0 0 5 6a3.5 3.5 0 0 0 2 6Z"/><path d="M3 16h18M6 20h12"/>',
+ sleet:'<path d="M7 14h11a4.5 4.5 0 0 0 .2-9A7 7 0 0 0 5 7a3.8 3.8 0 0 0 2 7Z"/><path d="M8 17l-1 4M15 17v5M12.5 19.5h5"/>'
+};
+function wx49Kind(code,isDay){
+ const n=Number(code);
+ if(n===1000)return Number(isDay)===0?'moon':'sun';
+ if(n===1003)return 'partly';
+ if([1006,1009].includes(n))return 'cloud';
+ if([1030,1135,1147].includes(n))return 'cloud';
+ if([1087,1273,1276,1279,1282].includes(n))return 'thunder';
+ if([1069,1072,1168,1171,1198,1201,1204,1207,1249,1252,1237,1261,1264].includes(n))return 'sleet';
+ if([1066,1114,1117,1210,1213,1216,1219,1222,1225,1255,1258].includes(n))return 'snow';
+ if([1063,1150,1153,1180,1183,1186,1189,1192,1195,1240,1243,1246].includes(n))return 'rain';
+ return 'cloud';
+}
+const wx49ImageLuma=new Map();
+function wx49Luma(hex){const h=String(hex||'').replace('#','');if(!/^[0-9a-f]{6}$/i.test(h))return .2;const rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]}
+function wx49ImageBrightness(path,refresh){
+ if(!/^images\/[\w가-힣 .-]+\.(jpg|jpeg|png|webp)$/i.test(path||'')||String(path).includes('..'))return null;
+ if(wx49ImageLuma.has(path))return wx49ImageLuma.get(path);
+ wx49ImageLuma.set(path,null);
+ const img=new Image();img.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=24;canvas.height=14;const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,24,14);const pixels=ctx.getImageData(0,0,24,14).data;let lum=0,n=0;for(let y=3;y<11;y++)for(let x=4;x<20;x++){const i=(y*24+x)*4;const h='#'+[pixels[i],pixels[i+1],pixels[i+2]].map(v=>v.toString(16).padStart(2,'0')).join('');lum+=wx49Luma(h);n++;}wx49ImageLuma.set(path,lum/Math.max(1,n));if(typeof refresh==='function')refresh();}catch(_){wx49ImageLuma.set(path,.2)}};
+ img.onerror=()=>wx49ImageLuma.set(path,.2);img.src=path;
+ return null;
+}
+function wx49Color(c,backgroundColor,imagePath,overlay,refresh){
+ const mode=c.weatherIconColorMode||'auto';if(mode==='white')return '#ffffff';if(mode==='black')return '#111111';if(mode==='custom')return /^#[0-9a-f]{6}$/i.test(c.weatherIconColor||'')?c.weatherIconColor:'#ffffff';
+ let l=imagePath?wx49ImageBrightness(imagePath,refresh):null;
+ if(l==null)l=wx49Luma(backgroundColor||'#122940');
+ l*=1-Math.max(0,Math.min(70,Number(overlay)||0))/100;
+ return l>.33?'#111111':'#ffffff';
+}
+function wx49Icon(code,isDay,c,backgroundColor,imagePath,overlay,refresh){
+ const style=c.weatherIconStyle||'outline';if(style==='none')return null;
+ const kind=wx49Kind(code,isDay);const color=wx49Color(c,backgroundColor,imagePath,overlay,refresh);
+ if(style==='emoji'&&kind!=='moon'){const s=document.createElement('span');s.className='wx49-emoji';s.textContent=({sun:'☀️',moon:'🌙',partly:'🌤️',cloud:'☁️',rain:'🌧️',snow:'❄️',thunder:'⛈️',mist:'🌫️',sleet:'🌨️'})[kind]||'☁️';return s;}
+ const svg=document.createElementNS(WX49_NS,'svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.classList.add('wx49-icon');svg.style.color=kind==='moon'?'#ffffff':color;svg.innerHTML=WX49_SHAPES[kind]||WX49_SHAPES.cloud;return svg;
+}
+function wx49Append(container,code,isDay,c,text,bg,path,overlay,refresh){
+ const key=JSON.stringify([code,isDay,c.weatherIconStyle,c.weatherIconColorMode,c.weatherIconColor,text,bg,path,overlay,wx49ImageLuma.get(path)]);
+ if(container.dataset.wx49Key===key)return;
+ container.dataset.wx49Key=key;container.replaceChildren();const icon=wx49Icon(code,isDay,c,bg,path,overlay,refresh);if(icon)container.appendChild(icon);const span=document.createElement('span');span.textContent=text;container.appendChild(span);
+}
+
+
+// V50C: seven independent scenes, driven by existing WeatherAPI conditionCode/isDay.
+function v55xR7WeatherLabel(code, original){
+ const n=Number(code);
+ if(n===1000)return '맑음';
+ if(n===1003)return '구름 조금';
+ if(n===1006)return '구름 많음';
+ if([1009,1030,1135,1147].includes(n))return '흐림';
+ if([1087,1273,1276,1279,1282].includes(n))return '천둥번개';
+ if([1114,1117].includes(n))return '눈보라';
+ if([1066,1210,1213,1216,1219,1222,1225,1255,1258].includes(n))return '눈';
+ if([1069,1072,1168,1171,1198,1201,1204,1207,1237,1249,1252,1261,1264].includes(n))return '진눈깨비';
+ if([1192,1195,1243,1246].includes(n))return '강한 비';
+ if([1063,1180,1240].includes(n))return '가끔 비';
+ if([1150,1153,1183,1186,1189,1199,1201,1240,1249,1252].includes(n))return '비';
+ if([1192,1195,1243,1246].includes(n))return '강한 비';
+ const raw=String(original||'').trim();
+ if(/smoke|haze|mist|fog|연기|안개|박무|연무/i.test(raw))return '흐림';
+ return raw||'날씨 정보';
+}
+
+// R354: weather API adapter. Isolated to the weather page and weather response.
+function r354Enabled(v){return v===true||v===1||/^(true|1|on|yes)$/i.test(String(v==null?'':v).trim());}
+function r354CodeFromCondition(w){
+ const candidates=[w.conditionCode,w.condition_code,w.weatherCode,w.weather_code,w.code,w.current?.condition?.code,w.current?.conditionCode,w.weather?.code,(w.condition&&typeof w.condition==='object')?w.condition.code:null];
+ for(const c of candidates){if(c!==null&&c!==undefined&&String(c).trim()!==''&&Number.isInteger(Number(c))&&Number(c)>=1000&&Number(c)<=1282)return Number(c);}
+ const obj=w.condition&&typeof w.condition==='object'?w.condition:null;
+ const text=String((obj&&(obj.text||obj.name))||w.condition||w.conditionText||w.weatherCondition||w.description||w.current?.condition?.text||'').toLowerCase();
+ if(/thunder|storm|번개|천둥|뇌우/.test(text))return 1087;
+ if(/blizzard|눈보라|폭설/.test(text))return 1117;
+ if(/sleet|ice pellet|freezing rain|진눈깨비|우박/.test(text))return 1204;
+ if(/snow|눈|강설/.test(text))return 1210;
+ if(/fog|mist|haze|안개|박무|연무/.test(text))return 1135;
+ if(/shower|소나기|간헐.*비|가끔.*비/.test(text))return 1240;
+ if(/heavy rain|폭우|집중호우|강한 비|많은 비/.test(text))return 1195;
+ if(/drizzle|이슬비|약한 비|보슬비/.test(text))return 1153;
+ if(/rain|비|강수/.test(text))return 1189;
+ if(/partly|구름 조금|대체로 맑|부분.*흐림/.test(text))return 1003;
+ if(/overcast|흐림|구름 많|cloud/.test(text))return 1009;
+ if(/sunny|clear|맑음|맑은|쾌청/.test(text))return 1000;
+ return 1006; // Unknown weather stays cloudy, never fake sunshine.
+}
+function r354NormalizeWeather(raw){
+ if(!raw||typeof raw!=='object')return raw;
+ const w={...raw};
+ if(w.ok!==true&&r354Enabled(w.ok))w.ok=true;
+ if(w.ok!==true)return w;
+ if(w.condition&&typeof w.condition==='object')w.condition=String(w.condition.text||w.condition.name||w.weatherCondition||'날씨 정보');
+ else if(typeof w.condition!=='string')w.condition=String(w.conditionText||w.weatherCondition||w.description||w.current?.condition?.text||'날씨 정보');
+ w.conditionCode=r354CodeFromCondition(raw);
+ const day=[w.isDay,w.is_day,w.current?.is_day].find(x=>x!==undefined&&x!==null&&String(x).trim()!=='');
+ if(day!==undefined)w.isDay=day===true||day===1||/^(true|1|yes|day)$/i.test(String(day))?1:0;
+ else {const hour=new Date().getHours();w.isDay=hour>=6&&hour<19?1:0;}
+ return w;
+}
+function wx50Kind(code,isDay){
+ // V53B: WeatherAPI 48 condition codes -> 12 animated background families.
+ // Condition text and icon remain untouched; only the weather-only scene changes.
+ const n=Number(code);
+ if(n===1000)return Number(isDay)===0?'moon':'sun';
+ if(n===1003)return 'partly';
+ if([1006,1009].includes(n))return 'cloud';
+ if([1030,1135,1147].includes(n))return 'mist';
+ if([1087,1273,1276,1279,1282].includes(n))return 'thunder';
+ if([1069,1072,1168,1171,1198,1201,1204,1207,1237,1249,1252,1261,1264].includes(n))return 'sleet';
+ if([1114,1117].includes(n))return 'blizzard';
+ if([1066,1210,1213,1216,1219,1222,1225,1255,1258].includes(n))return 'snow';
+ if([1195,1189,1243,1246].includes(n))return 'rain';
+ if([1063,1180,1186,1192,1240].includes(n))return 'showers';
+ if([1150,1153,1183].includes(n))return 'drizzle';
+ return 'cloud';
+}
+
+function r129LandscapeKind(code,isDay){
+ if(previewMode && window.__r131TestScene){const t=window.__r131TestScene;return t==='sunrise'||t==='sunset'?t:(t==='cloud'||t==='overcast')?'overcast':'';}
+ const n=Number(code),h=new Date().getHours();
+ if(n===1000&&Number(isDay)!==0){if(h>=5&&h<9)return 'sunrise';if(h>=16&&h<20)return 'sunset';}
+ if([1006,1009].includes(n))return 'overcast';
+ return '';
+}
+function r129ApplyLandscape(scene,code,isDay){
+ const kind=r129LandscapeKind(code,isDay);if(!kind)return;
+ scene.classList.add('r129-'+kind);
+ const img=document.createElement('img');img.className='r129-landscape';img.alt='';img.decoding='async';img.src='images/weather_'+(kind==='overcast'?'cloud':kind)+'.webp';
+ img.onerror=()=>{img.remove();scene.classList.remove('r129-'+kind)};
+ scene.appendChild(img);
+}
+function wx50MountScene(page,code,isDay,sceneConfig=config){
+ const kind=(previewMode && window.__r131TestScene==='mist')?'mist':wx50Kind(code,isDay);
+ const scene=document.createElement('div');scene.id='wx50Scene';scene.className='wx50-'+kind;
+ // Animation mode is exclusive: the scene covers the old image or color background.
+ scene.setAttribute('aria-hidden','true');
+ const add=(cls,style,content)=>{const e=document.createElement('div');e.className=cls;if(style)for(const [k,v] of Object.entries(style))e.style.setProperty(k,v);if(content)e.textContent=content;scene.appendChild(e);return e};
+  // R136: one canonical filename per weather category, shared by live LCD and preview.
+  // Images are optional: if absent, the original CSS weather scene remains visible.
+  // R137: preload decoded assets; the image element is only shown after loading.
+  // Repeated weather renders reuse the same pending/completed load.
+  const r136Files={sun:'weather_clear_day.webp',moon:'weather_clear_night.webp',partly:'weather_partly.webp',cloud:'weather_cloud.webp',mist:'weather_mist.webp',drizzle:'weather_showers.webp',rain:'weather_rain.webp',showers:'weather_showers.webp',snow:'weather_snow.webp',blizzard:'weather_blizzard.webp',sleet:'weather_sleet.webp',thunder:'weather_thunder.webp'};
+  const forced=previewMode?String(window.__r131TestScene||''):'';
+  const special=['sunrise','sunset'].includes(forced)?forced:'';
+  const imageKind=special||kind;
+  // Night, clear day and twilight already have their own dedicated image elements below.
+  if(!['sun','moon','sunrise','sunset'].includes(imageKind)){
+   const photo=document.createElement('img');photo.className='r136-weather-photo';photo.alt='';photo.decoding='async';
+   photo.style.visibility='hidden';
+   photo.onload=()=>{if(photo.isConnected)photo.style.visibility='visible'};
+   photo.onerror=()=>{if(photo.isConnected)photo.remove();console.warn('[R138] Weather WebP unavailable:',r136Files[imageKind]);};
+   photo.src='images/'+r136Files[imageKind];
+   if(photo.complete&&photo.naturalWidth>0)photo.style.visibility='visible';
+   scene.appendChild(photo);
+  }
+  if(kind==='sun'||kind==='partly')add('wx50-sun-disc');
+  if(kind==='partly')add('r174-sun-reflection');
+  if(kind==='sun' && !(previewMode && ['sunrise','sunset'].includes(window.__r131TestScene)) && !r129LandscapeKind(code,isDay)){
+    scene.classList.add('r133-clear-day');
+    const dayPhoto=document.createElement('img');dayPhoto.className='r133-day-photo';dayPhoto.alt='';dayPhoto.decoding='async';dayPhoto.src='images/weather_clear_day.webp';scene.appendChild(dayPhoto);
+     // R178: only a subtle rotating halo around the sun in the existing WebP.
+     add('r178-sun-rays');
+
+  }
+   // R173: constellations belong exclusively to clear-night (moon) scenes.
+   // Cloudy scenes retain their original background without a star field.
+ if(kind==='moon'){
+  // R120: quiet rotating night sky; independent stars, no moon disk.
+  const sky=document.createElement('div');sky.className='r120-night-stars';scene.appendChild(sky);
+  for(let i=0;i<105;i++){
+   const star=document.createElement('span');star.className='r120-night-star'+(i%9===0?' r120-night-glow':'');
+   const x=((i*73.71+17.3)%97)+1,y=((i*41.37+29.7)%91)+2;
+   star.style.left=x+'%';star.style.top=y+'%';
+   star.style.setProperty('--twinkle-delay',(-((i*17)%71)/7)+'s');
+   star.style.setProperty('--twinkle-time',(2.6+(i%11)*.52)+'s');
+   star.style.setProperty('--star-alpha',(.32+(i%9)*.065).toFixed(2));star.style.setProperty('--star-size',(i%17===0?1.8:i%5===0?1.35:.65+(i%3)*.13)+'px');
+   sky.appendChild(star);
+  }
+  // R121: Big Dipper and a small Cassiopeia-like W pattern, drawn in the rotating star field.
+  const NS='http://www.w3.org/2000/svg';
+  const constellation=document.createElementNS(NS,'svg');constellation.setAttribute('viewBox','0 0 100 100');constellation.setAttribute('preserveAspectRatio','none');constellation.setAttribute('class','r121-constellation');sky.appendChild(constellation);
+  const shapes=[[[24,23],[26,21],[29,22],[31,25],[35,26],[38,24],[40,21]],[[66,30],[69,33],[72,28],[75,33],[78,30]]];
+  for(const points of shapes){for(let i=1;i<points.length;i++){const line=document.createElementNS(NS,'line');line.setAttribute('x1',points[i-1][0]);line.setAttribute('y1',points[i-1][1]);line.setAttribute('x2',points[i][0]);line.setAttribute('y2',points[i][1]);constellation.appendChild(line)}for(const [x,y] of points){const star=document.createElementNS(NS,'circle');star.setAttribute('cx',x);star.setAttribute('cy',y);star.setAttribute('r','.15');constellation.appendChild(star)}}
+  // R194: Polaris near rotation axis, rotating with the Cassiopeia W and other stars.
+  const polaris=document.createElementNS(NS,'circle');polaris.setAttribute('cx','50');polaris.setAttribute('cy','50');polaris.setAttribute('r','.12');polaris.setAttribute('class','r194-polaris');constellation.appendChild(polaris);
+  const meadow=document.createElement('div');meadow.className='r121-meadow';scene.appendChild(meadow);
+  const landscape=document.createElement('img');landscape.className='r125-landscape';landscape.alt='';landscape.decoding='async';landscape.src='images/weather_clear_night.webp';meadow.appendChild(landscape);
+  /* Legacy zero-iteration grass generator removed; landscape WebP remains unchanged. */
+ }
+  // R155: natural large cloud drift on clear day/night and cloudy day/night.
+ // V50C rain remains unchanged. More clouds elsewhere, but keep them small and transparent.
+ const clouds=['rain','drizzle','showers','sleet'].includes(kind)?1:kind==='partly'?2:kind==='cloud'||kind==='mist'?2:kind==='thunder'?2:['snow','blizzard'].includes(kind)?1:0;
+ const positions={partly:[[-10,17],[43,12],[76,41]],cloud:[[-12,11],[28,25],[70,15],[82,48]],snow:[[-10,14],[38,8],[77,24]],thunder:[[-12,8],[23,13],[57,5],[82,27],[40,44]]};
+ for(let i=0;i<clouds;i++){
+  const isRain=['rain','drizzle','showers','sleet'].includes(kind),pos=(positions[kind]||[])[i]||[-12+i*37,18+i*15];
+  add('wx50-cloud',{
+   left:isRain?(-12+i*37)+'%':pos[0]+'%',
+   top:isRain?(18+i*15)+'%':pos[1]+'%',
+   '--wx50-scale':isRain?'1':String(kind==='partly'?.48+(i%2)*.1:kind==='thunder'?.64+(i%3)*.1:kind==='snow'?.54+(i%2)*.1:.56+(i%3)*.07),
+   animationDelay:(-i*7)+'s',
+   opacity:isRain?String(.65+i*.12):String(kind==='partly'?.35+(i%2)*.09:kind==='thunder'?.40+(i%3)*.07:kind==='snow'?.35+(i%2)*.08:.39+(i%3)*.06)
+  });
+ }
+ // R138: Snow and sleet use identical snowfall; blizzard is denser and wind-driven.
+ if(['rain','drizzle','showers','sleet','snow','blizzard'].includes(kind)){
+  const snowLike=['snow','sleet','blizzard'].includes(kind);
+  const rain=!snowLike;
+  const count=kind==='blizzard'?75:snowLike?30:kind==='rain'?30:kind==='drizzle'?14:24;
+  for(let i=0;i<count;i++){
+   const crystal=snowLike && i%5===0;
+   const cls=snowLike?(crystal?'wx50-flake wx50-crystal':'wx50-flake'):'wx50-drop';
+   const speed=kind==='blizzard'?(2.3+(i%7)*.27):snowLike?(6.8+(i%6)*.8):kind==='drizzle'?(2.8+(i%5)*.38):kind==='showers'?(1.9+(i%5)*.28):(1.10+(i%5)*.17);
+   add(cls,{
+    left:((i*47.13+13)%100)+'%',
+    ...(rain?{'--rain-width':((kind==='showers'?1.25:kind==='rain'?1.30:1.5)+(i%4)*(kind==='showers'?.34:kind==='rain'?.36:.48)).toFixed(2)+'px','--rain-length':(32+(i%5)*9)+'px','--rain-opacity':(.53+(i%4)*.11).toFixed(2)}:{}),
+    '--duration':(rain?(kind==='drizzle'?3.4:kind==='showers'?2.7:2.25)+(i%13)*.137:(kind==='blizzard'?4.7:8.2)+(i%17)*.317).toFixed(3)+'s','--delay':(-((i*0.61803398875)%1)*(rain?(kind==='drizzle'?3.4:kind==='showers'?2.7:2.25)+(i%13)*.137:(kind==='blizzard'?4.7:8.2)+(i%17)*.317)).toFixed(3)+'s',
+    opacity:String(.45+(i%4)*.14)
+   },crystal?'❄':'');
+  }
+ }
+ // R167: initialize independent continuous particle positions, no CSS iteration boundaries.
+ /* R168: attach after scene enters DOM */
+ // Thunder effects are independent of precipitation. Never reference undefined bolt data.
+ if(kind==='thunder'){
+  const bolts=[
+   {left:'44%',width:'25%',delay:'-1s',core:'M156 12 L110 118 L161 118 L95 244 L153 226 L108 388 L234 185 L169 193 L232 75'},
+   {left:'67%',width:'18%',delay:'-4.5s',core:'M153 12 L115 106 L170 120 L99 247 L157 219 L121 384 L238 174 L172 189 L223 74'}
+  ];
+  for(const bolt of bolts){
+   const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+   svg.setAttribute('class','wx50-electric');svg.setAttribute('viewBox','0 0 350 500');
+   svg.setAttribute('preserveAspectRatio','xMidYMid meet');svg.setAttribute('aria-hidden','true');
+   svg.style.setProperty('--bolt-left',bolt.left);svg.style.setProperty('--bolt-width',bolt.width);svg.style.setProperty('--bolt-delay',bolt.delay);
+   const paths=[['wx50-core-glow',bolt.core],['wx50-core',bolt.core],['wx50-branch','M133 191 L208 207 L190 258 L248 282 L226 328'],['wx50-branch second','M100 303 L54 319 L74 359 L28 388']];
+   for(const [cls,d] of paths){const line=document.createElementNS('http://www.w3.org/2000/svg','path');line.setAttribute('class',cls);line.setAttribute('d',d);svg.appendChild(line)}
+   scene.appendChild(svg);
+   const haze=add('wx50-electric-haze',{'--bolt-delay':bolt.delay,'--haze-x':bolt.left});
+  }
+ }
+ r129ApplyLandscape(scene,code,isDay);
+ page.appendChild(scene);
+ if(window.r167AttachParticles)window.r167AttachParticles(scene);
+}
+
+const $=id=>document.getElementById(id);let wxData=null;let wxLast=0;let wxPending=false;let wxError='';let wxCachedLocation='';let lastMessageMarkup='';let config={...DEFAULT};let lastBg='';let screenStarted=Date.now();let screenType='clock';let cycleKey='';let lastConfigSignature='';let syncRunning=false;let lastSyncAt=0;let firstReady=false;let failCount=0;const forceOffline=new URLSearchParams(location.search).get('testOffline')==='1';let bootWatchdog=null;const previewMode=new URLSearchParams(location.search).get('preview')==='1';let previewOverride=null;let previewScreen='clock';document.body.dataset.lcdScreen='clock';document.body.dataset.lcdEffect='none';
+
+function positionObjects(){
+ const t=$('time');t.style.left=(Number(config.timeX??50))+'%';t.style.top=(Number(config.timeY??50))+'%';t.style.right='auto';t.style.bottom='auto';t.style.transform='translate(-50%,-50%)';
+ if(config.dateX!=null&&config.dateY!=null){const d=$('date');d.className='';d.style.left=Number(config.dateX)+'%';d.style.top=Number(config.dateY)+'%';d.style.right='auto';d.style.bottom='auto';d.style.transform='translate(-50%,-50%)'}
+ else{const d=$('date');d.style.left='';d.style.top='';d.style.right='';d.style.bottom='';d.style.transform='';d.className=config.datePosition||'bottom-right'}
+}
+function v52yDrawMessageClock(p){
+ const t=$('v52yMessageTime'),d=$('v52yMessageDate');if(!t||!d)return;
+ const scale=viewScale();
+ t.style.display=config.messageShowTime===true?'block':'none';
+ d.style.display=config.messageShowDate===true?'block':'none';
+ t.textContent=fmtTime({...config,timeFormat:config.messageTimeFormat||'24s'},p);
+ d.textContent=fmtDate({...config,dateFormat:config.messageDateFormat||'long'},p);
+ for(const [el,prefix,defaultX,defaultY,minSize,maxSize] of [[t,'messageTime',50,22,24,600],[d,'messageDate',50,82,16,110]]){
+  const x=Number(config[prefix+'X']),y=Number(config[prefix+'Y']);
+  el.style.left=(Number.isFinite(x)?Math.max(0,Math.min(100,x)):defaultX)+'%';
+  el.style.top=(Number.isFinite(y)?Math.max(0,Math.min(100,y)):defaultY)+'%';
+  const size=Number(config[prefix+'Size']);
+  el.style.fontSize=Math.max(minSize,Math.min(maxSize,size|| (prefix==='messageTime'?112:34)))*scale+'px';
+  el.style.color=config[prefix+'Color']||'#ffffff';
+  el.style.fontFamily=fontValue(config[prefix+'Font']||'Malgun Gothic');
+  el.style.fontWeight=config[prefix+'Bold']?'800':'400';
+  el.style.textShadow=config[prefix+'Shadow']===false?'none':'0 2px 12px #000a';
+ }
+}
+function draw(){const p=nowParts();$('time').textContent=fmtTime(config,p);$('date').textContent=fmtDate(config,p);v52yDrawMessageClock(p)}
+function viewScale(){return Math.min(window.innerWidth/1920,window.innerHeight/1080)}
+function fitLayout(){
+ const scale=viewScale();v52yDrawMessageClock(nowParts());
+ $('time').style.fontSize=(Math.max(24,Math.min(600,Number(config.timeSize)||112))*scale)+'px';
+ $('date').style.fontSize=(Math.max(16,Math.min(110,Number(config.dateSize)||34))*scale)+'px';
+ const content=$('messageScreen').querySelector('.message-content');
+ if(content){content.style.transform='translate(-50%,-50%) scale('+scale+')'}
+ $('messageScreen').style.fontSize=Math.max(24,Math.min(240,Number(config.messageSize)||100))+'px';
+ $('messageScreen').style.padding='0';
+ $('bg').style.backgroundSize=config.backgroundFit==='contain'?'contain':'cover';
+ if(Array.isArray(config.messageBlocks)&&config.messageBlocks.length)renderBlocks();
+ applyWeatherLayoutV43();
+}
+window.addEventListener('resize',fitLayout);
+window.addEventListener('orientationchange',()=>setTimeout(fitLayout,150));
+function apply(c){const oldSource=config.weatherSource||'weatherapi';const oldCity=config.weatherCity;const oldWeatherLabel=config.weatherLocationLabel;const wasWeatherOn=!!(config.weatherPageEnabled||(config.clockPageEnabled!==false&&config.weatherOnClock));config={...DEFAULT,timeFont:'Malgun Gothic',dateFont:'Malgun Gothic',timeBold:false,dateBold:false,weatherClockBold:false,weatherPageBold:false,weatherBackgroundMode:'color',weatherBackgroundColor:'#122940',weatherBackgroundImage:'images/background.jpg',...c};config.weatherAnimationEnabled=r354Enabled(config.weatherAnimationEnabled)||(config.weatherBackgroundMode==='animated');if(new URLSearchParams(location.search).has('weatherTest')){config.weatherPageEnabled=true;config.weatherOnClock=true;config.clockPageEnabled=false;config.messageEnabled=false;}if(window.wxDebugShowV40)window.wxDebugShowV40('서버 설정 수신 완료\n날씨 페이지: '+(config.weatherPageEnabled?'켜짐':'꺼짐')+' / 시계 날씨: '+(config.weatherOnClock?'켜짐':'꺼짐')+'\n지역: '+(config.weatherCity||'Seoul')+'\n날씨 요청 준비 중');if(!weatherNeededV43()){wxFlightV37++;wxPending=false;wxStartedV37=0;wxNextV37=Number.MAX_SAFE_INTEGER;wxError='';}
+ if(weatherNeededV43()&&!wasWeatherOn){wxNextV37=0;}
+ if((config.weatherSource||'weatherapi')!==oldSource||config.weatherCity!==oldCity||config.weatherLocationLabel!==oldWeatherLabel){wxData=null;wxLast=0;wxError='';wxFailuresV36=0;wxNextV37=0;wxFlightV37++;wxPending=false;wxRestoreCacheV37();}if(!wxData)wxRestoreCacheV37();document.documentElement.style.setProperty('--lcd-transition-ms',Math.max(0,Math.min(3000,Number(config.transitionDuration)||700))+'ms');document.body.dataset.lcdEffect=['none','fade','slide'].includes(config.transitionEffect)?config.transitionEffect:'fade';for(const k of ['time','date','weather','message'])document.body.dataset[k+'Shadow']=config[k+'Shadow']===false?'off':'on';document.body.dataset.clockWeatherShadow=config.clockWeatherShadow===false?'off':'on';$('time').style.display=config.showTime?'block':'none';$('date').style.display=config.showDate?'block':'none';$('time').style.fontFamily=fontValue(config.timeFont||'Malgun Gothic');$('date').style.fontFamily=fontValue(config.dateFont||'Malgun Gothic');$('time').style.fontWeight=config.timeBold?'800':'400';$('date').style.fontWeight=config.dateBold?'800':'400';$('time').style.color=config.timeColor;$('date').style.color=config.dateColor;$('date').className=config.datePosition;positionObjects();$('shade').style.opacity=config.clockBackgroundMode==='color'?0:Number(config.overlay)/100;screenStarted=Date.now();v51hUpdateMaintenance();renderScreen();draw();fitLayout()}
+function v51hUpdateMaintenance(){
+ const active=config.maintenanceMode===true;
+ const el=document.getElementById('v51hMaintenance');
+ if(!el)return;
+ el.setAttribute('aria-hidden',String(!active));
+ document.getElementById('v51kMaintenanceTitle').textContent=String(config.maintenanceTitle??'안내 말씀').slice(0,60)||'안내 말씀';
+ document.getElementById('v51hMaintenanceText').textContent=String(config.maintenanceText||'현재 화면을 점검하고 있습니다.\n잠시 후 정상 운영됩니다.').slice(0,200);
+}
+function activePages(){
+ const pages=[];
+ if(config.clockPageEnabled!==false)pages.push('clock');
+ const hasBlocks=Array.isArray(config.messageBlocks)&&config.messageBlocks.some(b=>String(b.text||'').trim());
+ const hasLegacy=String(config.messageText||config.messageHtml||'').trim();
+ if(config.messageEnabled&&(hasBlocks||hasLegacy))pages.push('message');
+ if(config.weatherPageEnabled)pages.push('weather');
+ if(!pages.length)pages.push('clock');
+ const order=String(config.pageOrder||'clock,message,weather').split(',');
+ return [...pages].sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+}
+
+// V51M: choose text color from visible background, not an opaque version badge.
+let v51mContrastKey='',v51mImageLuma=new Map();
+function v51mLuma(hex){
+ const h=String(hex||'').replace('#','');if(!/^[0-9a-f]{6}$/i.test(h))return .1;
+ const rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255).map(x=>x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4));
+ return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];
+}
+function v51mImageBrightness(path){
+ const name=String(path||'');if(!/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(name)||name.includes('..'))return null;
+ if(v51mImageLuma.has(name))return v51mImageLuma.get(name);
+ v51mImageLuma.set(name,null);const img=new Image();
+ img.onload=()=>{try{const canvas=document.createElement('canvas');canvas.width=12;canvas.height=12;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,12,12);const p=ctx.getImageData(0,0,12,12).data;let sum=0,n=0;for(let y=0;y<5;y++)for(let x=7;x<12;x++){const i=(y*12+x)*4;const color='#'+[p[i],p[i+1],p[i+2]].map(v=>v.toString(16).padStart(2,'0')).join('');sum+=v51mLuma(color);n++;}v51mImageLuma.set(name,sum/Math.max(n,1));v51mUpdateVersionColor(true);}catch(_){v51mImageLuma.set(name,.1)}};
+ img.onerror=()=>v51mImageLuma.set(name,.1);img.src=name;return null;
+}
+function v51mUpdateVersionColor(force=false){
+ const page=screenType||'clock',el=document.getElementById('versionTag');if(!el)return;
+ const image=page==='clock'&&config.clockBackgroundMode!=='color'?String(config.background||''):page==='message'&&config.messageBackgroundMode==='image'?String(config.messageBackgroundImage||''):page==='weather'&&config.weatherAnimationEnabled!==true&&config.weatherBackgroundMode==='image'?String(config.weatherBackgroundImage||''):'';
+ const scene=page==='weather'&&config.weatherAnimationEnabled===true?wx50Kind(wxData&&wxData.conditionCode,wxData&&wxData.isDay):'';
+ const base=page==='clock'?config.clockBackgroundColor:page==='message'?config.messageBackground:config.weatherBackgroundColor;
+ const key=JSON.stringify([page,image,scene,base,config.overlay,config.version,window.innerWidth]);if(!force&&v51mContrastKey===key)return;v51mContrastKey=key;
+ let lum=v51mLuma(base||'#17283b');
+ if(scene){lum=({sun:.37,moon:.015,partly:.32,cloud:.28,rain:.08,snow:.61,thunder:.02})[scene]??.08;}
+ else if(image){const val=v51mImageBrightness(image);if(val!==null)lum=val;}
+ if(page==='clock'&&config.clockBackgroundMode!=='color')lum*=1-Math.max(0,Math.min(70,Number(config.overlay)||0))/100;
+ el.style.color=lum>.23?'#111111':'#ffffff';
+}
+
+function v55xR93ScheduleActive(s,now){
+ const start=Number(s.start),end=Number(s.end);
+ if(!Number.isFinite(start)||!Number.isFinite(end)||start<=0||end<=start||now<start||now>=end)return false;
+ const weekdays=Array.isArray(s.weekdays)?s.weekdays.map(Number):[0,1,2,3,4,5,6];
+ if(!weekdays.length)return false;
+ const parse=(v,fallback)=>{if(!/^\d{2}:\d{2}$/.test(v||''))return fallback;const [h,m]=v.split(':').map(Number);return h<24&&m<60?h*60+m:fallback};
+ const from=parse(s.timeStart,0),to=parse(s.timeEnd,0),kst=new Date(now+9*3600000),day=kst.getUTCDay(),minute=kst.getUTCHours()*60+kst.getUTCMinutes();
+ if(from===to)return weekdays.includes(day);
+ if(from<to)return weekdays.includes(day)&&minute>=from&&minute<to;
+ return(weekdays.includes(day)&&minute>=from)||(weekdays.includes((day+6)%7)&&minute<to);
+}
+function renderScreen(){
+ const m=$('messageScreen'),layer=$('messageBlocks');
+ const blocks=Array.isArray(config.messageBlocks)?config.messageBlocks:[];
+ const hasBlocks=blocks.some(b=>String(b.text||'').trim());
+ const pages=activePages();
+ const durations={clock:Math.max(5,Number(config.clockSeconds)||60)*1000,message:Math.max(3,Number(config.messageSeconds)||15)*1000,weather:Math.max(5,Number(config.weatherSeconds)||20)*1000};
+ const sum=pages.reduce((n,k)=>n+durations[k],0);let elapsed=(Date.now()-screenStarted)%sum;
+ let next=pages[pages.length-1];
+ window.r222CycleInfo={pages:pages.slice(),durations:durations,remaining:0,current:next};
+ for(const page of pages){if(elapsed<durations[page]){next=page;break}elapsed-=durations[page]}
+ window.r222CycleInfo.remaining=Math.max(0,durations[next]-elapsed);window.r222CycleInfo.current=next;
+ // R145: a scheduled priority broadcast overrides normal message-page enablement.
+ // The schedule still requires valid dates, weekdays, time window and actual content.
+ const schedule=config.messagePrioritySchedule;
+ const now=Date.now();
+ const hasMessage=(Array.isArray(config.messageBlocks)&&config.messageBlocks.some(b=>String(b.text||'').trim()))||Boolean(String(config.messageText||config.messageHtml||'').trim());
+ const priorityTimeActive=schedule?.enabled===true&&v55xR93ScheduleActive(schedule,now);
+ const priorityLayout=schedule?.layout&&typeof schedule.layout==='object'&&!Array.isArray(schedule.layout)?schedule.layout:null;
+ const priorityHasContent=priorityLayout?((Array.isArray(priorityLayout.messageBlocks)&&priorityLayout.messageBlocks.some(b=>String(b.text||'').trim()))||Boolean(String(priorityLayout.messageText||priorityLayout.messageHtml||'').trim())):hasMessage;
+ const priorityActive=priorityTimeActive&&priorityHasContent;
+ document.body.classList.toggle('r197-priority-active',priorityActive);
+ document.body.dataset.priorityState=priorityActive?'active':priorityTimeActive?'no-content':'inactive';
+ document.body.dataset.priorityTemplate=priorityActive?String(schedule?.templateId||''):'';
+ if(priorityActive)next='message';
+ if(window.location.search.includes('priorityDebug=1')){
+   const reason=!schedule?.enabled?'예약 비활성 또는 서버 설정 누락':priorityTimeActive&&!priorityLayout&&schedule?.templateId?'예약 레이아웃 데이터 누락 · 설정 다시 저장 필요':!priorityHasContent?'예약 문자 내용 없음':priorityActive?'우선방송 진행 중':'예약 날짜·요일·시간 조건 불일치';
+   let el=document.getElementById('r145PriorityDebug');
+   if(!el){el=document.createElement('div');el.id='r145PriorityDebug';el.style.cssText='position:fixed;bottom:12px;left:12px;z-index:999999;background:#071e35ee;color:white;padding:12px 16px;border:1px solid #77caff;border-radius:9px;font:15px/1.5 sans-serif;white-space:pre-wrap;max-width:95vw';document.body.appendChild(el)}
+   el.textContent='문자 우선예약 진단: '+reason+'\n현재 시간: '+new Date(now).toLocaleString('ko-KR')+'\n예약값: '+JSON.stringify(schedule||null);
+ }
+ if(previewMode&&previewOverride)next=previewScreen;
+ screenType=next;document.body.dataset.lcdScreen=next;v51mUpdateVersionColor();
+ const normalConfig=config;
+ if(window.__r331LastPriority!==priorityActive){lastMessageMarkup='';window.__r331LastPriority=priorityActive;}
+ if(priorityActive&&priorityLayout)config={...config,...priorityLayout,messagePrioritySchedule:schedule};
+ const showing=next==='message';
+ layer.classList.toggle('active',showing&&(priorityActive?priorityHasContent&&Array.isArray(config.messageBlocks)&&config.messageBlocks.some(b=>String(b.text||'').trim()):hasBlocks));
+ m.classList.toggle('active',showing&&!(Array.isArray(config.messageBlocks)&&config.messageBlocks.some(b=>String(b.text||'').trim())));
+ v51eMessageBackground(layer);
+ if(Array.isArray(config.messageBlocks)&&config.messageBlocks.some(b=>String(b.text||'').trim())){renderBlocks()}else{
+  const html=messageMarkup(config);
+  if(html!==lastMessageMarkup){m.innerHTML='<div class="message-content">'+html+'</div>';lastMessageMarkup=html;fitLayout()}
+  m.style.textAlign=messageAlignment(config);
+  m.style.fontSize=Math.max(24,Math.min(240,Number(config.messageSize)||100))+'px';
+  m.style.color=config.messageColor||'#ffdd55';v51eMessageBackground(m);
+  m.style.fontFamily=fontValue(config.messageFont);
+ }
+ renderWeather();
+ config=normalConfig;
+}
+function weatherEmoji(code){if([1000].includes(code))return '☀️';if([1003].includes(code))return '🌤️';if([1006,1009].includes(code))return '☁️';if([1030,1135,1147].includes(code))return '☁️';if([1063,1150,1153,1180,1183,1186,1189,1192,1195,1240,1243,1246].includes(code))return '🌧️';if([1066,1069,1114,1117,1210,1213,1216,1219,1222,1225,1255,1258].includes(code))return '❄️';if([1087,1273,1276,1279,1282].includes(code))return '⛈️';return '🌥️'}
+function safeWholeV51D(v,unit,source){return v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))?(source==='kma'?Math.trunc(Number(v)):Math.round(Number(v)))+unit:'정보 없음'}
+function safeNum(v,unit){return v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))?Math.round(Number(v)*10)/10+unit:'정보 없음'}
+function fitWeatherContentV52B(){
+ const content=document.getElementById('weatherContent');
+ if(!content||!content.isConnected)return;
+ const screen=document.getElementById('weatherScreen');
+ content.style.transform='translate(-50%,-50%)';
+ const usableWidth=Math.max(100,screen.clientWidth*.88);
+ const usableHeight=Math.max(100,screen.clientHeight*.82);
+ // Use actual child boxes. scrollWidth includes longer single-line temperatures.
+ const width=Math.max(content.scrollWidth,content.offsetWidth,1);
+ const height=Math.max(content.scrollHeight,content.offsetHeight,1);
+ const factor=Math.max(.10,Math.min(1,usableWidth/width,usableHeight/height));
+ content.style.transform='translate(-50%,-50%) scale('+factor.toFixed(4)+')';
+}
+let wxFitPendingV52B=false;
+function scheduleWeatherFitV52B(){
+ if(wxFitPendingV52B)return;
+ wxFitPendingV52B=true;
+ requestAnimationFrame(()=>{wxFitPendingV52B=false;fitWeatherContentV52B()});
+}
+window.addEventListener('resize',scheduleWeatherFitV52B);
+function applyWeatherLayoutV43(){
+ const scale=viewScale();
+ const strip=$('clockWeather');
+ strip.style.left=Number(config.weatherClockX??50)+'%';
+ strip.style.top=Number(config.weatherClockY??12)+'%';
+ strip.style.fontSize=(Math.max(14,Math.max(16,Math.min(150,Number(config.weatherClockSize)||40))*scale))+'px';
+ strip.style.fontFamily=fontValue(config.weatherClockFont||'Malgun Gothic');
+ strip.style.color=config.weatherClockColor||'#ffffff';strip.style.fontWeight=config.weatherClockBold?'800':'400';
+ const content=$('weatherContent');
+ if(content){
+  content.style.left=Number(config.weatherPageX??50)+'%';
+  content.style.top=Number(config.weatherPageY??48)+'%';
+  content.style.setProperty('--wx-page-size',(Math.max(38,Math.max(40,Math.min(500,Number(config.weatherPageSize)||135))*scale))+'px');
+  const base=Math.max(40,Math.min(500,Number(config.weatherPageSize)||135))*scale;
+  const ratio=id=>1; // V52I: legacy individual-size values are ignored; use stable layout defaults
+  const statusSize=Math.max(24,Math.min(250,Number(config.weatherConditionFontSize)||60))*scale;
+  const sizes=[['temp',base*ratio('weatherTempScale'),[1,.82,.72]],['condition',base*ratio('weatherConditionScale'),[.46,.39,.34]],['extra',base*ratio('weatherExtraScale'),[.26,null,.21]]];
+  for(const [name,px,variants] of sizes){for(let j=0;j<variants.length;j++){if(variants[j]==null)continue;const suffix=['','-horizontal','-compact'][j];content.style.setProperty('--v51y-'+name+suffix+'-px',(px*variants[j])+'px');}}
+  content.style.setProperty('--v52u-status-font-size',statusSize+'px');
+  content.style.setProperty('--v51y-icon-em','1em');
+  content.style.setProperty('--v51y-emoji-em','.9em');
+  scheduleWeatherFitV52B();
+  content.style.fontFamily=fontValue(config.weatherPageFont||'Malgun Gothic');
+  content.style.color=config.weatherPageColor||'#ffffff';content.style.fontWeight=config.weatherPageBold?'800':'400';
+ }
+}
+let v45WeatherBgSignature='';
+function v45WeatherBackground(){
+ const page=$('weatherScreen');
+ const animated=config.weatherAnimationEnabled===true;
+ const mode=animated?'animated':(config.weatherBackgroundMode==='image'?'image':'color');
+ const color=/^#[0-9a-f]{6}$/i.test(String(config.weatherBackgroundColor||''))?config.weatherBackgroundColor:'#122940';
+ const path=String(config.weatherBackgroundImage||'images/background.jpg');
+ const safe=/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(path)&&!path.includes('..');
+ const signature=JSON.stringify([mode,color,path,config.version]);
+ if(signature===v45WeatherBgSignature)return;
+ v45WeatherBgSignature=signature;
+ page.style.backgroundColor=color;
+ page.style.backgroundImage=mode==='image'&&safe?'url("'+encodeURI(path)+'?v='+encodeURIComponent(String(config.version||'1'))+'")':'none';
+}
+// R357: This map uses the REAL filenames in the deployed images/ directory.
+// The former v55h_*.webp filenames do not exist in the user's repository.
+const R357_WEATHER_ASSETS=Object.freeze({
+ clear_day:'weather_clear_day.webp',clear_night:'weather_clear_night.webp',
+ sunrise:'weather_sunrise.webp',sunset:'weather_sunset.webp',
+ partly:'weather_partly.webp',partly_night:'weather_partly_night.webp',
+ cloud:'weather_cloud.webp',mist:'weather_mist.webp',
+ drizzle:'weather_drizzle.webp',rain:'weather_rain.webp',showers:'weather_showers.webp',
+ snow:'weather_snow.webp',blizzard:'weather_blizzard.webp',sleet:'weather_sleet.webp',
+ thunder:'weather_thunder.webp',sunshower:'weather_sunshower.webp'
+});
+function v55hForestName(code,isDay){
+ const n=Number(code),day=Number(isDay)!==0;
+ if(n===1000)return !day?'clear_night':(r129LandscapeKind(code,isDay)||'clear_day');
+ if(n===1003&&!day)return 'partly_night';
+ if(n===1009)return 'cloud';
+ if([1030,1135,1147].includes(n))return 'mist';
+ if([1063,1180,1186,1192,1240].includes(n))return 'sunshower';
+ return wx50Kind(code,isDay)||'cloud';
+}
+function v55hSetBackground(page,code,isDay){
+ const name=v55hForestName(code,isDay);
+ const file=R357_WEATHER_ASSETS[name]||R357_WEATHER_ASSETS.cloud;
+ const path='images/'+file+'?v=V55X-R378';
+ const jpeg='images/'+file.replace(/\.webp$/i,'.jpg')+'?v=V55X-R378';
+ let photo=page.querySelector(':scope > .v55h-forest-photo');
+ if(!photo){photo=document.createElement('img');photo.className='v55h-forest-photo';photo.alt='';photo.decoding='async';page.prepend(photo)}
+ let shade=page.querySelector(':scope > .v55h-forest-shade');
+ if(!shade){shade=document.createElement('div');shade.className='v55h-forest-shade';photo.after(shade)}
+ if(photo.dataset.path!==path){
+   photo.dataset.path=path;
+   photo.dataset.status='pending';
+   photo.dataset.attempt='webp';
+   page.classList.remove('r356-photo-ready');
+   photo.onload=()=>{
+     if(photo.dataset.path!==path)return;
+     photo.dataset.status='ok';
+     page.classList.add('r356-photo-ready');
+   };
+   photo.onerror=()=>{
+     if(photo.dataset.path!==path)return;
+     if(photo.dataset.attempt==='webp'){
+       photo.dataset.attempt='jpg';photo.src=jpeg;return;
+     }
+     photo.dataset.status='failed';
+     page.classList.remove('r356-photo-ready');
+     console.warn('[R357] weather image unavailable (WebP/JPG); falling back to scene:',name);
+     window.lcdRecoveryLogV52T?.('WEATHER_IMAGE','날씨 이미지 로딩 실패: '+name);
+   };
+   photo.src=path;
+ }
+ page.dataset.forestArt=name;
+}
+function renderWeather(){
+ const fields=Array.isArray(config.weatherFields)?config.weatherFields:['temp','condition','humidity'];
+ const clockFields=Array.isArray(config.weatherClockFields)?config.weatherClockFields:fields;
+ const clock=$('clockWeather'),page=$('weatherScreen');
+  page.dataset.weatherBackgroundMode=config.weatherAnimationEnabled===true?'animated':(config.weatherBackgroundMode==='image'?'image':'color');
+  v45WeatherBackground();
+ clock.classList.toggle('weather-on',!!config.weatherOnClock);
+ if(!config.weatherOnClock&&!config.weatherPageEnabled){clock.textContent='';/* R164: preserve weather scene while screen is inactive; no animation reset. */return}
+ if(!weatherPayloadValidV35(wxData)){
+  const msg='날씨 정보 준비 중';
+  // R353: keep an isolated, neutral weather-only animated background while loading.
+  // The next valid WeatherAPI response will replace it with the matching weather scene.
+  if(config.weatherAnimationEnabled===true){
+   if(!page.querySelector(':scope > #wx50Scene')){
+    page.replaceChildren();
+    page.classList.remove('r356-photo-ready');
+    wx50MountScene(page,1006,1);
+    const waiting=document.createElement('div');waiting.id='weatherContent';
+    waiting.className='v51x-layout v51x-summary';
+    waiting.textContent=msg;page.appendChild(waiting);
+   }
+   delete page.dataset.weatherSignature;
+  }else if(!page.querySelector(':scope > #wx50Scene'))page.textContent=msg;
+  clock.textContent=msg;return;
+ }
+ const w={...wxData};
+ // V52A: display saved Korean location rather than WeatherAPI's romanized neighborhood.
+ const knownDistrict=String(config.weatherDistrict||'').trim();
+ const cityQuery=String(config.weatherCity||'').trim();
+ w.location=String(config.weatherLocationLabel||'').trim()||String(config.weatherDong||'').trim()||
+   String(w.location||cityQuery||'Seoul');
+ const vals={temp:safeWholeV51D(w.temperature,'°',w.source),condition:v55xR7WeatherLabel(w.conditionCode,w.condition),feelslike:'체감 '+safeWholeV51D(w.feelsLike,'°',w.source),humidity:'습도 '+safeNum(w.humidity,'%'),wind:'풍속 '+safeNum(w.windKph,'km/h')};
+ const picked=fields.map(k=>vals[k]).filter(Boolean);
+ const clockPicked=clockFields.map(k=>vals[k]).filter(Boolean);
+ const mark=weatherEmoji(w.conditionCode);const wxIconBg=config.weatherAnimationEnabled===true?'':(config.weatherBackgroundMode==='image'?config.weatherBackgroundImage:'');const clockIconBg=config.clockBackgroundMode==='image'?config.background:'';
+ const wxSceneKind=wx50Kind(w.conditionCode,w.isDay);const wxSceneIconBg=({sun:'#b6e3f6',moon:'#13233f',partly:'#b4dbe9',cloud:'#91a9ba',rain:'#304e6a',snow:'#d8e9f3',thunder:'#23314a'})[wxSceneKind]||'#122940';
+ const clockLayout=['horizontal','summary','compact'].includes(config.weatherClockLayout)?config.weatherClockLayout:'horizontal';
+ clock.classList.remove('v51x-horizontal','v51x-summary','v51x-compact');clock.classList.add('v51x-'+clockLayout);
+ const clockLocation=config.weatherClockShowLocation!==false?String(w.location||config.weatherCity||'Seoul'):'';
+ const clockText=clockLayout==='summary'?(clockLocation?clockLocation+'\n':'')+clockPicked.join(' · '):(clockLocation?clockLocation+' · ':'')+clockPicked.join(' · ');
+ wx49Append(clock,w.conditionCode,w.isDay,config,clockText,config.clockBackgroundColor||'#17283b',clockIconBg,config.clockBackgroundMode==='image'?config.overlay:0,()=>{delete clock.dataset.wx49Key;renderWeather()});
+ applyWeatherLayoutV43();
+ const date=new Date(w.updatedAt||Date.now());
+ const stale=Date.now()-(w.updatedAt||0)>30*60*1000;
+ const sig=JSON.stringify([previewMode?window.__r131TestScene:'',r129LandscapeKind(w.conditionCode,w.isDay),picked,stale,config.weatherCity,fields,config.weatherShowLocation,config.weatherPageX,config.weatherPageY,config.weatherPageSize,config.weatherConditionFontSize,config.weatherPageLayout,config.weatherPageFont,config.weatherPageColor,config.weatherIconStyle,config.weatherIconColorMode,config.weatherIconColor,config.weatherBackgroundMode,config.weatherBackgroundColor,config.weatherBackgroundImage,config.version,config.weatherAnimationEnabled===true,w.conditionCode,w.isDay,wx49ImageLuma.get(wxIconBg)]);
+ if(page.dataset.weatherSignature===sig)return;
+ page.dataset.weatherSignature=sig;
+ // R161: preserve the active particle scene across frequent server/weather refreshes.
+ // Recreating it resets every CSS animation simultaneously and looks like a pause.
+ const desiredKind=(previewMode && window.__r131TestScene==='mist')?'mist':wx50Kind(w.conditionCode,w.isDay);
+ const previousScene=page.querySelector(':scope > #wx50Scene');
+ const keepScene=config.weatherAnimationEnabled===true && previousScene && previousScene.classList.contains('wx50-'+desiredKind);
+ // R163: never detach the active scene; detaching restarts CSS animations.
+ // Only remove sibling text/background nodes, leaving the particle DOM mounted.
+ if(keepScene){
+  // R362 weather only: frequent preview/config refresh must not destroy the
+  // loaded WebP photograph or the running R361 star-canvas layer.
+  const persistentWeatherLayers=new Set(['v55h-forest-photo','v55h-forest-shade','r361-night-canvas']);
+  for(const child of Array.from(page.children)){
+   if(child!==previousScene && ![...child.classList].some(cls=>persistentWeatherLayers.has(cls)))child.remove();
+  }
+ }else{
+  page.replaceChildren();
+ }
+ if(config.weatherAnimationEnabled===true){
+  v55hSetBackground(page,w.conditionCode,w.isDay);
+  if(!keepScene)wx50MountScene(page,w.conditionCode,w.isDay);
+  // R362: the 12-scene test iframe must show the same weather WebP + moving scene as live LCD.
+ }
+ const content=document.createElement('div');content.id='weatherContent';
+ const pageLayout=['horizontal','summary','compact'].includes(config.weatherPageLayout)?config.weatherPageLayout:'summary';
+ content.className='v51x-layout v51x-'+pageLayout;page.appendChild(content);
+ const primary=document.createElement('div');primary.className='v51x-primary';
+ const add=(cls,text)=>{const el=document.createElement('div');el.className=cls;el.textContent=text;content.appendChild(el)};
+ if(config.weatherShowLocation!==false)add('wx-place',String(w.location||config.weatherCity||'날씨'));
+ const wxMain=document.createElement('div');wxMain.className='wx-main';primary.appendChild(wxMain);wx49Append(wxMain,w.conditionCode,w.isDay,config,fields.includes('temp')?vals.temp:'',config.weatherAnimationEnabled===true?wxSceneIconBg:(config.weatherBackgroundColor||'#122940'),wxIconBg,0,()=>{delete page.dataset.weatherSignature;renderWeather()});
+ if(fields.includes('condition')){const el=document.createElement('div');el.className='wx-condition';el.textContent=vals.condition;primary.appendChild(el)}
+ content.appendChild(primary);
+ add('wx-extra',fields.filter(k=>!['temp','condition'].includes(k)).map(k=>vals[k]).join('    ·    '));
+ // V51A: keep source attribution in the bottom-right of the full weather page.
+ const sourceFoot=document.createElement('div');
+ sourceFoot.className='wx-foot';
+ sourceFoot.textContent=(w.source==='kma'?'기상청':w.source==='weatherapi'?'WeatherAPI.com':'제공처 확인 필요')+' · '+(stale?'이전 정보 · ':'')+'갱신 '+date.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+ content.appendChild(sourceFoot);
+ applyWeatherLayoutV43();
+}
+window.r354WeatherAutoLinkState=function(){
+ const page=document.getElementById('weatherScreen');
+ const s=page?.querySelector(':scope > #wx50Scene');
+ const ready=weatherPayloadValidV35(wxData);
+ return {enabled:config.weatherAnimationEnabled===true,rawWeatherCode:wxData?.conditionCode??null,
+  condition:wxData?.condition||'',kind:ready?wx50Kind(wxData.conditionCode,wxData.isDay):'loading',
+  scene:s?.className||'none',imageStatus:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.status||'none',
+  imagePath:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.path||'',
+  imageAttempt:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.attempt||'',
+  weatherAvailable:ready,lastResponse:wxLastResponseV40,mode:page?.dataset.weatherBackgroundMode||'none'};
+};
+// V40: independent, single-endpoint JSONP transport. No overlapping requests.
+// V34 weatherCheck is known to return a flat object with ok, temperature, condition and humidity.
+function weatherPayloadValidV35(d){
+ return !!(d && d.ok===true && d.temperature!==null && d.temperature!==undefined && d.temperature!=='' &&
+   Number.isFinite(Number(d.temperature)) && typeof d.condition==='string' && d.condition.trim()!=='' &&
+   d.humidity!==null && d.humidity!==undefined && d.humidity!=='' && Number.isFinite(Number(d.humidity)));
+}
+const WX_CACHE_KEY_V37='lcd_weather_v48';
+let wxFailuresV36=0,wxLastDetailV36='',wxLastGoodAtV36=0;
+let wxFlightV37=0,wxStartedV37=0,wxNextV37=0;
+let wxRequestCountV40=0,wxLastResponseV40='대기',wxLastEndpointV40='';
+function wxLogV36(text){
+ wxLastDetailV36=String(text||'');
+ if(window.wxDebugShowV40){
+  const state=wxPending?'요청 중':'대기';
+  const url=(typeof apiUrl==='function' ? apiUrl() : '');
+  const host=url ? (function(){try{return new URL(url).hostname}catch(_){return '주소 오류'}})() : '주소 미설정';
+  window.wxDebugShowV40('연결: '+host+' / '+state+'\n조회 횟수: '+wxRequestCountV40+' / 마지막 응답: '+wxLastResponseV40+'\n'+wxLastDetailV36);
+ }
+}
+function wxAcceptV36(w){
+ wxData=w;wxError='';wxFailuresV36=0;wxLastGoodAtV36=Date.now();
+ wxLastResponseV40='성공 · '+String(w.temperature)+'°';
+ window.lcdRecoveryLogV52T?.('WEATHER','정상 갱신');
+ wxLogV36('정상 수신 · '+String(w.location||config.weatherCity||'Seoul')+' · '+String(w.condition));
+ try{localStorage.setItem(WX_CACHE_KEY_V37,JSON.stringify({...w,querySource:config.weatherSource||'weatherapi',queryCity:config.weatherCity||'Seoul',queryLabel:config.weatherLocationLabel||'',cachedAt:Date.now()}))}catch(_){}
+}
+function weatherJsonpV40(action,timeoutMs=12000){
+ return new Promise((resolve,reject)=>{
+  const callback='lcdWx40_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);
+  const script=document.createElement('script');let settled=false;
+  let timer;
+  function finish(error,data){
+   if(settled)return;
+   settled=true;clearTimeout(timer);
+   try{delete window[callback]}catch(_){}
+   script.remove();error?reject(error):resolve(data);
+  }
+  window[callback]=data=>finish(null,data);
+  script.onerror=()=>finish(Error('JSONP 스크립트 로드 실패. 웹앱 배포 접근 권한(모든 사용자) 또는 서버 주소를 확인하세요.'));
+  try{
+   if(typeof apiUrl!=='function'||typeof apiReady!=='function'||!apiReady())throw Error('config.js의 LCD 웹앱 /exec 주소를 확인하세요.');
+   const url=new URL(apiUrl());
+   url.searchParams.set('action',action);
+   url.searchParams.set('callback',callback);
+   url.searchParams.set('_',String(Date.now()));
+   wxLastEndpointV40=url.origin+url.pathname;
+   timer=setTimeout(()=>finish(Error('날씨 서버 응답 시간 초과 ('+Math.round(timeoutMs/1000)+'초). 웹앱 접근 권한과 JSONP 응답을 확인하세요.')),timeoutMs);
+   script.src=url.toString();document.head.appendChild(script);
+  }catch(e){finish(e)}
+ });
+}
+function weatherNeededV43(){return !!(config.weatherPageEnabled||(config.clockPageEnabled!==false&&config.weatherOnClock));}
+function wxRefreshMsV42(){const n=Number(config.weatherRefreshMinutes);return ([5,10,15,30].includes(n)?n:15)*60000;}
+async function refreshWeather(force=false){
+ if(forceOffline||previewMode||!weatherNeededV43())return;
+ if(wxPending)return;
+ const now=Date.now();if(!force&&now<wxNextV37)return;
+ wxPending=true;wxStartedV37=now;wxLast=now;wxRequestCountV40++;
+ const flight=++wxFlightV37;
+ wxLogV36('V43 weather 요청 시작 · '+(config.weatherCity||'Seoul'));
+ if(!weatherPayloadValidV35(wxData)){wxError='날씨 서버에 연결 중…';renderWeather()}
+ try{
+  const result=r354NormalizeWeather(await weatherJsonpV40('weather',12000));
+  if(flight!==wxFlightV37)return;
+  if(!weatherPayloadValidV35(result)){
+   const detail=String(result&&result.error||result&&result.message||result&&result.stage||'필수 기온/날씨/습도 데이터 누락');
+   throw Error('날씨 응답 오류: '+detail);
+  }
+  if((config.weatherSource||'weatherapi')==='kma'&&result.source!=='kma')throw Error('기상청 선택 상태에서 다른 제공처 응답이 수신되었습니다.');
+  wxAcceptV36(result);
+  wxNextV37=Date.now()+wxRefreshMsV42();
+ }catch(e){
+  if(flight!==wxFlightV37)return;
+  wxFailuresV36++;
+  wxNextV37=Date.now()+Math.min(120000,15000*wxFailuresV36);
+  wxLastResponseV40='실패 '+wxFailuresV36+'회';
+  window.lcdRecoveryLogV52T?.('WEATHER','날씨 재조회 실패 · 이전 정보 유지 ('+wxFailuresV36+'회)');
+  const detail=String(e&&e.message||e);
+  if(!weatherPayloadValidV35(wxData))wxError='날씨 조회 실패 · '+detail.slice(0,160);
+  wxLogV36(detail);
+ }finally{
+  if(flight===wxFlightV37){
+   wxPending=false;wxStartedV37=0;
+   renderWeather();
+   // Keep the last outcome visible. Do not replace it with a generic "checking" message.
+   wxLogV36(wxLastDetailV36);
+  }
+ }
+}
+function wxRestoreCacheV37(){
+ try{
+  const d=r354NormalizeWeather(JSON.parse(localStorage.getItem(WX_CACHE_KEY_V37)||'null'));
+  if(weatherPayloadValidV35(d)&&((config.weatherSource||'weatherapi')!=='kma'||d.source==='kma')&&d.querySource===(config.weatherSource||'weatherapi')&&d.queryCity===(config.weatherCity||'Seoul')&&d.queryLabel===(config.weatherLocationLabel||'')&&
+     Number.isFinite(Number(d.cachedAt))&&Date.now()-Number(d.cachedAt)<72*3600000){
+   wxData=d;wxLastGoodAtV36=Number(d.cachedAt);wxLast=Number(d.cachedAt);wxNextV37=Math.max(wxNextV37,Number(d.cachedAt)+wxRefreshMsV42());wxLastResponseV40='저장된 날씨 표시';renderWeather();
+  }
+ }catch(_){}
+}
+// Independent scheduler: runs even if configuration refresh is in progress.
+setInterval(()=>{
+ if(previewMode||forceOffline||!weatherNeededV43())return;
+ if(wxPending&&wxStartedV37&&Date.now()-wxStartedV37>16000){
+  wxFlightV37++;wxPending=false;wxStartedV37=0;
+  wxNextV37=Date.now()+15000;
+  wxLastResponseV40='시간 초과';
+  if(!weatherPayloadValidV35(wxData))wxError='날씨 서버 응답 시간 초과 · 웹앱 공개 접근 권한을 확인하세요.';
+  wxLogV36('16초 이상 응답 없음 · JSONP callback 미실행');renderWeather();
+ }
+ if(!wxPending&&Date.now()>=wxNextV37)refreshWeather();
+},3000);
+function v51eMessageBackground(el){
+ const mode=config.messageBackgroundMode==='image'?'image':'color';
+ const color=config.messageBackground||'#101827';
+ const path=String(config.messageBackgroundImage||'images/background.jpg');
+ const valid=/^images\/[a-zA-Z0-9가-힣._ -]+\.(jpg|jpeg|png|webp)$/i.test(path)&&!path.includes('..');
+ el.style.backgroundColor=color;
+ el.style.backgroundImage=mode==='image'&&valid?'url("'+encodeURI(path)+'")':'none';
+ el.style.backgroundSize='cover';el.style.backgroundPosition='center';el.style.backgroundRepeat='no-repeat';
+}
+function renderBlocks(){
+ const layer=$('messageBlocks');if(!layer)return;
+ const blocks=Array.isArray(config.messageBlocks)?config.messageBlocks:[];
+ const signature=JSON.stringify(blocks);
+ if(layer.dataset.signature!==signature){
+  layer.replaceChildren();
+  for(const b of blocks){
+   const el=document.createElement('div');el.className='lcd-block';el.innerHTML=b.html?r247Safe(b.html):'';if(!b.html)el.textContent=String(b.text||'');
+   el.style.left=(Number(b.x??50))+'%';el.style.top=(Number(b.y??50))+'%';
+   el.style.width=Math.max(100,Math.min(1800,Number(b.width)||900))+'px';
+   el.style.fontSize=Math.max(16,Math.min(300,Number(b.size)||100))+'px';
+   el.style.fontFamily=fontValue(b.font);el.style.color=/^#[0-9a-f]{6}$/i.test(b.color||'')?b.color:'#ffdd55';
+   el.style.textAlign=['left','center','right'].includes(b.align)?b.align:'center';el.style.fontWeight=b.bold?'800':'400';el.style.textDecoration=b.underline?'underline':'none';
+   el.style.overflowWrap=b.wrap===false?'normal':'break-word';el.style.wordBreak='normal';
+   layer.appendChild(el);
+  }
+  layer.dataset.signature=signature;
+ }
+ const scale=viewScale();
+ for(let i=0;i<layer.children.length;i++){const el=layer.children[i],b=blocks[i];el.style.width=(Math.max(100,Math.min(1800,Number(b.width)||900))*scale)+'px';el.style.fontSize=(Math.max(16,Math.min(300,Number(b.size)||100))*scale)+'px';el.style.padding=(8*scale)+'px'}
+ v51eMessageBackground(layer);
+}
+function updateBackground(){ $('bg').style.backgroundColor=config.clockBackgroundColor||'#17283b';if(config.clockBackgroundMode==='color'){$('bg').style.backgroundImage='none';return;} const path=String(config.background||DEFAULT.background);if(!/^images\/[\w가-힣 .-]+\.(jpg|jpeg|png|webp)$/i.test(path)||path.includes('..'))return;const url=path+'?v='+Date.now();const img=new Image();img.onload=()=>{$('bg').style.backgroundImage='url("'+url+'")';lastBg=url;v51mUpdateVersionColor(true)};img.src=url}
+async function refresh(){
+ if(previewMode&&previewOverride)return;
+ if(syncRunning)return;
+ syncRunning=true;
+ try{
+  if(forceOffline)throw Error('인터넷 장애 테스트 모드');
+  if(!navigator.onLine)throw Error('오프라인');
+  const c=await getRemote(12000);
+  const signature=JSON.stringify(c);
+  if(signature!==lastConfigSignature){
+    apply(c);
+    lastConfigSignature=signature;
+    updateBackground();
+  }
+  try{localStorage.setItem('lcd_v52s_last_config',JSON.stringify({config:c,at:Date.now()}))}catch(_){}
+  if(failCount>0)window.lcdRecoveryLogV52T?.('SERVER','설정 서버 연결 복구');
+  lastSyncAt=Date.now();failCount=0;$('offline').classList.remove('visible');
+  if(weatherNeededV43())setTimeout(()=>refreshWeather(),100);
+  if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);window.__lcdBootGuard?.ready()}
+  if(!new URLSearchParams(location.search).has('debug'))$('status').textContent='';
+ }catch(e){failCount++;window.lcdRecoveryLogV52T?.('SERVER','설정 조회 실패 · 기존 화면 유지 ('+failCount+'회): '+String(e&&e.message||e));$('status').textContent='서버 동기화 오류: '+e.message;if(window.wxDebugShowV40)window.wxDebugShowV40('설정 서버 통신 오류: '+e.message);
+ if(forceOffline||!navigator.onLine||failCount>=1){$('offline').classList.remove('visible');if(!firstReady){firstReady=true;clearTimeout(bootWatchdog);window.__lcdBootGuard?.fail('설정 서버 통신 실패: '+e.message)}}
+ else if(!firstReady){$('boot').querySelector('div:last-child').textContent='서버에 다시 연결하고 있습니다...'}
+ }
+ finally{syncRunning=false}
+}
+// PC 절전 복귀, 탭 전환, 네트워크 복구 시 즉시 동기화
+function resumeSync(){if(Date.now()-lastSyncAt>1500)refresh()}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)resumeSync()});
+window.addEventListener('focus',resumeSync);
+window.addEventListener('pageshow',resumeSync);
+window.addEventListener('online',()=>{window.lcdRecoveryLogV52T?.('NETWORK','인터넷 연결 복구 감지');resumeSync();refreshWeather(true)});
+window.addEventListener('offline',()=>window.lcdRecoveryLogV52T?.('NETWORK','인터넷 연결 끊김 · 화면 유지'));
+// LCD 전체화면 제어: 화면 클릭, ESC로 해제; F11은 브라우저에서 처리
+let fullscreenStartedAt=0;
+let exitingFullscreen=false;
+async function leaveFullscreen(){
+ if(!document.fullscreenElement||exitingFullscreen)return;
+ exitingFullscreen=true;
+ try{await document.exitFullscreen()}catch(err){console.warn('전체화면 해제 실패',err)}
+ finally{exitingFullscreen=false}
+}
+$('full').onclick=async()=>{
+ try{
+  if(document.fullscreenElement){await leaveFullscreen();return}
+  await document.documentElement.requestFullscreen();
+ }catch(e){$('status').textContent='전체화면 실행 제한: F11을 이용하세요.'}
+};
+$('exitFull').onclick=leaveFullscreen;
+document.addEventListener('fullscreenchange',()=>{
+ fullscreenStartedAt=document.fullscreenElement?Date.now():0;
+
+ $('full').textContent='⛶ 전체화면';
+ $('exitFull').style.display='none';
+});
+// R199: bottom-right proximity only, consistent across clock/message/weather.
+// Do not exit fullscreen on arbitrary LCD clicks; ESC remains browser-controlled.
+(function(){
+ const zoneWidth=170,zoneHeight=125;
+ function update(x,y){
+  const near=x>=innerWidth-zoneWidth&&y>=innerHeight-zoneHeight;
+  document.body.classList.toggle('r199-full-hover',near&&!document.fullscreenElement);
+ }
+ document.addEventListener('pointermove',e=>{
+  if(e.pointerType==='touch')return;
+  update(e.clientX,e.clientY);
+ },{passive:true});
+ // R221: touch screens have no hover. A tap reveals the fullscreen control briefly.
+ let touchRevealTimer=0;
+ function revealOnTouch(e){
+  if(e.pointerType!=='touch'||document.fullscreenElement)return;
+  if(e.target&&e.target.closest&&e.target.closest('#full,#exitFull'))return;
+  document.body.classList.add('r199-full-hover');
+  clearTimeout(touchRevealTimer);
+  touchRevealTimer=setTimeout(()=>document.body.classList.remove('r199-full-hover'),4500);
+ }
+ document.addEventListener('pointerdown',revealOnTouch,{passive:true});
+ document.addEventListener('pointerleave',e=>{if(e.pointerType!=='touch')document.body.classList.remove('r199-full-hover')});
+ window.addEventListener('blur',()=>document.body.classList.remove('r199-full-hover'));
+ document.addEventListener('fullscreenchange',()=>document.body.classList.remove('r199-full-hover'));
+})();
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&document.fullscreenElement){leaveFullscreen();return}
+ // 브라우저의 F11 모드는 브라우저가 직접 전환합니다.
+ // 브라우저 F11은 다시 F11로 전환합니다.
+ // F11은 브라우저 기본 동작에 맡깁니다. 웹페이지가 F11 모드를 강제로 제어할 수 없습니다.
+});
+// R222: manual previous/next navigation of enabled LCD pages; automatic schedule remains intact.
+(function(){
+ const style=document.createElement('style');style.id='r222-navigation-style';style.textContent=`
+ #r222Prev,#r222Next,#r222Countdown{position:fixed;z-index:2147482000;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+ #r222Prev,#r222Next{top:50%;transform:translateY(-50%);width:48px;height:76px;padding:0;border:1px solid #ffffff30;border-radius:12px;background:rgba(9,29,53,.12);color:rgba(255,255,255,.72);box-shadow:none;text-shadow:0 1px 5px #0009;font:700 38px/1 Arial,sans-serif;touch-action:manipulation;}
+ #r222Prev{left:8px}#r222Next{right:8px}
+ #r222Countdown{top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);border-radius:8px;background:transparent;color:rgba(255,255,255,.72);text-shadow:0 1px 5px #000b;padding:5px 11px;font:600 12px/1.3 Arial,'Malgun Gothic',sans-serif;white-space:nowrap;}
+ body.r222-controls-visible #r222Prev:not(:disabled),body.r222-controls-visible #r222Next:not(:disabled),body.r222-controls-visible #r222Countdown{opacity:.78;pointer-events:auto;}
+ #r222Prev:disabled,#r222Next:disabled{display:none!important}
+ @media(max-width:600px){#r222Prev,#r222Next{width:39px;height:62px;font-size:30px}#r222Countdown{font-size:11px;top:max(7px,env(safe-area-inset-top))}}
+ `;document.head.appendChild(style);
+ const prev=document.createElement('button'),next=document.createElement('button'),count=document.createElement('div');
+ prev.id='r222Prev';next.id='r222Next';count.id='r222Countdown';prev.textContent='‹';next.textContent='›';prev.type=next.type='button';prev.setAttribute('aria-label','이전 LCD 화면');next.setAttribute('aria-label','다음 LCD 화면');count.setAttribute('aria-live','off');document.body.append(prev,next,count);
+ let hideTimer=0;
+ function show(ms){document.body.classList.add('r222-controls-visible');clearTimeout(hideTimer);hideTimer=setTimeout(()=>document.body.classList.remove('r222-controls-visible'),ms)}
+ function navigate(direction){
+  const info=window.r222CycleInfo;if(!info||info.pages.length<2)return;
+  if(document.body.classList.contains('r197-priority-active'))return;
+  const index=info.pages.indexOf(screenType);const target=info.pages[(Math.max(index,0)+direction+info.pages.length)%info.pages.length];
+  const durations=info.durations;let offset=0;for(const page of info.pages){if(page===target)break;offset+=durations[page]}
+  screenStarted=Date.now()-offset;renderScreen();show(3500);
+ }
+ prev.addEventListener('click',e=>{e.stopPropagation();navigate(-1)});
+ next.addEventListener('click',e=>{e.stopPropagation();navigate(1)});
+ document.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'||e.pointerType==='pen')show(2400)},{passive:true});
+ document.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&!e.target.closest('#r222Prev,#r222Next'))show(4500)},{passive:true});
+ document.addEventListener('pointerleave',e=>{if(e.pointerType!=='touch'){clearTimeout(hideTimer);document.body.classList.remove('r222-controls-visible')}});
+ window.addEventListener('blur',()=>document.body.classList.remove('r222-controls-visible'));
+ setInterval(()=>{
+  const info=window.r222CycleInfo;if(!info)return;
+  const priority=document.body.classList.contains('r197-priority-active');
+  prev.disabled=next.disabled=info.pages.length<2||priority||Boolean(previewMode);
+  const label={clock:'날짜·시간',message:'문자',weather:'날씨'}[screenType]||screenType;
+  count.textContent=priority?'문자 우선예약 표시 중':label+' · 다음 화면 '+Math.ceil(info.remaining/1000)+'초';
+ },250);
+})();
+// V52S: on a cold offline start use the last successfully applied settings if cached.
+// No synthetic weather data is added; weather's previous cache is handled separately.
+if(!previewMode){
+ try{
+  const remembered=JSON.parse(localStorage.getItem('lcd_v52s_last_config')||'null');
+  if(remembered&&remembered.config&&typeof remembered.config==='object'&&remembered.at){
+   apply(remembered.config);lastConfigSignature=JSON.stringify(remembered.config);updateBackground();
+   wxRestoreCacheV37();window.lcdRecoveryLogV52T?.('BOOT','저장된 화면 설정 복원');
+  }else{window.lcdRecoveryLogV52T?.('BOOT','저장된 설정 없음 · 기본 시계로 시작')}
+  // Clock stays live even if Apps Script and WeatherAPI are unreachable.
+  draw();renderScreen();firstReady=true;window.__lcdBootGuard?.ready();
+  window.__lcdCoreStartedV52T=true;
+ }catch(e){window.lcdRecoveryLogV52T?.('BOOT','이전 설정 복원 실패 · 기본 설정 사용');
+   try{draw();renderScreen();firstReady=true;window.__lcdBootGuard?.ready();window.__lcdCoreStartedV52T=true}catch(_){}
+ }
+}
+// Start with an opaque loading layer. If external API never responds, never leave the LCD stuck on loading.
+bootWatchdog=setTimeout(()=>{
+ if(firstReady)return;
+ firstReady=true;
+ $('offline').classList.remove('visible');
+ $('status').textContent='설정 서버 응답 지연 · 기존 화면 유지 중';
+ window.__lcdBootGuard?.fail('설정 서버 응답 지연 (14초). 연결을 자동으로 다시 시도합니다.');
+},14000);
+setInterval(()=>{if(firstReady){try{draw();renderScreen()}catch(e){window.lcdRecoveryLogV52T?.('RENDER','화면 갱신 오류 · 다음 주기 재시도: '+String(e&&e.message||e))}}},500);
+if(previewMode){
+ window.addEventListener('message',e=>{
+  if(e.origin!==location.origin||!e.data||e.data.kind!=='lcd-preview-config')return;
+  previewOverride=true;previewScreen=['clock','message','weather'].includes(e.data.mode)?e.data.mode:'clock';
+  // R132: set the forced landscape BEFORE apply() renders the first frame.
+  window.__r131TestScene=(e.data.testScene && previewMode)?String(e.data.testScene):'';
+  apply(e.data.config||{});
+  // R143: preview settings must paint the clock background too.
+  // Normal server refresh calls updateBackground(), but preview bypasses refresh.
+  updateBackground();
+  // The sample is preview-only; never save it to server/device weather cache.
+  const incoming=e.data.weatherData;
+  if(incoming&&Number.isFinite(Number(incoming.temperature))){
+   wxData=r354NormalizeWeather({...incoming,updatedAt:Number(incoming.updatedAt)||Date.now()});
+  }else if(e.data.weatherDemo===true){
+   wxData={ok:true,temperature:18,condition:'맑음 (배치 예시)',conditionCode:1000,isDay:1,humidity:53,feelsLike:17,windKph:2.1,location:'미리보기',updatedAt:Date.now()};
+  }
+  delete $('weatherScreen').dataset.weatherSignature;
+  if(previewScreen==='weather')renderWeather();
+  renderScreen();$('offline').classList.remove('visible');
+  if($('boot'))$('boot').remove();firstReady=true;
+ });
+ window.parent.postMessage({kind:'lcd-preview-ready'},location.origin);
+ setTimeout(()=>{if(!previewOverride)refresh()},2500);
+}else if(new URLSearchParams(location.search).has('weatherTest')){
+ // Diagnostic mode can fetch weather even when config retrieval is broken.
+ try{
+  apply({...DEFAULT,clockPageEnabled:false,messageEnabled:false,weatherPageEnabled:true,weatherOnClock:true,weatherCity:'Seoul'});
+  firstReady=true;
+  window.__lcdBootGuard?.ready();
+  wxLogV36('날씨 전용 진단: 서버 조회 시작');
+  refreshWeather(true);
+ }catch(e){window.__lcdBootGuard?.fail('날씨 진단 초기화 실패: '+e.message)}
+}else refresh();
+/* R160: remote settings sync every 3 seconds; only changed settings are applied. */
+setInterval(()=>{if(!previewMode&&!new URLSearchParams(location.search).has('weatherTest'))refresh()},3000);
+setInterval(()=>refreshWeather(),60000);
+</script><script id="r165-weather-diagnostics">
+/* R165: passive diagnostic; activated only with ?rainDiag=1. */
+(function(){
+ if(!new URLSearchParams(location.search).has('rainDiag'))return;
+ const records=[];let scene=null,starts=0,changes=0,lastSceneAt=0;
+ const panel=document.createElement('pre');panel.id='r165RainDiag';
+ panel.style.cssText='position:fixed;z-index:2147483600;left:8px;top:8px;max-width:80vw;max-height:35vh;overflow:auto;padding:9px;background:#071a2eea;color:#b5f7d4;font:12px/1.4 monospace;pointer-events:none;white-space:pre-wrap';
+ document.body.appendChild(panel);
+ function note(kind,detail){records.push(new Date().toLocaleTimeString('ko-KR',{hour12:false})+' '+kind+' '+detail);if(records.length>9)records.shift();update();}
+ function update(){const el=document.querySelector('#weatherScreen > #wx50Scene');panel.textContent='R165 강수 진단 | 장면 교체 '+changes+'회 | 애니메이션 시작 '+starts+'회\n현재 '+(el?.className||'없음')+' | '+(el?.querySelectorAll('.wx50-drop,.wx50-flake').length||0)+'입자\n'+records.join('\n');}
+ document.addEventListener('animationstart',function(e){if(e.target.matches?.('#weatherScreen #wx50Scene .wx50-drop,#weatherScreen #wx50Scene .wx50-flake')){starts++;if(starts<=5||starts%25===0)note('ANIMATION_START',e.animationName)}},true);
+ const obs=new MutationObserver(function(){const now=document.querySelector('#weatherScreen > #wx50Scene');if(now!==scene){scene=now;changes++;lastSceneAt=Date.now();note('SCENE_CHANGE',now?.className||'removed');}});
+ obs.observe(document.getElementById('weatherScreen'),{childList:true,subtree:false});scene=document.querySelector('#weatherScreen > #wx50Scene');note('START','진단 활성화');setInterval(update,1000);
+})();
+</script><script id="v54-fixed-runtime">(function(){function update(){var e=document.querySelector('#weatherScreen #wx50Scene');if(!e)return;var h=new Date().getHours(),phase=h<5||h>=20?'night':h<7?'dawn':h<9?'sunrise':h>=17?'sunset':'';e.classList.remove('v54-night','v54-dawn','v54-sunrise','v54-sunset');if(phase)e.classList.add('v54-'+phase);var n=40;try{n=Number(localStorage.getItem('v54_pastel_dim')||40)}catch(_){}e.style.setProperty('--v54-darkness',String(Math.max(0,Math.min(60,n))/100))}function start(){new MutationObserver(update).observe(document.body,{childList:true,subtree:true});update();setInterval(update,60000)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start()})();</script><script id="r109MainTextScript">
+(function(){
+function draw(){
+ const cfg=typeof config==='object'?config:{};
+ for(const type of ['clock','weather']){
+  const v=cfg[type+'CustomText']||{};
+  let el=document.getElementById(type==='clock'?'r109ClockText':'r109WeatherText');
+
+  if(!el)continue;
+  const text=String(v.text||'').slice(0,500);if(el.textContent!==text)el.textContent=text;const display=v.enabled&&text?'block':'none';if(el.style.display!==display)el.style.display=display;
+  el.style.left=Math.min(100,Math.max(0,Number(v.x??50)))+'%';el.style.top=Math.min(100,Math.max(0,Number(v.y??72)))+'%';
+  el.style.fontSize=Math.max(16,Math.min(300,Number(v.size)||62))*Math.min(innerWidth/1920,innerHeight/1080)+'px';
+  el.style.color=/^#[0-9a-f]{6}$/i.test(v.color||'')?v.color:'#ffffff';
+  el.style.fontWeight=v.bold?'800':'400';
+  el.style.textShadow=(type==='weather'&&v.shadow===false)?'none':'0 2px 8px #000a';
+ }
+}
+window.r109Draw=draw;
+window.addEventListener('resize',draw);
+setInterval(draw,1200);
+})();
+</script><script id="r179-weather-clock-logic">(function(){'use strict';
+const defaults={weatherShowTime:false,weatherShowDate:false,weatherTimeX:50,weatherTimeY:13,weatherTimeSize:70,weatherTimeColor:'#ffffff',weatherTimeFont:'Malgun Gothic',weatherTimeBold:false,weatherTimeFormat:'24s',weatherTimeShadow:true,weatherDateX:50,weatherDateY:88,weatherDateSize:34,weatherDateColor:'#ffffff',weatherDateFont:'Malgun Gothic',weatherDateBold:false,weatherDateFormat:'long',weatherDateShadow:true};
+function tick(){try{const page=document.getElementById('weatherScreen');if(!page)return;let overlay=page.querySelector('#r179WeatherClock');if(!overlay){overlay=document.createElement('div');overlay.id='r179WeatherClock';overlay.innerHTML='<div id="r179WeatherTime"></div><div id="r179WeatherDate"></div>';page.appendChild(overlay)}const c=typeof config==='object'?config:{};const p=typeof nowParts==='function'?nowParts():null;for(const [id,prefix,show,formatKey,formatter] of [['r179WeatherTime','weatherTime','weatherShowTime','timeFormat','fmtTime'],['r179WeatherDate','weatherDate','weatherShowDate','dateFormat','fmtDate']]){const el=overlay.querySelector('#'+id);if(!el)continue;el.style.display=c[show]===true?'block':'none';if(c[show]!==true)continue;const format=c[prefix+'Format']||defaults[prefix+'Format'];const f=window[formatter]||(formatter==='fmtTime'&&typeof fmtTime==='function'?fmtTime:null)||(formatter==='fmtDate'&&typeof fmtDate==='function'?fmtDate:null);el.textContent=f&&p?f({...c,[formatKey]:format},p):new Date().toLocaleString('ko-KR');el.style.left=(Number(c[prefix+'X']??defaults[prefix+'X']))+'%';el.style.top=(Number(c[prefix+'Y']??defaults[prefix+'Y']))+'%';el.style.fontSize=(Number(c[prefix+'Size']??defaults[prefix+'Size'])*(typeof viewScale==='function'?viewScale():1))+'px';el.style.color=c[prefix+'Color']||'#ffffff';el.style.fontFamily=c[prefix+'Font']||'Malgun Gothic';el.style.fontWeight=c[prefix+'Bold']?'800':'400';el.style.textShadow=c[prefix+'Shadow']===false?'none':'0 2px 10px #0009';}}catch(e){console.warn('R179 weather clock',e)}}
+setInterval(tick,500);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tick);else tick();})();</script><script id="r185ClockRuntime">(function(){'use strict';function update(){try{const admin=!!document.getElementById('previewStage');const c=admin?(typeof readForm==='function'?readForm():{}):(typeof config==='object'?config:{});const host=admin?document.getElementById('previewStage'):document.body;const el=document.getElementById('r185Clock');if(!host||!el)return;const on=c.ampmClockEnabled===true||c.ampmClockEnabled==='true';const clockPage=admin?(document.querySelector('#v42Tabs .v42-tab.active')?.textContent||'').includes('날짜')||(document.querySelector('#v42Tabs .v42-tab[aria-selected="true"]')?.textContent||'').includes('날짜'):document.body.dataset.lcdScreen==='clock';if(admin)document.body.classList.toggle('r188-clock-preview',clockPage);host.classList.toggle('r185-on',on);if(!on||!clockPage){el.style.display='none';return}const n=new Date();const h=n.getHours(),minute=String(n.getMinutes()).padStart(2,'0'),second=String(n.getSeconds()).padStart(2,'0');const clamp=(v,a,b,d)=>Math.min(b,Math.max(a,Number(v)||d));const scale=admin?1:Math.min(innerWidth/1920,innerHeight/1080);const px=(key,a,b,d)=>clamp(c[key],a,b,d)*scale;el.style.fontFamily=({'Malgun Gothic':'"Malgun Gothic",sans-serif','Arial':'Arial,sans-serif','Noto Sans KR':'"Noto Sans KR",sans-serif','Georgia':'Georgia,serif','Courier New':'"Courier New",monospace','Times New Roman':'"Times New Roman",serif'})[c.ampmClockFont]||'"Malgun Gothic",sans-serif';const chosenFont=({'Malgun Gothic':'"Malgun Gothic",sans-serif','Arial':'Arial,sans-serif','Noto Sans KR':'"Noto Sans KR",sans-serif','Georgia':'Georgia,serif','Courier New':'"Courier New",monospace','Times New Roman':'"Times New Roman",serif'})[c.ampmClockFont]||'"Malgun Gothic",sans-serif';el.style.setProperty('font-family',chosenFont,'important');el.querySelectorAll('.r185-period,.r185-period *, .r185-time,.r185-time *, .r185-date,.r185-date *').forEach(node=>node.style.setProperty('font-family',chosenFont,'important'));el.style.setProperty('--r185-weight',c.ampmClockBold===true?'800':'400');el.style.display='flex';el.style.left=clamp(c.ampmClockX,0,100,50)+'%';el.style.top=clamp(c.ampmClockY,0,100,50)+'%';el.style.setProperty('--r185-scale',clamp(c.ampmClockScale,40,180,100)/100);el.style.setProperty('--r185-gap',px('ampmClockLineGap',0,60,12)+'px');const timeEl=el.querySelector('.r185-time');const showSeconds=c.ampmClockShowSeconds!==false&&c.ampmClockShowSeconds!=='false';const hh=String(h%12||12);const layout=showSeconds?'seconds':'minutes';if(timeEl.dataset.r208Layout!==layout){timeEl.replaceChildren();for(const part of (showSeconds?['hour','colon1','minute','colon2','second']:['hour','colon1','minute'])){const span=document.createElement('span');span.className='r208-'+part;if(part.startsWith('colon')){span.textContent=':';span.classList.add('r203-blink-colon');}timeEl.appendChild(span);}timeEl.dataset.r208Layout=layout;}const setPart=(name,value)=>{const node=timeEl.querySelector('.r208-'+name);if(node&&node.textContent!==value)node.textContent=value;};setPart('hour',hh);setPart('minute',minute);if(showSeconds)setPart('second',second);for(const colon of timeEl.querySelectorAll('.r203-blink-colon'))colon.style.opacity=n.getSeconds()%2===0?'1':'0';el.querySelector('.r185-time').style.fontSize=px('ampmClockTimeSize',60,400,220)+'px';el.querySelector('.r185-period').style.fontSize=px('ampmClockPeriodSize',15,100,42)+'px';el.querySelector('.r185-weekday').textContent=['일','월','화','수','목','금','토'][n.getDay()];el.querySelector('.r185-weekday').style.fontSize=px('ampmClockWeekdaySize',15,100,50)+'px';el.querySelector('.r185-day').textContent=String(n.getDate());el.querySelector('.r185-day').style.fontSize=px('ampmClockDaySize',20,180,105)+'px';el.querySelector('.r185-weekday').hidden=c.ampmClockShowWeekday===false||c.ampmClockShowWeekday==='false';el.querySelector('.r185-day').hidden=c.ampmClockShowDay===false||c.ampmClockShowDay==='false';el.querySelector('.r185-date').hidden=el.querySelector('.r185-weekday').hidden&&el.querySelector('.r185-day').hidden;el.querySelector('.r185-line').hidden=el.querySelector('.r185-date').hidden;el.querySelector('.r185-line').style.height=px('ampmClockTimeSize',60,400,220)*.78+'px';el.querySelector('.r185-am').classList.toggle('inactive',h>=12);el.querySelector('.r185-pm').classList.toggle('inactive',h<12);}catch(e){console.warn('[R188 clock]',e)}}setInterval(update,500);addEventListener('load',update);window.r185Refresh=update})();</script><script id="r247-rich-safe">function r247Safe(html){const root=document.createElement('div');root.innerHTML=String(html||'');const walk=(node)=>{if(node.nodeType===3)return document.createTextNode(node.nodeValue);if(node.nodeType!==1)return document.createDocumentFragment();const tag=node.tagName.toLowerCase();const out=document.createElement(tag==='u'?'u':tag==='br'?'br':tag==='span'?'span':'span');if(tag==='span'){const col=(node.getAttribute('style')||'').match(/(?:^|;)\s*color\s*:\s*(#[0-9a-f]{6})\b/i);if(col)out.style.color=col[1];}for(const child of [...node.childNodes])out.appendChild(walk(child));return out;};const result=document.createElement('div');for(const n of [...root.childNodes])result.appendChild(walk(n));return result.innerHTML;}</script><script id="r354-weather-debug-widget">(function(){
+ if(!new URLSearchParams(location.search).has('weatherDiag'))return;
+ const p=document.createElement('div');p.id='r354WeatherDebug';p.style.cssText='position:fixed;top:8px;right:8px;z-index:2147483600;background:rgba(8,22,38,.9);color:white;max-width:min(95vw,500px);border:1px solid #759abd;border-radius:9px;padding:9px 12px;font:13px/1.5 monospace;white-space:pre-wrap;pointer-events:none';
+ document.body.appendChild(p);
+ function update(){try{const x=window.r354WeatherAutoLinkState?.();p.textContent=x?'날씨 자동 연동 진단: '+JSON.stringify(x,null,2):'날씨 모듈 준비 중';}catch(e){p.textContent=String(e)}}
+ update();setInterval(update,4000);
+})();</script><style id="r358-weather-screen-diagnostic-style">
+body:not(.r358-weather-diag) #r358WeatherDiag{display:none!important}
+#r358WeatherDiag{position:fixed;left:10px;bottom:10px;z-index:2147483500;max-width:min(94vw,550px);padding:9px 11px;border:1px solid #b9d8f4;border-radius:9px;background:#09223cdd;color:#fff;font:12px/1.5 monospace;white-space:pre-wrap;pointer-events:none}
+</style><script id="r358-weather-screen-diagnostic">(function(){'use strict';
+ if(!new URLSearchParams(location.search).has('weatherDiag'))return;
+ document.body.classList.add('r358-weather-diag');
+ const box=document.createElement('div');box.id='r358WeatherDiag';document.body.appendChild(box);
+ function refresh(){try{const d=window.r354WeatherAutoLinkState?.();box.textContent=d?'R359 weather only: '+JSON.stringify({enabled:d.enabled,code:d.rawWeatherCode,condition:d.condition,kind:d.kind,scene:d.scene,image:d.imagePath,imageStatus:d.imageStatus,mode:d.mode,night:window.r359NightSkyStatus?.()},null,2):'날씨 정보 연결 대기 중';}catch(e){box.textContent=String(e)}}
+ setInterval(refresh,1500);refresh();
+})();</script>
+<script id="r359-night-sky-diagnostic">
+(function(){'use strict';
+ window.r359NightSkyStatus=function(){
+  var sky=document.querySelector('#weatherScreen > #wx50Scene.wx50-moon .r120-night-stars');
+  var css=sky?getComputedStyle(sky):null;
+  var anim=sky?sky.getAnimations().find(function(a){return a.animationName==='r359-night-stars-360'}):null;
+  return {weatherMode:document.getElementById('weatherScreen')?.dataset.weatherBackgroundMode||null,
+   clearNight:!!sky,starCount:sky?.querySelectorAll('.r120-night-star').length||0,
+   animationName:css?.animationName||null,duration:css?.animationDuration||null,
+   playState:css?.animationPlayState||null,currentTimeMs:anim?.currentTime??null,
+   prefersReducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches};
+ };
+})();
+</script>
+<script id="r361-night-canvas-runtime">
+(function(){'use strict';
+  // R365: photorealistic small, dense, quiet stars on the existing clear-night WebP.
+  // Only the weather scene is affected; all other screens preserve their behavior.
+  var isMain=!!document.getElementById('weatherScreen');
+  var page=document.getElementById(isMain?'weatherScreen':'v42WeatherPreview');
+  if(!page)return;
+  var PERIOD_MS=480000,STAR_COUNT=3400;
+  var canvas=null,ctx=null,raf=0,frames=0,angle=null,tickAt=0,lastPaint=0;
+  var width=0,height=0,ratio=1,skyRadius=0,backing=null;
+  var diag=new URLSearchParams(location.search).has('nightDiag'),diagBox=null;
+  var points=[],sparkles=[],seed=77160531;
+  function rand(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;}
+  // Uniform disk distribution stays dense at the corners as it rotates.
+  for(var i=0;i<STAR_COUNT;i++){
+    var a=rand()*Math.PI*2,r=Math.sqrt(rand())*.997;
+    var bright=rand(),typ=bright>.985?2:bright>.835?1:0;
+    var p={sx:Math.cos(a)*r,sy:Math.sin(a)*r,
+      r:typ===2?1.05+rand()*.54:typ===1?.66+rand()*.36:.35+rand()*.37,
+      alpha:typ===2?.56+rand()*.23:typ===1?.30+rand()*.24:.16+rand()*.24,
+      tint:rand(),phase:rand()*6.283185307179586,twinkleMs:2400+rand()*3200,
+      sparkle:i%107===19,ray:i%787===19};
+    if(p.sparkle){p.r=Math.max(.83,p.r);sparkles.push(p);}
+    points.push(p);
+  }
+  // Faint, stylized Big Dipper and Cassiopeia; not a scientific sky map.
+  var shapes=[
+    [[.115,.23],[.159,.204],[.201,.224],[.243,.282],[.285,.306],[.318,.264],[.353,.223]],
+    [[.634,.208],[.680,.252],[.723,.187],[.771,.246],[.819,.199]]
+  ];
+  function scene(){return page.querySelector(':scope > #wx50Scene');}
+  function mode(){return isMain?page.dataset.weatherBackgroundMode:page.dataset.backgroundMode;}
+  function eligible(){
+    if(mode()!=='animated')return false;
+    var s=scene();if(!s)return false;
+    if(s.classList.contains('wx50-moon')||page.dataset.forestArt==='clear_night')return true;
+    var img=page.querySelector(':scope > .v55h-forest-photo, :scope > #wx50Scene .v55f-photo');
+    return !!img&&/weather_clear_night\.(webp|jpg)/i.test(img.getAttribute('src')||'');
+  }
+  function visible(){
+    if(isMain)return document.body.dataset.lcdScreen==='weather';
+    return page.classList.contains('visible')&&getComputedStyle(page).display!=='none';
+  }
+  function removeCanvas(){
+    if(canvas&&canvas.parentNode)canvas.remove();
+    canvas=null;ctx=null;backing=null;width=height=skyRadius=0;
+    page.classList.remove('r361-night-active');
+  }
+  function stop(){if(raf){cancelAnimationFrame(raf);raf=0;}removeCanvas();}
+  function attach(){
+    if(canvas&&canvas.parentNode===page)return;
+    canvas=document.createElement('canvas');canvas.className='r361-night-canvas';
+    canvas.setAttribute('aria-hidden','true');page.appendChild(canvas);
+    ctx=canvas.getContext('2d',{alpha:true});
+    page.classList.add('r361-night-active');
+  }
+  function makeStaticSky(w,h,radius){
+    var b=document.createElement('canvas');
+    var mult=Math.min(1.25,2400/(2*radius));
+    b.width=Math.max(1,Math.round(radius*2*mult));
+    b.height=b.width;
+    var c=b.getContext('2d',{alpha:true});
+    c.setTransform(mult,0,0,mult,radius*mult,radius*mult);
+    var size=Math.max(.78,Math.min(1.35,Math.min(w/1200,h/700)));
+    for(var i=0;i<points.length;i++){
+      var p=points[i];if(p.sparkle)continue;
+      var x=p.sx*radius,y=p.sy*radius;
+      c.globalAlpha=p.alpha;
+      c.fillStyle=p.tint>.95?'#ffefd4':p.tint>.65?'#d8eafd':'#f4f8ff';
+      if(p.r>1.25){c.shadowColor='#bed9ff';c.shadowBlur=2*size;}
+      else c.shadowBlur=0;
+      c.beginPath();c.arc(x,y,p.r*size,0,Math.PI*2);c.fill();
+    }
+    c.globalAlpha=1;c.shadowBlur=0;
+    return b;
+  }
+  function resize(){
+    if(!canvas||!ctx)return;
+    var rect=page.getBoundingClientRect();
+    var w=Math.max(1,Math.round(rect.width)),h=Math.max(1,Math.round(rect.height));
+    var scale=Math.min(1.5,window.devicePixelRatio||1,2300/w,1400/h);
+    var pw=Math.max(1,Math.round(w*scale)),ph=Math.max(1,Math.round(h*scale));
+    if(canvas.width!==pw||canvas.height!==ph){canvas.width=pw;canvas.height=ph;}
+    if(w!==width||h!==height||!backing){
+      width=w;height=h;
+      skyRadius=Math.hypot(w*.515,h*.44)*1.18;
+      backing=makeStaticSky(w,h,skyRadius);
+    }
+    ratio=scale;ctx.setTransform(ratio,0,0,ratio,0,0);
+  }
+  function paint(now){
+    if(!ctx||!canvas||!canvas.isConnected)return;
+    resize();if(width<10||height<10)return;
+    var g=ctx,w=width,h=height;
+    var theta=(Date.now()%PERIOD_MS)/PERIOD_MS*2*Math.PI;
+    angle=+(theta*180/Math.PI).toFixed(2);tickAt=Date.now();frames++;
+    g.clearRect(0,0,w,h);
+    g.save();g.beginPath();g.rect(0,0,w,h*.78);g.clip();
+    // The WebP remains stationary; only the sky texture and constellations rotate.
+    g.translate(w*.5,h*.36);g.rotate(theta);
+    g.globalAlpha=1;
+    if(backing)g.drawImage(backing,-skyRadius,-skyRadius,skyRadius*2,skyRadius*2);
+    var size=Math.max(.78,Math.min(1.35,Math.min(w/1200,h/700)));
+    for(var i=0;i<sparkles.length;i++){
+      var p=sparkles[i],x=p.sx*skyRadius,y=p.sy*skyRadius;
+      var wave=.5+.5*Math.sin(now/p.twinkleMs+p.phase);
+      // Not a flashing blanket: only ~32 stars occasionally brighten.
+      var glow=(.21+.72*Math.pow(wave,3));
+      g.globalAlpha=Math.min(.82,p.alpha*glow);
+      g.fillStyle=p.tint>.93?'#fff1dd':'#f4f9ff';
+      g.shadowColor='rgba(194,224,255,.78)';g.shadowBlur=(1.5+wave*5)*size;
+      g.beginPath();g.arc(x,y,p.r*size*(.82+wave*.25),0,Math.PI*2);g.fill();
+      if(p.ray&&wave>.8){
+        var len=p.r*size*(1.3+wave*.8);
+        g.shadowBlur=2*size;g.strokeStyle='#deefff';g.lineWidth=.55*size;
+        g.globalAlpha=p.alpha*(wave-.8)*1.25;
+        g.beginPath();g.moveTo(x-len,y);g.lineTo(x+len,y);
+        g.moveTo(x,y-len);g.lineTo(x,y+len);g.stroke();
+      }
+    }
+    g.shadowBlur=0;
+    // Connected figures are deliberately understated, as requested.
+    for(var j=0;j<shapes.length;j++){
+      var sh=shapes[j];g.globalAlpha=.15;g.strokeStyle='#b5d8fd';
+      g.lineWidth=Math.max(.48,.63*size);g.beginPath();
+      for(var k=0;k<sh.length;k++){
+        var sx=(sh[k][0]-.5)*w,sy=(sh[k][1]-.36)*h;
+        if(k===0)g.moveTo(sx,sy);else g.lineTo(sx,sy);
+      }
+      g.stroke();
+      for(var k=0;k<sh.length;k++){
+        var sx=(sh[k][0]-.5)*w,sy=(sh[k][1]-.36)*h;
+        g.globalAlpha=.30;g.fillStyle='#e6f2ff';g.beginPath();
+        g.arc(sx,sy,Math.max(.65,.92*size),0,Math.PI*2);g.fill();
+      }
+    }
+    g.restore();
+    // Gradual fade near the horizon prevents stars appearing on the landscape.
+    g.save();g.globalCompositeOperation='destination-in';
+    var fade=g.createLinearGradient(0,h*.55,0,h*.77);
+    fade.addColorStop(0,'rgba(0,0,0,1)');
+    fade.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=fade;g.fillRect(0,0,w,h*.78);
+    g.restore();
+  }
+  function frame(t){
+    raf=0;
+    if(!eligible()||!visible()){stop();refreshDiag();return;}
+    if(!canvas||!canvas.isConnected)attach();
+    if(t-lastPaint>=48){paint(t);lastPaint=t;}
+    raf=requestAnimationFrame(frame);
+  }
+  function sync(){
+    if(!eligible()||!visible()){if(canvas||raf)stop();refreshDiag();return;}
+    if(!canvas||!canvas.isConnected)attach();
+    if(!raf)raf=requestAnimationFrame(frame);
+    refreshDiag();
+  }
+  function status(){
+    var s=scene(),photo=page.querySelector(':scope > .v55h-forest-photo, :scope > #wx50Scene .v55f-photo');
+    return {version:'V55X-R378',view:isMain?'LCD':'admin',screen:isMain?(document.body.dataset.lcdScreen||'-'):'preview',
+      mode:mode()||'-',kind:s?s.className:'none',nightPhoto:photo?.getAttribute('src')||'-',
+      photoStatus:photo?.dataset.status||'-',eligible:eligible(),visible:visible(),
+      canvas:!!canvas&&canvas.isConnected,starCount:points.length,
+      twinkleStars:sparkles.length,constellationOpacity:.15,
+      angleDeg:angle,frames:frames,lastFrameAgoMs:tickAt?Date.now()-tickAt:null,
+      periodSeconds:PERIOD_MS/1000,staticSkyCached:!!backing};
+  }
+  window.r361NightStatus=status;
+  window.r360NightOrbitStatus=function(){return {enabled:eligible(),visible:visible(),engine:raf?'requestAnimationFrame':'idle',angleDeg:angle,starCount:points.length,canvas:!!canvas&&canvas.isConnected};};
+  function refreshDiag(){
+    if(!diag)return;
+    if(!diagBox){diagBox=document.createElement('div');diagBox.id='r361NightDiag';document.body.appendChild(diagBox);}
+    var x=status();
+    diagBox.textContent='R369 NIGHT DIAG / ds-test\n'+
+      'screen: '+x.screen+' / mode: '+x.mode+'\n'+
+      'scene: '+x.kind+' / night: '+x.eligible+'\n'+
+      'visible: '+x.visible+' / canvas: '+x.canvas+'\n'+
+      'stars: '+x.starCount+' / twinkle: '+x.twinkleStars+'\n'+
+      'angle: '+(x.angleDeg??'-')+' deg / period: '+x.periodSeconds+'s\n'+
+      'frames: '+x.frames+' / age: '+(x.lastFrameAgoMs??'-')+' ms';
+  }
+  var observer=new MutationObserver(function(mutations){
+    var change=mutations.some(function(m){
+      if(m.type==='attributes')return m.target===page||m.target===document.body;
+      if(m.type==='childList')return Array.from(m.addedNodes).concat(Array.from(m.removedNodes))
+        .some(function(n){return n.nodeType===1&&!n.classList.contains('r361-night-canvas');});
+      return false;
+    });
+    if(change)sync();
+  });
+  observer.observe(page,{subtree:false,childList:true,attributes:true,
+    attributeFilter:['data-weather-background-mode','data-background-mode','data-forest-art','class']});
+  if(isMain)observer.observe(document.body,{attributes:true,attributeFilter:['data-lcd-screen']});
+  document.addEventListener('visibilitychange',sync,{passive:true});
+  setInterval(sync,900);if(diag)setInterval(refreshDiag,1000);sync();
+})();
+
+</script><script id="r372-common-news-plan">
+(function(root){'use strict';
+ const hhmm=v=>{const m=/^([01]\d|2[0-3]):([0-5]\d)$/.exec(String(v||''));return m?Number(m[1])*60+Number(m[2]):-1};
+ const dateKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+ const dayStart=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+ const KST_FORMAT=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+ function koreanWallTime(instant){const parts={};for(const v of KST_FORMAT.formatToParts(instant))parts[v.type]=v.value;return new Date(Number(parts.year),Number(parts.month)-1,Number(parts.day),Number(parts.hour),Number(parts.minute),Number(parts.second));}
+ function occurrence(item,date){
+  if(!item||item.enabled===false||!String(item.text||'').trim())return null;
+  const start=hhmm(item.startTime),end=hhmm(item.endTime);
+  if(start<0||end<0||start===end)return null;
+  if(item.startDate&&dateKey(date)<item.startDate)return null;
+  if(item.endDate&&dateKey(date)>item.endDate)return null;
+  const weekdays=Array.isArray(item.weekdays)?item.weekdays.map(Number):[1,2,3,4,5];
+  if(!weekdays.includes(date.getDay()))return null;
+  const begin=new Date(date.getTime()+start*60000);
+  const finish=new Date(date.getTime()+(end+(end<=start?1440:0))*60000);
+  return {begin,finish};
+ }
+ function plan(c,instant){
+  c=c&&typeof c==='object'?c:{};
+  const now=koreanWallTime(instant instanceof Date?instant:new Date(instant||Date.now()));
+  const mode=['off','always','schedule','mixed'].includes(c.tickerMode)?c.tickerMode:
+   (c.tickerEnabled===true||c.tickerEnabled==='true'||c.tickerEnabled===1?'always':'off');
+  const list=Array.isArray(c.tickerSchedule)?c.tickerSchedule:[];
+  const candidates=[],future=[];
+  if(mode==='schedule'||mode==='mixed'){
+   const today=dayStart(now);
+   for(let i=0;i<list.length;i++){
+    const item=list[i];
+    for(let offset=-1;offset<=34;offset++){
+     const day=new Date(today.getFullYear(),today.getMonth(),today.getDate()+offset);
+     const span=occurrence(item,day);
+     if(!span)continue;
+     const detail={...item,index:i,startAt:span.begin,endAt:span.finish};
+     if(now>=span.begin&&now<span.finish)candidates.push(detail);
+     else if(span.begin>now)future.push(detail);
+     if(candidates.some(v=>v.index===i))break;
+    }
+   }
+  }
+  candidates.sort((a,b)=>(Number(b.priority)||0)-(Number(a.priority)||0)||a.index-b.index);
+  future.sort((a,b)=>a.startAt-b.startAt||((Number(b.priority)||0)-(Number(a.priority)||0)));
+  const active=candidates[0]||null,next=future[0]||null;
+  const base=String(c.tickerText||'').trim();
+  const afterEnd=c.tickerAfterEnd==='base'?'base':'hide';
+  let chosen=null,phase='off';
+  if(mode==='off')phase='off';
+  else if(active){chosen={text:String(active.text).slice(0,500),name:active.title||'예약',kind:'reservation',item:active};phase='running';}
+  else if(mode==='always'){if(base)chosen={text:base.slice(0,500),name:'상시',kind:'always'};phase=chosen?'always':'empty';}
+  else{
+   if(mode==='mixed'&&afterEnd==='base'&&base)chosen={text:base.slice(0,500),name:'상시',kind:'always'};
+   const hasSchedule=list.some(x=>x&&x.enabled!==false&&String(x.text||'').trim());
+   phase=next?'waiting':hasSchedule?'ended':'empty';
+   if(chosen)phase='base';
+  }
+  return {mode,now,active,next,chosen,phase,afterEnd,list};
+ }
+ function groups(text){return String(text||'').replace(/\r\n?/g,'\n').split(/\n\s*\n+/).map(s=>s.split('\n').map(v=>v.trim()).filter(Boolean).slice(0,3).join('\n')).filter(Boolean).slice(0,50);}
+ function timeLabel(d){return d?new Intl.DateTimeFormat('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(d):'-';}
+ function weekLabel(days){return Array.isArray(days)?days.map(Number).map(d=>['일','월','화','수','목','금','토'][d]).filter(Boolean).join('·'):'월·화·수·목·금';}
+ function description(item){if(!item)return '';
+  return (item.title||'예약 자막')+' · '+(item.startDate||'날짜 제한 없음')+' ~ '+(item.endDate||'날짜 제한 없음')+' · '+weekLabel(item.weekdays)+' · '+(item.startTime||'--:--')+'~'+(item.endTime||'--:--')+' · 우선순위 '+(item.priority||0);
+ }
+ root.r372TickerPlan={plan,groups,timeLabel,description,occurrence};
+})(window);
+
+</script><script id="r371-news-ticker-main-runtime">
+(function(){'use strict';
+ const bar=document.createElement('div');bar.id='r371Ticker';bar.hidden=true;bar.setAttribute('aria-hidden','true');
+ bar.innerHTML='<div class="r371-topline" hidden></div><span class="r371-label"></span><span class="r371-moving"></span>';document.body.appendChild(bar);
+ const themes={
+  'jp-basic':{tag:'お知らせ',fg:'#19344d',bg:'#f3f6fb',tagBg:'#214d78',tagFg:'#ffffff'},
+  'jp-alert':{tag:'주의',fg:'#332512',bg:'#fff2bb',tagBg:'#e4a621',tagFg:'#241800'},
+  'us-breaking':{tag:'NEWS',fg:'#ffffff',bg:'#111c2b',tagBg:'#c72232',tagFg:'#ffffff',},
+  'us-market':{tag:'INFO',fg:'#ffffff',bg:'#122b45',tagBg:'#098d82',tagFg:'#ffffff',},
+  'eu-minimal':{tag:'안내',fg:'#283544',bg:'#ffffff',tagBg:'#aa1e2e',tagFg:'#ffffff'},
+  'eu-blue':{tag:'INFO',fg:'#193e5e',bg:'#eef7fc',tagBg:'#1485ad',tagFg:'#ffffff'}
+ };
+ const planner=window.r372TickerPlan;
+ const num=(v,lo,hi,f)=>Number.isFinite(Number(v))&&String(v).trim()!==''?Math.min(hi,Math.max(lo,Number(v))):f;
+ const hex=(v,f)=>/^#[0-9a-f]{6}$/i.test(String(v||''))?String(v):f;
+ let identity='',motion=null,frameMode='',itemIndex=-1,phaseAt=0,lastPlan=null,starts=0;
+ const moving=bar.querySelector('.r371-moving'),label=bar.querySelector('.r371-label'),top=bar.querySelector('.r371-topline');
+ function stopMotion(){if(motion){try{motion.cancel()}catch(_){ }motion=null;}moving.getAnimations().forEach(a=>{if(a!==motion)try{a.cancel()}catch(_){}});moving.style.animation='none';}
+ function onPositionFrame(){
+  if(bar.hidden)return;
+  // R377: text appears immediately beside the fixed label, fades in, holds,
+  // then travels left. Nothing has to enter from off-screen right.
+  const w=bar.clientWidth||innerWidth||1920;
+  const gap=Math.max(12,Math.min(25,Math.round(w*.012)));
+  const startX=label.offsetWidth+gap;
+  moving.style.left=startX+'px';moving.style.right='auto';moving.style.width='max-content';
+  moving.style.opacity='1';
+  const textWidth=moving.scrollWidth||Math.max(80,w*.3);
+  /* Move only until the last letter is hidden beneath the fixed label. */
+  const travel=textWidth+gap+6;
+  const speed=num(lastPlan?.speed,20,200,75);
+  const fadeMs=600,holdMs=650,moveMs=Math.max(850,1000*travel/speed);
+  const duration=fadeMs+holdMs+moveMs;
+  const endTransform='translate3d('+(-travel)+'px,-50%,0)';
+  // Compositor animation is created once per text/settings change, not per page switch.
+  if(moving.animate){motion=moving.animate([
+   {offset:0,opacity:0,transform:'translate3d(0,-50%,0)'},
+   {offset:fadeMs/duration,opacity:1,transform:'translate3d(0,-50%,0)'},
+   {offset:(fadeMs+holdMs)/duration,opacity:1,transform:'translate3d(0,-50%,0)'},
+   {offset:1,opacity:1,transform:endTransform}
+  ],{duration,iterations:Infinity,easing:'linear'});}
+  else{
+   bar.style.setProperty('--r377-travel',(-travel)+'px');
+   bar.style.setProperty('--r371-duration',(duration/1000)+'s');
+   moving.style.animation='r377-left-fade-scroll '+(duration/1000)+'s linear infinite';
+  }
+  starts++;
+ }
+ function chooseGroup(i,fx,groups,holdSeconds){
+  if(frameMode===fx&&itemIndex===i)return;
+  frameMode=fx;itemIndex=i;moving.textContent=groups[i]||'';
+  stopMotion();
+  moving.style.left=label.offsetWidth+'px';moving.style.right='0';moving.style.width='calc(100% - '+label.offsetWidth+'px)';
+  moving.style.top=top.hidden?'50%':'65%';
+  moving.classList.add('r372-card');moving.style.whiteSpace='pre-line';
+  let keyframes;
+  if(fx==='flip')keyframes=[{opacity:.04,transform:'translateY(-50%) rotateX(-85deg)'},{opacity:1,transform:'translateY(-50%) rotateX(0deg)'}];
+  else if(fx==='fade')keyframes=[{opacity:0,transform:'translateY(-50%)'},{opacity:1,transform:'translateY(-50%)'}];
+  else if(fx==='slide')keyframes=[{opacity:0,transform:'translateY(40%)'},{opacity:1,transform:'translateY(-50%)'}];
+  else keyframes=[{opacity:1,transform:'translateY(-50%)'},{opacity:1,transform:'translateY(-50%)'}];
+  if(moving.animate&&fx!=='static')motion=moving.animate(keyframes,{duration:fx==='flip'?850:650,easing:'ease-out',fill:'both'});
+  else moving.style.transform='translateY(-50%)';
+ }
+ function sync(){
+  const c=typeof config==='object'&&config?config:{};
+  const p=planner.plan(c,new Date());lastPlan={...p,speed:c.tickerSpeed};
+  const selected=p.chosen,text=selected?.text||'';
+  if(!text.trim()){if(!bar.hidden){stopMotion();bar.hidden=true;}identity='';frameMode='';itemIndex=-1;return;}
+  const design=themes[c.tickerDesign]?c.tickerDesign:'eu-blue',t=themes[design];
+  const effect=['scroll','flip','fade','slide','static'].includes(c.tickerEffect)?c.tickerEffect:'scroll';
+  const font=num(c.tickerFontSize,24,90,44),speed=num(c.tickerSpeed,20,200,75);
+  const hold=num(c.tickerHoldSeconds,3,30,7),color=hex(c.tickerColor,t.fg),bg=hex(c.tickerBackground,t.bg);
+  const pieces=planner.groups(text),groups=pieces.length?pieces:[''];
+  const lineCount=effect==='scroll'?1:Math.min(3,Math.max(...groups.map(g=>g.split('\n').length),1));
+  const customLabel=String(c.tickerLabelText||'').trim().slice(0,18);
+  const signature=JSON.stringify([text,design,effect,font,speed,hold,color,bg,customLabel]);
+  if(signature!==identity){
+   stopMotion();identity=signature;frameMode='';itemIndex=-1;phaseAt=Date.now();
+   bar.hidden=false;bar.classList.toggle('r371-two-line',!!t.top);bar.classList.toggle('r372-card-mode',effect!=='scroll');
+   bar.style.backgroundColor=bg;
+   bar.style.height='clamp(42px,'+(Math.min(29,((font*1.22*lineCount+(t.top?54:25))/1080*100))).toFixed(2)+'vh,'+(effect==='scroll'?132:300)+'px)';
+   label.textContent=customLabel||t.tag;label.style.color=t.tagFg;label.style.background=t.tagBg;
+   label.style.fontSize='clamp(12px,'+(font*.5/1080*100).toFixed(2)+'vh,40px)';
+   top.hidden=!t.top;if(t.top)top.textContent=t.top;
+   moving.style.color=color;moving.style.fontSize='clamp(18px,'+(font/1080*100).toFixed(2)+'vh,95px)';
+   moving.classList.toggle('r372-card',effect!=='scroll');
+   if(effect==='scroll'){
+    moving.style.left='0';moving.style.right='auto';moving.style.width='max-content';moving.style.whiteSpace='nowrap';
+    moving.style.top=t.top?'66%':'50%';moving.textContent=groups.map(s=>s.replace(/\n/g,' · ')).join('     ◆     ');
+    // Two animation frames let font sizing settle; do not force layout-reset animation on polls.
+    requestAnimationFrame(()=>{if(identity===signature&&effect==='scroll'&&!bar.hidden)onPositionFrame()});
+   }
+  }
+  if(effect!=='scroll'){
+   const index=effect==='static'?0:Math.floor((Date.now()-phaseAt)/(hold*1000))%groups.length;
+   chooseGroup(index,effect,groups,hold);
+  }
+ }
+ window.r371TickerAt=(when,c)=>planner.plan(c||{},new Date(when)).chosen;
+ window.r372TickerPlanAt=(when,c)=>planner.plan(c||{},new Date(when));
+ window.r371TickerStatus=()=>({enabled:!bar.hidden,text:moving.textContent,name:lastPlan?.chosen?.name||'',phase:lastPlan?.phase||'off',effect:(typeof config==='object'&&config?config.tickerEffect:'scroll')||'scroll',motionStarts:starts,animationTime:motion?.currentTime??null,screen:document.body.dataset.lcdScreen});
+ window.r369TickerStatus=window.r371TickerStatus;
+ addEventListener('resize',()=>{if(!bar.hidden&&identity){stopMotion();const current=identity;identity='';sync();}});
+ setInterval(sync,350);sync();
+})();
+
+</script><script id="r370-analog-clock-runtime">
+(function(){'use strict';
+ const admin=!!document.getElementById('previewStage');
+ const DEFAULT_STYLE='digital';
+ const styles=['digital','flip','board'];
+ const shades=['dark','light'];
+ const defaults={clockVisualStyle:'digital',clockVisualTone:'dark',clockBoardText:'오늘도 안전한 하루 되세요',clockSecondHand:true};
+ const $=id=>document.getElementById(id);
+ if(admin){
+   const panel=$('v42ClockPanel');
+   if(!panel)return;
+   const group=document.createElement('section');group.id='r370ClockPanel';group.setAttribute('aria-label','아날로그 시계 디자인 선택');
+   group.innerHTML=`<h3>🕒 시계 디자인</h3><p class="r370-note">기존 디지털 시계를 유지하거나, 사진처럼 아날로그 바늘과 날짜 플립 표시가 있는 시계를 선택하세요. 시계 화면에만 적용됩니다.</p>
+   <div class="r370-fields">
+    <label class="r370-wide">디자인 선택<select id="clockVisualStyle"><option value="digital">기존 디지털 시계 (변경 없음)</option><option value="flip">사각 아날로그 + 요일·날짜 플립</option><option value="board">벽걸이형 · 왼쪽 시계 + 오른쪽 안내문</option></select></label>
+    <label>시계 색상<select id="clockVisualTone"><option value="dark">검정 · 클래식</option><option value="light">화이트 · 클래식</option></select></label>
+    <label class="r370-check"><input id="clockSecondHand" type="checkbox" checked>초침 표시</label>
+    <label class="r370-wide" id="r370BoardLabel">벽걸이형 안내 문구<input id="clockBoardText" type="text" maxlength="120" placeholder="예: 시설 이용 안내"></label>
+   </div><small id="r370ClockState">기존 디지털 시계 표시 중</small>`;
+   const h=panel.querySelector('h2');if(h)h.after(group);else panel.prepend(group);
+   function readValues(){return {clockVisualStyle:styles.includes($('clockVisualStyle').value)?$('clockVisualStyle').value:DEFAULT_STYLE,clockVisualTone:shades.includes($('clockVisualTone').value)?$('clockVisualTone').value:'dark',clockBoardText:$('clockBoardText').value.slice(0,120),clockSecondHand:$('clockSecondHand').checked};}
+   if(typeof readForm==='function'){
+     const previous=readForm;
+     readForm=function(){return {...previous(),...readValues()};};
+   }
+   if(typeof fill==='function'){
+     const previous=fill;
+     fill=function(c){const result=previous(c);const source=c&&typeof c==='object'?c:{};
+       for(const k of Object.keys(defaults)){
+         const el=$(k);if(!el)continue;const v=source[k]===undefined?defaults[k]:source[k];
+         if(el.type==='checkbox')el.checked=v===true||v==='true'||v===1;else el.value=String(v);
+       }
+       updatePanel();draw();return result;};
+   }
+   if(typeof compareSavedSettingsV29==='function'){
+     const previous=compareSavedSettingsV29;
+     compareSavedSettingsV29=function(want,got){const differences=previous(want,got);
+       for(const k of Object.keys(defaults))if(String(want[k]??defaults[k])!==String(got[k]??defaults[k]))differences.push('시계 디자인 설정 불일치: '+k);
+       return differences;};
+   }
+   if(typeof save==='function'){
+     const previous=save;
+     save=async function(){
+       if(readValues().clockVisualStyle!=='digital' && typeof getRemote==='function'){
+         try{const c=await getRemote(15000);
+           if(!Object.prototype.hasOwnProperty.call(c||{},'clockVisualStyle')){message('R370 Code.gs를 먼저 배포해 주세요. 새 서버가 시계 디자인을 저장할 수 없습니다.','error');return;}
+         }catch(e){message('시계 디자인 서버 연결 확인 실패: '+String(e.message||e),'error');return;}
+       }
+       return previous();
+     };
+     const btn=$('save');if(btn)btn.onclick=()=>save();
+   }
+   function updatePanel(){
+     const c=readValues(),analog=c.clockVisualStyle!=='digital',board=c.clockVisualStyle==='board';
+     $('r370BoardLabel').hidden=!board;
+     $('r370ClockState').textContent=analog?'실시간 LCD 미리보기에서 디자인 확인 후 하단 저장·반영을 누르세요.':'기존 디지털 시계 표시 중 · 저장된 다른 시계 설정은 유지됩니다.';
+   }
+   for(const key of Object.keys(defaults)){
+     const input=$(key);if(!input)continue;
+     for(const e of ['input','change'])input.addEventListener(e,()=>{if(typeof unsavedChanges==='boolean')unsavedChanges=true;updatePanel();draw();if(typeof preview==='function')preview();});
+   }
+   updatePanel();
+ }
+ const stage=admin?$('previewStage'):document.body;
+ if(!stage)return;
+ const scene=document.createElement('div');scene.id='r370Clock';scene.hidden=true;
+ scene.innerHTML=`<div class="r370-scene"></div><div class="r370-housing"><div class="r370-inner"></div>
+ <div class="r370-calendar"><div class="r370-flip-tile" data-part="weekday">MON</div><div class="r370-flip-tile" data-part="day">25</div><div class="r370-flip-tile" data-part="month">NOV</div></div>
+ <div class="r370-dial"><div class="r370-ticks"></div><div class="r370-numbers"></div>
+ <div class="r370-brand">DS · QUARTZ</div><div class="r370-hand r370-hour"></div><div class="r370-hand r370-minute"></div><div class="r370-hand r370-second"></div><div class="r370-axis"></div></div>
+ <div class="r370-footer">DS ANALOG CLOCK</div>
+ <div class="r370-board-message"><div class="r370-board-title"></div><div class="r370-board-stripe"></div><div class="r370-board-time"></div></div>
+ </div>`;
+ stage.appendChild(scene);
+ if(!admin){
+   scene.style.position='fixed';scene.style.left='50%';scene.style.top='50%';scene.style.right='auto';scene.style.bottom='auto';scene.style.transformOrigin='center center';scene.style.transform='translate(-50%,-50%) scale(1)';
+ }
+ const dial=scene.querySelector('.r370-dial'),ticks=scene.querySelector('.r370-ticks'),nums=scene.querySelector('.r370-numbers');
+ for(let i=0;i<60;i++){
+   const marker=document.createElement('i');marker.className='r370-tick'+(i%5===0?' major':'');
+   // Central origin with outward-oriented tick; allow dial size to vary using a design variable.
+   marker.style.left=(50+Math.sin(i*Math.PI/30)*(i%5===0?43.6:45.7))+'%';
+   marker.style.top=(50-Math.cos(i*Math.PI/30)*(i%5===0?43.6:45.7))+'%';
+   marker.style.transform='translate(-50%,-50%) rotate('+(i*6)+'deg)';
+   marker.style.transformOrigin='50% 50%';ticks.appendChild(marker);
+ }
+ for(let i=1;i<=12;i++){
+   const a=i*Math.PI/6,n=document.createElement('span');n.className='r370-numeral';n.textContent=i;
+   n.style.left=(50+Math.sin(a)*37)+'%';n.style.top=(50-Math.cos(a)*37)+'%';nums.appendChild(n);
+ }
+ let cachedSig='',lastDateKey='',prevVisible=false;
+ function cfg(){return admin?(typeof readForm==='function'?readForm():{}):(typeof config==='object'&&config?config:{});}
+ function isClock(){
+   if(!admin)return document.body.dataset.lcdScreen==='clock';
+   const tab=document.querySelector('#v42Tabs .v42-tab.active,#v42Tabs .v42-tab[aria-selected="true"]');
+   return (tab?.textContent||'').includes('날짜') && (typeof previewScreen==='undefined'||previewScreen==='clock');
+ }
+ function draw(){
+   if(!scene.isConnected)stage.appendChild(scene);
+   const c=cfg(),design=styles.includes(c.clockVisualStyle)?c.clockVisualStyle:'digital';
+   const visible=design!=='digital' && isClock();
+   if(admin){stage.classList.toggle('r370-clock-selected',visible);}
+   else document.body.classList.toggle('r370-clock-selected',visible);
+   scene.hidden=!visible;
+   if(!visible){prevVisible=false;cachedSig='';return;}
+   if(!admin){const scale=Math.min(window.innerWidth/1920,window.innerHeight/1080);scene.style.transform='translate(-50%,-50%) scale('+Math.max(.1,scale)+')';}
+   const tone=shades.includes(c.clockVisualTone)?c.clockVisualTone:'dark';
+   const sig=[design,tone,String(c.clockBoardText||''),c.clockSecondHand===false?'off':'on'].join('|');
+   if(sig!==cachedSig){
+     scene.className='r370-style-'+design+' r370-tone-'+tone;
+     scene.querySelector('.r370-board-title').textContent=String(c.clockBoardText||defaults.clockBoardText).slice(0,120);
+     scene.querySelector('.r370-second').style.display=c.clockSecondHand===false?'none':'';
+     cachedSig=sig;
+   }
+   const now=new Date(),ms=now.getMilliseconds(),h=now.getHours(),mi=now.getMinutes(),sec=now.getSeconds()+ms/1000;
+   const angles=[(h%12+mi/60+sec/3600)*30,(mi+sec/60)*6,sec*6];
+   for(const [i,selector] of ['.r370-hour','.r370-minute','.r370-second'].entries())scene.querySelector(selector).style.setProperty('--r370-rotate',angles[i].toFixed(3)+'deg');
+   const weekdays=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+   const months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+   const key=now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate();
+   if(key!==lastDateKey||!prevVisible){
+     const texts=[weekdays[now.getDay()],String(now.getDate()),months[now.getMonth()]];
+     scene.querySelectorAll('.r370-flip-tile').forEach((el,i)=>{
+       if(el.textContent!==texts[i]){
+         el.textContent=texts[i];
+         el.dataset.r370Flip='1';setTimeout(()=>{if(el.isConnected)delete el.dataset.r370Flip},650);
+       }
+     });lastDateKey=key;
+   }
+   scene.querySelector('.r370-board-time').textContent=now.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'})+'  ·  '+now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
+   prevVisible=true;
+ }
+ window.r370ClockStatus=()=>({mode:scene.className,visible:!scene.hidden,date:scene.querySelector('[data-part="day"]').textContent,hourTransform:scene.querySelector('.r370-hour').style.getPropertyValue('--r370-rotate'),screen:document.body.dataset.lcdScreen||'admin'});
+ window.r370ClockDraw=draw;
+ setInterval(draw,200);
+ window.addEventListener('resize',draw);
+ draw();
+})();
+</script></body></html>
