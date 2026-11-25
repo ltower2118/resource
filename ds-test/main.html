@@ -371,7 +371,7 @@ body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!impo
 #r370ClockPanel .r380-mode-help,#r370ClockPanel .r380-bg-help{margin:6px 0 12px;color:#526c83;font-size:12px;line-height:1.5}
 #r370ClockPanel #r380AnalogBg{width:100%;height:46px;min-height:46px;padding:4px;background:#fff;border:1px solid #c0d1e2;border-radius:9px;cursor:pointer}
 #r370ClockPanel #clockVisualStyle{width:100%;max-width:none}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R380 UI</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+</style><style id="r381-analog-layer-style">#r370Clock .r370-calendar[hidden],#r370Clock .r370-board-time[hidden]{display:none!important}</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R380 UI</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -2025,7 +2025,15 @@ body:not(.r358-weather-diag) #r358WeatherDiag{display:none!important}
        }
      });lastDateKey=key;
    }
-   scene.querySelector('.r370-board-time').textContent=now.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'})+'  ·  '+now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
+   // R381: the analog board's textual time/date follow the saved visibility checkboxes.
+   // The hands remain the analog time display even when textual time is hidden.
+   const datePart=c.showDate===false?'':now.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+   const timePart=c.showTime===false?'':now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
+   const info=scene.querySelector('.r370-board-time');
+   info.textContent=[datePart,timePart].filter(Boolean).join('  ·  ');
+   info.hidden=!datePart&&!timePart;
+   // The flip calendar is a date layer, not the clock hands.
+   scene.querySelector('.r370-calendar').hidden=c.showDate===false;
    prevVisible=true;
  }
  window.r370ClockStatus=()=>({mode:scene.className,visible:!scene.hidden,date:scene.querySelector('[data-part="day"]').textContent,hourTransform:scene.querySelector('.r370-hour').style.getPropertyValue('--r370-rotate'),screen:document.body.dataset.lcdScreen||'admin'});
