@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 관리자 V55X-R368</title><style>*{box-sizing:border-box;}body{margin:0;}.wrap{margin:auto;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{margin:0 0 8px;}p{color:#64748b;line-height:1.6;}label{display:block;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;background:#223a57;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;}.editor-toolbar button{font-size:13px;}#previewStage{isolation:isolate;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection>p{margin:6px 0 0;font-size:11px;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewStage{transform-origin:0 0;}#visualHelp{color:#64748b;}@media (max-width:600px){#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{background:#fff;box-shadow:0 8px 24px #14233b22;}#visualTools{box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;padding:10px;border:1px solid #ccd7e4;border-radius:8px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:"↔";display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LCD 관리자 V55X-R371</title><style>*{box-sizing:border-box;}body{margin:0;}.wrap{margin:auto;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{margin:0 0 8px;}p{color:#64748b;line-height:1.6;}label{display:block;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;background:#223a57;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;}.editor-toolbar button{font-size:13px;}#previewStage{isolation:isolate;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection>p{margin:6px 0 0;font-size:11px;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewStage{transform-origin:0 0;}#visualHelp{color:#64748b;}@media (max-width:600px){#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{background:#fff;box-shadow:0 8px 24px #14233b22;}#visualTools{box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;padding:10px;border:1px solid #ccd7e4;border-radius:8px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:"↔";display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
 body.v16-message-mode #visualTools > #vBold,
 body.v16-message-mode #visualTools > #vUnder,
 body.v16-message-mode #visualTools > #vLeft,
@@ -718,10 +718,133 @@ body.r239-basic .r239-advanced{display:none!important}
  border-radius:8px;padding:9px 11px;font:12px/1.55 monospace;
  max-width:min(95vw,440px);white-space:pre-wrap;overflow-wrap:anywhere;
  pointer-events:none;}
+</style><style id="r371-news-ticker-admin-style">
+/* R371: the six presets and scheduled news crawl are scoped to the screen-composition panel. */
+#r371TickerPanel{margin:14px 0 5px;padding:14px;border:1px solid #c5d7e7;border-radius:13px;background:#f6faff}
+#r371TickerPanel>summary{cursor:pointer;font-weight:850;font-size:18px;color:#193e65;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:9px}
+#r371TickerPanel>summary::-webkit-details-marker{display:none}
+#r371TickerPanel>summary:after{content:'⌄';font-size:20px;color:#53728f}
+#r371TickerPanel[open]>summary:after{content:'⌃'}
+#r371TickerPanel p{font-size:13px;line-height:1.5;color:#516a83;margin:8px 0 12px}
+#r371TickerPanel .r371-heading{font-size:15px;font-weight:800;color:#173b61;margin:12px 0 8px}
+#r371TickerPanel label{font-size:14px;font-weight:700;display:flex;flex-direction:column;gap:5px;margin:0}
+#r371TickerPanel input,#r371TickerPanel select,#r371TickerPanel textarea{min-width:0;max-width:100%;width:100%;background:white;border:1px solid #bfcee0;border-radius:8px;padding:9px;font-size:15px;min-height:42px}
+#r371TickerPanel textarea{resize:vertical;line-height:1.5;min-height:80px}
+#r371TickerPanel .r371-check{display:flex;flex-direction:row;align-items:center;gap:8px}
+#r371TickerPanel input[type=checkbox]{width:21px;min-height:21px;height:21px;flex:none;accent-color:#1c5685;margin:0}
+#r371TickerPanel .r371-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#r371TickerPanel .r371-wide{grid-column:1/-1}
+#r371TickerPanel .r371-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;background:#e6eff8;border-radius:11px;margin:12px 0}
+#r371TickerPanel .r371-tabs button{min-height:42px;font-size:14px;padding:8px 3px;background:transparent;color:#36536d;border:0;border-radius:8px}
+#r371TickerPanel .r371-tabs button.active{background:#fff;color:#194c80;box-shadow:0 1px 5px #193e6530}
+#r371TickerPanel .r371-page[hidden]{display:none!important}
+#r371TickerPanel .r371-designs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#r371TickerPanel .r371-design{border:1px solid #bccddd!important;border-radius:10px!important;background:#fff!important;color:#203d5c!important;padding:7px!important;text-align:left!important;min-height:81px;display:flex;flex-direction:column;gap:7px}
+#r371TickerPanel .r371-design.active{border:2px solid #1d4a86!important;background:#e8f3ff!important}
+#r371TickerPanel .r371-sample{display:flex;width:100%;min-height:27px;overflow:hidden;border-radius:4px;font-size:10px;align-items:stretch;font-weight:850}
+#r371TickerPanel .r371-sample-tag{flex:none;padding:7px;white-space:nowrap}
+#r371TickerPanel .r371-sample-copy{flex:1;padding:7px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#r371TickerPanel .r371-schedule-actions{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+#r371TickerPanel .r371-schedule-actions button{min-height:39px;padding:8px 11px;font-size:13px}
+#r371TickerPanel .r371-items{display:grid;gap:6px;margin:8px 0 13px;max-height:240px;overflow:auto}
+#r371TickerPanel .r371-item{display:flex;align-items:center;justify-content:space-between;gap:6px;background:#fff!important;color:#213d5d!important;border:1px solid #cfdaea!important;text-align:left!important;min-height:44px;padding:9px 11px!important}
+#r371TickerPanel .r371-item.active{border:2px solid #1f6a9e!important;background:#eaf3ff!important}
+#r371TickerPanel .r371-item small{color:#57728c;white-space:nowrap}
+#r371TickerPanel .r371-weekdays{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0 11px}
+#r371TickerPanel .r371-weekdays label{display:flex;flex-direction:row;align-items:center;gap:4px;padding:6px 7px;background:#fff;border:1px solid #d2deea;border-radius:7px;font-size:13px;min-height:35px}
+#r371TickerPanel .r371-preview{background:#18324e;border-radius:9px;overflow:hidden;padding:18px 0 0;min-height:106px;color:white;margin:12px 0}
+#r371TickerPanel .r371-preview>strong{display:block;text-align:center;margin:0 0 17px;color:#e4edf7}
+#r371TickerPanel .r371-previewbar{min-height:40px;display:flex;overflow:hidden;align-items:stretch;font-weight:750}
+#r371TickerPanel .r371-previewtag{padding:11px 12px;flex:none;white-space:nowrap}
+#r371TickerPanel .r371-previewtext{min-width:0;overflow:hidden;white-space:nowrap;padding:11px 13px;flex:1;text-overflow:ellipsis}
+#r371TickerPanel .r371-hint,#r371TickerPanel #r371Status{font-size:12px;color:#5e758b;line-height:1.5}
+#r371TickerPanel #r371Status{display:block;margin:7px 0;font-weight:650}
+#previewStage>.r371-ticker{position:absolute!important;left:0!important;right:0!important;bottom:0!important;z-index:70!important;width:100%;height:86px;display:flex;align-items:center;overflow:hidden;pointer-events:none;box-sizing:border-box;isolation:isolate}
+#previewStage>.r371-ticker[hidden]{display:none!important}
+#previewStage>.r371-ticker .r371-label{position:absolute;left:0;top:0;bottom:0;display:flex;align-items:center;padding:0 20px;z-index:2;white-space:nowrap;font-weight:900}
+#previewStage>.r371-ticker .r371-moving{position:absolute;left:100%;top:50%;transform:translateY(-50%);white-space:nowrap;font-weight:750;line-height:1.15;will-change:transform;animation:r371-crawl var(--r371-duration,24s) linear infinite}
+#previewStage>.r371-ticker.r371-two-line .r371-topline{position:absolute;top:0;left:0;right:0;height:27px;font-size:16px;line-height:27px;padding-left:22px;font-weight:800;background:#eaf1f9;color:#183b60;z-index:1}
+#previewStage>.r371-ticker.r371-two-line .r371-moving{top:65%}
+@keyframes r371-crawl{from{transform:translate3d(0,-50%,0)}to{transform:translate3d(calc(-100% - var(--r371-area-width,1920px)),-50%,0)}}
+@media(max-width:520px){#r371TickerPanel{padding:10px}#r371TickerPanel .r371-designs{grid-template-columns:repeat(2,minmax(0,1fr))}#r371TickerPanel .r371-tabs button{font-size:12px}#r371TickerPanel .r371-schedule-actions button{flex:1 1 auto}}
+</style><style id="r370-analog-clock-style">
+/* R370: self-contained clock-only scene; inactive in the default digital mode. */
+#r370ClockPanel{padding:13px;margin:8px 0 18px;border:1px solid #c9d8e7;background:#f3f8fd;border-radius:12px}
+#r370ClockPanel h3{font-size:18px;color:#153e65;margin:0 0 7px}
+#r370ClockPanel .r370-note{margin:5px 0 10px;font-size:13px;line-height:1.5;color:#536c81}
+#r370ClockPanel .r370-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#r370ClockPanel label{margin:0;display:flex;flex-direction:column;gap:5px;font-size:14px;font-weight:750}
+#r370ClockPanel select,#r370ClockPanel input[type="text"]{width:100%;min-width:0;min-height:46px;background:#fff;border:1px solid #c0d1e2;border-radius:9px;padding:8px 10px;font-size:15px}
+#r370ClockPanel .r370-check{display:flex;align-items:center;gap:9px;min-height:46px}
+#r370ClockPanel .r370-check input{width:23px;height:23px;min-height:23px;margin:0;accent-color:#1c638d}
+#r370ClockPanel .r370-wide{grid-column:1/-1}
+#r370ClockPanel #r370ClockState{font-size:12px;color:#345777;margin-top:10px;display:block}
+#r370ClockPanel [hidden]{display:none!important}
+@media(max-width:490px){#r370ClockPanel{padding:11px}#r370ClockPanel .r370-fields{gap:8px}#r370ClockPanel label{font-size:13px}}
+#r370Clock{position:absolute;inset:0;width:1920px;height:1080px;z-index:37;pointer-events:none;user-select:none;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;overflow:hidden}
+#r370Clock[hidden]{display:none!important}
+#r370Clock .r370-scene{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#343b45,#111820 78%)}
+#r370Clock .r370-housing{position:absolute;box-sizing:border-box;border:16px solid #2d343c;background:#24272d;box-shadow:0 20px 70px #0009,inset 0 0 0 5px #555e68,inset 0 0 30px #0009;overflow:hidden}
+#r370Clock.r370-style-flip .r370-housing{width:820px;height:1004px;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:38px}
+#r370Clock .r370-inner{position:absolute;inset:12px;border:4px solid #151a21;border-radius:16px;background:linear-gradient(145deg,#2a2b2f,#15181e)}
+#r370Clock .r370-calendar{position:absolute;top:43px;left:6%;right:6%;height:142px;display:flex;gap:11px;align-items:stretch;justify-content:space-between}
+#r370Clock .r370-flip-tile{position:relative;flex:1;min-width:0;border-radius:10px;color:#f9fbff;background:linear-gradient(#343538 0 49.4%,#111317 50%,#282a2e 51%);box-shadow:inset 0 4px 13px #0006,0 4px 8px #0007;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:78px;font-weight:900;letter-spacing:-.06em;text-shadow:0 3px 4px #0005;font-family:'Arial Narrow',Arial,sans-serif;font-stretch:condensed}
+#r370Clock .r370-flip-tile::after{content:'';position:absolute;inset:50% 0 auto;border-top:2px solid #08090b;box-shadow:0 1px 2px #5a5a5b5c;pointer-events:none}
+#r370Clock .r370-flip-tile[data-r370-flip="1"]{animation:r370-flip .6s ease-in-out}
+@keyframes r370-flip{0%{transform:perspective(600px) rotateX(0)}35%{transform:perspective(600px) rotateX(-9deg)}80%,100%{transform:perspective(600px) rotateX(0)}}
+#r370Clock .r370-dial{position:absolute;left:50%;top:62%;width:630px;height:630px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,#2a2d31,#1c2026 70%,#11151b 100%);box-shadow:inset 0 0 30px #0008}
+#r370Clock .r370-tick{position:absolute;left:50%;top:50%;width:4px;height:18px;border-radius:2px;background:#e8e8e9;transform-origin:50% 312px}
+#r370Clock .r370-tick.major{height:27px;width:7px;background:#f8f8f8}
+#r370Clock .r370-numeral{position:absolute;transform:translate(-50%,-50%);font-size:53px;line-height:1;color:#f6f6f6;font-family:Arial,sans-serif;font-weight:520}
+#r370Clock .r370-brand{position:absolute;left:0;right:0;top:40%;font-size:16px;text-align:center;letter-spacing:.19em;color:#c9c9ca}
+#r370Clock .r370-axis{position:absolute;left:50%;top:50%;width:18px;height:18px;border-radius:50%;transform:translate(-50%,-50%);background:#f9f9f9;z-index:8;box-shadow:0 2px 5px #0008}
+#r370Clock .r370-hand{position:absolute;top:50%;left:50%;width:0;height:0;transform:rotate(var(--r370-rotate,0deg));transform-origin:0 0;z-index:5}
+#r370Clock .r370-hand::before{content:'';position:absolute;bottom:-32px;left:50%;transform:translateX(-50%);width:var(--r370-hand-width);height:var(--r370-hand-length);background:var(--r370-hand-color,#fff);clip-path:polygon(31% 0,69% 0,87% 85%,100% 100%,0 100%,13% 85%);border-radius:4px}
+#r370Clock .r370-hour{--r370-hand-length:205px;--r370-hand-width:28px;z-index:6}
+#r370Clock .r370-minute{--r370-hand-length:280px;--r370-hand-width:19px;z-index:7}
+#r370Clock .r370-second{--r370-hand-length:290px;--r370-hand-width:4px;--r370-hand-color:#c84c4c;z-index:8}
+#r370Clock .r370-footer{position:absolute;left:0;right:0;bottom:28px;text-align:center;font-size:17px;color:#9facb9;letter-spacing:.13em}
+/* Wallboard: clock in the left column; customizable text on the right. */
+#r370Clock.r370-style-board .r370-scene{background:#ece5d8}
+#r370Clock.r370-style-board .r370-housing{left:50%;top:50%;transform:translate(-50%,-50%);width:1840px;height:920px;border-radius:6px;border:16px ridge #8c8e8b;background:#151617;box-shadow:0 22px 48px #0005,inset 0 0 3px #aab3b0}
+#r370Clock.r370-style-board .r370-inner{inset:7px;border:0;border-radius:0;background:linear-gradient(100deg,#303237 0 34.5%,#18191c 34.5% 100%)}
+#r370Clock.r370-style-board .r370-calendar{top:68px;left:4%;right:65%;height:101px;gap:6px}
+#r370Clock.r370-style-board .r370-flip-tile{font-size:54px;border-radius:5px}
+#r370Clock.r370-style-board .r370-dial{top:47%;left:17.3%;width:490px;height:490px;background:transparent;box-shadow:none}
+#r370Clock.r370-style-board .r370-tick{transform-origin:50% 241px;height:15px}
+#r370Clock.r370-style-board .r370-tick.major{height:22px;width:6px}
+#r370Clock.r370-style-board .r370-numeral{font-size:42px}
+#r370Clock.r370-style-board .r370-brand{top:40%;font-size:12px}
+#r370Clock.r370-style-board .r370-hour{--r370-hand-length:160px;--r370-hand-width:24px}
+#r370Clock.r370-style-board .r370-minute{--r370-hand-length:220px;--r370-hand-width:17px}
+#r370Clock.r370-style-board .r370-second{--r370-hand-length:215px}
+#r370Clock.r370-style-board .r370-footer{left:4%;right:65%;bottom:72px;font-size:16px}
+#r370Clock .r370-board-message{display:none}
+#r370Clock.r370-style-board .r370-board-message{position:absolute;display:flex;left:37%;right:5%;top:5%;bottom:5%;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px;gap:26px}
+#r370Clock .r370-board-title{font-size:85px;line-height:1.35;font-weight:800;word-break:keep-all;overflow-wrap:anywhere;white-space:pre-wrap;text-shadow:0 2px 10px #0005;max-height:65%;overflow:hidden}
+#r370Clock .r370-board-time{font-size:44px;letter-spacing:.08em;font-variant-numeric:tabular-nums;color:#cbd4db}
+#r370Clock .r370-board-stripe{height:3px;width:58%;background:#6b8997;opacity:.4}
+/* Optional bright case, like the white variations in the user's clock photos. */
+#r370Clock.r370-tone-light .r370-housing{background:#e6e5e2;border-color:#b7b8ba;box-shadow:0 20px 60px #0006,inset 0 0 0 4px #ddd}
+#r370Clock.r370-tone-light .r370-inner{background:linear-gradient(140deg,#f6f4f0,#d5d5d4)}
+#r370Clock.r370-tone-light .r370-dial{background:#eceae6}
+#r370Clock.r370-tone-light .r370-tick,#r370Clock.r370-tone-light .r370-numeral{color:#22252a;background:#22252a}
+#r370Clock.r370-tone-light .r370-numeral{background:transparent}
+#r370Clock.r370-tone-light .r370-hour,#r370Clock.r370-tone-light .r370-minute{--r370-hand-color:#252930}
+#r370Clock.r370-tone-light .r370-brand,#r370Clock.r370-tone-light .r370-footer{color:#333}
+#r370Clock.r370-tone-light .r370-flip-tile{color:#fafafa}
+#r370Clock.r370-style-board.r370-tone-light .r370-board-title{color:#232931;text-shadow:none}
+#r370Clock.r370-style-board.r370-tone-light .r370-board-time{color:#485968}
+#r370Clock.r370-style-board.r370-tone-light .r370-inner{background:linear-gradient(100deg,#eae8e5 0 34.5%,#f4f3ef 34.5% 100%)}
+/* Isolate to date/time clock screen, do not alter weather, message or schedule. */
+#previewStage.r370-clock-selected>#pvTime,#previewStage.r370-clock-selected>#pvDate,#previewStage.r370-clock-selected>#r185Clock{display:none!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#time,body.r370-clock-selected[data-lcd-screen="clock"]>#date,body.r370-clock-selected[data-lcd-screen="clock"]>#r185Clock{display:none!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#clockWeather{z-index:38!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!important}
 </style></head><body><div style="position:sticky;top:0;z-index:9999;background:#fff3cd;color:#513b00;text-align:center;padding:8px;font-weight:700;border-bottom:1px solid #f1d37a">TEST · 운영 ds와 분리</div>
-  <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R368</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+  <main class="wrap"><h1>LCD 시계 관리자 <small style="font-size:13px;color:#64748b">V55X-R371</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
- <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V55X-R368</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+ <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · V55X-R371</div></div><div class="o-actions"><span class="o-env">TEST</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -865,7 +988,7 @@ body.r239-basic .r239-advanced{display:none!important}
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R368" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R368" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R368" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R371" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R371" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R371" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
 <style id="r130-test-style">#v53aAnimationModal .v53a-picks{max-height:32vh;overflow:auto}#r130TestNote{margin:8px 0;padding:10px 12px;border-radius:9px;background:#e9f4ff;color:#173e67;font-size:13px;line-height:1.5}#r130TestLaunch{margin:9px 0;background:#173a70;color:#fff}#v53aStage .r129-landscape{object-fit:cover}#v53aStage #wx50Scene{position:absolute;inset:0;overflow:hidden}#v53aStage .v53a-overlay{z-index:10;pointer-events:none}</style>
 <div id="r130TestNote">12종 날씨와 일출·일몰을 현재 시각에 관계없이 테스트할 수 있습니다. 테스트 결과는 실제 LCD·서버 설정에 저장되지 않습니다.</div>
 <button type="button" id="r130TestLaunch">12종 날씨 · 일출/일몰 테스트 열기</button>
@@ -1321,7 +1444,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V55X-R368&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V55X-R371&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1520,8 +1643,8 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=['clock','message','weather'].includes(mode)?mode:'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R368';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
- if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R368';}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R371';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R371';}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock');
@@ -2097,7 +2220,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='LCD 관리자 V55X-R368';
+ document.title='LCD 관리자 V55X-R371';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2114,7 +2237,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='LCD 관리자 V55X-R368';
+document.title='LCD 관리자 V55X-R371';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -2416,12 +2539,12 @@ function wx50MountScene(page,code,isDay,sceneConfig){
  const r358Files={sun:'weather_clear_day.webp',moon:'weather_clear_night.webp',partly:'weather_partly.webp',cloud:'weather_cloud.webp',mist:'weather_mist.webp',drizzle:'weather_drizzle.webp',rain:'weather_rain.webp',showers:'weather_showers.webp',snow:'weather_snow.webp',blizzard:'weather_blizzard.webp',sleet:'weather_sleet.webp',thunder:'weather_thunder.webp'};
  const special=r129LandscapeKind(code,isDay);
  const assetName=special==='sunrise'?'weather_sunrise.webp':special==='sunset'?'weather_sunset.webp':r358Files[kind]||'weather_cloud.webp';
- const assetPath='images/'+assetName+'?v=V55X-R368';
+ const assetPath='images/'+assetName+'?v=V55X-R371';
  const v55fImg=document.createElement('img');v55fImg.className='v55f-photo';v55fImg.alt='';v55fImg.decoding='async';v55fImg.dataset.status='pending';v55fImg.dataset.asset=assetName;
  v55fImg.onload=function(){this.dataset.status='ok';this.style.display='block';window.r358WeatherPreviewImageStatus?.();};
  v55fImg.onerror=function(){
   if(this.dataset.attempt!=='jpg'){
-   this.dataset.attempt='jpg';this.src='images/'+assetName.replace(/\.webp$/i,'.jpg')+'?v=V55X-R368';return;
+   this.dataset.attempt='jpg';this.src='images/'+assetName.replace(/\.webp$/i,'.jpg')+'?v=V55X-R371';return;
   }
   this.dataset.status='failed';this.style.display='none';
   console.warn('[R358] Weather preview image unavailable; using gradient:',assetName);
@@ -3046,7 +3169,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  const layer=document.createElement('div');layer.id='v52wLcdPreview';
  const frame=document.createElement('iframe');frame.title='실제 LCD 엔진 날씨 실시간 미리보기';
  frame.loading='lazy';frame.setAttribute('aria-label','날씨 LCD 출력과 동일한 배치 미리보기');
- frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R368';
+ frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R371';
  layer.appendChild(frame);
  const tag=document.createElement('span');tag.id='v52wLcdPreviewTag';tag.textContent='실제 LCD 배치 · 16:9';layer.appendChild(tag);
  viewport.appendChild(layer);
@@ -3183,7 +3306,7 @@ window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===
   if(!lcdTestFrame){
    lcdTestFrame=document.createElement('iframe');lcdTestFrame.title='실제 LCD 엔진 날씨 애니메이션 테스트';
    lcdTestFrame.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;background:#10243a';
-   lcdTestFrame.src='main.html?preview=1&previewScreen=weather&v=V55X-R368';
+   lcdTestFrame.src='main.html?preview=1&previewScreen=weather&v=V55X-R371';
    stage.replaceChildren(lcdTestFrame);
    lcdTestFrame.addEventListener('load',()=>setTimeout(sendTest,150));
   }else sendTest();
@@ -6047,7 +6170,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
   function status(){
     var s=scene(),photo=page.querySelector(':scope > .v55h-forest-photo, :scope > #wx50Scene .v55f-photo');
-    return {version:'V55X-R368',view:isMain?'LCD':'admin',screen:isMain?(document.body.dataset.lcdScreen||'-'):'preview',
+    return {version:'V55X-R371',view:isMain?'LCD':'admin',screen:isMain?(document.body.dataset.lcdScreen||'-'):'preview',
       mode:mode()||'-',kind:s?s.className:'none',nightPhoto:photo?.getAttribute('src')||'-',
       photoStatus:photo?.dataset.status||'-',eligible:eligible(),visible:visible(),
       canvas:!!canvas&&canvas.isConnected,starCount:points.length,
@@ -6061,7 +6184,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if(!diag)return;
     if(!diagBox){diagBox=document.createElement('div');diagBox.id='r361NightDiag';document.body.appendChild(diagBox);}
     var x=status();
-    diagBox.textContent='R368 NIGHT DIAG / ds-test\n'+
+    diagBox.textContent='R369 NIGHT DIAG / ds-test\n'+
       'screen: '+x.screen+' / mode: '+x.mode+'\n'+
       'scene: '+x.kind+' / night: '+x.eligible+'\n'+
       'visible: '+x.visible+' / canvas: '+x.canvas+'\n'+
@@ -6085,4 +6208,286 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   setInterval(sync,900);if(diag)setInterval(refreshDiag,1000);sync();
 })();
 
+</script><script id="r371-news-ticker-admin-runtime">
+(function(){'use strict';
+ const $=id=>document.getElementById(id);
+ const parent=$('v42SequencePanel');if(!parent)return;
+ const palettes={
+  'jp-basic':{name:'일본 기본형',tag:'お知らせ',fg:'#19344d',bg:'#f3f6fb',tagBg:'#214d78',tagFg:'#ffffff'},
+  'jp-alert':{name:'일본 주의형',tag:'주의',fg:'#332512',bg:'#fff2bb',tagBg:'#e4a621',tagFg:'#241800'},
+  'us-breaking':{name:'미국 뉴스형',tag:'NEWS',fg:'#ffffff',bg:'#111c2b',tagBg:'#c72232',tagFg:'#ffffff',top:'BREAKING · 시설 안내'},
+  'us-market':{name:'미국 정보형',tag:'INFO',fg:'#ffffff',bg:'#122b45',tagBg:'#098d82',tagFg:'#ffffff',top:'BUILDING INFORMATION'},
+  'eu-minimal':{name:'유럽 미니멀형',tag:'안내',fg:'#283544',bg:'#ffffff',tagBg:'#aa1e2e',tagFg:'#ffffff'},
+  'eu-blue':{name:'유럽 블루형',tag:'INFO',fg:'#193e5e',bg:'#eef7fc',tagBg:'#1485ad',tagFg:'#ffffff'}
+ };
+ const DEFAULTS={tickerEnabled:false,tickerMode:'off',tickerText:'',tickerDesign:'eu-blue',tickerSpeed:75,tickerFontSize:44,tickerColor:'#193e5e',tickerBackground:'#eef7fc',tickerSchedule:[]};
+ const fieldIds=['tickerMode','tickerText','tickerSpeed','tickerFontSize','tickerColor','tickerBackground'];
+ let items=[],selected=-1,tab='content',previewKind='selected',internal=false,lastStatus='';
+ const panel=document.createElement('details');panel.id='r371TickerPanel';panel.open=true;
+ panel.innerHTML=`<summary>▤ 뉴스 자막 관리 <span style="font-size:12px;font-weight:600;color:#66819a">디자인 6종 · 예약</span></summary>
+ <p>화면 구성의 독립 메뉴입니다. 시계·문자·날씨 화면은 그대로 유지하고 하단 자막만 별도로 운영합니다.</p>
+ <label class="r371-heading">자막 운영 방식
+   <select id="tickerMode"><option value="off">사용 안 함</option><option value="always">항상 표시</option><option value="schedule">예약 시간에만 표시</option><option value="mixed">상시 표시 + 예약 자막 우선</option></select></label>
+ <div class="r371-tabs" role="tablist"><button type="button" data-r371-tab="content" class="active">① 자막 내용</button><button type="button" data-r371-tab="design">② 디자인·속도</button><button type="button" data-r371-tab="schedule">③ 예약 관리</button></div>
+ <div class="r371-page" data-r371-page="content">
+  <label>상시 표시 자막 문구 (최대 500자)<textarea id="tickerText" maxlength="500" placeholder="예: 오늘도 안전한 하루 되세요. 시설 이용 안내입니다."></textarea></label>
+  <p>‘항상 표시’에서 사용합니다. ‘상시 + 예약 우선’을 선택하면 예약 시간에는 예약 문구가 대신 나옵니다.</p>
+ </div>
+ <div class="r371-page" data-r371-page="design" hidden>
+  <div class="r371-heading">자막 디자인 6종</div><div class="r371-designs" id="r371Designs"></div>
+  <div class="r371-grid" style="margin-top:12px">
+   <label>이동 속도 (픽셀/초)<input type="number" id="tickerSpeed" min="20" max="200" step="5" value="75"></label>
+   <label>글자 크기 (기준 1080p)<input type="number" id="tickerFontSize" min="24" max="90" step="2" value="44"></label>
+   <label>글자색<input type="color" id="tickerColor" value="#193e5e"></label>
+   <label>자막 배경색<input type="color" id="tickerBackground" value="#eef7fc"></label>
+  </div>
+  <p>디자인을 선택하면 기본 색상이 적용됩니다. 이후 색상과 속도를 원하는 대로 수정할 수 있습니다.</p>
+ </div>
+ <div class="r371-page" data-r371-page="schedule" hidden>
+  <div class="r371-heading">예약 자막 목록 (최대 12개)</div><div class="r371-items" id="r371Items"></div>
+  <div class="r371-schedule-actions"><button type="button" id="r371Add">+ 예약 추가</button><button type="button" id="r371Clone" class="secondary">복제</button><button type="button" id="r371Delete" class="secondary">삭제</button></div>
+  <div id="r371Editor" hidden>
+   <div class="r371-grid">
+    <label>예약 이름<input id="r371Title" maxlength="65" placeholder="시설 점검 안내"></label>
+    <label>우선순위 (0~9)<input id="r371Priority" type="number" min="0" max="9" value="0"></label>
+    <label class="r371-check r371-wide"><input type="checkbox" id="r371Enabled" checked>이 예약 사용</label>
+    <label class="r371-wide">예약 자막 문구<textarea id="r371Text" maxlength="500"></textarea></label>
+    <label>시작 시간<input id="r371Start" type="time" value="09:00"></label>
+    <label>종료 시간<input id="r371End" type="time" value="18:00"></label>
+    <label>시작 날짜 (선택)<input id="r371StartDate" type="date"></label>
+    <label>종료 날짜 (선택)<input id="r371EndDate" type="date"></label>
+   </div>
+   <div class="r371-heading">반복 요일</div><div id="r371Weekdays" class="r371-weekdays"></div>
+   <p>종료 시간이 시작 시간보다 빠르면 다음 날까지 이어집니다. 요일·날짜 조건은 예약을 시작한 날에 적용됩니다. 예약이 겹치면 우선순위가 높은 자막을 표시합니다.</p>
+  </div>
+ </div>
+ <div class="r371-heading" style="margin-top:15px">자막 미리보기</div>
+ <div class="r371-grid"><label>실시간 LCD 미리보기 기준<select id="r371PreviewKind"><option value="selected">편집 중인 자막 미리보기</option><option value="now">현재 시각의 실제 표시 결과</option></select></label></div>
+ <div class="r371-preview"><strong>DS LCD · 하단 스크롤 자막</strong><div id="r371PreviewBar" class="r371-previewbar"><span id="r371PreviewTag" class="r371-previewtag">INFO</span><span id="r371PreviewText" class="r371-previewtext">자막 미리보기</span></div></div>
+ <span id="r371Status" aria-live="polite">현재 설정을 불러오는 중</span>
+ <small class="r371-hint">변경 후 하단 ‘저장·반영’을 누르면 서버에 저장되고 LCD에 적용됩니다. 예약은 기존 문자 예약과 독립적으로 동작합니다.</small>`;
+ // Keep the independent ticker in Screen Composition without creating an extra global navigation tab.
+ parent.appendChild(panel);
+ const designGrid=$('r371Designs');
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ for(const [id,p] of Object.entries(palettes)){
+  const btn=document.createElement('button');btn.type='button';btn.className='r371-design';btn.dataset.design=id;
+  btn.innerHTML='<span class="r371-sample" style="background:'+p.bg+';color:'+p.fg+'"><span class="r371-sample-tag" style="background:'+p.tagBg+';color:'+p.tagFg+'">'+esc(p.tag)+'</span><span class="r371-sample-copy">시설 이용 안내</span></span><span>'+esc(p.name)+'</span>';
+  btn.addEventListener('click',()=>{chosenDesign=id; $('tickerColor').value=p.fg;$('tickerBackground').value=p.bg;dirty();markDesign();draw();});designGrid.appendChild(btn);
+ }
+ const days=[['일',0],['월',1],['화',2],['수',3],['목',4],['금',5],['토',6]];
+ for(const [label,n] of days){const el=document.createElement('label');el.innerHTML='<input type="checkbox" value="'+n+'">'+label;$('r371Weekdays').appendChild(el);el.querySelector('input').addEventListener('change',()=>saveEditor());}
+ let chosenDesign='eu-blue';
+ const num=(v,lo,hi,f)=>Number.isFinite(Number(v))&&String(v).trim()!==''?Math.min(hi,Math.max(lo,Number(v))):f;
+ const hex=(v,f)=>/^#[0-9a-f]{6}$/i.test(String(v||''))?String(v):f;
+ const blank=()=>({id:'r371_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,6),title:'새 예약 자막',text:'',enabled:true,priority:0,startTime:'09:00',endTime:'18:00',startDate:'',endDate:'',weekdays:[1,2,3,4,5]});
+ function mode(){return $('tickerMode').value}
+ function readValues(){return {tickerEnabled:mode()!=='off',tickerMode:mode(),tickerText:$('tickerText').value.slice(0,500),tickerDesign:chosenDesign,tickerSpeed:num($('tickerSpeed').value,20,200,75),tickerFontSize:num($('tickerFontSize').value,24,90,44),tickerColor:hex($('tickerColor').value,palettes[chosenDesign].fg),tickerBackground:hex($('tickerBackground').value,palettes[chosenDesign].bg),tickerSchedule:JSON.parse(JSON.stringify(items))};}
+ function dirty(){if(typeof unsavedChanges==='boolean')unsavedChanges=true;}
+ function markDesign(){for(const btn of designGrid.children){const yes=btn.dataset.design===chosenDesign;btn.classList.toggle('active',yes);btn.setAttribute('aria-pressed',String(yes));}}
+ function switchTab(next){tab=next;for(const btn of panel.querySelectorAll('[data-r371-tab]'))btn.classList.toggle('active',btn.dataset.r371Tab===tab);for(const el of panel.querySelectorAll('[data-r371-page]'))el.hidden=el.dataset.r371Page!==tab;draw();}
+ for(const btn of panel.querySelectorAll('[data-r371-tab]'))btn.addEventListener('click',()=>switchTab(btn.dataset.r371Tab));
+ function renderItems(){const list=$('r371Items');list.textContent='';items.forEach((x,i)=>{const btn=document.createElement('button');btn.type='button';btn.className='r371-item'+(selected===i?' active':'');const left=document.createElement('span');left.textContent=(x.enabled?'':'[꺼짐] ')+(x.title||'예약 자막');const right=document.createElement('small');right.textContent=x.startTime+' ~ '+x.endTime;btn.append(left,right);btn.onclick=()=>{selected=i;renderItems();fillEditor();draw();};list.append(btn)});if(!items.length){const empty=document.createElement('p');empty.textContent='등록된 예약이 없습니다. ‘예약 추가’를 눌러주세요.';list.append(empty)}$('r371Editor').hidden=selected<0||!items[selected];}
+ function fillEditor(){internal=true;const v=items[selected];$('r371Editor').hidden=!v;if(v){for(const [id,key] of [['r371Title','title'],['r371Text','text'],['r371Priority','priority'],['r371Start','startTime'],['r371End','endTime'],['r371StartDate','startDate'],['r371EndDate','endDate']])$(id).value=v[key]??'';$('r371Enabled').checked=v.enabled!==false;for(const e of $('r371Weekdays').querySelectorAll('input'))e.checked=(v.weekdays||[]).includes(Number(e.value));}internal=false;}
+ function saveEditor(){if(internal||selected<0||!items[selected])return;const v=items[selected];v.title=$('r371Title').value.slice(0,65);v.text=$('r371Text').value.slice(0,500);v.priority=Math.round(num($('r371Priority').value,0,9,0));v.enabled=$('r371Enabled').checked;v.startTime=$('r371Start').value||'09:00';v.endTime=$('r371End').value||'18:00';v.startDate=$('r371StartDate').value;v.endDate=$('r371EndDate').value;v.weekdays=Array.from($('r371Weekdays').querySelectorAll('input:checked')).map(e=>Number(e.value));dirty();renderItems();draw();}
+ for(const id of ['r371Title','r371Text','r371Priority','r371Enabled','r371Start','r371End','r371StartDate','r371EndDate'])for(const ev of ['input','change'])$(id).addEventListener(ev,saveEditor);
+ $('r371Add').onclick=()=>{if(items.length>=12){alert('예약 자막은 최대 12개까지 등록할 수 있습니다.');return;}items.push(blank());selected=items.length-1;dirty();renderItems();fillEditor();draw();};
+ $('r371Clone').onclick=()=>{if(selected<0||!items[selected])return;if(items.length>=12){alert('예약 자막은 최대 12개까지 등록할 수 있습니다.');return;}const v=JSON.parse(JSON.stringify(items[selected]));v.id=blank().id;v.title+=' (복제)';items.push(v);selected=items.length-1;dirty();renderItems();fillEditor();draw();};
+ $('r371Delete').onclick=()=>{if(selected<0||!items[selected])return;if(!confirm('선택한 예약 자막을 삭제하시겠습니까?'))return;items.splice(selected,1);selected=Math.min(selected,items.length-1);dirty();renderItems();fillEditor();draw();};
+ const hh=s=>{const m=/^(\d\d):(\d\d)$/.exec(s||'');return m?Number(m[1])*60+Number(m[2]):-1};
+ function currentSchedule(date,list){
+  const mins=date.getHours()*60+date.getMinutes();const accepted=[];
+  list.forEach((v,i)=>{if(!v.enabled||!String(v.text||'').trim())return;
+   const start=hh(v.startTime),end=hh(v.endTime);if(start<0||end<0)return;
+   const days=Array.isArray(v.weekdays)?v.weekdays:[1,2,3,4,5];
+   const candidate=new Date(date);
+   if(start<end){if(mins<start||mins>=end)return;}
+   else if(start>end){if(mins>=start){}else if(mins<end){candidate.setDate(candidate.getDate()-1);}else return;}
+   else return;
+   const local=candidate.getFullYear()+'-'+String(candidate.getMonth()+1).padStart(2,'0')+'-'+String(candidate.getDate()).padStart(2,'0');
+   if(v.startDate&&local<v.startDate||v.endDate&&local>v.endDate||!days.includes(candidate.getDay()))return;
+   accepted.push({...v,index:i});
+  });accepted.sort((a,b)=>(Number(b.priority)||0)-(Number(a.priority)||0)||a.index-b.index);return accepted[0]||null;
+ }
+ function choose(c,now,useSelected){
+  const m=c.tickerMode||'off',item=currentSchedule(now,c.tickerSchedule||[]);
+  if(useSelected&&m!=='off'&&(m==='schedule'||m==='mixed')&&selected>=0&&items[selected])return {text:items[selected].text,kind:'미리보기: '+items[selected].title};
+  if(m==='off')return null;
+  if((m==='schedule'||m==='mixed')&&item)return {text:item.text,kind:'예약: '+item.title};
+  if(m==='always'||m==='mixed')return c.tickerText.trim()?{text:c.tickerText,kind:'상시 자막'}:null;
+  return null;
+ }
+ if(typeof readForm==='function'){const old=readForm;readForm=function(){return {...old(),...readValues()};};}
+ if(typeof fill==='function'){const old=fill;fill=function(c){const result=old(c),src=c||{};internal=true;
+   const m=['off','always','schedule','mixed'].includes(src.tickerMode)?src.tickerMode:src.tickerEnabled===true?'always':'off';$('tickerMode').value=m;
+   chosenDesign=palettes[src.tickerDesign]?src.tickerDesign:'eu-blue';const p=palettes[chosenDesign];
+   $('tickerText').value=String(src.tickerText||'').slice(0,500);$('tickerSpeed').value=num(src.tickerSpeed,20,200,75);$('tickerFontSize').value=num(src.tickerFontSize,24,90,44);
+   $('tickerColor').value=hex(src.tickerColor,src.tickerDesign?p.fg:'#ffffff');$('tickerBackground').value=hex(src.tickerBackground,src.tickerDesign?p.bg:'#102b48');
+   items=Array.isArray(src.tickerSchedule)?JSON.parse(JSON.stringify(src.tickerSchedule)).slice(0,12):[];
+   selected=items.length?0:-1;internal=false;markDesign();renderItems();fillEditor();draw();return result;};}
+ if(typeof compareSavedSettingsV29==='function'){const old=compareSavedSettingsV29;compareSavedSettingsV29=function(want,got){const diffs=old(want,got);for(const k of ['tickerMode','tickerText','tickerDesign','tickerSpeed','tickerFontSize','tickerColor','tickerBackground'])if(String(want[k]??DEFAULTS[k])!==String(got[k]??DEFAULTS[k]))diffs.push('뉴스 자막 '+k+' 저장 불일치');if(JSON.stringify(want.tickerSchedule||[])!==JSON.stringify(got.tickerSchedule||[]))diffs.push('뉴스 자막 예약 저장 불일치');return diffs;};}
+ if(typeof save==='function'){const old=save;save=async function(){if(!initialLoadComplete)return old();try{const c=await getRemote(15000);if(!Object.prototype.hasOwnProperty.call(c||{},'tickerMode')||!Object.prototype.hasOwnProperty.call(c||{},'tickerSchedule')){message('R371 Code.gs를 먼저 배포하세요. 예약 자막 저장 기능이 없는 서버입니다.','error');return;}}catch(e){message('뉴스 자막 서버 확인 실패: '+String(e.message||e),'error');return;}return old();};const btn=$('save');if(btn)btn.onclick=()=>save();}
+ function updateStyles(bar,c){const p=palettes[c.tickerDesign]||palettes['eu-blue'],tag=bar.querySelector('.r371-label'),heading=bar.querySelector('.r371-topline'),scroll=bar.querySelector('.r371-moving');
+  bar.style.background=c.tickerBackground;bar.classList.toggle('r371-two-line',!!p.top);
+  if(p.top){heading.hidden=false;heading.textContent=p.top;}else heading.hidden=true;
+  tag.textContent=p.tag;tag.style.background=p.tagBg;tag.style.color=p.tagFg;tag.style.fontSize='clamp(18px,'+(c.tickerFontSize*.55)+'px,33px)';
+  scroll.style.color=c.tickerColor;scroll.style.fontSize=c.tickerFontSize+'px';return {scroll,tag,p};}
+ function roots(){const all=[...document.querySelectorAll('#previewStage,#previewModalStage')];for(const id of ['r207Float','r254PcFloat']){const shell=$(id);if(shell?.shadowRoot){if(!shell.shadowRoot.querySelector('#r371ShadowStyle')){const style=document.createElement('style');style.id='r371ShadowStyle';style.textContent=$('r371-news-ticker-admin-style')?.textContent||'';shell.shadowRoot.append(style);}all.push(...shell.shadowRoot.querySelectorAll('[id="previewStage"]'));}}return [...new Set(all)];}
+ function draw(){if(internal)return;const c=readValues(),show=choose(c,new Date(),previewKind==='selected');
+  const p=palettes[chosenDesign],sample=$('r371PreviewBar');sample.style.background=c.tickerBackground;$('r371PreviewTag').textContent=p.tag;$('r371PreviewTag').style.background=p.tagBg;$('r371PreviewTag').style.color=p.tagFg;$('r371PreviewText').style.color=c.tickerColor;
+  $('r371PreviewText').textContent=show?.text||'현재 표시할 자막이 없습니다.';
+  const found=currentSchedule(new Date(),items);$('r371Status').textContent=c.tickerMode==='off'?'자막 꺼짐':show?'미리보기: '+show.kind+(found?' · 현재 활성 예약: '+found.title:''):'현재 시각에 표시할 예약 자막이 없습니다.';
+  const sig=JSON.stringify([c.tickerDesign,c.tickerSpeed,c.tickerFontSize,c.tickerColor,c.tickerBackground,show?.text||'']);
+  for(const stage of roots()){let bar=Array.from(stage.children).find(e=>e.classList?.contains('r371-ticker'));if(!bar){bar=document.createElement('div');bar.className='r371-ticker';bar.innerHTML='<div class="r371-topline" hidden></div><span class="r371-label"></span><span class="r371-moving"></span>';stage.appendChild(bar);}
+   bar.hidden=!show?.text?.trim();if(bar.hidden)continue;
+   const {scroll,tag}=updateStyles(bar,c);bar.style.height=Math.max(62,c.tickerFontSize+(palettes[c.tickerDesign]?.top?54:28))+'px';
+   if(scroll.textContent!==show.text)scroll.textContent=show.text;
+   const key=sig+'|'+stage.clientWidth;if(bar.dataset.r371Key!==key){bar.dataset.r371Key=key;const width=stage.clientWidth||1920,remaining=width+scroll.scrollWidth;bar.style.setProperty('--r371-area-width',width+'px');bar.style.setProperty('--r371-duration',Math.max(4,remaining/c.tickerSpeed).toFixed(2)+'s');scroll.style.animation='none';void scroll.offsetWidth;scroll.style.animation='';}
+   scroll.style.left='100%';tag.hidden=false;
+  }
+ }
+ for(const id of fieldIds)for(const ev of ['input','change'])$(id).addEventListener(ev,()=>{if(internal)return;dirty();draw();});
+ $('r371PreviewKind').onchange=()=>{previewKind=$('r371PreviewKind').value;draw();};
+ markDesign();renderItems();switchTab('content');window.r371TickerScheduleAt=(when,list)=>currentSchedule(new Date(when),list||items);window.r371TickerRefresh=draw;window.r369TickerRefresh=draw;
+ setInterval(draw,1100);document.addEventListener('click',()=>setTimeout(draw,80));
+})();
+
+</script><script id="r370-analog-clock-runtime">
+(function(){'use strict';
+ const admin=!!document.getElementById('previewStage');
+ const DEFAULT_STYLE='digital';
+ const styles=['digital','flip','board'];
+ const shades=['dark','light'];
+ const defaults={clockVisualStyle:'digital',clockVisualTone:'dark',clockBoardText:'오늘도 안전한 하루 되세요',clockSecondHand:true};
+ const $=id=>document.getElementById(id);
+ if(admin){
+   const panel=$('v42ClockPanel');
+   if(!panel)return;
+   const group=document.createElement('section');group.id='r370ClockPanel';group.setAttribute('aria-label','아날로그 시계 디자인 선택');
+   group.innerHTML=`<h3>🕒 시계 디자인</h3><p class="r370-note">기존 디지털 시계를 유지하거나, 사진처럼 아날로그 바늘과 날짜 플립 표시가 있는 시계를 선택하세요. 시계 화면에만 적용됩니다.</p>
+   <div class="r370-fields">
+    <label class="r370-wide">디자인 선택<select id="clockVisualStyle"><option value="digital">기존 디지털 시계 (변경 없음)</option><option value="flip">사각 아날로그 + 요일·날짜 플립</option><option value="board">벽걸이형 · 왼쪽 시계 + 오른쪽 안내문</option></select></label>
+    <label>시계 색상<select id="clockVisualTone"><option value="dark">검정 · 클래식</option><option value="light">화이트 · 클래식</option></select></label>
+    <label class="r370-check"><input id="clockSecondHand" type="checkbox" checked>초침 표시</label>
+    <label class="r370-wide" id="r370BoardLabel">벽걸이형 안내 문구<input id="clockBoardText" type="text" maxlength="120" placeholder="예: 시설 이용 안내"></label>
+   </div><small id="r370ClockState">기존 디지털 시계 표시 중</small>`;
+   const h=panel.querySelector('h2');if(h)h.after(group);else panel.prepend(group);
+   function readValues(){return {clockVisualStyle:styles.includes($('clockVisualStyle').value)?$('clockVisualStyle').value:DEFAULT_STYLE,clockVisualTone:shades.includes($('clockVisualTone').value)?$('clockVisualTone').value:'dark',clockBoardText:$('clockBoardText').value.slice(0,120),clockSecondHand:$('clockSecondHand').checked};}
+   if(typeof readForm==='function'){
+     const previous=readForm;
+     readForm=function(){return {...previous(),...readValues()};};
+   }
+   if(typeof fill==='function'){
+     const previous=fill;
+     fill=function(c){const result=previous(c);const source=c&&typeof c==='object'?c:{};
+       for(const k of Object.keys(defaults)){
+         const el=$(k);if(!el)continue;const v=source[k]===undefined?defaults[k]:source[k];
+         if(el.type==='checkbox')el.checked=v===true||v==='true'||v===1;else el.value=String(v);
+       }
+       updatePanel();draw();return result;};
+   }
+   if(typeof compareSavedSettingsV29==='function'){
+     const previous=compareSavedSettingsV29;
+     compareSavedSettingsV29=function(want,got){const differences=previous(want,got);
+       for(const k of Object.keys(defaults))if(String(want[k]??defaults[k])!==String(got[k]??defaults[k]))differences.push('시계 디자인 설정 불일치: '+k);
+       return differences;};
+   }
+   if(typeof save==='function'){
+     const previous=save;
+     save=async function(){
+       if(readValues().clockVisualStyle!=='digital' && typeof getRemote==='function'){
+         try{const c=await getRemote(15000);
+           if(!Object.prototype.hasOwnProperty.call(c||{},'clockVisualStyle')){message('R370 Code.gs를 먼저 배포해 주세요. 새 서버가 시계 디자인을 저장할 수 없습니다.','error');return;}
+         }catch(e){message('시계 디자인 서버 연결 확인 실패: '+String(e.message||e),'error');return;}
+       }
+       return previous();
+     };
+     const btn=$('save');if(btn)btn.onclick=()=>save();
+   }
+   function updatePanel(){
+     const c=readValues(),analog=c.clockVisualStyle!=='digital',board=c.clockVisualStyle==='board';
+     $('r370BoardLabel').hidden=!board;
+     $('r370ClockState').textContent=analog?'실시간 LCD 미리보기에서 디자인 확인 후 하단 저장·반영을 누르세요.':'기존 디지털 시계 표시 중 · 저장된 다른 시계 설정은 유지됩니다.';
+   }
+   for(const key of Object.keys(defaults)){
+     const input=$(key);if(!input)continue;
+     for(const e of ['input','change'])input.addEventListener(e,()=>{if(typeof unsavedChanges==='boolean')unsavedChanges=true;updatePanel();draw();if(typeof preview==='function')preview();});
+   }
+   updatePanel();
+ }
+ const stage=admin?$('previewStage'):document.body;
+ if(!stage)return;
+ const scene=document.createElement('div');scene.id='r370Clock';scene.hidden=true;
+ scene.innerHTML=`<div class="r370-scene"></div><div class="r370-housing"><div class="r370-inner"></div>
+ <div class="r370-calendar"><div class="r370-flip-tile" data-part="weekday">MON</div><div class="r370-flip-tile" data-part="day">25</div><div class="r370-flip-tile" data-part="month">NOV</div></div>
+ <div class="r370-dial"><div class="r370-ticks"></div><div class="r370-numbers"></div>
+ <div class="r370-brand">DS · QUARTZ</div><div class="r370-hand r370-hour"></div><div class="r370-hand r370-minute"></div><div class="r370-hand r370-second"></div><div class="r370-axis"></div></div>
+ <div class="r370-footer">DS ANALOG CLOCK</div>
+ <div class="r370-board-message"><div class="r370-board-title"></div><div class="r370-board-stripe"></div><div class="r370-board-time"></div></div>
+ </div>`;
+ stage.appendChild(scene);
+ if(!admin){
+   scene.style.position='fixed';scene.style.left='50%';scene.style.top='50%';scene.style.right='auto';scene.style.bottom='auto';scene.style.transformOrigin='center center';scene.style.transform='translate(-50%,-50%) scale(1)';
+ }
+ const dial=scene.querySelector('.r370-dial'),ticks=scene.querySelector('.r370-ticks'),nums=scene.querySelector('.r370-numbers');
+ for(let i=0;i<60;i++){
+   const marker=document.createElement('i');marker.className='r370-tick'+(i%5===0?' major':'');
+   // Central origin with outward-oriented tick; allow dial size to vary using a design variable.
+   marker.style.left=(50+Math.sin(i*Math.PI/30)*(i%5===0?43.6:45.7))+'%';
+   marker.style.top=(50-Math.cos(i*Math.PI/30)*(i%5===0?43.6:45.7))+'%';
+   marker.style.transform='translate(-50%,-50%) rotate('+(i*6)+'deg)';
+   marker.style.transformOrigin='50% 50%';ticks.appendChild(marker);
+ }
+ for(let i=1;i<=12;i++){
+   const a=i*Math.PI/6,n=document.createElement('span');n.className='r370-numeral';n.textContent=i;
+   n.style.left=(50+Math.sin(a)*37)+'%';n.style.top=(50-Math.cos(a)*37)+'%';nums.appendChild(n);
+ }
+ let cachedSig='',lastDateKey='',prevVisible=false;
+ function cfg(){return admin?(typeof readForm==='function'?readForm():{}):(typeof config==='object'&&config?config:{});}
+ function isClock(){
+   if(!admin)return document.body.dataset.lcdScreen==='clock';
+   const tab=document.querySelector('#v42Tabs .v42-tab.active,#v42Tabs .v42-tab[aria-selected="true"]');
+   return (tab?.textContent||'').includes('날짜') && (typeof previewScreen==='undefined'||previewScreen==='clock');
+ }
+ function draw(){
+   if(!scene.isConnected)stage.appendChild(scene);
+   const c=cfg(),design=styles.includes(c.clockVisualStyle)?c.clockVisualStyle:'digital';
+   const visible=design!=='digital' && isClock();
+   if(admin){stage.classList.toggle('r370-clock-selected',visible);}
+   else document.body.classList.toggle('r370-clock-selected',visible);
+   scene.hidden=!visible;
+   if(!visible){prevVisible=false;cachedSig='';return;}
+   if(!admin){const scale=Math.min(window.innerWidth/1920,window.innerHeight/1080);scene.style.transform='translate(-50%,-50%) scale('+Math.max(.1,scale)+')';}
+   const tone=shades.includes(c.clockVisualTone)?c.clockVisualTone:'dark';
+   const sig=[design,tone,String(c.clockBoardText||''),c.clockSecondHand===false?'off':'on'].join('|');
+   if(sig!==cachedSig){
+     scene.className='r370-style-'+design+' r370-tone-'+tone;
+     scene.querySelector('.r370-board-title').textContent=String(c.clockBoardText||defaults.clockBoardText).slice(0,120);
+     scene.querySelector('.r370-second').style.display=c.clockSecondHand===false?'none':'';
+     cachedSig=sig;
+   }
+   const now=new Date(),ms=now.getMilliseconds(),h=now.getHours(),mi=now.getMinutes(),sec=now.getSeconds()+ms/1000;
+   const angles=[(h%12+mi/60+sec/3600)*30,(mi+sec/60)*6,sec*6];
+   for(const [i,selector] of ['.r370-hour','.r370-minute','.r370-second'].entries())scene.querySelector(selector).style.setProperty('--r370-rotate',angles[i].toFixed(3)+'deg');
+   const weekdays=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+   const months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+   const key=now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate();
+   if(key!==lastDateKey||!prevVisible){
+     const texts=[weekdays[now.getDay()],String(now.getDate()),months[now.getMonth()]];
+     scene.querySelectorAll('.r370-flip-tile').forEach((el,i)=>{
+       if(el.textContent!==texts[i]){
+         el.textContent=texts[i];
+         el.dataset.r370Flip='1';setTimeout(()=>{if(el.isConnected)delete el.dataset.r370Flip},650);
+       }
+     });lastDateKey=key;
+   }
+   scene.querySelector('.r370-board-time').textContent=now.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'})+'  ·  '+now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
+   prevVisible=true;
+ }
+ window.r370ClockStatus=()=>({mode:scene.className,visible:!scene.hidden,date:scene.querySelector('[data-part="day"]').textContent,hourTransform:scene.querySelector('.r370-hour').style.getPropertyValue('--r370-rotate'),screen:document.body.dataset.lcdScreen||'admin'});
+ window.r370ClockDraw=draw;
+ setInterval(draw,200);
+ window.addEventListener('resize',draw);
+ draw();
+})();
 </script></body></html>

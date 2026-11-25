@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS정식 LCD 시계 V55X-R368</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,"Malgun Gothic",sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;font:12px Arial,sans-serif;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS정식 LCD 시계 V55X-R371</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,"Malgun Gothic",sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;font:12px Arial,sans-serif;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
 body[data-lcd-screen="message"] #time,body[data-lcd-screen="message"] #date{opacity:0!important;}body[data-lcd-screen="clock"] #messageScreen,body[data-lcd-screen="clock"] #messageBlocks{opacity:0!important;}body[data-lcd-screen="message"] #messageScreen.active,body[data-lcd-screen="message"] #messageBlocks.active{opacity:1!important;}body[data-lcd-effect="slide"][data-lcd-screen="message"] #bg,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #shade,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #time,
@@ -254,7 +254,90 @@ body[data-lcd-effect="none"] #r109WeatherText{transition:none!important}</style>
  border-radius:8px;padding:9px 11px;font:12px/1.55 monospace;
  max-width:min(95vw,440px);white-space:pre-wrap;overflow-wrap:anywhere;
  pointer-events:none;}
-</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R368</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+</style><style id="r371-news-ticker-main-style">
+#r371Ticker{position:fixed;left:0;right:0;bottom:0;width:100%;height:clamp(40px,6.9vh,95px);z-index:55;display:flex;align-items:center;overflow:hidden;pointer-events:none;isolation:isolate;box-sizing:border-box}
+#r371Ticker[hidden]{display:none!important}
+#r371Ticker .r371-label{position:absolute;left:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;padding:0 clamp(9px,1.2vw,25px);font-weight:900;white-space:nowrap;z-index:2}
+#r371Ticker .r371-moving{position:absolute;left:100%;top:50%;white-space:nowrap;line-height:1.15;font-weight:750;will-change:transform;animation:r371-crawl var(--r371-duration,24s) linear infinite}
+#r371Ticker.r371-two-line .r371-topline{position:absolute;top:0;left:0;right:0;height:30%;display:flex;align-items:center;padding-left:1.2vw;font-size:clamp(10px,1.8vh,22px);font-weight:900;background:#e9f2fa;color:#183957;z-index:1}
+#r371Ticker.r371-two-line .r371-moving{top:66%}
+@keyframes r371-crawl{from{transform:translate3d(0,-50%,0)}to{transform:translate3d(calc(-100% - var(--r371-area-width,1920px)),-50%,0)}}
+@media (prefers-reduced-motion:reduce){#r371Ticker .r371-moving{animation-play-state:paused}}
+</style><style id="r370-analog-clock-style">
+/* R370: self-contained clock-only scene; inactive in the default digital mode. */
+#r370ClockPanel{padding:13px;margin:8px 0 18px;border:1px solid #c9d8e7;background:#f3f8fd;border-radius:12px}
+#r370ClockPanel h3{font-size:18px;color:#153e65;margin:0 0 7px}
+#r370ClockPanel .r370-note{margin:5px 0 10px;font-size:13px;line-height:1.5;color:#536c81}
+#r370ClockPanel .r370-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#r370ClockPanel label{margin:0;display:flex;flex-direction:column;gap:5px;font-size:14px;font-weight:750}
+#r370ClockPanel select,#r370ClockPanel input[type="text"]{width:100%;min-width:0;min-height:46px;background:#fff;border:1px solid #c0d1e2;border-radius:9px;padding:8px 10px;font-size:15px}
+#r370ClockPanel .r370-check{display:flex;align-items:center;gap:9px;min-height:46px}
+#r370ClockPanel .r370-check input{width:23px;height:23px;min-height:23px;margin:0;accent-color:#1c638d}
+#r370ClockPanel .r370-wide{grid-column:1/-1}
+#r370ClockPanel #r370ClockState{font-size:12px;color:#345777;margin-top:10px;display:block}
+#r370ClockPanel [hidden]{display:none!important}
+@media(max-width:490px){#r370ClockPanel{padding:11px}#r370ClockPanel .r370-fields{gap:8px}#r370ClockPanel label{font-size:13px}}
+#r370Clock{position:absolute;inset:0;width:1920px;height:1080px;z-index:37;pointer-events:none;user-select:none;color:#fff;font-family:Arial,'Malgun Gothic',sans-serif;overflow:hidden}
+#r370Clock[hidden]{display:none!important}
+#r370Clock .r370-scene{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#343b45,#111820 78%)}
+#r370Clock .r370-housing{position:absolute;box-sizing:border-box;border:16px solid #2d343c;background:#24272d;box-shadow:0 20px 70px #0009,inset 0 0 0 5px #555e68,inset 0 0 30px #0009;overflow:hidden}
+#r370Clock.r370-style-flip .r370-housing{width:820px;height:1004px;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:38px}
+#r370Clock .r370-inner{position:absolute;inset:12px;border:4px solid #151a21;border-radius:16px;background:linear-gradient(145deg,#2a2b2f,#15181e)}
+#r370Clock .r370-calendar{position:absolute;top:43px;left:6%;right:6%;height:142px;display:flex;gap:11px;align-items:stretch;justify-content:space-between}
+#r370Clock .r370-flip-tile{position:relative;flex:1;min-width:0;border-radius:10px;color:#f9fbff;background:linear-gradient(#343538 0 49.4%,#111317 50%,#282a2e 51%);box-shadow:inset 0 4px 13px #0006,0 4px 8px #0007;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:78px;font-weight:900;letter-spacing:-.06em;text-shadow:0 3px 4px #0005;font-family:'Arial Narrow',Arial,sans-serif;font-stretch:condensed}
+#r370Clock .r370-flip-tile::after{content:'';position:absolute;inset:50% 0 auto;border-top:2px solid #08090b;box-shadow:0 1px 2px #5a5a5b5c;pointer-events:none}
+#r370Clock .r370-flip-tile[data-r370-flip="1"]{animation:r370-flip .6s ease-in-out}
+@keyframes r370-flip{0%{transform:perspective(600px) rotateX(0)}35%{transform:perspective(600px) rotateX(-9deg)}80%,100%{transform:perspective(600px) rotateX(0)}}
+#r370Clock .r370-dial{position:absolute;left:50%;top:62%;width:630px;height:630px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,#2a2d31,#1c2026 70%,#11151b 100%);box-shadow:inset 0 0 30px #0008}
+#r370Clock .r370-tick{position:absolute;left:50%;top:50%;width:4px;height:18px;border-radius:2px;background:#e8e8e9;transform-origin:50% 312px}
+#r370Clock .r370-tick.major{height:27px;width:7px;background:#f8f8f8}
+#r370Clock .r370-numeral{position:absolute;transform:translate(-50%,-50%);font-size:53px;line-height:1;color:#f6f6f6;font-family:Arial,sans-serif;font-weight:520}
+#r370Clock .r370-brand{position:absolute;left:0;right:0;top:40%;font-size:16px;text-align:center;letter-spacing:.19em;color:#c9c9ca}
+#r370Clock .r370-axis{position:absolute;left:50%;top:50%;width:18px;height:18px;border-radius:50%;transform:translate(-50%,-50%);background:#f9f9f9;z-index:8;box-shadow:0 2px 5px #0008}
+#r370Clock .r370-hand{position:absolute;top:50%;left:50%;width:0;height:0;transform:rotate(var(--r370-rotate,0deg));transform-origin:0 0;z-index:5}
+#r370Clock .r370-hand::before{content:'';position:absolute;bottom:-32px;left:50%;transform:translateX(-50%);width:var(--r370-hand-width);height:var(--r370-hand-length);background:var(--r370-hand-color,#fff);clip-path:polygon(31% 0,69% 0,87% 85%,100% 100%,0 100%,13% 85%);border-radius:4px}
+#r370Clock .r370-hour{--r370-hand-length:205px;--r370-hand-width:28px;z-index:6}
+#r370Clock .r370-minute{--r370-hand-length:280px;--r370-hand-width:19px;z-index:7}
+#r370Clock .r370-second{--r370-hand-length:290px;--r370-hand-width:4px;--r370-hand-color:#c84c4c;z-index:8}
+#r370Clock .r370-footer{position:absolute;left:0;right:0;bottom:28px;text-align:center;font-size:17px;color:#9facb9;letter-spacing:.13em}
+/* Wallboard: clock in the left column; customizable text on the right. */
+#r370Clock.r370-style-board .r370-scene{background:#ece5d8}
+#r370Clock.r370-style-board .r370-housing{left:50%;top:50%;transform:translate(-50%,-50%);width:1840px;height:920px;border-radius:6px;border:16px ridge #8c8e8b;background:#151617;box-shadow:0 22px 48px #0005,inset 0 0 3px #aab3b0}
+#r370Clock.r370-style-board .r370-inner{inset:7px;border:0;border-radius:0;background:linear-gradient(100deg,#303237 0 34.5%,#18191c 34.5% 100%)}
+#r370Clock.r370-style-board .r370-calendar{top:68px;left:4%;right:65%;height:101px;gap:6px}
+#r370Clock.r370-style-board .r370-flip-tile{font-size:54px;border-radius:5px}
+#r370Clock.r370-style-board .r370-dial{top:47%;left:17.3%;width:490px;height:490px;background:transparent;box-shadow:none}
+#r370Clock.r370-style-board .r370-tick{transform-origin:50% 241px;height:15px}
+#r370Clock.r370-style-board .r370-tick.major{height:22px;width:6px}
+#r370Clock.r370-style-board .r370-numeral{font-size:42px}
+#r370Clock.r370-style-board .r370-brand{top:40%;font-size:12px}
+#r370Clock.r370-style-board .r370-hour{--r370-hand-length:160px;--r370-hand-width:24px}
+#r370Clock.r370-style-board .r370-minute{--r370-hand-length:220px;--r370-hand-width:17px}
+#r370Clock.r370-style-board .r370-second{--r370-hand-length:215px}
+#r370Clock.r370-style-board .r370-footer{left:4%;right:65%;bottom:72px;font-size:16px}
+#r370Clock .r370-board-message{display:none}
+#r370Clock.r370-style-board .r370-board-message{position:absolute;display:flex;left:37%;right:5%;top:5%;bottom:5%;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px;gap:26px}
+#r370Clock .r370-board-title{font-size:85px;line-height:1.35;font-weight:800;word-break:keep-all;overflow-wrap:anywhere;white-space:pre-wrap;text-shadow:0 2px 10px #0005;max-height:65%;overflow:hidden}
+#r370Clock .r370-board-time{font-size:44px;letter-spacing:.08em;font-variant-numeric:tabular-nums;color:#cbd4db}
+#r370Clock .r370-board-stripe{height:3px;width:58%;background:#6b8997;opacity:.4}
+/* Optional bright case, like the white variations in the user's clock photos. */
+#r370Clock.r370-tone-light .r370-housing{background:#e6e5e2;border-color:#b7b8ba;box-shadow:0 20px 60px #0006,inset 0 0 0 4px #ddd}
+#r370Clock.r370-tone-light .r370-inner{background:linear-gradient(140deg,#f6f4f0,#d5d5d4)}
+#r370Clock.r370-tone-light .r370-dial{background:#eceae6}
+#r370Clock.r370-tone-light .r370-tick,#r370Clock.r370-tone-light .r370-numeral{color:#22252a;background:#22252a}
+#r370Clock.r370-tone-light .r370-numeral{background:transparent}
+#r370Clock.r370-tone-light .r370-hour,#r370Clock.r370-tone-light .r370-minute{--r370-hand-color:#252930}
+#r370Clock.r370-tone-light .r370-brand,#r370Clock.r370-tone-light .r370-footer{color:#333}
+#r370Clock.r370-tone-light .r370-flip-tile{color:#fafafa}
+#r370Clock.r370-style-board.r370-tone-light .r370-board-title{color:#232931;text-shadow:none}
+#r370Clock.r370-style-board.r370-tone-light .r370-board-time{color:#485968}
+#r370Clock.r370-style-board.r370-tone-light .r370-inner{background:linear-gradient(100deg,#eae8e5 0 34.5%,#f4f3ef 34.5% 100%)}
+/* Isolate to date/time clock screen, do not alter weather, message or schedule. */
+#previewStage.r370-clock-selected>#pvTime,#previewStage.r370-clock-selected>#pvDate,#previewStage.r370-clock-selected>#r185Clock{display:none!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#time,body.r370-clock-selected[data-lcd-screen="clock"]>#date,body.r370-clock-selected[data-lcd-screen="clock"]>#r185Clock{display:none!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#clockWeather{z-index:38!important}
+body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!important}
+</style></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R371</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -388,7 +471,7 @@ window.addEventListener('error',function(e){
  window.r169ParticleStatus=()=>({frames,moved,skipped,loops,errors,lastFrameAt,scenes:fields.size,screen:document.body.dataset.lcdScreen,particles:Array.from(fields.values()).reduce((n,a)=>n+a.length,0),firstY:(Array.from(fields.values())[0]||[])[0]?.lastY??null});
  window.r168ParticleStatus=window.r169ParticleStatus;
 })();
-</script><script src="config.js?v=V55X-R368"></script><script src="shared.js?v=V51-20261105"></script><script>
+</script><script src="config.js?v=V55X-R371"></script><script src="shared.js?v=V51-20261105"></script><script>
 
 /* V49: standalone original SVG line icons; no external icon assets or network requests. */
 const WX49_NS='http://www.w3.org/2000/svg';
@@ -883,8 +966,8 @@ function v55hForestName(code,isDay){
 function v55hSetBackground(page,code,isDay){
  const name=v55hForestName(code,isDay);
  const file=R357_WEATHER_ASSETS[name]||R357_WEATHER_ASSETS.cloud;
- const path='images/'+file+'?v=V55X-R368';
- const jpeg='images/'+file.replace(/\.webp$/i,'.jpg')+'?v=V55X-R368';
+ const path='images/'+file+'?v=V55X-R371';
+ const jpeg='images/'+file.replace(/\.webp$/i,'.jpg')+'?v=V55X-R371';
  let photo=page.querySelector(':scope > .v55h-forest-photo');
  if(!photo){photo=document.createElement('img');photo.className='v55h-forest-photo';photo.alt='';photo.decoding='async';page.prepend(photo)}
  let shade=page.querySelector(':scope > .v55h-forest-shade');
@@ -1566,7 +1649,7 @@ body:not(.r358-weather-diag) #r358WeatherDiag{display:none!important}
   }
   function status(){
     var s=scene(),photo=page.querySelector(':scope > .v55h-forest-photo, :scope > #wx50Scene .v55f-photo');
-    return {version:'V55X-R368',view:isMain?'LCD':'admin',screen:isMain?(document.body.dataset.lcdScreen||'-'):'preview',
+    return {version:'V55X-R371',view:isMain?'LCD':'admin',screen:isMain?(document.body.dataset.lcdScreen||'-'):'preview',
       mode:mode()||'-',kind:s?s.className:'none',nightPhoto:photo?.getAttribute('src')||'-',
       photoStatus:photo?.dataset.status||'-',eligible:eligible(),visible:visible(),
       canvas:!!canvas&&canvas.isConnected,starCount:points.length,
@@ -1580,7 +1663,7 @@ body:not(.r358-weather-diag) #r358WeatherDiag{display:none!important}
     if(!diag)return;
     if(!diagBox){diagBox=document.createElement('div');diagBox.id='r361NightDiag';document.body.appendChild(diagBox);}
     var x=status();
-    diagBox.textContent='R368 NIGHT DIAG / ds-test\n'+
+    diagBox.textContent='R369 NIGHT DIAG / ds-test\n'+
       'screen: '+x.screen+' / mode: '+x.mode+'\n'+
       'scene: '+x.kind+' / night: '+x.eligible+'\n'+
       'visible: '+x.visible+' / canvas: '+x.canvas+'\n'+
@@ -1604,4 +1687,200 @@ body:not(.r358-weather-diag) #r358WeatherDiag{display:none!important}
   setInterval(sync,900);if(diag)setInterval(refreshDiag,1000);sync();
 })();
 
+</script><script id="r371-news-ticker-main-runtime">
+(function(){'use strict';
+ const bar=document.createElement('div');bar.id='r371Ticker';bar.hidden=true;bar.setAttribute('aria-hidden','true');
+ bar.innerHTML='<div class="r371-topline" hidden></div><span class="r371-label"></span><span class="r371-moving"></span>';document.body.appendChild(bar);
+ const themes={
+  'jp-basic':{tag:'お知らせ',fg:'#19344d',bg:'#f3f6fb',tagBg:'#214d78',tagFg:'#ffffff'},
+  'jp-alert':{tag:'주의',fg:'#332512',bg:'#fff2bb',tagBg:'#e4a621',tagFg:'#241800'},
+  'us-breaking':{tag:'NEWS',fg:'#ffffff',bg:'#111c2b',tagBg:'#c72232',tagFg:'#ffffff',top:'BREAKING · 시설 안내'},
+  'us-market':{tag:'INFO',fg:'#ffffff',bg:'#122b45',tagBg:'#098d82',tagFg:'#ffffff',top:'BUILDING INFORMATION'},
+  'eu-minimal':{tag:'안내',fg:'#283544',bg:'#ffffff',tagBg:'#aa1e2e',tagFg:'#ffffff'},
+  'eu-blue':{tag:'INFO',fg:'#193e5e',bg:'#eef7fc',tagBg:'#1485ad',tagFg:'#ffffff'}
+ };
+ const num=(v,lo,hi,f)=>Number.isFinite(Number(v))&&String(v).trim()!==''?Math.min(hi,Math.max(lo,Number(v))):f;
+ const hex=(v,f)=>/^#[0-9a-f]{6}$/i.test(String(v||''))?String(v):f;
+ const hh=s=>{const m=/^(\d\d):(\d\d)$/.exec(String(s||''));return m?Number(m[1])*60+Number(m[2]):-1};
+ function activeAt(date,list){const mins=date.getHours()*60+date.getMinutes(),found=[];
+  if(!Array.isArray(list))return null;
+  list.forEach((v,i)=>{if(!v||v.enabled===false||!String(v.text||'').trim())return;
+   const start=hh(v.startTime),end=hh(v.endTime);if(start<0||end<0||start>1439||end>1439)return;
+   const day=new Date(date);
+   if(start<end){if(mins<start||mins>=end)return;}
+   else if(start>end){if(mins>=start){}else if(mins<end){day.setDate(day.getDate()-1);}else return;}
+   else return;
+   const key=day.getFullYear()+'-'+String(day.getMonth()+1).padStart(2,'0')+'-'+String(day.getDate()).padStart(2,'0');
+   if((v.startDate&&key<v.startDate)||(v.endDate&&key>v.endDate))return;
+   const weekdays=Array.isArray(v.weekdays)?v.weekdays:[1,2,3,4,5];if(!weekdays.map(Number).includes(day.getDay()))return;
+   found.push({...v,index:i});
+  });found.sort((a,b)=>num(b.priority,0,9,0)-num(a.priority,0,9,0)||a.index-b.index);return found[0]||null;
+ }
+ function selectedAt(c,date){const mode=['off','always','schedule','mixed'].includes(c.tickerMode)?c.tickerMode:(c.tickerEnabled===true||c.tickerEnabled==='true'||c.tickerEnabled===1?'always':'off');
+  if(mode==='off')return null;
+  const active=(mode==='schedule'||mode==='mixed')?activeAt(date,c.tickerSchedule):null;
+  if(active)return {text:String(active.text).slice(0,500),name:active.title||'예약'};
+  if(mode==='always'||mode==='mixed')return String(c.tickerText||'').trim()?{text:String(c.tickerText).slice(0,500),name:'상시'}:null;
+  return null;
+ }
+ let signature='',lastVisible=false,lastName='';
+ function sync(){const c=typeof config==='object'&&config?config:{};const selected=selectedAt(c,new Date()),text=selected?.text||'';
+  if(!text.trim()){bar.hidden=true;signature='';lastVisible=false;lastName='';return;}
+  bar.hidden=false;lastName=selected.name;
+  const design=themes[c.tickerDesign]?c.tickerDesign:'eu-blue',p=themes[design];
+  const font=num(c.tickerFontSize,24,90,44),speed=num(c.tickerSpeed,20,200,75),color=hex(c.tickerColor,p.fg),bg=hex(c.tickerBackground,p.bg);
+  const width=bar.clientWidth||innerWidth||1920,sig=JSON.stringify([text,font,speed,color,bg,width,design]);
+  if(sig===signature)return;signature=sig;
+  bar.classList.toggle('r371-two-line',!!p.top);bar.style.height='clamp(42px,'+((font+(p.top?54:28))/1080*100).toFixed(2)+'vh,120px)';bar.style.backgroundColor=bg;
+  const label=bar.querySelector('.r371-label');label.textContent=p.tag;label.style.color=p.tagFg;label.style.background=p.tagBg;label.style.fontSize='clamp(12px,'+(font*.5/1080*100).toFixed(2)+'vh,40px)';
+  const top=bar.querySelector('.r371-topline');top.hidden=!p.top;if(p.top)top.textContent=p.top;
+  const moving=bar.querySelector('.r371-moving');moving.style.color=color;moving.style.fontSize='clamp(18px,'+(font/1080*100).toFixed(2)+'vh,95px)';moving.textContent=text;
+  const ratio=Math.max(.22,width/1920),duration=(width+moving.scrollWidth)/(speed*ratio);
+  bar.style.setProperty('--r371-area-width',width+'px');bar.style.setProperty('--r371-duration',Math.max(4,duration).toFixed(2)+'s');moving.style.animation='none';void moving.offsetWidth;moving.style.animation='';
+ }
+ window.r371TickerAt=(when,c)=>selectedAt(c||{},new Date(when));
+ window.r371TickerStatus=()=>({enabled:!bar.hidden,text:bar.querySelector('.r371-moving').textContent,name:lastName,design:bar.className,duration:bar.style.getPropertyValue('--r371-duration'),screen:document.body.dataset.lcdScreen});
+ window.r369TickerStatus=window.r371TickerStatus;
+ addEventListener('resize',()=>{signature='';sync()});document.addEventListener('visibilitychange',()=>{if(!document.hidden){signature='';sync()}});
+ setInterval(sync,700);sync();
+})();
+
+</script><script id="r370-analog-clock-runtime">
+(function(){'use strict';
+ const admin=!!document.getElementById('previewStage');
+ const DEFAULT_STYLE='digital';
+ const styles=['digital','flip','board'];
+ const shades=['dark','light'];
+ const defaults={clockVisualStyle:'digital',clockVisualTone:'dark',clockBoardText:'오늘도 안전한 하루 되세요',clockSecondHand:true};
+ const $=id=>document.getElementById(id);
+ if(admin){
+   const panel=$('v42ClockPanel');
+   if(!panel)return;
+   const group=document.createElement('section');group.id='r370ClockPanel';group.setAttribute('aria-label','아날로그 시계 디자인 선택');
+   group.innerHTML=`<h3>🕒 시계 디자인</h3><p class="r370-note">기존 디지털 시계를 유지하거나, 사진처럼 아날로그 바늘과 날짜 플립 표시가 있는 시계를 선택하세요. 시계 화면에만 적용됩니다.</p>
+   <div class="r370-fields">
+    <label class="r370-wide">디자인 선택<select id="clockVisualStyle"><option value="digital">기존 디지털 시계 (변경 없음)</option><option value="flip">사각 아날로그 + 요일·날짜 플립</option><option value="board">벽걸이형 · 왼쪽 시계 + 오른쪽 안내문</option></select></label>
+    <label>시계 색상<select id="clockVisualTone"><option value="dark">검정 · 클래식</option><option value="light">화이트 · 클래식</option></select></label>
+    <label class="r370-check"><input id="clockSecondHand" type="checkbox" checked>초침 표시</label>
+    <label class="r370-wide" id="r370BoardLabel">벽걸이형 안내 문구<input id="clockBoardText" type="text" maxlength="120" placeholder="예: 시설 이용 안내"></label>
+   </div><small id="r370ClockState">기존 디지털 시계 표시 중</small>`;
+   const h=panel.querySelector('h2');if(h)h.after(group);else panel.prepend(group);
+   function readValues(){return {clockVisualStyle:styles.includes($('clockVisualStyle').value)?$('clockVisualStyle').value:DEFAULT_STYLE,clockVisualTone:shades.includes($('clockVisualTone').value)?$('clockVisualTone').value:'dark',clockBoardText:$('clockBoardText').value.slice(0,120),clockSecondHand:$('clockSecondHand').checked};}
+   if(typeof readForm==='function'){
+     const previous=readForm;
+     readForm=function(){return {...previous(),...readValues()};};
+   }
+   if(typeof fill==='function'){
+     const previous=fill;
+     fill=function(c){const result=previous(c);const source=c&&typeof c==='object'?c:{};
+       for(const k of Object.keys(defaults)){
+         const el=$(k);if(!el)continue;const v=source[k]===undefined?defaults[k]:source[k];
+         if(el.type==='checkbox')el.checked=v===true||v==='true'||v===1;else el.value=String(v);
+       }
+       updatePanel();draw();return result;};
+   }
+   if(typeof compareSavedSettingsV29==='function'){
+     const previous=compareSavedSettingsV29;
+     compareSavedSettingsV29=function(want,got){const differences=previous(want,got);
+       for(const k of Object.keys(defaults))if(String(want[k]??defaults[k])!==String(got[k]??defaults[k]))differences.push('시계 디자인 설정 불일치: '+k);
+       return differences;};
+   }
+   if(typeof save==='function'){
+     const previous=save;
+     save=async function(){
+       if(readValues().clockVisualStyle!=='digital' && typeof getRemote==='function'){
+         try{const c=await getRemote(15000);
+           if(!Object.prototype.hasOwnProperty.call(c||{},'clockVisualStyle')){message('R370 Code.gs를 먼저 배포해 주세요. 새 서버가 시계 디자인을 저장할 수 없습니다.','error');return;}
+         }catch(e){message('시계 디자인 서버 연결 확인 실패: '+String(e.message||e),'error');return;}
+       }
+       return previous();
+     };
+     const btn=$('save');if(btn)btn.onclick=()=>save();
+   }
+   function updatePanel(){
+     const c=readValues(),analog=c.clockVisualStyle!=='digital',board=c.clockVisualStyle==='board';
+     $('r370BoardLabel').hidden=!board;
+     $('r370ClockState').textContent=analog?'실시간 LCD 미리보기에서 디자인 확인 후 하단 저장·반영을 누르세요.':'기존 디지털 시계 표시 중 · 저장된 다른 시계 설정은 유지됩니다.';
+   }
+   for(const key of Object.keys(defaults)){
+     const input=$(key);if(!input)continue;
+     for(const e of ['input','change'])input.addEventListener(e,()=>{if(typeof unsavedChanges==='boolean')unsavedChanges=true;updatePanel();draw();if(typeof preview==='function')preview();});
+   }
+   updatePanel();
+ }
+ const stage=admin?$('previewStage'):document.body;
+ if(!stage)return;
+ const scene=document.createElement('div');scene.id='r370Clock';scene.hidden=true;
+ scene.innerHTML=`<div class="r370-scene"></div><div class="r370-housing"><div class="r370-inner"></div>
+ <div class="r370-calendar"><div class="r370-flip-tile" data-part="weekday">MON</div><div class="r370-flip-tile" data-part="day">25</div><div class="r370-flip-tile" data-part="month">NOV</div></div>
+ <div class="r370-dial"><div class="r370-ticks"></div><div class="r370-numbers"></div>
+ <div class="r370-brand">DS · QUARTZ</div><div class="r370-hand r370-hour"></div><div class="r370-hand r370-minute"></div><div class="r370-hand r370-second"></div><div class="r370-axis"></div></div>
+ <div class="r370-footer">DS ANALOG CLOCK</div>
+ <div class="r370-board-message"><div class="r370-board-title"></div><div class="r370-board-stripe"></div><div class="r370-board-time"></div></div>
+ </div>`;
+ stage.appendChild(scene);
+ if(!admin){
+   scene.style.position='fixed';scene.style.left='50%';scene.style.top='50%';scene.style.right='auto';scene.style.bottom='auto';scene.style.transformOrigin='center center';scene.style.transform='translate(-50%,-50%) scale(1)';
+ }
+ const dial=scene.querySelector('.r370-dial'),ticks=scene.querySelector('.r370-ticks'),nums=scene.querySelector('.r370-numbers');
+ for(let i=0;i<60;i++){
+   const marker=document.createElement('i');marker.className='r370-tick'+(i%5===0?' major':'');
+   // Central origin with outward-oriented tick; allow dial size to vary using a design variable.
+   marker.style.left=(50+Math.sin(i*Math.PI/30)*(i%5===0?43.6:45.7))+'%';
+   marker.style.top=(50-Math.cos(i*Math.PI/30)*(i%5===0?43.6:45.7))+'%';
+   marker.style.transform='translate(-50%,-50%) rotate('+(i*6)+'deg)';
+   marker.style.transformOrigin='50% 50%';ticks.appendChild(marker);
+ }
+ for(let i=1;i<=12;i++){
+   const a=i*Math.PI/6,n=document.createElement('span');n.className='r370-numeral';n.textContent=i;
+   n.style.left=(50+Math.sin(a)*37)+'%';n.style.top=(50-Math.cos(a)*37)+'%';nums.appendChild(n);
+ }
+ let cachedSig='',lastDateKey='',prevVisible=false;
+ function cfg(){return admin?(typeof readForm==='function'?readForm():{}):(typeof config==='object'&&config?config:{});}
+ function isClock(){
+   if(!admin)return document.body.dataset.lcdScreen==='clock';
+   const tab=document.querySelector('#v42Tabs .v42-tab.active,#v42Tabs .v42-tab[aria-selected="true"]');
+   return (tab?.textContent||'').includes('날짜') && (typeof previewScreen==='undefined'||previewScreen==='clock');
+ }
+ function draw(){
+   if(!scene.isConnected)stage.appendChild(scene);
+   const c=cfg(),design=styles.includes(c.clockVisualStyle)?c.clockVisualStyle:'digital';
+   const visible=design!=='digital' && isClock();
+   if(admin){stage.classList.toggle('r370-clock-selected',visible);}
+   else document.body.classList.toggle('r370-clock-selected',visible);
+   scene.hidden=!visible;
+   if(!visible){prevVisible=false;cachedSig='';return;}
+   if(!admin){const scale=Math.min(window.innerWidth/1920,window.innerHeight/1080);scene.style.transform='translate(-50%,-50%) scale('+Math.max(.1,scale)+')';}
+   const tone=shades.includes(c.clockVisualTone)?c.clockVisualTone:'dark';
+   const sig=[design,tone,String(c.clockBoardText||''),c.clockSecondHand===false?'off':'on'].join('|');
+   if(sig!==cachedSig){
+     scene.className='r370-style-'+design+' r370-tone-'+tone;
+     scene.querySelector('.r370-board-title').textContent=String(c.clockBoardText||defaults.clockBoardText).slice(0,120);
+     scene.querySelector('.r370-second').style.display=c.clockSecondHand===false?'none':'';
+     cachedSig=sig;
+   }
+   const now=new Date(),ms=now.getMilliseconds(),h=now.getHours(),mi=now.getMinutes(),sec=now.getSeconds()+ms/1000;
+   const angles=[(h%12+mi/60+sec/3600)*30,(mi+sec/60)*6,sec*6];
+   for(const [i,selector] of ['.r370-hour','.r370-minute','.r370-second'].entries())scene.querySelector(selector).style.setProperty('--r370-rotate',angles[i].toFixed(3)+'deg');
+   const weekdays=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+   const months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+   const key=now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate();
+   if(key!==lastDateKey||!prevVisible){
+     const texts=[weekdays[now.getDay()],String(now.getDate()),months[now.getMonth()]];
+     scene.querySelectorAll('.r370-flip-tile').forEach((el,i)=>{
+       if(el.textContent!==texts[i]){
+         el.textContent=texts[i];
+         el.dataset.r370Flip='1';setTimeout(()=>{if(el.isConnected)delete el.dataset.r370Flip},650);
+       }
+     });lastDateKey=key;
+   }
+   scene.querySelector('.r370-board-time').textContent=now.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'})+'  ·  '+now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
+   prevVisible=true;
+ }
+ window.r370ClockStatus=()=>({mode:scene.className,visible:!scene.hidden,date:scene.querySelector('[data-part="day"]').textContent,hourTransform:scene.querySelector('.r370-hour').style.getPropertyValue('--r370-rotate'),screen:document.body.dataset.lcdScreen||'admin'});
+ window.r370ClockDraw=draw;
+ setInterval(draw,200);
+ window.addEventListener('resize',draw);
+ draw();
+})();
 </script></body></html>
