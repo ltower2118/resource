@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS LCD 시계 V55X-R386 UI</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,"Malgun Gothic",sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;font:12px Arial,sans-serif;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>DS LCD 시계 V55X-R387 UI</title><style>*{box-sizing:border-box;}html,body{width:100%;height:100%;}body{margin:0;overflow:hidden;background:#17283b;color:#fff;font-family:Arial,"Malgun Gothic",sans-serif;}#bg,#shade{position:fixed;inset:0;}#bg{background-size:cover;background-position:center;background-repeat:no-repeat;}#shade{background:#000;pointer-events:none;}#time{position:fixed;max-width:98vw;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;font-weight:800;text-shadow:0 2px 16px #000a;font-variant-numeric:tabular-nums;}#date{position:fixed;max-width:98vw;white-space:nowrap;font-weight:700;text-shadow:0 2px 12px #000a;}.center{top:66%;left:50%;transform:translate(-50%,-50%);}.top-left{top:4%;left:3%;}.top-right{top:4%;right:3%;}.bottom-left{bottom:4%;left:3%;}.bottom-right{bottom:4%;right:3%;}#full{position:fixed;bottom:14px;right:14px;padding:10px;color:#fff;background:#0009;border:1px solid #fff8;border-radius:9px;opacity:0;cursor:pointer;}#full{pointer-events:none;transition:opacity .2s ease;z-index:90;}body.r199-full-hover:not(:fullscreen) #full,#full:focus-visible{opacity:1;pointer-events:auto;}html:fullscreen #full{opacity:0!important;pointer-events:none!important;}#exitFull{position:fixed;top:12px;right:12px;padding:10px 14px;background:#000b;color:white;border:1px solid #fff8;border-radius:8px;cursor:pointer;z-index:99;display:none;}body:fullscreen #full,body:fullscreen #exitFull,body:fullscreen #status{display:none!important;}html:fullscreen #full,html:fullscreen #exitFull,html:fullscreen #status{display:none!important;}#messageScreen{position:fixed;inset:0;align-items:center;justify-content:center;padding:5vw;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.35;font-weight:800;z-index:10;}#messageScreen .message-content{position:absolute;left:50%;top:50%;width:1728px;max-width:none;min-width:0;overflow-wrap:anywhere;transform-origin:center center;line-height:1.35;box-sizing:border-box;}#messageScreen.active{display:flex;}#messageScreen b,#messageScreen strong{font-weight:900;}#messageScreen u{text-decoration:underline;}#messageScreen mark{background:#fff176;color:#111;}#boot,#offline{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:#111c2e;color:#fff;padding:7vw;transition:opacity .65s ease;}#boot .spinner{width:54px;height:54px;border:5px solid #ffffff30;border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:24px;}@keyframes spin{to{transform:rotate(360deg);}}#boot.hide{opacity:0;pointer-events:none;}#offline{display:none;z-index:70;background:#15233a;font-weight:750;font-size:clamp(25px,4.3vw,70px);line-height:1.6;white-space:pre-line;}#offline.visible{display:flex;}#offline small{font-size:clamp(14px,1.5vw,22px);font-weight:400;color:#c5d0df;margin-top:25px;}#status{position:fixed;bottom:12px;left:12px;font-size:12px;color:#fff9;}#versionTag{position:fixed;top:10px;right:12px;font:12px Arial,sans-serif;pointer-events:none;}html:fullscreen #versionTag{display:none!important;}#messageBlocks{position:fixed;inset:0;z-index:11;display:none;pointer-events:none;overflow:hidden;}#messageBlocks.active{display:block;}#messageBlocks .lcd-block{position:absolute;box-sizing:border-box;padding:8px;transform:translate(-50%,-50%);line-height:1.2;white-space:pre-wrap;overflow:visible;}:root{--lcd-transition-ms:700ms;--lcd-shift:64px;}#bg,#shade,#time,#date,#messageScreen,#messageBlocks{transition:opacity var(--lcd-transition-ms) ease-in-out,translate var(--lcd-transition-ms) ease-in-out;will-change:opacity,translate;}#messageScreen,#messageBlocks{display:block!important;visibility:visible;opacity:0;pointer-events:none;translate:0 0;}#messageScreen{display:flex!important;}body[data-lcd-screen="message"] #bg,body[data-lcd-screen="message"] #shade,
 body[data-lcd-screen="message"] #time,body[data-lcd-screen="message"] #date{opacity:0!important;}body[data-lcd-screen="clock"] #messageScreen,body[data-lcd-screen="clock"] #messageBlocks{opacity:0!important;}body[data-lcd-screen="message"] #messageScreen.active,body[data-lcd-screen="message"] #messageBlocks.active{opacity:1!important;}body[data-lcd-effect="slide"][data-lcd-screen="message"] #bg,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #shade,
 body[data-lcd-effect="slide"][data-lcd-screen="message"] #time,
@@ -371,7 +371,44 @@ body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!impo
 #r370ClockPanel .r380-mode-help,#r370ClockPanel .r380-bg-help{margin:6px 0 12px;color:#526c83;font-size:12px;line-height:1.5}
 #r370ClockPanel #r380AnalogBg{width:100%;height:46px;min-height:46px;padding:4px;background:#fff;border:1px solid #c0d1e2;border-radius:9px;cursor:pointer}
 #r370ClockPanel #clockVisualStyle{width:100%;max-width:none}
-</style><style id="r381-analog-layer-style">#r370Clock .r370-calendar[hidden],#r370Clock .r370-board-time[hidden]{display:none!important}</style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;family=Nanum+Gothic:wght@400;700;800&amp;family=Nanum+Myeongjo:wght@400;700;800&amp;family=Noto+Serif+KR:wght@400;700;800&amp;display=swap"></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R380 UI</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
+</style><style id="r381-analog-layer-style">#r370Clock .r370-calendar[hidden],#r370Clock .r370-board-time[hidden]{display:none!important}</style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;family=Nanum+Gothic:wght@400;700;800&amp;family=Nanum+Myeongjo:wght@400;700;800&amp;family=Noto+Serif+KR:wght@400;700;800&amp;display=swap"><script id="r387-seoul-solar-asset-runtime">
+/* R387: Daily Seoul astronomical sunrise/sunset, independent of browser timezone or the weather provider's delayed isDay flag. */
+(function(){'use strict';
+ const LAT=37.5665*Math.PI/180,LON=126.978,TZ_MIN=540,DAY_MS=86400000;
+ const dateFormat=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'});
+ const cache={key:'',sunriseMs:0,sunsetMs:0};
+ function compute(nowMs){
+  const parts=Object.fromEntries(dateFormat.formatToParts(new Date(nowMs)).filter(p=>p.type!=='literal').map(p=>[p.type,Number(p.value)]));
+  const y=parts.year,m=parts.month,d=parts.day,key=y+'-'+m+'-'+d;
+  if(key!==cache.key){
+   const dateStartUtc=Date.UTC(y,m-1,d)-TZ_MIN*60000;
+   const n=(Date.UTC(y,m-1,d)-Date.UTC(y,0,0))/DAY_MS;
+   const days=(y%4===0&&y%100!==0)||y%400===0?366:365;
+   function eventMinutes(sign){
+    let mins=720;
+    for(let i=0;i<4;i++){
+     const g=2*Math.PI/days*(n-1+(mins-720)/1440);
+     const e=229.18*(.000075+.001868*Math.cos(g)-.032077*Math.sin(g)-.014615*Math.cos(2*g)-.040849*Math.sin(2*g));
+     const dec=.006918-.399912*Math.cos(g)+.070257*Math.sin(g)-.006758*Math.cos(2*g)+.000907*Math.sin(2*g)-.002697*Math.cos(3*g)+.00148*Math.sin(3*g);
+     const h=Math.acos(Math.max(-1,Math.min(1,Math.cos(90.833*Math.PI/180)/(Math.cos(LAT)*Math.cos(dec))-Math.tan(LAT)*Math.tan(dec))))*180/Math.PI;
+     mins=720-4*LON-e+TZ_MIN+sign*h*4;
+    }
+    return dateStartUtc+mins*60000;
+   }
+   cache.key=key;cache.sunriseMs=eventMinutes(-1);cache.sunsetMs=eventMinutes(1);
+  }
+  const sunriseMs=cache.sunriseMs,sunsetMs=cache.sunsetMs;
+  const isDay=nowMs>=sunriseMs&&nowMs<sunsetMs;
+  const phase=!isDay?'night':nowMs<sunriseMs+45*60000?'sunrise':nowMs>=sunsetMs-45*60000?'sunset':'day';
+  const fmt=ms=>new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ms));
+  return {location:'Seoul',date:cache.key,sunriseMs,sunsetMs,sunrise:fmt(sunriseMs),sunset:fmt(sunsetMs),isDay,phase};
+ }
+ const revision='R387-'+Date.now().toString(36);
+ window.r387SeoulSolar=function(nowMs){return compute(Number.isFinite(nowMs)?nowMs:Date.now());};
+ window.r387WeatherAssetUrl=function(path){return String(path).split('?')[0]+'?asset='+revision;};
+ window.r387WeatherAssetRevision=revision;
+})();
+</script></head><body><div id="bg"></div><div id="shade"></div><div id="r185Clock"><div class="r185-period"><span class="r185-am">AM</span><span class="r185-pm">PM</span></div><div class="r185-time">10:10</div><div class="r185-line"></div><div class="r185-date"><span class="r185-weekday">목</span><span class="r185-day">24</span></div></div><div id="time"></div><div id="date"></div><div id="clockWeather" aria-live="off"></div><div id="r109ClockText" class="r109-lcd-text"></div><div id="r109WeatherText" class="r109-lcd-text"></div><div id="weatherScreen" aria-live="off"><div id="r179WeatherClock"><div id="r179WeatherTime"></div><div id="r179WeatherDate"></div></div></div><div id="messageScreen" aria-live="polite"></div><div id="messageBlocks"></div><div id="v52yMessageClock" aria-hidden="true"><div id="v52yMessageTime"></div><div id="v52yMessageDate"></div></div><div id="v51hMaintenance" aria-hidden="true"><div class="v51h-inner"><div class="v51h-title" id="v51kMaintenanceTitle">안내 말씀</div><div class="v51h-body" id="v51hMaintenanceText"></div></div></div><div id="versionTag">V55X-R387 UI</div><div id="wxDebugV40" role="status">R59 날씨 진단 시작
 서버 설정을 불러오는 중입니다.</div><div id="status"></div><div id="offline"><span>인터넷 연결이 안 됩니다.
 조만간 복구하겠습니다.</span><small id="offlineHint">연결 상태를 확인하고 있습니다.</small></div><div id="boot"><div class="spinner"></div><div>LCD 화면을 준비하고 있습니다...</div></div><button id="full">⛶ 전체화면</button><button id="exitFull" type="button" aria-label="전체화면 종료">× 종료</button><script>
 window.addEventListener('error',function(e){
@@ -613,7 +650,7 @@ function r354NormalizeWeather(raw){
  w.conditionCode=r354CodeFromCondition(raw);
  const day=[w.isDay,w.is_day,w.current?.is_day].find(x=>x!==undefined&&x!==null&&String(x).trim()!=='');
  if(day!==undefined)w.isDay=day===true||day===1||/^(true|1|yes|day)$/i.test(String(day))?1:0;
- else {const hour=new Date().getHours();w.isDay=hour>=6&&hour<19?1:0;}
+ else {w.isDay=window.r387SeoulSolar().isDay?1:0;}
  return w;
 }
 function wx50Kind(code,isDay){
@@ -636,21 +673,22 @@ function wx50Kind(code,isDay){
 
 function r129LandscapeKind(code,isDay){
  if(previewMode && window.__r131TestScene){const t=window.__r131TestScene;return t==='sunrise'||t==='sunset'?t:(t==='cloud'||t==='overcast')?'overcast':'';}
- const n=Number(code),h=new Date().getHours();
- if(n===1000&&Number(isDay)!==0){if(h>=5&&h<9)return 'sunrise';if(h>=16&&h<20)return 'sunset';}
+ const n=Number(code);
+ if(n===1000&&Number(isDay)!==0){const phase=window.r387SeoulSolar().phase;if(phase==='sunrise'||phase==='sunset')return phase;}
  if([1006,1009].includes(n))return 'overcast';
  return '';
 }
 function r129ApplyLandscape(scene,code,isDay){
  const kind=r129LandscapeKind(code,isDay);if(!kind)return;
  scene.classList.add('r129-'+kind);
- const img=document.createElement('img');img.className='r129-landscape';img.alt='';img.decoding='async';img.src='images/weather_'+(kind==='overcast'?'cloud':kind)+'.webp';
+ const img=document.createElement('img');img.className='r129-landscape';img.alt='';img.decoding='async';img.src=window.r387WeatherAssetUrl('images/weather_'+(kind==='overcast'?'cloud':kind)+'.webp');
  img.onerror=()=>{img.remove();scene.classList.remove('r129-'+kind)};
  scene.appendChild(img);
 }
 function wx50MountScene(page,code,isDay,sceneConfig=config){
  const kind=(previewMode && window.__r131TestScene==='mist')?'mist':wx50Kind(code,isDay);
  const scene=document.createElement('div');scene.id='wx50Scene';scene.className='wx50-'+kind;
+ scene.dataset.r387Phase=Number(code)===1000?(r129LandscapeKind(code,isDay)||(Number(isDay)===0?'night':'day')):kind;
  // Animation mode is exclusive: the scene covers the old image or color background.
  scene.setAttribute('aria-hidden','true');
  const add=(cls,style,content)=>{const e=document.createElement('div');e.className=cls;if(style)for(const [k,v] of Object.entries(style))e.style.setProperty(k,v);if(content)e.textContent=content;scene.appendChild(e);return e};
@@ -668,7 +706,7 @@ function wx50MountScene(page,code,isDay,sceneConfig=config){
    photo.style.visibility='hidden';
    photo.onload=()=>{if(photo.isConnected)photo.style.visibility='visible'};
    photo.onerror=()=>{if(photo.isConnected)photo.remove();console.warn('[R138] Weather WebP unavailable:',r136Files[imageKind]);};
-   photo.src='images/'+r136Files[imageKind];
+   photo.src=window.r387WeatherAssetUrl('images/'+r136Files[imageKind]);
    if(photo.complete&&photo.naturalWidth>0)photo.style.visibility='visible';
    scene.appendChild(photo);
   }
@@ -676,7 +714,7 @@ function wx50MountScene(page,code,isDay,sceneConfig=config){
   if(kind==='partly')add('r174-sun-reflection');
   if(kind==='sun' && !(previewMode && ['sunrise','sunset'].includes(window.__r131TestScene)) && !r129LandscapeKind(code,isDay)){
     scene.classList.add('r133-clear-day');
-    const dayPhoto=document.createElement('img');dayPhoto.className='r133-day-photo';dayPhoto.alt='';dayPhoto.decoding='async';dayPhoto.src='images/weather_clear_day.webp';scene.appendChild(dayPhoto);
+    const dayPhoto=document.createElement('img');dayPhoto.className='r133-day-photo';dayPhoto.alt='';dayPhoto.decoding='async';dayPhoto.src=window.r387WeatherAssetUrl('images/weather_clear_day.webp');scene.appendChild(dayPhoto);
      // R178: only a subtle rotating halo around the sun in the existing WebP.
      add('r178-sun-rays');
 
@@ -703,7 +741,7 @@ function wx50MountScene(page,code,isDay,sceneConfig=config){
   // R194: Polaris near rotation axis, rotating with the Cassiopeia W and other stars.
   const polaris=document.createElementNS(NS,'circle');polaris.setAttribute('cx','50');polaris.setAttribute('cy','50');polaris.setAttribute('r','.12');polaris.setAttribute('class','r194-polaris');constellation.appendChild(polaris);
   const meadow=document.createElement('div');meadow.className='r121-meadow';scene.appendChild(meadow);
-  const landscape=document.createElement('img');landscape.className='r125-landscape';landscape.alt='';landscape.decoding='async';landscape.src='images/weather_clear_night.webp';meadow.appendChild(landscape);
+  const landscape=document.createElement('img');landscape.className='r125-landscape';landscape.alt='';landscape.decoding='async';landscape.src=window.r387WeatherAssetUrl('images/weather_clear_night.webp');meadow.appendChild(landscape);
   /* Legacy zero-iteration grass generator removed; landscape WebP remains unchanged. */
  }
   // R155: natural large cloud drift on clear day/night and cloudy day/night.
@@ -1000,8 +1038,8 @@ function v55hForestName(code,isDay){
 function v55hSetBackground(page,code,isDay){
  const name=v55hForestName(code,isDay);
  const file=R357_WEATHER_ASSETS[name]||R357_WEATHER_ASSETS.cloud;
- const path='images/'+file+'?v=V55X-R378';
- const jpeg='images/'+file.replace(/\.webp$/i,'.jpg')+'?v=V55X-R378';
+ const path=window.r387WeatherAssetUrl('images/'+file);
+ const jpeg=window.r387WeatherAssetUrl('images/'+file.replace(/\.webp$/i,'.jpg'));
  let photo=page.querySelector(':scope > .v55h-forest-photo');
  if(!photo){photo=document.createElement('img');photo.className='v55h-forest-photo';photo.alt='';photo.decoding='async';page.prepend(photo)}
  let shade=page.querySelector(':scope > .v55h-forest-shade');
@@ -1056,6 +1094,8 @@ function renderWeather(){
   clock.textContent=msg;return;
  }
  const w={...wxData};
+ // R387: derive clear-sky day/night from today's Seoul solar events; forced test scenes remain independent.
+ if(Number(w.conditionCode)===1000 && !(previewMode&&window.__r131TestScene))w.isDay=window.r387SeoulSolar().isDay?1:0;
  // V52A: display saved Korean location rather than WeatherAPI's romanized neighborhood.
  const knownDistrict=String(config.weatherDistrict||'').trim();
  const cityQuery=String(config.weatherCity||'').trim();
@@ -1081,7 +1121,8 @@ function renderWeather(){
  // Recreating it resets every CSS animation simultaneously and looks like a pause.
  const desiredKind=(previewMode && window.__r131TestScene==='mist')?'mist':wx50Kind(w.conditionCode,w.isDay);
  const previousScene=page.querySelector(':scope > #wx50Scene');
- const keepScene=config.weatherAnimationEnabled===true && previousScene && previousScene.classList.contains('wx50-'+desiredKind);
+ const nextPhase=Number(w.conditionCode)===1000?(r129LandscapeKind(w.conditionCode,w.isDay)||(Number(w.isDay)===0?'night':'day')):desiredKind;
+ const keepScene=config.weatherAnimationEnabled===true && previousScene && previousScene.classList.contains('wx50-'+desiredKind) && previousScene.dataset.r387Phase===nextPhase;
  // R163: never detach the active scene; detaching restarts CSS animations.
  // Only remove sibling text/background nodes, leaving the particle DOM mounted.
  if(keepScene){
@@ -1121,7 +1162,8 @@ window.r354WeatherAutoLinkState=function(){
  const s=page?.querySelector(':scope > #wx50Scene');
  const ready=weatherPayloadValidV35(wxData);
  return {enabled:config.weatherAnimationEnabled===true,rawWeatherCode:wxData?.conditionCode??null,
-  condition:wxData?.condition||'',kind:ready?wx50Kind(wxData.conditionCode,wxData.isDay):'loading',
+  condition:wxData?.condition||'',kind:ready?wx50Kind(wxData.conditionCode,Number(wxData.conditionCode)===1000&&!(previewMode&&window.__r131TestScene)?(window.r387SeoulSolar().isDay?1:0):wxData.isDay):'loading',
+  seoulSolar:window.r387SeoulSolar(),assetRevision:window.r387WeatherAssetRevision,
   scene:s?.className||'none',imageStatus:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.status||'none',
   imagePath:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.path||'',
   imageAttempt:page?.querySelector(':scope > .v55h-forest-photo')?.dataset.attempt||'',
@@ -1487,7 +1529,7 @@ setInterval(()=>refreshWeather(),60000);
  const obs=new MutationObserver(function(){const now=document.querySelector('#weatherScreen > #wx50Scene');if(now!==scene){scene=now;changes++;lastSceneAt=Date.now();note('SCENE_CHANGE',now?.className||'removed');}});
  obs.observe(document.getElementById('weatherScreen'),{childList:true,subtree:false});scene=document.querySelector('#weatherScreen > #wx50Scene');note('START','진단 활성화');setInterval(update,1000);
 })();
-</script><script id="v54-fixed-runtime">(function(){function update(){var e=document.querySelector('#weatherScreen #wx50Scene');if(!e)return;var h=new Date().getHours(),phase=h<5||h>=20?'night':h<7?'dawn':h<9?'sunrise':h>=17?'sunset':'';e.classList.remove('v54-night','v54-dawn','v54-sunrise','v54-sunset');if(phase)e.classList.add('v54-'+phase);var n=40;try{n=Number(localStorage.getItem('v54_pastel_dim')||40)}catch(_){}e.style.setProperty('--v54-darkness',String(Math.max(0,Math.min(60,n))/100))}function start(){new MutationObserver(update).observe(document.body,{childList:true,subtree:true});update();setInterval(update,60000)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start()})();</script><script id="r109MainTextScript">
+</script><script id="v54-fixed-runtime">(function(){function update(){var e=document.querySelector('#weatherScreen #wx50Scene');if(!e)return;var p=window.r387SeoulSolar().phase,phase=p==='night'?'night':p==='sunrise'?'sunrise':p==='sunset'?'sunset':'';e.classList.remove('v54-night','v54-dawn','v54-sunrise','v54-sunset');if(phase)e.classList.add('v54-'+phase);var n=40;try{n=Number(localStorage.getItem('v54_pastel_dim')||40)}catch(_){}e.style.setProperty('--v54-darkness',String(Math.max(0,Math.min(60,n))/100))}function start(){new MutationObserver(update).observe(document.body,{childList:true,subtree:true});update();setInterval(update,60000)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start()})();</script><script id="r109MainTextScript">
 (function(){
 function draw(){
  const cfg=typeof config==='object'?config:{};
