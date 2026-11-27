@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DS_V1 정식 운영 | LCD 관리자 V55X-R391 UI</title><style>*{box-sizing:border-box;}body{margin:0;}.wrap{margin:auto;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{margin:0 0 8px;}p{color:#64748b;line-height:1.6;}label{display:block;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;background:#223a57;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;}.editor-toolbar button{font-size:13px;}#previewStage{isolation:isolate;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection>p{margin:6px 0 0;font-size:11px;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewStage{transform-origin:0 0;}#visualHelp{color:#64748b;}@media (max-width:600px){#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{background:#fff;box-shadow:0 8px 24px #14233b22;}#visualTools{box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;padding:10px;border:1px solid #ccd7e4;border-radius:8px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:"↔";display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DS_V1 정식 운영 | LCD 관리자 V55X-R397 UI</title><style>*{box-sizing:border-box;}body{margin:0;}.wrap{margin:auto;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{margin:0 0 8px;}p{color:#64748b;line-height:1.6;}label{display:block;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;background:#223a57;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;}.editor-toolbar button{font-size:13px;}#previewStage{isolation:isolate;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection>p{margin:6px 0 0;font-size:11px;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewStage{transform-origin:0 0;}#visualHelp{color:#64748b;}@media (max-width:600px){#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{background:#fff;box-shadow:0 8px 24px #14233b22;}#visualTools{box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;padding:10px;border:1px solid #ccd7e4;border-radius:8px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:"↔";display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
 body.v16-message-mode #visualTools > #vBold,
 body.v16-message-mode #visualTools > #vUnder,
 body.v16-message-mode #visualTools > #vLeft,
@@ -1054,10 +1054,32 @@ function applyDate(element,c,page,scale){if(!element)return;const style=normaliz
 }
 window.r388TimeUI={defaults,keys,normalize,format,apply,dateKeys,normalizeDate,applyDate};
 })();
-</script></head><body>
-  <main class="wrap"><h1>DS_V1 정식 운영 LCD 관리자 <small style="font-size:13px;color:#64748b">V55X-R391 UI</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
-<section id="v51oConsole" aria-label="DS_V1 정식 운영 관리 콘솔" data-dsv1-brand="R391-PROD">
- <div class="o-top"><div class="o-brand"><div class="o-title">DS_V1 정식 운영</div><div class="o-subtitle">관리 콘솔 · DS_V1 · V55X-R391 UI</div></div><div class="o-actions"><span class="o-env">정식 DS_V1</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+</script><style id="r393-canonical-text-css">
+/* R393 - canonical message text box metrics. Editor and LCD both use .v15-label. */
+#v13Canvas .v13block>.v15-label,
+#messageBlocks #r392MessageCanvas .lcd-block>.v15-label{
+  display:block!important;
+  box-sizing:border-box!important;
+  width:auto!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  font-family:inherit!important;
+  font-size:inherit!important;
+  font-weight:inherit!important;
+  line-height:inherit!important;
+  letter-spacing:inherit!important;
+  white-space:inherit!important;
+  overflow-wrap:inherit!important;
+  word-break:inherit!important;
+  text-align:inherit!important;
+  text-decoration:inherit;
+}
+</style></head><body>
+  <main class="wrap"><h1>DS_V1 정식 운영 LCD 관리자 <small style="font-size:13px;color:#64748b">V55X-R397 UI</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+<section id="v51oConsole" aria-label="모바일 관리 콘솔">
+ <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · DS_V1 · V55X-R397 UI</div></div><div class="o-actions"><span class="o-env">정식 DS_V1</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -1201,7 +1223,7 @@ window.r388TimeUI={defaults,keys,normalize,format,apply,dateKeys,normalizeDate,a
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R389" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R389" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R389" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R397" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R389" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R397" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
 <style id="r130-test-style">#v53aAnimationModal .v53a-picks{max-height:32vh;overflow:auto}#r130TestNote{margin:8px 0;padding:10px 12px;border-radius:9px;background:#e9f4ff;color:#173e67;font-size:13px;line-height:1.5}#r130TestLaunch{margin:9px 0;background:#173a70;color:#fff}#v53aStage .r129-landscape{object-fit:cover}#v53aStage #wx50Scene{position:absolute;inset:0;overflow:hidden}#v53aStage .v53a-overlay{z-index:10;pointer-events:none}</style>
 <div id="r130TestNote">12종 날씨와 일출·일몰을 현재 시각에 관계없이 테스트할 수 있습니다. 테스트 결과는 실제 LCD·서버 설정에 저장되지 않습니다.</div>
 <button type="button" id="r130TestLaunch">12종 날씨 · 일출/일몰 테스트 열기</button>
@@ -1613,7 +1635,7 @@ async function save(){
       tag.onerror=()=>doneNow(Error('서버 버전 확인 실패'));
       tag.src=apiUrl()+'?action=health&callback='+cb+'&_='+Date.now();document.head.appendChild(tag);
     });
-    if(!info||info.ok!==true||String(info.version||'')!=='LCD-V55X-R389-DSV1' || !Array.isArray(info.features) || !['r388TimeStyles','r389DateBoxes','ampmClockEnabled','ampmClockX','ampmClockY','ampmClockFont','ampmClockBold','ampmClockShowWeekday','ampmClockShowDay','weatherSource','weatherShowTime','weatherShowDate','messagePrioritySchedule'].every(k=>info.features.includes(k))){
+    if(!info||info.ok!==true||String(info.version||'')!=='LCD-V55X-R396-DSV1' || !Array.isArray(info.features) || !['r388TimeStyles','r389DateBoxes','ampmClockEnabled','ampmClockX','ampmClockY','ampmClockFont','ampmClockBold','ampmClockShowWeekday','ampmClockShowDay','weatherSource','weatherShowTime','weatherShowDate','messagePrioritySchedule'].every(k=>info.features.includes(k))){
       const real=String(info&&info.version||'확인 불가');
       v30Diagnostic('서버 기능 호환성 확인 실패\n현재 서버 코드: '+real+'\n필수 서버 기능: AM/PM 시계, 날씨 제공자, 문자 예약 저장\n현재 배포 버전과 관리자 코드를 확인하세요. 저장 요청은 보내지 않았습니다.');
       message('DS_V1 서버 버전 불일치: '+real+' (필수 기능 확인 필요). 저장 요청은 보내지 않았습니다.','error');
@@ -1658,7 +1680,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V55X-R391&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V55X-R397&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1857,8 +1879,8 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=['clock','message','weather'].includes(mode)?mode:'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R391';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
- if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R391';}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R397';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R397';}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock');
@@ -1885,6 +1907,15 @@ function v13Init(c){
  v13Controls();v13Render();
 }
 function v13Controls(){const b=v13Get();if(!b){$('v13TextInput').value='';return} $('v13TextInput').value=b.text;$('v13Size').value=b.size;$('v13Color').value=b.color;$('v13Font').value=b.font;$('v13Bold').checked=b.bold;$('v13Under').checked=b.underline;$('v13Width').value=b.width||900;$('v13Wrap').checked=b.wrap!==false;$('v22Align').value=b.align||'center'}
+// R392: unified Korean web-font metrics, independent of OS fallback fonts.
+function r392UnifiedMessageFont(font){
+ const name=String(font||'Malgun Gothic');
+ // Android lacks Malgun Gothic; use a common web font to keep lines aligned.
+ if(name==='Malgun Gothic')return '"Noto Sans KR", "Malgun Gothic", sans-serif';
+ if(['Noto Sans KR','Nanum Gothic','Noto Serif KR','Nanum Myeongjo','Jua'].includes(name))return '"'+name+'", "Noto Sans KR", sans-serif';
+ if(name==='Arial')return 'Arial, "Noto Sans KR", sans-serif';
+ return name;
+}
 function v13Render(){
  const canvas=$('v13Canvas');if(!canvas)return;
  canvas.style.display=visualTarget==='message'?'block':'none';
@@ -1896,7 +1927,7 @@ function v13Render(){
  const ids=new Set(v13Blocks.map(b=>b.id));canvas.querySelectorAll('.v13block').forEach(el=>{if(!ids.has(el.dataset.id))el.remove()});
  for(const b of v13Blocks){let el=Array.from(canvas.children).find(e=>e.dataset.id===b.id);if(!el){el=document.createElement('div');el.className='v13block';el.dataset.id=b.id;canvas.appendChild(el);v13Bind(el);v15AttachResize(el)}
  if(!el.querySelector('.v15-label')?.isContentEditable){let textNode=el.querySelector('.v15-label');if(!textNode){textNode=document.createElement('span');textNode.className='v15-label';el.prepend(textNode)}if(b.html){const safe=typeof r251SafeRich==='function'?r251SafeRich(b.html):b.html;if(textNode.innerHTML!==safe)textNode.innerHTML=safe}else if(textNode.textContent!==b.text)textNode.textContent=b.text;}
- el.style.left=b.x+'%';el.style.top=b.y+'%';el.style.width=Math.max(100,Math.min(1800,Number(b.width)||900))+'px';el.style.whiteSpace='pre-wrap';el.style.overflowWrap=b.wrap===false?'normal':'break-word';el.style.wordBreak='normal';el.style.overflow='visible';el.style.fontSize=b.size+'px';el.style.textAlign=b.align||'center';el.style.color=b.color;el.style.fontFamily=b.font;el.style.fontWeight=b.bold?'800':'400';el.style.textDecoration=b.underline?'underline':'none';el.classList.toggle('selected',b.id===v13Selected);
+ el.style.left=b.x+'%';el.style.top=b.y+'%';el.style.width=Math.max(100,Math.min(1800,Number(b.width)||900))+'px';el.style.whiteSpace='pre-wrap';el.style.overflowWrap=b.wrap===false?'normal':'break-word';el.style.wordBreak='normal';el.style.overflow='visible';el.style.fontSize=b.size+'px';el.style.textAlign=b.align||'center';el.style.color=b.color;el.style.fontFamily=r392UnifiedMessageFont(b.font);el.style.letterSpacing=Math.max(-5,Math.min(30,Number(b.letterSpacing)||0))+'px';el.style.lineHeight=(Number.isFinite(Number(b.lineHeight))&&Number(b.lineHeight)>=.7&&Number(b.lineHeight)<=3)?String(Number(b.lineHeight)):'1.2';el.style.fontWeight=b.bold?'800':'400';el.style.textDecoration=b.underline?'underline':'none';el.classList.toggle('selected',b.id===v13Selected);
  }
 }
 
@@ -2434,7 +2465,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R391 UI';
+ document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R397 UI';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2451,7 +2482,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R391 UI';
+document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R397 UI';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -3385,7 +3416,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  const layer=document.createElement('div');layer.id='v52wLcdPreview';
  const frame=document.createElement('iframe');frame.title='실제 LCD 엔진 날씨 실시간 미리보기';
  frame.loading='lazy';frame.setAttribute('aria-label','날씨 LCD 출력과 동일한 배치 미리보기');
- frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R391';
+ frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R397';
  layer.appendChild(frame);
  const tag=document.createElement('span');tag.id='v52wLcdPreviewTag';tag.textContent='실제 LCD 배치 · 16:9';layer.appendChild(tag);
  viewport.appendChild(layer);
@@ -5589,7 +5620,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <script id="r279-canvas-controls">(function(){'use strict';
 function init(){if(typeof v13Render!=='function'||typeof v13Get!=='function')return;
 const panel=document.getElementById('v13Panel'),canvas=document.getElementById('v13Canvas');if(!panel||!canvas)return;
-const ui=document.createElement('div');ui.id='r279Panel';ui.innerHTML='<strong>문자 정렬 · 간격 · 선택 상자</strong><div class="r279-row"><button type="button" data-align="left">왼쪽</button><button type="button" data-align="center">가운데</button><button type="button" data-align="right">오른쪽</button><label>글자 간격(px) <input id="r279Letter" type="number" min="-5" max="30" step="0.5"></label><label>줄 간격 <input id="r279Line" type="number" min="0.7" max="3" step="0.1"></label></div><label><input id="r279Guides" type="checkbox" checked> 편집 안내선 표시 (실제 LCD에는 출력되지 않음)</label><p style="margin:6px 0;font-size:12px">가운데 드래그: 위치 · 좌우 끝점: 상자 너비 · 모서리: 글자 크기 · 위아래 끝점: 줄 간격</p>';
+const ui=document.createElement('div');ui.id='r279Panel';ui.innerHTML='<strong>문자 정렬 · 간격 · 선택 상자</strong><div class="r279-row"><button type="button" data-align="left">왼쪽</button><button type="button" data-align="center">가운데</button><button type="button" data-align="right">오른쪽</button><label>글자 간격(px) <input id="r279Letter" type="number" min="-5" max="30" step="0.5"></label><label>줄 간격 <input id="r279Line" type="number" min="0.7" max="3" step="0.1"></label></div><label class="r394-guide-setting"><input id="r279Guides" type="checkbox" checked><span>텍스트 안내점선 표시<small>텍스트 선택 테두리 · 크기 조절점 (실제 LCD 출력 없음)</small></span></label><p style="margin:6px 0;font-size:12px">가운데 드래그: 위치 · 좌우 끝점: 상자 너비 · 모서리: 글자 크기 · 위아래 끝점: 줄 간격</p>';
 panel.insertBefore(ui,panel.firstChild);
 const letter=ui.querySelector('#r279Letter'),line=ui.querySelector('#r279Line'),guide=ui.querySelector('#r279Guides');
 try{guide.checked=localStorage.getItem('r279-guides')!=='off'}catch(e){}document.body.classList.toggle('r279-hide-guides',!guide.checked);
@@ -7825,19 +7856,362 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
+
+<!-- R394: editor selection outlines and screen geometry guides are independent. -->
+<style id="r394-screen-guide-style">
+/* The original r279Guides checkbox remains in charge of text editing guides.
+   The new checkbox controls only the center lines, outer frame and safe area. */
+body.r394-hide-screen-guides #previewStage > #v22Guides,
+body.r394-hide-screen-guides #previewModalStage #v22Guides{display:none!important;visibility:hidden!important}
+#r279Panel .r394-guide-setting{display:flex!important;align-items:flex-start!important;gap:8px;
+ margin:9px 0 4px!important;padding:9px 10px;border-radius:9px;
+ background:#edf5fc;border:1px solid #cfdfeb;font-size:13px;font-weight:750;color:#204461}
+#r279Panel .r394-guide-setting input{flex:none;width:21px;height:21px;min-height:21px;margin:0 4px 0 0;accent-color:#1c6c9b}
+#r279Panel .r394-guide-setting span{flex:1;line-height:1.45}
+#r279Panel .r394-guide-setting small{display:block;color:#526b82;font-size:11px;font-weight:500;margin-top:3px}
+/* The mini windows have their own 1px guides. Scaling a 2px 1920px line
+   to 300px would make the line practically invisible. */
+.r394-mini-guide{position:absolute;inset:0;z-index:4;overflow:hidden;display:none;
+ pointer-events:none!important;user-select:none!important;touch-action:none!important}
+.r394-mini-guide.r394-on{display:block!important}
+.r394-mini-guide::before,.r394-mini-guide::after{content:"";position:absolute;pointer-events:none;z-index:2}
+.r394-mini-guide::before{left:50%;top:0;bottom:0;border-left:1px dashed rgba(24,56,82,.9);filter:drop-shadow(1px 0 0 rgba(255,255,255,.8))}
+.r394-mini-guide::after{top:50%;left:0;right:0;border-top:1px dashed rgba(24,56,82,.9);filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
+.r394-mini-guide .r394-mini-frame{position:absolute;inset:1%;border:1px solid rgba(255,255,255,.93);
+ outline:1px solid #203d58;outline-offset:1px;z-index:1}
+.r394-mini-guide .r394-mini-safe{position:absolute;inset:6%;border:1px dashed rgba(35,57,75,.95);
+ outline:1px dashed rgba(255,255,255,.9);outline-offset:1px;z-index:1}
+#r394WeatherMiniGuide{position:fixed!important;inset:auto;z-index:2147482040!important}
+</style>
+<script id="r394-screen-guide-runtime">
+(function(){'use strict';
+ const STORAGE='r394-screen-guides';
+ const $=id=>document.getElementById(id);
+ let selected=true, weatherLayer=null;
+ function createLayer(id){
+  const layer=document.createElement('div');layer.className='r394-mini-guide';layer.id=id;
+  layer.setAttribute('aria-hidden','true');
+  layer.innerHTML='<div class="r394-mini-frame"></div><div class="r394-mini-safe"></div>';
+  return layer;
+ }
+ function ensurePanel(){
+  const panel=$('r279Panel'),original=$('r279Guides');
+  if(!panel||!original)return false;
+  if($('r394ScreenGuides'))return true;
+  const label=document.createElement('label');label.className='r394-guide-setting';
+  label.innerHTML='<input id="r394ScreenGuides" type="checkbox" checked><span>화면 가이드 안내선 표시<small>화면 중앙선 · 외곽 경계선 · 안전 영역 (실제 LCD 출력 없음)</small></span>';
+  const anchor=original.closest('label');
+  if(anchor)anchor.insertAdjacentElement('afterend',label);else panel.appendChild(label);
+  const input=$('r394ScreenGuides');input.checked=selected;
+  input.addEventListener('change',()=>{
+   selected=!!input.checked;
+   try{localStorage.setItem(STORAGE,selected?'on':'off')}catch(_){ }
+   apply();
+  });
+  return true;
+ }
+ function editGuideVisible(){
+  if(!selected||!document.body.classList.contains('v51o-view-edit'))return false;
+  const source=$('v22Guides');
+  if(!source)return false;
+  const css=getComputedStyle(source);
+  return css.display!=='none'&&css.visibility!=='hidden';
+ }
+ function miniShell(id,visibleClass,layerId){
+  const shell=$(id);if(!shell)return;
+  const holder=shell.querySelector('#r207Viewport,#r254PcViewport');
+  // The floating preview is a separate shadow-root clone of #previewStage.
+  // Hide its stale computed-style copy and paint an explicit, legible mini guide.
+  const shadow=holder?.shadowRoot;
+  if(shadow){
+   for(const oldGuide of shadow.querySelectorAll('#v22Guides')){
+    oldGuide.style.setProperty('display','none','important');
+    oldGuide.style.setProperty('visibility','hidden','important');
+   }
+  }
+  let layer=shell.querySelector('#'+layerId);
+  if(!layer){layer=createLayer(layerId);shell.appendChild(layer);}
+  const isWeatherMobile=id==='r207Float'&&document.body.classList.contains('r220-weather-floating');
+  layer.classList.toggle('r394-on',!isWeatherMobile&&shell.classList.contains(visibleClass)&&editGuideVisible());
+ }
+ function weatherMini(){
+  if(!weatherLayer){weatherLayer=createLayer('r394WeatherMiniGuide');document.body.appendChild(weatherLayer);}
+  const shell=$('r207Float'),viewport=shell?.querySelector('#r207Viewport');
+  const mobileWeather=!!(shell?.classList.contains('r207-visible')&&document.body.classList.contains('r220-weather-floating'));
+  const show=mobileWeather&&editGuideVisible();
+  weatherLayer.classList.toggle('r394-on',show);
+  if(show){
+   const r=(viewport||shell).getBoundingClientRect();
+   weatherLayer.style.left=r.left+'px';weatherLayer.style.top=r.top+'px';
+   weatherLayer.style.width=r.width+'px';weatherLayer.style.height=r.height+'px';
+  }
+ }
+ function apply(){
+  document.body.classList.toggle('r394-hide-screen-guides',!selected);
+  miniShell('r207Float','r207-visible','r394MobileMiniGuide');
+  miniShell('r254PcFloat','r254-show','r394PcMiniGuide');
+  weatherMini();
+ }
+ function boot(){
+  try{selected=localStorage.getItem(STORAGE)!=='off'}catch(_){selected=true}
+  document.body.classList.toggle('r394-hide-screen-guides',!selected);
+  ensurePanel();apply();
+  // R207 mobile clone, R254 PC clone and R220 weather iframe are asynchronous.
+  // Keep the edit-only overlays synchronized even when a mini LCD is resized.
+  let ticks=0;setInterval(()=>{
+   if(! $('r394ScreenGuides') && ticks++<60)ensurePanel();
+   if($('r207Float')?.classList.contains('r207-visible')||
+      $('r254PcFloat')?.classList.contains('r254-show'))apply();
+  },220);
+  addEventListener('scroll',apply,{passive:true});
+  addEventListener('resize',apply,{passive:true});
+  document.querySelectorAll('[data-v42tab]').forEach(el=>el.addEventListener('click',()=>requestAnimationFrame(apply)));
+  window.r394GuideStatus=()=>({screenGuides:selected,editorGuides:!!$('r279Guides')?.checked,
+   mobileMini:!!$('r394MobileMiniGuide')?.classList.contains('r394-on'),
+   pcMini:!!$('r394PcMiniGuide')?.classList.contains('r394-on'),
+   weatherMini:!!$('r394WeatherMiniGuide')?.classList.contains('r394-on')});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+
+<!-- R395: text guide label, handles and floating LCD clones share one switch. -->
+<style id="r395-text-guide-style">
+/* Both guide settings use the same full-width card style (R394). */
+#r279Panel label.r394-guide-setting{width:100%!important;max-width:none!important;
+ box-sizing:border-box!important;cursor:pointer;align-items:center!important}
+/* R279 originally hid the selected outline but left all eight resize handles visible.
+   Hide both only when the text guide switch is off. Do not touch the
+   independently controlled R394 screen/center/safe-area guides. */
+body.r279-hide-guides #v13Canvas .v13block.selected{
+ border-color:transparent!important;outline:none!important;
+ background:transparent!important;box-shadow:none!important}
+body.r279-hide-guides #v13Canvas .v13block .r279-handle,
+body.r279-hide-guides #v13Canvas .v13block .v15-resize{
+ display:none!important;visibility:hidden!important;pointer-events:none!important}
+</style>
+<script id="r395-text-guide-mini-sync">
+(function(){'use strict';
+ const $=id=>document.getElementById(id);
+ function reflect(){
+  const checkbox=$('r279Guides');if(!checkbox)return;
+  const visible=!!checkbox.checked;
+  // R207/R254 clone the editor into a shadow root and copy computed CSS as
+  // INLINE !important rules. Hence global body classes cannot update the
+  // copies; explicitly synchronize the already-cloned handles/borders too.
+  const sourceCanvas=$('v13Canvas');
+  for(const shellId of ['r207Float','r254PcFloat']){
+   const shell=$(shellId);
+   const shadow=shell?.querySelector('#r207Viewport,#r254PcViewport')?.shadowRoot;
+   if(!shadow)continue;
+   const copy=shadow.querySelector('#v13Canvas');if(!copy)continue;
+   const originals=sourceCanvas?.querySelectorAll('.v13block')||[];
+   const byId=new Map([...originals].map(b=>[b.dataset.id,b]));
+   for(const block of copy.querySelectorAll('.v13block')){
+    const origin=byId.get(block.dataset.id);
+    const cs=origin?getComputedStyle(origin):null;
+    if(!visible){
+     if(block.classList.contains('selected')){
+      block.style.setProperty('border-color','transparent','important');
+      block.style.setProperty('outline','none','important');
+      block.style.setProperty('background-color','transparent','important');
+      block.style.setProperty('box-shadow','none','important');
+     }
+    }else if(cs){
+     block.style.setProperty('border-color',cs.borderColor,'important');
+     block.style.setProperty('outline',cs.outline,'important');
+     block.style.setProperty('background-color',cs.backgroundColor,'important');
+     block.style.setProperty('box-shadow',cs.boxShadow,'important');
+    }
+    for(const handle of block.querySelectorAll('.r279-handle,.v15-resize')){
+     if(!visible){
+      handle.style.setProperty('display','none','important');
+      handle.style.setProperty('visibility','hidden','important');
+      handle.style.setProperty('pointer-events','none','important');
+     }else{
+      const originHandle=origin?.querySelector('.r279-handle[data-side="'+(handle.dataset.side||'')+'"]') || origin?.querySelector('.v15-resize');
+      const style=originHandle?getComputedStyle(originHandle):null;
+      handle.style.setProperty('display',style?style.display:'none','important');
+      handle.style.setProperty('visibility',style?style.visibility:'hidden','important');
+      // Existing miniature previews are view-only for resize handles.
+      handle.style.setProperty('pointer-events','none','important');
+     }
+    }
+   }
+  }
+ }
+ function start(){
+  const checkbox=$('r279Guides');if(!checkbox)return;
+  checkbox.addEventListener('change',()=>requestAnimationFrame(reflect));
+  // Floating previews clone asynchronously and regenerate their innerHTML
+  // while scrolling. Synchronize after each cloned render as well.
+  setInterval(()=>{
+   if($('r207Float')?.classList.contains('r207-visible')||
+      $('r254PcFloat')?.classList.contains('r254-show'))reflect();
+  },360);
+  window.r395TextGuideStatus=()=>({
+   textGuides:!!$('r279Guides')?.checked,
+   screenGuides:!!$('r394ScreenGuides')?.checked,
+   previewHandles:[...document.querySelectorAll('#v13Canvas .v13block.selected .r279-handle')]
+    .filter(x=>getComputedStyle(x).display!=='none').length
+  });
+  reflect();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+
+<!-- R396: date/time and weather now expose the same layout + guide controls as message. -->
+<style id="r396-shared-layout-style">
+.r396-layout{margin:12px 0;border:1px solid #cbd9e9;background:#f7faff;border-radius:11px;overflow:hidden;box-sizing:border-box;width:100%;min-width:0;}
+.r396-layout>summary{display:flex;align-items:center;cursor:pointer;list-style:none;padding:15px 16px;min-height:52px;color:#233f5d;font-weight:800;font-size:16px;}
+.r396-layout>summary::-webkit-details-marker{display:none}
+.r396-layout>summary:after{content:'⌄';font-size:22px;margin-left:auto;line-height:1}
+.r396-layout[open]>summary:after{content:'⌃'}
+.r396-body{padding:12px;border-top:1px solid #d5e2ee;display:grid;gap:10px;min-width:0;}
+.r396-element-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.r396-element-row label{font-size:13px;font-weight:750;margin:0;white-space:nowrap}
+.r396-element-row select{flex:1;min-width:140px;max-width:320px;min-height:43px}
+.r396-align{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.r396-align button{min-height:41px;font-size:13px;background:#edf3fa;color:#244b70;border:1px solid #cad8e7;padding:8px 10px;border-radius:8px}
+.r396-align button[aria-pressed="true"]{background:#234c72;color:#fff}
+.r396-nums{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.r396-nums label{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;font-weight:700}
+.r396-nums input{width:85px;min-height:41px;font-size:15px}
+.r396-guide-card{display:flex;align-items:center;gap:9px;padding:10px 12px;background:#edf5fc;border:1px solid #cfdfeb;border-radius:9px;cursor:pointer!important;min-width:0;font-size:13px;color:#204461;font-weight:750;margin:0!important}
+.r396-guide-card input{width:21px!important;height:21px!important;min-height:21px!important;flex:none;margin:0!important;accent-color:#1c6c9b}
+.r396-guide-card span{flex:1;min-width:0;line-height:1.45}
+.r396-guide-card small{font-size:11px;font-weight:500;color:#526b82;display:block;margin-top:3px}
+.r396-note{margin:0;font-size:11px;color:#526b82;line-height:1.5}
+body.r279-hide-guides #previewStage #pvTime.selected,
+body.r279-hide-guides #previewStage #pvDate.selected,
+body.r279-hide-guides #previewStage #r179PreviewTime.r180-selected,
+body.r279-hide-guides #previewStage #r179PreviewDate.r180-selected,
+body.r279-hide-guides #previewStage .r109-preview-text.r180-selected {outline:0!important;box-shadow:none!important}
+/* Guides never enter the actual main LCD; these selectors exist only in admin. */
+.r396-mini-selected{outline:1px dotted #52d9fa;outline-offset:2px}
+body.r279-hide-guides .r396-mini-selected{outline:none!important}
+@media(max-width:600px){.r396-layout>summary{padding:12px;font-size:15px}.r396-body{padding:9px}.r396-nums label{flex:1 1 120px}.r396-nums input{width:80px}}
+</style>
+<script id="r396-shared-layout-runtime">
+(function(){'use strict';
+ const by=id=>document.getElementById(id);
+ const targets={clock:{time:'#pvTime',date:'#pvDate'},weather:{time:'#r179PreviewTime',date:'#r179PreviewDate',info:'#v43WeatherCard'}};
+ const defaults={align:'center',letter:0,line:1.2};
+ const makeTarget=()=>({...defaults});
+ const safe=(v)=>({align:['left','center','right'].includes(v?.align)?v.align:'center',letter:Math.max(-5,Math.min(30,Number(v?.letter)||0)),line:Math.max(.7,Math.min(3,Number(v?.line)||1.2))});
+ let state={clock:{time:makeTarget(),date:makeTarget()},weather:{time:makeTarget(),date:makeTarget(),info:makeTarget()}};
+ let active={clock:'time',weather:'time'};
+ let started=false;
+ function normalize(raw){const result={};for(const page of Object.keys(targets)){result[page]={};for(const target of Object.keys(targets[page]))result[page][target]=safe(raw?.[page]?.[target]);}return result;}
+ function controls(page){
+  const options=page==='clock'?[['time','시간'],['date','날짜']]:[['time','시간'],['date','날짜'],['info','날씨 정보']];
+  const panel=document.createElement('details');panel.id='r396Layout'+page;panel.className='r396-layout';
+  const choices=options.map(([key,name])=>'<option value="'+key+'">'+name+'</option>').join('');
+  panel.innerHTML='<summary>정렬 · 글자 간격 · 안내선</summary><div class="r396-body">'+
+   '<div class="r396-element-row"><label for="r396Select'+page+'">적용할 글자</label><select id="r396Select'+page+'">'+choices+'</select></div>'+
+   '<div class="r396-align"><button type="button" data-r396-align="left">왼쪽</button><button type="button" data-r396-align="center">가운데</button><button type="button" data-r396-align="right">오른쪽</button></div>'+
+   '<div class="r396-nums"><label>글자 간격(px) <input type="number" id="r396Letter'+page+'" min="-5" max="30" step="0.5"></label><label>줄 간격 <input type="number" id="r396Line'+page+'" min="0.7" max="3" step="0.1"></label></div>'+
+   '<label class="r396-guide-card"><input type="checkbox" data-r396-mirror="text"><span>텍스트 안내점선 표시<small>선택 표시·조절점 (실제 LCD에는 출력하지 않음)</small></span></label>'+
+   '<label class="r396-guide-card"><input type="checkbox" data-r396-mirror="screen"><span>화면 가이드 안내선 표시<small>화면 중앙선 · 외곽 경계선 · 안전 영역 (실제 LCD 출력 없음)</small></span></label>'+
+   '<p class="r396-note">시간·날짜의 글자 스타일은 각 화면에 독립 저장됩니다. 문자 페이지의 문자 상자 설정은 변경하지 않습니다.</p></div>';
+  // R397: Both panels live directly below the shared LCD preview, exactly like the text panel.
+  const preview=by('preview');if(!preview)return;
+  preview.insertAdjacentElement('afterend',panel);
+  const sel=by('r396Select'+page),letter=by('r396Letter'+page),line=by('r396Line'+page);
+  const refresh=()=>{const value=state[page][active[page]];sel.value=active[page];letter.value=value.letter;line.value=value.line;panel.querySelectorAll('[data-r396-align]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.r396Align===value.align)));};
+  sel.addEventListener('change',()=>{active[page]=sel.value;refresh();paint()});
+  panel.querySelectorAll('[data-r396-align]').forEach(button=>button.addEventListener('click',()=>{state[page][active[page]].align=button.dataset.r396Align;refresh();changed()}));
+  letter.addEventListener('input',()=>{state[page][active[page]].letter=safe({letter:letter.value}).letter;changed()});
+  line.addEventListener('input',()=>{state[page][active[page]].line=safe({line:line.value}).line;changed()});
+  for(const type of ['text','screen'])panel.querySelector('[data-r396-mirror="'+type+'"]').addEventListener('change',e=>{
+   const original=by(type==='text'?'r279Guides':'r394ScreenGuides');if(original&&original.checked!==e.target.checked){original.checked=e.target.checked;original.dispatchEvent(new Event('change',{bubbles:true}));}
+   syncSwitches();
+  });
+  refresh();
+ }
+ function changed(){try{if(typeof unsavedChanges!=='undefined')unsavedChanges=true;}catch(_){ }paint()}
+ function syncSwitches(){const checked={text:!!by('r279Guides')?.checked,screen:!!by('r394ScreenGuides')?.checked};
+  for(const type of ['text','screen'])document.querySelectorAll('[data-r396-mirror="'+type+'"]').forEach(el=>{if(el.checked!==checked[type])el.checked=checked[type]});}
+ function applyStyle(el,v){if(!el)return;v=safe(v);if(v.letter)el.style.letterSpacing=v.letter+'px';else el.style.removeProperty('letter-spacing');if(Math.abs(v.line-1.2)>.001)el.style.lineHeight=String(v.line);else el.style.removeProperty('line-height');if(v.align!=='center')el.style.textAlign=v.align;else el.style.removeProperty('text-align');}
+ function paint(){
+  for(const [page,elements] of Object.entries(targets))for(const [key,selector] of Object.entries(elements))applyStyle(document.querySelector('#previewStage '+selector),state[page][key]);
+  // The mobile weather mini is a separate iframe; its editable text overlay uses standalone nodes.
+  for(const [key,suffix] of [['time','Time'],['date','Date']]){
+   for(const id of ['r390Mini'+suffix,'r391Pc'+suffix]){const el=by(id);if(el){applyStyle(el.querySelector('span')||el,state.weather[key]);el.classList.toggle('r396-mini-selected',!!by('r279Guides')?.checked&&active.weather===key);}}
+  }
+  // Weather's real LCD iframe is separate from the editor and from both mobile/PC clones.
+  // Access only when same-origin, without changing its server data or screen ordering.
+  try{const doc=document.querySelector('#v52wLcdPreview > iframe')?.contentDocument;
+   if(doc)for(const [key,selector] of Object.entries({time:'#r179WeatherTime',date:'#r179WeatherDate',info:'#weatherContent'}))applyStyle(doc.querySelector(selector),state.weather[key]);
+  }catch(_){ /* Cross-origin preview uses the saved config in main.html itself. */ }
+  // Keep both Shadow DOM floating mini previews in step after asynchronous cloning.
+  for(const shellId of ['r207Float','r254PcFloat']){
+   const shell=by(shellId),shadow=shell?.querySelector('#r207Viewport,#r254PcViewport')?.shadowRoot;
+   if(shadow){
+    for(const [page,elements] of Object.entries(targets))for(const [key,selector] of Object.entries(elements)){
+     const mini=shadow.querySelector(selector);applyStyle(mini,state[page][key]);
+     if(mini&&['clock','weather'].includes(page)&&key!=='info'){
+      if(!by('r279Guides')?.checked)mini.style.setProperty('outline','none','important');
+      else mini.style.removeProperty('outline');
+     }
+    }
+   }
+  }
+  syncSwitches();
+ }
+ function start(){if(started||!by('v42WeatherPanel')||!by('r279Guides')||!by('r394ScreenGuides'))return;started=true;
+  for(const page of Object.keys(targets))controls(page);
+  const oldRead=readForm;readForm=function(){const x=oldRead();x.r396Typography=normalize(state);return x};
+  const oldFill=fill;fill=function(c){oldFill(c);state=normalize(c?.r396Typography);for(const page of Object.keys(targets)){
+    const sel=by('r396Select'+page);if(sel){sel.value=active[page];sel.dispatchEvent(new Event('change'));}}
+    paint();};
+  const textSwitch=by('r279Guides'),screenSwitch=by('r394ScreenGuides');
+  for(const switchNode of [textSwitch,screenSwitch])switchNode.addEventListener('change',()=>requestAnimationFrame(paint));
+  document.querySelectorAll('[data-v42tab]').forEach(x=>x.addEventListener('click',()=>requestAnimationFrame(paint)));
+  document.addEventListener('pointerdown',e=>{
+    const id=e.target?.id||'';
+    const page=id==='pvTime'||id==='pvDate'?'clock':id==='r179PreviewTime'||id==='r179PreviewDate'?'weather':null;
+    if(page){active[page]=/Date$/.test(id)||id==='pvDate'?'date':'time';const el=by('r396Select'+page);if(el){el.value=active[page];el.dispatchEvent(new Event('change'));}}
+  },true);
+  // The real-time preview can rerender repeatedly, and mini LCDs clone asynchronously.
+  setInterval(paint,420);paint();window.r396LayoutStatus=()=>({settings:normalize(state),textGuides:!!by('r279Guides')?.checked,screenGuides:!!by('r394ScreenGuides')?.checked});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+ let tries=0;const h=setInterval(()=>{if(started||++tries>40){clearInterval(h);return;}start()},250);
+})();
+</script>
+
+<!-- R397: shared preview-first position for date/time, text, and weather layout controls. -->
+<style id="r397-preview-first-layout">
+/* Keep the preexisting panels and save bindings; only their visual location changes. */
+#previewSection > #r396Layoutclock,
+#previewSection > #r396Layoutweather{display:none!important;max-width:100%!important;min-width:0!important;width:100%!important;box-sizing:border-box!important;
+  border:1px solid #d2dfec!important;border-radius:11px!important;margin:7px 0 3px!important;
+  background:#f8fbff!important;overflow:hidden!important;}
+body.v51o-view-edit:has([data-v42tab="clock"][aria-selected="true"]) #previewSection > #r396Layoutclock,
+body.v51o-view-edit:has([data-v42tab="weather"][aria-selected="true"]) #previewSection > #r396Layoutweather{display:block!important;}
+#previewSection > .r396-layout > summary{min-height:0!important;padding:12px 13px!important;
+  color:#244a70!important;font-weight:750!important;font-size:13px!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;}
+#previewSection > .r396-layout > summary::after{color:#507796!important;font-size:19px!important;}
+#previewSection > .r396-layout > .r396-body{background:#fff!important;padding:11px!important;gap:10px!important;}
+@media(max-width:600px){#previewSection > .r396-layout{margin:7px 0 3px!important;}}
+</style>
 <script id="ds-v1-r385-production-brand-finalizer">
 (function(){'use strict';
-  const tabTitle='DS_V1 정식 운영 | LCD 관리자 V55X-R391 UI';
+  const tabTitle='DS_V1 정식 운영 | LCD 관리자 V55X-R397 UI';
   function applyProductionBrand(){
     document.title=tabTitle;
     const root=document.getElementById('v51oConsole');
     if(!root)return;
-    root.setAttribute('data-dsv1-brand','R391-PROD');
+    root.setAttribute('data-dsv1-brand','R397-PROD');
     const brand=root.querySelector('.o-title');
     const sub=root.querySelector('.o-subtitle');
     const env=root.querySelector('.o-env');
     if(brand)brand.textContent='DS_V1 정식 운영';
-    if(sub)sub.textContent='관리 콘솔 · DS_V1 · V55X-R391 UI';
+    if(sub)sub.textContent='관리 콘솔 · DS_V1 · V55X-R397 UI';
     if(env)env.textContent='정식 DS_V1';
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',applyProductionBrand,{once:true});
