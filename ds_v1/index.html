@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DS_V1 정식 운영 | LCD 관리자 V55X-R386 UI</title><style>*{box-sizing:border-box;}body{margin:0;}.wrap{margin:auto;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{margin:0 0 8px;}p{color:#64748b;line-height:1.6;}label{display:block;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;background:#223a57;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;}.editor-toolbar button{font-size:13px;}#previewStage{isolation:isolate;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection>p{margin:6px 0 0;font-size:11px;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewStage{transform-origin:0 0;}#visualHelp{color:#64748b;}@media (max-width:600px){#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{background:#fff;box-shadow:0 8px 24px #14233b22;}#visualTools{box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;padding:10px;border:1px solid #ccd7e4;border-radius:8px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:"↔";display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DS_V1 정식 운영 | LCD 관리자 V55X-R391 UI</title><style>*{box-sizing:border-box;}body{margin:0;}.wrap{margin:auto;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{margin:0 0 8px;}p{color:#64748b;line-height:1.6;}label{display:block;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;background:#223a57;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;}.editor-toolbar button{font-size:13px;}#previewStage{isolation:isolate;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection>p{margin:6px 0 0;font-size:11px;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewStage{transform-origin:0 0;}#visualHelp{color:#64748b;}@media (max-width:600px){#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{background:#fff;box-shadow:0 8px 24px #14233b22;}#visualTools{box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;padding:10px;border:1px solid #ccd7e4;border-radius:8px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:"↔";display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
 body.v16-message-mode #visualTools > #vBold,
 body.v16-message-mode #visualTools > #vUnder,
 body.v16-message-mode #visualTools > #vLeft,
@@ -983,10 +983,81 @@ body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!impo
 #r373TickerFlag:not([hidden]){cursor:pointer!important;touch-action:manipulation!important}
 #r373TickerFlag:focus-visible{outline:3px solid #35a8db!important;outline-offset:3px!important}
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;family=Nanum+Gothic:wght@400;700;800&amp;family=Nanum+Myeongjo:wght@400;700;800&amp;family=Noto+Serif+KR:wght@400;700;800&amp;display=swap"></head><body>
-  <main class="wrap"><h1>DS_V1 정식 운영 LCD 관리자 <small style="font-size:13px;color:#64748b">V55X-R386 UI</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
-<section id="v51oConsole" aria-label="DS_V1 정식 운영 관리 콘솔" data-dsv1-brand="R386-PROD4">
- <div class="o-top"><div class="o-brand"><div class="o-title">DS_V1 정식 운영</div><div class="o-subtitle">관리 콘솔 · DS_V1 · V55X-R386 UI</div></div><div class="o-actions"><span class="o-env">정식 DS_V1</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&amp;family=Noto+Sans+KR:wght@400;500;700;800&amp;family=Nanum+Gothic:wght@400;700;800&amp;family=Nanum+Myeongjo:wght@400;700;800&amp;family=Noto+Serif+KR:wght@400;700;800&amp;display=swap"><script id="r387-seoul-solar-asset-runtime">
+/* R387: Daily Seoul astronomical sunrise/sunset, independent of browser timezone or the weather provider's delayed isDay flag. */
+(function(){'use strict';
+ const LAT=37.5665*Math.PI/180,LON=126.978,TZ_MIN=540,DAY_MS=86400000;
+ const dateFormat=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'});
+ const cache={key:'',sunriseMs:0,sunsetMs:0};
+ function compute(nowMs){
+  const parts=Object.fromEntries(dateFormat.formatToParts(new Date(nowMs)).filter(p=>p.type!=='literal').map(p=>[p.type,Number(p.value)]));
+  const y=parts.year,m=parts.month,d=parts.day,key=y+'-'+m+'-'+d;
+  if(key!==cache.key){
+   const dateStartUtc=Date.UTC(y,m-1,d)-TZ_MIN*60000;
+   const n=(Date.UTC(y,m-1,d)-Date.UTC(y,0,0))/DAY_MS;
+   const days=(y%4===0&&y%100!==0)||y%400===0?366:365;
+   function eventMinutes(sign){
+    let mins=720;
+    for(let i=0;i<4;i++){
+     const g=2*Math.PI/days*(n-1+(mins-720)/1440);
+     const e=229.18*(.000075+.001868*Math.cos(g)-.032077*Math.sin(g)-.014615*Math.cos(2*g)-.040849*Math.sin(2*g));
+     const dec=.006918-.399912*Math.cos(g)+.070257*Math.sin(g)-.006758*Math.cos(2*g)+.000907*Math.sin(2*g)-.002697*Math.cos(3*g)+.00148*Math.sin(3*g);
+     const h=Math.acos(Math.max(-1,Math.min(1,Math.cos(90.833*Math.PI/180)/(Math.cos(LAT)*Math.cos(dec))-Math.tan(LAT)*Math.tan(dec))))*180/Math.PI;
+     mins=720-4*LON-e+TZ_MIN+sign*h*4;
+    }
+    return dateStartUtc+mins*60000;
+   }
+   cache.key=key;cache.sunriseMs=eventMinutes(-1);cache.sunsetMs=eventMinutes(1);
+  }
+  const sunriseMs=cache.sunriseMs,sunsetMs=cache.sunsetMs;
+  const isDay=nowMs>=sunriseMs&&nowMs<sunsetMs;
+  const phase=!isDay?'night':nowMs<sunriseMs+45*60000?'sunrise':nowMs>=sunsetMs-45*60000?'sunset':'day';
+  const fmt=ms=>new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ms));
+  return {location:'Seoul',date:cache.key,sunriseMs,sunsetMs,sunrise:fmt(sunriseMs),sunset:fmt(sunsetMs),isDay,phase};
+ }
+ const revision='R387-'+Date.now().toString(36);
+ window.r387SeoulSolar=function(nowMs){return compute(Number.isFinite(nowMs)?nowMs:Date.now());};
+ window.r387WeatherAssetUrl=function(path){return String(path).split('?')[0]+'?asset='+revision;};
+ window.r387WeatherAssetRevision=revision;
+})();
+</script><script id="r388-time-badge-core">
+(function(){'use strict';
+const defaults={enabled:false,color:'#111827',opacity:78,radius:14,paddingX:18,paddingY:8,leadingZero:true,period:'ko'};
+const keys={clock:'r388ClockTimeStyle',message:'r388MessageTimeStyle',weather:'r388WeatherTimeStyle'};
+const safe=(v,lo,hi,d)=>Number.isFinite(Number(v))?Math.max(lo,Math.min(hi,Number(v))):d;
+function normalize(input){const s=input&&typeof input==='object'&&!Array.isArray(input)?input:{};return {enabled:s.enabled===true,color:/^#[0-9a-fA-F]{6}$/.test(s.color||'')?s.color:defaults.color,opacity:safe(s.opacity,0,100,defaults.opacity),radius:safe(s.radius,0,100,defaults.radius),paddingX:safe(s.paddingX,0,100,defaults.paddingX),paddingY:safe(s.paddingY,0,60,defaults.paddingY),leadingZero:s.leadingZero!==false,period:['ko','en-before','en-after','none'].includes(s.period)?s.period:defaults.period};}
+function format(c,page,p){
+ const prefix=page==='clock'?'time':page+'Time';
+ const form=String(c[prefix+'Format']||'24s');
+ const style=normalize(c[keys[page]]);
+ if(!form.startsWith('12'))return typeof fmtTime==='function'?fmtTime({...c,timeFormat:form},p):new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',second:form.endsWith('s')?'2-digit':undefined,hour12:false}).format(new Date());
+ const parts=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
+ const h24=Number(parts.hour)%24;
+ const hh=String(h24%12||12).padStart(style.leadingZero?2:1,'0');
+ const clock=hh+':'+parts.minute+(form.endsWith('s')?':'+parts.second:'');
+ const en=h24<12?'AM':'PM',ko=h24<12?'오전':'오후';
+ return style.period==='none'?clock:style.period==='en-before'?en+' '+clock:style.period==='en-after'?clock+' '+en:ko+' '+clock;
+}
+function apply(element,c,page,scale){if(!element)return;const style=normalize(c[keys[page]]);const px=Number.isFinite(Number(scale))&&scale>0?Number(scale):1;
+ element.style.backgroundColor=style.enabled?`rgba(${parseInt(style.color.slice(1,3),16)},${parseInt(style.color.slice(3,5),16)},${parseInt(style.color.slice(5,7),16)},${style.opacity/100})`:'transparent';
+ element.style.borderRadius=style.enabled?style.radius*px+'px':'0px';
+ element.style.padding=style.enabled?`${style.paddingY*px}px ${style.paddingX*px}px`:'0px';
+ element.style.boxSizing='border-box';
+}
+const dateKeys={clock:'r389ClockDateBox',message:'r389MessageDateBox',weather:'r389WeatherDateBox'};
+function normalizeDate(input){const d=normalize(input);return {enabled:d.enabled,color:d.color,opacity:d.opacity,radius:d.radius,paddingX:d.paddingX,paddingY:d.paddingY};}
+function applyDate(element,c,page,scale){if(!element)return;const style=normalizeDate(c?.[dateKeys[page]]);const px=Number.isFinite(Number(scale))&&scale>0?Number(scale):1;
+ element.style.backgroundColor=style.enabled?`rgba(${parseInt(style.color.slice(1,3),16)},${parseInt(style.color.slice(3,5),16)},${parseInt(style.color.slice(5,7),16)},${style.opacity/100})`:'transparent';
+ element.style.borderRadius=style.enabled?style.radius*px+'px':'0px';
+ element.style.padding=style.enabled?`${style.paddingY*px}px ${style.paddingX*px}px`:'0px';
+ element.style.boxSizing='border-box';
+}
+window.r388TimeUI={defaults,keys,normalize,format,apply,dateKeys,normalizeDate,applyDate};
+})();
+</script></head><body>
+  <main class="wrap"><h1>DS_V1 정식 운영 LCD 관리자 <small style="font-size:13px;color:#64748b">V55X-R391 UI</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+<section id="v51oConsole" aria-label="DS_V1 정식 운영 관리 콘솔" data-dsv1-brand="R391-PROD">
+ <div class="o-top"><div class="o-brand"><div class="o-title">DS_V1 정식 운영</div><div class="o-subtitle">관리 콘솔 · DS_V1 · V55X-R391 UI</div></div><div class="o-actions"><span class="o-env">정식 DS_V1</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -1130,7 +1201,7 @@ body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!impo
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R382" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R386" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R382" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R389" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R389" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R389" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
 <style id="r130-test-style">#v53aAnimationModal .v53a-picks{max-height:32vh;overflow:auto}#r130TestNote{margin:8px 0;padding:10px 12px;border-radius:9px;background:#e9f4ff;color:#173e67;font-size:13px;line-height:1.5}#r130TestLaunch{margin:9px 0;background:#173a70;color:#fff}#v53aStage .r129-landscape{object-fit:cover}#v53aStage #wx50Scene{position:absolute;inset:0;overflow:hidden}#v53aStage .v53a-overlay{z-index:10;pointer-events:none}</style>
 <div id="r130TestNote">12종 날씨와 일출·일몰을 현재 시각에 관계없이 테스트할 수 있습니다. 테스트 결과는 실제 LCD·서버 설정에 저장되지 않습니다.</div>
 <button type="button" id="r130TestLaunch">12종 날씨 · 일출/일몰 테스트 열기</button>
@@ -1498,6 +1569,7 @@ async function v30ReadVerified(requestId,want){
     const normalized=x=>{const enabled=x?.enabled===true;return JSON.stringify({enabled,start:enabled?(Number(x?.start)||0):0,end:enabled?(Number(x?.end)||0):0,weekdays:(Array.isArray(x?.weekdays)?x.weekdays:[0,1,2,3,4,5,6]).map(Number).sort((a,b)=>a-b),timeStart:x?.timeStart||'00:00',timeEnd:x?.timeEnd||'00:00',templateId:String(x?.templateId||'')});};
     if(normalized(s)!==normalized(g))problems.push('문자 우선예약 요일·기간·시간 서버 저장값 불일치 (Code.gs 저장 필드 확인 필요)');
    }
+   for(const key of ['r388ClockTimeStyle','r388MessageTimeStyle','r388WeatherTimeStyle','r389ClockDateBox','r389MessageDateBox','r389WeatherDateBox']){if(JSON.stringify(want[key])!==JSON.stringify(got[key]))problems.push('R388 화면별 시간 설정 서버 저장값 불일치: '+key);}
    if(String(got.version)!==requestId)problems.unshift('저장 버전 불일치 (요청 '+requestId+' / 조회 '+String(got.version||'없음')+')');
    last={got,problems};
    if(!problems.length)return last;
@@ -1541,10 +1613,10 @@ async function save(){
       tag.onerror=()=>doneNow(Error('서버 버전 확인 실패'));
       tag.src=apiUrl()+'?action=health&callback='+cb+'&_='+Date.now();document.head.appendChild(tag);
     });
-    if(!info||info.ok!==true||!/^LCD-V55X-R[0-9]+-DSV1$/.test(String(info.version||'')) || !Array.isArray(info.features) || !['ampmClockEnabled','ampmClockX','ampmClockY','ampmClockFont','ampmClockBold','ampmClockShowWeekday','ampmClockShowDay','weatherSource','weatherShowTime','weatherShowDate','messagePrioritySchedule'].every(k=>info.features.includes(k))){
+    if(!info||info.ok!==true||String(info.version||'')!=='LCD-V55X-R389-DSV1' || !Array.isArray(info.features) || !['r388TimeStyles','r389DateBoxes','ampmClockEnabled','ampmClockX','ampmClockY','ampmClockFont','ampmClockBold','ampmClockShowWeekday','ampmClockShowDay','weatherSource','weatherShowTime','weatherShowDate','messagePrioritySchedule'].every(k=>info.features.includes(k))){
       const real=String(info&&info.version||'확인 불가');
       v30Diagnostic('서버 기능 호환성 확인 실패\n현재 서버 코드: '+real+'\n필수 서버 기능: AM/PM 시계, 날씨 제공자, 문자 예약 저장\n현재 배포 버전과 관리자 코드를 확인하세요. 저장 요청은 보내지 않았습니다.');
-      message('DS_V1 서버 버전 불일치: '+real+' (필요 버전: R385-DSV1). 저장 요청은 보내지 않았습니다.','error');
+      message('DS_V1 서버 버전 불일치: '+real+' (필수 기능 확인 필요). 저장 요청은 보내지 않았습니다.','error');
       return;
     }
   } catch(e){v30Diagnostic('V51N 서버 배포 버전 검사 오류: '+e.message);message('서버 버전 확인 실패: '+e.message+' · 저장 요청은 보내지 않았습니다.','error');return;}
@@ -1586,7 +1658,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V55X-R382&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V55X-R391&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1785,8 +1857,8 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=['clock','message','weather'].includes(mode)?mode:'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R386';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
- if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R386';}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R391';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R391';}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock');
@@ -2362,7 +2434,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R386 UI';
+ document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R391 UI';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2379,7 +2451,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R386 UI';
+document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R391 UI';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -2577,7 +2649,7 @@ document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R386 UI';
 
   else setStatus('시·군·구를 선택하고 동을 입력하거나 기존 좌표를 직접 사용하세요.');
  };
- const baseSizeField=document.getElementById('weatherPageSize');if(baseSizeField)baseSizeField.addEventListener('input',paint);
+ const baseSizeField=document.getElementById('weatherPageSize');if(baseSizeField)baseSizeField.addEventListener('input',()=>{if(typeof preview==='function')preview()});
  const previousRead=readForm;
  readForm=function(){const c=previousRead();const label=selectedLabel();
   c.weatherProvince=province.value;
@@ -2661,15 +2733,15 @@ function wx50Kind(code,isDay){
 
 function r129LandscapeKind(code,isDay){
  if(window.__r130PreviewLandscape && document.getElementById('v53aAnimationModal')?.hidden===false)return window.__r130PreviewLandscape;
- const n=Number(code),h=new Date().getHours();
- if(n===1000&&Number(isDay)!==0){if(h>=5&&h<9)return 'sunrise';if(h>=16&&h<20)return 'sunset';}
+ const n=Number(code);
+ if(n===1000&&Number(isDay)!==0){const phase=window.r387SeoulSolar().phase;if(phase==='sunrise'||phase==='sunset')return phase;}
  if([1006,1009].includes(n))return 'overcast';
  return '';
 }
 function r129ApplyLandscape(scene,code,isDay){
  const kind=r129LandscapeKind(code,isDay);if(!kind)return;
  scene.classList.add('r129-'+kind);
- const img=document.createElement('img');img.className='r129-landscape';img.alt='';img.decoding='async';img.src='images/weather_'+(kind==='overcast'?'cloud':kind)+'.webp';
+ const img=document.createElement('img');img.className='r129-landscape';img.alt='';img.decoding='async';img.src=window.r387WeatherAssetUrl('images/weather_'+(kind==='overcast'?'cloud':kind)+'.webp');
  img.onerror=()=>{img.remove();scene.classList.remove('r129-'+kind)};
  scene.appendChild(img);
 }
@@ -2681,12 +2753,12 @@ function wx50MountScene(page,code,isDay,sceneConfig){
  const r358Files={sun:'weather_clear_day.webp',moon:'weather_clear_night.webp',partly:'weather_partly.webp',cloud:'weather_cloud.webp',mist:'weather_mist.webp',drizzle:'weather_drizzle.webp',rain:'weather_rain.webp',showers:'weather_showers.webp',snow:'weather_snow.webp',blizzard:'weather_blizzard.webp',sleet:'weather_sleet.webp',thunder:'weather_thunder.webp'};
  const special=r129LandscapeKind(code,isDay);
  const assetName=special==='sunrise'?'weather_sunrise.webp':special==='sunset'?'weather_sunset.webp':r358Files[kind]||'weather_cloud.webp';
- const assetPath='images/'+assetName+'?v=V55X-R386';
+ const assetPath=window.r387WeatherAssetUrl('images/'+assetName);
  const v55fImg=document.createElement('img');v55fImg.className='v55f-photo';v55fImg.alt='';v55fImg.decoding='async';v55fImg.dataset.status='pending';v55fImg.dataset.asset=assetName;
  v55fImg.onload=function(){this.dataset.status='ok';this.style.display='block';window.r358WeatherPreviewImageStatus?.();};
  v55fImg.onerror=function(){
   if(this.dataset.attempt!=='jpg'){
-   this.dataset.attempt='jpg';this.src='images/'+assetName.replace(/\.webp$/i,'.jpg')+'?v=V55X-R386';return;
+   this.dataset.attempt='jpg';this.src=window.r387WeatherAssetUrl('images/'+assetName.replace(/\.webp$/i,'.jpg'));return;
   }
   this.dataset.status='failed';this.style.display='none';
   console.warn('[R358] Weather preview image unavailable; using gradient:',assetName);
@@ -2779,6 +2851,8 @@ function wx50MountScene(page,code,isDay,sceneConfig){
 // V51 preview uses the same seven-scene generator as the LCD. No extra weather calls.
 function v51UpdatePreviewScene(page,code,isDay,c){
  if(!page)return;
+ // R387: mini live preview uses Seoul day/night, except forced 12-scene test.
+ if(Number(code)===1000 && !(window.__r130PreviewLandscape&&document.getElementById('v53aAnimationModal')?.hidden===false))isDay=window.r387SeoulSolar().isDay?1:0;
  const old=page.querySelector('#wx50Scene');
  if(!c||c.weatherAnimationEnabled!==true){if(old)old.remove();page.querySelectorAll('.v55h-forest-photo,.v55h-forest-shade,.v55f-photo').forEach(e=>e.remove());delete page.dataset.v51Scene;return;}
  const kind=wx50Kind(code,isDay);
@@ -3311,7 +3385,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  const layer=document.createElement('div');layer.id='v52wLcdPreview';
  const frame=document.createElement('iframe');frame.title='실제 LCD 엔진 날씨 실시간 미리보기';
  frame.loading='lazy';frame.setAttribute('aria-label','날씨 LCD 출력과 동일한 배치 미리보기');
- frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R386';
+ frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R391';
  layer.appendChild(frame);
  const tag=document.createElement('span');tag.id='v52wLcdPreviewTag';tag.textContent='실제 LCD 배치 · 16:9';layer.appendChild(tag);
  viewport.appendChild(layer);
@@ -3377,7 +3451,7 @@ window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===
    const el=$(id);if(!el)continue;
    el.style.display=c[shown]&&visualTarget==='message'?'block':'none';
    if(el.style.display==='none'&&v55xR28SelectedMessageClock===id)v55xR28SelectMessageClock('');
-   el.textContent=formatter({...c,[prop]:c[prefix+'Format']},p);
+   el.textContent=prefix==='messageTime'?window.r388TimeUI.format(c,'message',p):formatter({...c,[prop]:c[prefix+'Format']},p);
    el.style.left=(Number(c[prefix+'X'])||0)+'%';el.style.top=(Number(c[prefix+'Y'])||0)+'%';
    el.style.fontSize=Math.max(low,Math.min(high,Number(c[prefix+'Size'])||defaultSize))+'px';
    el.style.color=c[prefix+'Color'];el.style.fontFamily=fontValue(c[prefix+'Font']);el.style.fontWeight=c[prefix+'Bold']?'800':'400';el.style.textShadow=c[prefix+'Shadow']?'0 2px 12px #000a':'none';
@@ -3448,7 +3522,7 @@ window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===
   if(!lcdTestFrame){
    lcdTestFrame=document.createElement('iframe');lcdTestFrame.title='실제 LCD 엔진 날씨 애니메이션 테스트';
    lcdTestFrame.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;background:#10243a';
-   lcdTestFrame.src='main.html?preview=1&previewScreen=weather&v=V55X-R386';
+   lcdTestFrame.src='main.html?preview=1&previewScreen=weather&v='+Date.now();
    stage.replaceChildren(lcdTestFrame);
    lcdTestFrame.addEventListener('load',()=>setTimeout(sendTest,150));
   }else sendTest();
@@ -4410,7 +4484,7 @@ for(const kind of ['Time','Date']){let p='weather'+kind;let group=document.creat
 panel.insertBefore(box,panel.firstElementChild?.nextSibling||null);
 const overlay=document.createElement('div');overlay.id='r179PreviewClock';overlay.innerHTML='<div id="r179PreviewTime"></div><div id="r179PreviewDate"></div>';stage.appendChild(overlay);
 const names=Object.keys(defaults);const prevRead=readForm;readForm=function(){const c=prevRead();for(const k of names){const el=$(k);c[k]=bools.has(k)?el.checked:nums.has(k)?Number(el.value):el.value}return c};const prevFill=fill;fill=function(c){prevFill(c);for(const k of names){const el=$(k);if(!el)continue;let v=c[k]??defaults[k];if(bools.has(k))el.checked=!!v;else el.value=v}paint()};
-function paint(){let c=readForm(),isWeather=typeof visualTarget!=='undefined'&&visualTarget==='weather';for(const kind of ['Time','Date']){const el=$('r179Preview'+kind),p='weather'+kind;el.style.display=isWeather&&c['weatherShow'+kind]?'block':'none';let now=new Date();el.textContent=kind==='Time'?now.toLocaleTimeString('ko-KR',{hour12:c[p+'Format']?.startsWith('12'),second:c[p+'Format']?.endsWith('s')?'2-digit':undefined}):now.toLocaleDateString('ko-KR',c[p+'Format']==='numeric'?{year:'numeric',month:'2-digit',day:'2-digit'}:{year:'numeric',month:'long',day:'numeric',weekday:'long'});el.style.left=c[p+'X']+'%';el.style.top=c[p+'Y']+'%';el.style.fontSize=c[p+'Size']+'px';el.style.color=c[p+'Color'];el.style.fontFamily=c[p+'Font'];el.style.fontWeight=c[p+'Bold']?'800':'400';el.style.textShadow=c[p+'Shadow']?'0 2px 10px #0009':'none'}}
+function paint(){let c=readForm(),isWeather=typeof visualTarget!=='undefined'&&visualTarget==='weather';for(const kind of ['Time','Date']){const el=$('r179Preview'+kind),p='weather'+kind;el.style.display=isWeather&&c['weatherShow'+kind]?'block':'none';let now=new Date();el.textContent=kind==='Time'?window.r388TimeUI.format(c,'weather',typeof nowParts==='function'?nowParts():null):now.toLocaleDateString('ko-KR',c[p+'Format']==='numeric'?{year:'numeric',month:'2-digit',day:'2-digit'}:{year:'numeric',month:'long',day:'numeric',weekday:'long'});el.style.left=c[p+'X']+'%';el.style.top=c[p+'Y']+'%';el.style.fontSize=c[p+'Size']+'px';el.style.color=c[p+'Color'];el.style.fontFamily=c[p+'Font'];el.style.fontWeight=c[p+'Bold']?'800':'400';el.style.textShadow=c[p+'Shadow']?'0 2px 10px #0009':'none'}}
 box.querySelectorAll('input,select').forEach(el=>{el.addEventListener('input',()=>{if(typeof unsavedChanges!=='undefined')unsavedChanges=true;paint()});el.addEventListener('change',paint)});box.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{box.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b));box.querySelectorAll('.r179-group').forEach(x=>x.classList.toggle('active',x.dataset.kind===b.dataset.kind))}));
 for(const kind of ['Time','Date']){let el=$('r179Preview'+kind),p='weather'+kind;el.addEventListener('pointerdown',ev=>{if(el.style.display==='none')return;el.setPointerCapture(ev.pointerId);ev.preventDefault()});el.addEventListener('pointermove',ev=>{if(!el.hasPointerCapture(ev.pointerId))return;let r=stage.getBoundingClientRect();let x=Math.max(0,Math.min(100,(ev.clientX-r.left)/r.width*100)),y=Math.max(0,Math.min(100,(ev.clientY-r.top)/r.height*100));$(p+'X').value=x.toFixed(1);$(p+'Y').value=y.toFixed(1);if(typeof unsavedChanges!=='undefined')unsavedChanges=true;paint()})}
 const prevPreview=preview;preview=function(){prevPreview();paint()};setInterval(paint,1000);})();</script><style id="r180-weather-quick-css">
@@ -7228,20 +7302,542 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #v13Canvas .v13block.selected .v15-label{
  font-size:inherit!important;
 }
+</style><script id="r387-solar-admin-status">
+(function(){'use strict';
+ function start(){
+  const guide=document.getElementById('v53aAnimationGuide');if(!guide||!window.r387SeoulSolar)return;
+  const line=document.createElement('div');line.id='r387SeoulSolarInfo';line.style.cssText='margin:10px 0;padding:10px 12px;background:#eaf3fb;border:1px solid #c8dcec;border-radius:10px;font-size:13px;line-height:1.6;color:#234766;font-weight:700';
+  guide.appendChild(line);
+  function paint(){const s=window.r387SeoulSolar();line.textContent='서울 일출 '+s.sunrise+' / 일몰 '+s.sunset+' (계산값) · 일출 뒤 45분간 일출 배경, 일몰 전 45분간 노을, 일몰 이후 맑은 밤';}
+  paint();setInterval(paint,60000);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script><style id="r388-time-badge-ui">
+.r388-time-panel{margin:13px 0 14px;border:1px solid #cbdceb;border-radius:13px;background:#f7fafe;overflow:hidden;color:#244260}
+.r388-time-panel>summary{padding:13px 15px;cursor:pointer;font-size:15px;font-weight:850;background:#edf4fb;min-height:48px}
+.r388-time-body{padding:13px;display:grid;gap:11px}
+.r388-time-body p{margin:0;font-size:12px;color:#56708a;line-height:1.5}
+.r388-time-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.r388-time-body label{display:flex;flex-direction:column;gap:5px;margin:0;font-size:13px;font-weight:750;color:#284967}
+.r388-time-body label.r388-checkbox{display:flex;flex-direction:row;align-items:center;gap:9px;padding:9px 3px;min-height:42px}
+.r388-time-body input,.r388-time-body select{width:100%;min-height:43px;padding:8px;border:1px solid #b8cddd;border-radius:9px;background:#fff;font-size:15px}
+.r388-time-body input[type=checkbox]{width:22px;height:22px;min-height:22px;accent-color:#1d4684}
+.r388-opacity-row{display:flex;gap:9px;align-items:center}.r388-opacity-row input{flex:1}.r388-opacity-row output{flex:none;min-width:42px;text-align:right}
+.r388-time-grid .r388-wide{grid-column:1/-1}
+@media(max-width:390px){.r388-time-grid{grid-template-columns:1fr}}
+</style><script id="r388-time-badge-admin">
+(function(){'use strict';
+const ui=window.r388TimeUI;if(!ui)return;
+const pageDef=[['clock','날짜·시간','v42ClockPanel','pvTime'],['message','문자','v42TextPanel','pvV52YTime'],['weather','날씨','v42WeatherPanel','r179PreviewTime']];
+const ids={};
+const label=(text,inner,cls='')=>'<label class="'+cls+'">'+text+inner+'</label>';
+function controls(page){const n=page+'R388';
+ return '<div class="r388-time-body"><p>시간 글자 뒤에만 표시되는 작은 박스입니다. <b>페이지 전체 배경은 변경되지 않습니다.</b> 색상·투명도·모서리·여백은 아래에서 설정하세요.</p>'+
+ label('시간표시 박스 사용','<input type="checkbox" id="'+n+'Enabled">','r388-checkbox')+
+ '<div class="r388-time-grid">'+
+ label('박스 색상','<input type="color" id="'+n+'Color" value="#111827">')+
+ label('모서리 반지름 (0=사각형)','<input type="number" id="'+n+'Radius" min="0" max="100" step="1" value="14">')+
+ label('박스 불투명도 (0=투명, 100=불투명)','<div class="r388-opacity-row"><input type="range" id="'+n+'Opacity" min="0" max="100" step="1" value="78"><output id="'+n+'OpacityValue">78%</output></div>','r388-wide')+
+ label('좌우 여백 (px)','<input type="number" id="'+n+'PaddingX" min="0" max="100" value="18">')+
+ label('상하 여백 (px)','<input type="number" id="'+n+'PaddingY" min="0" max="60" value="8">')+
+ label('12시간제 시(時) 앞자리 0','<input type="checkbox" id="'+n+'LeadingZero" checked> 선택: 06:05 / 해제: 6:05','r388-checkbox r388-wide')+
+ label('12시간제 오전/오후 표시','<select id="'+n+'Period"><option value="ko">오전/오후 6:05</option><option value="en-before">PM 6:05</option><option value="en-after">6:05 PM</option><option value="none">6:05 (표시 없음)</option></select>','r388-wide')+
+ '</div></div>';
+}
+for(const [page,title,hostId,target] of pageDef){const host=document.getElementById(hostId);if(!host)continue;const panel=document.createElement('details');panel.id='r388TimeOptions'+page;panel.className='r388-time-panel';panel.open=page==='clock';panel.innerHTML='<summary>▣ 시간표시 박스 꾸미기 (글자 뒤에만 표시)</summary>'+controls(page);
+ if(page==='weather'){document.getElementById('r179WeatherClockPanel')?.insertAdjacentElement('afterend',panel);if(!panel.parentElement)host.prepend(panel)}
+ else if(page==='message'){document.getElementById('v52yMsgClock')?.insertAdjacentElement('afterend',panel);if(!panel.parentElement)host.prepend(panel)}
+ else {document.getElementById('v32FormatPanel')?.insertAdjacentElement('afterend',panel);if(!panel.parentElement)host.prepend(panel)}
+ ids[page]={target,section:panel};
+}
+function readSettings(page){const n=page+'R388',get=k=>document.getElementById(n+k);return ui.normalize({enabled:get('Enabled')?.checked,color:get('Color')?.value,opacity:get('Opacity')?.value,radius:get('Radius')?.value,paddingX:get('PaddingX')?.value,paddingY:get('PaddingY')?.value,leadingZero:get('LeadingZero')?.checked,period:get('Period')?.value});}
+function fillSettings(page,value){const n=page+'R388',get=k=>document.getElementById(n+k),v=ui.normalize(value);for(const [k,val] of Object.entries({Enabled:v.enabled,Color:v.color,Opacity:v.opacity,Radius:v.radius,PaddingX:v.paddingX,PaddingY:v.paddingY,LeadingZero:v.leadingZero,Period:v.period})){const e=get(k);if(!e)continue;if(e.type==='checkbox')e.checked=val;else e.value=val;}
+ const output=get('OpacityValue');if(output)output.value=v.opacity+'%';}
+const prevRead=readForm;
+readForm=function(){const c=prevRead();for(const page of Object.keys(ids))c[ui.keys[page]]=readSettings(page);return c;};
+const prevFill=fill;
+fill=function(c){prevFill(c);for(const page of Object.keys(ids))fillSettings(page,c?.[ui.keys[page]]);paint();};
+function paint(){try{const c=readForm();const p=typeof nowParts==='function'?nowParts():null;
+ for(const [page,meta] of Object.entries(ids)){const el=document.getElementById(meta.target);if(!el)continue;ui.apply(el,c,page,1);
+ if(page==='clock')el.textContent=ui.format(c,'clock',p);else if(page==='message')el.textContent=ui.format(c,'message',p);else el.textContent=ui.format(c,'weather',p);
+ }
+ }catch(e){console.warn('R388 preview',e)}}
+const prevPreview=preview;
+preview=function(){prevPreview();paint();};
+for(const [page,meta] of Object.entries(ids))for(const e of meta.section.querySelectorAll('input,select')){e.addEventListener('input',()=>{const out=document.getElementById(page+'R388OpacityValue');if(out)out.value=document.getElementById(page+'R388Opacity').value+'%';unsavedChanges=true;preview()});e.addEventListener('change',()=>{unsavedChanges=true;preview()});}
+// The existing independent message/weather overlay animation timers may redraw their text each second.
+setInterval(paint,500);paint();
+})();
+</script>
+<style id="r389-unified-time-date-settings">
+.r389-clock-groups{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;align-items:start}
+.r389-clock-group{min-width:0;padding:13px;border:1px solid #d7e4ef;border-radius:12px;background:#fff;display:flex;flex-direction:column;gap:10px}
+.r389-clock-group>h3{font-size:16px;color:#194974;margin:0 0 3px}
+.r389-clock-group>label{display:block;min-width:0;margin:0;font-size:13px}
+.r389-clock-group>label>select{width:100%;max-width:none}
+.r389-time-format-extra{grid-column:1/-1;display:grid;grid-template-columns:1fr;gap:6px;padding:10px;background:#eef5fc;border:1px solid #dce9f5;border-radius:10px}
+.r389-time-format-extra>strong{font-size:13px;color:#174877}
+.r389-time-format-extra .r388-checkbox{display:flex!important;flex-direction:row!important;align-items:center;gap:9px;margin:0;padding:7px 2px;font-size:13px}
+.r389-time-format-extra .r388-checkbox input[type=checkbox]{width:21px!important;height:21px!important;min-height:21px!important;flex:none}
+.r389-time-format-extra select{width:100%;max-width:none;min-height:43px;border:1px solid #b8cddd;border-radius:9px;background:#fff;padding:8px}
+.r389-time-format-extra .r389-time-hint{color:#60768b;font-size:11px;line-height:1.5}
+.r389-date-panel{margin:10px 0 12px}
+.r389-date-panel>summary{padding:12px 14px;cursor:pointer;font-size:14px;font-weight:800;background:#eef4fb;min-height:45px}
+.r389-date-panel .r388-time-body{padding:12px}
+.r389-date-panel .r388-time-body>p{font-size:12px}
+.r389-clock-group .r388-time-panel{margin:6px 0 0}
+.r389-clock-group .r389-date-panel{margin:6px 0 0}
+#r150-messageTime .r389-time-format-extra,#r150-messageDate .r389-date-panel{width:100%}
+.r179-group .r389-time-format-extra,.r179-group .r389-date-panel{margin-top:12px}
+@media(max-width:720px){.r389-clock-groups{grid-template-columns:1fr!important}.r389-clock-group{padding:11px}}
 </style>
+<script id="r389-unified-time-date-admin">
+(function(){'use strict';
+const ui=window.r388TimeUI; if(!ui||!ui.dateKeys)return;
+const by=id=>document.getElementById(id);
+const defs={clock:{time:'v32TimeFormat',date:'v32DateFormat',datePos:'v32DatePosition'},message:{time:'messageTimeFormat',date:'messageDateFormat'},weather:{time:'weatherTimeFormat',date:'weatherDateFormat'}};
+const styleField=(page,k)=>page+'R389Date'+k;
+const lbl=(text,html,cls='')=>'<label class="'+cls+'">'+text+html+'</label>';
+function makeDateBox(page){const n=page+'R389Date',panel=document.createElement('details');panel.className='r388-time-panel r389-date-panel';panel.id='r389DateBox'+page;
+ panel.innerHTML='<summary>▣ 날짜표시 박스 꾸미기 (글자 뒤에만 표시)</summary><div class="r388-time-body"><p>날짜 글자 뒤의 작은 박스입니다. <b>화면 전체 배경과 관계없습니다.</b> 날짜 형식·글꼴·크기는 위의 날짜표시 설정을 그대로 사용합니다.</p>'+
+ lbl('날짜표시 박스 사용','<input type="checkbox" id="'+n+'Enabled">','r388-checkbox')+
+ '<div class="r388-time-grid">'+lbl('박스 색상','<input type="color" id="'+n+'Color" value="#111827">')+
+ lbl('모서리 반지름 (0=사각형)','<input type="number" id="'+n+'Radius" min="0" max="100" step="1" value="14">')+
+ lbl('박스 불투명도 (0=투명, 100=불투명)','<div class="r388-opacity-row"><input type="range" id="'+n+'Opacity" min="0" max="100" step="1" value="78"><output id="'+n+'OpacityValue">78%</output></div>','r388-wide')+
+ lbl('좌우 여백 (px)','<input type="number" id="'+n+'PaddingX" min="0" max="100" value="18">')+
+ lbl('상하 여백 (px)','<input type="number" id="'+n+'PaddingY" min="0" max="60" value="8">')+'</div></div>';
+ return panel;
+}
+function readDate(page){const g=k=>by(styleField(page,k));return ui.normalizeDate({enabled:g('Enabled')?.checked,color:g('Color')?.value,opacity:g('Opacity')?.value,radius:g('Radius')?.value,paddingX:g('PaddingX')?.value,paddingY:g('PaddingY')?.value});}
+function fillDate(page,raw){const v=ui.normalizeDate(raw),g=k=>by(styleField(page,k));for(const [k,value] of Object.entries({Enabled:v.enabled,Color:v.color,Opacity:v.opacity,Radius:v.radius,PaddingX:v.paddingX,PaddingY:v.paddingY})){const e=g(k);if(e){if(e.type==='checkbox')e.checked=value;else e.value=value;}}const out=g('OpacityValue');if(out)out.value=v.opacity+'%';}
+function setup(){
+ const all={};
+ for(const [page,def] of Object.entries(defs)){
+  const timeSelect=by(def.time),dateSelect=by(def.date),timeBadge=by('r388TimeOptions'+page);
+  if(!timeSelect||!dateSelect||!timeBadge){console.warn('R389 settings host missing',page);continue}
+  const dateBox=makeDateBox(page);
+  // Move the EXISTING R388 controls: their IDs, listeners and saved values are not duplicated.
+  const detail=document.createElement('div');detail.className='r389-time-format-extra';
+  const heading=document.createElement('strong');heading.textContent='12시간제 세부 표시';detail.appendChild(heading);
+  for(const id of [page+'R388LeadingZero',page+'R388Period']){const label=by(id)?.closest('label');if(label)detail.appendChild(label)}
+  const hint=document.createElement('div');hint.className='r389-time-hint';hint.textContent='12시간제를 선택할 때만 적용됩니다. 24시간제는 기존 형식이 유지됩니다.';detail.appendChild(hint);
+  if(page==='clock'){
+   const form=by('v32FormatPanel')?.querySelector('.v32formgrid');if(!form)continue;
+   form.classList.add('r389-clock-groups');
+   const timeCard=document.createElement('div'),dateCard=document.createElement('div');
+   timeCard.className=dateCard.className='r389-clock-group';
+   timeCard.id='r389ClockTimeGroup';dateCard.id='r389ClockDateGroup';
+   timeCard.innerHTML='<h3>시간표시 설정</h3>';dateCard.innerHTML='<h3>날짜표시 설정</h3>';
+   timeCard.append(timeSelect.closest('label'),detail,timeBadge);
+   dateCard.append(dateSelect.closest('label'));
+   const datePosition=by(def.datePos)?.closest('label');if(datePosition)dateCard.append(datePosition);
+   dateCard.append(dateBox);form.append(timeCard,dateCard);
+  }else{
+   const timeGroup=timeSelect.closest(page==='message'?'.msg-clock-group':'.r179-group');
+   const dateGroup=dateSelect.closest(page==='message'?'.msg-clock-group':'.r179-group');
+   if(!timeGroup||!dateGroup)continue;
+   const timeLabel=timeSelect.closest('label');timeLabel?.insertAdjacentElement('afterend',detail);
+   timeGroup.append(timeBadge);
+   dateGroup.append(dateBox);
+  }
+  all[page]=dateBox;
+  for(const input of dateBox.querySelectorAll('input')){
+   const change=()=>{const out=by(styleField(page,'OpacityValue'));if(out)out.value=by(styleField(page,'Opacity'))?.value+'%';if(typeof unsavedChanges!=='undefined')unsavedChanges=true;window.r389UpdateDatePreview?.();};
+   input.addEventListener('input',change);input.addEventListener('change',change);
+  }
+ }
+ const oldRead=readForm;
+ readForm=function(){const c=oldRead();for(const page of Object.keys(all))c[ui.dateKeys[page]]=readDate(page);return c;};
+ const oldFill=fill;
+ fill=function(c){oldFill(c);for(const page of Object.keys(all))fillDate(page,c?.[ui.dateKeys[page]]);requestAnimationFrame(paintDate);};
+ function paintDate(){try{const c=readForm();for(const [page,id] of Object.entries({clock:'pvDate',message:'pvV52YDate',weather:'r179PreviewDate'})){const target=by(id);if(target)ui.applyDate(target,c,page,1);}}catch(e){console.warn('R389 date preview',e)}}
+ window.r389UpdateDatePreview=()=>{paintDate();if(typeof preview==='function')preview();};
+ const oldPreview=preview; preview=function(){oldPreview();paintDate();};
+ setInterval(paintDate,750);paintDate();
+}
+// R150 creates and moves message groups after DOM parsing, so use the original live nodes.
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+})();
+</script>
+
+<style id="r390-mini-weather-clock-style">
+/* R390: the mobile floating weather preview uses a separate fixed iframe.
+   Add its own editable time/date overlay; never change the LCD output. */
+#r390MiniWeatherClock{
+ position:fixed;z-index:2147482400;display:none;overflow:visible;
+ background:transparent;pointer-events:none;touch-action:none;
+}
+#r390MiniWeatherClock.r390-visible{display:block}
+#r390MiniWeatherClock .r390-weather-item{
+ position:absolute;display:flex;align-items:center;justify-content:center;
+ box-sizing:border-box;min-width:40px;min-height:33px;
+ transform:translate(-50%,-50%);touch-action:none;
+ user-select:none;-webkit-user-select:none;cursor:move;
+ pointer-events:auto;border:1px dashed rgba(120,225,255,.72);
+ border-radius:5px;outline-offset:2px;
+}
+#r390MiniWeatherClock .r390-weather-item:focus-visible,
+#r390MiniWeatherClock .r390-weather-item.r390-selected{
+ outline:2px solid #5fe6ff;background:rgba(6,48,81,.18);
+}
+#r390MiniWeatherClock .r390-weather-text{
+ display:inline-block;white-space:nowrap;line-height:1.2;
+ font-variant-numeric:tabular-nums;box-sizing:border-box;
+ pointer-events:none;text-align:center;
+}
+#r390MiniWeatherClock .r390-weather-item[hidden]{display:none!important}
+</style>
+
+<script id="r390-mini-weather-clock-admin">
+(function(){'use strict';
+function init(){
+// R220 renders the weather mini LCD in a fixed, noninteractive iframe.
+// Its original R179 drag overlay remains in the scrolled-away previewStage.
+// Render dedicated time/date handles in screen coordinates above that iframe.
+const by=id=>document.getElementById(id);
+const shell=by('r207Float');
+if(!shell)return;
+const frame=document.querySelector('#v52wLcdPreview iframe');
+const surface=document.createElement('div');
+surface.id='r390MiniWeatherClock';
+surface.setAttribute('aria-label','날씨 미니 LCD 시간 및 날짜 직접 이동');
+surface.innerHTML='<div id="r390MiniTime" class="r390-weather-item" role="button" tabindex="0" aria-label="날씨 시간 위치 드래그"><span class="r390-weather-text"></span></div>'+
+ '<div id="r390MiniDate" class="r390-weather-item" role="button" tabindex="0" aria-label="날씨 날짜 위치 드래그"><span class="r390-weather-text"></span></div>'+
+'';
+document.body.appendChild(surface);
+let selected='',moving=null,lastConfig=null,visible=false,scheduled=false;
+const active=()=>document.body.classList.contains('r220-weather-floating')&&
+ shell.classList.contains('r207-visible')&&matchMedia('(max-width:700px)').matches&&
+ document.body.classList.contains('v51o-view-edit')&&
+ document.querySelector('[data-v42tab="weather"]')?.getAttribute('aria-selected')==='true';
+function clamp(n,lo,hi){return Math.max(lo,Math.min(hi,n));}
+function hideOriginalTime(inMini){
+ // Same-origin main.html iframe; this is only a preview-specific cosmetic rule.
+ // The real LCD and the full-sized preview are untouched after the mini closes.
+ try{
+  const doc=frame?.contentDocument;
+  if(!doc?.head)return;
+  let rule=doc.getElementById('r390MiniPreviewHideClock');
+  if(!rule){rule=doc.createElement('style');rule.id='r390MiniPreviewHideClock';doc.head.appendChild(rule);}
+  rule.textContent=inMini?'#r179WeatherClock{visibility:hidden!important}':'';
+ }catch(_){} // If iframe access is blocked, the editable overlay still works.
+}
+function timeFallback(c){
+ try{return window.r388TimeUI?.format(c,'weather',typeof nowParts==='function'?nowParts():null)||'';}catch(_){return '';}
+}
+function dateFallback(c){
+ const d=new Date(),k=String(c.weatherDateFormat||'long');
+ const parts=new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'}).formatToParts(d);
+ const get=t=>parts.find(p=>p.type===t)?.value||'';
+ const yy=get('year'),mm=get('month'),dd=get('day'),wd=get('weekday');
+ if(k==='iso')return yy+'-'+mm+'-'+dd;
+ if(k==='slash')return yy+'/'+mm+'/'+dd;
+ if(k==='short'||k==='numeric')return yy+'. '+mm+'. '+dd+'.';
+ if(k==='month')return Number(mm)+'월 '+Number(dd)+'일 '+wd;
+ return yy+'년 '+Number(mm)+'월 '+Number(dd)+'일 '+wd;
+}
+function realLCDText(kind){
+ try{return frame?.contentDocument?.getElementById('r179Weather'+kind)?.textContent||'';}catch(_){return '';}
+}
+function setBox(kind,c,scale){
+ const node=by('r390Mini'+kind),text=node?.firstElementChild;
+ if(!node||!text)return;
+ const prefix='weather'+kind;
+ const show=!!c['weatherShow'+kind];
+ node.hidden=!show;
+ if(!show)return;
+ const value=realLCDText(kind)||((kind==='Time')?timeFallback(c):dateFallback(c));
+ text.textContent=value;
+ const x=clamp(Number(c[prefix+'X']??50)||0,0,100),y=clamp(Number(c[prefix+'Y']??50)||0,0,100);
+ node.style.left=x+'%';node.style.top=y+'%';
+ text.style.fontSize=Math.max(11,clamp(Number(c[prefix+'Size'])||34,10,600)*scale)+'px';
+ text.style.fontFamily=c[prefix+'Font']||'Malgun Gothic';
+ text.style.color=c[prefix+'Color']||'#fff';
+ text.style.fontWeight=c[prefix+'Bold']?'800':'400';
+ text.style.textShadow=c[prefix+'Shadow']===false?'none':'0 1px 3px #000b';
+ if(kind==='Time')window.r388TimeUI?.apply(text,c,'weather',scale);
+ else window.r388TimeUI?.applyDate(text,c,'weather',scale);
+ node.classList.toggle('r390-selected',selected===kind);
+ node.title=(kind==='Time'?'시간':'날짜')+' · 손가락으로 이동 (X '+x.toFixed(1)+'%, Y '+y.toFixed(1)+'%)';
+}
+function show(){
+ const yes=active();
+ surface.classList.toggle('r390-visible',yes);
+ if(visible!==yes){visible=yes;hideOriginalTime(yes);}
+ if(!yes||moving)return;
+ const rect=shell.getBoundingClientRect(),border=parseFloat(getComputedStyle(shell).borderLeftWidth)||0;
+ surface.style.left=(rect.left+border)+'px';surface.style.top=(rect.top+border)+'px';
+ surface.style.width=Math.max(1,rect.width-2*border)+'px';
+ surface.style.height=Math.max(1,rect.height-2*border)+'px';
+ // Keep the 1920x1080 LCD coordinates in both portrait/landscape mini previews.
+ const scale=Math.min((rect.width-2*border)/1920,(rect.height-2*border)/1080);
+ let c;try{c=readForm();}catch(_){return;}lastConfig=c;
+ setBox('Time',c,scale);setBox('Date',c,scale);
+}
+function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;show();});}
+function select(kind){
+ selected=kind;
+ const p=by('r179WeatherClockPanel');if(p){p.open=true;
+  p.querySelectorAll('.r179-actions [data-kind]').forEach(b=>b.classList.toggle('active',b.dataset.kind===kind));
+  p.querySelectorAll('.r179-group[data-kind]').forEach(g=>g.classList.toggle('active',g.dataset.kind===kind));
+ }
+ schedule();
+}
+function savePosition(kind,x,y){
+ const xInput=by('weather'+kind+'X'),yInput=by('weather'+kind+'Y');
+ if(!xInput||!yInput)return;
+ xInput.value=x.toFixed(1);yInput.value=y.toFixed(1);
+ if(typeof unsavedChanges!=='undefined')unsavedChanges=true;
+ for(const input of [xInput,yInput]){
+  input.dispatchEvent(new Event('input',{bubbles:true}));
+  input.dispatchEvent(new Event('change',{bubbles:true}));
+ }
+}
+function moveToPointer(kind,clientX,clientY,write){
+ const rect=surface.getBoundingClientRect();if(!rect.width||!rect.height)return;
+ const x=clamp((clientX-rect.left)/rect.width*100,0,100),y=clamp((clientY-rect.top)/rect.height*100,0,100);
+ const node=by('r390Mini'+kind);if(node){node.style.left=x+'%';node.style.top=y+'%';}
+ if(write)savePosition(kind,x,y);
+ else if(moving){moving.x=x;moving.y=y;}
+}
+for(const kind of ['Time','Date']){
+ const node=by('r390Mini'+kind);if(!node)continue;
+ node.addEventListener('pointerdown',e=>{
+  if(!active()||node.hidden||(e.pointerType==='mouse'&&e.button!==0))return;
+  select(kind);moving={kind,id:e.pointerId,x:Number(by('weather'+kind+'X')?.value)||50,y:Number(by('weather'+kind+'Y')?.value)||50};
+  node.setPointerCapture(e.pointerId);e.stopPropagation();e.preventDefault();
+ },true);
+ node.addEventListener('pointermove',e=>{
+  if(!moving||moving.kind!==kind||moving.id!==e.pointerId)return;
+  moveToPointer(kind,e.clientX,e.clientY,false);e.stopPropagation();e.preventDefault();
+ },true);
+ const end=e=>{
+  if(!moving||moving.kind!==kind||moving.id!==e.pointerId)return;
+  const {x,y}=moving;moving=null;
+  if(e.type==='pointerup')savePosition(kind,x,y);
+  try{node.releasePointerCapture(e.pointerId)}catch(_){}
+  schedule();e.stopPropagation();e.preventDefault();
+ };
+ node.addEventListener('pointerup',end,true);node.addEventListener('pointercancel',end,true);
+ node.addEventListener('keydown',e=>{
+  if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;
+  select(kind);const x=Number(by('weather'+kind+'X')?.value)||50,y=Number(by('weather'+kind+'Y')?.value)||50;
+  const step=e.shiftKey?2:0.5;
+  savePosition(kind,clamp(x+(e.key==='ArrowLeft'?-step:e.key==='ArrowRight'?step:0),0,100),
+                     clamp(y+(e.key==='ArrowUp'?-step:e.key==='ArrowDown'?step:0),0,100));
+  schedule();e.stopPropagation();e.preventDefault();
+ });
+ node.addEventListener('click',e=>{if(active()){select(kind);e.stopPropagation();}},true);
+}
+frame?.addEventListener('load',()=>{hideOriginalTime(active());schedule();});
+for(const name of ['scroll','resize'])addEventListener(name,schedule,{passive:true});
+new MutationObserver(schedule).observe(shell,{attributes:true,attributeFilter:['class','style']});
+new MutationObserver(schedule).observe(document.body,{attributes:true,attributeFilter:['class']});
+document.querySelectorAll('[data-v42tab]').forEach(el=>el.addEventListener('click',schedule));
+document.addEventListener('input',e=>{if(e.target?.id?.startsWith('weather')||e.target?.id?.startsWith('r389'))schedule();},true);
+document.addEventListener('change',e=>{if(e.target?.id?.startsWith('weather')||e.target?.id?.startsWith('r389'))schedule();},true);
+setInterval(show,650);schedule();
+window.r390MiniWeather={update:show,isVisible:()=>visible,selection:()=>selected};
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
+<style id="r391-badge-width-and-pc-mini-css">
+/* R391: weather is a two-column position grid. The time/date appearance
+   controls are whole-panel editors, never a single grid cell. */
+#r179WeatherClockPanel{width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+#r179WeatherClockPanel .r179-group{min-width:0;width:100%;box-sizing:border-box}
+#r179WeatherClockPanel .r179-group > #r388TimeOptionsweather,
+#r179WeatherClockPanel .r179-group > #r389DateBoxweather,
+#r179WeatherClockPanel .r179-group > .r389-time-format-extra{
+ grid-column:1 / -1!important;display:block;min-width:0!important;
+ width:100%!important;max-width:100%!important;box-sizing:border-box!important;
+ align-self:stretch!important;justify-self:stretch!important;
+}
+#r179WeatherClockPanel .r179-group .r388-time-body,
+#r179WeatherClockPanel .r179-group .r388-time-grid{
+ width:100%;max-width:100%;min-width:0;box-sizing:border-box;
+}
+#r179WeatherClockPanel .r179-group .r388-time-grid > label{
+ min-width:0;max-width:100%;overflow-wrap:break-word;
+}
+#r179WeatherClockPanel .r179-group .r388-time-grid input:not([type=checkbox]),
+#r179WeatherClockPanel .r179-group .r388-time-grid select{
+ min-width:0;max-width:100%;box-sizing:border-box;
+}
+/* PC uses its own R254 miniature, not the mobile R207 iframe. */
+#r391PcWeatherClock{
+ position:fixed;z-index:2147482050;display:none;
+ overflow:visible;pointer-events:none;touch-action:none;background:transparent;
+}
+#r391PcWeatherClock.r391-visible{display:block}
+#r391PcWeatherClock .r391-weather-item{
+ position:absolute;display:flex;align-items:center;justify-content:center;
+ min-width:42px;min-height:33px;box-sizing:border-box;
+ transform:translate(-50%,-50%);touch-action:none;
+ user-select:none;-webkit-user-select:none;cursor:move;
+ pointer-events:auto;border:1px dashed rgba(120,225,255,.75);
+ border-radius:5px;outline-offset:2px;
+}
+#r391PcWeatherClock .r391-weather-item.r391-selected,
+#r391PcWeatherClock .r391-weather-item:focus-visible{
+ outline:2px solid #5fe6ff;background:rgba(6,48,81,.18)
+}
+#r391PcWeatherClock .r391-weather-text{
+ display:inline-block;white-space:nowrap;line-height:1.2;
+ font-variant-numeric:tabular-nums;box-sizing:border-box;
+ pointer-events:none;text-align:center;
+}
+#r391PcWeatherClock .r391-weather-item[hidden]{display:none!important}
+@media(max-width:1023px){#r391PcWeatherClock{display:none!important}}
+</style>
+
+<script id="r391-pc-weather-mini-time-date">
+(function(){'use strict';
+function init(){
+ const shell=document.getElementById('r254PcFloat');
+ if(!shell)return; // R254 is intentionally absent on mobile screens.
+ const $=id=>document.getElementById(id);
+ const frame=document.querySelector('#v52wLcdPreview iframe');
+ const surface=document.createElement('div');surface.id='r391PcWeatherClock';
+ surface.setAttribute('aria-label','PC 날씨 미니 LCD 시간·날짜 위치 편집');
+ surface.innerHTML='<div id="r391PcTime" class="r391-weather-item" role="button" tabindex="0" aria-label="시간 위치 드래그"><span class="r391-weather-text"></span></div>'+ 
+ '<div id="r391PcDate" class="r391-weather-item" role="button" tabindex="0" aria-label="날짜 위치 드래그"><span class="r391-weather-text"></span></div>';
+ document.body.appendChild(surface);
+ let selected='',moving=null,visible=false,queued=false;
+ const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+ const weatherSelected=()=>document.body.classList.contains('v51o-view-edit')&&
+  (document.querySelector('[data-v42tab="weather"]')?.getAttribute('aria-selected')==='true'||
+   document.querySelector('[data-v42tab="weather"]')?.classList.contains('active'));
+ const active=()=>matchMedia('(min-width:1024px)').matches&&weatherSelected()&&
+  shell.classList.contains('r254-show');
+ function realLCD(kind){try{return frame?.contentDocument?.getElementById('r179Weather'+kind)?.textContent||''}catch(_){return ''}}
+ function timeText(c){
+  try{const v=window.r388TimeUI?.format(c,'weather',typeof nowParts==='function'?nowParts():null);if(v)return String(v)}catch(_){}
+  return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'numeric',minute:'2-digit',hour12:true}).format(new Date());
+ }
+ function dateText(c){
+  const opts=c.weatherDateFormat==='numeric'?{year:'numeric',month:'2-digit',day:'2-digit'}:
+   {year:'numeric',month:'long',day:'numeric',weekday:'long'};
+  return new Intl.DateTimeFormat('ko-KR',{...opts,timeZone:'Asia/Seoul'}).format(new Date());
+ }
+ function hideClonedWeatherTime(enable){
+  // The PC floating preview duplicates the source preview in a shadow tree.
+  // Hide only those cloned weather handles while our draggable counterparts are visible.
+  const shadow=shell.querySelector('#r254PcViewport')?.shadowRoot;
+  if(!shadow)return;
+  let rule=shadow.getElementById('r391HideClonedWeatherTime');
+  if(!rule){rule=document.createElement('style');rule.id='r391HideClonedWeatherTime';shadow.appendChild(rule)}
+  rule.textContent=enable?'#r179PreviewClock{visibility:hidden!important}':'';
+ }
+ function paintKind(kind,c,scale){
+  const item=$('r391Pc'+kind),text=item?.firstElementChild;
+  if(!item||!text)return;
+  const name='weather'+kind,enabled=!!c['weatherShow'+kind];item.hidden=!enabled;
+  if(!enabled)return;
+  const fallback=kind==='Time'?timeText(c):dateText(c);
+  text.textContent=realLCD(kind)||fallback;
+  const x=clamp(Number(c[name+'X']??50),0,100),y=clamp(Number(c[name+'Y']??50),0,100);
+  item.style.left=(Number.isFinite(x)?x:50)+'%';item.style.top=(Number.isFinite(y)?y:50)+'%';
+  const size=clamp(Number(c[name+'Size'])||34,10,600);
+  text.style.fontSize=Math.max(12,size*scale)+'px';
+  text.style.fontFamily=c[name+'Font']||'Malgun Gothic';
+  text.style.color=c[name+'Color']||'#fff';
+  text.style.fontWeight=c[name+'Bold']?'800':'400';
+  text.style.textShadow=c[name+'Shadow']===false?'none':'0 1px 3px #000b';
+  try{if(kind==='Time')window.r388TimeUI?.apply(text,c,'weather',scale);
+      else window.r388TimeUI?.applyDate(text,c,'weather',scale)}catch(_){}
+  item.classList.toggle('r391-selected',selected===kind);
+  item.title=(kind==='Time'?'시간':'날짜')+' 위치 · X '+x.toFixed(1)+'% Y '+y.toFixed(1)+'%';
+ }
+ function show(){
+  const ok=active();surface.classList.toggle('r391-visible',ok);
+  if(visible!==ok){visible=ok;hideClonedWeatherTime(ok)}
+  if(!ok||moving)return;
+  const box=shell.querySelector('#r254PcViewport')?.getBoundingClientRect()||shell.getBoundingClientRect();
+  if(!box.width||!box.height)return;
+  Object.assign(surface.style,{left:box.left+'px',top:box.top+'px',width:box.width+'px',height:box.height+'px'});
+  let c;try{c=readForm()}catch(_){return}
+  const scale=Math.min(box.width/1920,box.height/1080);
+  paintKind('Time',c,scale);paintKind('Date',c,scale);
+ }
+ function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;show()})}
+ function select(kind){
+  selected=kind;const p=$('r179WeatherClockPanel');
+  if(p){p.open=true;p.querySelectorAll('.r179-actions [data-kind]').forEach(b=>b.classList.toggle('active',b.dataset.kind===kind));
+   p.querySelectorAll('.r179-group[data-kind]').forEach(g=>g.classList.toggle('active',g.dataset.kind===kind));}
+  schedule();
+ }
+ function save(kind,x,y){
+  const a=$('weather'+kind+'X'),b=$('weather'+kind+'Y');if(!a||!b)return;
+  a.value=x.toFixed(1);b.value=y.toFixed(1);
+  if(typeof unsavedChanges!=='undefined')unsavedChanges=true;
+  for(const el of [a,b]){
+   el.dispatchEvent(new Event('input',{bubbles:true}));
+   el.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+ }
+ for(const kind of ['Time','Date']){
+  const item=$('r391Pc'+kind);if(!item)continue;
+  item.addEventListener('pointerdown',e=>{
+   if(!active()||item.hidden||(e.pointerType==='mouse'&&e.button!==0))return;
+   select(kind);moving={id:e.pointerId,kind,x:Number($('weather'+kind+'X')?.value)||50,y:Number($('weather'+kind+'Y')?.value)||50};
+   try{item.setPointerCapture(e.pointerId)}catch(_){} e.preventDefault();e.stopPropagation();
+  },true);
+  item.addEventListener('pointermove',e=>{
+   if(!moving||moving.id!==e.pointerId||moving.kind!==kind)return;
+   const rect=surface.getBoundingClientRect();if(rect.width&&rect.height){
+    moving.x=clamp((e.clientX-rect.left)/rect.width*100,0,100);
+    moving.y=clamp((e.clientY-rect.top)/rect.height*100,0,100);
+    item.style.left=moving.x+'%';item.style.top=moving.y+'%';
+   }e.preventDefault();e.stopPropagation();
+  },true);
+  const end=e=>{
+   if(!moving||moving.id!==e.pointerId||moving.kind!==kind)return;
+   const pos=moving;moving=null;
+   if(e.type==='pointerup')save(kind,pos.x,pos.y);
+   try{item.releasePointerCapture(e.pointerId)}catch(_){}
+   schedule();e.preventDefault();e.stopPropagation();
+  };
+  item.addEventListener('pointerup',end,true);item.addEventListener('pointercancel',end,true);
+  item.addEventListener('keydown',e=>{
+   if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;
+   select(kind);const x=Number($('weather'+kind+'X')?.value)||50,y=Number($('weather'+kind+'Y')?.value)||50;
+   const step=e.shiftKey?2:0.5;
+   save(kind,clamp(x+(e.key==='ArrowLeft'?-step:e.key==='ArrowRight'?step:0),0,100),
+             clamp(y+(e.key==='ArrowUp'?-step:e.key==='ArrowDown'?step:0),0,100));
+   schedule();e.preventDefault();e.stopPropagation();
+  });
+  item.addEventListener('click',e=>{if(active()){select(kind);e.stopPropagation()}},true);
+ }
+ frame?.addEventListener('load',schedule);
+ for(const name of ['scroll','resize'])addEventListener(name,schedule,{passive:true});
+ new MutationObserver(schedule).observe(shell,{attributes:true,attributeFilter:['class','style']});
+ new MutationObserver(schedule).observe(document.body,{attributes:true,attributeFilter:['class']});
+ document.querySelectorAll('[data-v42tab]').forEach(el=>el.addEventListener('click',schedule));
+ document.addEventListener('input',e=>{if(e.target?.id?.startsWith('weather')||e.target?.id?.startsWith('r389'))schedule()},true);
+ document.addEventListener('change',e=>{if(e.target?.id?.startsWith('weather')||e.target?.id?.startsWith('r389'))schedule()},true);
+ setInterval(show,650);schedule();
+ window.r391PcMiniWeather={update:show,isVisible:()=>visible,selection:()=>selected};
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 <script id="ds-v1-r385-production-brand-finalizer">
 (function(){'use strict';
-  const tabTitle='DS_V1 정식 운영 | LCD 관리자 V55X-R386 UI';
+  const tabTitle='DS_V1 정식 운영 | LCD 관리자 V55X-R391 UI';
   function applyProductionBrand(){
     document.title=tabTitle;
     const root=document.getElementById('v51oConsole');
     if(!root)return;
-    root.setAttribute('data-dsv1-brand','R386-PROD4');
+    root.setAttribute('data-dsv1-brand','R391-PROD');
     const brand=root.querySelector('.o-title');
     const sub=root.querySelector('.o-subtitle');
     const env=root.querySelector('.o-env');
     if(brand)brand.textContent='DS_V1 정식 운영';
-    if(sub)sub.textContent='관리 콘솔 · DS_V1 · V55X-R386 UI';
+    if(sub)sub.textContent='관리 콘솔 · DS_V1 · V55X-R391 UI';
     if(env)env.textContent='정식 DS_V1';
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',applyProductionBrand,{once:true});
