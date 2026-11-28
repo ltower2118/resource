@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DS_V1 정식 운영 | LCD 관리자 V55X-R398 UI</title><style>*{box-sizing:border-box;}body{margin:0;}.wrap{margin:auto;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{margin:0 0 8px;}p{color:#64748b;line-height:1.6;}label{display:block;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;background:#223a57;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;}.editor-toolbar button{font-size:13px;}#previewStage{isolation:isolate;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection>p{margin:6px 0 0;font-size:11px;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewStage{transform-origin:0 0;}#visualHelp{color:#64748b;}@media (max-width:600px){#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{background:#fff;box-shadow:0 8px 24px #14233b22;}#visualTools{box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;padding:10px;border:1px solid #ccd7e4;border-radius:8px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:"↔";display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DS_V1 정식 운영 | LCD 관리자 V55X-R406 UI</title><style>*{box-sizing:border-box;}body{margin:0;}.wrap{margin:auto;}section{background:white;border:1px solid #dde5ed;border-radius:14px;padding:18px;margin:14px 0;}h1{margin:0 0 8px;}p{color:#64748b;line-height:1.6;}label{display:block;font-weight:700;margin:10px 0 5px;}input,select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;}input[type=checkbox]{width:auto;transform:scale(1.15);margin-right:8px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.buttons{display:flex;gap:8px;flex-wrap:wrap;}button,.btn{padding:12px 16px;border:0;border-radius:9px;background:#18317a;color:white;font-weight:700;cursor:pointer;text-decoration:none;}button:disabled{opacity:.5;}.secondary{background:#e6edf6;color:#203452;}#preview{position:relative;background:#223a57;color:#fff;}#previewStage{position:absolute;top:0;left:0;width:1920px;height:1080px;}#pvBg,#pvShade{position:absolute;inset:0;}#pvBg{background-size:cover;background-position:center;}#pvShade{background:#000;}#pvTime{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}#pvDate{position:absolute;font-weight:700;white-space:nowrap;}#pvMessage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;padding:110px;font-weight:800;line-height:1.35;background:#101827;}#pvMessage .message-content{width:100%;min-width:0;overflow-wrap:anywhere;}#pvMessage b,#pvMessage strong{font-weight:900;}#pvMessage u{text-decoration:underline;}#pvMessage mark{background:#fff176;color:#111;}#messageEditor{overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #cbd5e1;border-radius:9px;padding:12px;font-size:17px;background:#fff;line-height:1.6;}#messageEditor b,#messageEditor strong{font-weight:900;}#messageEditor mark{background:#fff176;color:#111;}#messageEditor span[style],#messageEditor b,#messageEditor u{vertical-align:baseline;}#messageEditor:empty:before{content:attr(data-placeholder);color:#94a3b8;}.editor-toolbar{display:flex;flex-wrap:wrap;}.editor-toolbar button{font-size:13px;}#previewStage{isolation:isolate;}#previewMode{font-weight:700;color:#18317a;}#status{padding:13px;background:#eef5ff;border-radius:9px;white-space:pre-wrap;line-height:1.6;}@media (max-width:540px){.grid{grid-template-columns:1fr;}}#previewSection>p{margin:6px 0 0;font-size:11px;}#messageSection{padding:15px;}#messageEditor{min-height:185px;height:29vh;max-height:43vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;outline-offset:2px;}#messageEditor:focus{outline:2px solid #2563eb;}.editor-toolbar{gap:5px;margin:6px 0;}.editor-toolbar button{padding:9px 11px;}.editor-toolbar label{font-size:12px;}.editor-toolbar select{max-width:130px;}#messageSection .grid{gap:8px;}#messageSection .muted{font-size:12px;margin:5px 0;}#previewSection .preview-note{display:none;}#editAdvanced{border:1px solid #d8e2ed;border-radius:9px;padding:10px;margin:8px 0;}#editAdvanced summary{cursor:pointer;font-weight:700;font-size:13px;}.editor-main-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}.editor-main-actions button{padding:9px 12px;}@media (max-width:540px){.wrap{padding:8px 9px 80px;}section{margin:9px 0;padding:12px;}#previewSection{top:0;}#preview{max-height:31vh;}#messageEditor{height:30vh;max-height:42vh;}}</style><style>#pvTime,#pvDate{cursor:grab;touch-action:none;outline-offset:6px;}#pvTime.selected,#pvDate.selected{outline:4px dashed #67e8f9;}#pvMessage .message-content{pointer-events:auto;cursor:text;outline:none;min-height:90px;}#visualTools{background:#fff;border:1px solid #d5e1ed;border-radius:12px;padding:9px;margin:8px 0;}#visualTools select,#visualTools input{width:auto;max-width:130px;}#previewStage{transform-origin:0 0;}#visualHelp{color:#64748b;}@media (max-width:600px){#visualTools input[type=number]{width:76px;}}</style><style id="v8Styles">#previewSection{background:#fff;box-shadow:0 8px 24px #14233b22;}#visualTools{box-shadow:none!important;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}#visualTools .v-mode-label{font-size:12px;font-weight:800;color:#193579;background:#e9effa;padding:8px;border-radius:7px;}#visualTools button{padding:8px 10px;}#visualTools label{display:inline-flex;align-items:center;gap:5px;margin:0;font-size:12px;}#visualTools input[type=number]{width:70px;}#visualTools input[type=color]{width:43px;height:36px;padding:2px;}#visualTools select{max-width:120px;width:120px;padding:7px;}#visualTools [hidden]{display:none!important;}#preview{aspect-ratio:16/9!important;}#pvMessage{z-index:9!important;isolation:isolate;}#pvMessage:not(.active){display:none!important;pointer-events:none!important;}#pvMessage.active{display:flex!important;}#pvTime,#pvDate{z-index:8;}.legacy-panel{display:none!important;}#visualHelp{margin:4px 0;font-size:12px;}@media (max-width:600px){#previewSection{padding:7px!important;}#visualTools{gap:4px;}#visualTools button{font-size:12px;padding:7px 9px;}#visualTools label{font-size:11px;}#visualTools select{max-width:105px;width:105px;}#visualHelp{font-size:11px;}}</style><style id="v9NormalFlow">html,body{height:auto!important;min-height:100%;overflow-y:auto!important;}.wrap{height:auto!important;max-height:none;overflow:visible!important;}#previewSection{max-height:none!important;overflow:visible!important;}#visualTools{position:relative!important;top:auto!important;z-index:2!important;}#preview{width:100%;height:auto!important;max-height:none!important;aspect-ratio:16/9;overflow:hidden;}#backgroundSection,#saveSection{display:block!important;position:static!important;top:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;transform:none!important;z-index:auto!important;}#backgroundSection .buttons,#saveSection .buttons{display:flex;flex-wrap:wrap;overflow:visible!important;max-height:none!important;}#backgroundSection input,#saveSection input{max-width:100%;min-width:0;}#saveSection .buttons>*{flex:0 1 auto;white-space:normal;text-align:center;}@media (max-width:600px){.wrap{padding:10px 10px 35px!important;}#backgroundSection,#saveSection{margin:12px 0!important;padding:16px!important;}#backgroundSection .buttons>* ,#saveSection .buttons>*{width:100%;flex:1 1 100%;min-height:44px;}#backgroundSection input,#saveSection input{font-size:16px;}}</style><style id="v10Fix">.visual-preview-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;}.visual-preview-actions span{font-size:12px;color:#64748b;}#previewBeforeSave{background:#15705b;}.preview-modal[hidden]{display:none!important;}.preview-modal{position:fixed;inset:0;z-index:99999;background:#0b1323;display:flex;flex-direction:column;}.preview-modal-bar{flex:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;color:#17283b;}.preview-modal-bar strong{margin-right:auto;}.preview-modal-bar button{padding:9px 12px;}#previewModalViewport{position:relative;flex:1;overflow:hidden;background:#101827;}#previewModalStage{position:absolute;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;}#previewModalStage #pvTime,#previewModalStage #pvDate{position:absolute;cursor:default;outline:none!important;}#previewModalStage #pvMessage{position:absolute;inset:0;}#previewModalStage .message-content{pointer-events:none!important;outline:0!important;}#pvMessage .message-content:focus{outline:0;}#pvMessage .message-content::selection,#pvMessage .message-content *::selection{background:#65b9ff;color:#08152b;}@media (max-width:600px){.preview-modal-bar{padding:7px;gap:5px;}.preview-modal-bar button{padding:7px 9px;font-size:12px;}}</style><style id="v13Style">#v13Panel{background:#fff;border:1px solid #dce5ee;border-radius:12px;padding:12px;margin:12px 0;}#v13Panel[hidden]{display:none!important;}#v13Panel .v13row{margin:8px 0;}#v13Panel label{margin:0;font-size:12px;}#v13Panel input[type=number]{width:90px;}#v13Panel input[type=color]{width:48px;height:40px;padding:2px;}#v13Panel select{width:auto;max-width:170px;}#v13Canvas{position:absolute;inset:0;pointer-events:none;}#v13Canvas .v13block{position:absolute;min-width:0;max-width:none;width:900px;padding:8px;white-space:pre-wrap;overflow-wrap:normal;word-break:normal;cursor:move;touch-action:none;pointer-events:auto;line-height:1.2;transform:translate(-50%,-50%);border:2px solid transparent;}#v13Canvas .v13block.editing{cursor:text;touch-action:auto;outline:2px solid #fff;}#v13Width{width:90px;}#v13Wrap{width:auto;}#v13TextInput{width:100%;padding:10px;border:1px solid #ccd7e4;border-radius:8px;resize:vertical;}#v13Start{width:auto;}#v13Help{font-size:12px;color:#61748a;}@media (max-width:600px){#v13Panel{padding:10px;}#v13Panel button{padding:9px 11px;}#v13Panel .v13row{gap:5px;}}</style><style id="v15ResizeStyle">#v13Canvas .v13block{box-sizing:border-box;}#v13Canvas .v13block.selected{border-color:#5ce6ff;}#v13Canvas .v15-resize{position:absolute;right:-15px;top:50%;transform:translateY(-50%);width:30px;height:54px;background:#32c9f2;border:3px solid #fff;border-radius:9px;cursor:ew-resize;touch-action:none;z-index:3;box-shadow:0 2px 9px #0007;}#v13Canvas .v15-resize:after{content:"↔";display:block;text-align:center;line-height:47px;color:#072538;font-size:22px;font-weight:bold;}#v13Canvas .v13block:not(.selected) .v15-resize{display:none;}</style><style id="v16LiveFix">body.v16-message-mode #visualTools > label,
 body.v16-message-mode #visualTools > #vBold,
 body.v16-message-mode #visualTools > #vUnder,
 body.v16-message-mode #visualTools > #vLeft,
@@ -1020,7 +1020,29 @@ body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!impo
  window.r387WeatherAssetUrl=function(path){return String(path).split('?')[0]+'?asset='+revision;};
  window.r387WeatherAssetRevision=revision;
 })();
-</script><script id="r388-time-badge-core">
+</script><script id="r404-clock-colon-core">
+(function(){'use strict';
+window.r404RenderClockColon=function(el,displayText,blink){
+ if(!el)return;
+ const text=String(displayText??'');
+ if(el.dataset.r404ClockText!==text||!el.querySelector('.r404-time-colon')){
+  if(text.indexOf(':')<0){el.textContent=text;el.dataset.r404ClockText=text;return;}
+  const parts=text.split(/(:)/g),fragment=document.createDocumentFragment();
+  for(const part of parts){
+   if(part===':'){const mark=document.createElement('span');mark.className='r404-time-colon';mark.textContent=':';fragment.appendChild(mark);}
+   else if(part)fragment.appendChild(document.createTextNode(part));
+  }
+  el.replaceChildren(fragment);el.dataset.r404ClockText=text;
+ }
+ const opacity=blink&&new Date().getSeconds()%2!==0?'0':'1';
+ for(const elColon of el.querySelectorAll('.r404-time-colon'))elColon.style.opacity=opacity;
+};
+})();
+</script>
+<style id="r404-colon-style">
+#pvTime .r404-time-colon,#time .r404-time-colon{visibility:visible;transition:none!important;animation:none!important;}
+</style>
+<script id="r388-time-badge-core">
 (function(){'use strict';
 const defaults={enabled:false,color:'#111827',opacity:78,radius:14,paddingX:18,paddingY:8,leadingZero:true,period:'ko'};
 const keys={clock:'r388ClockTimeStyle',message:'r388MessageTimeStyle',weather:'r388WeatherTimeStyle'};
@@ -1077,9 +1099,9 @@ window.r388TimeUI={defaults,keys,normalize,format,apply,dateKeys,normalizeDate,a
   text-decoration:inherit;
 }
 </style></head><body>
-  <main class="wrap"><h1>DS_V1 정식 운영 LCD 관리자 <small style="font-size:13px;color:#64748b">V55X-R398 UI</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
+  <main class="wrap"><h1>DS_V1 정식 운영 LCD 관리자 <small style="font-size:13px;color:#64748b">V55X-R406 UI</small></h1><p>상단 화면을 선택하고 수정한 뒤 저장하세요.</p>
 <section id="v51oConsole" aria-label="모바일 관리 콘솔">
- <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · DS_V1 · V55X-R398 UI</div></div><div class="o-actions"><span class="o-env">정식 DS_V1</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
+ <div class="o-top"><div class="o-brand"><div class="o-title">Lobby Display</div><div class="o-subtitle">관리 콘솔 · DS_V1 · V55X-R406 UI</div></div><div class="o-actions"><span class="o-env">정식 DS_V1</span><button type="button" class="o-settings-link" data-v51o-view="system" aria-pressed="false" title="설정 및 진단"><span class="o-gear" aria-hidden="true">⚙</span><span>설정·진단</span></button></div></div>
  
  <nav class="o-nav" aria-label="관리 메뉴">
   <button type="button" class="active" data-v51o-view="edit" aria-pressed="true"><span class="o-symbol" aria-hidden="true">▣</span><span>화면 편집</span></button>
@@ -1112,6 +1134,7 @@ window.r388TimeUI={defaults,keys,normalize,format,apply,dateKeys,normalizeDate,a
 <option value="long">2026년 11월 3일 화요일</option><option value="short">2026.11.03 (화)</option>
 <option value="iso">2026-11-03</option><option value="slash">2026/11/03</option>
 <option value="month">11월 3일 화요일</option>
+<option value="jp-month">11月10日 (土) · 일본식 한자 요일</option>
 </select></label>
 <label for="v32DatePosition">날짜 위치<select id="v32DatePosition">
 <option value="center">중앙 (시간 아래)</option><option value="top-left">왼쪽 위</option>
@@ -1149,7 +1172,7 @@ window.r388TimeUI={defaults,keys,normalize,format,apply,dateKeys,normalizeDate,a
 <div class="buttons" style="margin-top:12px"><button type="button" class="secondary" id="previewClock">시계 미리보기</button><button type="button" class="secondary" id="previewMessage">문자 미리보기</button></div>
 <p>설정 저장 후 LCD에서 시계 → 문자 → 시계를 자동 반복합니다. 문자 기능을 끄면 기존 시계만 계속 표시합니다.</p></section>
 <section class="legacy-panel"><h2>시간</h2><label><input id="showTime" type="checkbox">시간 표시</label><div class="grid"><div><label>글자 크기(px)</label><input id="timeSize" type="number" min="24" max="600"></div><div><label>글자 색상</label><input id="timeColor" type="color"></div><div><label>시간 글꼴</label><select id="timeFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></div><div><label>시간 형식</label><select id="timeFormat"><option value="24s">24시간 시:분:초</option><option value="24m">24시간 시:분</option><option value="12s">오전/오후 시:분:초</option><option value="12m">오전/오후 시:분</option></select></div></div></section>
-<section class="legacy-panel"><h2>날짜</h2><label><input id="showDate" type="checkbox">날짜 표시</label><div class="grid"><div><label>글자 크기(px)</label><input id="dateSize" type="number" min="16" max="110"></div><div><label>글자 색상</label><input id="dateColor" type="color"></div><div><label>날짜 글꼴</label><select id="dateFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></div><div><label>표시 위치</label><select id="datePosition"><option value="center">중앙 (시간 아래)</option><option value="top-left">왼쪽 위</option><option value="top-right">오른쪽 위</option><option value="bottom-left">왼쪽 아래</option><option value="bottom-right">오른쪽 아래</option></select></div><div><label>날짜 형태</label><select id="dateFormat"><option value="long">2026년 11월 2일 월요일</option><option value="short">2026.11.02 (월)</option><option value="iso">2026-11-02</option><option value="slash">2026/11/02</option><option value="month">11월 2일 월요일</option></select></div></div></section>
+<section class="legacy-panel"><h2>날짜</h2><label><input id="showDate" type="checkbox">날짜 표시</label><div class="grid"><div><label>글자 크기(px)</label><input id="dateSize" type="number" min="16" max="600"></div><div><label>글자 색상</label><input id="dateColor" type="color"></div><div><label>날짜 글꼴</label><select id="dateFont"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></div><div><label>표시 위치</label><select id="datePosition"><option value="center">중앙 (시간 아래)</option><option value="top-left">왼쪽 위</option><option value="top-right">오른쪽 위</option><option value="bottom-left">왼쪽 아래</option><option value="bottom-right">오른쪽 아래</option></select></div><div><label>날짜 형태</label><select id="dateFormat"><option value="long">2026년 11월 2일 월요일</option><option value="short">2026.11.02 (월)</option><option value="iso">2026-11-02</option><option value="slash">2026/11/02</option><option value="month">11월 2일 월요일</option></select></div></div></section>
 <section id="v13Panel" hidden><h2>문자 화면 직접 편집</h2><div class="v13row"><button type="button" id="v13Add">+ 텍스트 추가</button><button type="button" class="secondary" id="v13Delete">선택 삭제</button><button type="button" class="secondary" id="v13Edit">선택 문자 수정</button></div><p id="v13Help">상자 선택 · 드래그 이동 · 파란 손잡이로 너비 조절</p><label>선택한 문자 내용 (입력 즉시 위 화면에 반영)</label><div id="v16LiveHint" aria-live="polite">입력 즉시 반영</div><textarea id="v13TextInput" placeholder="문자를 입력하세요. Enter로 줄바꿈"></textarea><div class="v13row"><label>크기 <input type="number" id="v13Size" min="16" max="300" value="100"></label><label>상자 너비(px, 직접 입력 또는 오른쪽 손잡이) <input type="number" id="v13Width" min="100" max="1800" step="20" value="900"></label><label><input type="checkbox" id="v13Wrap" checked> 자동 줄바꿈</label><label>글자색 <input type="color" id="v13Color" value="#ffdd55"></label><label>글꼴 <select id="v13Font"><option value="Arial">Arial</option><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label>정렬 <select id="v22Align"><option value="left">왼쪽</option><option value="center">가운데</option><option value="right">오른쪽</option></select></label><label><input type="checkbox" id="v13Bold"> 굵게</label><label><input type="checkbox" id="v13Under"> 밑줄</label></div><div class="v13row"><label>문자 화면 배경 <input type="color" id="v13Bg" value="#101827"></label><label>처음 표시 <select id="v13Start"><option value="clock">시계 화면</option><option value="message">문자 화면</option></select></label><label><input type="checkbox" id="v13Enabled"> 문자 자동 교대</label></div><div class="v13row" id="v25Transition"><label>전환 효과 <select id="transitionEffect"><option value="fade">부드럽게 페이드</option><option value="slide">페이드 + 위로 이동</option><option value="none">효과 없음</option></select></label><label>전환 속도 <select id="transitionDuration"><option value="300">빠르게 0.3초</option><option value="700">보통 0.7초</option><option value="1200">천천히 1.2초</option><option value="2000">아주 천천히 2초</option></select></label></div><div class="v13row"><label>시계(초) <input type="number" id="v13ClockSeconds" min="5" max="86400"></label><label>문자(초) <input type="number" id="v13MessageSeconds" min="3" max="3600"></label></div></section><section id="backgroundSection"><div id="clockBgControls"><label>배경 종류<select id="clockBackgroundMode"><option value="image">이미지</option><option value="color">단색</option></select></label><label>배경 색상<input id="clockBackgroundColor" type="color" value="#17283b"></label></div><label>배경 이미지 파일명</label><input id="background" value="images/background.jpg"><p>배경 이미지는 GitHub의 <b>ds/images</b> 폴더에서 교체합니다. 같은 파일명으로 변경해도 LCD가 주기적으로 새로 읽습니다.</p><label>배경 어둡게 (%)</label><input id="overlay" type="range" min="0" max="70"><div class="buttons"><button id="images" class="secondary">GitHub 배경 폴더 열기</button><button type="button" id="r322OpenImageManager" class="secondary">이미지 관리 · 관리자 업로드/삭제</button></div></section>
 
 <br><br><br><br><br><br><br><section id="v42ClockPanel" class="v42-panel"><h2>시간·날짜 편집</h2><details id="r185Panel" style="margin:12px 0;padding:12px;border:1px solid #cbd9e6;border-radius:12px;background:#f5f9fd"><summary style="cursor:pointer;font-weight:800;color:#173a7a">AM/PM 가로형 시계 디자인</summary><p>AM 위 / PM 아래 · 한글 요일 · 날짜는 일자만 표시합니다. 기존 시계는 유지됩니다.</p><label><input id="ampmClockEnabled" type="checkbox"> AM/PM 가로형 시계 사용</label><div class="r185-grid"><label>시계 전체 글꼴<select id="ampmClockFont"><option value="Malgun Gothic">맑은 고딕</option><option value="Arial">Arial</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label><label style="display:flex;align-items:center;gap:8px"><input id="ampmClockBold" type="checkbox" style="width:auto;min-height:0"> 두껍게 (미체크: 기본)</label><label>전체 크기 (%)<input id="ampmClockScale" type="number" min="40" max="180" value="100"></label><label>AM/PM 크기 (px)<input id="ampmClockPeriodSize" type="number" min="15" max="100" value="42"></label><label>시간 크기 (px)<input id="ampmClockTimeSize" type="number" min="60" max="400" value="220"></label><label style="display:flex;align-items:center;gap:8px"><input id="ampmClockShowSeconds" type="checkbox" checked style="width:auto;min-height:0"> 초 표시 (해제 시 콜론 깜박임)</label><label style="display:flex;align-items:center;gap:8px"><input id="ampmClockShowWeekday" type="checkbox" checked style="width:auto;min-height:0"> 요일 표시</label><label style="display:flex;align-items:center;gap:8px"><input id="ampmClockShowDay" type="checkbox" checked style="width:auto;min-height:0"> 일자 표시</label><label>요일 크기 (px)<input id="ampmClockWeekdaySize" type="number" min="15" max="100" value="50"></label><label>일자 크기 (px)<input id="ampmClockDaySize" type="number" min="20" max="180" value="105"></label><label>구분선 간격 (px)<input id="ampmClockLineGap" type="number" min="0" max="60" value="12"></label><label>가로 위치 (%)<input id="ampmClockX" type="number" min="0" max="100" value="50"></label><label>세로 위치 (%)<input id="ampmClockY" type="number" min="0" max="100" value="50"></label></div><p>시계 전체를 미리보기에서 클릭하면 점선으로 선택되며, 마우스나 터치로 끌어서 이동할 수 있습니다. 위치·크기·글꼴은 날짜시간 화면에만 적용됩니다.</p></details><div id="v42ClockWeatherSlot" class="v42-line"></div><div class="v44-weather-fields"><strong>날짜·시간 화면에 표시할 날씨 정보</strong><div id="v44ClockFields" class="v44-field-grid">
@@ -1223,7 +1246,7 @@ window.r388TimeUI={defaults,keys,normalize,format,apply,dateKeys,normalizeDate,a
   <label><input id="messageShadow" type="checkbox" checked> 문자 화면 그림자</label>
  </div>
 </section>
-<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R398" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R389" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R398" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
+<section id="saveSection"><details id="v52tDiagBox"><summary>LCD 연결·복구 기록 (이 기기)</summary><p class="v52tNote">같은 브라우저/WebView 저장공간에 기록된 최근 25건입니다. 다른 기기의 오류는 여기에서 확인할 수 없습니다.</p><div id="v52tDiagText">기록 확인 중…</div><button type="button" id="v52tDiagReload">기록 새로고침</button></details><h2>설정 저장</h2><label>관리자 키 (최초 한 번 입력)</label><div class="r209-key-wrap"><input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="Apps Script setup() 실행 로그의 관리자 키"><button type="button" id="r209ShowKey" aria-label="관리자 키 보기" aria-pressed="false" title="관리자 키 표시">👁</button></div><p id="r209KeyHint" style="margin:6px 0;color:#65758b;font-size:12px">관리자 키는 서버 Apps Script에 등록된 키와 정확히 같아야 합니다. 이전에 기억된 키가 다르면 지우고 다시 입력하세요.</p><label><input id="remember" type="checkbox">이 PC에 관리자 키 기억</label><div class="buttons"><button id="save">💾 설정 저장 · LCD 자동 반영</button><a class="btn secondary" href="main.html?v=V55X-R406" target="_blank" rel="noopener">LCD 화면 보기</a><button id="load" class="secondary">↻ 현재 적용 설정 불러오기</button><button id="clear" class="secondary">관리자 키 지우기</button><a class="btn secondary" href="main.html?testOffline=1&amp;v=V55X-R389" target="_blank" rel="noopener">인터넷 장애 화면 테스트</a></div><p id="status" role="status">연결 확인 중...</p><div id="v51bVerifyRow" hidden style="margin-top:10px"><button id="v51bVerifyOnly" type="button" class="secondary">🔎 저장 결과만 다시 확인 (재저장 안 함)</button><p style="font-size:12px">서버 응답이 지연되었을 때 사용하세요. 저장 요청을 다시 보내지 않습니다.</p></div><details id="saveDiagnostics" style="display:none;margin-top:10px"><summary>저장 진단 보기</summary><pre id="saveDiagnosticText" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f4f7fb;padding:10px;border-radius:8px"></pre></details></section><div id="v42Dock" aria-label="빠른 작업"><button id="v42QuickSave" type="button">💾 저장 · 반영</button><a id="v46QuickView" class="btn secondary" href="main.html?v=V55X-R406" target="_blank" rel="noopener" aria-label="LCD 화면 보기">▣ LCD 보기</a><button id="v42QuickLoad" type="button" class="secondary">↻ 현재 적용 설정 불러오기</button></div><footer id="v51mCopyright" style="text-align:center;padding:23px 8px 10px;color:#64748b;font-size:13px;letter-spacing:.2px">Made by ai &amp; hayousin</footer></main>
 <style id="r130-test-style">#v53aAnimationModal .v53a-picks{max-height:32vh;overflow:auto}#r130TestNote{margin:8px 0;padding:10px 12px;border-radius:9px;background:#e9f4ff;color:#173e67;font-size:13px;line-height:1.5}#r130TestLaunch{margin:9px 0;background:#173a70;color:#fff}#v53aStage .r129-landscape{object-fit:cover}#v53aStage #wx50Scene{position:absolute;inset:0;overflow:hidden}#v53aStage .v53a-overlay{z-index:10;pointer-events:none}</style>
 <div id="r130TestNote">12종 날씨와 일출·일몰을 현재 시각에 관계없이 테스트할 수 있습니다. 테스트 결과는 실제 LCD·서버 설정에 저장되지 않습니다.</div>
 <button type="button" id="r130TestLaunch">12종 날씨 · 일출/일몰 테스트 열기</button>
@@ -1326,7 +1349,7 @@ function fill(c){
  if($('r115WeatherSource'))$('r115WeatherSource').value=safe.weatherSource==='kma'?'kma':'weatherapi';$('messageEditor').innerHTML=messageMarkup(current);if(typeof window.v55xR94ScheduleFill==='function')window.v55xR94ScheduleFill(safe);if(typeof window.r109Fill==='function')window.r109Fill(safe);preview();
 }
 function message(s,kind=''){const el=$('status');el.textContent=s;el.className=kind}
-function preview(){const c=readForm(),p=nowParts(),t=$('pvTime'),d=$('pvDate');t.textContent=fmtTime(c,p);d.textContent=fmtDate(c,p);t.style.display=c.showTime?'block':'none';d.style.display=c.showDate?'block':'none';t.style.color=c.timeColor;d.style.color=c.dateColor;t.style.fontFamily=fontValue(c.timeFont||'Malgun Gothic');d.style.fontFamily=fontValue(c.dateFont||'Malgun Gothic');t.style.fontWeight=c.timeBold?'800':'400';d.style.fontWeight=c.dateBold?'800':'400';t.style.fontSize=Math.max(24,Math.min(600,Number(c.timeSize)||112))+'px';d.style.fontSize=Math.max(16,Math.min(110,Number(c.dateSize)||34))+'px';d.style.top='auto';d.style.bottom='auto';d.style.left='auto';d.style.right='auto';d.style.transform='none';
+function preview(){const c=readForm(),p=nowParts(),t=$('pvTime'),d=$('pvDate');window.r404RenderClockColon(t,fmtTime(c,p),!String(c.timeFormat||'24s').endsWith('s'));d.textContent=window.r401DateText(c.dateFormat,p,()=>fmtDate(c,p));t.style.display=c.showTime?'block':'none';d.style.display=c.showDate?'block':'none';t.style.color=c.timeColor;d.style.color=c.dateColor;t.style.fontFamily=fontValue(c.timeFont||'Malgun Gothic');d.style.fontFamily=fontValue(c.dateFont||'Malgun Gothic');t.style.fontWeight=c.timeBold?'800':'400';d.style.fontWeight=c.dateBold?'800':'400';t.style.fontSize=Math.max(24,Math.min(600,Number(c.timeSize)||112))+'px';d.style.fontSize=Math.max(16,Math.min(600,Number(c.dateSize)||34))+'px';d.style.top='auto';d.style.bottom='auto';d.style.left='auto';d.style.right='auto';d.style.transform='none';
 if(c.datePosition==='center'){d.style.top='68%';d.style.left='50%';d.style.transform='translate(-50%,-50%)'}else{d.style[c.datePosition.includes('top')?'top':'bottom']='4%';d.style[c.datePosition.includes('right')?'right':'left']='3%'}
 const msg=$('pvMessage');const html=messageMarkup(c)||escapeMessage('표시할 문자를 입력하세요.');if(html!==lastPreviewMarkup && !msg.contains(document.activeElement) && !(visualTarget==='message'&&v12Bookmark)){msg.innerHTML='<div class="message-content">'+html+'</div>';lastPreviewMarkup=html}msg.style.textAlign=messageAlignment(c);msg.style.width='100%';msg.style.fontSize=Math.max(24,Math.min(240,Number(c.messageSize)||100))+'px';msg.style.color=c.messageColor||'#ffdd55';msg.style.backgroundColor=c.messageBackground||'#101827';if(typeof v51ePreviewMessageBg==='function')v51ePreviewMessageBg();msg.style.fontFamily=fontValue(c.messageFont);msg.classList.toggle('active',visualTarget==='message');const ed=$('messageEditor');ed.style.color=c.messageColor;ed.style.backgroundColor=c.messageBackground;ed.style.fontFamily=fontValue(c.messageFont);ed.style.textAlign=messageAlignment(c);ed.style.fontSize='20px';ed.style.setProperty('--editor-scale',String(20/Math.max(24,Number(c.messageSize)||100))); document.querySelectorAll('[data-align]').forEach(b=>b.style.outline=b.dataset.align===messageAlignment(c)?'2px solid #18317a':'none');$('previewMode').textContent=visualTarget==='message'?'문자 화면':'시계 화면';positionPreviewObjects(c);$('pvShade').style.opacity=Number(c.overlay)/100;$('pvBg').style.backgroundColor=c.clockBackgroundColor||'#17283b';$('pvBg').style.backgroundImage=c.clockBackgroundMode==='color'?'none':'url("'+encodeURI(c.background)+'")';$('pvShade').style.opacity=c.clockBackgroundMode==='color'?0:Number(c.overlay)/100;scalePreview()}
 function scalePreview(){const w=$('preview').clientWidth; if(w>0)$('previewStage').style.transform='scale('+(w/1920)+')'}
@@ -1680,7 +1703,7 @@ async function save(){
   fill(result.got);
   v51bClearPending();
   const lcdLink=document.querySelector('#saveSection a[href^="main.html"]');
-  if(lcdLink)lcdLink.href='main.html?v=V55X-R398&saved='+encodeURIComponent(result.got.version||'');
+  if(lcdLink)lcdLink.href='main.html?v=V55X-R406&saved='+encodeURIComponent(result.got.version||'');
   message(editingChanged?'✓ 서버 저장 확인 완료. 저장 도중 변경한 입력은 서버 저장값으로 갱신되었습니다.':'✓ 설정 저장 및 재조회 확인 완료 · LCD에 자동 반영됩니다.','ok');
  }catch(e){
   message('저장 결과 확인 지연: '+e.message+' · 중복 저장하지 않았습니다. 「저장 결과만 다시 확인」을 사용하세요.','error');
@@ -1879,8 +1902,8 @@ function sendPreview(){if(playerFrame&&playerFrame.contentWindow)playerFrame.con
 window.addEventListener('message',e=>{if(e.origin===location.origin&&e.data&&e.data.kind==='lcd-preview-ready')sendPreview()});
 function v10ShowModal(mode){
  modalMode=['clock','message','weather'].includes(mode)?mode:'clock';const stage=$('previewModalStage');
- if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R398';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
- if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R398';}
+ if(!playerFrame){playerFrame=document.createElement('iframe');playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R406';playerFrame.title='실제 LCD 표시 엔진 미리보기';playerFrame.style.cssText='width:1920px;height:1080px;border:0;display:block';stage.replaceChildren(playerFrame)}
+ if(playerFrame.dataset.previewMode!==modalMode){playerFrame.dataset.previewMode=modalMode;playerFrame.src='main.html?preview=1&previewScreen='+encodeURIComponent(modalMode)+'&v=V55X-R406';}
  $('previewModal').hidden=false;document.body.style.overflow='hidden';v10ScaleModal();sendPreview();
 }
 $('previewBeforeSave').onclick=()=>v10ShowModal(document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock');
@@ -2465,7 +2488,7 @@ $('v42QuickSave').onclick=()=>$('save').click();
  const oldSync=syncAdmin;
  syncAdmin=async function(){await oldSync();updateSequence()};
  updateUsage();updateSequence();showTab('clock');
- document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R398 UI';
+ document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R406 UI';
 })();
 /* V45 clock/date bold state: keep independent of rich-text editor. */
 let v45TimeBold=false,v45DateBold=false;
@@ -2482,7 +2505,7 @@ const v45OldCompare=compareSavedSettingsV29;
 compareSavedSettingsV29=function(want,got){const diffs=v45OldCompare(want,got);for(const k of ['timeBold','dateBold'])if(Boolean(want[k])!==Boolean(got[k]))diffs.push(k+' (입력 '+want[k]+' / 서버 '+got[k]+')');return diffs};
 // Initialize current display without resetting the server-loaded editor.
 v45TimeBold=!!current.timeBold;v45DateBold=!!current.dateBold;v45SyncBold();
-document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R398 UI';
+document.title='DS_V1 정식 운영 | LCD 관리자 V55X-R406 UI';
 
 // V46: open the same LCD URL as the existing viewer button (including latest saved version).
 (function(){
@@ -2947,6 +2970,23 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
 })();
 </script>
 <div id="v51hPreviewLayer" role="dialog" aria-modal="true" aria-label="점검 안내 화면 미리보기"><button id="v51hPreviewExit" type="button">✕ 미리보기 닫기</button><strong id="v51kPreviewTitle">안내 말씀</strong><p id="v51hPreviewText"></p></div>
+<script id="r401JapaneseDateFormatter">
+/* R401: Japanese month/day + one-kanji weekday. R400 layouts remain intact. */
+(function(){
+ 'use strict';
+ window.r401JapaneseDateText=function(input){
+   var d=input instanceof Date?input:new Date();
+   var parts=new Intl.DateTimeFormat('ja-JP',{
+     timeZone:'Asia/Seoul',month:'numeric',day:'numeric',weekday:'short'
+   }).formatToParts(d);
+   var value=function(type){var item=parts.find(function(x){return x.type===type});return item?item.value:''};
+   return Number(value('month'))+'月'+Number(value('day'))+'日 ('+value('weekday')+')';
+ };
+ window.r401DateText=function(format,parts,existing){
+   return String(format)==='jp-month' ? window.r401JapaneseDateText() : existing();
+ };
+})();
+</script>
 <script id="v51hMaintenanceLogic">
 (function(){
  const mode=document.getElementById('v51hMaintenanceMode');
@@ -3416,7 +3456,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
  const layer=document.createElement('div');layer.id='v52wLcdPreview';
  const frame=document.createElement('iframe');frame.title='실제 LCD 엔진 날씨 실시간 미리보기';
  frame.loading='lazy';frame.setAttribute('aria-label','날씨 LCD 출력과 동일한 배치 미리보기');
- frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R398';
+ frame.src='main.html?preview=1&previewScreen=weather&v=V55X-R406';
  layer.appendChild(frame);
  const tag=document.createElement('span');tag.id='v52wLcdPreviewTag';tag.textContent='실제 LCD 배치 · 16:9';layer.appendChild(tag);
  viewport.appendChild(layer);
@@ -3455,7 +3495,7 @@ window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===
 (function(){
  'use strict';
  const node=document.getElementById('v42TextPanel');if(!node)return;
- const template=document.createElement('template');template.innerHTML='<details id="v52yMsgClock"><summary>문자 화면 · 시간·날짜 표시</summary><div class="msg-clock-body">\n<p style="margin:0;color:#64748b;font-size:13px">문자 화면 전용 설정입니다. 기존 시간·날짜 화면에는 영향을 주지 않습니다.</p>\n<div class="msg-clock-group"><h3>시간 표시</h3><label class="msg-clock-check"><input type="checkbox" id="messageShowTime"> 문자 화면에 시간 표시</label>\n<div class="msg-clock-grid">\n<label>가로 위치 (%)<input type="number" id="messageTimeX" min="0" max="100" step="0.5" value="50"></label><label>세로 위치 (%)<input type="number" id="messageTimeY" min="0" max="100" step="0.5" value="22"></label>\n<label>크기 (24~600px)<input type="number" id="messageTimeSize" min="24" max="600" value="112"></label><label>색상<input type="color" id="messageTimeColor" value="#ffffff"></label>\n<label>시간 형식<select id="messageTimeFormat"><option value="24s">24시간 · 초 표시</option><option value="24m">24시간 · 분 표시</option><option value="12s">12시간 · 초 표시</option><option value="12m">12시간 · 분 표시</option></select></label><label>글꼴<select id="messageTimeFont"><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label>\n</div><label class="msg-clock-check"><input type="checkbox" id="messageTimeBold"> 굵게</label><label class="msg-clock-check"><input type="checkbox" id="messageTimeShadow" checked> 시간 그림자</label></div>\n<div class="msg-clock-group"><h3>날짜 표시</h3><label class="msg-clock-check"><input type="checkbox" id="messageShowDate"> 문자 화면에 날짜 표시</label>\n<div class="msg-clock-grid">\n<label>가로 위치 (%)<input type="number" id="messageDateX" min="0" max="100" step="0.5" value="50"></label><label>세로 위치 (%)<input type="number" id="messageDateY" min="0" max="100" step="0.5" value="82"></label>\n<label>크기 (16~110px)<input type="number" id="messageDateSize" min="16" max="110" value="34"></label><label>색상<input type="color" id="messageDateColor" value="#ffffff"></label>\n<label>날짜 형식<select id="messageDateFormat"><option value="long">긴 날짜</option><option value="short">짧은 날짜</option><option value="iso">ISO</option><option value="slash">슬래시</option><option value="month">월·일</option></select></label><label>글꼴<select id="messageDateFont"><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label>\n</div><label class="msg-clock-check"><input type="checkbox" id="messageDateBold"> 굵게</label><label class="msg-clock-check"><input type="checkbox" id="messageDateShadow" checked> 날짜 그림자</label></div>\n<small>크기와 위치는 미리보기 아래 선택 요소 빠른 편집에서 조절합니다. 이곳에서는 표시 여부, 색상, 글꼴, 형식과 그림자를 설정합니다.</small>\n</div></details>';
+ const template=document.createElement('template');template.innerHTML='<details id="v52yMsgClock"><summary>문자 화면 · 시간·날짜 표시</summary><div class="msg-clock-body">\n<p style="margin:0;color:#64748b;font-size:13px">문자 화면 전용 설정입니다. 기존 시간·날짜 화면에는 영향을 주지 않습니다.</p>\n<div class="msg-clock-group"><h3>시간 표시</h3><label class="msg-clock-check"><input type="checkbox" id="messageShowTime"> 문자 화면에 시간 표시</label>\n<div class="msg-clock-grid">\n<label>가로 위치 (%)<input type="number" id="messageTimeX" min="0" max="100" step="0.5" value="50"></label><label>세로 위치 (%)<input type="number" id="messageTimeY" min="0" max="100" step="0.5" value="22"></label>\n<label>크기 (24~600px)<input type="number" id="messageTimeSize" min="24" max="600" value="112"></label><label>색상<input type="color" id="messageTimeColor" value="#ffffff"></label>\n<label>시간 형식<select id="messageTimeFormat"><option value="24s">24시간 · 초 표시</option><option value="24m">24시간 · 분 표시</option><option value="12s">12시간 · 초 표시</option><option value="12m">12시간 · 분 표시</option></select></label><label>글꼴<select id="messageTimeFont"><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label>\n</div><label class="msg-clock-check"><input type="checkbox" id="messageTimeBold"> 굵게</label><label class="msg-clock-check"><input type="checkbox" id="messageTimeShadow" checked> 시간 그림자</label></div>\n<div class="msg-clock-group"><h3>날짜 표시</h3><label class="msg-clock-check"><input type="checkbox" id="messageShowDate"> 문자 화면에 날짜 표시</label>\n<div class="msg-clock-grid">\n<label>가로 위치 (%)<input type="number" id="messageDateX" min="0" max="100" step="0.5" value="50"></label><label>세로 위치 (%)<input type="number" id="messageDateY" min="0" max="100" step="0.5" value="82"></label>\n<label>크기 (16~600px)<input type="number" id="messageDateSize" min="16" max="600" value="34"></label><label>색상<input type="color" id="messageDateColor" value="#ffffff"></label>\n<label>날짜 형식<select id="messageDateFormat"><option value="long">긴 날짜</option><option value="short">짧은 날짜</option><option value="iso">ISO</option><option value="slash">슬래시</option><option value="month">월·일</option><option value="jp-month">11月10日 (土) · 일본식 한자 요일</option></select></label><label>글꼴<select id="messageDateFont"><option value="Malgun Gothic">맑은 고딕</option><option value="Noto Sans KR">Noto Sans KR</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option></select></label>\n</div><label class="msg-clock-check"><input type="checkbox" id="messageDateBold"> 굵게</label><label class="msg-clock-check"><input type="checkbox" id="messageDateShadow" checked> 날짜 그림자</label></div>\n<small>크기와 위치는 미리보기 아래 선택 요소 빠른 편집에서 조절합니다. 이곳에서는 표시 여부, 색상, 글꼴, 형식과 그림자를 설정합니다.</small>\n</div></details>';
  const effects=node.querySelector('.v52h-effects');node.insertBefore(template.content.firstElementChild,effects||null);
  const names=["messageShowTime", "messageShowDate", "messageTimeX", "messageTimeY", "messageTimeSize", "messageTimeColor", "messageTimeFont", "messageTimeBold", "messageTimeFormat", "messageTimeShadow", "messageDateX", "messageDateY", "messageDateSize", "messageDateColor", "messageDateFont", "messageDateBold", "messageDateFormat", "messageDateShadow"];const $=id=>document.getElementById(id);
  const defaults={messageShowTime:false,messageShowDate:false,messageTimeX:50,messageTimeY:22,messageTimeSize:112,messageTimeColor:'#ffffff',messageTimeFont:'Malgun Gothic',messageTimeBold:false,messageTimeFormat:'24s',messageTimeShadow:true,messageDateX:50,messageDateY:82,messageDateSize:34,messageDateColor:'#ffffff',messageDateFont:'Malgun Gothic',messageDateBold:false,messageDateFormat:'long',messageDateShadow:true};
@@ -3478,11 +3518,11 @@ window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===
  function refreshOverlay(){
   if(!stage)return;
   const p=nowParts(),c=readForm();
-  for(const [id,prefix,shown,formatter,prop,low,high,defaultSize] of [['pvV52YTime','messageTime','messageShowTime',fmtTime,'timeFormat',24,600,112],['pvV52YDate','messageDate','messageShowDate',fmtDate,'dateFormat',16,110,34]]){
+  for(const [id,prefix,shown,formatter,prop,low,high,defaultSize] of [['pvV52YTime','messageTime','messageShowTime',fmtTime,'timeFormat',24,600,112],['pvV52YDate','messageDate','messageShowDate',fmtDate,'dateFormat',16,600,34]]){
    const el=$(id);if(!el)continue;
    el.style.display=c[shown]&&visualTarget==='message'?'block':'none';
    if(el.style.display==='none'&&v55xR28SelectedMessageClock===id)v55xR28SelectMessageClock('');
-   el.textContent=prefix==='messageTime'?window.r388TimeUI.format(c,'message',p):formatter({...c,[prop]:c[prefix+'Format']},p);
+   el.textContent=prefix==='messageTime'?window.r388TimeUI.format(c,'message',p):window.r401DateText(c[prefix+'Format'],p,()=>formatter({...c,[prop]:c[prefix+'Format']},p));
    el.style.left=(Number(c[prefix+'X'])||0)+'%';el.style.top=(Number(c[prefix+'Y'])||0)+'%';
    el.style.fontSize=Math.max(low,Math.min(high,Number(c[prefix+'Size'])||defaultSize))+'px';
    el.style.color=c[prefix+'Color'];el.style.fontFamily=fontValue(c[prefix+'Font']);el.style.fontWeight=c[prefix+'Bold']?'800':'400';el.style.textShadow=c[prefix+'Shadow']?'0 2px 12px #000a':'none';
@@ -4495,12 +4535,15 @@ preview.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,t:Date.
 preview.addEventListener('click',e=>{
   if(down&&Math.hypot(e.clientX-down.x,e.clientY-down.y)>9)return; // drag should never navigate
   const page=previewPage(),target=targetFor(e.target,page);
+  // R402: clock page selects on a single tap; only two taps open the settings.
+  if(page==='clock')return;
   if(target)openEditor(page,target);
 },false);
 // Some draggable overlays consume click; a short stationary tap still selects them.
 preview.addEventListener('pointerup',e=>{
   if(!down||Math.hypot(e.clientX-down.x,e.clientY-down.y)>9)return;
   const page=previewPage(),target=targetFor(e.target,page);
+  if(page==='clock')return;
   if(target)setTimeout(()=>openEditor(page,target),0);
 },false);
 window.r154OpenPreviewEditor=openEditor;
@@ -4511,11 +4554,11 @@ const defaults={weatherShowTime:false,weatherShowDate:false,weatherTimeX:50,weat
 const bools=new Set(['weatherShowTime','weatherShowDate','weatherTimeBold','weatherDateBold','weatherTimeShadow','weatherDateShadow']);const nums=new Set(['weatherTimeX','weatherTimeY','weatherTimeSize','weatherDateX','weatherDateY','weatherDateSize']);
 const box=document.createElement('details');box.id='r179WeatherClockPanel';box.open=true;box.innerHTML='<summary style="font-weight:800;cursor:pointer;color:#153c63">날씨 화면 · 시간·날짜 표시 설정</summary><p>날씨 화면에만 적용됩니다. 날짜시간·문자 화면 설정은 변경하지 않습니다.</p><div class="r179-actions"><button type="button" data-kind="Time" class="active">시간표시</button><button type="button" data-kind="Date">날짜표시</button></div>';
 function field(k,label,type,extra=''){const val=defaults[k];if(type==='check')return '<label class="r179-check"><input type="checkbox" id="'+k+'">'+label+'</label>';if(type==='select')return '<label>'+label+'<select id="'+k+'">'+extra+'</select></label>';return '<label>'+label+'<input id="'+k+'" type="'+type+'" '+(type==='number'?'min="0" max="100"':'')+' value="'+val+'"></label>'}
-for(const kind of ['Time','Date']){let p='weather'+kind;let group=document.createElement('div');group.className='r179-group'+(kind==='Time'?' active':'');group.dataset.kind=kind;group.innerHTML=field('weatherShow'+kind,'화면에 '+(kind==='Time'?'시간':'날짜')+' 표시','check')+field(p+'X','가로 위치 (%)','number')+field(p+'Y','세로 위치 (%)','number')+field(p+'Size','글자 크기 (px)','number')+field(p+'Color','글자색','color')+field(p+'Font','글꼴','select','<option value="Malgun Gothic">맑은 고딕</option><option value="Arial">Arial</option><option value="Noto Sans KR">Noto Sans KR</option><option value="serif">명조</option>')+field(p+'Format','표시 형식','select',kind==='Time'?'<option value="24s">24시간 (초 포함)</option><option value="24">24시간</option><option value="12s">12시간 (초 포함)</option><option value="12">12시간</option>':'<option value="long">긴 날짜</option><option value="short">짧은 날짜</option><option value="numeric">숫자 날짜</option>')+field(p+'Bold','굵게','check')+field(p+'Shadow','글자 그림자','check');box.appendChild(group)}
+for(const kind of ['Time','Date']){let p='weather'+kind;let group=document.createElement('div');group.className='r179-group'+(kind==='Time'?' active':'');group.dataset.kind=kind;group.innerHTML=field('weatherShow'+kind,'화면에 '+(kind==='Time'?'시간':'날짜')+' 표시','check')+field(p+'X','가로 위치 (%)','number')+field(p+'Y','세로 위치 (%)','number')+field(p+'Size','글자 크기 (px)','number')+field(p+'Color','글자색','color')+field(p+'Font','글꼴','select','<option value="Malgun Gothic">맑은 고딕</option><option value="Arial">Arial</option><option value="Noto Sans KR">Noto Sans KR</option><option value="serif">명조</option>')+field(p+'Format','표시 형식','select',kind==='Time'?'<option value="24s">24시간 (초 포함)</option><option value="24">24시간</option><option value="12s">12시간 (초 포함)</option><option value="12">12시간</option>':'<option value="long">긴 날짜</option><option value="short">짧은 날짜</option><option value="numeric">숫자 날짜</option><option value="jp-month">11月10日 (土) · 일본식 한자 요일</option>')+field(p+'Bold','굵게','check')+field(p+'Shadow','글자 그림자','check');box.appendChild(group)}
 panel.insertBefore(box,panel.firstElementChild?.nextSibling||null);
 const overlay=document.createElement('div');overlay.id='r179PreviewClock';overlay.innerHTML='<div id="r179PreviewTime"></div><div id="r179PreviewDate"></div>';stage.appendChild(overlay);
 const names=Object.keys(defaults);const prevRead=readForm;readForm=function(){const c=prevRead();for(const k of names){const el=$(k);c[k]=bools.has(k)?el.checked:nums.has(k)?Number(el.value):el.value}return c};const prevFill=fill;fill=function(c){prevFill(c);for(const k of names){const el=$(k);if(!el)continue;let v=c[k]??defaults[k];if(bools.has(k))el.checked=!!v;else el.value=v}paint()};
-function paint(){let c=readForm(),isWeather=typeof visualTarget!=='undefined'&&visualTarget==='weather';for(const kind of ['Time','Date']){const el=$('r179Preview'+kind),p='weather'+kind;el.style.display=isWeather&&c['weatherShow'+kind]?'block':'none';let now=new Date();el.textContent=kind==='Time'?window.r388TimeUI.format(c,'weather',typeof nowParts==='function'?nowParts():null):now.toLocaleDateString('ko-KR',c[p+'Format']==='numeric'?{year:'numeric',month:'2-digit',day:'2-digit'}:{year:'numeric',month:'long',day:'numeric',weekday:'long'});el.style.left=c[p+'X']+'%';el.style.top=c[p+'Y']+'%';el.style.fontSize=c[p+'Size']+'px';el.style.color=c[p+'Color'];el.style.fontFamily=c[p+'Font'];el.style.fontWeight=c[p+'Bold']?'800':'400';el.style.textShadow=c[p+'Shadow']?'0 2px 10px #0009':'none'}}
+function paint(){let c=readForm(),isWeather=typeof visualTarget!=='undefined'&&visualTarget==='weather';for(const kind of ['Time','Date']){const el=$('r179Preview'+kind),p='weather'+kind;el.style.display=isWeather&&c['weatherShow'+kind]?'block':'none';let now=new Date();el.textContent=kind==='Time'?window.r388TimeUI.format(c,'weather',typeof nowParts==='function'?nowParts():null):window.r401DateText(c[p+'Format'],null,()=>now.toLocaleDateString('ko-KR',c[p+'Format']==='numeric'?{year:'numeric',month:'2-digit',day:'2-digit'}:{year:'numeric',month:'long',day:'numeric',weekday:'long'}));el.style.left=c[p+'X']+'%';el.style.top=c[p+'Y']+'%';el.style.fontSize=c[p+'Size']+'px';el.style.color=c[p+'Color'];el.style.fontFamily=c[p+'Font'];el.style.fontWeight=c[p+'Bold']?'800':'400';el.style.textShadow=c[p+'Shadow']?'0 2px 10px #0009':'none'}}
 box.querySelectorAll('input,select').forEach(el=>{el.addEventListener('input',()=>{if(typeof unsavedChanges!=='undefined')unsavedChanges=true;paint()});el.addEventListener('change',paint)});box.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{box.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b));box.querySelectorAll('.r179-group').forEach(x=>x.classList.toggle('active',x.dataset.kind===b.dataset.kind))}));
 for(const kind of ['Time','Date']){let el=$('r179Preview'+kind),p='weather'+kind;el.addEventListener('pointerdown',ev=>{if(el.style.display==='none')return;el.setPointerCapture(ev.pointerId);ev.preventDefault()});el.addEventListener('pointermove',ev=>{if(!el.hasPointerCapture(ev.pointerId))return;let r=stage.getBoundingClientRect();let x=Math.max(0,Math.min(100,(ev.clientX-r.left)/r.width*100)),y=Math.max(0,Math.min(100,(ev.clientY-r.top)/r.height*100));$(p+'X').value=x.toFixed(1);$(p+'Y').value=y.toFixed(1);if(typeof unsavedChanges!=='undefined')unsavedChanges=true;paint()})}
 const prevPreview=preview;preview=function(){prevPreview();paint()};setInterval(paint,1000);})();</script><style id="r180-weather-quick-css">
@@ -4618,7 +4661,7 @@ const observer=new MutationObserver(()=>{if(tab()!==lastTab)update()});
 observer.observe(document.getElementById('v42Tabs')||quick,{subtree:true,attributes:true,attributeFilter:['aria-selected']});
 update();
 window.r181SelectElement=activate;
-})();</script><script id="r185ClockRuntime">(function(){'use strict';function update(){try{const admin=!!document.getElementById('previewStage');const c=admin?(typeof readForm==='function'?readForm():{}):(typeof config==='object'?config:{});const host=admin?document.getElementById('previewStage'):document.body;const el=document.getElementById('r185Clock');if(!host||!el)return;const on=c.ampmClockEnabled===true||c.ampmClockEnabled==='true';const clockPage=admin?(document.querySelector('#v42Tabs .v42-tab.active')?.textContent||'').includes('날짜')||(document.querySelector('#v42Tabs .v42-tab[aria-selected="true"]')?.textContent||'').includes('날짜'):document.body.dataset.lcdScreen==='clock';if(admin)document.body.classList.toggle('r188-clock-preview',clockPage);host.classList.toggle('r185-on',on);if(!on||!clockPage){el.style.display='none';return}const n=new Date();const h=n.getHours(),minute=String(n.getMinutes()).padStart(2,'0'),second=String(n.getSeconds()).padStart(2,'0');const clamp=(v,a,b,d)=>Math.min(b,Math.max(a,Number(v)||d));const scale=admin?1:Math.min(innerWidth/1920,innerHeight/1080);const px=(key,a,b,d)=>clamp(c[key],a,b,d)*scale;el.style.fontFamily=({'Malgun Gothic':'"Malgun Gothic",sans-serif','Arial':'Arial,sans-serif','Noto Sans KR':'"Noto Sans KR",sans-serif','Georgia':'Georgia,serif','Courier New':'"Courier New",monospace','Times New Roman':'"Times New Roman",serif'})[c.ampmClockFont]||'"Malgun Gothic",sans-serif';const chosenFont=({'Malgun Gothic':'"Malgun Gothic",sans-serif','Arial':'Arial,sans-serif','Noto Sans KR':'"Noto Sans KR",sans-serif','Georgia':'Georgia,serif','Courier New':'"Courier New",monospace','Times New Roman':'"Times New Roman",serif'})[c.ampmClockFont]||'"Malgun Gothic",sans-serif';el.style.setProperty('font-family',chosenFont,'important');el.querySelectorAll('.r185-period,.r185-period *, .r185-time,.r185-time *, .r185-date,.r185-date *').forEach(node=>node.style.setProperty('font-family',chosenFont,'important'));el.style.setProperty('--r185-weight',c.ampmClockBold===true?'800':'400');el.style.display='flex';el.style.left=clamp(c.ampmClockX,0,100,50)+'%';el.style.top=clamp(c.ampmClockY,0,100,50)+'%';el.style.setProperty('--r185-scale',clamp(c.ampmClockScale,40,180,100)/100);el.style.setProperty('--r185-gap',px('ampmClockLineGap',0,60,12)+'px');const timeEl=el.querySelector('.r185-time');const showSeconds=c.ampmClockShowSeconds!==false&&c.ampmClockShowSeconds!=='false';const hh=String(h%12||12);const layout=showSeconds?'seconds':'minutes';if(timeEl.dataset.r208Layout!==layout){timeEl.replaceChildren();for(const part of (showSeconds?['hour','colon1','minute','colon2','second']:['hour','colon1','minute'])){const span=document.createElement('span');span.className='r208-'+part;if(part.startsWith('colon')){span.textContent=':';span.classList.add('r203-blink-colon');}timeEl.appendChild(span);}timeEl.dataset.r208Layout=layout;}const setPart=(name,value)=>{const node=timeEl.querySelector('.r208-'+name);if(node&&node.textContent!==value)node.textContent=value;};setPart('hour',hh);setPart('minute',minute);if(showSeconds)setPart('second',second);for(const colon of timeEl.querySelectorAll('.r203-blink-colon'))colon.style.opacity=n.getSeconds()%2===0?'1':'0';el.querySelector('.r185-time').style.fontSize=px('ampmClockTimeSize',60,400,220)+'px';el.querySelector('.r185-period').style.fontSize=px('ampmClockPeriodSize',15,100,42)+'px';el.querySelector('.r185-weekday').textContent=['일','월','화','수','목','금','토'][n.getDay()];el.querySelector('.r185-weekday').style.fontSize=px('ampmClockWeekdaySize',15,100,50)+'px';el.querySelector('.r185-day').textContent=String(n.getDate());el.querySelector('.r185-day').style.fontSize=px('ampmClockDaySize',20,180,105)+'px';el.querySelector('.r185-weekday').hidden=c.ampmClockShowWeekday===false||c.ampmClockShowWeekday==='false';el.querySelector('.r185-day').hidden=c.ampmClockShowDay===false||c.ampmClockShowDay==='false';el.querySelector('.r185-date').hidden=el.querySelector('.r185-weekday').hidden&&el.querySelector('.r185-day').hidden;el.querySelector('.r185-line').hidden=el.querySelector('.r185-date').hidden;el.querySelector('.r185-line').style.height=px('ampmClockTimeSize',60,400,220)*.78+'px';el.querySelector('.r185-am').classList.toggle('inactive',h>=12);el.querySelector('.r185-pm').classList.toggle('inactive',h<12);}catch(e){console.warn('[R188 clock]',e)}}setInterval(update,500);addEventListener('load',update);window.r185Refresh=update})();</script><script id="r186ClockDrag">(function(){'use strict';const stage=document.getElementById('previewStage'),clock=document.getElementById('r185Clock');if(!stage||!clock)return;let drag=null;function selected(){clock.classList.add('r186-selected')}clock.addEventListener('pointerdown',function(e){if(!document.getElementById('ampmClockEnabled')?.checked)return;e.preventDefault();e.stopPropagation();selected();clock.classList.add('r186-dragging');const rect=stage.getBoundingClientRect();drag={id:e.pointerId,x:e.clientX,y:e.clientY,rect,w:stage.offsetWidth||1920,h:stage.offsetHeight||1080,startX:Number(document.getElementById('ampmClockX').value),startY:Number(document.getElementById('ampmClockY').value)};clock.setPointerCapture(e.pointerId)});clock.addEventListener('pointermove',function(e){if(!drag||drag.id!==e.pointerId)return;const scaleX=drag.rect.width/drag.w,scaleY=drag.rect.height/drag.h;const clamp=v=>Math.min(100,Math.max(0,Math.round(v*10)/10));const x=clamp(drag.startX+(e.clientX-drag.x)/scaleX/drag.w*100),y=clamp(drag.startY+(e.clientY-drag.y)/scaleY/drag.h*100);document.getElementById('ampmClockX').value=x;document.getElementById('ampmClockY').value=y;clock.style.left=x+'%';clock.style.top=y+'%';document.getElementById('ampmClockX').dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('ampmClockY').dispatchEvent(new Event('input',{bubbles:true}));window.r185Refresh?.()});function end(e){if(!drag||drag.id!==e.pointerId)return;drag=null;clock.classList.remove('r186-dragging');try{clock.releasePointerCapture(e.pointerId)}catch(_){}}clock.addEventListener('pointerup',end);clock.addEventListener('pointercancel',end);stage.addEventListener('pointerdown',e=>{if(!clock.contains(e.target))clock.classList.remove('r186-selected')});})();</script><style id="r200-preview-navigation-style">
+})();</script><script id="r185ClockRuntime">(function(){'use strict';function update(){try{const admin=!!document.getElementById('previewStage');const c=admin?(typeof readForm==='function'?readForm():{}):(typeof config==='object'?config:{});const host=admin?document.getElementById('previewStage'):document.body;const el=document.getElementById('r185Clock');if(!host||!el)return;const on=c.ampmClockEnabled===true||c.ampmClockEnabled==='true';const clockPage=admin?(document.querySelector('#v42Tabs .v42-tab.active')?.textContent||'').includes('날짜')||(document.querySelector('#v42Tabs .v42-tab[aria-selected="true"]')?.textContent||'').includes('날짜'):document.body.dataset.lcdScreen==='clock';if(admin)document.body.classList.toggle('r188-clock-preview',clockPage);host.classList.toggle('r185-on',on);if(!on||!clockPage){el.style.display='none';return}const n=new Date();const h=n.getHours(),minute=String(n.getMinutes()).padStart(2,'0'),second=String(n.getSeconds()).padStart(2,'0');const clamp=(v,a,b,d)=>Math.min(b,Math.max(a,Number(v)||d));const scale=admin?1:Math.min(innerWidth/1920,innerHeight/1080);const px=(key,a,b,d)=>clamp(c[key],a,b,d)*scale;el.style.fontFamily=({'Malgun Gothic':'"Malgun Gothic",sans-serif','Arial':'Arial,sans-serif','Noto Sans KR':'"Noto Sans KR",sans-serif','Georgia':'Georgia,serif','Courier New':'"Courier New",monospace','Times New Roman':'"Times New Roman",serif'})[c.ampmClockFont]||'"Malgun Gothic",sans-serif';const chosenFont=({'Malgun Gothic':'"Malgun Gothic",sans-serif','Arial':'Arial,sans-serif','Noto Sans KR':'"Noto Sans KR",sans-serif','Georgia':'Georgia,serif','Courier New':'"Courier New",monospace','Times New Roman':'"Times New Roman",serif'})[c.ampmClockFont]||'"Malgun Gothic",sans-serif';el.style.setProperty('font-family',chosenFont,'important');el.querySelectorAll('.r185-period,.r185-period *, .r185-time,.r185-time *, .r185-date,.r185-date *').forEach(node=>node.style.setProperty('font-family',chosenFont,'important'));el.style.setProperty('--r185-weight',c.ampmClockBold===true?'800':'400');el.style.display='flex';el.style.left=clamp(c.ampmClockX,0,100,50)+'%';el.style.top=clamp(c.ampmClockY,0,100,50)+'%';el.style.setProperty('--r185-scale',clamp(c.ampmClockScale,40,180,100)/100);el.style.setProperty('--r185-gap',px('ampmClockLineGap',0,60,12)+'px');const timeEl=el.querySelector('.r185-time');const showSeconds=c.ampmClockShowSeconds!==false&&c.ampmClockShowSeconds!=='false';const hh=String(h%12||12);const layout=showSeconds?'seconds':'minutes';if(timeEl.dataset.r208Layout!==layout){timeEl.replaceChildren();for(const part of (showSeconds?['hour','colon1','minute','colon2','second']:['hour','colon1','minute'])){const span=document.createElement('span');span.className='r208-'+part;if(part.startsWith('colon')){span.textContent=':';span.classList.add('r203-blink-colon');}timeEl.appendChild(span);}timeEl.dataset.r208Layout=layout;}const setPart=(name,value)=>{const node=timeEl.querySelector('.r208-'+name);if(node&&node.textContent!==value)node.textContent=value;};setPart('hour',hh);setPart('minute',minute);if(showSeconds)setPart('second',second);for(const colon of timeEl.querySelectorAll('.r203-blink-colon'))colon.style.opacity=showSeconds?('1'):(n.getSeconds()%2===0?'1':'0');el.querySelector('.r185-time').style.fontSize=px('ampmClockTimeSize',60,400,220)+'px';el.querySelector('.r185-period').style.fontSize=px('ampmClockPeriodSize',15,100,42)+'px';el.querySelector('.r185-weekday').textContent=['일','월','화','수','목','금','토'][n.getDay()];el.querySelector('.r185-weekday').style.fontSize=px('ampmClockWeekdaySize',15,100,50)+'px';el.querySelector('.r185-day').textContent=String(n.getDate());el.querySelector('.r185-day').style.fontSize=px('ampmClockDaySize',20,180,105)+'px';el.querySelector('.r185-weekday').hidden=c.ampmClockShowWeekday===false||c.ampmClockShowWeekday==='false';el.querySelector('.r185-day').hidden=c.ampmClockShowDay===false||c.ampmClockShowDay==='false';el.querySelector('.r185-date').hidden=el.querySelector('.r185-weekday').hidden&&el.querySelector('.r185-day').hidden;el.querySelector('.r185-line').hidden=el.querySelector('.r185-date').hidden;el.querySelector('.r185-line').style.height=px('ampmClockTimeSize',60,400,220)*.78+'px';el.querySelector('.r185-am').classList.toggle('inactive',h>=12);el.querySelector('.r185-pm').classList.toggle('inactive',h<12);}catch(e){console.warn('[R188 clock]',e)}}setInterval(update,500);addEventListener('load',update);window.r185Refresh=update})();</script><script id="r186ClockDrag">(function(){'use strict';const stage=document.getElementById('previewStage'),clock=document.getElementById('r185Clock');if(!stage||!clock)return;let drag=null;function selected(){clock.classList.add('r186-selected')}clock.addEventListener('pointerdown',function(e){if(!document.getElementById('ampmClockEnabled')?.checked)return;e.preventDefault();e.stopPropagation();selected();clock.classList.add('r186-dragging');const rect=stage.getBoundingClientRect();drag={id:e.pointerId,x:e.clientX,y:e.clientY,rect,w:stage.offsetWidth||1920,h:stage.offsetHeight||1080,startX:Number(document.getElementById('ampmClockX').value),startY:Number(document.getElementById('ampmClockY').value)};clock.setPointerCapture(e.pointerId)});clock.addEventListener('pointermove',function(e){if(!drag||drag.id!==e.pointerId)return;const scaleX=drag.rect.width/drag.w,scaleY=drag.rect.height/drag.h;const clamp=v=>Math.min(100,Math.max(0,Math.round(v*10)/10));const x=clamp(drag.startX+(e.clientX-drag.x)/scaleX/drag.w*100),y=clamp(drag.startY+(e.clientY-drag.y)/scaleY/drag.h*100);document.getElementById('ampmClockX').value=x;document.getElementById('ampmClockY').value=y;clock.style.left=x+'%';clock.style.top=y+'%';document.getElementById('ampmClockX').dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('ampmClockY').dispatchEvent(new Event('input',{bubbles:true}));window.r185Refresh?.()});function end(e){if(!drag||drag.id!==e.pointerId)return;drag=null;clock.classList.remove('r186-dragging');try{clock.releasePointerCapture(e.pointerId)}catch(_){}}clock.addEventListener('pointerup',end);clock.addEventListener('pointercancel',end);stage.addEventListener('pointerdown',e=>{if(!clock.contains(e.target))clock.classList.remove('r186-selected')});})();</script><style id="r200-preview-navigation-style">
 #previewStage .r200-target{cursor:pointer}#previewStage .r200-target:focus-visible{outline:3px dashed #67e8f9;outline-offset:5px}
 #r185Clock.r200-target{pointer-events:auto!important;cursor:grab}#r185Clock.r200-target:active{cursor:grabbing}
 #v42ClockPanel,#v42TextPanel,#v42WeatherPanel,#r185Panel,#r179WeatherClockPanel,#r149ClockGroup,#r150MessageGroup{scroll-margin-top:20px}
@@ -4661,10 +4704,80 @@ function classify(node){if(!node||!stage.contains(node))return null;
 let press=null;
 stage.addEventListener('pointerdown',e=>{const kind=classify(e.target);if(kind)press={id:e.pointerId,x:e.clientX,y:e.clientY,kind,moved:false}},true);
 stage.addEventListener('pointermove',e=>{if(press&&press.id===e.pointerId&&Math.hypot(e.clientX-press.x,e.clientY-press.y)>7)press.moved=true},true);
-stage.addEventListener('pointerup',e=>{if(!press||press.id!==e.pointerId)return;const p=press;press=null;if(!p.moved&&classify(e.target)===p.kind){if(tab()==='message'&&p.kind==='text')return;setTimeout(()=>navigate(p.kind),0)}},true);
+stage.addEventListener('pointerup',e=>{if(!press||press.id!==e.pointerId)return;const p=press;press=null;if(!p.moved&&classify(e.target)===p.kind){if(tab()==='clock')return; // R402: clock uses dedicated double-tap navigation.
+ if(tab()==='message'&&p.kind==='text')return;setTimeout(()=>navigate(p.kind),0)}},true);
 stage.addEventListener('pointercancel',()=>{press=null},true);
 const clock=$('r185Clock');if(clock){clock.classList.add('r200-target');clock.setAttribute('title','AM/PM 시계 설정으로 이동');}
-})();</script><script id="r207-floating-preview-runtime">(function(){'use strict';
+})();</script><style id="r402-clock-preview-tap-style">
+/* R402: selection only on first tap. Keep drag and resize touch behavior unchanged. */
+body:has([data-v42tab="clock"][aria-selected="true"]) #previewStage :is(#pvTime,#pvDate,#r185Clock,#v42ClockWeatherPreview,.r109-preview-text[data-type="clock"]){cursor:grab}
+</style>
+<script id="r402-clock-preview-doubletap">
+(function(){'use strict';
+ const stage=document.getElementById('previewStage');
+ if(!stage)return;
+ const tab=()=>document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock';
+ const $=id=>document.getElementById(id);
+ const targets='#r185Clock,#pvTime,#pvDate,#v42ClockWeatherPreview,.r109-preview-text[data-type="clock"],#r109ClockText';
+ let press=null,lastTap=null,lastOpened=0;
+ function identify(node){
+  if(tab()!=='clock'||!node?.closest)return null;
+  const el=node.closest(targets);
+  if(!el||!stage.contains(el))return null;
+  if(el.id==='r185Clock')return {kind:'ampm',node:el};
+  if(el.id==='pvTime')return {kind:'time',node:el};
+  if(el.id==='pvDate')return {kind:'date',node:el};
+  if(el.id==='v42ClockWeatherPreview')return {kind:'weather',node:el};
+  return {kind:'text',node:el};
+ }
+ function choiceName(kind){return ({ampm:'time',time:'time',date:'date',weather:'clockWeather',text:'clockText'})[kind]}
+ function select(kind){
+  const target=choiceName(kind);
+  // Do not toggle the quick editor off when the already-selected object is clicked.
+  const button=document.querySelector('#r32Choices button[data-target="'+target+'"]');
+  if(button&&!button.classList.contains('active'))button.click();
+  if(kind==='ampm')$('r185Clock')?.classList.add('r186-selected');
+ }
+ function open(kind){
+  select(kind);
+  if(kind==='ampm'){
+   const panel=$('r185Panel');
+   if(panel){panel.open=true;for(let p=panel.parentElement;p;p=p.parentElement){if(p.tagName==='DETAILS')p.open=true}requestAnimationFrame(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}));}
+  }else{
+   // Reuse the R154 editor navigator only on deliberate double tap/click.
+   window.r154OpenPreviewEditor?.('clock',choiceName(kind));
+  }
+  lastOpened=Date.now();
+ }
+ stage.addEventListener('pointerdown',e=>{
+  const hit=identify(e.target);press=hit&&e.isPrimary!==false?{...hit,id:e.pointerId,x:e.clientX,y:e.clientY,when:Date.now(),moved:false}:null;
+ },true);
+ stage.addEventListener('pointermove',e=>{
+  if(press&&press.id===e.pointerId&&Math.hypot(e.clientX-press.x,e.clientY-press.y)>10)press.moved=true;
+ },true);
+ stage.addEventListener('pointercancel',()=>{press=null;lastTap=null},true);
+ stage.addEventListener('pointerup',e=>{
+  if(!press||press.id!==e.pointerId)return;
+  const p=press;press=null;
+  const hit=identify(e.target);
+  if(!hit||hit.kind!==p.kind||p.moved||Math.hypot(e.clientX-p.x,e.clientY-p.y)>10||Date.now()-p.when>800){lastTap=null;return;}
+  const now=Date.now();
+  const double=lastTap&&lastTap.kind===p.kind&&lastTap.node===p.node&&now-lastTap.when<=480&&Math.hypot(e.clientX-lastTap.x,e.clientY-lastTap.y)<42;
+  if(double){lastTap=null;open(p.kind)}
+  else{lastTap={kind:p.kind,node:p.node,when:now,x:e.clientX,y:e.clientY};select(p.kind)}
+ },true);
+ // Fallback for accessibility/desktop synthetic double click without pointer events.
+ stage.addEventListener('dblclick',e=>{
+  const hit=identify(e.target);if(!hit)return;
+  e.preventDefault();
+  if(Date.now()-lastOpened<600)return;
+  lastTap=null;open(hit.kind);
+ },true);
+ // Switching tabs must not interpret two taps in different screens as a double tap.
+ document.querySelectorAll('[data-v42tab]').forEach(el=>el.addEventListener('click',()=>{lastTap=null;press=null}));
+})();
+</script>
+<script id="r207-floating-preview-runtime">(function(){'use strict';
 function init(){const source=document.getElementById('previewStage'),preview=document.getElementById('preview');if(!source||!preview)return;
 const shell=document.createElement('div');shell.id='r207Float';shell.setAttribute('aria-label','실시간 LCD 플로팅 미리보기');shell.innerHTML='<div id="r207Viewport"><div id="previewStage"></div></div><div id="r207Resize" aria-label="크기 조절" title="드래그하여 확대 또는 축소">↘</div>';document.body.appendChild(shell);
 const viewport=shell.querySelector('#r207Viewport');
@@ -5358,7 +5471,7 @@ function draw(layout){
  if(!player||!player.isConnected){
   stage.replaceChildren();player=document.createElement('iframe');player.id='r398ReservedLcdFrame';player.title='선택 예약 레이아웃 · 실제 LCD 렌더링';player.setAttribute('aria-label','예약 레이아웃의 실제 LCD 표시');player.setAttribute('scrolling','no');player.tabIndex=-1;
   player.style.cssText='width:1920px;height:1080px;border:0;display:block;pointer-events:none;background:#101827;';
-  player.src='main.html?preview=1&previewScreen=message&v=V55X-R398';
+  player.src='main.html?preview=1&previewScreen=message&v=V55X-R406';
   player.addEventListener('load',()=>{send();setTimeout(send,280)});
   stage.appendChild(player);
  }else send();
@@ -6591,6 +6704,77 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  root.r372TickerPlan={plan,groups,timeLabel,description,occurrence};
 })(window);
 
+</script><script id="r400-continuous-ticker-engine">
+/* R400: continuous right-to-left marquee shared by main LCD and admin previews.
+   The next copy enters after ~30% of the visible width has passed,
+   or after the preceding copy's full width + safe gap (whichever is larger).
+   Each copy moves once at constant speed; no mid-screen snap/restart. */
+window.r400TickerMarquee=(function(){'use strict';
+ const sessions=new WeakMap();
+ const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+ function stop(bar){
+  const s=sessions.get(bar);if(!s)return;
+  clearInterval(s.timer);
+  s.nodes.forEach(node=>{try{node._r400Animation?.cancel()}catch(_){}node.remove()});
+  s.nodes.clear();s.source.style.display='';sessions.delete(bar);
+ }
+ function start(bar,source,options){
+  stop(bar);source.style.display='';source.style.animation='none';
+  const w=bar.clientWidth||0;if(w<30)return null;
+  const content=String(source.textContent||'');if(!content.trim())return null;
+  const label=bar.querySelector('.r371-label');
+  const safeGap=clamp(w*.035,32,90);
+  const labelWidth=label?.offsetWidth||0;
+  const visibleW=Math.max(100,w-labelWidth);
+  const textW=Math.max(1,Math.ceil(source.scrollWidth||source.offsetWidth));
+  const repeatPx=Math.max(textW+safeGap,visibleW*.30);
+  const speed=clamp(Number(options?.speed)||75,20,200);
+  const intervalMs=repeatPx/speed*1000;
+  const computed=getComputedStyle(source);
+  const css={fontFamily:computed.fontFamily,fontSize:computed.fontSize,fontWeight:computed.fontWeight,
+             fontStyle:computed.fontStyle,letterSpacing:computed.letterSpacing,color:computed.color,
+             lineHeight:computed.lineHeight,textShadow:computed.textShadow,top:source.style.top||'50%'};
+  source.style.display='none';
+  const s={source,nodes:new Set(),timer:null,repeatPx,textW,speed,safeGap,labelWidth,started:0,nextDue:performance.now()};
+  sessions.set(bar,s);
+  function spawn(){
+   const node=document.createElement('span');node.className='r400-marquee-copy';
+   node.setAttribute('aria-hidden','true');node.textContent=content;
+   Object.assign(node.style,{position:'absolute',left:'0px',top:css.top,width:'max-content',
+    whiteSpace:'nowrap',pointerEvents:'none',willChange:'transform',zIndex:'1',
+    fontFamily:css.fontFamily,fontSize:css.fontSize,fontWeight:css.fontWeight,
+    fontStyle:css.fontStyle,letterSpacing:css.letterSpacing,color:css.color,
+    lineHeight:css.lineHeight,textShadow:css.textShadow});
+   bar.appendChild(node);s.nodes.add(node);s.started++;
+   const startX=w+2,endX=-textW-safeGap;
+   const duration=Math.max(100,(startX-endX)/speed*1000);
+   const from='translate3d('+startX+'px,-50%,0)';
+   const to='translate3d('+endX+'px,-50%,0)';
+   if(node.animate){
+    const anim=node.animate([{transform:from},{transform:to}],{duration,easing:'linear',fill:'forwards'});
+    node._r400Animation=anim;
+    anim.onfinish=()=>{s.nodes.delete(node);node.remove()};
+   }else{
+    node.style.transform=from;
+    node.style.transition='transform '+duration+'ms linear';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{if(node.isConnected)node.style.transform=to}));
+    setTimeout(()=>{s.nodes.delete(node);node.remove()},duration+100);
+   }
+  }
+  function tick(){
+   if(sessions.get(bar)!==s)return;
+   if(!bar.isConnected||bar.hidden){stop(bar);return;}
+   const now=performance.now();
+   if(now<s.nextDue)return;
+   // Browser tab suspension must not cause dozens of overdue copies at once.
+   spawn();s.nextDue=now+intervalMs;
+  }
+  s.timer=setInterval(tick,80);tick();return s;
+ }
+ function inspect(bar){const s=sessions.get(bar);return s?{active:true,repeatPx:s.repeatPx,textWidth:s.textW,
+  gap:s.safeGap,labelWidth:s.labelWidth,visibleCopies:s.nodes.size,copiesStarted:s.started,speed:s.speed}:{active:false}}
+ return{start,stop,inspect};
+})();
 </script><script id="r371-news-ticker-admin-runtime">
 
 (function(){'use strict';
@@ -6807,26 +6991,12 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  function roots(){const all=[...document.querySelectorAll('#previewStage,#previewModalStage')];for(const id of ['r207Float','r254PcFloat']){const shell=$(id);if(shell?.shadowRoot){if(!shell.shadowRoot.querySelector('#r371ShadowStyle')){const style=document.createElement('style');style.id='r371ShadowStyle';style.textContent=($('r371-news-ticker-admin-style')?.textContent||'')+'\n'+($('r372-news-ticker-admin-style')?.textContent||'')+'\n'+($('r377-news-ticker-admin-style')?.textContent||'');shell.shadowRoot.append(style);}all.push(...shell.shadowRoot.querySelectorAll('[id="previewStage"]'));}}return [...new Set(all)];}
  function playMotion(el,bar,effect,width,speed){
   if(el._r372Motion){try{el._r372Motion.cancel()}catch(_){}el._r372Motion=null;}
+  window.r400TickerMarquee.stop(bar);
   el.style.animation='none';
   if(effect!=='scroll')return;
-  // Mirror LCD R377: left-aligned fade in -> brief hold -> leftward crawl.
-  const tag=bar.querySelector('.r371-label');
-  const gap=Math.max(12,Math.min(25,Math.round(width*.012)));
-  const startX=(tag?.offsetWidth||0)+gap;
-  el.style.left=startX+'px';el.style.right='auto';el.style.width='max-content';el.style.opacity='1';
-  const textWidth=el.scrollWidth||Math.max(80,width*.3);
-  /* End as soon as the final glyph disappears behind the fixed label. */
-  const travel=textWidth+gap+6;
-  const fadeMs=600,holdMs=650,moveMs=Math.max(850,1000*travel/speed);
-  const duration=fadeMs+holdMs+moveMs;
-  const endTransform='translate3d('+(-travel)+'px,-50%,0)';
-  if(el.animate)el._r372Motion=el.animate([
-   {offset:0,opacity:0,transform:'translate3d(0,-50%,0)'},
-   {offset:fadeMs/duration,opacity:1,transform:'translate3d(0,-50%,0)'},
-   {offset:(fadeMs+holdMs)/duration,opacity:1,transform:'translate3d(0,-50%,0)'},
-   {offset:1,opacity:1,transform:endTransform}
-  ],{duration,iterations:Infinity,easing:'linear'});
-  else{bar.style.setProperty('--r377-travel',(-travel)+'px');bar.style.setProperty('--r371-duration',(duration/1000)+'s');el.style.animation='r377-left-fade-scroll '+(duration/1000)+'s linear infinite';}
+  // R400: same right-edge continuous marquee as actual main.html.
+  el.style.left='0px';el.style.right='auto';el.style.width='max-content';el.style.opacity='1';
+  window.r400TickerMarquee.start(bar,el,{speed});
  }
  function draw(){if(internal)return;
   const now=new Date(),c=readValues(),state=planner.plan(c,now),show=choose(c,now,previewKind==='selected');
@@ -6843,7 +7013,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    let bar=Array.from(stage.children).find(e=>e.classList?.contains('r371-ticker'));
    if(!bar){bar=document.createElement('div');bar.className='r371-ticker';bar.innerHTML='<div class="r371-topline" hidden></div><span class="r371-label"></span><span class="r371-moving"></span>';stage.appendChild(bar);}
    const scroll=bar.querySelector('.r371-moving'),tag=bar.querySelector('.r371-label');
-   bar.hidden=!selectedText.trim();if(bar.hidden){if(scroll._r372Motion){scroll._r372Motion.cancel();scroll._r372Motion=null;}bar.dataset.r372Key='';continue;}
+   bar.hidden=!selectedText.trim();if(bar.hidden){window.r400TickerMarquee.stop(bar);if(scroll._r372Motion){scroll._r372Motion.cancel();scroll._r372Motion=null;}bar.dataset.r372Key='';continue;}
    const lines=effect==='scroll'?1:Math.min(3,Math.max(1,...groups.map(g=>g.split('\n').length)));
    const height=Math.max(62,Math.min(315,c.tickerFontSize*1.2*lines+(palette.top?50:26)));
    bar.style.height=height+'px';bar.style.backgroundColor=c.tickerBackground;bar.classList.toggle('r371-two-line',!!palette.top);bar.classList.toggle('r372-card-mode',effect!=='scroll');
@@ -6853,6 +7023,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    scroll.classList.toggle('r372-card',effect!=='scroll');
    const width=stage.clientWidth||1920,key=baseKey+'|'+width;
    if(bar.dataset.r372Key!==key){
+    window.r400TickerMarquee.stop(bar);
     bar.dataset.r372Key=key;bar.dataset.r372Start=String(now.getTime());bar.dataset.r372Index='-1';
     if(scroll._r372Motion){scroll._r372Motion.cancel();scroll._r372Motion=null;}
     if(effect==='scroll'){
@@ -7596,6 +7767,7 @@ function dateFallback(c){
  if(k==='iso')return yy+'-'+mm+'-'+dd;
  if(k==='slash')return yy+'/'+mm+'/'+dd;
  if(k==='short'||k==='numeric')return yy+'. '+mm+'. '+dd+'.';
+ if(k==='jp-month')return window.r401JapaneseDateText();
  if(k==='month')return Number(mm)+'월 '+Number(dd)+'일 '+wd;
  return yy+'년 '+Number(mm)+'월 '+Number(dd)+'일 '+wd;
 }
@@ -7781,6 +7953,7 @@ function init(){
   return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'numeric',minute:'2-digit',hour12:true}).format(new Date());
  }
  function dateText(c){
+  if(c.weatherDateFormat==='jp-month')return window.r401JapaneseDateText();
   const opts=c.weatherDateFormat==='numeric'?{year:'numeric',month:'2-digit',day:'2-digit'}:
    {year:'numeric',month:'long',day:'numeric',weekday:'long'};
   return new Intl.DateTimeFormat('ko-KR',{...opts,timeZone:'Asia/Seoul'}).format(new Date());
@@ -8230,19 +8403,211 @@ body.v51o-view-edit:has([data-v42tab="weather"][aria-selected="true"]) #previewS
 #previewSection > .r396-layout > .r396-body{background:#fff!important;padding:11px!important;gap:10px!important;}
 @media(max-width:600px){#previewSection > .r396-layout{margin:7px 0 3px!important;}}
 </style>
+<style id="r403-clock-resize-eight-style">
+/* The editor outline is never sent to main.html. Use the preview's own CSS scale. */
+#previewStage #r403ClockResize{
+ position:absolute;box-sizing:border-box;z-index:2147480000;pointer-events:none;
+ border:var(--r403-line,3px) dashed #67e8ff;
+ outline:none;
+ outline-offset:0;border-radius:3px;overflow:visible;touch-action:none;
+}
+#previewStage #r403ClockResize[hidden]{display:none!important}
+#previewStage #r403ClockResize .r403-dot{
+ position:absolute;display:block;box-sizing:border-box;
+ width:var(--r403-dot,30px);height:var(--r403-dot,30px);
+ border:var(--r403-dot-line,4px) solid #1a78c5;
+ background:white;border-radius:5px;box-shadow:0 0 0 var(--r403-halo,3px) white,0 2px 9px #0007;
+ pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;
+ transform:translate(-50%,-50%);
+}
+#r403ClockResize [data-r403-side="tl"]{left:0;top:0;cursor:nwse-resize}
+#r403ClockResize [data-r403-side="tm"]{left:50%;top:0;cursor:ns-resize}
+#r403ClockResize [data-r403-side="tr"]{left:100%;top:0;cursor:nesw-resize}
+#r403ClockResize [data-r403-side="ml"]{left:0;top:50%;cursor:ew-resize}
+#r403ClockResize [data-r403-side="mr"]{left:100%;top:50%;cursor:ew-resize}
+#r403ClockResize [data-r403-side="bl"]{left:0;top:100%;cursor:nesw-resize}
+#r403ClockResize [data-r403-side="bm"]{left:50%;top:100%;cursor:ns-resize}
+#r403ClockResize [data-r403-side="br"]{left:100%;top:100%;cursor:nwse-resize}
+body.r279-hide-guides #previewStage #r403ClockResize{display:none!important}
+/* Suppress legacy R400 selected outlines only while the eight-dot frame is active. */
+body.v51o-view-edit #previewStage.r404-handle-selection #pvTime.selected,
+body.v51o-view-edit #previewStage.r404-handle-selection #pvDate.selected,
+body.v51o-view-edit #previewStage.r404-handle-selection #v42ClockWeatherPreview,
+body.v51o-view-edit #previewStage.r404-handle-selection .r109-preview-text[data-type="clock"]{
+ outline:none!important;outline-offset:0!important;
+}
+</style>
+<script id="r403-clock-resize-eight-js">
+(function(){'use strict';
+function init(){
+ const $=id=>document.getElementById(id);
+ const stage=$('previewStage');if(!stage||$('r403ClockResize'))return;
+ const root=document.createElement('div');root.id='r403ClockResize';root.hidden=true;
+ root.setAttribute('aria-label','선택 요소 크기 조절 점 8개');
+ const sides=['tl','tm','tr','ml','mr','bl','bm','br'];
+ for(const side of sides){const h=document.createElement('span');h.className='r403-dot';h.dataset.r403Side=side;
+  h.setAttribute('role','button');h.setAttribute('aria-label','크기 조절 '+side);h.title='끌어서 선택 요소 확대·축소';root.appendChild(h)}
+ stage.appendChild(root);
+ const fields={time:{id:'pvTime',size:'timeSize'},date:{id:'pvDate',size:'dateSize'},weather:{id:'v42ClockWeatherPreview',size:'weatherClockSize'},text:{selector:'.r109-preview-text[data-type="clock"]',size:null}};
+ let chosen='',chosenNode=null,gesture=null,pending=false;
+ const tab=()=>document.querySelector('[data-v42tab][aria-selected="true"]')?.dataset.v42tab||'clock';
+ const clockMode=()=>tab()==='clock'&&document.body.classList.contains('v51o-view-edit');
+ const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
+ function target(kind){const d=fields[kind];if(!d)return null;if(kind==='text'&&chosenNode?.isConnected&&stage.contains(chosenNode))return chosenNode;return d.id?$(d.id):stage.querySelector(d.selector)||$('r109ClockText')}
+ function editor(){return $('v42ClockPanel')?.querySelector('.r109-editor [data-field="size"]')||null}
+ function sizeInput(kind){return kind==='text'?editor():$(fields[kind]?.size)}
+ function actualSize(kind){const el=sizeInput(kind);return Number(el?.value)||({time:112,date:34,weather:40,text:62})[kind]||62}
+ function bounds(kind){const input=sizeInput(kind),fallback=kind==='text'?[16,300]:kind==='time'?[24,600]:kind==='date'?[16,600]:[16,150];
+  return [Number(input?.min)||fallback[0],Number(input?.max)||fallback[1]]}
+ function writeSize(kind,value,final){const input=sizeInput(kind);if(!input)return;
+  const [min,max]=bounds(kind),s=clamp(Math.round(value*10)/10,min,max);
+  if(Math.abs((Number(input.value)||0)-s)>.04){input.value=String(s);input.dispatchEvent(new Event('input',{bubbles:true}));}
+  if(final)input.dispatchEvent(new Event('change',{bubbles:true}));
+  // Existing R400 form-save and preview rendering continue to own the data.
+  try{if(typeof unsavedChanges!=='undefined')unsavedChanges=true;window.unsavedChanges=true}catch(_){}
+  if(kind==='time'||kind==='date'){
+   const v=$('vSize');if(v&&typeof visualTarget!=='undefined'&&visualTarget===kind)v.value=String(s);
+  }
+ }
+ function clear(){chosen='';chosenNode=null;gesture=null;root.hidden=true;stage.classList.remove('r404-handle-selection');}
+ function choose(kind,node){if(!fields[kind])return;chosen=kind;chosenNode=kind==='text'&&node?.isConnected?node:null;root.hidden=false;stage.classList.add('r404-handle-selection');paint();requestPaint()}
+ function paint(){pending=false;
+  if(!chosen||!clockMode()||!stage.isConnected||document.body.classList.contains('r279-hide-guides')){root.hidden=true;stage.classList.remove('r404-handle-selection');return}
+  const el=target(chosen);if(!el||!el.isConnected||getComputedStyle(el).display==='none'||getComputedStyle(el).visibility==='hidden'){
+   root.hidden=true;stage.classList.remove('r404-handle-selection');return
+  }
+  const s=stage.getBoundingClientRect(),r=el.getBoundingClientRect();
+  if(s.width<3||s.height<3||r.width<3||r.height<3){root.hidden=true;stage.classList.remove('r404-handle-selection');return}
+  const sx=s.width/(stage.offsetWidth||1920),sy=s.height/(stage.offsetHeight||1080);
+  if(sx<=0||sy<=0)return;
+  // Match the actual rendered bounding box, independent of element transforms.
+  root.style.left=((r.left-s.left)/sx)+'px';root.style.top=((r.top-s.top)/sy)+'px';
+  root.style.width=(r.width/sx)+'px';root.style.height=(r.height/sy)+'px';
+  // R405: use 2/3-sized resize dots for touch-first mobile devices.
+  // Desktop remains exactly as R404; shrink the visible dot, border, halo
+  // and hit area together so small DATE/TIME/TEXT/WEATHER items stay selectable.
+  const scale=Math.min(sx,sy);
+  const mobileDotFactor=matchMedia('(pointer: coarse)').matches?2/3:1;
+  const dot=clamp(19/scale,26,140)*mobileDotFactor;
+  root.style.setProperty('--r403-dot',dot+'px');
+  root.style.setProperty('--r403-dot-line',Math.max(2,2/scale)*mobileDotFactor+'px');
+  root.style.setProperty('--r403-halo',Math.max(1,1/scale)*mobileDotFactor+'px');
+  root.style.setProperty('--r403-line',Math.max(2,1.5/scale)+'px');
+  root.hidden=false;stage.classList.add('r404-handle-selection');
+ }
+ function requestPaint(){if(pending)return;pending=true;requestAnimationFrame(paint)}
+ function identify(node){if(!node||!node.closest)return '';
+  if(node.closest('#r403ClockResize'))return '';
+  if(node.closest('#pvTime'))return 'time';
+  if(node.closest('#pvDate'))return 'date';
+  if(node.closest('#v42ClockWeatherPreview'))return 'weather';
+  if(node.closest('.r109-preview-text[data-type="clock"],#r109ClockText'))return 'text';return '';
+ }
+ // Select immediately on the first press, before other handlers capture and retarget pointerup.
+ // R402 continues to own deliberate double-click/double-tap navigation.
+ let press=null;
+ stage.addEventListener('pointerdown',e=>{
+  if(!clockMode()||e.isPrimary===false||e.target.closest?.('#r403ClockResize'))return;
+  const kind=identify(e.target);
+  const textEl=kind==='text'?e.target.closest('.r109-preview-text[data-type="clock"],#r109ClockText'):null;
+  press={id:e.pointerId,kind,x:e.clientX,y:e.clientY};
+  if(kind)choose(kind,textEl);
+ },true);
+ stage.addEventListener('pointerup',e=>{
+  if(!clockMode()||!press||press.id!==e.pointerId)return;
+  const p=press;press=null;
+  if(!p.kind&&Math.hypot(e.clientX-p.x,e.clientY-p.y)<12&&!e.target.closest?.('#r403ClockResize'))clear();
+ },true);
+ stage.addEventListener('pointercancel',()=>press=null,true);
+ // Existing selector buttons should reveal the same eight handles.
+ document.addEventListener('click',e=>{
+  const choice=e.target.closest?.('#r181UnifiedBar [data-element],#r32Choices [data-target]');if(!choice)return;
+  if(!clockMode())return;
+  const val=choice.dataset.element||choice.dataset.target;
+  const kind=({date:'date',time:'time',weather:'weather',text:'text',clockWeather:'weather',clockText:'text'})[val];
+  if(kind)choose(kind);
+ });
+ for(const b of document.querySelectorAll('[data-v42tab],[data-v51o-view]'))b.addEventListener('click',()=>{if(!clockMode())clear();else requestPaint()});
+ // Use the same native size values as quick-edit and the real main.html renderer.
+ for(const h of root.children){
+  h.addEventListener('pointerdown',e=>{
+   if(!chosen||!clockMode()||(e.pointerType==='mouse'&&e.button!==0))return;
+   const el=target(chosen),r=el?.getBoundingClientRect();if(!r)return;
+   gesture={id:e.pointerId,kind:chosen,side:h.dataset.r403Side,x:e.clientX,y:e.clientY,w:Math.max(r.width,8),height:Math.max(r.height,8),size:actualSize(chosen)};
+   try{h.setPointerCapture(e.pointerId)}catch(_){}
+   e.preventDefault();e.stopPropagation();
+  });
+  h.addEventListener('pointermove',e=>{
+   if(!gesture||gesture.id!==e.pointerId)return;
+   const g=gesture,dx=e.clientX-g.x,dy=e.clientY-g.y;
+   const dirX=g.side.includes('l')?-1:g.side.includes('r')?1:0;
+   const dirY=g.side.includes('t')?-1:g.side.includes('b')?1:0;
+   // Each dot changes the element's saved font size. Opposite edges are the anchors.
+   // The visual frame stays tightly fitted to text: no transient unsaved pixel width.
+   const fx=dirX?1+2*dx*dirX/g.w:null;
+   const fy=dirY?1+2*dy*dirY/g.height:null;
+   let ratio=fx===null?fy:fy===null?fx:(fx+fy)/2;
+   if(!Number.isFinite(ratio))return;
+   ratio=clamp(ratio,.12,4.5);
+   writeSize(g.kind,g.size*ratio,false);requestPaint();
+   e.preventDefault();e.stopPropagation();
+  });
+  for(const name of ['pointerup','pointercancel','lostpointercapture'])h.addEventListener(name,e=>{
+   if(!gesture||gesture.id!==e.pointerId)return;
+   const g=gesture;gesture=null;
+   if(name==='pointerup')writeSize(g.kind,actualSize(g.kind),true);
+   requestPaint();e.preventDefault();e.stopPropagation();
+  });
+ }
+ for(const evt of ['input','change'])document.addEventListener(evt,e=>{
+  if(!chosen)return;
+  const id=e.target?.id||'';
+  if(id==='timeSize'||id==='dateSize'||id==='weatherClockSize'||e.target===editor()||id==='r279Guides')requestPaint();
+ },true);
+ addEventListener('resize',requestPaint,{passive:true});
+ // Preview redraws on a timer for live seconds and weather; keep handles aligned.
+ setInterval(()=>{if(chosen&&!gesture)requestPaint()},250);
+ requestPaint();
+ window.r403ClockResizeQA=()=>({selected:chosen,visible:!root.hidden,handles:root.querySelectorAll('.r403-dot').length,size:chosen?actualSize(chosen):null,dragging:!!gesture});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<style id="r405-weather-text-guide-fix">
+/* R390/R391 always drew a dotted weather-time/date border in R404, even when
+   the independent text selection guide switch was off. Suppress visual guides
+   only; preserve the overlays' touch/mouse listeners and drag functionality. */
+body.r279-hide-guides #r390MiniWeatherClock .r390-weather-item,
+body.r279-hide-guides #r391PcWeatherClock .r391-weather-item{
+ border-color:transparent!important;outline:none!important;
+ box-shadow:none!important;background:transparent!important;
+}
+/* Prevent hover/selected weather outlines from leaking through in clock and
+   weather-screen previews. The screen-center/safe-area guide is independent. */
+body.r279-hide-guides #previewStage #v42ClockWeatherPreview,
+body.r279-hide-guides #previewStage #v42ClockWeatherPreview:hover,
+body.r279-hide-guides #previewStage #v43WeatherCard,
+body.r279-hide-guides #previewStage #r179PreviewTime,
+body.r279-hide-guides #previewStage #r179PreviewDate{
+ outline:none!important;box-shadow:none!important;
+}
+body.r279-hide-guides #previewStage #v43WeatherCard{
+ border-color:transparent!important;
+}
+</style>
 <script id="ds-v1-r385-production-brand-finalizer">
 (function(){'use strict';
-  const tabTitle='DS_V1 정식 운영 | LCD 관리자 V55X-R398 UI';
+  const tabTitle='DS_V1 정식 운영 | LCD 관리자 V55X-R406 UI';
   function applyProductionBrand(){
     document.title=tabTitle;
     const root=document.getElementById('v51oConsole');
     if(!root)return;
-    root.setAttribute('data-dsv1-brand','R398-PROD');
+    root.setAttribute('data-dsv1-brand','R400-PROD');
     const brand=root.querySelector('.o-title');
     const sub=root.querySelector('.o-subtitle');
     const env=root.querySelector('.o-env');
     if(brand)brand.textContent='DS_V1 정식 운영';
-    if(sub)sub.textContent='관리 콘솔 · DS_V1 · V55X-R398 UI';
+    if(sub)sub.textContent='관리 콘솔 · DS_V1 · V55X-R406 UI';
     if(env)env.textContent='정식 DS_V1';
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',applyProductionBrand,{once:true});
