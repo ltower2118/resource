@@ -1020,7 +1020,24 @@ body.r370-clock-selected[data-lcd-screen="clock"]>#r109ClockText{z-index:39!impo
  window.r387WeatherAssetUrl=function(path){return String(path).split('?')[0]+'?asset='+revision;};
  window.r387WeatherAssetRevision=revision;
 })();
-</script><script id="r404-clock-colon-core">
+</script><script id="r401JapaneseDateFormatter">
+/* R401: Japanese month/day + one-kanji weekday. R400 layouts remain intact. */
+(function(){
+ 'use strict';
+ window.r401JapaneseDateText=function(input){
+   var d=input instanceof Date?input:new Date();
+   var parts=new Intl.DateTimeFormat('ja-JP',{
+     timeZone:'Asia/Seoul',month:'numeric',day:'numeric',weekday:'short'
+   }).formatToParts(d);
+   var value=function(type){var item=parts.find(function(x){return x.type===type});return item?item.value:''};
+   return Number(value('month'))+'月'+Number(value('day'))+'日 ('+value('weekday')+')';
+ };
+ window.r401DateText=function(format,parts,existing){
+   return String(format)==='jp-month' ? window.r401JapaneseDateText() : existing();
+ };
+})();
+</script>
+<script id="r404-clock-colon-core">
 (function(){'use strict';
 window.r404RenderClockColon=function(el,displayText,blink){
  if(!el)return;
@@ -2970,23 +2987,7 @@ color.addEventListener('input',()=>{document.getElementById('v13Bg').value=color
 })();
 </script>
 <div id="v51hPreviewLayer" role="dialog" aria-modal="true" aria-label="점검 안내 화면 미리보기"><button id="v51hPreviewExit" type="button">✕ 미리보기 닫기</button><strong id="v51kPreviewTitle">안내 말씀</strong><p id="v51hPreviewText"></p></div>
-<script id="r401JapaneseDateFormatter">
-/* R401: Japanese month/day + one-kanji weekday. R400 layouts remain intact. */
-(function(){
- 'use strict';
- window.r401JapaneseDateText=function(input){
-   var d=input instanceof Date?input:new Date();
-   var parts=new Intl.DateTimeFormat('ja-JP',{
-     timeZone:'Asia/Seoul',month:'numeric',day:'numeric',weekday:'short'
-   }).formatToParts(d);
-   var value=function(type){var item=parts.find(function(x){return x.type===type});return item?item.value:''};
-   return Number(value('month'))+'月'+Number(value('day'))+'日 ('+value('weekday')+')';
- };
- window.r401DateText=function(format,parts,existing){
-   return String(format)==='jp-month' ? window.r401JapaneseDateText() : existing();
- };
-})();
-</script>
+
 <script id="v51hMaintenanceLogic">
 (function(){
  const mode=document.getElementById('v51hMaintenanceMode');
